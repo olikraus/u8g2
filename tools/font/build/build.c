@@ -22,6 +22,6 @@ struct fontinfo
 };
 
 
-struct fontinfo
-{
+struct fontinfo fi[] = {
+  { 0, ""
 }
