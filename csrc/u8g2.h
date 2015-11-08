@@ -62,6 +62,9 @@
   IDE. However note, that the chars 0 to 127 have identical encoding for UTF-8
   and ISO 8859-1.
   
+  This macro does not affect the u8x8 string draw function.
+  u8x8 always assumes ISO 8859-1/CP1252 encoding.
+  
   Conclusion:
     U8G2_WITH_UNICODE defined
       - C-Code Strings must be UTF-8 encoded
