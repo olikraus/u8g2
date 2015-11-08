@@ -54,6 +54,23 @@
 /*
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
   The following macro activates this support. Deactivation would save some ROM.
+  This definition also defines the behavior of the expected string encoding.
+  If the following macro is defined, then all strings in the c-code are assumed 
+  to be UTF-8 encoded.
+  If the following macro is not defined, then all strings in the c-code are assumed 
+  to be ISO 8859-1/CP1252 encoded. Note: This is NOT supported by the Arduino 
+  IDE. However note, that the chars 0 to 127 have identical encoding for UTF-8
+  and ISO 8859-1.
+  
+  Conclusion:
+    U8G2_WITH_UNICODE defined
+      - C-Code Strings must be UTF-8 encoded
+      - Full support of all 65536 glyphs of the unicode basic multilingual plane
+      - Up to 65536 glyphs of the font file can be used.
+    U8G2_WITH_UNICODE not defined
+      - C-Code Strings are assumbed to be ISO 8859-1/CP1252 encoded
+      - Only character values 0 to 255 are supported in the font file.
+      
 */
 #define U8G2_WITH_UNICODE
 

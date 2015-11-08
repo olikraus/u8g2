@@ -622,7 +622,7 @@ uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint8_t requested_encoding)
   return 0;
 }
 
-int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint8_t requested_encoding)
+int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
 {
   const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, requested_encoding);
   if ( glyph_data == NULL )
@@ -707,12 +707,54 @@ u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const ch
 }
 #endif
 
+/* return the next unicode from a UTF-8 string */
+static uint16_t u8g2_get_encoding_from_utf8_string(const char **str) U8G2_NOINLINE;
+static uint16_t u8g2_get_encoding_from_utf8_string(const char **str) 
+{
+  uint16_t e;
+  uint8_t b;
+  b = **str;
+#ifdef U8G2_WITH_UNICODE  
+  if ( b >= 0xc0 )
+  {
+    if ( b >= 0xf0 )	/* check for UTF-8 4, 5 and 6-byte sequence */
+    {
+      b &= 0x01;	/* only consider lowest bit, because only plane 0 (16 bit) is supported with u8glib v2 */
+    }
+    else if ( b >= 0xe0 )	/* check for UTF-8 3-byte sequence */
+    {
+      b &= 0x0f;
+    }
+    else /* assume UTF-8 2-byte sequence */
+    {
+      b &= 0x1f;
+    }
+    e = b;    
+    for(;;)
+    {
+      (*str)++;
+      b = **str;
+      if ( (b & 0x0c0) != 0x080 )
+	break;
+      b &= 0x3f;
+      e <<=6;
+      e |= b;
+    }      
+  }
+  else
+#endif /* U8G2_WITH_UNICODE */
+  {
+    e = b;		/* init with ASCII code */
+    (*str)++;
+  }
+  return e;
+}
+
 /* UTF-8 version */
 u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   uint16_t e;
   u8g2_uint_t delta, sum;
-  uint8_t b;
   sum = 0;
 /*
 source: https://en.wikipedia.org/wiki/UTF-8
@@ -727,43 +769,9 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
   
   for(;;)
   {
-    b = *str;
-    if ( b == 0 )
+    e = u8g2_get_encoding_from_utf8_string(&str);
+    if ( e == 0 )
       break;
-    
-    if ( b >= 0xc0 )
-    {
-      if ( b >= 0xf0 )	/* check for UTF-8 4, 5 and 6-byte sequence */
-      {
-	b &= 0x01;	/* only consider lowest bit, because only plane 0 (16 bit) is supported with u8glib v2 */
-      }
-      else if ( b >= 0xe0 )	/* check for UTF-8 3-byte sequence */
-      {
-	b &= 0x0f;
-      }
-      else /* assume UTF-8 2-byte sequence */
-      {
-	b &= 0x1f;
-      }
-      e = b;
-      
-      for(;;)
-      {
-	str++;
-	b = *str;
-	if ( (b & 0x0c0) != 0x080 )
-	  break;
-	b &= 0x3f;
-	e <<=6;
-	e |= b;
-      }      
-    }
-    else
-    {
-      e = b;		/* init with ASCII code */
-      str++;
-    }
-
     delta = u8g2_DrawGlyph(u8g2, x, y, e);
     
 #ifdef U8G2_WITH_FONT_ROTATION
@@ -909,25 +917,19 @@ void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font)
 
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
 {
+  uint16_t e;
   u8g2_uint_t  w;
-  uint8_t encoding;
   
   /* reset the total width to zero, this will be expanded during calculation */
   w = 0;
   
   for(;;)
   {
-    encoding = *s;
-    if ( encoding == 0 )
+    e = u8g2_get_encoding_from_utf8_string(&s);
+    if ( e == 0 )
       break;
-
-    /* load glyph information */
+    w += u8g2_GetGlyphWidth(u8g2, e);
     
-    // replaced by this:
-    w += u8g2_GetGlyphWidth(u8g2, encoding);
-    
-    /* goto next char */
-    s++;
   }
   return w;  
 }
