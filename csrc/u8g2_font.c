@@ -8,7 +8,7 @@
 
 /* size of the font data structure, there is no struct or class... */
 /* this is the size for the new font format */
-#define U8G2_FONT_DATA_STRUCT_SIZE 21
+#define U8G2_FONT_DATA_STRUCT_SIZE 23
 
 /*
   font data:
@@ -40,6 +40,9 @@
 
   19		1		start pos 'a' high byte
   20		1		start pos 'a' low byte
+
+  21		1		start pos unicode high byte
+  22		1		start pos unicode low byte
 
   Font build mode, 0: proportional, 1: common height, 2: monospace, 3: multiple of 8
 
@@ -125,13 +128,19 @@ void u8g2_read_font_info(u8g2_font_info_t *font_info, const uint8_t *font)
   
   /* offset 17 */
   font_info->start_pos_upper_A = u8g2_font_get_word(font, 17);
-  font_info->start_pos_lower_a = u8g2_font_get_word(font, 19);  
+  font_info->start_pos_lower_a = u8g2_font_get_word(font, 19); 
+  
+  /* offset 21 */
+#ifdef U8G2_WITH_UNICODE
+  font_info->start_pos_unicode = u8g2_font_get_word(font, 21); 
+#endif
 }
 
 
 /* calculate the overall length of the font, only used to create the picture for the google wiki */
 size_t u8g2_font_GetSize(const void *font_arg)
 {
+  uint16_t e;
   const uint8_t *font = font_arg;
   font += U8G2_FONT_DATA_STRUCT_SIZE;
   
@@ -142,8 +151,20 @@ size_t u8g2_font_GetSize(const void *font_arg)
     font += u8x8_pgm_read( ((uint8_t *)font) + 1 );
   }
   
-  return (font - (const uint8_t *)font_arg) + 2;
+  /* continue with unicode section */
+  font += 2;
   
+  for(;;)
+  {
+    e = u8x8_pgm_read( ((uint8_t *)font) );
+    e <<= 8;
+    e |= u8x8_pgm_read( ((uint8_t *)font) + 1 );
+    if ( e == 0 )
+      break;
+    font += u8x8_pgm_read( ((uint8_t *)font) + 2 );    
+  }
+  
+  return (font - (const uint8_t *)font_arg) + 2;
 }
 
 /*========================================================================*/
@@ -403,8 +424,11 @@ static void u8g2_font_setup_decode(u8g2_t *u8g2, const uint8_t *glyph_data)
   decode->decode_ptr = glyph_data;
   decode->decode_bit_pos = 0;
   
+  /* 8 Nov 2015, this is already done in the glyph data search procedure */
+  /*
   decode->decode_ptr += 1;
   decode->decode_ptr += 1;
+  */
   
   decode->glyph_width = u8g2_font_decode_get_unsigned_bits(decode, u8g2->font_info.bits_per_char_width);
   decode->glyph_height = u8g2_font_decode_get_unsigned_bits(decode,u8g2->font_info.bits_per_char_height);
@@ -515,38 +539,65 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   Description:
     Find the starting point of the glyph data.
   Args:
-    encoding: Encoding (ASCII code) of the glyph
+    encoding: Encoding (ASCII or Unicode) of the glyph
   Return:
     Address of the glyph data or NULL, if the encoding is not avialable in the font.
 */
-const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint8_t encoding)
+const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint16_t encoding)
 {
   const uint8_t *font = u8g2->font;
   font += U8G2_FONT_DATA_STRUCT_SIZE;
+
   
-  if ( encoding >= 'a' )
+  if ( encoding <= 255 )
   {
-    font += u8g2->font_info.start_pos_lower_a;
-  }
-  else if ( encoding >= 'A' )
-  {
-    font += u8g2->font_info.start_pos_upper_A;
-  }
-  
-  for(;;)
-  {
-    if ( u8x8_pgm_read( ((uint8_t *)font) + 1 ) == 0 )
-      break;
-    if ( u8x8_pgm_read( (uint8_t *)font ) == encoding )
+    if ( encoding >= 'a' )
     {
-      return font;
+      font += u8g2->font_info.start_pos_lower_a;
     }
-    font += u8x8_pgm_read( ((uint8_t *)font) + 1 );
+    else if ( encoding >= 'A' )
+    {
+      font += u8g2->font_info.start_pos_upper_A;
+    }
+    
+    for(;;)
+    {
+      if ( u8x8_pgm_read( ((uint8_t *)font) + 1 ) == 0 )
+	break;
+      if ( u8x8_pgm_read( (uint8_t *)font ) == encoding )
+      {
+	return font+2;	/* skip encoding and glyph size */
+      }
+      font += u8x8_pgm_read( ((uint8_t *)font) + 1 );
+    }
   }
+#ifdef U8G2_WITH_UNICODE
+  else
+  {
+    uint16_t e;
+    font += u8g2->font_info.start_pos_unicode;
+    for(;;)
+    {
+      e = u8x8_pgm_read( ((uint8_t *)font) );
+      e <<= 8;
+      e |= u8x8_pgm_read( ((uint8_t *)font) + 1 );
+  
+      if ( e == 0 )
+	break;
+  
+      if ( e == encoding )
+      {
+	return font+3;	/* skip encoding and glyph size */
+      }
+      font += u8x8_pgm_read( ((uint8_t *)font) + 2 );
+    }  
+  }
+#endif
+  
   return NULL;
 }
 
-static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t encoding)
+static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding)
 {
   u8g2_uint_t dx = 0;
   u8g2->font_decode.target_x = x;
@@ -597,7 +648,7 @@ void u8g2_SetFontMode(u8g2_t *u8g2, uint8_t is_transparent)
   u8g2->font_decode.is_transparent = is_transparent;		// new font procedures
 }
 
-u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t encoding)
+u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding)
 {
 #ifdef U8G2_WITH_FONT_ROTATION
   switch(u8g2->font_decode.dir)
@@ -621,6 +672,7 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t e
   return u8g2_font_draw_glyph(u8g2, x, y, encoding);
 }
 
+#ifdef OBSOLETE
 u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   u8g2_uint_t delta, sum;
@@ -653,6 +705,91 @@ u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const ch
   }
   return sum;
 }
+#endif
+
+/* UTF-8 version */
+u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+{
+  uint16_t e;
+  u8g2_uint_t delta, sum;
+  uint8_t b;
+  sum = 0;
+/*
+source: https://en.wikipedia.org/wiki/UTF-8
+Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
+  7 	U+0000 		U+007F 		1 		0xxxxxxx
+11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
+16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
+21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+*/
+  
+  for(;;)
+  {
+    b = *str;
+    if ( b == 0 )
+      break;
+    
+    if ( b >= 0xc0 )
+    {
+      if ( b >= 0xf0 )	/* check for UTF-8 4, 5 and 6-byte sequence */
+      {
+	b &= 0x01;	/* only consider lowest bit, because only plane 0 (16 bit) is supported with u8glib v2 */
+      }
+      else if ( b >= 0xe0 )	/* check for UTF-8 3-byte sequence */
+      {
+	b &= 0x0f;
+      }
+      else /* assume UTF-8 2-byte sequence */
+      {
+	b &= 0x1f;
+      }
+      e = b;
+      
+      for(;;)
+      {
+	str++;
+	b = *str;
+	if ( (b & 0x0c0) != 0x080 )
+	  break;
+	b &= 0x3f;
+	e <<=6;
+	e |= b;
+      }      
+    }
+    else
+    {
+      e = b;		/* init with ASCII code */
+      str++;
+    }
+
+    delta = u8g2_DrawGlyph(u8g2, x, y, e);
+    
+#ifdef U8G2_WITH_FONT_ROTATION
+    switch(u8g2->font_decode.dir)
+    {
+      case 0:
+	x += delta;
+	break;
+      case 1:
+	y += delta;
+	break;
+      case 2:
+	x -= delta;
+	break;
+      case 3:
+	y -= delta;
+	break;
+    }
+#else
+    x += delta;
+#endif    
+    sum += delta;    
+  }
+  return sum;
+}
+
 
 
 /*===============================================*/

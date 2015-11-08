@@ -20,3 +20,12 @@ clean:
 
 test:	
 	./bdfconv 
+
+greek:
+	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/unifont.bdf -n unifont_greek -o unifont_greek.c -d ../bdf/7x13.bdf
+	
+helvb18:
+	./bdfconv -f 1 -m '32-127' ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr
+
+	
+#	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support

@@ -52,6 +52,13 @@
 #define U8G2_WITH_INTERSECTION
 
 /*
+  U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
+  The following macro activates this support. Deactivation would save some ROM.
+*/
+#define U8G2_WITH_UNICODE
+
+
+/*
   Internal performance test for the effect of enabling U8G2_WITH_INTERSECTION
   Should not be defined for production code
 */
@@ -76,6 +83,9 @@
 #else
 #  define U8G2_NOINLINE
 #endif
+
+#define U8G2_FONT_SECTION(name) U8X8_FONT_SECTION(name) 
+
 
 /*==========================================*/
 /* C++ compatible */
@@ -126,7 +136,12 @@ struct _u8g2_font_info_t
     
   /* offset 17 */
   uint16_t start_pos_upper_A;
-  uint16_t start_pos_lower_a;  
+  uint16_t start_pos_lower_a; 
+  
+  /* offset 21 */
+#ifdef U8G2_WITH_UNICODE  
+  uint16_t start_pos_unicode;
+#endif
 };
 typedef struct _u8g2_font_info_t u8g2_font_info_t;
 
