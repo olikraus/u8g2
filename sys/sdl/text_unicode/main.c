@@ -475,16 +475,17 @@ int main(void)
     {
       u8g2_SetFontDirection(&u8g2, 0); 
       //u8g2_DrawString(&u8g2, x, y, "ABC");
-      u8g2_DrawString(&u8g2, x, y, "\316\221\316\222\316\223");
+      u8g2_DrawString(&u8g2, x, y, "\316\221\316\222\316\223");	/* UTF-8 Uppercase Greek ABC */
       u8g2_SetFontDirection(&u8g2, 1); 
       //u8g2_DrawString(&u8g2, x, y, "abc");
-      u8g2_DrawString(&u8g2, x, y, "\316\261\316\262\316\263");
+      u8g2_DrawString(&u8g2, x, y, "\316\261\316\262\316\263");	/* UTF-8 Lowercase Greek abc */
       u8g2_SetFontDirection(&u8g2, 2);
       //u8g2_DrawString(&u8g2, x, y, "abc");
       u8g2_DrawString(&u8g2, x, y, "\316\261\316\262\316\263");
       u8g2_SetFontDirection(&u8g2, 3);
       //u8g2_DrawString(&u8g2, x, y, "abc");
-      u8g2_DrawString(&u8g2, x, y, "\316\261\316\262\316\263");
+      //u8g2_DrawString(&u8g2, x, y, "\316\261\316\262\316\263");
+      u8g2_DrawString(&u8g2, x, y, "αβγ");	/* Lowercase Greek abc... requires UTF-8 editor */
       if ( i == 1 )
       {
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x0, u8g2.user_y0, 1, 0);
