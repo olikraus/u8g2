@@ -57,6 +57,7 @@ static int bits_per_delta_x;
 static int char_width;
 static int char_height;
 static int char_descent;
+static unsigned unicode_start_pos;
 
 
 int tga_get_char_width(void)
@@ -166,6 +167,9 @@ void tga_save(const char *name)
 
   19		1		start pos 'a' high byte
   20		1		start pos 'a' low byte
+  
+  21		1		start pos unicode high byte
+  22		1		start pos unicode low byte
 
 */
 
@@ -195,6 +199,10 @@ void tga_set_font(uint8_t *font)
     font++;
     font++;
     font++;
+    
+    unicode_start_pos = *font++;
+    unicode_start_pos <<= 8;
+    unicode_start_pos |= *font++;
   
     tga_font = font;
   
@@ -217,18 +225,37 @@ uint8_t *tga_get_glyph_data(uint8_t encoding)
 }
 #endif
 
-uint8_t *tga_get_glyph_data(uint8_t encoding)
+uint8_t *tga_get_glyph_data(uint16_t encoding)
 {
   uint8_t *font = tga_font;
-  for(;;)
+  if ( encoding <= 255 )
   {
-    if ( font[1] == 0 )
-      break;
-    if ( font[0] == encoding )
+    for(;;)
     {
-      return font;
+      if ( font[1] == 0 )
+	break;
+      if ( font[0] == encoding )
+      {
+	return font;
+      }
+      font += font[1];
     }
-    font += font[1];
+  }
+  else
+  {
+    uint16_t e;
+    font += unicode_start_pos;
+    for(;;)
+    {
+      e = ((font[0]<<8)|font[1]);
+      if ( e == 0 )
+	break;
+      if ( e == encoding )
+      {
+	return font;
+      }
+      font += font[2];
+    }
   }
   return NULL;
 }
@@ -382,7 +409,7 @@ void tga_fd_decode_len(tga_fd_t *f, unsigned len, unsigned is_foreground)
   f->x += cnt;
 }
 
-unsigned tga_fd_decode(tga_fd_t *f, uint8_t *glyph_data)
+unsigned tga_fd_decode(tga_fd_t *f, uint8_t *glyph_data, int is_unicode)
 {
   unsigned a, b;
   //unsigned cnt, rem;
@@ -394,6 +421,9 @@ unsigned tga_fd_decode(tga_fd_t *f, uint8_t *glyph_data)
   
   f->decode_ptr += 1;
   f->decode_ptr += 1;
+  if ( is_unicode != 0 )
+    f->decode_ptr += 1;
+    
   
   f->glyph_width = tga_fd_get_unsigned_bits(f, bits_per_char_width);
   f->glyph_height = tga_fd_get_unsigned_bits(f, bits_per_char_height);
@@ -524,17 +554,17 @@ unsigned tga_fd_decode_old(tga_fd_t *f, uint8_t *glyph_data)
   return d;
 }
 
-unsigned tga_draw_glyph(unsigned x, unsigned y, uint8_t encoding, int is_hints)
+unsigned tga_draw_glyph(unsigned x, unsigned y, uint16_t encoding, int is_hints)
 {
   unsigned dx = 0;
   tga_fd_t f;
   f.target_x = x;
   f.target_y = y;
   f.is_transparent = !is_hints;
-  uint8_t *glyph_data = tga_get_glyph_data(encoding);
+  uint8_t *glyph_data = tga_get_glyph_data(encoding);	/* better skip the first 2 or 3 bytes */
   if ( glyph_data != NULL )
   {
-    dx = tga_fd_decode(&f, glyph_data);
+    dx = tga_fd_decode(&f, glyph_data, encoding >= 255 ? 1 : 0);
     if ( is_hints )
     {
       tga_set_pixel(x+dx, y, 28,133,240);	/* orange: reference point */

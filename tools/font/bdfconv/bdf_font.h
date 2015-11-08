@@ -136,10 +136,10 @@ int tga_init(uint16_t w, uint16_t h);
 void tga_set_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b);
 void tga_save(const char *name);
 void tga_set_font(uint8_t *font);
-uint8_t *tga_get_glyph_data(uint8_t encoding);
+uint8_t *tga_get_glyph_data(uint16_t encoding);
 int tga_get_char_width(void);
 int tga_get_char_height(void);
-unsigned tga_draw_glyph(unsigned x, unsigned y, uint8_t encoding, int is_hints);
+unsigned tga_draw_glyph(unsigned x, unsigned y, uint16_t encoding, int is_hints);
 unsigned tga_draw_string(unsigned x, unsigned y, const char *s, int is_hints, unsigned max_dx);
 
 

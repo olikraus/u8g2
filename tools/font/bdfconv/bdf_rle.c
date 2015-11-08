@@ -42,7 +42,7 @@
 
   /* apply glyph information */
   /*  
-    ~		encoding			unsigned, 1 byte
+    ~		encoding			unsigned, 1 or 2 byte (high byte first in two byte version)
     ~		total size			unsigned, 1 byte
     ~             BBX width                                       unsigned	5
     ~             BBX height                                      unsigned	5
@@ -53,7 +53,7 @@
 
 */
 
-#define BDF_RLE_FONT_GLYPH_START 21
+#define BDF_RLE_FONT_GLYPH_START 23
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -374,8 +374,18 @@ int bg_rle_compress(bg_t *bg, bbx_t *bbx, unsigned rle_bits_per_0, unsigned rle_
 
   /* step 0: output initial information */
   //printf("%ld %ld\n", (long)bg->encoding, (long)bg->map_to);
-  if ( bg_AddTargetData(bg, bg->map_to) < 0 )
-    return bg_err("error in bg_rle_compress"), 0;
+  if ( bg->map_to <= 255 )
+  {
+    if ( bg_AddTargetData(bg, bg->map_to) < 0 )
+      return bg_err("error in bg_rle_compress"), 0;
+  }
+  else
+  {
+    if ( bg_AddTargetData(bg, bg->map_to >> 8) < 0 )
+      return bg_err("error in bg_rle_compress"), 0;
+    if ( bg_AddTargetData(bg, bg->map_to & 255 ) < 0 )
+      return bg_err("error in bg_rle_compress"), 0;
+  }
   /* size, will be added later */
   if ( bg_AddTargetData(bg, 0) < 0 )
     return bg_err("error in bg_rle_compress"), 0;
@@ -481,7 +491,14 @@ int bg_rle_compress(bg_t *bg, bbx_t *bbx, unsigned rle_bits_per_0, unsigned rle_
     return 0;
 
 
-  bg->target_data[1] = bg->target_cnt;
+  if ( bg->map_to <= 255 )
+  {
+    bg->target_data[1] = bg->target_cnt;
+  }
+  else
+  {
+    bg->target_data[2] = bg->target_cnt;
+  }
   
   /*
   {
@@ -619,6 +636,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   int idx_para_descent;
   
   unsigned pos;
+  unsigned unicode_start_pos;
   
   idx_cap_a_ascent = 0;
   idx_cap_a = bf_GetIndexByEncoding(bf, 'A');
@@ -730,14 +748,19 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf_AddTargetData(bf, 0);	/* start pos 'a', high/low */
   bf_AddTargetData(bf, 0);
 
+  /* 21 */
+  bf_AddTargetData(bf, 0);	/* start pos unicode, high/low */
+  bf_AddTargetData(bf, 0);
+
+  /* assumes, that map_to is sorted */
   for( i = 0; i < bf->glyph_cnt; i++ )
   {
     bg = bf->glyph_list[i];
-    if ( bg->map_to >= 0 )
+    if ( bg->map_to >= 0 && bg->map_to <= 255L )
     {
       if ( bg->target_data != NULL )
       {
-	
+
 	if ( bg->target_cnt >= 255 )
 	{
 	  bf_Error(bf, "RLE Compress: Error, glyph too large, encoding=", bg->encoding);
@@ -751,9 +774,39 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
       }
     }
   }
-  /* add empty glyph as end of font marker */
+  /* add empty glyph as end of font marker for the ASCII part (chars from 0 to 255) */
   bf_AddTargetData(bf, 0);
   bf_AddTargetData(bf, 0);
+  
+  unicode_start_pos = bf->target_cnt-BDF_RLE_FONT_GLYPH_START;
+
+  /* now write chars with code >= 256 from the BMP */
+  /* assumes, that map_to is sorted */
+  for( i = 0; i < bf->glyph_cnt; i++ )
+  {
+    bg = bf->glyph_list[i];
+    if ( bg->map_to >= 256 )
+    {
+      if ( bg->target_data != NULL )
+      {
+
+	if ( bg->target_cnt >= 255 )
+	{
+	  bf_Error(bf, "RLE Compress: Error, glyph too large, encoding=", bg->encoding);
+	  exit(1);
+	}
+
+	for( j = 0; j < bg->target_cnt; j++ )
+	{
+	  bf_AddTargetData(bf, bg->target_data[j]);
+	}
+      }
+    }
+  }
+  /* add empty encoding as end of font marker (note: this differs from the ASCII section) */
+  bf_AddTargetData(bf, 0);
+  bf_AddTargetData(bf, 0);
+
   
   pos = bf_RLE_get_glyph_data(bf, 'A');
   bf->target_data[17] = pos >> 8;
@@ -763,6 +816,9 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf->target_data[19] = pos >> 8;
   bf->target_data[20] = pos & 255;
 
+  bf->target_data[21] = unicode_start_pos >> 8;
+  bf->target_data[22] = unicode_start_pos & 255;
+  
   bf_Log(bf, "RLE Compress: 'A' pos = %u, 'a' pos = %u", bf_RLE_get_glyph_data(bf, 'A'), bf_RLE_get_glyph_data(bf, 'a'));
   
   bf_Log(bf, "RLE Compress: Font size %d", bf->target_cnt);

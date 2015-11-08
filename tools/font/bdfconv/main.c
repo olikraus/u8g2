@@ -157,7 +157,7 @@ unsigned tga_draw_font_line(unsigned y, long enc_start, bf_t *bf_desc_font, bf_t
   if ( is_empty != 0 )
     return 0;
   
-  sprintf(pre, "%3ld/0x%02lx", enc_start, enc_start);
+  sprintf(pre, "%5ld/0x%04lx", enc_start, enc_start);
   
   x = left_margin;
   if ( bf_desc_font != NULL )
@@ -230,7 +230,7 @@ unsigned tga_draw_font(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_
   y +=   tga_get_line_height(bf_desc_font, bf)+1;
   
   
-  for( i = 0; i < 256; i+=16 )
+  for( i = 0; i <= 0x0ffff; i+=16 )
   {
     x = tga_draw_font_line(y, i, bf_desc_font, bf);
     if ( x > 0 )
