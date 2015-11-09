@@ -8,5 +8,5 @@ U8glib V2: Features and Limitations
 - UTF-8 Support
   2 and 3 byte sequences are detected and handled.
   Limitation:  
-    Behaviour for sequences with more than 3 bytes is unknown.
+    Behavior for sequences with more than 3 bytes is unknown.
     

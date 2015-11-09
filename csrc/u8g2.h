@@ -73,7 +73,6 @@
     U8G2_WITH_UNICODE not defined
       - C-Code Strings are assumbed to be ISO 8859-1/CP1252 encoded
       - Only character values 0 to 255 are supported in the font file.
-      
 */
 #define U8G2_WITH_UNICODE
 

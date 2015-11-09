@@ -31,6 +31,9 @@ struct fontinfo
   int map_mode;	/* Or'd MM_F, FM_N and FM_R */
 };
 
+typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms);
+
+
 
 struct groupinfo gi[] = {
   { "X11" },
@@ -41,25 +44,15 @@ struct fontinfo fi[] = {
 };
 
 char *bdf_path = "../bdf/";
+FILE *u8g2_font_list_fp;
+FILE *u8x8_font_list_fp;
 
 
 char target_font_identifier[1024];
 char bdf_cmd[2048];
 
-void gen_font(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
+void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 {
-  
-  if ( fm == FM_8 )
-    if ( bm != BM_8 )
-      return;
-  
-  strcpy(target_font_identifier, fms);
-  strcat(target_font_identifier, "_");
-  strcat(target_font_identifier, fi[i].name);
-  strcat(target_font_identifier, "_");
-  strcat(target_font_identifier, bms);
-  strcat(target_font_identifier, mms);
-  
   strcpy(bdf_cmd, "");
   
   if ( fm == FM_C ) strcat(bdf_cmd, " -f 1");
@@ -84,54 +77,118 @@ void gen_font(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 
   strcat(bdf_cmd, " -o ");
   strcat(bdf_cmd, target_font_identifier);
-  strcat(bdf_cmd, ".c");
+  strcat(bdf_cmd, ".c");\
 
   printf("%s %s\n", target_font_identifier, bdf_cmd);
+}
+
+void fontlist_identifier(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
+{
+  if ( fm == FM_C ) 
+  {
+    fprintf(u8g2_font_list_fp, "  %s,\n", target_font_identifier);
+  }
+  if ( fm == FM_8 ) 
+  {
+    fprintf(u8x8_font_list_fp, "  %s,\n", target_font_identifier);
+  }
   
 }
 
-void map_font(int i, int fm, char *fms, int bm, char *bms)
+void fontlist_name(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
+{
+  if ( fm == FM_C ) 
+  {
+    fprintf(u8g2_font_list_fp, "  \"%s\",\n", target_font_identifier);
+  }
+  if ( fm == FM_8 ) 
+  {
+    fprintf(u8x8_font_list_fp, "  \"%s\",\n", target_font_identifier);
+  }
+  
+}
+
+void gen_font(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms, cbfn_t cb )
+{
+  
+  if ( fm == FM_8 )
+    if ( bm != BM_8 )
+      return;
+  
+  strcpy(target_font_identifier, fms);
+  strcat(target_font_identifier, "_");
+  strcat(target_font_identifier, fi[i].name);
+  strcat(target_font_identifier, "_");
+  strcat(target_font_identifier, bms);
+  strcat(target_font_identifier, mms);
+    
+  cb(i, fm,fms,bm,bms,mm,mms);
+}
+
+void map_font(int i, int fm, char *fms, int bm, char *bms, cbfn_t cb)
 {
   if ( (fi[i].map_mode & MM_F) != 0 )
-    gen_font(i, fm, fms, bm, bms, MM_F, "f");
+    gen_font(i, fm, fms, bm, bms, MM_F, "f", cb);
   if ( (fi[i].map_mode & MM_R) != 0 )
-    gen_font(i, fm, fms, bm, bms, MM_R, "r");
+    gen_font(i, fm, fms, bm, bms, MM_R, "r", cb);
   if ( (fi[i].map_mode & MM_N) != 0 )
-    gen_font(i, fm, fms, bm, bms, MM_N, "n");
+    gen_font(i, fm, fms, bm, bms, MM_N, "n", cb);
 }
 
-void build_font(int i, int fm, char *fms)
+void build_font(int i, int fm, char *fms, cbfn_t cb)
 {
   if ( (fi[i].build_mode & BM_T) != 0 )
-    map_font(i, fm, fms, BM_T, "t");
+    map_font(i, fm, fms, BM_T, "t", cb);
   if ( (fi[i].build_mode & BM_H) != 0 )
-    map_font(i, fm, fms, BM_H, "h");
+    map_font(i, fm, fms, BM_H, "h", cb);
   if ( (fi[i].build_mode & BM_M) != 0 )
-    map_font(i, fm, fms, BM_M, "m");
+    map_font(i, fm, fms, BM_M, "m", cb);
   if ( (fi[i].build_mode & BM_8) != 0 )
-    map_font(i, fm, fms, BM_8, "8");
+    map_font(i, fm, fms, BM_8, "8", cb);
 }
 
-void process_font(int i)
+void process_font(int i, cbfn_t cb)
 {
   if ( (fi[i].font_mode & FM_C) != 0 )
-    build_font(i, FM_C, "u8g2");
+    build_font(i, FM_C, "u8g2", cb);
   if ( (fi[i].font_mode & FM_8) != 0 )
-    build_font(i, FM_8, "u8x8");
+    build_font(i, FM_8, "u8x8", cb);
 }
 
-void do_font_loop(void)
+void do_font_loop(cbfn_t cb)
 {
   int i, cnt;
   cnt = sizeof(fi)/sizeof(*fi);
   for( i = 0; i < cnt; i++ )
   {
-    process_font(i);
+    process_font(i, cb);
   }
 }
 
 int main(void)
 {
-  do_font_loop();
+  do_font_loop(bdfconv);
+  
+  u8g2_font_list_fp = fopen("u8g2_font_list.c", "w");
+  u8x8_font_list_fp  = fopen("u8x8_font_list.c", "w");
+  fprintf(u8g2_font_list_fp, "/* u8g2_font_list.c */\n");
+  fprintf(u8x8_font_list_fp, "/* u8x8_font_list.c */\n");
+  fprintf(u8g2_font_list_fp, "#include \"u8g2.h\"\n");
+  fprintf(u8x8_font_list_fp, "#include \"u8g2.h\"\n");
+  fprintf(u8g2_font_list_fp, "uint8_t *u8g2_font_list[] = {\n");
+  fprintf(u8x8_font_list_fp, "uint8_t *u8x8_font_list[] = {\n");
+  do_font_loop(fontlist_identifier);
+  fprintf(u8g2_font_list_fp, "  NULL\n};\n");
+  fprintf(u8x8_font_list_fp, "  NULL\n};\n");
+
+  fprintf(u8g2_font_list_fp, "uint8_t *u8g2_font_names[] = {\n");
+  fprintf(u8x8_font_list_fp, "uint8_t *u8x8_font_names[] = {\n");
+  do_font_loop(fontlist_name);
+  fprintf(u8g2_font_list_fp, "  NULL\n};\n");
+  fprintf(u8x8_font_list_fp, "  NULL\n};\n");
+  
+  
+  fclose(u8g2_font_list_fp);
+  fclose(u8x8_font_list_fp);
   return 0;
 }
