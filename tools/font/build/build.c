@@ -1,6 +1,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
 #define BM_H	2	/* Common Height = build mode 1 */
@@ -12,6 +14,11 @@
 #define MM_R	2	/* reduced */
 #define MM_N	4	/* numbers */
 
+/*
+    fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
+    fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
+
+*/
 
 
 struct groupinfo
@@ -44,6 +51,7 @@ struct fontinfo fi[] = {
 };
 
 char *bdf_path = "../bdf/";
+char *bdfconv_path = "../bdfconv/bdfconv";
 FILE *u8g2_font_list_fp;
 FILE *u8x8_font_list_fp;
 
@@ -53,8 +61,9 @@ char bdf_cmd[2048];
 
 void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 {
-  strcpy(bdf_cmd, "");
-  
+  strcpy(bdf_cmd, bdfconv_path);
+  strcat(bdf_cmd, " ");
+
   if ( fm == FM_C ) strcat(bdf_cmd, " -f 1");
   if ( fm == FM_8 ) strcat(bdf_cmd, " -f 2");
   
@@ -76,10 +85,18 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   strcat(bdf_cmd, target_font_identifier);
 
   strcat(bdf_cmd, " -o ");
-  strcat(bdf_cmd, target_font_identifier);
-  strcat(bdf_cmd, ".c");\
+  //strcat(bdf_cmd, target_font_identifier);
+  strcat(bdf_cmd, "font");
+  strcat(bdf_cmd, ".c");
+  
+  if ( fm == FM_8 ) 
+    strcat(bdf_cmd, " && cat font.c >>u8x8_fonts.c");
+  else
+    strcat(bdf_cmd, " && cat font.c >>u8g2_fonts.c");
 
-  printf("%s %s\n", target_font_identifier, bdf_cmd);
+  printf("%s\n", bdf_cmd);
+  system(bdf_cmd);
+  
 }
 
 void fontlist_identifier(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
@@ -167,6 +184,9 @@ void do_font_loop(cbfn_t cb)
 
 int main(void)
 {
+  unlink("u8x8_fonts.c");
+  unlink("u8g2_fonts.c");
+  
   do_font_loop(bdfconv);
   
   u8g2_font_list_fp = fopen("u8g2_font_list.c", "w");
@@ -186,7 +206,6 @@ int main(void)
   do_font_loop(fontlist_name);
   fprintf(u8g2_font_list_fp, "  NULL\n};\n");
   fprintf(u8x8_font_list_fp, "  NULL\n};\n");
-  
   
   fclose(u8g2_font_list_fp);
   fclose(u8x8_font_list_fp);

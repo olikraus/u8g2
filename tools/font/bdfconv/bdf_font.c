@@ -590,8 +590,16 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
   fprintf(out_fp, "  Glyphs: %d/%d\n", (int)bf->selected_glyphs, (int)bf->glyph_cnt );
   fprintf(out_fp, "  BBX Build Mode: %d\n", (int)bf->bbx_mode);
   fprintf(out_fp, "*/\n");
-  fprintf(out_fp, "#include \"u8g2.h\"\n");  
-  fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") = {\n", fontname, bf->target_cnt, fontname);
+  if ( bf->bbx_mode == 3 )
+  {
+    //fprintf(out_fp, "#include \"u8x8.h\"\n");  
+    fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") = {\n", fontname, bf->target_cnt, fontname);
+  }
+  else
+  {
+    //fprintf(out_fp, "#include \"u8g2.h\"\n");  
+    fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") = {\n", fontname, bf->target_cnt, fontname);
+  }
   fprintf(out_fp, "  ");
     
   for( i = 0; i < bf->target_cnt; i++ )
