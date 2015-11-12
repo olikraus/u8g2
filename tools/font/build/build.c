@@ -142,10 +142,13 @@ typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char
 
 struct groupinfo gi[] = {
   { "X11" },
+  { "fontstruct" },
 };
 
 struct fontinfo fi[] = {
-  { 0, "6x10.bdf", "6x10", 0, 1, BM_T|BM_M|BM_8, FM_C|FM_8, MM_F|MM_R|MM_N }
+  { 0, "6x10.bdf", 			"6x10", 			0, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N },
+  { 0, "amstrad_cpc.bdf", 	"amstrad_cpc", 	1, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_N }
+  
 };
 
 char *bdf_path = "../bdf/";
@@ -333,7 +336,8 @@ int main(void)
   fclose(u8x8_font_list_fp);
 
 
-  insert_into_file("test.h", u8g2_prototypes, "/* start font list */", "/* end font list */");
+  insert_into_file("../../../csrc/u8g2.h", u8g2_prototypes, "/* start font list */", "/* end font list */");
+  insert_into_file("../../../csrc/u8x8.h", u8x8_prototypes, "/* start font list */", "/* end font list */");
 
   return 0;
 }
