@@ -460,7 +460,10 @@ void u8x8_Draw8x8String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
 
 /*==========================================*/
 /* start font list */
-xxxxx
+extern const uint8_t u8x8_amstrad_cpc_8f [] U8X8_FONT_SECTION("u8x8_amstrad_cpc_8f");
+extern const uint8_t u8x8_amstrad_cpc_8r [] U8X8_FONT_SECTION("u8x8_amstrad_cpc_8r");
+extern const uint8_t u8x8_amstrad_cpc_8n [] U8X8_FONT_SECTION("u8x8_amstrad_cpc_8n");
+
 /* end font list */
 
 

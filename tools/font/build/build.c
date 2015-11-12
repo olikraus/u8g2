@@ -198,7 +198,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
 
 */
-  strcpy(font_prototype, "const uint8_t ");
+  strcpy(font_prototype, "extern const uint8_t ");
   strcat(font_prototype, target_font_identifier);
   strcat(font_prototype, " []");
 

@@ -310,7 +310,16 @@ void u8g2_Setup_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/
 /* start font list */
-xxxxx
+extern const uint8_t u8g2_6x10_tf [] U8G2_FONT_SECTION("u8g2_6x10_tf");
+extern const uint8_t u8g2_6x10_tr [] U8G2_FONT_SECTION("u8g2_6x10_tr");
+extern const uint8_t u8g2_6x10_tn [] U8G2_FONT_SECTION("u8g2_6x10_tn");
+extern const uint8_t u8g2_6x10_mf [] U8G2_FONT_SECTION("u8g2_6x10_mf");
+extern const uint8_t u8g2_6x10_mr [] U8G2_FONT_SECTION("u8g2_6x10_mr");
+extern const uint8_t u8g2_6x10_mn [] U8G2_FONT_SECTION("u8g2_6x10_mn");
+extern const uint8_t u8g2_amstrad_cpc_8f [] U8G2_FONT_SECTION("u8g2_amstrad_cpc_8f");
+extern const uint8_t u8g2_amstrad_cpc_8r [] U8G2_FONT_SECTION("u8g2_amstrad_cpc_8r");
+extern const uint8_t u8g2_amstrad_cpc_8n [] U8G2_FONT_SECTION("u8g2_amstrad_cpc_8n");
+
 /* end font list */
 
 
