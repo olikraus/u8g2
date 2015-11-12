@@ -14,11 +14,109 @@
 #define MM_R	2	/* reduced */
 #define MM_N	4	/* numbers */
 
-/*
-    fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
-    fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
 
+/*===================================*/
+
+int add_to_str(char **dest, const char *s)
+{
+  void *t;
+  
+  if ( *dest == NULL )
+  {
+    *dest = strdup(s);
+    if ( *dest == NULL )
+      return 0;
+  }
+  else
+  {
+    t = realloc(*dest, strlen(*dest) + strlen(s) + 1);
+    if ( t == NULL )
+      return 0;
+    *dest = (char *)t;
+    strcat(*dest, s);
+  }
+  
+  return 1;
+}
+
+/*
+  copy file from source_file_name to dest_file_name
 */
+int file_copy(const char *source_file_name, const char *dest_file_name)
+{
+  int ch;
+  FILE *source_fp;
+  FILE *dest_fp;
+  
+  source_fp = fopen(source_file_name, "r");
+  dest_fp = fopen(dest_file_name, "w");
+  
+  if ( source_fp == NULL || dest_fp == NULL )
+    return 0;
+  
+  while( ( ch = fgetc(source_fp) ) != EOF )
+    fputc(ch, dest_fp);
+  
+  fclose(source_fp);
+  fclose(dest_fp);
+  
+  return 1;
+}
+
+
+/*
+  Insert "text" between lines "start_line" and "end_line" of file "filename"
+*/
+int insert_into_file(const char *filename, const char *text, const char *start_line, const char *end_line)
+{
+  static char line[1024*4];
+  const char *tmpname = "tmp.h";
+  FILE *source_fp;
+  FILE *dest_fp;
+  
+  if ( file_copy(filename, tmpname) == 0 )
+    return 0;
+
+  source_fp = fopen(tmpname, "r");
+  dest_fp = fopen(filename, "w");
+
+  if ( source_fp == NULL || dest_fp == NULL )
+    return 0;
+  
+  for(;;)
+  {
+    if ( fgets(line, 1024*4, source_fp) == NULL )
+      break;
+    if ( strncmp(line, start_line, strlen(start_line)) == 0 )
+    {
+      fputs(line, dest_fp);
+      fputs(text, dest_fp);
+      fputs("\n", dest_fp);
+      
+      for(;;)
+      {
+	if ( fgets(line, 1024*4, source_fp) == NULL )
+	  break;
+	if ( strncmp(line, end_line, strlen(end_line)) == 0 )
+	{
+	  fputs(line, dest_fp);
+	  break;
+	}
+      }
+    }
+    else
+    {
+      fputs(line, dest_fp);
+    }
+  }
+
+  fclose(source_fp);
+  fclose(dest_fp);
+
+  return 1;
+}
+
+/*===================================*/
 
 
 struct groupinfo
@@ -54,10 +152,13 @@ char *bdf_path = "../bdf/";
 char *bdfconv_path = "../bdfconv/bdfconv";
 FILE *u8g2_font_list_fp;
 FILE *u8x8_font_list_fp;
+char *u8g2_prototypes = NULL;
+char *u8x8_prototypes = NULL;
 
 
 char target_font_identifier[1024];
 char bdf_cmd[2048];
+char font_prototype[2048];
 
 void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 {
@@ -89,10 +190,31 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   strcat(bdf_cmd, "font");
   strcat(bdf_cmd, ".c");
   
+/*
+    fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
+    fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);
+
+*/
+  strcpy(font_prototype, "const uint8_t ");
+  strcat(font_prototype, target_font_identifier);
+  strcat(font_prototype, " []");
+
   if ( fm == FM_8 ) 
+  {
     strcat(bdf_cmd, " && cat font.c >>u8x8_fonts.c");
+    strcat(font_prototype, " U8X8_FONT_SECTION(\"");    
+    strcat(font_prototype, target_font_identifier);
+    strcat(font_prototype, "\");\n");
+    add_to_str(&u8x8_prototypes, font_prototype);
+  }
   else
+  {    
     strcat(bdf_cmd, " && cat font.c >>u8g2_fonts.c");
+    strcat(font_prototype, " U8G2_FONT_SECTION(\"");    
+    strcat(font_prototype, target_font_identifier);
+    strcat(font_prototype, "\");\n");
+    add_to_str(&u8g2_prototypes, font_prototype);
+  }
 
   printf("%s\n", bdf_cmd);
   system(bdf_cmd);
@@ -209,5 +331,9 @@ int main(void)
   
   fclose(u8g2_font_list_fp);
   fclose(u8x8_font_list_fp);
+
+
+  insert_into_file("test.h", u8g2_prototypes, "/* start font list */", "/* end font list */");
+
   return 0;
 }
