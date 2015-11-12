@@ -200,7 +200,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 */
   strcpy(font_prototype, "extern const uint8_t ");
   strcat(font_prototype, target_font_identifier);
-  strcat(font_prototype, " []");
+  strcat(font_prototype, "[]");
 
   if ( fm == FM_8 ) 
   {
