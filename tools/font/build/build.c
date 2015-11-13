@@ -4,16 +4,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define BM_T	1	/* Transparent = build mode 0 proportional */
-#define BM_H	2	/* Common Height = build mode 1 */
-#define BM_M	4	/* Monospace = build mode 2 */
-#define BM_8	8	/* 8x8 = build mode 3 */
-#define FM_C	1	/* u8g2 compressed font */
-#define FM_8	2	/* u8x8 uncompressed font */
-#define MM_F	1	/* full */
-#define MM_R	2	/* reduced */
-#define MM_N	4	/* numbers */
-
 
 /*===================================*/
 
@@ -134,6 +124,8 @@ struct fontinfo
   int build_mode;	/* Or'd BM_T, BM_H, BM_M, BM_8 */
   int font_mode;	/* Or'd FM_C and FM_8 */
   int map_mode;	/* Or'd MM_F, FM_N and FM_R */
+  char *map_custom;	/* e.g. 32,42-58>32 */
+  char *map_custom_postfix;
 };
 
 typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms);
@@ -141,13 +133,32 @@ typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char
 
 
 struct groupinfo gi[] = {
+  { "U8glib" },
   { "X11" },
   { "fontstruct" },
 };
 
+#define BM_T	1	/* Transparent = build mode 0 proportional */
+#define BM_H	2	/* Common Height = build mode 1 */
+#define BM_M	4	/* Monospace = build mode 2 */
+#define BM_8	8	/* 8x8 = build mode 3 */
+#define FM_C	1	/* u8g2 compressed font */
+#define FM_8	2	/* u8x8 uncompressed font */
+#define MM_F	1	/* full */
+#define MM_R	2	/* reduced */
+#define MM_N	4	/* numbers */
+#define MM_C	8	/* custom */
+
+
 struct fontinfo fi[] = {
-  { 0, "6x10.bdf", 			"6x10", 			0, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N },
-  { 0, "amstrad_cpc.bdf", 	"amstrad_cpc", 	1, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_N }
+  { 0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
+  { 0, "m2icon_5.bdf", 		"m2icon_5", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  { 0, "m2icon_7.bdf", 		"m2icon_7", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  { 0, "m2icon_9.bdf", 		"m2icon_9", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
+  { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
+  { 0, "6x10.bdf", 			"6x10", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "amstrad_cpc.bdf", 	"amstrad_cpc", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_N, "" , ""}
   
 };
 
@@ -179,6 +190,12 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   if ( mm == MM_F ) strcat(bdf_cmd, " -m '32-255>32'");
   if ( mm == MM_R ) strcat(bdf_cmd, " -m '32-127>32'");
   if ( mm == MM_N ) strcat(bdf_cmd, " -m '32,42-58>32'");
+  if ( mm == MM_C ) 
+  {
+    strcat(bdf_cmd, " -m '");
+    strcat(bdf_cmd, fi[i].map_custom);
+    strcat(bdf_cmd, "'");
+  }
 
   strcat(bdf_cmd, " ");
   strcat(bdf_cmd, bdf_path);
@@ -275,6 +292,8 @@ void map_font(int i, int fm, char *fms, int bm, char *bms, cbfn_t cb)
     gen_font(i, fm, fms, bm, bms, MM_R, "r", cb);
   if ( (fi[i].map_mode & MM_N) != 0 )
     gen_font(i, fm, fms, bm, bms, MM_N, "n", cb);
+  if ( (fi[i].map_mode & MM_C) != 0 )
+    gen_font(i, fm, fms, bm, bms, MM_C, fi[i].map_custom_postfix, cb);
 }
 
 void build_font(int i, int fm, char *fms, cbfn_t cb)
@@ -291,6 +310,19 @@ void build_font(int i, int fm, char *fms, cbfn_t cb)
 
 void process_font(int i, cbfn_t cb)
 {
+  FILE *fp;
+  static char s[1024];
+  
+  strcpy(s,bdf_path);
+  strcat(s, fi[i].filename);
+  fp = fopen(s, "r");
+  if ( fp == NULL )
+  {
+    printf("font %s missing\n",s );
+    return;
+  }
+  fclose(fp);
+  
   if ( (fi[i].font_mode & FM_C) != 0 )
     build_font(i, FM_C, "u8g2", cb);
   if ( (fi[i].font_mode & FM_8) != 0 )
@@ -335,8 +367,9 @@ int main(void)
   fclose(u8g2_font_list_fp);
   fclose(u8x8_font_list_fp);
 
-
+  printf("update u8g2.h\n");
   insert_into_file("../../../csrc/u8g2.h", u8g2_prototypes, "/* start font list */", "/* end font list */");
+  printf("update u8x8.h\n");
   insert_into_file("../../../csrc/u8x8.h", u8x8_prototypes, "/* start font list */", "/* end font list */");
 
   return 0;

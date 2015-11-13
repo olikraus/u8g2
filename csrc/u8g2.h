@@ -308,8 +308,16 @@ void u8g2_Setup_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/
 
-/*==========================================*/
 /* start font list */
+extern const uint8_t u8g2_u8glib_4_tf[] U8G2_FONT_SECTION("u8g2_u8glib_4_tf");
+extern const uint8_t u8g2_u8glib_4_tr[] U8G2_FONT_SECTION("u8g2_u8glib_4_tr");
+extern const uint8_t u8g2_u8glib_4_hf[] U8G2_FONT_SECTION("u8g2_u8glib_4_hf");
+extern const uint8_t u8g2_u8glib_4_hr[] U8G2_FONT_SECTION("u8g2_u8glib_4_hr");
+extern const uint8_t u8g2_m2icon_5_tf[] U8G2_FONT_SECTION("u8g2_m2icon_5_tf");
+extern const uint8_t u8g2_m2icon_7_tf[] U8G2_FONT_SECTION("u8g2_m2icon_7_tf");
+extern const uint8_t u8g2_m2icon_9_tf[] U8G2_FONT_SECTION("u8g2_m2icon_9_tf");
+extern const uint8_t u8g2_cursor_tf[] U8G2_FONT_SECTION("u8g2_cursor_tf");
+extern const uint8_t u8g2_cursor_tr[] U8G2_FONT_SECTION("u8g2_cursor_tr");
 extern const uint8_t u8g2_6x10_tf[] U8G2_FONT_SECTION("u8g2_6x10_tf");
 extern const uint8_t u8g2_6x10_tr[] U8G2_FONT_SECTION("u8g2_6x10_tr");
 extern const uint8_t u8g2_6x10_tn[] U8G2_FONT_SECTION("u8g2_6x10_tn");
