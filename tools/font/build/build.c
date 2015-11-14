@@ -102,6 +102,8 @@ int insert_into_file(const char *filename, const char *text, const char *start_l
 
   fclose(source_fp);
   fclose(dest_fp);
+  
+  unlink(tmpname);
 
   return 1;
 }
@@ -174,7 +176,8 @@ FILE *u8g2_font_list_fp;
 FILE *u8x8_font_list_fp;
 char *u8g2_prototypes = NULL;
 char *u8x8_prototypes = NULL;
-
+char *u8g2_fonts_filename = "../../../csrc/u8g2_fonts.c";
+char *u8x8_fonts_filename = "../../../csrc/u8x8_fonts.c";
 
 char target_font_identifier[1024];
 char bdf_cmd[2048];
@@ -227,7 +230,8 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 
   if ( fm == FM_8 ) 
   {
-    strcat(bdf_cmd, " && cat font.c >>u8x8_fonts.c");
+    strcat(bdf_cmd, " && cat font.c >>");
+    strcat(bdf_cmd, u8x8_fonts_filename);
     strcat(font_prototype, " U8X8_FONT_SECTION(\"");    
     strcat(font_prototype, target_font_identifier);
     strcat(font_prototype, "\");\n");
@@ -235,7 +239,8 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   }
   else
   {    
-    strcat(bdf_cmd, " && cat font.c >>u8g2_fonts.c");
+    strcat(bdf_cmd, " && cat font.c >>");
+    strcat(bdf_cmd, u8g2_fonts_filename);
     strcat(font_prototype, " U8G2_FONT_SECTION(\"");    
     strcat(font_prototype, target_font_identifier);
     strcat(font_prototype, "\");\n");
@@ -311,7 +316,12 @@ void build_font(int i, int fm, char *fms, cbfn_t cb)
   if ( (fi[i].build_mode & BM_M) != 0 )
     map_font(i, fm, fms, BM_M, "m", cb);
   if ( (fi[i].build_mode & BM_8) != 0 )
-    map_font(i, fm, fms, BM_8, "8", cb);
+  {
+    if ( fm == FM_8 ) 
+      map_font(i, fm, fms, BM_8, "", cb);
+    else
+      map_font(i, fm, fms, BM_8, "8", cb);
+  }
 }
 
 void process_font(int i, cbfn_t cb)
@@ -347,8 +357,14 @@ void do_font_loop(cbfn_t cb)
 
 int main(void)
 {
-  unlink("u8x8_fonts.c");
-  unlink("u8g2_fonts.c");
+  //unlink(u8x8_fonts_filename);
+  //unlink(u8g2_fonts_filename);
+  
+  if ( file_copy("u8x8_fonts.pre", u8x8_fonts_filename) == 0 )
+    return 0;
+  if ( file_copy("u8g2_fonts.pre", u8g2_fonts_filename) == 0 )
+    return 0;
+  
   
   do_font_loop(bdfconv);
   
@@ -377,6 +393,8 @@ int main(void)
   insert_into_file("../../../csrc/u8g2.h", u8g2_prototypes, "/* start font list */", "/* end font list */");
   printf("update u8x8.h\n");
   insert_into_file("../../../csrc/u8x8.h", u8x8_prototypes, "/* start font list */", "/* end font list */");
+
+  unlink("font.c");
 
   return 0;
 }
