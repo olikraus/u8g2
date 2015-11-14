@@ -268,7 +268,6 @@ void overview_draw_line(int i, uint16_t encoding_start, uint16_t x, uint16_t y, 
 
   u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
   u8g2_SetFontDirection(&u8g2, 0);
-  u8g2_DrawString(&u8g2, 0, 40, u8g2_font_names[u8g2_fnt_cnt]);
   for( j = 0; j < 16; j++)
   {
     if ( u8g2_IsGlyph(&u8g2, encoding_start + j) != 0 )
@@ -294,18 +293,38 @@ int is_overview_line_empty(uint16_t encoding_start)
 void overview_draw_table(int i, uint16_t x, uint16_t y)
 {
   int cw, ch;
-  int line;
+  int line, h;
   uint16_t encoding;
+  static char s[256];
   
-  u8g2_SetFont(&u8g2, u8g2_font_7x13_tr);
-  u8g2_DrawString(&u8g2, 0, 20, u8g2_font_names[u8g2_fnt_cnt]);
+  h = 13;
+  
+  u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
+  u8g2_SetFontDirection(&u8g2, 0);
 
+  ch = u8g2_GetMaxCharHeight(&u8g2);
+  cw = u8g2_GetMaxCharWidth(&u8g2);
+  
+  sprintf(s, "BBX Width %d, Height %d, Capital A %d", 
+    u8g2_GetMaxCharWidth(&u8g2), 
+    u8g2_GetMaxCharHeight(&u8g2),
+    u8g2_GetAscent(&u8g2));
+    
+  u8g2_SetFont(&u8g2, u8g2_font_7x13_tr);    
+  u8g2_DrawString(&u8g2, 0, h, u8g2_font_names[u8g2_fnt_cnt]);
+  u8g2_DrawString(&u8g2, 0, h*2, s);
+  
+  sprintf(s, "Font Data Size: %d Bytes", u8g2_GetFontSize(u8g2_font_list[u8g2_fnt_cnt]));
+  u8g2_DrawString(&u8g2, 0, h*3, s);
 
   u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
   u8g2_SetFontDirection(&u8g2, 0);
 
   ch = u8g2_GetMaxCharHeight(&u8g2);
   cw = u8g2_GetMaxCharWidth(&u8g2);
+  if ( ch < h )
+    ch = h;
+  y = h*3+ch;
   
   line = 0;
   for(;;)
@@ -313,6 +332,10 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
     encoding = line*16;
     if ( is_overview_line_empty(encoding) == 0 )
     {
+      u8g2_SetFont(&u8g2, u8g2_font_7x13_tr);    
+      sprintf(s, "%5d/%04x ", encoding, encoding);
+      
+      x = u8g2_DrawString(&u8g2, 0, y, s);
       overview_draw_line(i, encoding, x, y, cw);
       y += ch;
     }
@@ -338,12 +361,6 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     u8g2_FirstPage(&u8g2);
     do
     {
-      u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
-      u8g2_SetFontDirection(&u8g2, 0);
-      u8g2_DrawString(&u8g2, 0, 40, u8g2_font_names[u8g2_fnt_cnt]);
-      
-      ch = u8g2_GetMaxCharHeight(&u8g2);
-      cw = u8g2_GetMaxCharWidth(&u8g2);
 
       overview_draw_table(i, 0, 60);
 

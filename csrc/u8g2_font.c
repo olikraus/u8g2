@@ -138,7 +138,7 @@ void u8g2_read_font_info(u8g2_font_info_t *font_info, const uint8_t *font)
 
 
 /* calculate the overall length of the font, only used to create the picture for the google wiki */
-size_t u8g2_font_GetSize(const void *font_arg)
+size_t u8g2_GetFontSize(const uint8_t *font_arg)
 {
   uint16_t e;
   const uint8_t *font = font_arg;

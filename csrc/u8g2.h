@@ -284,6 +284,7 @@ uint8_t u8g2_IsIntersection(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_u
 /*==========================================*/
 /* u8g2_font.c */
 
+size_t u8g2_GetFontSize(const uint8_t *font_arg);
 
 #define U8G2_FONT_HEIGHT_MODE_TEXT 0
 #define U8G2_FONT_HEIGHT_MODE_XTEXT 1
@@ -298,7 +299,7 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
 u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 #define u8g2_GetMaxCharHeight(u8g2) ((u8g2)->font_info.max_char_height)
-#define u8g2_GetMaxCharWidth(u8g2) ((u8g2)->font_info.max_char_height)
+#define u8g2_GetMaxCharWidth(u8g2) ((u8g2)->font_info.max_char_width)
 #define u8g2_GetAscent(u8g2) ((u8g2)->font_info.ascent_A)
 #define u8g2_GetDescent(u8g2) ((u8g2)->font_info.descent_g)
 

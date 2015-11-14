@@ -4,11 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FACTOR 3
-#define XOFFSET (FACTOR*32)
-#define YOFFSET (FACTOR*32)
-#define DEFAULT_WIDTH (FACTOR*128)
-#define DEFAULT_HEIGHT (FACTOR*64)
+//#define FACTOR 3
+//#define XOFFSET (FACTOR*32)
+//#define YOFFSET (FACTOR*32)
+#define DEFAULT_WIDTH (512U)
+#define DEFAULT_HEIGHT (1024U)
 
 
 uint16_t tga_max_x;
@@ -130,7 +130,7 @@ void tga_save(const char *name)
   if ( tga_data == NULL )
     return;
   
-  printf("tga_save: File %s with %dx%d pixel\n", name, tga_width, tga_height);
+  //printf("tga_save: File %s with %dx%d pixel\n", name, tga_width, tga_height);
   
   fp = fopen(name, "wb");
   if ( fp != NULL )
