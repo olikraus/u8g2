@@ -9,7 +9,7 @@
   Glyphs: 191/1848
   BBX Build Mode: 3
 */
-const uint8_t u8x8_5x7_f[1794] U8X8_FONT_SECTION("u8x8_5x7_f") = {
+const uint8_t u8x8_font_5x7_f[1794] U8X8_FONT_SECTION("u8x8_font_5x7_f") = {
   32,255,0,0,0,0,0,0,0,0,0,0,94,0,0,0,
   0,0,0,14,0,14,0,0,0,0,40,124,40,124,40,0,
   0,0,8,84,124,84,32,0,0,0,38,16,8,100,0,0,
@@ -129,7 +129,7 @@ const uint8_t u8x8_5x7_f[1794] U8X8_FONT_SECTION("u8x8_5x7_f") = {
   Glyphs: 95/1848
   BBX Build Mode: 3
 */
-const uint8_t u8x8_5x7_r[762] U8X8_FONT_SECTION("u8x8_5x7_r") = {
+const uint8_t u8x8_font_5x7_r[762] U8X8_FONT_SECTION("u8x8_font_5x7_r") = {
   32,126,0,0,0,0,0,0,0,0,0,0,94,0,0,0,
   0,0,0,14,0,14,0,0,0,0,40,124,40,124,40,0,
   0,0,8,84,124,84,32,0,0,0,38,16,8,100,0,0,
@@ -184,7 +184,7 @@ const uint8_t u8x8_5x7_r[762] U8X8_FONT_SECTION("u8x8_5x7_r") = {
   Glyphs: 18/1848
   BBX Build Mode: 3
 */
-const uint8_t u8x8_5x7_n[146] U8X8_FONT_SECTION("u8x8_5x7_n") = {
+const uint8_t u8x8_font_5x7_n[146] U8X8_FONT_SECTION("u8x8_font_5x7_n") = {
   32,48,0,0,0,0,0,0,0,0,0,84,56,84,0,0,
   0,0,16,16,124,16,16,0,0,0,0,128,96,32,0,0,
   0,0,16,16,16,16,0,0,0,0,0,96,96,0,0,0,
@@ -201,7 +201,7 @@ const uint8_t u8x8_5x7_n[146] U8X8_FONT_SECTION("u8x8_5x7_n") = {
   Glyphs: 191/1426
   BBX Build Mode: 3
 */
-const uint8_t u8x8_5x8_f[1794] U8X8_FONT_SECTION("u8x8_5x8_f") = {
+const uint8_t u8x8_font_5x8_f[1794] U8X8_FONT_SECTION("u8x8_font_5x8_f") = {
   32,255,0,0,0,0,0,0,0,0,0,0,94,0,0,0,
   0,0,0,14,0,14,0,0,0,0,20,127,20,127,20,0,
   0,0,4,42,127,42,16,0,0,0,0,22,8,52,0,0,
@@ -321,7 +321,7 @@ const uint8_t u8x8_5x8_f[1794] U8X8_FONT_SECTION("u8x8_5x8_f") = {
   Glyphs: 95/1426
   BBX Build Mode: 3
 */
-const uint8_t u8x8_5x8_r[762] U8X8_FONT_SECTION("u8x8_5x8_r") = {
+const uint8_t u8x8_font_5x8_r[762] U8X8_FONT_SECTION("u8x8_font_5x8_r") = {
   32,126,0,0,0,0,0,0,0,0,0,0,94,0,0,0,
   0,0,0,14,0,14,0,0,0,0,20,127,20,127,20,0,
   0,0,4,42,127,42,16,0,0,0,0,22,8,52,0,0,
@@ -376,7 +376,7 @@ const uint8_t u8x8_5x8_r[762] U8X8_FONT_SECTION("u8x8_5x8_r") = {
   Glyphs: 18/1426
   BBX Build Mode: 3
 */
-const uint8_t u8x8_5x8_n[146] U8X8_FONT_SECTION("u8x8_5x8_n") = {
+const uint8_t u8x8_font_5x8_n[146] U8X8_FONT_SECTION("u8x8_font_5x8_n") = {
   32,48,0,0,0,0,0,0,0,0,84,56,56,84,0,0,
   0,0,16,16,124,16,16,0,0,0,0,128,96,32,0,0,
   0,0,16,16,16,16,0,0,0,0,0,64,224,64,0,0,
@@ -393,7 +393,7 @@ const uint8_t u8x8_5x8_n[146] U8X8_FONT_SECTION("u8x8_5x8_n") = {
   Glyphs: 190/196
   BBX Build Mode: 3
 */
-const uint8_t u8x8_amstrad_cpc_f[1794] U8X8_FONT_SECTION("u8x8_amstrad_cpc_f") = {
+const uint8_t u8x8_font_amstrad_cpc_f[1794] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_f") = {
   32,255,0,0,0,0,0,0,0,0,0,0,0,95,95,0,
   0,0,0,7,7,0,7,7,0,0,20,127,127,28,127,127,
   20,0,0,36,42,127,127,42,18,0,70,102,48,24,12,102,
@@ -513,7 +513,7 @@ const uint8_t u8x8_amstrad_cpc_f[1794] U8X8_FONT_SECTION("u8x8_amstrad_cpc_f") =
   Glyphs: 95/196
   BBX Build Mode: 3
 */
-const uint8_t u8x8_amstrad_cpc_r[762] U8X8_FONT_SECTION("u8x8_amstrad_cpc_r") = {
+const uint8_t u8x8_font_amstrad_cpc_r[762] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_r") = {
   32,126,0,0,0,0,0,0,0,0,0,0,0,95,95,0,
   0,0,0,7,7,0,7,7,0,0,20,127,127,28,127,127,
   20,0,0,36,42,127,127,42,18,0,70,102,48,24,12,102,
@@ -568,7 +568,7 @@ const uint8_t u8x8_amstrad_cpc_r[762] U8X8_FONT_SECTION("u8x8_amstrad_cpc_r") = 
   Glyphs: 18/196
   BBX Build Mode: 3
 */
-const uint8_t u8x8_amstrad_cpc_n[138] U8X8_FONT_SECTION("u8x8_amstrad_cpc_n") = {
+const uint8_t u8x8_font_amstrad_cpc_n[138] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_n") = {
   32,48,0,0,0,0,0,0,0,0,0,8,8,62,62,8,
   8,0,0,0,128,224,96,0,0,0,0,8,8,8,8,8,
   8,0,0,0,0,96,96,0,0,0,96,48,24,12,6,3,

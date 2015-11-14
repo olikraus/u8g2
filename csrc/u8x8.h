@@ -460,15 +460,15 @@ void u8x8_Draw8x8String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
 
 /*==========================================*/
 /* start font list */
-extern const uint8_t u8x8_5x7_f[] U8X8_FONT_SECTION("u8x8_5x7_f");
-extern const uint8_t u8x8_5x7_r[] U8X8_FONT_SECTION("u8x8_5x7_r");
-extern const uint8_t u8x8_5x7_n[] U8X8_FONT_SECTION("u8x8_5x7_n");
-extern const uint8_t u8x8_5x8_f[] U8X8_FONT_SECTION("u8x8_5x8_f");
-extern const uint8_t u8x8_5x8_r[] U8X8_FONT_SECTION("u8x8_5x8_r");
-extern const uint8_t u8x8_5x8_n[] U8X8_FONT_SECTION("u8x8_5x8_n");
-extern const uint8_t u8x8_amstrad_cpc_f[] U8X8_FONT_SECTION("u8x8_amstrad_cpc_f");
-extern const uint8_t u8x8_amstrad_cpc_r[] U8X8_FONT_SECTION("u8x8_amstrad_cpc_r");
-extern const uint8_t u8x8_amstrad_cpc_n[] U8X8_FONT_SECTION("u8x8_amstrad_cpc_n");
+extern const uint8_t u8x8_font_5x7_f[] U8X8_FONT_SECTION("u8x8_font_5x7_f");
+extern const uint8_t u8x8_font_5x7_r[] U8X8_FONT_SECTION("u8x8_font_5x7_r");
+extern const uint8_t u8x8_font_5x7_n[] U8X8_FONT_SECTION("u8x8_font_5x7_n");
+extern const uint8_t u8x8_font_5x8_f[] U8X8_FONT_SECTION("u8x8_font_5x8_f");
+extern const uint8_t u8x8_font_5x8_r[] U8X8_FONT_SECTION("u8x8_font_5x8_r");
+extern const uint8_t u8x8_font_5x8_n[] U8X8_FONT_SECTION("u8x8_font_5x8_n");
+extern const uint8_t u8x8_font_amstrad_cpc_f[] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_f");
+extern const uint8_t u8x8_font_amstrad_cpc_r[] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_r");
+extern const uint8_t u8x8_font_amstrad_cpc_n[] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_n");
 
 /* end font list */
 

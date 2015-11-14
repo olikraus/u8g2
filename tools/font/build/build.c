@@ -341,7 +341,7 @@ void gen_font(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms, cb
       return;
   
   strcpy(target_font_identifier, fms);
-  strcat(target_font_identifier, "_");
+  strcat(target_font_identifier, "_font_");
   strcat(target_font_identifier, fi[i].name);
   strcat(target_font_identifier, "_");
   strcat(target_font_identifier, bms);

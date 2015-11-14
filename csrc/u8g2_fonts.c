@@ -9,7 +9,7 @@
   Glyphs: 224/224
   BBX Build Mode: 0
 */
-const uint8_t u8g2_u8glib_4_tf[1834] U8G2_FONT_SECTION("u8g2_u8glib_4_tf") = {
+const uint8_t u8g2_font_u8glib_4_tf[1834] U8G2_FONT_SECTION("u8g2_font_u8glib_4_tf") = {
   224,0,2,2,4,3,2,4,5,8,7,0,255,4,255,5,
   255,0,230,1,220,7,17,32,5,0,81,2,33,6,65,81,
   162,2,34,7,35,151,146,84,0,35,10,85,207,86,13,85,
@@ -131,7 +131,7 @@ const uint8_t u8g2_u8glib_4_tf[1834] U8G2_FONT_SECTION("u8g2_u8glib_4_tf") = {
   Glyphs: 96/224
   BBX Build Mode: 0
 */
-const uint8_t u8g2_u8glib_4_tr[677] U8G2_FONT_SECTION("u8g2_u8glib_4_tr") = {
+const uint8_t u8g2_font_u8glib_4_tr[677] U8G2_FONT_SECTION("u8g2_font_u8glib_4_tr") = {
   96,0,2,2,3,3,1,3,4,5,6,0,255,4,255,5,
   255,0,213,1,186,2,140,32,4,64,42,33,5,97,42,42,
   34,6,211,51,73,5,35,10,237,121,213,80,213,80,21,0,
@@ -181,7 +181,7 @@ const uint8_t u8g2_u8glib_4_tr[677] U8G2_FONT_SECTION("u8g2_u8glib_4_tr") = {
   Glyphs: 224/224
   BBX Build Mode: 1
 */
-const uint8_t u8g2_u8glib_4_hf[2089] U8G2_FONT_SECTION("u8g2_u8glib_4_hf") = {
+const uint8_t u8g2_font_u8glib_4_hf[2089] U8G2_FONT_SECTION("u8g2_font_u8glib_4_hf") = {
   224,1,3,2,4,3,1,1,5,8,7,0,255,4,255,5,
   255,1,13,2,62,8,16,32,5,242,228,9,33,7,242,36,
   147,44,3,34,8,244,40,147,118,26,0,35,13,246,236,225,
@@ -319,7 +319,7 @@ const uint8_t u8g2_u8glib_4_hf[2089] U8G2_FONT_SECTION("u8g2_u8glib_4_hf") = {
   Glyphs: 96/224
   BBX Build Mode: 1
 */
-const uint8_t u8g2_u8glib_4_hr[808] U8G2_FONT_SECTION("u8g2_u8glib_4_hr") = {
+const uint8_t u8g2_font_u8glib_4_hr[808] U8G2_FONT_SECTION("u8g2_font_u8glib_4_hr") = {
   96,1,3,2,3,3,1,1,4,5,6,0,255,4,255,5,
   255,0,253,2,17,3,15,32,5,114,122,20,33,7,114,170,
   36,203,0,34,7,116,140,164,157,6,35,13,118,126,32,137,
@@ -377,7 +377,7 @@ const uint8_t u8g2_u8glib_4_hr[808] U8G2_FONT_SECTION("u8g2_u8glib_4_hr") = {
   Glyphs: 24/24
   BBX Build Mode: 0
 */
-const uint8_t u8g2_m2icon_5_tf[227] U8G2_FONT_SECTION("u8g2_m2icon_5_tf") = {
+const uint8_t u8g2_font_m2icon_5_tf[227] U8G2_FONT_SECTION("u8g2_font_m2icon_5_tf") = {
   24,0,3,4,4,3,1,1,5,9,6,0,255,5,255,5,
   255,0,0,0,153,0,202,65,8,215,243,70,80,69,17,66,
   8,212,113,74,132,132,10,67,9,197,45,68,68,134,70,36,
@@ -399,7 +399,7 @@ const uint8_t u8g2_m2icon_5_tf[227] U8G2_FONT_SECTION("u8g2_m2icon_5_tf") = {
   Glyphs: 24/24
   BBX Build Mode: 0
 */
-const uint8_t u8g2_m2icon_7_tf[284] U8G2_FONT_SECTION("u8g2_m2icon_7_tf") = {
+const uint8_t u8g2_font_m2icon_7_tf[284] U8G2_FONT_SECTION("u8g2_font_m2icon_7_tf") = {
   24,0,3,3,4,4,1,2,5,12,8,0,255,7,255,7,
   255,0,0,0,190,1,3,65,15,121,213,164,28,230,0,57,
   64,14,144,3,14,3,66,10,117,181,154,72,40,50,53,3,
@@ -424,7 +424,7 @@ const uint8_t u8g2_m2icon_7_tf[284] U8G2_FONT_SECTION("u8g2_m2icon_7_tf") = {
   Glyphs: 24/24
   BBX Build Mode: 0
 */
-const uint8_t u8g2_m2icon_9_tf[349] U8G2_FONT_SECTION("u8g2_m2icon_9_tf") = {
+const uint8_t u8g2_font_m2icon_9_tf[349] U8G2_FONT_SECTION("u8g2_font_m2icon_9_tf") = {
   24,0,4,4,4,4,1,2,5,13,11,0,254,8,254,8,
   254,0,0,0,238,1,68,65,9,138,221,84,98,161,28,46,
   66,14,134,189,66,34,10,33,33,74,8,146,232,0,67,12,
@@ -453,7 +453,7 @@ const uint8_t u8g2_m2icon_9_tf[349] U8G2_FONT_SECTION("u8g2_m2icon_9_tf") = {
   Glyphs: 154/154
   BBX Build Mode: 0
 */
-const uint8_t u8g2_cursor_tf[4202] U8G2_FONT_SECTION("u8g2_cursor_tf") = {
+const uint8_t u8g2_font_cursor_tf[4202] U8G2_FONT_SECTION("u8g2_font_cursor_tf") = {
   154,0,4,4,5,5,5,5,6,31,31,241,240,8,247,5,
   249,3,185,7,121,16,81,32,26,206,41,20,195,192,99,137,
   74,20,41,163,10,157,65,115,168,212,20,41,81,40,217,193,
@@ -723,7 +723,7 @@ const uint8_t u8g2_cursor_tf[4202] U8G2_FONT_SECTION("u8g2_cursor_tf") = {
   Glyphs: 81/154
   BBX Build Mode: 0
 */
-const uint8_t u8g2_cursor_tr[2288] U8G2_FONT_SECTION("u8g2_cursor_tr") = {
+const uint8_t u8g2_font_cursor_tr[2288] U8G2_FONT_SECTION("u8g2_font_cursor_tr") = {
   81,0,4,4,5,5,5,5,6,30,30,242,240,8,247,5,
   249,3,185,7,121,8,215,32,26,206,41,20,195,192,99,137,
   74,20,41,163,10,157,65,115,168,212,20,41,81,40,217,193,
@@ -874,7 +874,7 @@ const uint8_t u8g2_cursor_tr[2288] U8G2_FONT_SECTION("u8g2_cursor_tr") = {
   Glyphs: 96/128
   BBX Build Mode: 0
 */
-const uint8_t u8g2_micro_tf[709] U8G2_FONT_SECTION("u8g2_micro_tf") = {
+const uint8_t u8g2_font_micro_tf[709] U8G2_FONT_SECTION("u8g2_font_micro_tf") = {
   96,0,2,2,2,3,2,4,4,3,5,0,0,5,0,5,
   0,0,231,1,209,2,172,32,4,192,102,33,6,86,100,78,
   1,34,6,203,101,146,10,35,8,87,100,210,80,67,5,36,
@@ -926,7 +926,7 @@ const uint8_t u8g2_micro_tf[709] U8G2_FONT_SECTION("u8g2_micro_tf") = {
   Glyphs: 96/128
   BBX Build Mode: 0
 */
-const uint8_t u8g2_micro_tr[709] U8G2_FONT_SECTION("u8g2_micro_tr") = {
+const uint8_t u8g2_font_micro_tr[709] U8G2_FONT_SECTION("u8g2_font_micro_tr") = {
   96,0,2,2,2,3,2,4,4,3,5,0,0,5,0,5,
   0,0,231,1,209,2,172,32,4,192,102,33,6,86,100,78,
   1,34,6,203,101,146,10,35,8,87,100,210,80,67,5,36,
@@ -978,7 +978,7 @@ const uint8_t u8g2_micro_tr[709] U8G2_FONT_SECTION("u8g2_micro_tr") = {
   Glyphs: 18/128
   BBX Build Mode: 0
 */
-const uint8_t u8g2_micro_tn[147] U8G2_FONT_SECTION("u8g2_micro_tn") = {
+const uint8_t u8g2_font_micro_tn[147] U8G2_FONT_SECTION("u8g2_font_micro_tn") = {
   18,0,2,2,2,3,1,4,4,3,5,0,0,5,0,5,
   0,0,0,0,0,0,122,32,4,96,51,32,7,55,50,169,
   90,13,33,7,111,114,105,37,0,34,5,42,114,3,35,5,
@@ -995,7 +995,7 @@ const uint8_t u8g2_micro_tn[147] U8G2_FONT_SECTION("u8g2_micro_tn") = {
   Glyphs: 96/128
   BBX Build Mode: 2
 */
-const uint8_t u8g2_micro_mf[780] U8G2_FONT_SECTION("u8g2_micro_mf") = {
+const uint8_t u8g2_font_micro_mf[780] U8G2_FONT_SECTION("u8g2_font_micro_mf") = {
   96,2,3,2,3,3,1,1,4,3,5,0,0,5,0,5,
   0,1,0,2,0,2,243,32,6,236,124,50,0,33,7,236,
   12,201,44,1,34,7,236,140,164,29,6,35,9,236,140,36,
@@ -1051,7 +1051,7 @@ const uint8_t u8g2_micro_mf[780] U8G2_FONT_SECTION("u8g2_micro_mf") = {
   Glyphs: 96/128
   BBX Build Mode: 2
 */
-const uint8_t u8g2_micro_mr[780] U8G2_FONT_SECTION("u8g2_micro_mr") = {
+const uint8_t u8g2_font_micro_mr[780] U8G2_FONT_SECTION("u8g2_font_micro_mr") = {
   96,2,3,2,3,3,1,1,4,3,5,0,0,5,0,5,
   0,1,0,2,0,2,243,32,6,236,124,50,0,33,7,236,
   12,201,44,1,34,7,236,140,164,29,6,35,9,236,140,36,
@@ -1107,7 +1107,7 @@ const uint8_t u8g2_micro_mr[780] U8G2_FONT_SECTION("u8g2_micro_mr") = {
   Glyphs: 18/128
   BBX Build Mode: 2
 */
-const uint8_t u8g2_micro_mn[168] U8G2_FONT_SECTION("u8g2_micro_mn") = {
+const uint8_t u8g2_font_micro_mn[168] U8G2_FONT_SECTION("u8g2_font_micro_mn") = {
   18,2,3,2,3,3,1,1,4,3,5,0,0,5,0,5,
   0,0,0,0,0,0,143,32,6,236,124,50,0,32,9,236,
   140,36,138,166,74,2,33,7,236,220,104,138,1,34,7,236,
@@ -1125,7 +1125,7 @@ const uint8_t u8g2_micro_mn[168] U8G2_FONT_SECTION("u8g2_micro_mn") = {
   Glyphs: 191/919
   BBX Build Mode: 0
 */
-const uint8_t u8g2_4x6_tf[1473] U8G2_FONT_SECTION("u8g2_4x6_tf") = {
+const uint8_t u8g2_font_4x6_tf[1473] U8G2_FONT_SECTION("u8g2_font_4x6_tf") = {
   191,0,2,2,3,3,2,4,4,4,6,0,255,5,255,5,
   255,0,238,1,220,5,168,32,5,128,205,0,33,6,233,200,
   172,0,34,6,147,203,36,21,35,10,172,200,164,52,84,26,
@@ -1225,7 +1225,7 @@ const uint8_t u8g2_4x6_tf[1473] U8G2_FONT_SECTION("u8g2_4x6_tf") = {
   Glyphs: 95/919
   BBX Build Mode: 0
 */
-const uint8_t u8g2_4x6_tr[730] U8G2_FONT_SECTION("u8g2_4x6_tr") = {
+const uint8_t u8g2_font_4x6_tr[730] U8G2_FONT_SECTION("u8g2_font_4x6_tr") = {
   95,0,2,2,3,3,2,4,4,4,6,0,255,5,255,5,
   255,0,238,1,220,2,193,32,5,128,205,0,33,6,233,200,
   172,0,34,6,147,203,36,21,35,10,172,200,164,52,84,26,
@@ -1278,7 +1278,7 @@ const uint8_t u8g2_4x6_tr[730] U8G2_FONT_SECTION("u8g2_4x6_tr") = {
   Glyphs: 18/919
   BBX Build Mode: 0
 */
-const uint8_t u8g2_4x6_tn[150] U8G2_FONT_SECTION("u8g2_4x6_tn") = {
+const uint8_t u8g2_font_4x6_tn[150] U8G2_FONT_SECTION("u8g2_font_4x6_tn") = {
   18,0,2,2,2,3,2,4,4,3,6,0,255,5,255,5,
   255,0,0,0,0,0,125,32,4,192,102,32,7,87,100,82,
   181,26,33,8,87,228,98,90,49,1,34,6,202,227,20,0,
@@ -1295,7 +1295,7 @@ const uint8_t u8g2_4x6_tn[150] U8G2_FONT_SECTION("u8g2_4x6_tn") = {
   Glyphs: 191/919
   BBX Build Mode: 2
 */
-const uint8_t u8g2_4x6_mf[1597] U8G2_FONT_SECTION("u8g2_4x6_mf") = {
+const uint8_t u8g2_font_4x6_mf[1597] U8G2_FONT_SECTION("u8g2_font_4x6_mf") = {
   191,2,3,2,3,3,1,1,4,4,6,0,255,5,255,5,
   255,1,6,2,9,6,36,32,6,116,124,54,0,33,8,116,
   156,172,14,196,0,34,7,116,140,164,157,6,35,11,116,140,
@@ -1402,7 +1402,7 @@ const uint8_t u8g2_4x6_mf[1597] U8G2_FONT_SECTION("u8g2_4x6_mf") = {
   Glyphs: 95/919
   BBX Build Mode: 2
 */
-const uint8_t u8g2_4x6_mr[790] U8G2_FONT_SECTION("u8g2_4x6_mr") = {
+const uint8_t u8g2_font_4x6_mr[790] U8G2_FONT_SECTION("u8g2_font_4x6_mr") = {
   95,2,3,2,3,3,1,1,4,4,6,0,255,5,255,5,
   255,1,6,2,9,2,253,32,6,116,124,54,0,33,8,116,
   156,172,14,196,0,34,7,116,140,164,157,6,35,11,116,140,
@@ -1459,7 +1459,7 @@ const uint8_t u8g2_4x6_mr[790] U8G2_FONT_SECTION("u8g2_4x6_mr") = {
   Glyphs: 18/919
   BBX Build Mode: 2
 */
-const uint8_t u8g2_4x6_mn[170] U8G2_FONT_SECTION("u8g2_4x6_mn") = {
+const uint8_t u8g2_font_4x6_mn[170] U8G2_FONT_SECTION("u8g2_font_4x6_mn") = {
   18,2,3,2,3,3,1,1,4,3,6,0,255,5,255,5,
   255,0,0,0,0,0,145,32,6,116,124,54,0,32,9,116,
   140,36,138,166,74,10,33,8,116,156,44,154,178,24,34,7,
@@ -1477,7 +1477,7 @@ const uint8_t u8g2_4x6_mn[170] U8G2_FONT_SECTION("u8g2_4x6_mn") = {
   Glyphs: 191/1848
   BBX Build Mode: 0
 */
-const uint8_t u8g2_5x7_tf[1673] U8G2_FONT_SECTION("u8g2_5x7_tf") = {
+const uint8_t u8g2_font_5x7_tf[1673] U8G2_FONT_SECTION("u8g2_font_5x7_tf") = {
   191,0,2,2,3,3,3,4,4,5,7,0,255,6,255,6,
   0,1,18,2,47,6,112,32,5,0,189,1,33,6,177,177,
   25,41,34,7,91,183,73,86,0,35,10,45,177,171,134,170,
@@ -1589,7 +1589,7 @@ const uint8_t u8g2_5x7_tf[1673] U8G2_FONT_SECTION("u8g2_5x7_tf") = {
   Glyphs: 95/1848
   BBX Build Mode: 0
 */
-const uint8_t u8g2_5x7_tr[837] U8G2_FONT_SECTION("u8g2_5x7_tr") = {
+const uint8_t u8g2_font_5x7_tr[837] U8G2_FONT_SECTION("u8g2_font_5x7_tr") = {
   95,0,2,2,3,3,3,4,4,5,7,0,255,6,255,6,
   0,1,18,2,47,3,44,32,5,0,189,1,33,6,177,177,
   25,41,34,7,91,183,73,86,0,35,10,45,177,171,134,170,
@@ -1649,7 +1649,7 @@ const uint8_t u8g2_5x7_tr[837] U8G2_FONT_SECTION("u8g2_5x7_tr") = {
   Glyphs: 18/1848
   BBX Build Mode: 0
 */
-const uint8_t u8g2_5x7_tn[177] U8G2_FONT_SECTION("u8g2_5x7_tn") = {
+const uint8_t u8g2_font_5x7_tn[177] U8G2_FONT_SECTION("u8g2_font_5x7_tn") = {
   18,0,2,2,3,3,2,4,4,5,7,0,255,6,255,6,
   255,0,0,0,0,0,152,32,5,128,222,0,32,7,235,216,
   164,106,53,33,10,173,216,102,20,135,204,40,2,34,6,219,
@@ -1668,7 +1668,7 @@ const uint8_t u8g2_5x7_tn[177] U8G2_FONT_SECTION("u8g2_5x7_tn") = {
   Glyphs: 191/1848
   BBX Build Mode: 2
 */
-const uint8_t u8g2_5x7_mf[1914] U8G2_FONT_SECTION("u8g2_5x7_mf") = {
+const uint8_t u8g2_font_5x7_mf[1914] U8G2_FONT_SECTION("u8g2_font_5x7_mf") = {
   191,2,3,2,3,3,1,1,4,5,7,0,255,6,255,6,
   0,1,43,2,115,7,97,32,5,125,125,30,33,8,125,173,
   176,29,202,1,34,9,125,157,82,18,37,57,3,35,11,125,
@@ -1795,7 +1795,7 @@ const uint8_t u8g2_5x7_mf[1914] U8G2_FONT_SECTION("u8g2_5x7_mf") = {
   Glyphs: 95/1848
   BBX Build Mode: 2
 */
-const uint8_t u8g2_5x7_mr[941] U8G2_FONT_SECTION("u8g2_5x7_mr") = {
+const uint8_t u8g2_font_5x7_mr[941] U8G2_FONT_SECTION("u8g2_font_5x7_mr") = {
   95,2,3,2,3,3,1,1,4,5,7,0,255,6,255,6,
   0,1,43,2,115,3,148,32,5,125,125,30,33,8,125,173,
   176,29,202,1,34,9,125,157,82,18,37,57,3,35,11,125,
@@ -1861,7 +1861,7 @@ const uint8_t u8g2_5x7_mr[941] U8G2_FONT_SECTION("u8g2_5x7_mr") = {
   Glyphs: 18/1848
   BBX Build Mode: 2
 */
-const uint8_t u8g2_5x7_mn[191] U8G2_FONT_SECTION("u8g2_5x7_mn") = {
+const uint8_t u8g2_font_5x7_mn[191] U8G2_FONT_SECTION("u8g2_font_5x7_mn") = {
   18,2,3,2,3,3,1,1,4,5,7,0,255,6,255,6,
   255,0,0,0,0,0,166,32,5,125,125,30,32,9,125,237,
   36,203,182,74,12,33,10,125,125,32,140,6,41,204,1,34,
@@ -1880,7 +1880,7 @@ const uint8_t u8g2_5x7_mn[191] U8G2_FONT_SECTION("u8g2_5x7_mn") = {
   Glyphs: 191/1426
   BBX Build Mode: 0
 */
-const uint8_t u8g2_5x8_tf[1782] U8G2_FONT_SECTION("u8g2_5x8_tf") = {
+const uint8_t u8g2_font_5x8_tf[1782] U8G2_FONT_SECTION("u8g2_font_5x8_tf") = {
   191,0,2,2,3,4,3,4,4,5,8,0,255,6,255,6,
   0,1,38,2,77,6,221,32,5,0,126,3,33,7,49,99,
   51,82,0,34,7,155,110,147,172,0,35,13,61,98,87,166,
@@ -1999,7 +1999,7 @@ const uint8_t u8g2_5x8_tf[1782] U8G2_FONT_SECTION("u8g2_5x8_tf") = {
   Glyphs: 95/1426
   BBX Build Mode: 0
 */
-const uint8_t u8g2_5x8_tr[881] U8G2_FONT_SECTION("u8g2_5x8_tr") = {
+const uint8_t u8g2_font_5x8_tr[881] U8G2_FONT_SECTION("u8g2_font_5x8_tr") = {
   95,0,2,2,3,4,3,4,4,5,8,0,255,6,255,6,
   0,1,38,2,77,3,88,32,5,0,126,3,33,7,49,99,
   51,82,0,34,7,155,110,147,172,0,35,13,61,98,87,166,
@@ -2062,7 +2062,7 @@ const uint8_t u8g2_5x8_tr[881] U8G2_FONT_SECTION("u8g2_5x8_tr") = {
   Glyphs: 18/1426
   BBX Build Mode: 0
 */
-const uint8_t u8g2_5x8_tn[183] U8G2_FONT_SECTION("u8g2_5x8_tn") = {
+const uint8_t u8g2_font_5x8_tn[183] U8G2_FONT_SECTION("u8g2_font_5x8_tn") = {
   18,0,2,2,3,3,2,4,4,5,8,0,255,7,255,7,
   255,0,0,0,0,0,158,32,5,128,223,0,32,9,172,216,
   196,164,70,82,49,33,10,173,216,102,20,135,204,40,2,34,
@@ -2081,7 +2081,7 @@ const uint8_t u8g2_5x8_tn[183] U8G2_FONT_SECTION("u8g2_5x8_tn") = {
   Glyphs: 191/1426
   BBX Build Mode: 2
 */
-const uint8_t u8g2_5x8_mf[2011] U8G2_FONT_SECTION("u8g2_5x8_mf") = {
+const uint8_t u8g2_font_5x8_mf[2011] U8G2_FONT_SECTION("u8g2_font_5x8_mf") = {
   191,2,3,2,3,4,1,1,4,5,8,0,255,6,255,6,
   0,1,71,2,151,7,194,32,6,197,250,188,2,33,9,197,
   250,64,216,14,229,0,34,10,197,218,73,148,68,73,206,0,
@@ -2214,7 +2214,7 @@ const uint8_t u8g2_5x8_mf[2011] U8G2_FONT_SECTION("u8g2_5x8_mf") = {
   Glyphs: 95/1426
   BBX Build Mode: 2
 */
-const uint8_t u8g2_5x8_mr[991] U8G2_FONT_SECTION("u8g2_5x8_mr") = {
+const uint8_t u8g2_font_5x8_mr[991] U8G2_FONT_SECTION("u8g2_font_5x8_mr") = {
   95,2,3,2,3,4,1,1,4,5,8,0,255,6,255,6,
   0,1,71,2,151,3,198,32,6,197,250,188,2,33,9,197,
   250,64,216,14,229,0,34,10,197,218,73,148,68,73,206,0,
@@ -2283,7 +2283,7 @@ const uint8_t u8g2_5x8_mr[991] U8G2_FONT_SECTION("u8g2_5x8_mr") = {
   Glyphs: 18/1426
   BBX Build Mode: 2
 */
-const uint8_t u8g2_5x8_mn[203] U8G2_FONT_SECTION("u8g2_5x8_mn") = {
+const uint8_t u8g2_font_5x8_mn[203] U8G2_FONT_SECTION("u8g2_font_5x8_mn") = {
   18,2,3,2,3,4,1,1,4,5,8,0,255,7,255,7,
   255,0,0,0,0,0,178,32,6,197,250,188,2,32,11,197,
   250,88,20,73,67,36,149,1,33,10,197,250,104,24,13,82,
@@ -2303,7 +2303,7 @@ const uint8_t u8g2_5x8_mn[203] U8G2_FONT_SECTION("u8g2_5x8_mn") = {
   Glyphs: 191/1597
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x10_tf[2013] U8G2_FONT_SECTION("u8g2_6x10_tf") = {
+const uint8_t u8g2_font_6x10_tf[2013] U8G2_FONT_SECTION("u8g2_font_6x10_tf") = {
   191,0,3,2,3,4,3,5,4,6,10,0,254,7,254,7,
   0,1,66,2,136,7,196,32,5,0,98,7,33,7,57,67,
   199,160,4,34,7,155,82,71,98,9,35,14,61,66,79,41,
@@ -2436,7 +2436,7 @@ const uint8_t u8g2_6x10_tf[2013] U8G2_FONT_SECTION("u8g2_6x10_tf") = {
   Glyphs: 95/1597
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x10_tr[975] U8G2_FONT_SECTION("u8g2_6x10_tr") = {
+const uint8_t u8g2_font_6x10_tr[975] U8G2_FONT_SECTION("u8g2_font_6x10_tr") = {
   95,0,3,2,3,4,3,5,4,5,10,0,254,7,254,7,
   0,1,66,2,136,3,182,32,5,0,98,7,33,7,57,67,
   199,160,4,34,7,155,82,71,98,9,35,14,61,66,79,41,
@@ -2504,7 +2504,7 @@ const uint8_t u8g2_6x10_tr[975] U8G2_FONT_SECTION("u8g2_6x10_tr") = {
   Glyphs: 18/1597
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x10_tn[203] U8G2_FONT_SECTION("u8g2_6x10_tn") = {
+const uint8_t u8g2_font_6x10_tn[203] U8G2_FONT_SECTION("u8g2_font_6x10_tn") = {
   18,0,3,2,3,3,2,5,4,5,9,0,255,8,254,8,
   254,0,0,0,0,0,178,32,5,128,216,1,32,10,173,209,
   145,37,149,65,105,11,33,10,173,209,21,70,131,20,70,0,
@@ -2524,7 +2524,7 @@ const uint8_t u8g2_6x10_tn[203] U8G2_FONT_SECTION("u8g2_6x10_tn") = {
   Glyphs: 191/1597
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x10_mf[2418] U8G2_FONT_SECTION("u8g2_6x10_mf") = {
+const uint8_t u8g2_font_6x10_mf[2418] U8G2_FONT_SECTION("u8g2_font_6x10_mf") = {
   191,2,3,2,3,4,1,2,4,6,10,0,254,7,254,7,
   0,1,126,3,8,9,89,32,7,214,248,249,35,0,33,10,
   214,248,145,180,59,152,83,0,34,11,214,248,129,36,75,178,
@@ -2683,7 +2683,7 @@ const uint8_t u8g2_6x10_mf[2418] U8G2_FONT_SECTION("u8g2_6x10_mf") = {
   Glyphs: 95/1597
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x10_mr[1166] U8G2_FONT_SECTION("u8g2_6x10_mr") = {
+const uint8_t u8g2_font_6x10_mr[1166] U8G2_FONT_SECTION("u8g2_font_6x10_mr") = {
   95,2,3,2,3,4,1,2,4,5,10,0,254,7,254,7,
   0,1,126,3,8,4,117,32,7,214,248,249,35,0,33,10,
   214,248,145,180,59,152,83,0,34,11,214,248,129,36,75,178,
@@ -2763,7 +2763,7 @@ const uint8_t u8g2_6x10_mr[1166] U8G2_FONT_SECTION("u8g2_6x10_mr") = {
   Glyphs: 18/1597
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x10_mn[233] U8G2_FONT_SECTION("u8g2_6x10_mn") = {
+const uint8_t u8g2_font_6x10_mn[233] U8G2_FONT_SECTION("u8g2_font_6x10_mn") = {
   18,2,3,2,3,4,1,1,4,5,9,0,255,8,254,8,
   254,0,0,0,0,0,208,32,6,206,252,252,10,32,14,206,
   252,104,22,37,209,32,37,81,150,195,0,33,11,206,252,132,
@@ -2785,7 +2785,7 @@ const uint8_t u8g2_6x10_mn[233] U8G2_FONT_SECTION("u8g2_6x10_mn") = {
   Glyphs: 191/4531
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x12_tf[2021] U8G2_FONT_SECTION("u8g2_6x12_tf") = {
+const uint8_t u8g2_font_6x12_tf[2021] U8G2_FONT_SECTION("u8g2_font_6x12_tf") = {
   191,0,3,2,3,4,3,5,4,6,12,0,254,7,254,8,
   255,1,66,2,134,7,204,32,5,0,106,7,33,7,57,67,
   199,160,4,34,7,155,86,71,98,9,35,13,53,66,79,101,
@@ -2919,7 +2919,7 @@ const uint8_t u8g2_6x12_tf[2021] U8G2_FONT_SECTION("u8g2_6x12_tf") = {
   Glyphs: 95/4531
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x12_tr[967] U8G2_FONT_SECTION("u8g2_6x12_tr") = {
+const uint8_t u8g2_font_6x12_tr[967] U8G2_FONT_SECTION("u8g2_font_6x12_tr") = {
   95,0,3,2,3,4,3,5,4,5,12,0,254,7,254,8,
   255,1,66,2,134,3,174,32,5,0,106,7,33,7,57,67,
   199,160,4,34,7,155,86,71,98,9,35,13,53,66,79,101,
@@ -2987,7 +2987,7 @@ const uint8_t u8g2_6x12_tr[967] U8G2_FONT_SECTION("u8g2_6x12_tr") = {
   Glyphs: 18/4531
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x12_tn[199] U8G2_FONT_SECTION("u8g2_6x12_tn") = {
+const uint8_t u8g2_font_6x12_tn[199] U8G2_FONT_SECTION("u8g2_font_6x12_tn") = {
   18,0,3,2,3,3,2,5,4,5,11,0,255,10,254,10,
   254,0,0,0,0,0,174,32,5,128,218,1,32,11,189,208,
   85,169,108,217,210,20,1,33,10,173,209,21,70,131,20,70,
@@ -3007,7 +3007,7 @@ const uint8_t u8g2_6x12_tn[199] U8G2_FONT_SECTION("u8g2_6x12_tn") = {
   Glyphs: 191/4531
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x12_mf[2505] U8G2_FONT_SECTION("u8g2_6x12_mf") = {
+const uint8_t u8g2_font_6x12_mf[2505] U8G2_FONT_SECTION("u8g2_font_6x12_mf") = {
   191,2,3,2,3,4,1,2,4,6,12,0,254,7,254,8,
   255,1,124,3,23,9,176,32,7,230,248,249,79,0,33,10,
   230,248,201,105,119,48,167,0,34,12,230,248,225,36,75,178,
@@ -3171,7 +3171,7 @@ const uint8_t u8g2_6x12_mf[2505] U8G2_FONT_SECTION("u8g2_6x12_mf") = {
   Glyphs: 95/4531
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x12_mr[1189] U8G2_FONT_SECTION("u8g2_6x12_mr") = {
+const uint8_t u8g2_font_6x12_mr[1189] U8G2_FONT_SECTION("u8g2_font_6x12_mr") = {
   95,2,3,2,3,4,1,2,4,5,12,0,254,7,254,8,
   255,1,124,3,23,4,140,32,7,230,248,249,79,0,33,10,
   230,248,201,105,119,48,167,0,34,12,230,248,225,36,75,178,
@@ -3253,7 +3253,7 @@ const uint8_t u8g2_6x12_mr[1189] U8G2_FONT_SECTION("u8g2_6x12_mr") = {
   Glyphs: 18/4531
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x12_mn[232] U8G2_FONT_SECTION("u8g2_6x12_mn") = {
+const uint8_t u8g2_font_6x12_mn[232] U8G2_FONT_SECTION("u8g2_font_6x12_mn") = {
   18,2,3,2,3,4,1,1,4,5,11,0,255,10,254,10,
   254,0,0,0,0,0,207,32,7,222,252,252,27,0,32,13,
   222,252,228,44,41,141,225,148,212,114,8,33,11,222,252,172,
@@ -3275,7 +3275,7 @@ const uint8_t u8g2_6x12_mn[232] U8G2_FONT_SECTION("u8g2_6x12_mn") = {
   Glyphs: 191/4121
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13_tf[2173] U8G2_FONT_SECTION("u8g2_6x13_tf") = {
+const uint8_t u8g2_font_6x13_tf[2173] U8G2_FONT_SECTION("u8g2_font_6x13_tf") = {
   191,0,3,2,3,4,3,5,4,5,13,0,254,9,254,10,
   255,1,95,2,196,8,100,32,5,0,110,7,33,7,73,67,
   199,33,9,34,7,155,90,71,98,9,35,14,61,70,79,41,
@@ -3418,7 +3418,7 @@ const uint8_t u8g2_6x13_tf[2173] U8G2_FONT_SECTION("u8g2_6x13_tf") = {
   Glyphs: 95/4121
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13_tr[1052] U8G2_FONT_SECTION("u8g2_6x13_tr") = {
+const uint8_t u8g2_font_6x13_tr[1052] U8G2_FONT_SECTION("u8g2_font_6x13_tr") = {
   95,0,3,2,3,4,3,5,4,5,13,0,254,9,254,10,
   255,1,95,2,196,4,3,32,5,0,110,7,33,7,73,67,
   199,33,9,34,7,155,90,71,98,9,35,14,61,70,79,41,
@@ -3491,7 +3491,7 @@ const uint8_t u8g2_6x13_tr[1052] U8G2_FONT_SECTION("u8g2_6x13_tr") = {
   Glyphs: 18/4121
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13_tn[216] U8G2_FONT_SECTION("u8g2_6x13_tn") = {
+const uint8_t u8g2_font_6x13_tn[216] U8G2_FONT_SECTION("u8g2_font_6x13_tn") = {
   18,0,3,2,3,4,2,5,4,5,12,0,255,11,254,11,
   254,0,0,0,0,0,191,32,5,0,183,3,32,10,45,169,
   171,82,89,154,34,0,33,10,45,165,43,140,6,41,140,0,
@@ -3512,7 +3512,7 @@ const uint8_t u8g2_6x13_tn[216] U8G2_FONT_SECTION("u8g2_6x13_tn") = {
   Glyphs: 191/4121
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13_mf[2739] U8G2_FONT_SECTION("u8g2_6x13_mf") = {
+const uint8_t u8g2_font_6x13_mf[2739] U8G2_FONT_SECTION("u8g2_font_6x13_mf") = {
   191,2,3,2,3,4,1,2,4,5,13,0,254,9,254,10,
   255,1,171,3,114,10,154,32,7,238,248,249,95,0,33,10,
   238,248,9,105,223,193,156,2,34,12,238,248,225,36,75,178,
@@ -3691,7 +3691,7 @@ const uint8_t u8g2_6x13_mf[2739] U8G2_FONT_SECTION("u8g2_6x13_mf") = {
   Glyphs: 95/4121
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13_mr[1303] U8G2_FONT_SECTION("u8g2_6x13_mr") = {
+const uint8_t u8g2_font_6x13_mr[1303] U8G2_FONT_SECTION("u8g2_font_6x13_mr") = {
   95,2,3,2,3,4,1,2,4,5,13,0,254,9,254,10,
   255,1,171,3,114,4,254,32,7,238,248,249,95,0,33,10,
   238,248,9,105,223,193,156,2,34,12,238,248,225,36,75,178,
@@ -3780,7 +3780,7 @@ const uint8_t u8g2_6x13_mr[1303] U8G2_FONT_SECTION("u8g2_6x13_mr") = {
   Glyphs: 18/4121
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13_mn[257] U8G2_FONT_SECTION("u8g2_6x13_mn") = {
+const uint8_t u8g2_font_6x13_mn[257] U8G2_FONT_SECTION("u8g2_font_6x13_mn") = {
   18,2,3,2,3,4,1,1,4,5,12,0,255,11,254,11,
   254,0,0,0,0,0,232,32,7,230,252,252,39,0,32,12,
   230,252,132,44,41,77,73,45,231,10,33,10,230,252,172,181,
@@ -3804,7 +3804,7 @@ const uint8_t u8g2_6x13_mn[257] U8G2_FONT_SECTION("u8g2_6x13_mn") = {
   Glyphs: 191/1282
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13B_tf[2254] U8G2_FONT_SECTION("u8g2_6x13B_tf") = {
+const uint8_t u8g2_font_6x13B_tf[2254] U8G2_FONT_SECTION("u8g2_font_6x13B_tf") = {
   191,0,3,3,3,4,3,5,4,6,13,0,254,9,254,10,
   255,1,101,2,192,8,181,32,5,0,110,7,33,7,74,67,
   199,147,0,34,8,29,90,135,132,69,0,35,12,62,70,15,
@@ -3952,7 +3952,7 @@ const uint8_t u8g2_6x13B_tf[2254] U8G2_FONT_SECTION("u8g2_6x13B_tf") = {
   Glyphs: 95/1282
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13B_tr[1062] U8G2_FONT_SECTION("u8g2_6x13B_tr") = {
+const uint8_t u8g2_font_6x13B_tr[1062] U8G2_FONT_SECTION("u8g2_font_6x13B_tr") = {
   95,0,3,3,3,4,3,5,4,6,13,0,254,9,254,10,
   255,1,101,2,192,4,13,32,5,0,110,7,33,7,74,67,
   199,147,0,34,8,29,90,135,132,69,0,35,12,62,70,15,
@@ -4026,7 +4026,7 @@ const uint8_t u8g2_6x13B_tr[1062] U8G2_FONT_SECTION("u8g2_6x13B_tr") = {
   Glyphs: 18/1282
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13B_tn[226] U8G2_FONT_SECTION("u8g2_6x13B_tn") = {
+const uint8_t u8g2_font_6x13B_tn[226] U8G2_FONT_SECTION("u8g2_font_6x13B_tn") = {
   18,0,3,3,3,4,2,5,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,201,32,5,0,183,3,32,11,46,165,
   67,36,161,88,40,34,1,33,10,46,165,75,40,50,9,69,
@@ -4048,7 +4048,7 @@ const uint8_t u8g2_6x13B_tn[226] U8G2_FONT_SECTION("u8g2_6x13B_tn") = {
   Glyphs: 191/1282
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13B_mf[2494] U8G2_FONT_SECTION("u8g2_6x13B_mf") = {
+const uint8_t u8g2_font_6x13B_mf[2494] U8G2_FONT_SECTION("u8g2_font_6x13B_mf") = {
   191,2,4,3,3,4,1,2,4,6,13,0,254,9,254,10,
   255,1,144,3,12,9,165,32,7,238,248,227,13,0,33,9,
   238,184,11,233,83,113,0,34,9,238,56,75,232,61,70,0,
@@ -4211,7 +4211,7 @@ const uint8_t u8g2_6x13B_mf[2494] U8G2_FONT_SECTION("u8g2_6x13B_mf") = {
   Glyphs: 95/1282
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13B_mr[1186] U8G2_FONT_SECTION("u8g2_6x13B_mr") = {
+const uint8_t u8g2_font_6x13B_mr[1186] U8G2_FONT_SECTION("u8g2_font_6x13B_mr") = {
   95,2,4,3,3,4,1,2,4,6,13,0,254,9,254,10,
   255,1,144,3,12,4,137,32,7,238,248,227,13,0,33,9,
   238,184,11,233,83,113,0,34,9,238,56,75,232,61,70,0,
@@ -4293,7 +4293,7 @@ const uint8_t u8g2_6x13B_mr[1186] U8G2_FONT_SECTION("u8g2_6x13B_mr") = {
   Glyphs: 18/1282
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13B_mn[243] U8G2_FONT_SECTION("u8g2_6x13B_mn") = {
+const uint8_t u8g2_font_6x13B_mn[243] U8G2_FONT_SECTION("u8g2_font_6x13B_mn") = {
   18,2,4,3,3,4,1,1,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,218,32,6,230,252,113,12,32,14,230,
   252,33,69,36,40,44,40,68,228,97,0,33,12,230,252,97,
@@ -4316,7 +4316,7 @@ const uint8_t u8g2_6x13B_mn[243] U8G2_FONT_SECTION("u8g2_6x13B_mn") = {
   Glyphs: 191/770
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13O_tf[2527] U8G2_FONT_SECTION("u8g2_6x13O_tf") = {
+const uint8_t u8g2_font_6x13O_tf[2527] U8G2_FONT_SECTION("u8g2_font_6x13O_tf") = {
   191,0,3,2,3,4,3,5,4,6,13,0,254,9,254,10,
   255,1,130,3,49,9,198,32,5,0,110,7,33,9,74,67,
   79,139,82,75,0,34,8,28,91,79,139,146,0,35,16,62,
@@ -4481,7 +4481,7 @@ const uint8_t u8g2_6x13O_tf[2527] U8G2_FONT_SECTION("u8g2_6x13O_tf") = {
   Glyphs: 95/770
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13O_tr[1215] U8G2_FONT_SECTION("u8g2_6x13O_tr") = {
+const uint8_t u8g2_font_6x13O_tr[1215] U8G2_FONT_SECTION("u8g2_font_6x13O_tr") = {
   95,0,3,2,3,4,3,5,4,6,13,0,254,9,254,10,
   255,1,130,3,49,4,166,32,5,0,110,7,33,9,74,67,
   79,139,82,75,0,34,8,28,91,79,139,146,0,35,16,62,
@@ -4564,7 +4564,7 @@ const uint8_t u8g2_6x13O_tr[1215] U8G2_FONT_SECTION("u8g2_6x13O_tr") = {
   Glyphs: 18/770
   BBX Build Mode: 0
 */
-const uint8_t u8g2_6x13O_tn[237] U8G2_FONT_SECTION("u8g2_6x13O_tn") = {
+const uint8_t u8g2_font_6x13O_tn[237] U8G2_FONT_SECTION("u8g2_font_6x13O_tn") = {
   18,0,3,2,3,4,2,5,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,212,32,5,0,183,3,32,12,62,163,
   175,82,25,164,195,82,203,0,33,10,172,165,43,75,134,36,
@@ -4586,7 +4586,7 @@ const uint8_t u8g2_6x13O_tn[237] U8G2_FONT_SECTION("u8g2_6x13O_tn") = {
   Glyphs: 191/770
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13O_mf[2739] U8G2_FONT_SECTION("u8g2_6x13O_mf") = {
+const uint8_t u8g2_font_6x13O_mf[2739] U8G2_FONT_SECTION("u8g2_font_6x13O_mf") = {
   191,2,3,2,3,4,1,2,4,6,13,0,254,9,254,10,
   255,1,174,3,126,10,154,32,7,238,248,249,95,0,33,12,
   238,248,41,105,99,90,7,115,10,0,34,10,238,248,41,181,
@@ -4765,7 +4765,7 @@ const uint8_t u8g2_6x13O_mf[2739] U8G2_FONT_SECTION("u8g2_6x13O_mf") = {
   Glyphs: 95/770
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13O_mr[1316] U8G2_FONT_SECTION("u8g2_6x13O_mr") = {
+const uint8_t u8g2_font_6x13O_mr[1316] U8G2_FONT_SECTION("u8g2_font_6x13O_mr") = {
   95,2,3,2,3,4,1,2,4,6,13,0,254,9,254,10,
   255,1,174,3,126,5,11,32,7,238,248,249,95,0,33,12,
   238,248,41,105,99,90,7,115,10,0,34,10,238,248,41,181,
@@ -4855,7 +4855,7 @@ const uint8_t u8g2_6x13O_mr[1316] U8G2_FONT_SECTION("u8g2_6x13O_mr") = {
   Glyphs: 18/770
   BBX Build Mode: 2
 */
-const uint8_t u8g2_6x13O_mn[258] U8G2_FONT_SECTION("u8g2_6x13O_mn") = {
+const uint8_t u8g2_font_6x13O_mn[258] U8G2_FONT_SECTION("u8g2_font_6x13O_mn") = {
   18,2,3,2,3,4,1,1,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,233,32,7,230,252,252,39,0,32,14,
   230,252,12,89,82,25,164,195,82,203,41,0,33,11,230,252,
@@ -4879,7 +4879,7 @@ const uint8_t u8g2_6x13O_mn[258] U8G2_FONT_SECTION("u8g2_6x13O_mn") = {
   Glyphs: 191/3226
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13_tf[2335] U8G2_FONT_SECTION("u8g2_7x13_tf") = {
+const uint8_t u8g2_font_7x13_tf[2335] U8G2_FONT_SECTION("u8g2_font_7x13_tf") = {
   191,0,3,2,3,4,3,5,4,6,13,0,254,9,254,9,
   0,1,112,2,228,9,6,32,5,0,238,7,33,7,201,195,
   199,33,9,34,7,27,219,71,98,9,35,14,189,198,79,41,
@@ -5032,7 +5032,7 @@ const uint8_t u8g2_7x13_tf[2335] U8G2_FONT_SECTION("u8g2_7x13_tf") = {
   Glyphs: 95/3226
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13_tr[1107] U8G2_FONT_SECTION("u8g2_7x13_tr") = {
+const uint8_t u8g2_font_7x13_tr[1107] U8G2_FONT_SECTION("u8g2_font_7x13_tr") = {
   95,0,3,2,3,4,3,5,4,6,13,0,254,9,254,9,
   0,1,112,2,228,4,58,32,5,0,238,7,33,7,201,195,
   199,33,9,34,7,27,219,71,98,9,35,14,189,198,79,41,
@@ -5109,7 +5109,7 @@ const uint8_t u8g2_7x13_tr[1107] U8G2_FONT_SECTION("u8g2_7x13_tr") = {
   Glyphs: 18/3226
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13_tn[232] U8G2_FONT_SECTION("u8g2_7x13_tn") = {
+const uint8_t u8g2_font_7x13_tn[232] U8G2_FONT_SECTION("u8g2_font_7x13_tn") = {
   18,0,3,2,3,4,3,5,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,207,32,5,0,238,7,32,12,46,202,
   79,148,73,195,164,69,9,0,33,10,173,202,87,24,13,82,
@@ -5131,7 +5131,7 @@ const uint8_t u8g2_7x13_tn[232] U8G2_FONT_SECTION("u8g2_7x13_tn") = {
   Glyphs: 191/3226
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13_mf[2998] U8G2_FONT_SECTION("u8g2_7x13_mf") = {
+const uint8_t u8g2_font_7x13_mf[2998] U8G2_FONT_SECTION("u8g2_font_7x13_mf") = {
   191,2,3,2,3,4,1,2,4,6,13,0,254,9,254,9,
   0,1,198,3,191,11,157,32,6,239,252,249,127,33,10,239,
   252,105,113,223,225,156,6,34,12,239,252,73,73,152,132,73,
@@ -5326,7 +5326,7 @@ const uint8_t u8g2_7x13_mf[2998] U8G2_FONT_SECTION("u8g2_7x13_mf") = {
   Glyphs: 95/3226
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13_mr[1418] U8G2_FONT_SECTION("u8g2_7x13_mr") = {
+const uint8_t u8g2_font_7x13_mr[1418] U8G2_FONT_SECTION("u8g2_font_7x13_mr") = {
   95,2,3,2,3,4,1,2,4,6,13,0,254,9,254,9,
   0,1,198,3,191,5,113,32,6,239,252,249,127,33,10,239,
   252,105,113,223,225,156,6,34,12,239,252,73,73,152,132,73,
@@ -5422,7 +5422,7 @@ const uint8_t u8g2_7x13_mr[1418] U8G2_FONT_SECTION("u8g2_7x13_mr") = {
   Glyphs: 18/3226
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13_mn[264] U8G2_FONT_SECTION("u8g2_7x13_mn") = {
+const uint8_t u8g2_font_7x13_mn[264] U8G2_FONT_SECTION("u8g2_font_7x13_mn") = {
   18,2,3,2,3,4,1,1,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,239,32,6,231,254,252,31,32,13,231,
   254,92,162,80,27,54,49,202,153,0,33,11,231,254,220,226,
@@ -5446,7 +5446,7 @@ const uint8_t u8g2_7x13_mn[264] U8G2_FONT_SECTION("u8g2_7x13_mn") = {
   Glyphs: 191/1003
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13B_tf[2257] U8G2_FONT_SECTION("u8g2_7x13B_tf") = {
+const uint8_t u8g2_font_7x13B_tf[2257] U8G2_FONT_SECTION("u8g2_font_7x13B_tf") = {
   191,0,3,3,3,4,3,5,4,6,13,0,254,9,254,9,
   0,1,125,2,216,8,184,32,5,0,238,7,33,7,74,195,
   199,161,68,34,8,157,218,135,132,69,0,35,16,205,194,79,
@@ -5595,7 +5595,7 @@ const uint8_t u8g2_7x13B_tf[2257] U8G2_FONT_SECTION("u8g2_7x13B_tf") = {
   Glyphs: 95/1003
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13B_tr[1079] U8G2_FONT_SECTION("u8g2_7x13B_tr") = {
+const uint8_t u8g2_font_7x13B_tr[1079] U8G2_FONT_SECTION("u8g2_font_7x13B_tr") = {
   95,0,3,3,3,4,3,5,4,6,13,0,254,9,254,9,
   0,1,125,2,216,4,30,32,5,0,238,7,33,7,74,195,
   199,161,68,34,8,157,218,135,132,69,0,35,16,205,194,79,
@@ -5670,7 +5670,7 @@ const uint8_t u8g2_7x13B_tr[1079] U8G2_FONT_SECTION("u8g2_7x13B_tr") = {
   Glyphs: 18/1003
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13B_tn[234] U8G2_FONT_SECTION("u8g2_7x13B_tn") = {
+const uint8_t u8g2_font_7x13B_tn[234] U8G2_FONT_SECTION("u8g2_font_7x13B_tn") = {
   18,0,3,3,3,4,2,5,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,209,32,5,0,247,3,32,13,54,227,
   39,20,19,29,74,178,80,4,0,33,11,54,227,75,40,58,
@@ -5692,7 +5692,7 @@ const uint8_t u8g2_7x13B_tn[234] U8G2_FONT_SECTION("u8g2_7x13B_tn") = {
   Glyphs: 191/1003
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13B_mf[2961] U8G2_FONT_SECTION("u8g2_7x13B_mf") = {
+const uint8_t u8g2_font_7x13B_mf[2961] U8G2_FONT_SECTION("u8g2_font_7x13B_mf") = {
   191,2,3,2,3,4,1,2,4,6,13,0,254,9,254,9,
   0,1,199,3,183,11,120,32,6,239,252,249,127,33,10,239,
   252,73,170,239,168,157,6,34,11,239,252,41,38,69,82,116,
@@ -5885,7 +5885,7 @@ const uint8_t u8g2_7x13B_mf[2961] U8G2_FONT_SECTION("u8g2_7x13B_mf") = {
   Glyphs: 95/1003
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13B_mr[1402] U8G2_FONT_SECTION("u8g2_7x13B_mr") = {
+const uint8_t u8g2_font_7x13B_mr[1402] U8G2_FONT_SECTION("u8g2_font_7x13B_mr") = {
   95,2,3,2,3,4,1,2,4,6,13,0,254,9,254,9,
   0,1,199,3,183,5,97,32,6,239,252,249,127,33,10,239,
   252,73,170,239,168,157,6,34,11,239,252,41,38,69,82,116,
@@ -5980,7 +5980,7 @@ const uint8_t u8g2_7x13B_mr[1402] U8G2_FONT_SECTION("u8g2_7x13B_mr") = {
   Glyphs: 18/1003
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13B_mn[270] U8G2_FONT_SECTION("u8g2_7x13B_mn") = {
+const uint8_t u8g2_font_7x13B_mn[270] U8G2_FONT_SECTION("u8g2_font_7x13B_mn") = {
   18,2,3,2,3,4,1,1,4,6,12,0,255,11,254,11,
   254,0,0,0,0,0,245,32,6,231,254,252,31,32,14,231,
   254,92,162,80,27,150,97,19,163,156,4,33,13,231,254,156,
@@ -6004,7 +6004,7 @@ const uint8_t u8g2_7x13B_mn[270] U8G2_FONT_SECTION("u8g2_7x13B_mn") = {
   Glyphs: 191/831
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13O_tf[2691] U8G2_FONT_SECTION("u8g2_7x13O_tf") = {
+const uint8_t u8g2_font_7x13O_tf[2691] U8G2_FONT_SECTION("u8g2_font_7x13O_tf") = {
   191,0,3,2,3,4,3,5,4,7,13,0,254,9,254,9,
   0,1,130,3,81,10,106,32,5,0,238,7,33,9,74,195,
   79,139,82,75,0,34,7,27,219,71,98,9,35,16,62,198,
@@ -6180,7 +6180,7 @@ const uint8_t u8g2_7x13O_tf[2691] U8G2_FONT_SECTION("u8g2_7x13O_tf") = {
   Glyphs: 95/831
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13O_tr[1263] U8G2_FONT_SECTION("u8g2_7x13O_tr") = {
+const uint8_t u8g2_font_7x13O_tr[1263] U8G2_FONT_SECTION("u8g2_font_7x13O_tr") = {
   95,0,3,2,3,4,3,5,4,7,13,0,254,9,254,9,
   0,1,130,3,81,4,214,32,5,0,238,7,33,9,74,195,
   79,139,82,75,0,34,7,27,219,71,98,9,35,16,62,198,
@@ -6266,7 +6266,7 @@ const uint8_t u8g2_7x13O_tr[1263] U8G2_FONT_SECTION("u8g2_7x13O_tr") = {
   Glyphs: 18/831
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x13O_tn[243] U8G2_FONT_SECTION("u8g2_7x13O_tn") = {
+const uint8_t u8g2_font_7x13O_tn[243] U8G2_FONT_SECTION("u8g2_font_7x13O_tn") = {
   18,0,3,2,3,4,3,5,4,7,12,0,255,11,254,11,
   254,0,0,0,0,0,218,32,5,0,238,7,32,11,173,202,
   79,20,41,131,34,85,0,33,10,172,202,87,150,12,73,22,
@@ -6289,7 +6289,7 @@ const uint8_t u8g2_7x13O_tn[243] U8G2_FONT_SECTION("u8g2_7x13O_tn") = {
   Glyphs: 191/831
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13O_mf[2988] U8G2_FONT_SECTION("u8g2_7x13O_mf") = {
+const uint8_t u8g2_font_7x13O_mf[2988] U8G2_FONT_SECTION("u8g2_font_7x13O_mf") = {
   191,2,3,2,3,4,1,2,4,7,13,0,254,9,254,9,
   0,1,197,3,196,11,147,32,6,239,252,249,127,33,12,239,
   252,105,113,107,92,135,115,34,0,34,12,239,252,73,73,152,
@@ -6483,7 +6483,7 @@ const uint8_t u8g2_7x13O_mf[2988] U8G2_FONT_SECTION("u8g2_7x13O_mf") = {
   Glyphs: 95/831
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13O_mr[1421] U8G2_FONT_SECTION("u8g2_7x13O_mr") = {
+const uint8_t u8g2_font_7x13O_mr[1421] U8G2_FONT_SECTION("u8g2_font_7x13O_mr") = {
   95,2,3,2,3,4,1,2,4,7,13,0,254,9,254,9,
   0,1,197,3,196,5,116,32,6,239,252,249,127,33,12,239,
   252,105,113,107,92,135,115,34,0,34,12,239,252,73,73,152,
@@ -6579,7 +6579,7 @@ const uint8_t u8g2_7x13O_mr[1421] U8G2_FONT_SECTION("u8g2_7x13O_mr") = {
   Glyphs: 18/831
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x13O_mn[263] U8G2_FONT_SECTION("u8g2_7x13O_mn") = {
+const uint8_t u8g2_font_7x13O_mn[263] U8G2_FONT_SECTION("u8g2_font_7x13O_mn") = {
   18,2,3,2,3,4,1,1,4,7,12,0,255,11,254,11,
   254,0,0,0,0,0,238,32,6,231,254,252,31,32,12,231,
   254,156,138,218,160,137,81,206,4,33,11,231,254,220,226,112,
@@ -6603,7 +6603,7 @@ const uint8_t u8g2_7x13O_mn[263] U8G2_FONT_SECTION("u8g2_7x13O_mn") = {
   Glyphs: 191/2576
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x14_tf[2432] U8G2_FONT_SECTION("u8g2_7x14_tf") = {
+const uint8_t u8g2_font_7x14_tf[2432] U8G2_FONT_SECTION("u8g2_font_7x14_tf") = {
   191,0,3,2,3,4,3,5,4,7,14,0,254,10,254,11,
   254,1,131,3,0,9,103,32,5,0,242,7,33,7,209,195,
   199,33,17,34,7,35,223,71,226,18,35,19,213,194,79,41,
@@ -6763,7 +6763,7 @@ const uint8_t u8g2_7x14_tf[2432] U8G2_FONT_SECTION("u8g2_7x14_tf") = {
   Glyphs: 95/2576
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x14_tr[1150] U8G2_FONT_SECTION("u8g2_7x14_tr") = {
+const uint8_t u8g2_font_7x14_tr[1150] U8G2_FONT_SECTION("u8g2_font_7x14_tr") = {
   95,0,3,2,3,4,3,5,4,7,14,0,254,10,254,11,
   254,1,131,3,0,4,101,32,5,0,242,7,33,7,209,195,
   199,33,17,34,7,35,223,71,226,18,35,19,213,194,79,41,
@@ -6842,7 +6842,7 @@ const uint8_t u8g2_7x14_tr[1150] U8G2_FONT_SECTION("u8g2_7x14_tr") = {
   Glyphs: 18/2576
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x14_tn[239] U8G2_FONT_SECTION("u8g2_7x14_tn") = {
+const uint8_t u8g2_font_7x14_tn[239] U8G2_FONT_SECTION("u8g2_font_7x14_tn") = {
   18,0,3,2,3,4,3,5,4,6,14,0,254,12,254,12,
   254,0,0,0,0,0,214,32,5,0,242,7,32,11,189,198,
   87,165,178,101,75,83,4,33,10,189,198,87,88,26,164,176,
@@ -6864,7 +6864,7 @@ const uint8_t u8g2_7x14_tn[239] U8G2_FONT_SECTION("u8g2_7x14_tn") = {
   Glyphs: 191/2576
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x14_mf[3205] U8G2_FONT_SECTION("u8g2_7x14_mf") = {
+const uint8_t u8g2_font_7x14_mf[3205] U8G2_FONT_SECTION("u8g2_font_7x14_mf") = {
   191,2,3,2,3,4,1,2,4,7,14,0,254,10,254,11,
   254,1,236,4,10,12,108,32,7,247,252,249,255,0,33,10,
   247,252,105,113,223,225,58,13,34,13,247,252,161,36,76,194,
@@ -7072,7 +7072,7 @@ const uint8_t u8g2_7x14_mf[3205] U8G2_FONT_SECTION("u8g2_7x14_mf") = {
   Glyphs: 95/2576
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x14_mr[1526] U8G2_FONT_SECTION("u8g2_7x14_mr") = {
+const uint8_t u8g2_font_7x14_mr[1526] U8G2_FONT_SECTION("u8g2_font_7x14_mr") = {
   95,2,3,2,3,4,1,2,4,7,14,0,254,10,254,11,
   254,1,236,4,10,5,221,32,7,247,252,249,255,0,33,10,
   247,252,105,113,223,225,58,13,34,13,247,252,161,36,76,194,
@@ -7175,7 +7175,7 @@ const uint8_t u8g2_7x14_mr[1526] U8G2_FONT_SECTION("u8g2_7x14_mr") = {
   Glyphs: 18/2576
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x14_mn[287] U8G2_FONT_SECTION("u8g2_7x14_mn") = {
+const uint8_t u8g2_font_7x14_mn[287] U8G2_FONT_SECTION("u8g2_font_7x14_mn") = {
   18,2,3,2,3,4,1,2,4,6,14,0,254,12,254,12,
   254,0,0,0,0,1,6,32,7,247,252,249,255,0,32,14,
   247,252,185,133,73,109,77,183,164,152,179,1,33,12,247,252,
@@ -7200,7 +7200,7 @@ const uint8_t u8g2_7x14_mn[287] U8G2_FONT_SECTION("u8g2_7x14_mn") = {
   Glyphs: 191/1009
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x14B_tf[2321] U8G2_FONT_SECTION("u8g2_7x14B_tf") = {
+const uint8_t u8g2_font_7x14B_tf[2321] U8G2_FONT_SECTION("u8g2_font_7x14B_tf") = {
   191,0,3,3,3,4,3,5,4,7,14,0,254,10,254,11,
   254,1,112,2,220,8,248,32,5,0,242,7,33,7,82,195,
   199,19,1,34,8,165,222,135,132,139,0,35,13,86,194,15,
@@ -7353,7 +7353,7 @@ const uint8_t u8g2_7x14B_tf[2321] U8G2_FONT_SECTION("u8g2_7x14B_tf") = {
   Glyphs: 95/1009
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x14B_tr[1089] U8G2_FONT_SECTION("u8g2_7x14B_tr") = {
+const uint8_t u8g2_font_7x14B_tr[1089] U8G2_FONT_SECTION("u8g2_font_7x14B_tr") = {
   95,0,3,3,3,4,3,5,4,6,14,0,254,10,254,11,
   254,1,112,2,220,4,40,32,5,0,242,7,33,7,82,195,
   199,19,1,34,8,165,222,135,132,139,0,35,13,86,194,15,
@@ -7429,7 +7429,7 @@ const uint8_t u8g2_7x14B_tr[1089] U8G2_FONT_SECTION("u8g2_7x14B_tr") = {
   Glyphs: 18/1009
   BBX Build Mode: 0
 */
-const uint8_t u8g2_7x14B_tn[228] U8G2_FONT_SECTION("u8g2_7x14B_tn") = {
+const uint8_t u8g2_font_7x14B_tn[228] U8G2_FONT_SECTION("u8g2_font_7x14B_tn") = {
   18,0,3,3,3,4,3,5,4,6,14,0,254,12,254,12,
   254,0,0,0,0,0,203,32,5,0,242,7,32,13,62,206,
   71,68,75,132,38,163,68,180,4,33,10,62,198,151,80,201,
@@ -7451,7 +7451,7 @@ const uint8_t u8g2_7x14B_tn[228] U8G2_FONT_SECTION("u8g2_7x14B_tn") = {
   Glyphs: 191/1009
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x14B_mf[3128] U8G2_FONT_SECTION("u8g2_7x14B_mf") = {
+const uint8_t u8g2_font_7x14B_mf[3128] U8G2_FONT_SECTION("u8g2_font_7x14B_mf") = {
   191,2,3,2,3,4,1,2,4,7,14,0,254,10,254,11,
   254,1,217,3,231,12,31,32,7,247,252,249,255,0,33,10,
   247,252,73,170,223,81,59,13,34,13,247,252,17,147,34,41,
@@ -7654,7 +7654,7 @@ const uint8_t u8g2_7x14B_mf[3128] U8G2_FONT_SECTION("u8g2_7x14B_mf") = {
   Glyphs: 95/1009
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x14B_mr[1473] U8G2_FONT_SECTION("u8g2_7x14B_mr") = {
+const uint8_t u8g2_font_7x14B_mr[1473] U8G2_FONT_SECTION("u8g2_font_7x14B_mr") = {
   95,2,3,2,3,4,1,2,4,6,14,0,254,10,254,11,
   254,1,217,3,231,5,168,32,7,247,252,249,255,0,33,10,
   247,252,73,170,223,81,59,13,34,13,247,252,17,147,34,41,
@@ -7754,7 +7754,7 @@ const uint8_t u8g2_7x14B_mr[1473] U8G2_FONT_SECTION("u8g2_7x14B_mr") = {
   Glyphs: 18/1009
   BBX Build Mode: 2
 */
-const uint8_t u8g2_7x14B_mn[288] U8G2_FONT_SECTION("u8g2_7x14B_mn") = {
+const uint8_t u8g2_font_7x14B_mn[288] U8G2_FONT_SECTION("u8g2_font_7x14B_mn") = {
   18,2,3,2,3,4,1,2,4,6,14,0,254,12,254,12,
   254,0,0,0,0,1,7,32,7,247,252,249,255,0,32,19,
   247,252,9,137,82,81,162,33,20,135,40,81,42,74,206,11,
@@ -7780,7 +7780,7 @@ const uint8_t u8g2_7x14B_mn[288] U8G2_FONT_SECTION("u8g2_7x14B_mn") = {
   Glyphs: 191/3703
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13_tf[2391] U8G2_FONT_SECTION("u8g2_8x13_tf") = {
+const uint8_t u8g2_font_8x13_tf[2391] U8G2_FONT_SECTION("u8g2_font_8x13_tf") = {
   191,0,3,2,3,4,3,5,5,8,13,0,254,9,254,9,
   0,1,114,2,243,9,62,32,5,0,110,12,33,7,201,67,
   140,67,18,34,7,28,91,140,200,20,35,14,190,70,156,168,
@@ -7937,7 +7937,7 @@ const uint8_t u8g2_8x13_tf[2391] U8G2_FONT_SECTION("u8g2_8x13_tf") = {
   Glyphs: 95/3703
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13_tr[1130] U8G2_FONT_SECTION("u8g2_8x13_tr") = {
+const uint8_t u8g2_font_8x13_tr[1130] U8G2_FONT_SECTION("u8g2_font_8x13_tr") = {
   95,0,3,2,3,4,3,5,5,8,13,0,254,9,254,9,
   0,1,114,2,243,4,81,32,5,0,110,12,33,7,201,67,
   140,67,18,34,7,28,91,140,200,20,35,14,190,70,156,168,
@@ -8015,7 +8015,7 @@ const uint8_t u8g2_8x13_tr[1130] U8G2_FONT_SECTION("u8g2_8x13_tr") = {
   Glyphs: 18/3703
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13_tn[231] U8G2_FONT_SECTION("u8g2_8x13_tn") = {
+const uint8_t u8g2_font_8x13_tn[231] U8G2_FONT_SECTION("u8g2_font_8x13_tn") = {
   18,0,3,2,3,4,3,5,5,7,12,0,255,11,254,11,
   254,0,0,0,0,0,206,32,5,0,110,12,32,12,174,82,
   156,40,147,134,73,139,18,0,33,10,173,74,172,48,26,164,
@@ -8037,7 +8037,7 @@ const uint8_t u8g2_8x13_tn[231] U8G2_FONT_SECTION("u8g2_8x13_tn") = {
   Glyphs: 191/3703
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13_mf[3157] U8G2_FONT_SECTION("u8g2_8x13_mf") = {
+const uint8_t u8g2_font_8x13_mf[3157] U8G2_FONT_SECTION("u8g2_font_8x13_mf") = {
   191,2,4,2,4,4,1,2,5,8,13,0,254,9,254,9,
   0,1,230,4,14,12,60,32,7,216,193,207,231,0,33,11,
   216,193,15,202,245,61,32,143,2,34,13,216,193,143,137,132,
@@ -8242,7 +8242,7 @@ const uint8_t u8g2_8x13_mf[3157] U8G2_FONT_SECTION("u8g2_8x13_mf") = {
   Glyphs: 95/3703
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13_mr[1523] U8G2_FONT_SECTION("u8g2_8x13_mr") = {
+const uint8_t u8g2_font_8x13_mr[1523] U8G2_FONT_SECTION("u8g2_font_8x13_mr") = {
   95,2,4,2,4,4,1,2,5,8,13,0,254,9,254,9,
   0,1,230,4,14,5,218,32,7,216,193,207,231,0,33,11,
   216,193,15,202,245,61,32,143,2,34,13,216,193,143,137,132,
@@ -8345,7 +8345,7 @@ const uint8_t u8g2_8x13_mr[1523] U8G2_FONT_SECTION("u8g2_8x13_mr") = {
   Glyphs: 18/3703
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13_mn[279] U8G2_FONT_SECTION("u8g2_8x13_mn") = {
+const uint8_t u8g2_font_8x13_mn[279] U8G2_FONT_SECTION("u8g2_font_8x13_mn") = {
   18,2,4,2,4,4,1,1,5,7,12,0,255,11,254,11,
   254,0,0,0,0,0,254,32,7,200,225,231,51,0,32,14,
   200,225,199,68,82,162,193,72,21,201,19,3,33,12,200,225,
@@ -8370,7 +8370,7 @@ const uint8_t u8g2_8x13_mn[279] U8G2_FONT_SECTION("u8g2_8x13_mn") = {
   Glyphs: 191/1141
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13B_tf[2443] U8G2_FONT_SECTION("u8g2_8x13B_tf") = {
+const uint8_t u8g2_font_8x13B_tf[2443] U8G2_FONT_SECTION("u8g2_font_8x13B_tf") = {
   191,0,3,3,3,4,3,5,5,7,13,0,254,10,254,10,
   255,1,132,3,7,9,114,32,5,0,110,12,33,7,210,67,
   140,39,2,34,8,165,90,12,9,23,1,35,16,79,66,28,
@@ -8530,7 +8530,7 @@ const uint8_t u8g2_8x13B_tf[2443] U8G2_FONT_SECTION("u8g2_8x13B_tf") = {
   Glyphs: 95/1141
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13B_tr[1157] U8G2_FONT_SECTION("u8g2_8x13B_tr") = {
+const uint8_t u8g2_font_8x13B_tr[1157] U8G2_FONT_SECTION("u8g2_font_8x13B_tr") = {
   95,0,3,3,3,4,3,5,5,7,13,0,254,10,254,10,
   255,1,132,3,7,4,108,32,5,0,110,12,33,7,210,67,
   140,39,2,34,8,165,90,12,9,23,1,35,16,79,66,28,
@@ -8610,7 +8610,7 @@ const uint8_t u8g2_8x13B_tr[1157] U8G2_FONT_SECTION("u8g2_8x13B_tr") = {
   Glyphs: 18/1141
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13B_tn[238] U8G2_FONT_SECTION("u8g2_8x13B_tn") = {
+const uint8_t u8g2_font_8x13B_tn[238] U8G2_FONT_SECTION("u8g2_font_8x13B_tn") = {
   18,0,3,3,3,4,3,5,5,7,12,0,255,11,254,11,
   254,0,0,0,0,0,213,32,5,0,110,12,32,14,63,70,
   188,112,236,52,156,73,68,177,8,0,33,11,182,74,44,161,
@@ -8632,7 +8632,7 @@ const uint8_t u8g2_8x13B_tn[238] U8G2_FONT_SECTION("u8g2_8x13B_tn") = {
   Glyphs: 191/1141
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13B_mf[3237] U8G2_FONT_SECTION("u8g2_8x13B_mf") = {
+const uint8_t u8g2_font_8x13B_mf[3237] U8G2_FONT_SECTION("u8g2_font_8x13B_mf") = {
   191,2,3,2,4,4,1,2,5,7,13,0,254,10,254,10,
   255,1,248,4,26,12,140,32,8,216,193,231,255,51,0,33,
   11,216,193,7,101,191,19,100,157,10,34,14,216,193,135,20,
@@ -8842,7 +8842,7 @@ const uint8_t u8g2_8x13B_mf[3237] U8G2_FONT_SECTION("u8g2_8x13B_mf") = {
   Glyphs: 95/1141
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13B_mr[1555] U8G2_FONT_SECTION("u8g2_8x13B_mr") = {
+const uint8_t u8g2_font_8x13B_mr[1555] U8G2_FONT_SECTION("u8g2_font_8x13B_mr") = {
   95,2,3,2,4,4,1,2,5,7,13,0,254,10,254,10,
   255,1,248,4,26,5,250,32,8,216,193,231,255,51,0,33,
   11,216,193,7,101,191,19,100,157,10,34,14,216,193,135,20,
@@ -8947,7 +8947,7 @@ const uint8_t u8g2_8x13B_mr[1555] U8G2_FONT_SECTION("u8g2_8x13B_mr") = {
   Glyphs: 18/1141
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13B_mn[280] U8G2_FONT_SECTION("u8g2_8x13B_mn") = {
+const uint8_t u8g2_font_8x13B_mn[280] U8G2_FONT_SECTION("u8g2_font_8x13B_mn") = {
   18,2,4,3,4,4,1,1,5,7,12,0,255,11,254,11,
   254,0,0,0,0,0,255,32,7,200,225,199,103,0,32,15,
   200,225,7,142,11,186,153,26,146,144,73,15,3,33,13,200,
@@ -8972,7 +8972,7 @@ const uint8_t u8g2_8x13B_mn[280] U8G2_FONT_SECTION("u8g2_8x13B_mn") = {
   Glyphs: 191/1295
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13O_tf[2742] U8G2_FONT_SECTION("u8g2_8x13O_tf") = {
+const uint8_t u8g2_font_8x13O_tf[2742] U8G2_FONT_SECTION("u8g2_font_8x13O_tf") = {
   191,0,3,2,4,4,3,5,5,8,13,0,254,9,254,9,
   0,1,141,3,103,10,157,32,5,0,220,24,33,9,146,135,
   56,45,74,45,1,34,7,52,182,24,145,41,35,14,119,140,
@@ -9151,7 +9151,7 @@ const uint8_t u8g2_8x13O_tf[2742] U8G2_FONT_SECTION("u8g2_8x13O_tf") = {
   Glyphs: 95/1295
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13O_tr[1296] U8G2_FONT_SECTION("u8g2_8x13O_tr") = {
+const uint8_t u8g2_font_8x13O_tr[1296] U8G2_FONT_SECTION("u8g2_font_8x13O_tr") = {
   95,0,3,2,4,4,3,5,5,8,13,0,254,9,254,9,
   0,1,141,3,103,4,247,32,5,0,220,24,33,9,146,135,
   56,45,74,45,1,34,7,52,182,24,145,41,35,14,119,140,
@@ -9240,7 +9240,7 @@ const uint8_t u8g2_8x13O_tr[1296] U8G2_FONT_SECTION("u8g2_8x13O_tr") = {
   Glyphs: 18/1295
   BBX Build Mode: 0
 */
-const uint8_t u8g2_8x13O_tn[253] U8G2_FONT_SECTION("u8g2_8x13O_tn") = {
+const uint8_t u8g2_font_8x13O_tn[253] U8G2_FONT_SECTION("u8g2_font_8x13O_tn") = {
   18,0,3,2,4,4,3,5,5,8,12,0,255,11,254,11,
   254,0,0,0,0,0,228,32,5,0,220,24,32,12,86,149,
   56,81,38,13,139,22,69,0,33,10,85,149,88,97,52,40,
@@ -9263,7 +9263,7 @@ const uint8_t u8g2_8x13O_tn[253] U8G2_FONT_SECTION("u8g2_8x13O_tn") = {
   Glyphs: 191/1295
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13O_mf[3214] U8G2_FONT_SECTION("u8g2_8x13O_mf") = {
+const uint8_t u8g2_font_8x13O_mf[3214] U8G2_FONT_SECTION("u8g2_font_8x13O_mf") = {
   191,2,4,2,4,4,1,2,5,8,13,0,254,9,254,9,
   0,1,237,4,35,12,117,32,7,216,193,207,231,0,33,13,
   216,193,143,202,53,203,213,3,242,40,0,34,13,216,193,143,
@@ -9471,7 +9471,7 @@ const uint8_t u8g2_8x13O_mf[3214] U8G2_FONT_SECTION("u8g2_8x13O_mf") = {
   Glyphs: 95/1295
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13O_mr[1562] U8G2_FONT_SECTION("u8g2_8x13O_mr") = {
+const uint8_t u8g2_font_8x13O_mr[1562] U8G2_FONT_SECTION("u8g2_font_8x13O_mr") = {
   95,2,4,2,4,4,1,2,5,8,13,0,254,9,254,9,
   0,1,237,4,35,6,1,32,7,216,193,207,231,0,33,13,
   216,193,143,202,53,203,213,3,242,40,0,34,13,216,193,143,
@@ -9576,7 +9576,7 @@ const uint8_t u8g2_8x13O_mr[1562] U8G2_FONT_SECTION("u8g2_8x13O_mr") = {
   Glyphs: 18/1295
   BBX Build Mode: 2
 */
-const uint8_t u8g2_8x13O_mn[286] U8G2_FONT_SECTION("u8g2_8x13O_mn") = {
+const uint8_t u8g2_font_8x13O_mn[286] U8G2_FONT_SECTION("u8g2_font_8x13O_mn") = {
   18,2,4,2,4,4,1,1,5,8,12,0,255,11,254,11,
   254,0,0,0,0,1,5,32,7,200,225,231,51,0,32,14,
   200,225,39,138,164,68,131,141,42,146,7,3,33,12,200,225,
@@ -9601,7 +9601,7 @@ const uint8_t u8g2_8x13O_mn[286] U8G2_FONT_SECTION("u8g2_8x13O_mn") = {
   Glyphs: 191/4777
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x15_tf[2653] U8G2_FONT_SECTION("u8g2_9x15_tf") = {
+const uint8_t u8g2_font_9x15_tf[2653] U8G2_FONT_SECTION("u8g2_font_9x15_tf") = {
   191,0,3,2,4,4,4,5,5,9,15,0,253,10,253,11,
   255,1,148,3,60,10,68,32,5,0,200,51,33,8,177,12,
   51,14,145,0,34,8,52,123,51,34,83,0,35,14,134,25,
@@ -9774,7 +9774,7 @@ const uint8_t u8g2_9x15_tf[2653] U8G2_FONT_SECTION("u8g2_9x15_tf") = {
   Glyphs: 95/4777
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x15_tr[1246] U8G2_FONT_SECTION("u8g2_9x15_tr") = {
+const uint8_t u8g2_font_9x15_tr[1246] U8G2_FONT_SECTION("u8g2_font_9x15_tr") = {
   95,0,3,2,4,4,4,5,5,9,15,0,253,10,253,11,
   255,1,148,3,60,4,197,32,5,0,200,51,33,8,177,12,
   51,14,145,0,34,8,52,123,51,34,83,0,35,14,134,25,
@@ -9859,7 +9859,7 @@ const uint8_t u8g2_9x15_tr[1246] U8G2_FONT_SECTION("u8g2_9x15_tr") = {
   Glyphs: 18/4777
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x15_tn[244] U8G2_FONT_SECTION("u8g2_9x15_tn") = {
+const uint8_t u8g2_font_9x15_tn[244] U8G2_FONT_SECTION("u8g2_font_9x15_tn") = {
   18,0,3,3,3,4,4,5,5,8,15,0,253,12,253,12,
   253,0,0,0,0,0,219,32,5,0,228,25,32,14,191,156,
   121,73,41,217,102,145,76,105,49,0,33,11,191,140,121,225,
@@ -9882,7 +9882,7 @@ const uint8_t u8g2_9x15_tn[244] U8G2_FONT_SECTION("u8g2_9x15_tn") = {
   Glyphs: 191/4777
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x15_mf[3550] U8G2_FONT_SECTION("u8g2_9x15_mf") = {
+const uint8_t u8g2_font_9x15_mf[3550] U8G2_FONT_SECTION("u8g2_font_9x15_mf") = {
   191,2,4,2,4,4,1,3,5,9,15,0,253,10,253,11,
   255,2,20,4,99,13,197,32,6,249,147,159,127,33,11,249,
   147,59,216,247,216,96,158,2,34,13,249,147,31,22,73,69,
@@ -10111,7 +10111,7 @@ const uint8_t u8g2_9x15_mf[3550] U8G2_FONT_SECTION("u8g2_9x15_mf") = {
   Glyphs: 95/4777
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x15_mr[1678] U8G2_FONT_SECTION("u8g2_9x15_mr") = {
+const uint8_t u8g2_font_9x15_mr[1678] U8G2_FONT_SECTION("u8g2_font_9x15_mr") = {
   95,2,4,2,4,4,1,3,5,9,15,0,253,10,253,11,
   255,2,20,4,99,6,117,32,6,249,147,159,127,33,11,249,
   147,59,216,247,216,96,158,2,34,13,249,147,31,22,73,69,
@@ -10223,7 +10223,7 @@ const uint8_t u8g2_9x15_mr[1678] U8G2_FONT_SECTION("u8g2_9x15_mr") = {
   Glyphs: 18/4777
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x15_mn[313] U8G2_FONT_SECTION("u8g2_9x15_mn") = {
+const uint8_t u8g2_font_9x15_mn[313] U8G2_FONT_SECTION("u8g2_font_9x15_mn") = {
   18,2,4,2,4,4,1,3,5,8,15,0,253,12,253,12,
   253,0,0,0,0,1,32,32,6,249,147,159,127,32,18,249,
   147,31,151,138,212,36,170,86,137,154,72,85,158,53,0,33,
@@ -10250,7 +10250,7 @@ const uint8_t u8g2_9x15_mn[313] U8G2_FONT_SECTION("u8g2_9x15_mn") = {
   Glyphs: 191/1688
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x15B_tf[2753] U8G2_FONT_SECTION("u8g2_9x15B_tf") = {
+const uint8_t u8g2_font_9x15B_tf[2753] U8G2_FONT_SECTION("u8g2_font_9x15B_tf") = {
   191,0,3,3,4,4,4,5,5,9,15,0,253,10,253,11,
   255,1,185,3,93,10,168,32,5,0,200,51,33,8,162,11,
   51,30,68,2,34,8,53,122,51,36,44,2,35,16,135,25,
@@ -10430,7 +10430,7 @@ const uint8_t u8g2_9x15B_tf[2753] U8G2_FONT_SECTION("u8g2_9x15B_tf") = {
   Glyphs: 95/1688
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x15B_tr[1275] U8G2_FONT_SECTION("u8g2_9x15B_tr") = {
+const uint8_t u8g2_font_9x15B_tr[1275] U8G2_FONT_SECTION("u8g2_font_9x15B_tr") = {
   95,0,3,3,4,4,3,5,5,8,15,0,253,10,253,11,
   255,1,181,3,83,4,226,32,5,0,228,25,33,8,162,135,
   25,15,34,1,34,8,53,190,25,18,22,1,35,16,135,141,
@@ -10517,7 +10517,7 @@ const uint8_t u8g2_9x15B_tr[1275] U8G2_FONT_SECTION("u8g2_9x15B_tr") = {
   Glyphs: 18/1688
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x15B_tn[267] U8G2_FONT_SECTION("u8g2_9x15B_tn") = {
+const uint8_t u8g2_font_9x15B_tn[267] U8G2_FONT_SECTION("u8g2_font_9x15B_tn") = {
   18,0,3,3,4,4,3,5,5,8,15,0,253,12,253,12,
   253,0,0,0,0,0,242,32,5,0,228,25,32,11,87,149,
   57,106,163,211,76,34,1,33,11,120,140,121,98,181,67,76,
@@ -10541,7 +10541,7 @@ const uint8_t u8g2_9x15B_tn[267] U8G2_FONT_SECTION("u8g2_9x15B_tn") = {
   Glyphs: 191/1688
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x15B_mf[3563] U8G2_FONT_SECTION("u8g2_9x15B_mf") = {
+const uint8_t u8g2_font_9x15B_mf[3563] U8G2_FONT_SECTION("u8g2_font_9x15B_mf") = {
   191,2,4,2,4,4,1,3,5,9,15,0,253,10,253,11,
   255,2,26,4,107,13,210,32,6,249,147,159,127,33,12,249,
   147,31,166,243,247,8,61,5,0,34,13,249,147,31,165,16,
@@ -10771,7 +10771,7 @@ const uint8_t u8g2_9x15B_mf[3563] U8G2_FONT_SECTION("u8g2_9x15B_mf") = {
   Glyphs: 95/1688
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x15B_mr[1669] U8G2_FONT_SECTION("u8g2_9x15B_mr") = {
+const uint8_t u8g2_font_9x15B_mr[1669] U8G2_FONT_SECTION("u8g2_font_9x15B_mr") = {
   95,2,4,2,4,4,1,3,5,8,15,0,253,10,253,11,
   255,2,26,4,107,6,108,32,6,249,147,159,127,33,12,249,
   147,31,166,243,247,8,61,5,0,34,13,249,147,31,165,16,
@@ -10883,7 +10883,7 @@ const uint8_t u8g2_9x15B_mr[1669] U8G2_FONT_SECTION("u8g2_9x15B_mr") = {
   Glyphs: 18/1688
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x15B_mn[311] U8G2_FONT_SECTION("u8g2_9x15B_mn") = {
+const uint8_t u8g2_font_9x15B_mn[311] U8G2_FONT_SECTION("u8g2_font_9x15B_mn") = {
   18,2,4,3,4,4,1,3,5,8,15,0,253,12,253,12,
   253,0,0,0,0,1,30,32,7,249,147,31,255,0,32,15,
   249,147,31,19,9,169,161,163,41,9,121,76,0,33,14,249,
@@ -10910,7 +10910,7 @@ const uint8_t u8g2_9x15B_mn[311] U8G2_FONT_SECTION("u8g2_9x15B_mn") = {
   Glyphs: 191/4766
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x18_tf[2694] U8G2_FONT_SECTION("u8g2_9x18_tf") = {
+const uint8_t u8g2_font_9x18_tf[2694] U8G2_FONT_SECTION("u8g2_font_9x18_tf") = {
   191,0,3,2,4,4,4,5,5,9,17,0,253,10,253,11,
   255,1,158,3,75,10,109,32,5,0,232,51,33,8,177,12,
   51,14,145,0,34,8,68,123,51,34,167,0,35,21,168,8,
@@ -11086,7 +11086,7 @@ const uint8_t u8g2_9x18_tf[2694] U8G2_FONT_SECTION("u8g2_9x18_tf") = {
   Glyphs: 95/4766
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x18_tr[1254] U8G2_FONT_SECTION("u8g2_9x18_tr") = {
+const uint8_t u8g2_font_9x18_tr[1254] U8G2_FONT_SECTION("u8g2_font_9x18_tr") = {
   95,0,3,2,4,4,4,5,5,9,17,0,253,10,253,11,
   255,1,158,3,75,4,205,32,5,0,232,51,33,8,177,12,
   51,14,145,0,34,8,68,123,51,34,167,0,35,21,168,8,
@@ -11172,7 +11172,7 @@ const uint8_t u8g2_9x18_tr[1254] U8G2_FONT_SECTION("u8g2_9x18_tr") = {
   Glyphs: 18/4766
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x18_tn[246] U8G2_FONT_SECTION("u8g2_9x18_tn") = {
+const uint8_t u8g2_font_9x18_tn[246] U8G2_FONT_SECTION("u8g2_font_9x18_tn") = {
   18,0,3,2,3,4,4,5,5,8,16,0,254,14,252,14,
   252,0,0,0,0,0,221,32,5,0,244,25,32,13,191,156,
   121,165,74,219,150,52,213,50,0,33,11,191,140,121,113,109,
@@ -11195,7 +11195,7 @@ const uint8_t u8g2_9x18_tn[246] U8G2_FONT_SECTION("u8g2_9x18_tn") = {
   Glyphs: 191/4766
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x18_mf[3620] U8G2_FONT_SECTION("u8g2_9x18_mf") = {
+const uint8_t u8g2_font_9x18_mf[3620] U8G2_FONT_SECTION("u8g2_font_9x18_mf") = {
   191,2,4,2,4,5,1,3,5,9,17,0,253,10,253,11,
   255,2,18,4,100,14,11,32,8,25,39,63,255,13,0,33,
   13,25,39,63,69,176,239,177,193,60,5,0,34,15,25,39,
@@ -11429,7 +11429,7 @@ const uint8_t u8g2_9x18_mf[3620] U8G2_FONT_SECTION("u8g2_9x18_mf") = {
   Glyphs: 95/4766
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x18_mr[1670] U8G2_FONT_SECTION("u8g2_9x18_mr") = {
+const uint8_t u8g2_font_9x18_mr[1670] U8G2_FONT_SECTION("u8g2_font_9x18_mr") = {
   95,2,4,2,4,5,1,3,5,9,17,0,253,10,253,11,
   255,2,18,4,100,6,109,32,8,25,39,63,255,13,0,33,
   13,25,39,63,69,176,239,177,193,60,5,0,34,15,25,39,
@@ -11541,7 +11541,7 @@ const uint8_t u8g2_9x18_mr[1670] U8G2_FONT_SECTION("u8g2_9x18_mr") = {
   Glyphs: 18/4766
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x18_mn[308] U8G2_FONT_SECTION("u8g2_9x18_mn") = {
+const uint8_t u8g2_font_9x18_mn[308] U8G2_FONT_SECTION("u8g2_font_9x18_mn") = {
   18,2,4,2,4,5,1,2,5,8,16,0,254,14,252,14,
   252,0,0,0,0,1,27,32,7,9,147,159,127,9,32,18,
   9,147,159,52,21,169,73,84,173,18,53,145,170,60,35,0,
@@ -11568,7 +11568,7 @@ const uint8_t u8g2_9x18_mn[308] U8G2_FONT_SECTION("u8g2_9x18_mn") = {
   Glyphs: 191/762
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x18B_tf[2617] U8G2_FONT_SECTION("u8g2_9x18B_tf") = {
+const uint8_t u8g2_font_9x18B_tf[2617] U8G2_FONT_SECTION("u8g2_font_9x18B_tf") = {
   191,0,3,3,4,4,4,5,5,9,18,0,252,10,253,11,
   255,1,153,3,51,10,32,32,5,0,232,51,33,7,178,11,
   51,30,9,34,8,69,122,51,36,92,4,35,20,167,9,115,
@@ -11739,7 +11739,7 @@ const uint8_t u8g2_9x18B_tf[2617] U8G2_FONT_SECTION("u8g2_9x18B_tf") = {
   Glyphs: 95/762
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x18B_tr[1207] U8G2_FONT_SECTION("u8g2_9x18B_tr") = {
+const uint8_t u8g2_font_9x18B_tr[1207] U8G2_FONT_SECTION("u8g2_font_9x18B_tr") = {
   95,0,3,3,4,4,3,5,5,9,17,0,253,10,253,11,
   255,1,147,3,41,4,158,32,5,0,244,25,33,7,178,135,
   25,143,4,34,8,69,190,25,18,46,2,35,19,167,133,57,
@@ -11822,7 +11822,7 @@ const uint8_t u8g2_9x18B_tr[1207] U8G2_FONT_SECTION("u8g2_9x18B_tr") = {
   Glyphs: 18/762
   BBX Build Mode: 0
 */
-const uint8_t u8g2_9x18B_tn[239] U8G2_FONT_SECTION("u8g2_9x18B_tn") = {
+const uint8_t u8g2_font_9x18B_tn[239] U8G2_FONT_SECTION("u8g2_font_9x18B_tn") = {
   18,0,3,3,4,4,3,5,5,8,16,0,254,14,252,14,
   252,0,0,0,0,0,214,32,5,0,244,25,32,13,120,140,
   121,42,42,54,154,69,155,12,0,33,11,120,140,121,98,181,
@@ -11844,7 +11844,7 @@ const uint8_t u8g2_9x18B_tn[239] U8G2_FONT_SECTION("u8g2_9x18B_tn") = {
   Glyphs: 191/762
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x18B_mf[3606] U8G2_FONT_SECTION("u8g2_9x18B_mf") = {
+const uint8_t u8g2_font_9x18B_mf[3606] U8G2_FONT_SECTION("u8g2_font_9x18B_mf") = {
   191,2,4,2,4,5,1,3,5,9,18,0,252,10,253,11,
   255,2,34,4,125,13,253,32,8,41,35,63,255,49,0,33,
   13,41,35,63,129,206,239,161,58,61,41,0,34,15,41,35,
@@ -12077,7 +12077,7 @@ const uint8_t u8g2_9x18B_mf[3606] U8G2_FONT_SECTION("u8g2_9x18B_mf") = {
   Glyphs: 95/762
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x18B_mr[1665] U8G2_FONT_SECTION("u8g2_9x18B_mr") = {
+const uint8_t u8g2_font_9x18B_mr[1665] U8G2_FONT_SECTION("u8g2_font_9x18B_mr") = {
   95,2,4,2,4,5,1,3,5,9,17,0,253,10,253,11,
   255,2,26,4,111,6,104,32,8,25,39,63,255,13,0,33,
   13,25,39,63,129,206,239,161,58,61,5,0,34,15,25,39,
@@ -12189,7 +12189,7 @@ const uint8_t u8g2_9x18B_mr[1665] U8G2_FONT_SECTION("u8g2_9x18B_mr") = {
   Glyphs: 18/762
   BBX Build Mode: 2
 */
-const uint8_t u8g2_9x18B_mn[305] U8G2_FONT_SECTION("u8g2_9x18B_mn") = {
+const uint8_t u8g2_font_9x18B_mn[305] U8G2_FONT_SECTION("u8g2_font_9x18B_mn") = {
   18,2,4,3,4,5,1,2,5,8,16,0,254,14,252,14,
   252,0,0,0,0,1,24,32,8,9,147,31,255,18,0,32,
   17,9,147,31,99,33,9,37,70,68,38,18,138,228,81,0,
@@ -12216,7 +12216,7 @@ const uint8_t u8g2_9x18B_mn[305] U8G2_FONT_SECTION("u8g2_9x18B_mn") = {
   Glyphs: 191/5205
   BBX Build Mode: 0
 */
-const uint8_t u8g2_10x20_tf[3062] U8G2_FONT_SECTION("u8g2_10x20_tf") = {
+const uint8_t u8g2_font_10x20_tf[3062] U8G2_FONT_SECTION("u8g2_font_10x20_tf") = {
   191,0,3,3,4,5,4,6,5,10,20,0,252,13,252,13,
   0,1,243,3,214,11,221,32,6,0,16,214,0,33,8,210,
   24,212,120,48,17,34,11,70,52,213,16,49,73,66,17,0,
@@ -12415,7 +12415,7 @@ const uint8_t u8g2_10x20_tf[3062] U8G2_FONT_SECTION("u8g2_10x20_tf") = {
   Glyphs: 95/5205
   BBX Build Mode: 0
 */
-const uint8_t u8g2_10x20_tr[1421] U8G2_FONT_SECTION("u8g2_10x20_tr") = {
+const uint8_t u8g2_font_10x20_tr[1421] U8G2_FONT_SECTION("u8g2_font_10x20_tr") = {
   95,0,3,3,4,4,4,6,5,10,20,0,252,13,252,13,
   0,1,240,3,208,5,116,32,5,0,8,107,33,8,210,12,
   106,60,152,8,34,11,70,154,106,136,152,36,161,8,0,35,
@@ -12511,7 +12511,7 @@ const uint8_t u8g2_10x20_tr[1421] U8G2_FONT_SECTION("u8g2_10x20_tr") = {
   Glyphs: 18/5205
   BBX Build Mode: 0
 */
-const uint8_t u8g2_10x20_tn[293] U8G2_FONT_SECTION("u8g2_10x20_tn") = {
+const uint8_t u8g2_font_10x20_tn[293] U8G2_FONT_SECTION("u8g2_font_10x20_tn") = {
   18,0,3,3,4,4,4,6,5,9,17,0,255,16,252,16,
   252,0,0,0,0,1,12,32,5,0,8,107,32,14,120,57,
   234,136,180,145,14,33,154,72,11,0,33,12,120,57,234,137,
@@ -12537,7 +12537,7 @@ const uint8_t u8g2_10x20_tn[293] U8G2_FONT_SECTION("u8g2_10x20_tn") = {
   Glyphs: 191/5205
   BBX Build Mode: 2
 */
-const uint8_t u8g2_10x20_mf[4202] U8G2_FONT_SECTION("u8g2_10x20_mf") = {
+const uint8_t u8g2_font_10x20_mf[4202] U8G2_FONT_SECTION("u8g2_font_10x20_mf") = {
   191,2,4,2,4,5,1,3,5,10,20,0,252,13,252,13,
   0,2,124,5,71,16,81,32,8,74,67,63,255,175,0,33,
   13,74,67,63,145,208,127,143,17,234,201,1,34,15,74,67,
@@ -12807,7 +12807,7 @@ const uint8_t u8g2_10x20_mf[4202] U8G2_FONT_SECTION("u8g2_10x20_mf") = {
   Glyphs: 95/5205
   BBX Build Mode: 2
 */
-const uint8_t u8g2_10x20_mr[1965] U8G2_FONT_SECTION("u8g2_10x20_mr") = {
+const uint8_t u8g2_font_10x20_mr[1965] U8G2_FONT_SECTION("u8g2_font_10x20_mr") = {
   95,2,4,2,4,5,1,3,5,10,20,0,252,13,252,13,
   0,2,124,5,71,7,148,32,8,74,67,63,255,175,0,33,
   13,74,67,63,145,208,127,143,17,234,201,1,34,15,74,67,
@@ -12937,7 +12937,7 @@ const uint8_t u8g2_10x20_mr[1965] U8G2_FONT_SECTION("u8g2_10x20_mr") = {
   Glyphs: 18/5205
   BBX Build Mode: 2
 */
-const uint8_t u8g2_10x20_mn[359] U8G2_FONT_SECTION("u8g2_10x20_mn") = {
+const uint8_t u8g2_font_10x20_mn[359] U8G2_FONT_SECTION("u8g2_font_10x20_mn") = {
   18,2,4,2,4,5,1,1,5,9,17,0,255,16,252,16,
   252,0,0,0,0,1,78,32,7,26,211,207,255,10,32,20,
   26,211,207,137,145,68,53,8,13,6,162,65,74,34,146,232,
@@ -12967,7 +12967,7 @@ const uint8_t u8g2_10x20_mn[359] U8G2_FONT_SECTION("u8g2_10x20_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont10_mf[2482] U8G2_FONT_SECTION("u8g2_profont10_mf") = {
+const uint8_t u8g2_font_profont10_mf[2482] U8G2_FONT_SECTION("u8g2_font_profont10_mf") = {
   224,2,4,2,3,4,1,2,4,5,10,0,254,6,254,7,
   255,1,76,2,191,9,153,32,6,213,244,179,2,33,8,213,
   52,135,90,134,1,34,10,213,180,37,34,137,60,25,0,35,
@@ -13130,7 +13130,7 @@ const uint8_t u8g2_profont10_mf[2482] U8G2_FONT_SECTION("u8g2_profont10_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont10_mr[1041] U8G2_FONT_SECTION("u8g2_profont10_mr") = {
+const uint8_t u8g2_font_profont10_mr[1041] U8G2_FONT_SECTION("u8g2_font_profont10_mr") = {
   96,2,3,2,3,4,1,2,4,5,9,0,254,6,254,7,
   255,1,77,2,179,3,248,32,6,205,244,249,6,33,10,205,
   244,129,176,29,202,81,0,34,9,205,116,74,73,206,11,0,
@@ -13203,7 +13203,7 @@ const uint8_t u8g2_profont10_mr[1041] U8G2_FONT_SECTION("u8g2_profont10_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont10_mn[203] U8G2_FONT_SECTION("u8g2_profont10_mn") = {
+const uint8_t u8g2_font_profont10_mn[203] U8G2_FONT_SECTION("u8g2_font_profont10_mn") = {
   18,2,3,2,3,4,1,2,4,4,8,0,254,6,254,7,
   255,0,0,0,0,0,178,32,6,197,244,121,5,32,10,197,
   116,178,40,146,106,57,13,33,9,197,244,193,108,203,137,0,
@@ -13223,7 +13223,7 @@ const uint8_t u8g2_profont10_mn[203] U8G2_FONT_SECTION("u8g2_profont10_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont11_mf[2841] U8G2_FONT_SECTION("u8g2_profont11_mf") = {
+const uint8_t u8g2_font_profont11_mf[2841] U8G2_FONT_SECTION("u8g2_font_profont11_mf") = {
   224,2,3,2,3,4,1,2,4,6,11,0,254,7,254,8,
   255,1,123,3,34,11,0,32,7,222,248,249,55,0,33,10,
   222,248,9,105,119,48,167,0,34,12,222,248,129,36,75,178,
@@ -13408,7 +13408,7 @@ const uint8_t u8g2_profont11_mf[2841] U8G2_FONT_SECTION("u8g2_profont11_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont11_mr[1199] U8G2_FONT_SECTION("u8g2_profont11_mr") = {
+const uint8_t u8g2_font_profont11_mr[1199] U8G2_FONT_SECTION("u8g2_font_profont11_mr") = {
   96,2,3,2,3,4,1,2,4,6,11,0,254,7,254,8,
   255,1,123,3,34,4,150,32,7,222,248,249,55,0,33,10,
   222,248,9,105,119,48,167,0,34,12,222,248,129,36,75,178,
@@ -13490,7 +13490,7 @@ const uint8_t u8g2_profont11_mr[1199] U8G2_FONT_SECTION("u8g2_profont11_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont11_mn[232] U8G2_FONT_SECTION("u8g2_profont11_mn") = {
+const uint8_t u8g2_font_profont11_mn[232] U8G2_FONT_SECTION("u8g2_font_profont11_mn") = {
   18,2,3,2,3,4,1,2,4,5,10,0,254,7,254,8,
   255,0,0,0,0,0,207,32,7,214,248,249,35,0,32,12,
   214,248,145,44,41,77,73,45,103,6,33,11,214,248,9,105,
@@ -13512,7 +13512,7 @@ const uint8_t u8g2_profont11_mn[232] U8G2_FONT_SECTION("u8g2_profont11_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont12_mf[2924] U8G2_FONT_SECTION("u8g2_profont12_mf") = {
+const uint8_t u8g2_font_profont12_mf[2924] U8G2_FONT_SECTION("u8g2_font_profont12_mf") = {
   224,2,3,2,3,4,1,2,4,6,12,0,254,8,254,9,
   255,1,133,3,67,11,83,32,7,230,248,249,79,0,33,10,
   230,248,9,105,239,96,78,1,34,12,230,248,129,36,75,178,
@@ -13702,7 +13702,7 @@ const uint8_t u8g2_profont12_mf[2924] U8G2_FONT_SECTION("u8g2_profont12_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont12_mr[1208] U8G2_FONT_SECTION("u8g2_profont12_mr") = {
+const uint8_t u8g2_font_profont12_mr[1208] U8G2_FONT_SECTION("u8g2_font_profont12_mr") = {
   96,2,3,2,3,4,1,2,4,6,11,0,254,8,254,9,
   255,1,127,3,44,4,159,32,7,222,248,249,55,0,33,10,
   222,248,145,180,119,48,167,0,34,10,222,120,106,73,150,228,
@@ -13785,7 +13785,7 @@ const uint8_t u8g2_profont12_mr[1208] U8G2_FONT_SECTION("u8g2_profont12_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont12_mn[231] U8G2_FONT_SECTION("u8g2_profont12_mn") = {
+const uint8_t u8g2_font_profont12_mn[231] U8G2_FONT_SECTION("u8g2_font_profont12_mn") = {
   18,2,3,2,3,4,1,2,4,5,10,0,254,8,254,9,
   255,0,0,0,0,0,206,32,7,214,248,249,35,0,32,12,
   214,184,178,164,52,37,181,156,43,0,33,11,214,248,9,105,
@@ -13807,7 +13807,7 @@ const uint8_t u8g2_profont12_mn[231] U8G2_FONT_SECTION("u8g2_profont12_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont15_mf[3468] U8G2_FONT_SECTION("u8g2_profont15_mf") = {
+const uint8_t u8g2_font_profont15_mf[3468] U8G2_FONT_SECTION("u8g2_font_profont15_mf") = {
   224,2,3,2,3,4,1,3,4,7,15,0,253,9,253,11,
   254,1,216,3,215,13,115,32,7,255,249,243,255,3,33,11,
   255,249,179,197,125,135,115,54,0,34,14,255,249,35,81,22,
@@ -14031,7 +14031,7 @@ const uint8_t u8g2_profont15_mf[3468] U8G2_FONT_SECTION("u8g2_profont15_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont15_mr[1456] U8G2_FONT_SECTION("u8g2_profont15_mr") = {
+const uint8_t u8g2_font_profont15_mr[1456] U8G2_FONT_SECTION("u8g2_font_profont15_mr") = {
   96,2,3,2,3,4,1,3,4,7,15,0,253,9,253,11,
   254,1,216,3,215,5,151,32,7,255,249,243,255,3,33,11,
   255,249,179,197,125,135,115,54,0,34,14,255,249,35,81,22,
@@ -14130,7 +14130,7 @@ const uint8_t u8g2_profont15_mr[1456] U8G2_FONT_SECTION("u8g2_profont15_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont15_mn[274] U8G2_FONT_SECTION("u8g2_profont15_mn") = {
+const uint8_t u8g2_font_profont15_mn[274] U8G2_FONT_SECTION("u8g2_font_profont15_mn") = {
   18,2,3,2,3,4,1,3,4,7,13,0,253,9,253,11,
   254,0,0,0,0,0,249,32,7,239,249,243,255,0,32,13,
   239,249,67,97,82,27,183,164,152,243,17,33,12,239,249,115,
@@ -14155,7 +14155,7 @@ const uint8_t u8g2_profont15_mn[274] U8G2_FONT_SECTION("u8g2_profont15_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont17_mf[4652] U8G2_FONT_SECTION("u8g2_profont17_mf") = {
+const uint8_t u8g2_font_profont17_mf[4652] U8G2_FONT_SECTION("u8g2_font_profont17_mf") = {
   224,2,4,3,4,5,1,3,5,9,17,0,253,11,253,13,
   254,2,81,5,23,18,19,32,8,30,199,63,254,127,13,33,
   14,30,199,63,6,194,250,61,172,176,60,102,0,34,19,30,
@@ -14453,7 +14453,7 @@ const uint8_t u8g2_profont17_mf[4652] U8G2_FONT_SECTION("u8g2_profont17_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont17_mr[1917] U8G2_FONT_SECTION("u8g2_profont17_mr") = {
+const uint8_t u8g2_font_profont17_mr[1917] U8G2_FONT_SECTION("u8g2_font_profont17_mr") = {
   96,2,4,3,4,5,1,3,5,9,17,0,253,11,253,13,
   254,2,81,5,23,7,100,32,8,30,199,63,254,127,13,33,
   14,30,199,63,6,194,250,61,172,176,60,102,0,34,19,30,
@@ -14580,7 +14580,7 @@ const uint8_t u8g2_profont17_mr[1917] U8G2_FONT_SECTION("u8g2_profont17_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont17_mn[357] U8G2_FONT_SECTION("u8g2_profont17_mn") = {
+const uint8_t u8g2_font_profont17_mn[357] U8G2_FONT_SECTION("u8g2_font_profont17_mn") = {
   18,2,4,3,4,5,1,3,5,9,16,0,253,11,253,13,
   254,0,0,0,0,1,76,32,8,14,199,63,254,63,7,32,
   21,14,199,63,10,73,9,101,7,129,164,132,7,97,18,42,
@@ -14610,7 +14610,7 @@ const uint8_t u8g2_profont17_mn[357] U8G2_FONT_SECTION("u8g2_profont17_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont22_mf[5521] U8G2_FONT_SECTION("u8g2_profont22_mf") = {
+const uint8_t u8g2_font_profont22_mf[5521] U8G2_FONT_SECTION("u8g2_font_profont22_mf") = {
   224,2,4,3,4,5,1,3,5,12,22,0,252,14,252,16,
   254,2,212,6,29,21,120,32,9,108,131,63,254,255,37,0,
   33,14,108,131,63,118,162,250,247,136,68,229,177,4,34,21,
@@ -14963,7 +14963,7 @@ const uint8_t u8g2_profont22_mf[5521] U8G2_FONT_SECTION("u8g2_profont22_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont22_mr[2292] U8G2_FONT_SECTION("u8g2_profont22_mr") = {
+const uint8_t u8g2_font_profont22_mr[2292] U8G2_FONT_SECTION("u8g2_font_profont22_mr") = {
   96,2,4,3,4,5,1,3,5,12,22,0,252,14,252,16,
   254,2,212,6,29,8,219,32,9,108,131,63,254,255,37,0,
   33,14,108,131,63,118,162,250,247,136,68,229,177,4,34,21,
@@ -15114,7 +15114,7 @@ const uint8_t u8g2_profont22_mr[2292] U8G2_FONT_SECTION("u8g2_profont22_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont22_mn[429] U8G2_FONT_SECTION("u8g2_profont22_mn") = {
+const uint8_t u8g2_font_profont22_mn[429] U8G2_FONT_SECTION("u8g2_font_profont22_mn") = {
   18,2,4,3,4,5,1,3,5,11,20,0,252,14,252,16,
   254,0,0,0,0,1,148,32,8,76,131,63,254,255,0,32,
   22,76,131,63,180,168,152,136,146,131,33,51,163,131,17,205,
@@ -15148,7 +15148,7 @@ const uint8_t u8g2_profont22_mn[429] U8G2_FONT_SECTION("u8g2_profont22_mn") = {
   Glyphs: 224/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont29_mf[7206] U8G2_FONT_SECTION("u8g2_profont29_mf") = {
+const uint8_t u8g2_font_profont29_mf[7206] U8G2_FONT_SECTION("u8g2_font_profont29_mf") = {
   224,2,4,4,5,5,1,4,6,16,29,0,251,19,251,22,
   253,3,154,7,236,28,13,32,11,176,31,248,225,255,255,255,
   115,0,33,17,176,31,248,225,233,232,249,127,15,131,209,211,
@@ -15606,7 +15606,7 @@ const uint8_t u8g2_profont29_mf[7206] U8G2_FONT_SECTION("u8g2_profont29_mf") = {
   Glyphs: 96/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont29_mr[2998] U8G2_FONT_SECTION("u8g2_profont29_mr") = {
+const uint8_t u8g2_font_profont29_mr[2998] U8G2_FONT_SECTION("u8g2_font_profont29_mr") = {
   96,2,4,4,5,5,1,4,6,16,29,0,251,19,251,22,
   253,3,154,7,236,11,157,32,11,176,31,248,225,255,255,255,
   115,0,33,17,176,31,248,225,233,232,249,127,15,131,209,211,
@@ -15801,7 +15801,7 @@ const uint8_t u8g2_profont29_mr[2998] U8G2_FONT_SECTION("u8g2_profont29_mr") = {
   Glyphs: 18/256
   BBX Build Mode: 2
 */
-const uint8_t u8g2_profont29_mn[518] U8G2_FONT_SECTION("u8g2_profont29_mn") = {
+const uint8_t u8g2_font_profont29_mn[518] U8G2_FONT_SECTION("u8g2_font_profont29_mn") = {
   18,2,4,4,5,5,1,4,6,15,26,0,251,19,251,22,
   253,0,0,0,0,1,237,32,11,80,31,248,225,255,255,127,
   11,0,32,29,80,31,248,97,56,122,164,144,33,130,72,32,
@@ -15841,7 +15841,7 @@ const uint8_t u8g2_profont29_mn[518] U8G2_FONT_SECTION("u8g2_profont29_mn") = {
   Glyphs: 190/196
   BBX Build Mode: 3
 */
-const uint8_t u8g2_amstrad_cpc_8f[2469] U8X8_FONT_SECTION("u8g2_amstrad_cpc_8f") = {
+const uint8_t u8g2_font_amstrad_cpc_8f[2469] U8X8_FONT_SECTION("u8g2_font_amstrad_cpc_8f") = {
   190,3,4,3,5,4,1,1,6,8,8,0,0,8,0,8,
   1,1,143,3,62,9,140,32,7,8,71,31,71,0,33,9,
   8,71,71,76,231,178,0,34,12,8,71,67,141,132,140,132,
@@ -16003,7 +16003,7 @@ const uint8_t u8g2_amstrad_cpc_8f[2469] U8X8_FONT_SECTION("u8g2_amstrad_cpc_8f")
   Glyphs: 95/196
   BBX Build Mode: 3
 */
-const uint8_t u8g2_amstrad_cpc_8r[1226] U8X8_FONT_SECTION("u8g2_amstrad_cpc_8r") = {
+const uint8_t u8g2_font_amstrad_cpc_8r[1226] U8X8_FONT_SECTION("u8g2_font_amstrad_cpc_8r") = {
   95,3,4,3,5,4,1,1,6,8,8,0,0,8,0,8,
   1,1,143,3,62,4,177,32,7,8,71,31,71,0,33,9,
   8,71,71,76,231,178,0,34,12,8,71,67,141,132,140,132,
@@ -16087,7 +16087,7 @@ const uint8_t u8g2_amstrad_cpc_8r[1226] U8X8_FONT_SECTION("u8g2_amstrad_cpc_8r")
   Glyphs: 18/196
   BBX Build Mode: 3
 */
-const uint8_t u8g2_amstrad_cpc_8n[246] U8X8_FONT_SECTION("u8g2_amstrad_cpc_8n") = {
+const uint8_t u8g2_font_amstrad_cpc_8n[246] U8X8_FONT_SECTION("u8g2_font_amstrad_cpc_8n") = {
   18,3,4,3,5,4,1,1,6,8,8,0,0,8,0,8,
   1,0,0,0,0,0,221,32,7,8,71,31,71,0,32,15,
   16,135,31,68,45,233,65,40,173,136,60,90,0,33,12,8,
@@ -16110,7 +16110,7 @@ const uint8_t u8g2_amstrad_cpc_8n[246] U8X8_FONT_SECTION("u8g2_amstrad_cpc_8n") 
   Glyphs: 191/8453
   BBX Build Mode: 0
 */
-const uint8_t u8g2_cu12_tf[3360] U8G2_FONT_SECTION("u8g2_cu12_tf") = {
+const uint8_t u8g2_font_cu12_tf[3360] U8G2_FONT_SECTION("u8g2_font_cu12_tf") = {
   191,0,3,2,5,5,3,5,6,17,20,0,252,11,252,12,
   253,1,210,4,98,13,7,32,6,0,16,150,0,33,9,130,
   21,150,248,32,15,1,34,8,164,248,158,136,60,5,35,30,
@@ -16328,7 +16328,7 @@ const uint8_t u8g2_cu12_tf[3360] U8G2_FONT_SECTION("u8g2_cu12_tf") = {
   Glyphs: 95/8453
   BBX Build Mode: 0
 */
-const uint8_t u8g2_cu12_tr[1564] U8G2_FONT_SECTION("u8g2_cu12_tr") = {
+const uint8_t u8g2_font_cu12_tr[1564] U8G2_FONT_SECTION("u8g2_font_cu12_tr") = {
   95,0,3,2,5,5,3,5,6,17,17,0,252,11,252,12,
   253,1,210,4,98,6,3,32,6,0,16,150,0,33,9,130,
   21,150,248,32,15,1,34,8,164,248,158,136,60,5,35,30,
@@ -16433,7 +16433,7 @@ const uint8_t u8g2_cu12_tr[1564] U8G2_FONT_SECTION("u8g2_cu12_tr") = {
   Glyphs: 18/8453
   BBX Build Mode: 0
 */
-const uint8_t u8g2_cu12_tn[249] U8G2_FONT_SECTION("u8g2_cu12_tn") = {
+const uint8_t u8g2_font_cu12_tn[249] U8G2_FONT_SECTION("u8g2_font_cu12_tn") = {
   18,0,3,2,4,5,3,4,5,11,16,0,252,11,252,12,
   253,0,0,0,0,0,224,32,5,0,136,21,32,13,119,216,
   119,165,74,219,150,52,213,50,0,33,18,153,124,155,57,146,
@@ -16456,7 +16456,7 @@ const uint8_t u8g2_cu12_tn[249] U8G2_FONT_SECTION("u8g2_cu12_tn") = {
   Glyphs: 191/8453
   BBX Build Mode: 1
 */
-const uint8_t u8g2_cu12_hf[3911] U8G2_FONT_SECTION("u8g2_cu12_hf") = {
+const uint8_t u8g2_font_cu12_hf[3911] U8G2_FONT_SECTION("u8g2_font_cu12_hf") = {
   191,1,4,2,5,5,1,3,6,17,20,0,252,11,252,12,
   253,2,92,5,63,15,46,32,7,133,70,249,124,10,33,12,
   133,70,249,48,141,223,99,236,113,0,34,17,135,198,249,4,
@@ -16708,7 +16708,7 @@ const uint8_t u8g2_cu12_hf[3911] U8G2_FONT_SECTION("u8g2_cu12_hf") = {
   Glyphs: 95/8453
   BBX Build Mode: 1
 */
-const uint8_t u8g2_cu12_hr[1825] U8G2_FONT_SECTION("u8g2_cu12_hr") = {
+const uint8_t u8g2_font_cu12_hr[1825] U8G2_FONT_SECTION("u8g2_font_cu12_hr") = {
   95,1,4,2,5,5,1,3,6,17,17,0,252,11,252,12,
   253,2,77,5,37,7,8,32,7,37,70,249,60,5,33,11,
   37,70,105,26,191,199,216,227,0,34,16,39,198,153,145,76,
@@ -16830,7 +16830,7 @@ const uint8_t u8g2_cu12_hr[1825] U8G2_FONT_SECTION("u8g2_cu12_hr") = {
   Glyphs: 18/8453
   BBX Build Mode: 1
 */
-const uint8_t u8g2_cu12_hn[310] U8G2_FONT_SECTION("u8g2_cu12_hn") = {
+const uint8_t u8g2_font_cu12_hn[310] U8G2_FONT_SECTION("u8g2_font_cu12_hn") = {
   18,1,4,2,4,5,1,3,5,11,16,0,252,11,252,12,
   253,0,0,0,0,1,29,32,7,5,163,62,175,0,32,15,
   7,227,78,73,69,155,77,162,73,77,158,51,0,33,14,11,
@@ -16857,7 +16857,7 @@ const uint8_t u8g2_cu12_hn[310] U8G2_FONT_SECTION("u8g2_cu12_hn") = {
   Glyphs: 191/8453
   BBX Build Mode: 2
 */
-const uint8_t u8g2_cu12_mf[4563] U8G2_FONT_SECTION("u8g2_cu12_mf") = {
+const uint8_t u8g2_font_cu12_mf[4563] U8G2_FONT_SECTION("u8g2_font_cu12_mf") = {
   191,2,5,2,5,5,1,3,6,17,20,0,252,11,252,12,
   253,2,176,5,250,17,186,32,8,145,70,252,249,207,3,33,
   14,145,70,252,233,232,249,125,34,122,250,68,1,34,19,145,
@@ -17150,7 +17150,7 @@ const uint8_t u8g2_cu12_mf[4563] U8G2_FONT_SECTION("u8g2_cu12_mf") = {
   Glyphs: 95/8453
   BBX Build Mode: 2
 */
-const uint8_t u8g2_cu12_mr[2110] U8G2_FONT_SECTION("u8g2_cu12_mr") = {
+const uint8_t u8g2_font_cu12_mr[2110] U8G2_FONT_SECTION("u8g2_font_cu12_mr") = {
   95,2,5,2,5,5,1,3,6,17,17,0,252,11,252,12,
   253,2,161,5,229,8,37,32,8,49,70,252,249,167,0,33,
   13,49,70,44,245,252,62,17,61,125,162,0,34,18,49,70,
@@ -17289,7 +17289,7 @@ const uint8_t u8g2_cu12_mr[2110] U8G2_FONT_SECTION("u8g2_cu12_mr") = {
   Glyphs: 18/8453
   BBX Build Mode: 2
 */
-const uint8_t u8g2_cu12_mn[329] U8G2_FONT_SECTION("u8g2_cu12_mn") = {
+const uint8_t u8g2_font_cu12_mn[329] U8G2_FONT_SECTION("u8g2_font_cu12_mn") = {
   18,2,4,2,4,5,1,3,5,11,16,0,252,11,252,12,
   253,0,0,0,0,1,48,32,8,11,99,63,255,91,0,32,
   17,11,99,79,46,82,149,168,219,37,170,34,117,121,126,1,
@@ -17317,7 +17317,7 @@ const uint8_t u8g2_cu12_mn[329] U8G2_FONT_SECTION("u8g2_cu12_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB08_tf[2171] U8G2_FONT_SECTION("u8g2_courB08_tf") = {
+const uint8_t u8g2_font_courB08_tf[2171] U8G2_FONT_SECTION("u8g2_font_courB08_tf") = {
   191,0,3,3,3,4,3,4,4,8,11,255,254,6,254,7,
   255,1,61,2,145,8,98,32,5,0,166,3,33,7,178,162,
   227,16,18,34,7,155,174,35,162,18,35,16,69,158,39,41,
@@ -17460,7 +17460,7 @@ const uint8_t u8g2_courB08_tf[2171] U8G2_FONT_SECTION("u8g2_courB08_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB08_tr[990] U8G2_FONT_SECTION("u8g2_courB08_tr") = {
+const uint8_t u8g2_font_courB08_tr[990] U8G2_FONT_SECTION("u8g2_font_courB08_tr") = {
   95,0,3,3,3,4,3,4,4,7,10,255,254,6,254,7,
   255,1,61,2,145,3,197,32,5,0,166,3,33,7,178,162,
   227,16,18,34,7,155,174,35,162,18,35,16,69,158,39,41,
@@ -17529,7 +17529,7 @@ const uint8_t u8g2_courB08_tr[990] U8G2_FONT_SECTION("u8g2_courB08_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB08_tn[195] U8G2_FONT_SECTION("u8g2_courB08_tn") = {
+const uint8_t u8g2_font_courB08_tn[195] U8G2_FONT_SECTION("u8g2_font_courB08_tn") = {
   18,0,3,3,3,4,2,3,4,6,9,0,254,6,254,7,
   255,0,0,0,0,0,170,32,5,0,235,0,32,9,36,239,
   138,80,36,161,0,33,10,45,235,10,134,74,193,16,0,34,
@@ -17549,7 +17549,7 @@ const uint8_t u8g2_courB08_tn[195] U8G2_FONT_SECTION("u8g2_courB08_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB08_mf[2767] U8G2_FONT_SECTION("u8g2_courB08_mf") = {
+const uint8_t u8g2_font_courB08_mf[2767] U8G2_FONT_SECTION("u8g2_font_courB08_mf") = {
   191,2,3,2,4,4,1,2,5,8,11,255,254,6,254,7,
   255,1,166,3,106,10,182,32,7,184,193,231,255,8,33,10,
   184,193,103,148,221,9,58,3,34,12,184,193,103,76,210,36,
@@ -17729,7 +17729,7 @@ const uint8_t u8g2_courB08_mf[2767] U8G2_FONT_SECTION("u8g2_courB08_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB08_mr[1246] U8G2_FONT_SECTION("u8g2_courB08_mr") = {
+const uint8_t u8g2_font_courB08_mr[1246] U8G2_FONT_SECTION("u8g2_font_courB08_mr") = {
   95,2,3,2,3,4,1,2,4,7,10,255,254,6,254,7,
   255,1,139,3,54,4,197,32,6,215,252,249,15,33,10,215,
   252,41,170,59,170,19,1,34,11,215,252,41,197,36,76,114,
@@ -17814,7 +17814,7 @@ const uint8_t u8g2_courB08_mr[1246] U8G2_FONT_SECTION("u8g2_courB08_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB08_mn[213] U8G2_FONT_SECTION("u8g2_courB08_mn") = {
+const uint8_t u8g2_font_courB08_mn[213] U8G2_FONT_SECTION("u8g2_font_courB08_mn") = {
   18,2,3,2,3,4,1,2,4,6,9,0,254,6,254,7,
   255,0,0,0,0,0,188,32,6,206,248,249,21,32,11,206,
   184,178,33,211,162,156,35,0,33,10,206,248,145,52,27,180,
@@ -17835,7 +17835,7 @@ const uint8_t u8g2_courB08_mn[213] U8G2_FONT_SECTION("u8g2_courB08_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB10_tf[2958] U8G2_FONT_SECTION("u8g2_courB10_tf") = {
+const uint8_t u8g2_font_courB10_tf[2958] U8G2_FONT_SECTION("u8g2_font_courB10_tf") = {
   191,0,3,3,4,4,3,5,5,11,16,255,252,9,253,9,
   254,1,148,3,147,11,117,32,5,0,140,25,33,8,146,135,
   25,7,26,1,34,10,69,182,25,18,22,73,40,0,35,23,
@@ -18027,7 +18027,7 @@ const uint8_t u8g2_courB10_tf[2958] U8G2_FONT_SECTION("u8g2_courB10_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB10_tr[1359] U8G2_FONT_SECTION("u8g2_courB10_tr") = {
+const uint8_t u8g2_font_courB10_tr[1359] U8G2_FONT_SECTION("u8g2_font_courB10_tr") = {
   95,0,3,3,4,4,3,4,5,10,14,255,253,9,253,9,
   254,1,144,3,139,5,54,32,5,0,204,12,33,8,146,199,
   140,3,141,0,34,9,69,246,12,9,139,36,20,35,23,183,
@@ -18119,7 +18119,7 @@ const uint8_t u8g2_courB10_tr[1359] U8G2_FONT_SECTION("u8g2_courB10_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB10_tn[227] U8G2_FONT_SECTION("u8g2_courB10_tn") = {
+const uint8_t u8g2_font_courB10_tn[227] U8G2_FONT_SECTION("u8g2_font_courB10_tn") = {
   18,0,3,3,3,4,3,4,5,8,12,0,254,9,253,9,
   254,0,0,0,0,0,202,32,5,0,102,6,32,9,45,115,
   86,74,196,50,81,33,10,191,102,94,56,237,22,78,3,34,
@@ -18141,7 +18141,7 @@ const uint8_t u8g2_courB10_tn[227] U8G2_FONT_SECTION("u8g2_courB10_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB10_mf[3820] U8G2_FONT_SECTION("u8g2_courB10_mf") = {
+const uint8_t u8g2_font_courB10_mf[3820] U8G2_FONT_SECTION("u8g2_font_courB10_mf") = {
   191,2,4,2,4,5,1,3,5,11,16,255,252,9,253,9,
   254,2,42,4,199,14,211,32,8,11,99,63,255,91,0,33,
   13,11,99,63,153,210,203,60,76,169,103,5,34,15,11,99,
@@ -18387,7 +18387,7 @@ const uint8_t u8g2_courB10_mf[3820] U8G2_FONT_SECTION("u8g2_courB10_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB10_mr[1631] U8G2_FONT_SECTION("u8g2_courB10_mr") = {
+const uint8_t u8g2_font_courB10_mr[1631] U8G2_FONT_SECTION("u8g2_font_courB10_mr") = {
   95,2,4,3,4,4,1,3,5,10,14,255,253,9,253,9,
   254,2,21,4,88,6,70,32,8,234,163,31,255,10,0,33,
   13,234,163,31,80,15,227,129,4,229,81,1,34,15,234,163,
@@ -18496,7 +18496,7 @@ const uint8_t u8g2_courB10_mr[1631] U8G2_FONT_SECTION("u8g2_courB10_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB10_mn[304] U8G2_FONT_SECTION("u8g2_courB10_mn") = {
+const uint8_t u8g2_font_courB10_mn[304] U8G2_FONT_SECTION("u8g2_font_courB10_mn") = {
   18,2,4,2,4,4,1,2,5,8,12,0,254,9,253,9,
   254,0,0,0,0,1,23,32,7,201,201,207,111,0,32,14,
   201,201,29,75,20,13,84,43,133,158,45,0,33,14,201,201,
@@ -18523,7 +18523,7 @@ const uint8_t u8g2_courB10_mn[304] U8G2_FONT_SECTION("u8g2_courB10_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB12_tf[3316] U8G2_FONT_SECTION("u8g2_courB12_tf") = {
+const uint8_t u8g2_font_courB12_tf[3316] U8G2_FONT_SECTION("u8g2_font_courB12_tf") = {
   191,0,3,3,4,4,4,5,5,12,17,255,253,10,253,11,
   254,1,198,3,255,12,219,32,5,0,24,53,33,8,178,11,
   53,30,68,4,34,8,86,106,53,68,60,9,35,27,201,248,
@@ -18738,7 +18738,7 @@ const uint8_t u8g2_courB12_tf[3316] U8G2_FONT_SECTION("u8g2_courB12_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB12_tr[1542] U8G2_FONT_SECTION("u8g2_courB12_tr") = {
+const uint8_t u8g2_font_courB12_tr[1542] U8G2_FONT_SECTION("u8g2_font_courB12_tr") = {
   95,0,3,3,4,4,4,5,5,10,15,0,253,10,253,11,
   254,1,198,3,255,5,237,32,5,0,24,53,33,8,178,11,
   53,30,68,4,34,8,86,106,53,68,60,9,35,27,201,248,
@@ -18842,7 +18842,7 @@ const uint8_t u8g2_courB12_tr[1542] U8G2_FONT_SECTION("u8g2_courB12_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB12_tn[256] U8G2_FONT_SECTION("u8g2_courB12_tn") = {
+const uint8_t u8g2_font_courB12_tn[256] U8G2_FONT_SECTION("u8g2_font_courB12_tn") = {
   18,0,3,3,4,4,3,4,5,9,15,0,253,10,253,11,
   254,0,0,0,0,0,231,32,5,0,76,13,32,13,104,109,
   61,177,236,16,34,210,68,18,0,33,12,136,77,61,177,218,
@@ -18866,7 +18866,7 @@ const uint8_t u8g2_courB12_tn[256] U8G2_FONT_SECTION("u8g2_courB12_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB12_mf[3957] U8G2_FONT_SECTION("u8g2_courB12_mf") = {
+const uint8_t u8g2_font_courB12_mf[3957] U8G2_FONT_SECTION("u8g2_font_courB12_mf") = {
   191,2,4,3,4,5,1,3,5,12,17,255,253,10,253,11,
   254,2,100,5,1,15,92,32,8,28,135,63,254,95,2,33,
   14,28,135,63,74,81,253,30,78,84,30,53,0,34,19,28,
@@ -19121,7 +19121,7 @@ const uint8_t u8g2_courB12_mf[3957] U8G2_FONT_SECTION("u8g2_courB12_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB12_mr[1752] U8G2_FONT_SECTION("u8g2_courB12_mr") = {
+const uint8_t u8g2_font_courB12_mr[1752] U8G2_FONT_SECTION("u8g2_font_courB12_mr") = {
   95,2,4,3,4,4,1,3,5,10,15,0,253,10,253,11,
   254,2,61,4,175,6,191,32,7,250,163,31,255,1,33,12,
   250,163,91,80,191,135,17,148,71,5,34,17,250,163,89,68,
@@ -19238,7 +19238,7 @@ const uint8_t u8g2_courB12_mr[1752] U8G2_FONT_SECTION("u8g2_courB12_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB12_mn[328] U8G2_FONT_SECTION("u8g2_courB12_mn") = {
+const uint8_t u8g2_font_courB12_mn[328] U8G2_FONT_SECTION("u8g2_font_courB12_mn") = {
   18,2,4,2,4,4,1,3,5,9,15,0,253,10,253,11,
   254,0,0,0,0,1,47,32,7,250,163,159,255,0,32,16,
   250,163,93,168,26,12,68,131,216,32,37,209,243,14,33,16,
@@ -19266,7 +19266,7 @@ const uint8_t u8g2_courB12_mn[328] U8G2_FONT_SECTION("u8g2_courB12_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB14_tf[3763] U8G2_FONT_SECTION("u8g2_courB14_tf") = {
+const uint8_t u8g2_font_courB14_tf[3763] U8G2_FONT_SECTION("u8g2_font_courB14_tf") = {
   191,0,3,3,4,5,4,5,5,12,20,255,251,11,252,12,
   253,1,247,4,121,14,154,32,5,0,48,110,33,11,195,24,
   110,60,88,20,37,18,0,34,12,102,212,110,136,56,205,34,
@@ -19509,7 +19509,7 @@ const uint8_t u8g2_courB14_tf[3763] U8G2_FONT_SECTION("u8g2_courB14_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB14_tr[1751] U8G2_FONT_SECTION("u8g2_courB14_tr") = {
+const uint8_t u8g2_font_courB14_tr[1751] U8G2_FONT_SECTION("u8g2_font_courB14_tr") = {
   95,0,3,3,4,5,4,5,5,12,17,255,252,11,252,12,
   253,1,247,4,121,6,190,32,5,0,48,110,33,11,195,24,
   110,60,88,20,37,18,0,34,12,102,212,110,136,56,205,34,
@@ -19626,7 +19626,7 @@ const uint8_t u8g2_courB14_tr[1751] U8G2_FONT_SECTION("u8g2_courB14_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB14_tn[288] U8G2_FONT_SECTION("u8g2_courB14_tn") = {
+const uint8_t u8g2_font_courB14_tn[288] U8G2_FONT_SECTION("u8g2_font_courB14_tn") = {
   18,0,3,3,4,5,4,4,5,10,16,0,253,11,252,12,
   253,0,0,0,0,1,7,32,5,0,48,55,32,16,136,146,
   247,196,178,195,65,38,180,140,38,193,8,0,33,21,170,16,
@@ -19652,7 +19652,7 @@ const uint8_t u8g2_courB14_tn[288] U8G2_FONT_SECTION("u8g2_courB14_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB14_mf[4388] U8G2_FONT_SECTION("u8g2_courB14_mf") = {
+const uint8_t u8g2_font_courB14_mf[4388] U8G2_FONT_SECTION("u8g2_font_courB14_mf") = {
   191,2,4,3,4,5,1,4,5,12,20,255,251,11,252,12,
   253,2,133,5,101,17,11,32,8,76,15,127,252,255,1,33,
   16,76,15,127,164,147,123,41,170,30,78,84,30,103,0,34,
@@ -19934,7 +19934,7 @@ const uint8_t u8g2_courB14_mf[4388] U8G2_FONT_SECTION("u8g2_courB14_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB14_mr[2007] U8G2_FONT_SECTION("u8g2_courB14_mr") = {
+const uint8_t u8g2_font_courB14_mr[2007] U8G2_FONT_SECTION("u8g2_font_courB14_mr") = {
   95,2,4,3,4,5,1,3,5,12,17,255,252,11,252,12,
   253,2,115,5,68,7,190,32,8,28,131,63,254,95,2,33,
   16,28,131,63,196,228,94,138,170,135,19,149,199,18,0,34,
@@ -20067,7 +20067,7 @@ const uint8_t u8g2_courB14_mr[2007] U8G2_FONT_SECTION("u8g2_courB14_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB14_mn[359] U8G2_FONT_SECTION("u8g2_courB14_mn") = {
+const uint8_t u8g2_font_courB14_mn[359] U8G2_FONT_SECTION("u8g2_font_courB14_mn") = {
   18,2,4,3,4,5,1,3,5,10,16,0,253,11,252,12,
   253,0,0,0,0,1,78,32,8,11,103,63,254,183,0,32,
   19,11,103,63,128,164,216,65,204,65,152,156,209,200,80,122,
@@ -20097,7 +20097,7 @@ const uint8_t u8g2_courB14_mn[359] U8G2_FONT_SECTION("u8g2_courB14_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB18_tf[4855] U8G2_FONT_SECTION("u8g2_courB18_tf") = {
+const uint8_t u8g2_font_courB18_tf[4855] U8G2_FONT_SECTION("u8g2_font_courB18_tf") = {
   191,0,4,3,5,5,4,5,5,17,26,255,251,15,251,16,
   252,2,142,5,232,18,222,32,6,0,96,252,0,33,15,4,
   54,252,33,113,240,96,66,68,103,34,42,0,34,16,231,108,
@@ -20408,7 +20408,7 @@ const uint8_t u8g2_courB18_tf[4855] U8G2_FONT_SECTION("u8g2_courB18_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB18_tr[2240] U8G2_FONT_SECTION("u8g2_courB18_tr") = {
+const uint8_t u8g2_font_courB18_tr[2240] U8G2_FONT_SECTION("u8g2_font_courB18_tr") = {
   95,0,4,3,5,5,4,5,5,16,22,0,251,15,251,16,
   252,2,142,5,232,8,167,32,6,0,96,252,0,33,15,4,
   54,252,33,113,240,96,66,68,103,34,42,0,34,16,231,108,
@@ -20556,7 +20556,7 @@ const uint8_t u8g2_courB18_tr[2240] U8G2_FONT_SECTION("u8g2_courB18_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB18_tn[357] U8G2_FONT_SECTION("u8g2_courB18_tn") = {
+const uint8_t u8g2_font_courB18_tn[357] U8G2_FONT_SECTION("u8g2_font_courB18_tn") = {
   18,0,4,3,4,5,4,4,5,13,20,0,253,15,251,16,
   252,0,0,0,0,1,76,32,5,0,48,63,32,21,186,180,
   63,9,42,18,17,57,40,49,19,51,18,145,25,25,17,146,
@@ -20586,7 +20586,7 @@ const uint8_t u8g2_courB18_tn[357] U8G2_FONT_SECTION("u8g2_courB18_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB18_mf[6149] U8G2_FONT_SECTION("u8g2_courB18_mf") = {
+const uint8_t u8g2_font_courB18_mf[6149] U8G2_FONT_SECTION("u8g2_font_courB18_mf") = {
   191,2,5,3,5,5,1,4,6,17,26,255,251,15,251,16,
   252,3,108,7,181,23,236,32,9,81,159,248,227,255,67,0,
   33,19,81,159,248,163,46,142,26,159,147,167,251,16,228,169,
@@ -20978,7 +20978,7 @@ const uint8_t u8g2_courB18_mf[6149] U8G2_FONT_SECTION("u8g2_courB18_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB18_mr[2554] U8G2_FONT_SECTION("u8g2_courB18_mr") = {
+const uint8_t u8g2_font_courB18_mr[2554] U8G2_FONT_SECTION("u8g2_font_courB18_mr") = {
   95,2,4,3,5,5,1,4,6,16,22,0,251,15,251,16,
   252,3,16,6,223,9,225,32,10,208,30,248,241,255,255,59,
   0,33,18,208,30,248,225,164,137,249,90,92,247,8,196,213,
@@ -21145,7 +21145,7 @@ const uint8_t u8g2_courB18_mr[2554] U8G2_FONT_SECTION("u8g2_courB18_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB18_mn[446] U8G2_FONT_SECTION("u8g2_courB18_mn") = {
+const uint8_t u8g2_font_courB18_mn[446] U8G2_FONT_SECTION("u8g2_font_courB18_mn") = {
   18,2,4,3,4,5,1,3,5,13,20,0,253,15,251,16,
   252,0,0,0,0,1,165,32,8,79,231,63,254,255,15,32,
   24,79,231,63,152,180,74,17,85,7,115,182,178,150,34,130,
@@ -21180,7 +21180,7 @@ const uint8_t u8g2_courB18_mn[446] U8G2_FONT_SECTION("u8g2_courB18_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB24_tf[6665] U8G2_FONT_SECTION("u8g2_courB24_tf") = {
+const uint8_t u8g2_font_courB24_tf[6665] U8G2_FONT_SECTION("u8g2_font_courB24_tf") = {
   191,0,4,4,5,5,5,6,6,22,33,255,249,20,249,21,
   251,3,114,7,243,25,240,32,6,0,192,144,6,33,18,165,
   94,144,142,17,15,84,12,153,191,9,61,162,196,8,0,34,
@@ -21604,7 +21604,7 @@ const uint8_t u8g2_courB24_tf[6665] U8G2_FONT_SECTION("u8g2_courB24_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB24_tr[3019] U8G2_FONT_SECTION("u8g2_courB24_tr") = {
+const uint8_t u8g2_font_courB24_tr[3019] U8G2_FONT_SECTION("u8g2_font_courB24_tr") = {
   95,0,4,4,5,5,5,6,6,22,30,255,249,20,249,21,
   251,3,114,7,243,11,178,32,6,0,192,144,6,33,18,165,
   94,144,142,17,15,84,12,153,191,9,61,162,196,8,0,34,
@@ -21800,7 +21800,7 @@ const uint8_t u8g2_courB24_tr[3019] U8G2_FONT_SECTION("u8g2_courB24_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courB24_tn[464] U8G2_FONT_SECTION("u8g2_courB24_tn") = {
+const uint8_t u8g2_font_courB24_tn[464] U8G2_FONT_SECTION("u8g2_font_courB24_tn") = {
   18,0,4,4,5,5,4,5,6,18,28,0,251,20,249,21,
   251,0,0,0,0,1,183,32,6,0,96,164,1,32,28,207,
   237,165,109,240,236,196,140,17,81,98,68,137,70,233,14,158,
@@ -21837,7 +21837,7 @@ const uint8_t u8g2_courB24_tn[464] U8G2_FONT_SECTION("u8g2_courB24_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB24_mf[8017] U8G2_FONT_SECTION("u8g2_courB24_mf") = {
+const uint8_t u8g2_font_courB24_mf[8017] U8G2_FONT_SECTION("u8g2_font_courB24_mf") = {
   191,2,5,4,5,6,1,4,6,22,33,255,249,20,249,21,
   251,4,133,9,212,31,56,32,10,54,28,246,135,255,255,95,
   3,33,24,54,28,246,135,229,33,75,172,147,99,206,31,13,
@@ -22346,7 +22346,7 @@ const uint8_t u8g2_courB24_mf[8017] U8G2_FONT_SECTION("u8g2_courB24_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB24_mr[3606] U8G2_FONT_SECTION("u8g2_courB24_mr") = {
+const uint8_t u8g2_font_courB24_mr[3606] U8G2_FONT_SECTION("u8g2_font_courB24_mr") = {
   95,2,5,4,5,5,1,4,6,22,30,255,249,20,249,21,
   251,4,114,9,175,13,253,32,10,214,15,251,195,255,255,75,
   0,33,23,214,15,251,131,58,100,137,117,114,204,249,163,225,
@@ -22579,7 +22579,7 @@ const uint8_t u8g2_courB24_mr[3606] U8G2_FONT_SECTION("u8g2_courB24_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courB24_mn[568] U8G2_FONT_SECTION("u8g2_courB24_mn") = {
+const uint8_t u8g2_font_courB24_mn[568] U8G2_FONT_SECTION("u8g2_font_courB24_mn") = {
   18,2,5,4,5,5,1,4,6,18,28,0,251,20,249,21,
   251,0,0,0,0,2,31,32,10,148,31,250,195,255,127,2,
   0,32,35,148,31,250,3,57,226,140,137,49,134,48,37,140,
@@ -22622,7 +22622,7 @@ const uint8_t u8g2_courB24_mn[568] U8G2_FONT_SECTION("u8g2_courB24_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR08_tf[2068] U8G2_FONT_SECTION("u8g2_courR08_tf") = {
+const uint8_t u8g2_font_courR08_tf[2068] U8G2_FONT_SECTION("u8g2_font_courR08_tf") = {
   191,0,3,2,3,4,3,4,4,7,11,0,254,6,254,7,
   254,1,60,2,141,7,251,32,5,0,166,3,33,7,57,163,
   99,80,2,34,7,155,178,35,177,4,35,16,197,158,167,148,
@@ -22759,7 +22759,7 @@ const uint8_t u8g2_courR08_tf[2068] U8G2_FONT_SECTION("u8g2_courR08_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR08_tr[993] U8G2_FONT_SECTION("u8g2_courR08_tr") = {
+const uint8_t u8g2_font_courR08_tr[993] U8G2_FONT_SECTION("u8g2_font_courR08_tr") = {
   95,0,3,2,3,4,3,4,4,6,10,0,254,6,254,7,
   254,1,60,2,141,3,200,32,5,0,166,3,33,7,57,163,
   99,80,2,34,7,155,178,35,177,4,35,16,197,158,167,148,
@@ -22829,7 +22829,7 @@ const uint8_t u8g2_courR08_tr[993] U8G2_FONT_SECTION("u8g2_courR08_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR08_tn[194] U8G2_FONT_SECTION("u8g2_courR08_tn") = {
+const uint8_t u8g2_font_courR08_tn[194] U8G2_FONT_SECTION("u8g2_font_courR08_tn") = {
   18,0,3,2,3,4,3,3,4,6,10,0,254,6,254,7,
   254,0,0,0,0,0,169,32,5,0,214,1,32,10,37,222,
   21,41,82,150,36,0,33,10,45,214,21,70,131,20,70,0,
@@ -22849,7 +22849,7 @@ const uint8_t u8g2_courR08_tn[194] U8G2_FONT_SECTION("u8g2_courR08_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR08_mf[2595] U8G2_FONT_SECTION("u8g2_courR08_mf") = {
+const uint8_t u8g2_font_courR08_mf[2595] U8G2_FONT_SECTION("u8g2_font_courR08_mf") = {
   191,2,3,2,3,4,1,2,4,7,11,0,254,6,254,7,
   254,1,148,3,63,10,10,32,6,223,252,249,31,33,10,223,
   252,73,113,119,56,39,2,34,11,223,252,41,197,36,76,114,
@@ -23019,7 +23019,7 @@ const uint8_t u8g2_courR08_mf[2595] U8G2_FONT_SECTION("u8g2_courR08_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR08_mr[1096] U8G2_FONT_SECTION("u8g2_courR08_mr") = {
+const uint8_t u8g2_font_courR08_mr[1096] U8G2_FONT_SECTION("u8g2_font_courR08_mr") = {
   95,2,4,2,3,4,1,2,4,6,10,0,254,6,254,7,
   254,1,106,2,218,4,47,32,5,214,248,115,33,8,214,56,
   166,186,205,3,34,11,214,248,37,50,137,76,34,79,8,35,
@@ -23095,7 +23095,7 @@ const uint8_t u8g2_courR08_mr[1096] U8G2_FONT_SECTION("u8g2_courR08_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR08_mn[215] U8G2_FONT_SECTION("u8g2_courR08_mn") = {
+const uint8_t u8g2_font_courR08_mn[215] U8G2_FONT_SECTION("u8g2_font_courR08_mn") = {
   18,2,4,2,3,4,1,2,4,6,10,0,254,6,254,7,
   254,0,0,0,0,0,190,32,5,214,248,115,32,11,214,56,
   102,20,154,80,34,79,2,33,11,214,184,167,50,3,77,42,
@@ -23116,7 +23116,7 @@ const uint8_t u8g2_courR08_mn[215] U8G2_FONT_SECTION("u8g2_courR08_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR10_tf[2918] U8G2_FONT_SECTION("u8g2_courR10_tf") = {
+const uint8_t u8g2_font_courR10_tf[2918] U8G2_FONT_SECTION("u8g2_font_courR10_tf") = {
   191,0,3,2,4,4,4,5,5,10,15,255,253,9,253,10,
   254,1,135,3,116,11,77,32,5,0,24,51,33,7,145,11,
   51,46,2,34,8,68,106,51,34,167,0,35,19,165,250,114,
@@ -23306,7 +23306,7 @@ const uint8_t u8g2_courR10_tf[2918] U8G2_FONT_SECTION("u8g2_courR10_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR10_tr[1335] U8G2_FONT_SECTION("u8g2_courR10_tr") = {
+const uint8_t u8g2_font_courR10_tr[1335] U8G2_FONT_SECTION("u8g2_font_courR10_tr") = {
   95,0,3,2,4,4,3,5,5,10,14,255,253,9,253,10,
   254,1,134,3,113,5,30,32,5,0,140,25,33,7,145,135,
   25,23,1,34,8,68,182,25,145,83,0,35,19,165,126,57,
@@ -23397,7 +23397,7 @@ const uint8_t u8g2_courR10_tr[1335] U8G2_FONT_SECTION("u8g2_courR10_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR10_tn[232] U8G2_FONT_SECTION("u8g2_courR10_tn") = {
+const uint8_t u8g2_font_courR10_tn[232] U8G2_FONT_SECTION("u8g2_font_courR10_tn") = {
   18,0,3,2,3,4,3,4,5,8,12,0,254,9,253,10,
   254,0,0,0,0,0,207,32,5,0,102,6,32,11,181,110,
   86,24,13,82,150,212,2,33,11,191,102,94,92,27,134,44,
@@ -23419,7 +23419,7 @@ const uint8_t u8g2_courR10_tn[232] U8G2_FONT_SECTION("u8g2_courR10_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR10_mf[3478] U8G2_FONT_SECTION("u8g2_courR10_mf") = {
+const uint8_t u8g2_font_courR10_mf[3478] U8G2_FONT_SECTION("u8g2_font_courR10_mf") = {
   191,2,4,2,4,4,1,3,5,10,15,255,253,9,253,10,
   254,1,245,4,64,13,125,32,7,250,163,159,255,0,33,12,
   250,163,159,38,217,123,80,50,79,6,34,15,250,163,31,23,
@@ -23644,7 +23644,7 @@ const uint8_t u8g2_courR10_mf[3478] U8G2_FONT_SECTION("u8g2_courR10_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR10_mr[1598] U8G2_FONT_SECTION("u8g2_courR10_mr") = {
+const uint8_t u8g2_font_courR10_mr[1598] U8G2_FONT_SECTION("u8g2_font_courR10_mr") = {
   95,2,4,2,4,4,1,3,5,10,14,255,253,9,253,10,
   254,1,235,4,49,6,37,32,7,234,163,159,127,5,33,12,
   234,163,31,152,236,61,40,153,39,3,34,14,234,163,57,18,
@@ -23751,7 +23751,7 @@ const uint8_t u8g2_courR10_mr[1598] U8G2_FONT_SECTION("u8g2_courR10_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR10_mn[291] U8G2_FONT_SECTION("u8g2_courR10_mn") = {
+const uint8_t u8g2_font_courR10_mn[291] U8G2_FONT_SECTION("u8g2_font_courR10_mn") = {
   18,2,4,2,4,4,1,2,5,8,12,0,254,9,253,10,
   254,0,0,0,0,1,10,32,7,201,201,207,111,0,32,14,
   201,201,28,140,13,100,185,68,42,147,103,3,33,14,201,201,
@@ -23777,7 +23777,7 @@ const uint8_t u8g2_courR10_mn[291] U8G2_FONT_SECTION("u8g2_courR10_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR12_tf[3173] U8G2_FONT_SECTION("u8g2_courR12_tf") = {
+const uint8_t u8g2_font_courR12_tf[3173] U8G2_FONT_SECTION("u8g2_font_courR12_tf") = {
   191,0,3,2,4,4,4,5,5,10,17,0,253,10,253,11,
   254,1,187,3,226,12,76,32,5,0,24,53,33,8,177,12,
   53,14,138,0,34,8,84,107,53,34,79,1,35,25,199,249,
@@ -23983,7 +23983,7 @@ const uint8_t u8g2_courR12_tf[3173] U8G2_FONT_SECTION("u8g2_courR12_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR12_tr[1469] U8G2_FONT_SECTION("u8g2_courR12_tr") = {
+const uint8_t u8g2_font_courR12_tr[1469] U8G2_FONT_SECTION("u8g2_font_courR12_tr") = {
   95,0,3,2,4,4,4,5,5,10,15,0,253,10,253,11,
   254,1,187,3,226,5,164,32,5,0,24,53,33,8,177,12,
   53,14,138,0,34,8,84,107,53,34,79,1,35,25,199,249,
@@ -24082,7 +24082,7 @@ const uint8_t u8g2_courR12_tr[1469] U8G2_FONT_SECTION("u8g2_courR12_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR12_tn[247] U8G2_FONT_SECTION("u8g2_courR12_tn") = {
+const uint8_t u8g2_font_courR12_tn[247] U8G2_FONT_SECTION("u8g2_font_courR12_tn") = {
   18,0,3,2,3,4,3,4,5,9,13,0,254,10,253,11,
   254,0,0,0,0,0,222,32,5,0,166,6,32,12,183,182,
   94,156,13,67,52,38,89,5,33,11,207,162,94,220,54,12,
@@ -24105,7 +24105,7 @@ const uint8_t u8g2_courR12_tn[247] U8G2_FONT_SECTION("u8g2_courR12_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR12_mf[3743] U8G2_FONT_SECTION("u8g2_courR12_mf") = {
+const uint8_t u8g2_font_courR12_mf[3743] U8G2_FONT_SECTION("u8g2_font_courR12_mf") = {
   191,2,4,2,4,5,1,3,5,10,17,0,253,10,253,11,
   254,2,54,4,182,14,134,32,8,26,71,63,255,43,0,33,
   13,26,71,63,81,178,223,131,146,121,42,0,34,17,26,71,
@@ -24346,7 +24346,7 @@ const uint8_t u8g2_courR12_mf[3743] U8G2_FONT_SECTION("u8g2_courR12_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR12_mr[1708] U8G2_FONT_SECTION("u8g2_courR12_mr") = {
+const uint8_t u8g2_font_courR12_mr[1708] U8G2_FONT_SECTION("u8g2_font_courR12_mr") = {
   95,2,4,2,4,4,1,3,5,10,15,0,253,10,253,11,
   254,2,32,4,144,6,147,32,7,250,163,159,255,0,33,12,
   250,163,61,217,239,65,201,60,21,0,34,16,250,163,59,18,
@@ -24460,7 +24460,7 @@ const uint8_t u8g2_courR12_mr[1708] U8G2_FONT_SECTION("u8g2_courR12_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR12_mn[305] U8G2_FONT_SECTION("u8g2_courR12_mn") = {
+const uint8_t u8g2_font_courR12_mn[305] U8G2_FONT_SECTION("u8g2_font_courR12_mn") = {
   18,2,4,2,4,4,1,2,5,9,13,0,254,10,253,11,
   254,0,0,0,0,1,24,32,7,218,209,207,159,2,32,15,
   218,209,148,140,13,6,169,93,34,150,201,115,13,33,13,218,
@@ -24487,7 +24487,7 @@ const uint8_t u8g2_courR12_mn[305] U8G2_FONT_SECTION("u8g2_courR12_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR14_tf[3648] U8G2_FONT_SECTION("u8g2_courR14_tf") = {
+const uint8_t u8g2_font_courR14_tf[3648] U8G2_FONT_SECTION("u8g2_font_courR14_tf") = {
   191,0,4,2,4,5,4,5,5,12,19,255,252,11,252,12,
   254,1,233,4,98,14,39,32,5,0,48,110,33,9,194,24,
   110,248,162,104,16,34,14,86,246,110,144,12,34,131,136,34,
@@ -24723,7 +24723,7 @@ const uint8_t u8g2_courR14_tf[3648] U8G2_FONT_SECTION("u8g2_courR14_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR14_tr[1678] U8G2_FONT_SECTION("u8g2_courR14_tr") = {
+const uint8_t u8g2_font_courR14_tr[1678] U8G2_FONT_SECTION("u8g2_font_courR14_tr") = {
   95,0,4,2,4,5,4,5,5,11,17,0,252,11,252,12,
   254,1,233,4,98,6,117,32,5,0,48,110,33,9,194,24,
   110,248,162,104,16,34,14,86,246,110,144,12,34,131,136,34,
@@ -24835,7 +24835,7 @@ const uint8_t u8g2_courR14_tr[1678] U8G2_FONT_SECTION("u8g2_courR14_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR14_tn[284] U8G2_FONT_SECTION("u8g2_courR14_tn") = {
+const uint8_t u8g2_font_courR14_tn[284] U8G2_FONT_SECTION("u8g2_font_courR14_tn") = {
   18,0,4,2,4,5,4,4,5,10,16,0,253,11,252,12,
   254,0,0,0,0,1,3,32,5,0,48,55,32,16,135,148,
   247,196,106,6,131,76,42,145,41,201,36,0,33,12,153,50,
@@ -24860,7 +24860,7 @@ const uint8_t u8g2_courR14_tn[284] U8G2_FONT_SECTION("u8g2_courR14_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR14_mf[4056] U8G2_FONT_SECTION("u8g2_courR14_mf") = {
+const uint8_t u8g2_font_courR14_mf[4056] U8G2_FONT_SECTION("u8g2_font_courR14_mf") = {
   191,2,4,2,4,5,1,3,5,12,19,255,252,11,252,12,
   254,2,56,4,238,15,191,32,8,60,131,63,255,191,1,33,
   13,60,131,63,169,223,214,19,73,245,44,1,34,16,60,131,
@@ -25121,7 +25121,7 @@ const uint8_t u8g2_courR14_mf[4056] U8G2_FONT_SECTION("u8g2_courR14_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR14_mr[1898] U8G2_FONT_SECTION("u8g2_courR14_mr") = {
+const uint8_t u8g2_font_courR14_mr[1898] U8G2_FONT_SECTION("u8g2_font_courR14_mr") = {
   95,2,4,2,4,5,1,3,5,11,17,0,252,11,252,12,
   254,2,63,5,10,7,81,32,8,27,99,63,255,119,0,33,
   14,27,99,63,64,233,211,122,10,165,158,17,0,34,16,27,
@@ -25247,7 +25247,7 @@ const uint8_t u8g2_courR14_mr[1898] U8G2_FONT_SECTION("u8g2_courR14_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR14_mn[333] U8G2_FONT_SECTION("u8g2_courR14_mn") = {
+const uint8_t u8g2_font_courR14_mn[333] U8G2_FONT_SECTION("u8g2_font_courR14_mn") = {
   18,2,4,2,4,5,1,3,5,10,16,0,253,11,252,12,
   254,0,0,0,0,1,52,32,8,11,103,63,255,91,0,32,
   18,11,103,63,34,90,55,24,228,146,137,92,38,150,201,243,
@@ -25275,7 +25275,7 @@ const uint8_t u8g2_courR14_mn[333] U8G2_FONT_SECTION("u8g2_courR14_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR18_tf[4548] U8G2_FONT_SECTION("u8g2_courR18_tf") = {
+const uint8_t u8g2_font_courR18_tf[4548] U8G2_FONT_SECTION("u8g2_font_courR18_tf") = {
   191,0,4,2,4,5,4,5,5,16,24,255,251,14,251,16,
   253,2,71,5,97,17,171,32,5,0,48,126,33,10,2,29,
   126,248,129,162,110,16,34,18,120,54,127,152,12,38,131,201,
@@ -25567,7 +25567,7 @@ const uint8_t u8g2_courR18_tf[4548] U8G2_FONT_SECTION("u8g2_courR18_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR18_tr[2073] U8G2_FONT_SECTION("u8g2_courR18_tr") = {
+const uint8_t u8g2_font_courR18_tr[2073] U8G2_FONT_SECTION("u8g2_font_courR18_tr") = {
   95,0,4,2,4,5,4,5,5,15,22,0,251,14,251,16,
   253,2,71,5,97,8,0,32,5,0,48,126,33,10,2,29,
   126,248,129,162,110,16,34,18,120,54,127,152,12,38,131,201,
@@ -25704,7 +25704,7 @@ const uint8_t u8g2_courR18_tr[2073] U8G2_FONT_SECTION("u8g2_courR18_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR18_tn[327] U8G2_FONT_SECTION("u8g2_courR18_tn") = {
+const uint8_t u8g2_font_courR18_tn[327] U8G2_FONT_SECTION("u8g2_font_courR18_tn") = {
   18,0,4,2,4,5,4,4,5,13,19,0,253,14,251,16,
   253,0,0,0,0,1,46,32,5,0,48,63,32,18,153,246,
   63,5,139,36,17,197,96,16,90,41,52,22,42,1,33,13,
@@ -25732,7 +25732,7 @@ const uint8_t u8g2_courR18_tn[327] U8G2_FONT_SECTION("u8g2_courR18_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR18_mf[5429] U8G2_FONT_SECTION("u8g2_courR18_mf") = {
+const uint8_t u8g2_font_courR18_mf[5429] U8G2_FONT_SECTION("u8g2_font_courR18_mf") = {
   191,2,5,2,5,5,1,4,6,16,24,255,251,14,251,16,
   253,2,234,6,161,21,28,32,8,16,31,248,243,127,12,33,
   16,16,31,248,227,202,249,115,121,245,41,200,233,147,6,34,
@@ -26079,7 +26079,7 @@ const uint8_t u8g2_courR18_mf[5429] U8G2_FONT_SECTION("u8g2_courR18_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR18_mr[2407] U8G2_FONT_SECTION("u8g2_courR18_mr") = {
+const uint8_t u8g2_font_courR18_mr[2407] U8G2_FONT_SECTION("u8g2_font_courR18_mr") = {
   95,2,4,2,4,5,1,4,5,15,22,0,251,14,251,16,
   253,2,219,6,96,9,78,32,8,111,207,127,254,255,63,33,
   15,111,207,127,152,218,95,199,235,153,171,245,188,3,34,21,
@@ -26237,7 +26237,7 @@ const uint8_t u8g2_courR18_mr[2407] U8G2_FONT_SECTION("u8g2_courR18_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR18_mn[394] U8G2_FONT_SECTION("u8g2_courR18_mn") = {
+const uint8_t u8g2_font_courR18_mn[394] U8G2_FONT_SECTION("u8g2_font_courR18_mn") = {
   18,2,4,2,4,5,1,3,5,13,19,0,253,14,251,16,
   253,0,0,0,0,1,113,32,8,63,231,63,255,255,3,32,
   21,63,231,95,188,84,18,209,13,6,209,173,66,169,209,169,
@@ -26269,7 +26269,7 @@ const uint8_t u8g2_courR18_mn[394] U8G2_FONT_SECTION("u8g2_courR18_mn") = {
   Glyphs: 191/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR24_tf[6082] U8G2_FONT_SECTION("u8g2_courR24_tf") = {
+const uint8_t u8g2_font_courR24_tf[6082] U8G2_FONT_SECTION("u8g2_font_courR24_tf") = {
   191,0,4,2,5,5,5,6,6,19,32,0,250,19,250,21,
   252,3,28,7,50,23,169,32,6,0,192,144,6,33,17,165,
   98,144,150,204,228,155,80,191,7,46,6,138,5,0,34,29,
@@ -26657,7 +26657,7 @@ const uint8_t u8g2_courR24_tf[6082] U8G2_FONT_SECTION("u8g2_courR24_tf") = {
   Glyphs: 95/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR24_tr[2754] U8G2_FONT_SECTION("u8g2_courR24_tr") = {
+const uint8_t u8g2_font_courR24_tr[2754] U8G2_FONT_SECTION("u8g2_font_courR24_tr") = {
   95,0,4,2,5,5,5,6,6,19,28,0,250,19,250,21,
   252,3,28,7,50,10,169,32,6,0,192,144,6,33,17,165,
   98,144,150,204,228,155,80,191,7,46,6,138,5,0,34,29,
@@ -26837,7 +26837,7 @@ const uint8_t u8g2_courR24_tr[2754] U8G2_FONT_SECTION("u8g2_courR24_tr") = {
   Glyphs: 18/873
   BBX Build Mode: 0
 */
-const uint8_t u8g2_courR24_tn[426] U8G2_FONT_SECTION("u8g2_courR24_tn") = {
+const uint8_t u8g2_font_courR24_tn[426] U8G2_FONT_SECTION("u8g2_font_courR24_tn") = {
   18,0,4,2,4,5,4,5,6,17,26,0,252,19,250,21,
   252,0,0,0,0,1,145,32,6,0,48,210,0,32,26,219,
   24,211,21,109,21,10,13,20,137,65,102,160,27,38,114,10,
@@ -26871,7 +26871,7 @@ const uint8_t u8g2_courR24_tn[426] U8G2_FONT_SECTION("u8g2_courR24_tn") = {
   Glyphs: 191/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR24_mf[7109] U8G2_FONT_SECTION("u8g2_courR24_mf") = {
+const uint8_t u8g2_font_courR24_mf[7109] U8G2_FONT_SECTION("u8g2_font_courR24_mf") = {
   191,2,5,2,5,6,1,4,6,19,32,0,250,19,250,21,
   252,3,221,8,175,27,172,32,10,20,44,244,231,255,255,40,
   0,33,20,20,44,244,103,49,114,241,147,153,253,62,43,131,
@@ -27323,7 +27323,7 @@ const uint8_t u8g2_courR24_mf[7109] U8G2_FONT_SECTION("u8g2_courR24_mf") = {
   Glyphs: 95/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR24_mr[3183] U8G2_FONT_SECTION("u8g2_courR24_mr") = {
+const uint8_t u8g2_font_courR24_mr[3183] U8G2_FONT_SECTION("u8g2_font_courR24_mr") = {
   95,2,5,2,5,5,1,4,6,19,28,0,250,19,250,21,
   252,3,195,8,128,12,86,32,9,148,23,250,243,255,159,0,
   33,19,148,23,218,71,46,126,50,179,223,103,101,112,64,112,
@@ -27529,7 +27529,7 @@ const uint8_t u8g2_courR24_mr[3183] U8G2_FONT_SECTION("u8g2_courR24_mr") = {
   Glyphs: 18/873
   BBX Build Mode: 2
 */
-const uint8_t u8g2_courR24_mn[524] U8G2_FONT_SECTION("u8g2_courR24_mn") = {
+const uint8_t u8g2_font_courR24_mn[524] U8G2_FONT_SECTION("u8g2_font_courR24_mn") = {
   18,2,5,2,5,5,1,3,6,17,26,0,252,19,250,21,
   252,0,0,0,0,1,243,32,9,84,7,253,249,255,195,0,
   32,30,84,7,221,51,155,11,169,52,144,144,48,16,54,32,
@@ -27569,7 +27569,7 @@ const uint8_t u8g2_courR24_mn[524] U8G2_FONT_SECTION("u8g2_courR24_mn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB08_tf[2256] U8G2_FONT_SECTION("u8g2_helvB08_tf") = {
+const uint8_t u8g2_font_helvB08_tf[2256] U8G2_FONT_SECTION("u8g2_font_helvB08_tf") = {
   191,0,3,3,4,4,2,4,5,11,13,255,254,8,254,8,
   254,1,100,2,207,8,183,32,5,0,230,4,33,8,130,35,
   197,65,18,19,34,8,51,119,69,68,37,0,35,16,119,161,
@@ -27718,7 +27718,7 @@ const uint8_t u8g2_helvB08_tf[2256] U8G2_FONT_SECTION("u8g2_helvB08_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB08_tr[1058] U8G2_FONT_SECTION("u8g2_helvB08_tr") = {
+const uint8_t u8g2_font_helvB08_tr[1058] U8G2_FONT_SECTION("u8g2_font_helvB08_tr") = {
   95,0,3,3,4,4,2,4,5,11,11,255,254,8,254,8,
   254,1,100,2,207,4,9,32,5,0,230,4,33,8,130,35,
   197,65,18,19,34,8,51,119,69,68,37,0,35,16,119,161,
@@ -27792,7 +27792,7 @@ const uint8_t u8g2_helvB08_tr[1058] U8G2_FONT_SECTION("u8g2_helvB08_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB08_tn[199] U8G2_FONT_SECTION("u8g2_helvB08_tn") = {
+const uint8_t u8g2_font_helvB08_tn[199] U8G2_FONT_SECTION("u8g2_font_helvB08_tn") = {
   18,0,3,3,3,4,2,4,4,6,10,0,254,8,254,8,
   254,0,0,0,0,0,174,32,5,0,115,1,32,7,27,155,
   17,201,1,33,10,46,211,37,20,153,132,34,0,34,7,34,
@@ -27812,7 +27812,7 @@ const uint8_t u8g2_helvB08_tn[199] U8G2_FONT_SECTION("u8g2_helvB08_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB08_hf[2676] U8G2_FONT_SECTION("u8g2_helvB08_hf") = {
+const uint8_t u8g2_font_helvB08_hf[2676] U8G2_FONT_SECTION("u8g2_font_helvB08_hf") = {
   191,1,3,2,4,4,1,2,5,11,13,255,254,8,254,8,
   254,1,147,3,115,10,91,32,6,211,153,231,17,33,11,212,
   161,135,37,167,44,7,116,8,34,12,213,169,39,37,81,18,
@@ -27987,7 +27987,7 @@ const uint8_t u8g2_helvB08_hf[2676] U8G2_FONT_SECTION("u8g2_helvB08_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB08_hr[1240] U8G2_FONT_SECTION("u8g2_helvB08_hr") = {
+const uint8_t u8g2_font_helvB08_hr[1240] U8G2_FONT_SECTION("u8g2_font_helvB08_hr") = {
   95,1,3,2,4,4,1,2,5,11,11,255,254,8,254,8,
   254,1,137,3,97,4,191,32,6,179,153,231,10,33,11,180,
   161,149,156,178,28,208,33,0,34,11,181,169,78,162,36,74,
@@ -28072,7 +28072,7 @@ const uint8_t u8g2_helvB08_hr[1240] U8G2_FONT_SECTION("u8g2_helvB08_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB08_hn[210] U8G2_FONT_SECTION("u8g2_helvB08_hn") = {
+const uint8_t u8g2_font_helvB08_hn[210] U8G2_FONT_SECTION("u8g2_font_helvB08_hn") = {
   18,1,3,2,3,4,1,2,4,6,10,0,254,8,254,8,
   254,0,0,0,0,0,185,32,6,211,236,57,1,32,9,212,
   48,146,168,146,115,1,33,11,214,248,9,162,52,76,162,78,
@@ -28093,7 +28093,7 @@ const uint8_t u8g2_helvB08_hn[210] U8G2_FONT_SECTION("u8g2_helvB08_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB10_tf[2905] U8G2_FONT_SECTION("u8g2_helvB10_tf") = {
+const uint8_t u8g2_font_helvB10_tf[2905] U8G2_FONT_SECTION("u8g2_font_helvB10_tf") = {
   191,0,3,3,4,4,3,5,5,14,17,0,253,11,253,11,
   253,1,178,3,162,11,64,32,5,0,140,20,33,9,178,133,
   20,7,75,140,0,34,9,53,197,23,18,202,40,2,35,23,
@@ -28282,7 +28282,7 @@ const uint8_t u8g2_helvB10_tf[2905] U8G2_FONT_SECTION("u8g2_helvB10_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB10_tr[1343] U8G2_FONT_SECTION("u8g2_helvB10_tr") = {
+const uint8_t u8g2_font_helvB10_tr[1343] U8G2_FONT_SECTION("u8g2_font_helvB10_tr") = {
   95,0,3,3,4,4,3,5,5,14,15,0,253,11,253,11,
   253,1,178,3,162,5,38,32,5,0,140,20,33,9,178,133,
   20,7,75,140,0,34,9,53,197,23,18,202,40,2,35,23,
@@ -28373,7 +28373,7 @@ const uint8_t u8g2_helvB10_tr[1343] U8G2_FONT_SECTION("u8g2_helvB10_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB10_tn[235] U8G2_FONT_SECTION("u8g2_helvB10_tn") = {
+const uint8_t u8g2_font_helvB10_tn[235] U8G2_FONT_SECTION("u8g2_font_helvB10_tn") = {
   18,0,3,3,4,4,3,4,5,8,12,0,255,11,253,11,
   253,0,0,0,0,0,210,32,5,0,76,10,32,9,69,124,
   171,80,101,162,0,33,11,120,204,60,177,218,33,38,86,3,
@@ -28395,7 +28395,7 @@ const uint8_t u8g2_helvB10_tn[235] U8G2_FONT_SECTION("u8g2_helvB10_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB10_hf[3678] U8G2_FONT_SECTION("u8g2_helvB10_hf") = {
+const uint8_t u8g2_font_helvB10_hf[3678] U8G2_FONT_SECTION("u8g2_font_helvB10_hf") = {
   191,1,3,2,4,5,1,3,5,14,17,0,253,11,253,11,
   253,2,46,4,194,14,69,32,7,20,135,158,127,5,33,13,
   20,135,30,150,124,202,114,64,210,97,0,34,12,23,231,158,
@@ -28632,7 +28632,7 @@ const uint8_t u8g2_helvB10_hf[3678] U8G2_FONT_SECTION("u8g2_helvB10_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB10_hr[1697] U8G2_FONT_SECTION("u8g2_helvB10_hr") = {
+const uint8_t u8g2_font_helvB10_hr[1697] U8G2_FONT_SECTION("u8g2_font_helvB10_hr") = {
   95,1,3,2,4,4,1,3,5,14,15,0,253,11,253,11,
   253,2,31,4,162,6,136,32,7,244,67,207,31,1,33,12,
   244,67,43,249,148,229,128,164,195,0,34,11,247,115,143,152,
@@ -28746,7 +28746,7 @@ const uint8_t u8g2_helvB10_hr[1697] U8G2_FONT_SECTION("u8g2_helvB10_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB10_hn[282] U8G2_FONT_SECTION("u8g2_helvB10_hn") = {
+const uint8_t u8g2_font_helvB10_hn[282] U8G2_FONT_SECTION("u8g2_font_helvB10_hn") = {
   18,1,3,2,4,4,1,1,5,8,12,0,255,11,253,11,
   253,0,0,0,0,1,1,32,6,196,209,243,25,32,10,198,
   89,101,131,52,41,58,63,33,17,201,229,115,210,1,29,16,
@@ -28771,7 +28771,7 @@ const uint8_t u8g2_helvB10_hn[282] U8G2_FONT_SECTION("u8g2_helvB10_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB12_tf[3337] U8G2_FONT_SECTION("u8g2_helvB12_tf") = {
+const uint8_t u8g2_font_helvB12_tf[3337] U8G2_FONT_SECTION("u8g2_font_helvB12_tf") = {
   191,0,3,3,4,5,3,5,6,15,20,255,252,12,252,12,
   253,1,235,4,45,12,240,32,5,0,24,75,33,9,194,12,
   77,28,44,105,4,34,10,69,138,81,72,88,36,161,0,35,
@@ -28987,7 +28987,7 @@ const uint8_t u8g2_helvB12_tf[3337] U8G2_FONT_SECTION("u8g2_helvB12_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB12_tr[1526] U8G2_FONT_SECTION("u8g2_helvB12_tr") = {
+const uint8_t u8g2_font_helvB12_tr[1526] U8G2_FONT_SECTION("u8g2_font_helvB12_tr") = {
   95,0,3,3,4,5,3,5,6,14,17,0,252,12,252,12,
   253,1,235,4,45,5,221,32,5,0,24,75,33,9,194,12,
   77,28,44,105,4,34,10,69,138,81,72,88,36,161,0,35,
@@ -29090,7 +29090,7 @@ const uint8_t u8g2_helvB12_tr[1526] U8G2_FONT_SECTION("u8g2_helvB12_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB12_tn[258] U8G2_FONT_SECTION("u8g2_helvB12_tn") = {
+const uint8_t u8g2_font_helvB12_tn[258] U8G2_FONT_SECTION("u8g2_font_helvB12_tn") = {
   18,0,3,3,4,4,3,4,5,9,15,0,253,12,252,12,
   253,0,0,0,0,0,233,32,5,0,204,10,32,10,85,124,
   171,148,148,209,36,22,33,12,136,69,61,177,218,225,32,19,
@@ -29114,7 +29114,7 @@ const uint8_t u8g2_helvB12_tn[258] U8G2_FONT_SECTION("u8g2_helvB12_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB12_hf[4366] U8G2_FONT_SECTION("u8g2_helvB12_hf") = {
+const uint8_t u8g2_font_helvB12_hf[4366] U8G2_FONT_SECTION("u8g2_font_helvB12_hf") = {
   191,1,4,3,5,5,1,3,6,15,20,255,252,12,252,12,
   253,2,138,5,126,16,245,32,8,133,70,249,248,20,0,33,
   15,134,134,249,176,66,122,20,149,86,72,30,22,0,34,17,
@@ -29394,7 +29394,7 @@ const uint8_t u8g2_helvB12_hf[4366] U8G2_FONT_SECTION("u8g2_helvB12_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB12_hr[1972] U8G2_FONT_SECTION("u8g2_helvB12_hr") = {
+const uint8_t u8g2_font_helvB12_hr[1972] U8G2_FONT_SECTION("u8g2_font_helvB12_hr") = {
   95,1,4,3,5,5,1,3,6,14,17,0,252,12,252,12,
   253,2,115,5,75,7,155,32,7,37,70,249,120,10,33,14,
   38,134,137,66,122,20,149,86,72,30,22,0,34,16,40,6,
@@ -29525,7 +29525,7 @@ const uint8_t u8g2_helvB12_hr[1972] U8G2_FONT_SECTION("u8g2_helvB12_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB12_hn[329] U8G2_FONT_SECTION("u8g2_helvB12_hn") = {
+const uint8_t u8g2_font_helvB12_hn[329] U8G2_FONT_SECTION("u8g2_font_helvB12_hn") = {
   18,1,4,3,4,4,1,3,5,9,15,0,253,12,252,12,
   253,0,0,0,0,1,48,32,6,245,83,31,15,32,14,246,
   99,37,38,34,201,204,72,76,60,46,0,33,16,250,163,31,
@@ -29553,7 +29553,7 @@ const uint8_t u8g2_helvB12_hn[329] U8G2_FONT_SECTION("u8g2_helvB12_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB14_tf[3867] U8G2_FONT_SECTION("u8g2_helvB14_tf") = {
+const uint8_t u8g2_font_helvB14_tf[3867] U8G2_FONT_SECTION("u8g2_font_helvB14_tf") = {
   191,0,3,3,5,5,3,5,6,18,23,255,251,14,252,14,
   252,2,40,4,221,15,2,32,6,0,48,150,0,33,10,195,
   21,150,248,80,17,30,4,34,10,165,52,159,144,112,25,69,
@@ -29802,7 +29802,7 @@ const uint8_t u8g2_helvB14_tf[3867] U8G2_FONT_SECTION("u8g2_helvB14_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB14_tr[1767] U8G2_FONT_SECTION("u8g2_helvB14_tr") = {
+const uint8_t u8g2_font_helvB14_tr[1767] U8G2_FONT_SECTION("u8g2_font_helvB14_tr") = {
   95,0,3,3,5,5,3,5,6,18,18,255,252,14,252,14,
   252,2,40,4,221,6,206,32,6,0,48,150,0,33,10,195,
   21,150,248,80,17,30,4,34,10,165,52,159,144,112,25,69,
@@ -29920,7 +29920,7 @@ const uint8_t u8g2_helvB14_tr[1767] U8G2_FONT_SECTION("u8g2_helvB14_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB14_tn[283] U8G2_FONT_SECTION("u8g2_helvB14_tn") = {
+const uint8_t u8g2_font_helvB14_tn[283] U8G2_FONT_SECTION("u8g2_font_helvB14_tn") = {
   18,0,3,3,4,4,2,5,5,9,17,0,253,14,252,14,
   252,0,0,0,0,1,2,32,5,0,198,10,32,15,103,227,
   188,152,36,34,169,205,36,162,88,4,0,33,12,136,199,61,
@@ -29945,7 +29945,7 @@ const uint8_t u8g2_helvB14_tn[283] U8G2_FONT_SECTION("u8g2_helvB14_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB14_hf[4975] U8G2_FONT_SECTION("u8g2_helvB14_hf") = {
+const uint8_t u8g2_font_helvB14_hf[4975] U8G2_FONT_SECTION("u8g2_font_helvB14_hf") = {
   191,1,4,3,5,5,1,4,6,18,23,255,251,14,252,14,
   252,2,215,6,55,19,86,32,8,229,158,242,241,83,0,33,
   15,229,158,242,193,70,246,19,25,193,145,245,176,0,34,18,
@@ -30263,7 +30263,7 @@ const uint8_t u8g2_helvB14_hf[4975] U8G2_FONT_SECTION("u8g2_helvB14_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB14_hr[2168] U8G2_FONT_SECTION("u8g2_helvB14_hr") = {
+const uint8_t u8g2_font_helvB14_hr[2168] U8G2_FONT_SECTION("u8g2_font_helvB14_hr") = {
   95,1,4,3,5,5,1,3,6,18,18,255,252,14,252,14,
   252,2,170,5,212,8,95,32,7,69,70,249,248,0,33,14,
   69,70,25,35,251,137,140,224,200,122,48,0,34,16,71,198,
@@ -30406,7 +30406,7 @@ const uint8_t u8g2_helvB14_hr[2168] U8G2_FONT_SECTION("u8g2_helvB14_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB14_hn[370] U8G2_FONT_SECTION("u8g2_helvB14_hn") = {
+const uint8_t u8g2_font_helvB14_hn[370] U8G2_FONT_SECTION("u8g2_font_helvB14_hn") = {
   18,1,4,3,4,5,1,3,5,9,17,0,253,14,252,14,
   252,0,0,0,0,1,89,32,7,21,167,62,158,2,32,17,
   25,39,83,148,68,132,76,213,148,132,80,76,60,190,5,33,
@@ -30437,7 +30437,7 @@ const uint8_t u8g2_helvB14_hn[370] U8G2_FONT_SECTION("u8g2_helvB14_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB18_tf[4952] U8G2_FONT_SECTION("u8g2_helvB18_tf") = {
+const uint8_t u8g2_font_helvB18_tf[4952] U8G2_FONT_SECTION("u8g2_font_helvB18_tf") = {
   191,0,4,3,5,5,3,6,6,24,29,255,251,19,251,19,
   251,2,241,6,48,19,63,32,6,0,48,52,1,33,10,99,
   26,60,225,47,212,29,8,34,11,197,184,77,65,130,23,35,
@@ -30754,7 +30754,7 @@ const uint8_t u8g2_helvB18_tf[4952] U8G2_FONT_SECTION("u8g2_helvB18_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB18_tr[2249] U8G2_FONT_SECTION("u8g2_helvB18_tr") = {
+const uint8_t u8g2_font_helvB18_tr[2249] U8G2_FONT_SECTION("u8g2_font_helvB18_tr") = {
   95,0,4,3,5,5,3,5,6,23,24,0,251,19,251,19,
   251,2,234,6,37,8,176,32,6,0,48,154,0,33,10,99,
   26,158,240,23,234,14,4,34,11,197,184,167,32,193,139,145,
@@ -30902,7 +30902,7 @@ const uint8_t u8g2_helvB18_tr[2249] U8G2_FONT_SECTION("u8g2_helvB18_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB18_tn[385] U8G2_FONT_SECTION("u8g2_helvB18_tn") = {
+const uint8_t u8g2_font_helvB18_tn[385] U8G2_FONT_SECTION("u8g2_font_helvB18_tn") = {
   18,0,4,3,4,5,3,5,5,13,22,0,253,19,251,19,
   251,0,0,0,0,1,104,32,5,0,24,45,32,15,120,202,
   245,136,201,72,72,28,140,208,136,104,1,33,14,204,26,127,
@@ -30934,7 +30934,7 @@ const uint8_t u8g2_helvB18_tn[385] U8G2_FONT_SECTION("u8g2_helvB18_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB18_hf[6224] U8G2_FONT_SECTION("u8g2_helvB18_hf") = {
+const uint8_t u8g2_font_helvB18_hf[6224] U8G2_FONT_SECTION("u8g2_font_helvB18_hf") = {
   191,1,4,3,5,5,1,4,6,24,29,255,251,19,251,19,
   251,3,131,7,222,24,55,32,8,166,31,243,241,191,4,33,
   16,167,159,243,209,13,237,63,146,82,15,180,61,58,0,34,
@@ -31331,7 +31331,7 @@ const uint8_t u8g2_helvB18_hf[6224] U8G2_FONT_SECTION("u8g2_helvB18_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB18_hr[2794] U8G2_FONT_SECTION("u8g2_helvB18_hr") = {
+const uint8_t u8g2_font_helvB18_hr[2794] U8G2_FONT_SECTION("u8g2_font_helvB18_hr") = {
   95,1,4,3,5,5,1,4,6,23,24,0,251,19,251,19,
   251,3,106,7,157,10,209,32,8,6,31,243,241,47,1,33,
   15,7,159,83,134,246,31,73,169,7,218,30,29,0,34,19,
@@ -31513,7 +31513,7 @@ const uint8_t u8g2_helvB18_hr[2794] U8G2_FONT_SECTION("u8g2_helvB18_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB18_hn[459] U8G2_FONT_SECTION("u8g2_helvB18_hn") = {
+const uint8_t u8g2_font_helvB18_hn[459] U8G2_FONT_SECTION("u8g2_font_helvB18_hn") = {
   18,1,4,3,4,5,1,3,5,13,22,0,253,19,251,19,
   251,0,0,0,0,1,178,32,8,102,199,62,254,24,0,32,
   19,106,71,147,160,148,132,146,131,32,42,17,33,17,121,252,
@@ -31549,7 +31549,7 @@ const uint8_t u8g2_helvB18_hn[459] U8G2_FONT_SECTION("u8g2_helvB18_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB24_tf[6642] U8G2_FONT_SECTION("u8g2_helvB24_tf") = {
+const uint8_t u8g2_font_helvB24_tf[6642] U8G2_FONT_SECTION("u8g2_font_helvB24_tf") = {
   191,0,4,4,5,6,4,6,7,32,38,255,249,25,249,25,
   250,3,211,8,83,25,217,32,6,0,192,48,9,33,14,37,
   91,112,9,63,80,49,100,190,125,160,0,34,16,43,81,24,
@@ -31972,7 +31972,7 @@ const uint8_t u8g2_helvB24_tf[6642] U8G2_FONT_SECTION("u8g2_helvB24_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB24_tr[2983] U8G2_FONT_SECTION("u8g2_helvB24_tr") = {
+const uint8_t u8g2_font_helvB24_tr[2983] U8G2_FONT_SECTION("u8g2_font_helvB24_tr") = {
   95,0,4,4,5,6,3,6,7,30,32,0,249,25,249,25,
   250,3,206,8,75,11,142,32,6,0,96,152,4,33,13,37,
   59,184,132,31,168,24,50,223,62,80,34,15,43,49,12,5,
@@ -32166,7 +32166,7 @@ const uint8_t u8g2_helvB24_tr[2983] U8G2_FONT_SECTION("u8g2_helvB24_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvB24_tn[457] U8G2_FONT_SECTION("u8g2_helvB24_tn") = {
+const uint8_t u8g2_font_helvB24_tn[457] U8G2_FONT_SECTION("u8g2_font_helvB24_tn") = {
   18,0,4,4,5,5,3,5,6,17,31,0,250,25,249,25,
   250,0,0,0,0,1,176,32,6,0,48,166,0,32,24,106,
   181,183,36,80,84,16,33,33,70,136,104,129,136,148,25,36,
@@ -32202,7 +32202,7 @@ const uint8_t u8g2_helvB24_tn[457] U8G2_FONT_SECTION("u8g2_helvB24_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB24_hf[8877] U8G2_FONT_SECTION("u8g2_helvB24_hf") = {
+const uint8_t u8g2_font_helvB24_hf[8877] U8G2_FONT_SECTION("u8g2_font_helvB24_hf") = {
   191,1,5,4,6,6,1,4,7,32,38,255,249,25,249,25,
   250,4,251,11,80,34,148,32,9,137,57,146,31,254,23,0,
   33,19,139,57,150,31,58,197,212,127,103,160,249,122,49,117,
@@ -32764,7 +32764,7 @@ const uint8_t u8g2_helvB24_hf[8877] U8G2_FONT_SECTION("u8g2_helvB24_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB24_hr[3985] U8G2_FONT_SECTION("u8g2_helvB24_hr") = {
+const uint8_t u8g2_font_helvB24_hr[3985] U8G2_FONT_SECTION("u8g2_font_helvB24_hr") = {
   95,1,5,4,6,6,1,4,7,30,32,0,249,25,249,25,
   250,4,215,10,249,15,120,32,9,9,56,146,31,254,37,0,
   33,18,11,56,150,163,152,250,239,12,52,95,47,166,238,67,
@@ -33021,7 +33021,7 @@ const uint8_t u8g2_helvB24_hr[3985] U8G2_FONT_SECTION("u8g2_helvB24_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvB24_hn[612] U8G2_FONT_SECTION("u8g2_helvB24_hn") = {
+const uint8_t u8g2_font_helvB24_hn[612] U8G2_FONT_SECTION("u8g2_font_helvB24_hn") = {
   18,1,4,4,5,5,1,4,6,17,31,0,250,25,249,25,
   250,0,0,0,0,2,75,32,9,233,151,244,225,255,191,4,
   32,29,237,151,246,193,136,21,24,68,72,160,17,34,198,40,
@@ -33067,7 +33067,7 @@ const uint8_t u8g2_helvB24_hn[612] U8G2_FONT_SECTION("u8g2_helvB24_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR08_tf[2191] U8G2_FONT_SECTION("u8g2_helvR08_tf") = {
+const uint8_t u8g2_font_helvR08_tf[2191] U8G2_FONT_SECTION("u8g2_font_helvR08_tf") = {
   191,0,3,2,4,4,2,4,5,11,13,255,254,8,254,8,
   254,1,85,2,191,8,118,32,5,0,230,4,33,6,129,227,
   196,37,34,7,35,59,69,162,4,35,16,118,162,85,146,37,
@@ -33211,7 +33211,7 @@ const uint8_t u8g2_helvR08_tf[2191] U8G2_FONT_SECTION("u8g2_helvR08_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR08_tr[1039] U8G2_FONT_SECTION("u8g2_helvR08_tr") = {
+const uint8_t u8g2_font_helvR08_tr[1039] U8G2_FONT_SECTION("u8g2_font_helvR08_tr") = {
   95,0,3,2,4,4,2,4,5,11,11,255,254,8,254,8,
   254,1,85,2,191,3,246,32,5,0,230,4,33,6,129,227,
   196,37,34,7,35,59,69,162,4,35,16,118,162,85,146,37,
@@ -33283,7 +33283,7 @@ const uint8_t u8g2_helvR08_tr[1039] U8G2_FONT_SECTION("u8g2_helvR08_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR08_tn[193] U8G2_FONT_SECTION("u8g2_helvR08_tn") = {
+const uint8_t u8g2_font_helvR08_tn[193] U8G2_FONT_SECTION("u8g2_font_helvR08_tn") = {
   18,0,3,2,3,4,2,4,4,5,10,0,254,8,254,8,
   254,0,0,0,0,0,168,32,5,0,115,1,32,6,27,155,
   145,116,33,10,45,211,21,70,131,20,70,0,34,7,26,109,
@@ -33303,7 +33303,7 @@ const uint8_t u8g2_helvR08_tn[193] U8G2_FONT_SECTION("u8g2_helvR08_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR08_hf[2734] U8G2_FONT_SECTION("u8g2_helvR08_hf") = {
+const uint8_t u8g2_font_helvR08_hf[2734] U8G2_FONT_SECTION("u8g2_font_helvR08_hf") = {
   191,1,3,2,4,4,1,2,5,11,13,255,254,8,254,8,
   254,1,154,3,110,10,149,32,6,211,153,231,17,33,9,211,
   153,199,162,94,115,0,34,9,212,161,135,147,118,142,0,35,
@@ -33481,7 +33481,7 @@ const uint8_t u8g2_helvR08_hf[2734] U8G2_FONT_SECTION("u8g2_helvR08_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR08_hr[1275] U8G2_FONT_SECTION("u8g2_helvR08_hr") = {
+const uint8_t u8g2_font_helvR08_hr[1275] U8G2_FONT_SECTION("u8g2_font_helvR08_hr") = {
   95,1,3,2,4,4,1,2,5,11,11,255,254,8,254,8,
   254,1,144,3,96,4,226,32,6,179,153,231,10,33,8,179,
   153,140,122,205,1,34,8,180,161,77,218,57,2,35,17,182,
@@ -33568,7 +33568,7 @@ const uint8_t u8g2_helvR08_hr[1275] U8G2_FONT_SECTION("u8g2_helvR08_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR08_hn[226] U8G2_FONT_SECTION("u8g2_helvR08_hn") = {
+const uint8_t u8g2_font_helvR08_hn[226] U8G2_FONT_SECTION("u8g2_font_helvR08_hn") = {
   18,1,3,2,3,4,1,2,4,5,10,0,254,8,254,8,
   254,0,0,0,0,0,201,32,6,211,236,57,1,32,9,212,
   48,146,168,146,115,1,33,11,214,248,9,105,54,104,105,206,
@@ -33590,7 +33590,7 @@ const uint8_t u8g2_helvR08_hn[226] U8G2_FONT_SECTION("u8g2_helvR08_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR10_tf[2856] U8G2_FONT_SECTION("u8g2_helvR10_tf") = {
+const uint8_t u8g2_font_helvR10_tf[2856] U8G2_FONT_SECTION("u8g2_font_helvR10_tf") = {
   191,0,3,2,4,4,3,5,5,14,17,255,253,11,253,11,
   253,1,158,3,157,11,15,32,5,0,140,20,33,7,177,134,
   20,7,69,34,7,51,197,21,137,37,35,21,167,132,120,73,
@@ -33776,7 +33776,7 @@ const uint8_t u8g2_helvR10_tf[2856] U8G2_FONT_SECTION("u8g2_helvR10_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR10_tr[1316] U8G2_FONT_SECTION("u8g2_helvR10_tr") = {
+const uint8_t u8g2_font_helvR10_tr[1316] U8G2_FONT_SECTION("u8g2_font_helvR10_tr") = {
   95,0,3,2,4,4,3,5,5,14,15,255,253,11,253,11,
   253,1,158,3,157,5,11,32,5,0,140,20,33,7,177,134,
   20,7,69,34,7,51,197,21,137,37,35,21,167,132,120,73,
@@ -33866,7 +33866,7 @@ const uint8_t u8g2_helvR10_tr[1316] U8G2_FONT_SECTION("u8g2_helvR10_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR10_tn[229] U8G2_FONT_SECTION("u8g2_helvR10_tn") = {
+const uint8_t u8g2_font_helvR10_tn[229] U8G2_FONT_SECTION("u8g2_font_helvR10_tn") = {
   18,0,3,2,3,4,3,4,5,8,13,0,254,11,253,11,
   253,0,0,0,0,0,204,32,5,0,38,5,32,10,173,250,
   85,165,178,52,69,0,33,11,191,102,94,92,27,134,44,174,
@@ -33888,7 +33888,7 @@ const uint8_t u8g2_helvR10_tn[229] U8G2_FONT_SECTION("u8g2_helvR10_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR10_hf[3692] U8G2_FONT_SECTION("u8g2_helvR10_hf") = {
+const uint8_t u8g2_font_helvR10_hf[3692] U8G2_FONT_SECTION("u8g2_font_helvR10_hf") = {
   191,1,4,2,4,5,1,3,5,14,17,255,253,11,253,11,
   253,2,31,4,167,14,83,32,7,20,135,62,135,0,33,10,
   20,135,122,166,223,101,210,0,34,12,21,167,62,162,36,17,
@@ -34126,7 +34126,7 @@ const uint8_t u8g2_helvR10_hf[3692] U8G2_FONT_SECTION("u8g2_helvR10_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR10_hr[1676] U8G2_FONT_SECTION("u8g2_helvR10_hr") = {
+const uint8_t u8g2_font_helvR10_hr[1676] U8G2_FONT_SECTION("u8g2_font_helvR10_hr") = {
   95,1,4,2,4,4,1,3,5,14,15,255,253,11,253,11,
   253,2,12,4,121,6,115,32,6,244,67,159,3,33,10,244,
   67,45,211,239,50,105,0,34,12,245,83,45,17,73,68,18,
@@ -34238,7 +34238,7 @@ const uint8_t u8g2_helvR10_hr[1676] U8G2_FONT_SECTION("u8g2_helvR10_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR10_hn[303] U8G2_FONT_SECTION("u8g2_helvR10_hn") = {
+const uint8_t u8g2_font_helvR10_hn[303] U8G2_FONT_SECTION("u8g2_font_helvR10_hn") = {
   18,1,4,2,4,4,1,2,5,8,13,0,254,11,253,11,
   253,0,0,0,0,1,22,32,6,212,161,207,14,32,13,215,
   185,19,74,212,108,18,69,121,230,0,33,14,217,201,79,17,
@@ -34264,7 +34264,7 @@ const uint8_t u8g2_helvR10_hn[303] U8G2_FONT_SECTION("u8g2_helvR10_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR12_tf[3320] U8G2_FONT_SECTION("u8g2_helvR12_tf") = {
+const uint8_t u8g2_font_helvR12_tf[3320] U8G2_FONT_SECTION("u8g2_font_helvR12_tf") = {
   191,0,4,2,4,5,3,5,6,15,20,255,252,12,252,12,
   252,1,235,4,37,12,223,32,5,0,24,75,33,7,193,12,
   75,120,33,34,8,68,138,77,136,56,9,35,26,184,8,211,
@@ -34479,7 +34479,7 @@ const uint8_t u8g2_helvR12_tf[3320] U8G2_FONT_SECTION("u8g2_helvR12_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR12_tr[1525] U8G2_FONT_SECTION("u8g2_helvR12_tr") = {
+const uint8_t u8g2_font_helvR12_tr[1525] U8G2_FONT_SECTION("u8g2_font_helvR12_tr") = {
   95,0,4,2,4,5,3,5,6,15,17,255,252,12,252,12,
   252,1,235,4,37,5,220,32,5,0,24,75,33,7,193,12,
   75,120,33,34,8,68,138,77,136,56,9,35,26,184,8,211,
@@ -34582,7 +34582,7 @@ const uint8_t u8g2_helvR12_tr[1525] U8G2_FONT_SECTION("u8g2_helvR12_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR12_tn[263] U8G2_FONT_SECTION("u8g2_helvR12_tn") = {
+const uint8_t u8g2_font_helvR12_tn[263] U8G2_FONT_SECTION("u8g2_font_helvR12_tn") = {
   18,0,3,2,4,4,3,4,5,9,14,0,254,12,252,12,
   252,0,0,0,0,0,238,32,5,0,204,10,32,10,85,124,
   171,74,101,74,106,1,33,18,153,68,205,28,201,145,28,9,
@@ -34606,7 +34606,7 @@ const uint8_t u8g2_helvR12_tn[263] U8G2_FONT_SECTION("u8g2_helvR12_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR12_hf[4155] U8G2_FONT_SECTION("u8g2_helvR12_hf") = {
+const uint8_t u8g2_font_helvR12_hf[4155] U8G2_FONT_SECTION("u8g2_font_helvR12_hf") = {
   191,1,4,2,5,5,1,3,6,15,20,255,252,12,252,12,
   252,2,90,5,39,16,34,32,7,133,70,249,124,10,33,12,
   133,70,249,184,80,127,25,202,227,0,34,10,134,134,249,208,
@@ -34873,7 +34873,7 @@ const uint8_t u8g2_helvR12_hf[4155] U8G2_FONT_SECTION("u8g2_helvR12_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR12_hr[1857] U8G2_FONT_SECTION("u8g2_helvR12_hr") = {
+const uint8_t u8g2_font_helvR12_hr[1857] U8G2_FONT_SECTION("u8g2_font_helvR12_hr") = {
   95,1,4,2,5,5,1,3,6,15,17,255,252,12,252,12,
   252,2,68,4,244,7,40,32,7,37,70,249,60,5,33,11,
   37,70,121,161,254,50,148,199,1,34,10,38,134,121,145,126,
@@ -34997,7 +34997,7 @@ const uint8_t u8g2_helvR12_hr[1857] U8G2_FONT_SECTION("u8g2_helvR12_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR12_hn[315] U8G2_FONT_SECTION("u8g2_helvR12_hn") = {
+const uint8_t u8g2_font_helvR12_hn[315] U8G2_FONT_SECTION("u8g2_font_helvR12_hn") = {
   18,1,4,2,4,4,1,2,5,9,14,0,254,12,252,12,
   252,0,0,0,0,1,34,32,7,229,169,207,41,0,32,14,
   230,177,146,73,148,108,18,145,76,158,41,0,33,13,234,209,
@@ -35024,7 +35024,7 @@ const uint8_t u8g2_helvR12_hn[315] U8G2_FONT_SECTION("u8g2_helvR12_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR14_tf[3779] U8G2_FONT_SECTION("u8g2_helvR14_tf") = {
+const uint8_t u8g2_font_helvR14_tf[3779] U8G2_FONT_SECTION("u8g2_font_helvR14_tf") = {
   191,0,4,3,5,5,3,5,6,18,22,255,252,14,252,14,
   252,2,49,4,187,14,170,32,6,0,48,150,0,33,10,194,
   25,154,240,96,34,138,0,34,9,165,48,151,32,193,11,1,
@@ -35268,7 +35268,7 @@ const uint8_t u8g2_helvR14_tf[3779] U8G2_FONT_SECTION("u8g2_helvR14_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR14_tr[1740] U8G2_FONT_SECTION("u8g2_helvR14_tr") = {
+const uint8_t u8g2_font_helvR14_tr[1740] U8G2_FONT_SECTION("u8g2_font_helvR14_tr") = {
   95,0,4,3,5,5,3,5,6,18,18,255,252,14,252,14,
   252,2,49,4,187,6,179,32,6,0,48,150,0,33,10,194,
   25,154,240,96,34,138,0,34,9,165,48,151,32,193,11,1,
@@ -35384,7 +35384,7 @@ const uint8_t u8g2_helvR14_tr[1740] U8G2_FONT_SECTION("u8g2_helvR14_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR14_tn[266] U8G2_FONT_SECTION("u8g2_helvR14_tn") = {
+const uint8_t u8g2_font_helvR14_tn[266] U8G2_FONT_SECTION("u8g2_font_helvR14_tn") = {
   18,0,3,3,4,4,3,4,5,9,17,0,253,14,252,14,
   252,0,0,0,0,0,241,32,5,0,204,10,32,12,117,253,
   171,148,136,41,100,73,10,1,33,12,168,69,61,177,182,195,
@@ -35408,7 +35408,7 @@ const uint8_t u8g2_helvR14_tn[266] U8G2_FONT_SECTION("u8g2_helvR14_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR14_hf[4817] U8G2_FONT_SECTION("u8g2_helvR14_hf") = {
+const uint8_t u8g2_font_helvR14_hf[4817] U8G2_FONT_SECTION("u8g2_font_helvR14_hf") = {
   191,1,4,3,5,5,1,3,6,18,22,255,252,14,252,14,
   252,2,169,6,5,18,184,32,8,197,70,249,248,21,0,33,
   16,198,134,249,176,66,250,81,84,60,136,144,60,44,0,34,
@@ -35717,7 +35717,7 @@ const uint8_t u8g2_helvR14_hf[4817] U8G2_FONT_SECTION("u8g2_helvR14_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR14_hr[2144] U8G2_FONT_SECTION("u8g2_helvR14_hr") = {
+const uint8_t u8g2_font_helvR14_hr[2144] U8G2_FONT_SECTION("u8g2_font_helvR14_hr") = {
   95,1,4,3,5,5,1,3,6,18,18,255,252,14,252,14,
   252,2,140,5,190,8,71,32,7,69,70,249,248,0,33,15,
   70,134,41,66,250,81,84,60,136,144,60,44,0,34,11,69,
@@ -35859,7 +35859,7 @@ const uint8_t u8g2_helvR14_hr[2144] U8G2_FONT_SECTION("u8g2_helvR14_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR14_hn[351] U8G2_FONT_SECTION("u8g2_helvR14_hn") = {
+const uint8_t u8g2_font_helvR14_hn[351] U8G2_FONT_SECTION("u8g2_font_helvR14_hn") = {
   18,1,4,3,4,5,1,3,5,9,17,0,253,14,252,14,
   252,0,0,0,0,1,70,32,7,21,167,62,158,2,32,16,
   23,231,78,80,68,146,162,160,146,136,68,241,184,6,33,16,
@@ -35888,7 +35888,7 @@ const uint8_t u8g2_helvR14_hn[351] U8G2_FONT_SECTION("u8g2_helvR14_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR18_tf[4899] U8G2_FONT_SECTION("u8g2_helvR18_tf") = {
+const uint8_t u8g2_font_helvR18_tf[4899] U8G2_FONT_SECTION("u8g2_font_helvR18_tf") = {
   191,0,4,3,5,5,3,6,6,25,29,255,251,19,251,19,
   251,2,232,6,32,19,10,32,6,0,48,52,1,33,10,98,
   26,52,225,3,138,40,3,34,11,198,180,69,65,132,39,18,
@@ -36202,7 +36202,7 @@ const uint8_t u8g2_helvR18_tf[4899] U8G2_FONT_SECTION("u8g2_helvR18_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR18_tr[2237] U8G2_FONT_SECTION("u8g2_helvR18_tr") = {
+const uint8_t u8g2_font_helvR18_tr[2237] U8G2_FONT_SECTION("u8g2_font_helvR18_tr") = {
   95,0,4,3,5,5,3,5,6,24,25,0,251,19,251,19,
   251,2,224,6,18,8,164,32,6,0,48,154,0,33,10,98,
   26,154,240,1,69,148,1,34,11,198,180,163,32,194,19,137,
@@ -36349,7 +36349,7 @@ const uint8_t u8g2_helvR18_tr[2237] U8G2_FONT_SECTION("u8g2_helvR18_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR18_tn[384] U8G2_FONT_SECTION("u8g2_helvR18_tn") = {
+const uint8_t u8g2_font_helvR18_tn[384] U8G2_FONT_SECTION("u8g2_font_helvR18_tn") = {
   18,0,4,3,4,5,3,5,5,13,22,0,253,19,251,19,
   251,0,0,0,0,1,103,32,5,0,24,45,32,17,119,202,
   245,132,197,72,68,72,212,204,72,136,196,68,0,33,14,204,
@@ -36381,7 +36381,7 @@ const uint8_t u8g2_helvR18_tn[384] U8G2_FONT_SECTION("u8g2_helvR18_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR18_hf[6289] U8G2_FONT_SECTION("u8g2_helvR18_hf") = {
+const uint8_t u8g2_font_helvR18_hf[6289] U8G2_FONT_SECTION("u8g2_font_helvR18_hf") = {
   191,1,4,3,5,5,1,4,6,25,29,255,251,19,251,19,
   251,3,120,7,207,24,120,32,8,166,31,243,241,191,4,33,
   17,166,31,243,145,8,233,127,20,21,15,34,164,30,9,0,
@@ -36782,7 +36782,7 @@ const uint8_t u8g2_helvR18_hf[6289] U8G2_FONT_SECTION("u8g2_helvR18_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR18_hr[2860] U8G2_FONT_SECTION("u8g2_helvR18_hr") = {
+const uint8_t u8g2_font_helvR18_hr[2860] U8G2_FONT_SECTION("u8g2_font_helvR18_hr") = {
   95,1,4,3,5,5,1,4,6,24,25,0,251,19,251,19,
   251,3,103,7,180,11,19,32,7,38,31,243,241,31,33,16,
   38,31,19,133,244,63,138,138,7,17,82,143,4,0,34,12,
@@ -36968,7 +36968,7 @@ const uint8_t u8g2_helvR18_hr[2860] U8G2_FONT_SECTION("u8g2_helvR18_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR18_hn[457] U8G2_FONT_SECTION("u8g2_helvR18_hn") = {
+const uint8_t u8g2_font_helvR18_hn[457] U8G2_FONT_SECTION("u8g2_font_helvR18_hn") = {
   18,1,4,3,4,5,1,3,5,13,22,0,253,19,251,19,
   251,0,0,0,0,1,176,32,8,102,199,62,254,24,0,32,
   19,106,71,83,100,152,68,132,80,217,152,132,84,76,60,254,
@@ -37004,7 +37004,7 @@ const uint8_t u8g2_helvR18_hn[457] U8G2_FONT_SECTION("u8g2_helvR18_hn") = {
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR24_tf[6908] U8G2_FONT_SECTION("u8g2_helvR24_tf") = {
+const uint8_t u8g2_font_helvR24_tf[6908] U8G2_FONT_SECTION("u8g2_font_helvR24_tf") = {
   191,0,4,3,5,6,4,6,7,31,38,255,249,25,249,24,
   249,3,240,8,229,26,227,32,6,0,192,48,9,33,13,35,
   99,48,9,255,129,68,72,220,65,1,34,14,8,209,151,9,
@@ -37443,7 +37443,7 @@ const uint8_t u8g2_helvR24_tf[6908] U8G2_FONT_SECTION("u8g2_helvR24_tf") = {
   Glyphs: 95/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR24_tr[3170] U8G2_FONT_SECTION("u8g2_helvR24_tr") = {
+const uint8_t u8g2_font_helvR24_tr[3170] U8G2_FONT_SECTION("u8g2_font_helvR24_tr") = {
   95,0,4,3,5,6,4,6,7,31,34,255,249,25,249,24,
   249,3,240,8,229,12,73,32,6,0,192,48,9,33,13,35,
   99,48,9,255,129,68,72,220,65,1,34,14,8,209,151,9,
@@ -37649,7 +37649,7 @@ const uint8_t u8g2_helvR24_tr[3170] U8G2_FONT_SECTION("u8g2_helvR24_tr") = {
   Glyphs: 18/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_helvR24_tn[490] U8G2_FONT_SECTION("u8g2_helvR24_tn") = {
+const uint8_t u8g2_font_helvR24_tn[490] U8G2_FONT_SECTION("u8g2_font_helvR24_tn") = {
   18,0,4,4,5,5,4,5,6,18,31,0,251,25,249,24,
   249,0,0,0,0,1,209,32,6,0,96,76,1,32,27,106,
   229,111,73,160,168,32,66,66,140,16,49,2,141,41,82,102,
@@ -37687,7 +37687,7 @@ const uint8_t u8g2_helvR24_tn[490] U8G2_FONT_SECTION("u8g2_helvR24_tn") = {
   Glyphs: 191/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR24_hf[8899] U8G2_FONT_SECTION("u8g2_helvR24_hf") = {
+const uint8_t u8g2_font_helvR24_hf[8899] U8G2_FONT_SECTION("u8g2_font_helvR24_hf") = {
   191,1,5,3,6,6,1,4,7,31,38,255,249,25,249,24,
   249,5,18,11,70,34,170,32,9,137,57,146,31,255,11,0,
   33,18,137,57,146,31,246,152,253,255,157,64,145,199,108,31,
@@ -38251,7 +38251,7 @@ const uint8_t u8g2_helvR24_hf[8899] U8G2_FONT_SECTION("u8g2_helvR24_hf") = {
   Glyphs: 95/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR24_hr[4091] U8G2_FONT_SECTION("u8g2_helvR24_hr") = {
+const uint8_t u8g2_font_helvR24_hr[4091] U8G2_FONT_SECTION("u8g2_font_helvR24_hr") = {
   95,1,5,3,6,6,1,4,7,31,34,255,249,25,249,24,
   249,5,11,11,47,15,226,32,9,137,56,146,31,255,54,0,
   33,17,137,56,146,118,204,254,255,78,160,200,99,182,143,6,
@@ -38514,7 +38514,7 @@ const uint8_t u8g2_helvR24_hr[4091] U8G2_FONT_SECTION("u8g2_helvR24_hr") = {
   Glyphs: 18/756
   BBX Build Mode: 1
 */
-const uint8_t u8g2_helvR24_hn[639] U8G2_FONT_SECTION("u8g2_helvR24_hn") = {
+const uint8_t u8g2_font_helvR24_hn[639] U8G2_FONT_SECTION("u8g2_font_helvR24_hn") = {
   18,1,5,4,5,5,1,4,6,18,31,0,251,25,249,24,
   249,0,0,0,0,2,102,32,7,233,159,244,195,63,32,30,
   237,159,182,136,37,80,16,66,4,50,130,8,131,32,99,16,
