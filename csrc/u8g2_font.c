@@ -614,7 +614,7 @@ static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t
 
 
 
-uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint8_t requested_encoding)
+uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
 {
   /* updated to new code */
   if ( u8g2_font_get_glyph_data(u8g2, requested_encoding) != NULL )

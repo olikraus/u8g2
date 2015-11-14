@@ -1,21 +1,29 @@
 # works within ubuntu and min-gw (win7) environment
 
-CFLAGS = -g -Wall
+CFLAGS = -g -DBUILD2 -Wall -I../../../csrc/
 #CFLAGS = -O4 -Wall
 
-SRC = build.c
+SRC1 = build.c
+SRC2 = build.c u8x8_font_list.c u8g2_font_list.c u8g2_d_tga.c $(shell ls ../../../csrc/*.c) 
 
-OBJ = $(SRC:.c=.o)
-ASM = $(SRC:.c=.s)
+OBJ1 = $(SRC1:.c=.o)
+OBJ2 = $(SRC2:.c=.o)
+
+ASM1 = $(SRC1:.c=.s)
+ASM2 = $(SRC2:.c=.s)
 
 .c.s:
 	$(CC) $(CFLAGS) -S -o $@ $<
 
-build: $(OBJ) $(ASM)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o build
+
+build1: $(SRC1)
+	$(CC) $(LDFLAGS) $(SRC1) -o build1
+
+build2: $(OBJ2)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ2) -o build2
 
 clean:	
-	-rm $(OBJ) $(ASM) build
+	-rm $(OBJ1) $(ASM1) build1 $(OBJ2) $(ASM2) build2
 
 test:	
-	./build 
+	./build1 
