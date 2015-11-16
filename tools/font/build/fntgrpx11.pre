@@ -1,0 +1,104 @@
+
+
+# Reference
+
+Fonts on this page are part of the [X11 distribution](http://www.x.org/). On a Linux client these fonts are often located here: `/usr/share/fonts/X11/misc`.
+X11 font sources are hosted [here](http://cgit.freedesktop.org/xorg/font/).
+
+# Copyright
+
+Copyright information is available on the [x.org](http://www.x.org/archive/X11R7.5/doc/LICENSE.html) server.
+
+Copyright string from the font file: "Public domain font.  Share and enjoy." or "These glyphs are unencumbered"
+
+
+# Font Details
+
+## cursor
+![fontpic/u8g_font_cursor.png](fontpic/u8g_font_cursor.png)
+![fontpic/u8g_font_cursorr.png](fontpic/u8g_font_cursorr.png)
+
+## micro
+![fontpic/u8g_font_micro.png](fontpic/u8g_font_micro.png)
+
+## 4x6
+![fontpic/u8g_font_4x6.png](fontpic/u8g_font_4x6.png) ![fontpic/u8g_font_4x6r.png](fontpic/u8g_font_4x6r.png)
+
+## 5x7
+![fontpic/u8g_font_5x7.png](fontpic/u8g_font_5x7.png) ![fontpic/u8g_font_5x7r.png](fontpic/u8g_font_5x7r.png)
+
+## 5x8
+![fontpic/u8g_font_5x8.png](fontpic/u8g_font_5x8.png) ![fontpic/u8g_font_5x8r.png](fontpic/u8g_font_5x8r.png)
+
+## 6x10
+![fontpic/u8g_font_6x10.png](fontpic/u8g_font_6x10.png) ![fontpic/u8g_font_6x10r.png](fontpic/u8g_font_6x10r.png)
+
+## 6x12
+![fontpic/u8g_font_6x12.png](fontpic/u8g_font_6x12.png) ![fontpic/u8g_font_6x12r.png](fontpic/u8g_font_6x12r.png)
+
+![fontpic/u8g_font_6x12_67_75.png](fontpic/u8g_font_6x12_67_75.png)  ![fontpic/u8g_font_6x12_78_79.png](fontpic/u8g_font_6x12_78_79.png)
+
+![fontpic/u8g_font_6x12_75r.png](fontpic/u8g_font_6x12_75r.png)
+
+## 6x13
+![fontpic/u8g_font_6x13.png](fontpic/u8g_font_6x13.png) ![fontpic/u8g_font_6x13r.png](fontpic/u8g_font_6x13r.png)
+
+![fontpic/u8g_font_6x13B.png](fontpic/u8g_font_6x13B.png) ![fontpic/u8g_font_6x13Br.png](fontpic/u8g_font_6x13Br.png)
+
+![fontpic/u8g_font_6x13O.png](fontpic/u8g_font_6x13O.png) ![fontpic/u8g_font_6x13Or.png](fontpic/u8g_font_6x13Or.png)
+
+![fontpic/u8g_font_6x13_67_75.png](fontpic/u8g_font_6x13_67_75.png)  ![fontpic/u8g_font_6x13_78_79.png](fontpic/u8g_font_6x13_78_79.png)
+
+![fontpic/u8g_font_6x13_75r.png](fontpic/u8g_font_6x13_75r.png)
+
+## 7x13
+![fontpic/u8g_font_7x13.png](fontpic/u8g_font_7x13.png) ![fontpic/u8g_font_7x13r.png](fontpic/u8g_font_7x13r.png)
+
+![fontpic/u8g_font_7x13B.png](fontpic/u8g_font_7x13B.png) ![fontpic/u8g_font_7x13Br.png](fontpic/u8g_font_7x13Br.png)
+
+![fontpic/u8g_font_7x13O.png](fontpic/u8g_font_7x13O.png) ![fontpic/u8g_font_7x13Or.png](fontpic/u8g_font_7x13Or.png)
+
+![fontpic/u8g_font_7x13_67_75.png](fontpic/u8g_font_7x13_67_75.png)
+
+![fontpic/u8g_font_7x13_75r.png](fontpic/u8g_font_7x13_75r.png)
+
+## 7x14
+![fontpic/u8g_font_7x14.png](fontpic/u8g_font_7x14.png) ![fontpic/u8g_font_7x14r.png](fontpic/u8g_font_7x14r.png)
+
+![fontpic/u8g_font_7x14B.png](fontpic/u8g_font_7x14B.png) ![fontpic/u8g_font_7x14Br.png](fontpic/u8g_font_7x14Br.png)
+
+## 8x13
+![fontpic/u8g_font_8x13.png](fontpic/u8g_font_8x13.png) ![fontpic/u8g_font_8x13r.png](fontpic/u8g_font_8x13r.png)
+
+![fontpic/u8g_font_8x13B.png](fontpic/u8g_font_8x13B.png) ![fontpic/u8g_font_8x13Br.png](fontpic/u8g_font_8x13Br.png)
+
+![fontpic/u8g_font_8x13O.png](fontpic/u8g_font_8x13O.png) ![fontpic/u8g_font_8x13Or.png](fontpic/u8g_font_8x13Or.png)
+
+![fontpic/u8g_font_8x13_67_75.png](fontpic/u8g_font_8x13_67_75.png)
+
+![fontpic/u8g_font_8x13_75r.png](fontpic/u8g_font_8x13_75r.png)
+
+## 9x15
+![fontpic/u8g_font_9x15.png](fontpic/u8g_font_9x15.png) ![fontpic/u8g_font_9x15r.png](fontpic/u8g_font_9x15r.png)
+
+![fontpic/u8g_font_9x15B.png](fontpic/u8g_font_9x15B.png) ![fontpic/u8g_font_9x15Br.png](fontpic/u8g_font_9x15Br.png)
+
+![fontpic/u8g_font_9x15_67_75.png](fontpic/u8g_font_9x15_67_75.png) ![fontpic/u8g_font_9x15_78_79.png](fontpic/u8g_font_9x15_78_79.png)
+
+![fontpic/u8g_font_9x15_75r.png](fontpic/u8g_font_9x15_75r.png)
+
+## 9x18
+![fontpic/u8g_font_9x18.png](fontpic/u8g_font_9x18.png) ![fontpic/u8g_font_9x18r.png](fontpic/u8g_font_9x18r.png)
+
+![fontpic/u8g_font_9x18B.png](fontpic/u8g_font_9x18B.png) ![fontpic/u8g_font_9x18Br.png](fontpic/u8g_font_9x18Br.png)
+
+![fontpic/u8g_font_9x18_67_75.png](fontpic/u8g_font_9x18_67_75.png) ![fontpic/u8g_font_9x18_78_79.png](fontpic/u8g_font_9x18_78_79.png)
+
+![fontpic/u8g_font_9x18_75r.png](fontpic/u8g_font_9x18_75r.png)
+
+## 10x20
+![fontpic/u8g_font_10x20.png](fontpic/u8g_font_10x20.png) ![fontpic/u8g_font_10x20r.png](fontpic/u8g_font_10x20r.png)
+
+![fontpic/u8g_font_10x20_67_75.png](fontpic/u8g_font_10x20_67_75.png) ![fontpic/u8g_font_10x20_78_79.png](fontpic/u8g_font_10x20_78_79.png)
+
+![fontpic/u8g_font_10x20_75r.png](fontpic/u8g_font_10x20_75r.png)

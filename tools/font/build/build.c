@@ -128,6 +128,7 @@ int insert_into_file(const char *filename, const char *text, const char *start_l
 struct groupinfo
 {
   char *groupname;
+  char *reference;
   char *mdfile;
   char *mdprefixfile;
 };
@@ -151,14 +152,13 @@ typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char
 
 
 struct groupinfo gi[] = {
-  { "U8glib", "", "" },
-  { "X11", "", "" },
-  { "fontstruct", "", "" },
-  { "cu12", "", "" },
-  { "profont", "", "" },		/* 4 */
-  { "adobe", "", "" },
-  { "unifont", "", "" }, 		/* 6 */
-  { "intlfont", "", "" }, 		/* 7 */
+  { "u8glib", "fntgrpu8g", "fntgrpu8g.md", "fntgrpu8g.pre" },
+  { "X11", "fntgrpx11", "fntgrpx11.md", "fntgrpx11.pre" },
+  { "fontstruct", "fntgrpfontstruct", "fntgrpfontstruct.md", "fntgrpfontstruct.pre" },
+  { "cu12", "fntgrpcu12", "fntgrpcu12.md", "fntgrpcu12.pre" },
+  { "profont", "fntgrpprofont", "fntgrpprofont.md", "fntgrpprofont.pre" },		/* 4 */
+  { "adobex11", "fntgrpadobex11", "fntgrpadobex11.md", "fntgrpadobex11.pre" },
+  { "unifont", "fntgrpunifont", "fntgrpunifont.md", "fntgrpunifont.pre" }, 		/* 6 */
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -238,8 +238,6 @@ struct fontinfo fi[] = {
     $1f600-$1f64f emoticons
   */
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  //{ 0, "gb16fs.bdf", 			"gb16fs", 		7, 0, BM_T, FM_C, MM_C, "32-$ffff", "" },
-  //{ 0, "gb16st.bdf", 		"gb16st", 		7, 0, BM_T, FM_C, MM_C, "32-$ffff", "" },
   { 0, "courB08.bdf", 		"courB08", 		5, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "courB10.bdf", 		"courB10", 		5, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "courB12.bdf", 		"courB12", 		5, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -286,6 +284,9 @@ char bdf_cmd[2048];
 char font_prototype[2048];
 char tga_filename[2048];
 char convert_cmd[2048];
+int current_font_group_index;
+char current_font_name[256] = "";
+FILE *current_md_file;
 
 #ifdef BUILD2
 
@@ -519,6 +520,43 @@ void fontlist_name(int i, int fm, char *fms, int bm, char *bms, int mm, char *mm
   
 }
 
+void generate_font_group_md(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
+{
+  static int _i = 0;
+  static int _fm = 0;
+  static int _bm = 0;
+  
+  if ( fi[i].group == current_font_group_index )
+  {
+    if ( strcmp( current_font_name, fi[i].name ) != 0 )
+    {
+      strcpy(current_font_name, fi[i].name);
+      
+      fprintf(current_md_file, "\n");
+      fprintf(current_md_file, "## %s\n", current_font_name);
+      printf("## %s\n", current_font_name);      
+    }
+    else
+    {
+      if ( _i == i && _fm == fm && _bm == bm )
+      {
+      }
+      else
+      {
+	fprintf(current_md_file, "\n");
+      }
+    }
+    fprintf(current_md_file, "![fontpic/%s.png](fontpic/%s.png)\n", target_font_identifier, target_font_identifier);
+    
+    _i = i;
+    _fm = fm;
+    _bm = bm;
+    printf( "%s %s\n", gi[current_font_group_index].mdfile, target_font_identifier);
+  }
+  
+}
+
+
 void gen_font(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms, cbfn_t cb )
 {
   
@@ -596,6 +634,24 @@ void do_font_loop(cbfn_t cb)
   }
 }
 
+void do_font_groups(cbfn_t cb)
+{
+  int cnt;
+  cnt = sizeof(gi)/sizeof(*gi);
+  for( current_font_group_index = 0; current_font_group_index < cnt; current_font_group_index++ )
+  {
+    file_copy(gi[current_font_group_index].mdprefixfile, gi[current_font_group_index].mdfile);
+    current_md_file = fopen(gi[current_font_group_index].mdfile, "a");
+    fprintf(current_md_file, "\n");
+    strcpy(current_font_name, ".");    
+    do_font_loop(cb);
+    fclose(current_md_file);
+  }  
+}
+
+
+
+
 int main(void)
 {
   //unlink(u8x8_fonts_filename);
@@ -638,6 +694,10 @@ int main(void)
   insert_into_file("../../../csrc/u8x8.h", u8x8_prototypes, "/* start font list */", "/* end font list */");
 
   unlink("font.c");
+  
+  
+  do_font_groups(generate_font_group_md);
+  
 #endif
 
 #ifdef BUILD2
