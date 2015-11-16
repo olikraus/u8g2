@@ -152,13 +152,13 @@ typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char
 
 
 struct groupinfo gi[] = {
-  { "u8glib", "fntgrpu8g", "fntgrpu8g.md", "fntgrpu8g.pre" },
-  { "X11", "fntgrpx11", "fntgrpx11.md", "fntgrpx11.pre" },
-  { "fontstruct", "fntgrpfontstruct", "fntgrpfontstruct.md", "fntgrpfontstruct.pre" },
-  { "cu12", "fntgrpcu12", "fntgrpcu12.md", "fntgrpcu12.pre" },
-  { "profont", "fntgrpprofont", "fntgrpprofont.md", "fntgrpprofont.pre" },		/* 4 */
-  { "adobex11", "fntgrpadobex11", "fntgrpadobex11.md", "fntgrpadobex11.pre" },
-  { "unifont", "fntgrpunifont", "fntgrpunifont.md", "fntgrpunifont.pre" }, 		/* 6 */
+  { "u8glib", 		"fntgrpu8g", 		"../../../../u8g2.wiki/fntgrpu8g.md", 			"fntgrpu8g.pre" },
+  { "X11", 		"fntgrpx11", 		"../../../../u8g2.wiki/fntgrpx11.md", 			"fntgrpx11.pre" },
+  { "fontstruct", 	"fntgrpfontstruct", 	"../../../../u8g2.wiki/fntgrpfontstruct.md", 	"fntgrpfontstruct.pre" },
+  { "cu12", 		"fntgrpcu12", 		"../../../../u8g2.wiki/fntgrpcu12.md", 		"fntgrpcu12.pre" },
+  { "profont", 		"fntgrpprofont", 	"../../../../u8g2.wiki/fntgrpprofont.md", 		"fntgrpprofont.pre" },		/* 4 */
+  { "adobex11", 	"fntgrpadobex11", 	"../../../../u8g2.wiki/fntgrpadobex11.md", 	"fntgrpadobex11.pre" },
+  { "unifont", 		"fntgrpunifont", 	"../../../../u8g2.wiki/fntgrpunifont.md", 		"fntgrpunifont.pre" }, 		/* 6 */
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -546,7 +546,7 @@ void generate_font_group_md(int i, int fm, char *fms, int bm, char *bms, int mm,
 	fprintf(current_md_file, "\n");
       }
     }
-    fprintf(current_md_file, "![fontpic/%s.png](fontpic/%s.png)\n", target_font_identifier, target_font_identifier);
+    fprintf(current_md_file, "![fntpic/%s.png](fntpic/%s.png)\n", target_font_identifier, target_font_identifier);
     
     _i = i;
     _fm = fm;
