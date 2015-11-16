@@ -7,12 +7,13 @@
 //#define FACTOR 3
 //#define XOFFSET (FACTOR*32)
 //#define YOFFSET (FACTOR*32)
-#define DEFAULT_WIDTH (512U)
-#define DEFAULT_HEIGHT (1024U)
+#define DEFAULT_WIDTH (512+128)
+#define DEFAULT_HEIGHT (1024)
 
 
 uint16_t tga_max_x;
 uint16_t tga_max_y;
+size_t tga_max_offset = 0;
 
 static uint16_t tga_width;
 static uint16_t tga_height;
@@ -31,14 +32,21 @@ int tga_init(uint16_t w, uint16_t h)
   tga_max_y = 0;
   tga_width = 0;
   tga_height = 0;
+  tga_max_offset = 0;
   if ( tga_data != NULL )
-    free(tga_data);
-  tga_data = (uint8_t *)malloc(w*h*3);
+  {
+    tga_data = (uint8_t *)realloc(tga_data, w*h*3);
+    //memset(tga_data, 255, (long)w*(long)h*3L);
+  }
+  else
+  {
+    tga_data = (uint8_t *)malloc(w*h*3);
+    //memset(tga_data, 255, (long)w*(long)h*3L);
+  }
   if ( tga_data == NULL )
     return 0;
   tga_width = w;
   tga_height = h;
-  memset(tga_data, 255, tga_width*tga_height*3);
   return 1;
 }
 
@@ -46,6 +54,7 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint16_t f)
 {
   uint8_t *p;
   uint16_t xx,yy;
+  size_t offset;
   for( yy = y; yy < y+f; yy++ )
   {
     for( xx = x; xx < x+f; xx++ )
@@ -53,7 +62,10 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint16_t f)
       if ( yy < tga_height && xx < tga_width )
       {
 	//printf ("(%d %d) ", xx, yy);
-	p = tga_data + (tga_height-yy-1)*tga_width*3 + xx*3;
+	offset = (tga_height-yy-1)*tga_width*3 + xx*3;
+	p = tga_data + offset;
+	if ( tga_max_offset < offset )
+	  tga_max_offset = offset;
 	*p++ = tga_b;
 	*p++ = tga_g;
 	*p++ = tga_r;
@@ -65,13 +77,14 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint16_t f)
 void tga_clr_pixel(uint16_t x, uint16_t y, uint16_t f)
 {
   uint8_t *p;
+  size_t offset;
   uint16_t xx,yy;
   for( yy = y; yy < y+f; yy++ )
   {
     for( xx = x; xx < x+f; xx++ )
     {
-      
-      p = tga_data + (tga_height-yy-1)*tga_width*3 + xx*3;
+      offset = (tga_height-yy-1)*tga_width*3 + xx*3;
+      p = tga_data + offset;
       *p++ = 255;
       *p++ = 255;
       *p++ = 255;
@@ -251,9 +264,9 @@ void u8x8_Setup_TGA(u8x8_t *u8x8)
 
 void u8g2_Setup_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 {
-  static uint8_t buf[(DEFAULT_WIDTH)*8];
+  static uint8_t buf[(DEFAULT_WIDTH)*8*8];
   
   u8x8_Setup_TGA(u8g2_GetU8x8(u8g2));
-  u8g2_Setup(u8g2, buf, 1, u8g2_cb);
+  u8g2_Setup(u8g2, buf, 8, u8g2_cb);
 }
 

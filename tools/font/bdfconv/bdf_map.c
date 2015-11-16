@@ -23,6 +23,11 @@
 */
 
 #include "bdf_font.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 static long range_from;
 static long range_to;
@@ -183,7 +188,12 @@ void bf_map_cmd(bf_t *bf, const char **s)
 {
   int i;
   bg_t *bg;
+  
+  if ( **s == ',' || **s == '\0' )
+    return;
+      
   map_cmd(s);
+
   
   bf_Log(bf, "Map: exclude=%d from=%ld to=%ld map=%ld", is_exclude, range_from, range_to, map_to);
   
@@ -233,7 +243,32 @@ void bf_Map(bf_t *bf, const char *map_cmd_list)
 {
   bf_Log(bf, "Map: map_cmd_list='%s'", map_cmd_list);
   bf_map_list(bf, &map_cmd_list);
+}
+
+int bf_MapFile(bf_t *bf, const char *map_file_name)
+{
+  struct stat buf;
+  char *s;
+  FILE *fp;
+  if ( map_file_name == NULL )
+    return 1;
+  if ( map_file_name[0] == '\0' )
+    return 1;
   
   
+  if ( stat(map_file_name, &buf) != 0 )
+    return 0;
+  fp = fopen(map_file_name, "r");
+  if ( fp == NULL )
+    return 0;
+  s = malloc(buf.st_size+1);
+  if ( s == NULL )
+    return 0;
+  fread(s, buf.st_size, 1, fp);
+  s[buf.st_size] = '\0';
+  fclose(fp);
+  bf_Map(bf, s);
+  free(s);
+  return 1;
 }
 

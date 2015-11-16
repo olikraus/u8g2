@@ -128,6 +128,8 @@ int insert_into_file(const char *filename, const char *text, const char *start_l
 struct groupinfo
 {
   char *groupname;
+  char *mdfile;
+  char *mdprefixfile;
 };
 
 struct fontinfo
@@ -149,12 +151,14 @@ typedef void (*cbfn_t)(int i, int fm, char *fms, int bm, char *bms, int mm, char
 
 
 struct groupinfo gi[] = {
-  { "U8glib" },
-  { "X11" },
-  { "fontstruct" },
-  { "cu12" },
-  { "profont" },		/* 4 */
-  { "adobe" },
+  { "U8glib", "", "" },
+  { "X11", "", "" },
+  { "fontstruct", "", "" },
+  { "cu12", "", "" },
+  { "profont", "", "" },		/* 4 */
+  { "adobe", "", "" },
+  { "unifont", "", "" }, 		/* 6 */
+  { "intlfont", "", "" }, 		/* 7 */
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -176,7 +180,7 @@ struct fontinfo fi[] = {
   { 0, "m2icon_9.bdf", 		"m2icon_9", 		0, 0, BM_T, FM_C, MM_F, "", ""},
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
-  { 0, "micro.bdf", 			"micro", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "micro.bdf", 			"micro", 			1, 0, BM_T|BM_M, FM_C, MM_R|MM_N, "", "" },		/* micro does not have the full set */
   { 0, "4x6.bdf", 			"4x6", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
@@ -184,18 +188,22 @@ struct fontinfo fi[] = {
   { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x10.bdf", 			"6x10", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x13O.bdf", 			"6x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "7x13B.bdf", 			"7x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13O.bdf", 			"7x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14.bdf", 			"7x14", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14B.bdf", 			"7x14B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "9x15B.bdf", 			"9x15B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x18.bdf", 			"9x18", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x18B.bdf", 			"9x18B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -209,7 +217,29 @@ struct fontinfo fi[] = {
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "amstrad_cpc.bdf", 	"amstrad_cpc", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_N, "" , ""},
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-
+  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  /*
+    $20a0-$20bf currency symbols
+    $2103 Circle C
+    $2109 Circle F
+    $2126 Ohm
+    $2190-$21bb single arrow
+    $21d0-$21d9 double arrow
+    $21e6-$21e9 double arrow
+    $23e9-$23fa  music player symbols
+    $2580-$261f  various symbols
+    $2654-$2667 chess and cards
+    $2680-$2685 dice
+    $2713-$2718 yes/no
+    $274f-$2752 3d box
+    $1f600-$1f64f emoticons
+  */
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  //{ 0, "gb16fs.bdf", 			"gb16fs", 		7, 0, BM_T, FM_C, MM_C, "32-$ffff", "" },
+  //{ 0, "gb16st.bdf", 		"gb16st", 		7, 0, BM_T, FM_C, MM_C, "32-$ffff", "" },
   { 0, "courB08.bdf", 		"courB08", 		5, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "courB10.bdf", 		"courB10", 		5, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "courB12.bdf", 		"courB12", 		5, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -324,7 +354,7 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
   cw = u8g2_GetMaxCharWidth(&u8g2);
   if ( ch < h )
     ch = h;
-  y = h*3+ch;
+  y = h*3+ch+1;
   
   line = 0;
   for(;;)
@@ -336,13 +366,26 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
       sprintf(s, "%5d/%04x ", encoding, encoding);
       
       x = u8g2_DrawString(&u8g2, 0, y, s);
-      overview_draw_line(i, encoding, x, y, cw);
+      overview_draw_line(i, encoding, x, y, cw+1);
       y += ch;
     }
     line++;
-    if ( line > 16 )
+    if ( line > 0xfff )
       break;
   }
+  if ( u8g2_IsGlyph(&u8g2, 'A') != 0 && u8g2_IsGlyph(&u8g2, 'z') != 0 )
+  {
+    y++;
+    // y -= ch;
+    u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
+    u8g2_SetFontDirection(&u8g2, 0); 
+    //y += u8g2_GetMaxCharHeight(&u8g2);
+    u8g2_DrawString(&u8g2, 0, y, "The quick brown fox");
+    y += u8g2_GetMaxCharHeight(&u8g2);
+    u8g2_DrawString(&u8g2, 0, y, "jumps over the lazy dog.");
+  }
+  //u8g2_DrawString(&u8g2, 0, y, "Woven silk pyjamas exchanged for blue quartz"); 
+
 }
 
 void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)

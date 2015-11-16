@@ -651,7 +651,7 @@ int bf_WriteU8G2CByFilename(bf_t *bf, const char *filename, const char *fontname
 
 
 
-bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, int font_format)
+bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format)
 {
   bf_t *bf;
 
@@ -661,7 +661,14 @@ bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, co
     
     if ( bf_ParseFile(bf, bdf_filename) != 0 )
     {
-      bf_Map(bf, map_str);
+      if ( map_file_name[0] != '\0' ) 
+      {
+	bf_MapFile(bf, map_file_name);
+      }
+      else
+      {
+	bf_Map(bf, map_str);
+      }
       bf_CalculateSelectedNumberOfGlyphs(bf);
       
       bf_ReduceAllGlyph(bf);

@@ -78,6 +78,7 @@ void help(void)
   printf("-b <n>      Font build mode, 0: proportional, 1: common height, 2: monospace, 3: multiple of 8\n");
   printf("-f <n>      Font format, 0: ucglib font, 1: u8g2 font, 2: u8g2 uncompressed 8x8 font (enforces -b 3)\n");
   printf("-m 'map'    Unicode ASCII mapping\n");
+  printf("-M 'mapfile'    Read Unicode ASCII mapping from file 'mapname'\n");
   printf("-o <file>   C output file\n");
   printf("-n <name>   C indentifier (font name)\n");
   printf("-d <file>   Overview picture: Enable generation of bdf.tga and assign BDF font <file> for description\n");
@@ -264,6 +265,7 @@ int main(int argc, char **argv)
   char *bdf_filename = NULL;
   int is_verbose = 0;
   char *map_str ="*";
+  char *map_filename ="";
   char *desc_font_str = "";
   unsigned y;
   
@@ -321,6 +323,9 @@ int main(int argc, char **argv)
     else if ( get_str_arg(&argv, 'm', &map_str) != 0 )
     {      
     }
+    else if ( get_str_arg(&argv, 'M', &map_filename) != 0 )
+    {      
+    }
     else
     {
       bdf_filename = *argv;
@@ -337,7 +342,7 @@ int main(int argc, char **argv)
   bf_desc_font = NULL;
   if ( desc_font_str[0] != '\0' )
   {
-    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", 0);	/* assume format 0 for description */
+    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", 0);	/* assume format 0 for description */
     if ( bf_desc_font == NULL )
     {
       exit(1);
@@ -351,7 +356,7 @@ int main(int argc, char **argv)
     /* bf_Log(bf, "Font mode 1: BBX mode set to 3"); */
   }
   
-  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, font_format);
+  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, font_format);
   
   if ( bf == NULL )
   {
