@@ -287,6 +287,7 @@ char convert_cmd[2048];
 int current_font_group_index;
 char current_font_name[256] = "";
 FILE *current_md_file;
+int current_capital_A_size;
 
 #ifdef BUILD2
 
@@ -389,6 +390,8 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
 
 }
 
+
+
 void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 {
   int cw, ch;
@@ -422,6 +425,39 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     u8g2_fnt_cnt++;
   }
 }
+
+
+void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
+{
+  if ( fm == FM_C ) 
+  {
+    u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
+    u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+    u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
+    if ( u8g2_font_list[u8g2_fnt_cnt] != NULL )
+    {
+      u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
+      u8g2_SetFontDirection(&u8g2, 0);
+      if ( current_capital_A_size == u8g2.font_info.ascent_A )
+      {
+	printf("%d: %s\n", current_capital_A_size, target_font_identifier);
+      }
+      u8g2_fnt_cnt++;
+    }
+  }
+}
+
+void do_font_list(cbfn_t cb)
+{
+  for( current_capital_A_size = 2; current_capital_A_size < 100; current_capital_A_size++ )
+  {
+    printf("== %d ==\n", current_capital_A_size);
+    u8g2_fnt_cnt = 0;
+    do_font_loop(cb);
+    
+  }
+}
+
 
 #endif
 
@@ -651,7 +687,6 @@ void do_font_groups(cbfn_t cb)
 
 
 
-
 int main(void)
 {
   //unlink(u8x8_fonts_filename);
@@ -702,7 +737,10 @@ int main(void)
 
 #ifdef BUILD2
   u8g2_fnt_cnt = 0;
-  do_font_loop(overviewpic);
+  //do_font_loop(overviewpic);
+  do_font_list(generate_font_list);
+
+  
 #endif
 
   return 0;
