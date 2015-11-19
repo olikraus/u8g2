@@ -426,6 +426,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   }
 }
 
+int font_found_for_this_size = 0;
 
 void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 {
@@ -440,6 +441,11 @@ void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, cha
       u8g2_SetFontDirection(&u8g2, 0);
       if ( current_capital_A_size == u8g2.font_info.ascent_A )
       {
+	if ( font_found_for_this_size == 0 ) 
+	{
+	  printf("== %d ==\n", current_capital_A_size);
+	}
+	font_found_for_this_size = 1;
 	printf("%d: %s\n", current_capital_A_size, target_font_identifier);
       }
       u8g2_fnt_cnt++;
@@ -451,7 +457,7 @@ void do_font_list(cbfn_t cb)
 {
   for( current_capital_A_size = 2; current_capital_A_size < 100; current_capital_A_size++ )
   {
-    printf("== %d ==\n", current_capital_A_size);
+    font_found_for_this_size = 0;
     u8g2_fnt_cnt = 0;
     do_font_loop(cb);
     
