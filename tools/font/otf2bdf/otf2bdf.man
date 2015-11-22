@@ -1,0 +1,214 @@
+.TH OTF2BDF 1 "22 May 2008" "Freetype Version 2"
+.SH NAME 
+otf2bdf \- OpenType to BDF font converter
+
+.SH SYNOPSIS
+.B otf2bdf
+[\fIoptions\fP] font.{ttf,otf}
+
+.SH DESCRIPTION
+.I otf2bdf
+will convert an OpenType font to a BDF font using the Freetype2 renderer
+(http://www.freetype.org).
+
+.SH OPTIONS
+.I otf2bdf
+accepts the following command line arguments:
+
+.PP
+.TP 8
+.I -v
+print warning messages when the font is converted.
+.PP
+.TP 8
+.I -n
+disable glyph hinting.
+.PP
+.TP 8
+.I -p n
+set the desired point size (see default value by running the program with the
+-h option).
+.PP
+.TP 8
+.I -et
+display a list of the platforms and encodings available in the font. The
+default values, compiled into the program, are a platform of 3 (Microsoft) and
+encoding of 1 (ISO10646). If the font does not contain the default platform
+and encoding, the fallback will be the Apple ISO10646 encoding.
+.PP
+.TP 8
+.I -r n
+set both the horizontal and the vertical resolution (see default value by
+running the program with the -h option).  The minimum is 10dpi and the maximum
+is 1200dpi.
+.PP
+.TP 8
+.I -rh n
+set the horizontal resolution (see default value by running the program with
+the -h option).  The minimum is 10dpi and the maximum is 1200dpi.
+.PP
+.TP 8
+.I -rv n
+set the vertical resolution (see default value by running the program with
+the -h option).  The minimum is 10dpi and the maximum is 1200dpi.
+.PP
+.TP 8
+.I -o outfile
+sets the output filename (default output is to stdout).
+.PP
+.TP 8
+.I -pid id
+set the platform id for selecting the character map (see default value by
+running the program with the -h option).
+.PP
+.TP 8
+.I -eid id
+set the encoding id for selecting the character map (see default value by
+running the program with the -h option).
+.PP
+.TP 8
+.I -c c
+set the character spacing.  This should be one of `P' for proportional,
+`M' for monospace, or `C' for character cell.  By default, the spacing
+of a font will be automatically determined to be either `M' or `P'
+according to values provided in the font.
+.PP
+.TP 8
+.I -f name
+set the foundry name used in the XLFD name.  The default value is
+`Freetype'.
+.PP
+.TP 8
+.I -t name
+set the typeface name used in the XLFD name.  By default,
+.I otf2bdf
+will attempt to get a name from the font first and then it will use the
+name supplied with this command line option, and if all else fails, it
+will use the name `Unknown'.
+.PP
+.TP 8
+.I -w name
+set the weight name used in the XLFD name.  If this value is not
+supplied, the default value is assumed to be `Medium'.  Some common
+values for this are `Thin', `Delicate', `ExtraLight', `Light', `Normal',
+`Medium', `SemiCondensed', `Condensed', `SemiBold', `Bold', `Heavy',
+`ExtraBold', and `ExtraHeavy'.
+.PP
+.TP 8
+.I -s name
+set the slant name used in the XLFD name.  If this value is not
+supplied, the default value is assumed to be `R', for Roman.  Some common
+values for this are `R' for Roman, `I' for Italic, `O' for Oblique, `RI'
+for Reverse Italic, and `RO' for Reverse Oblique.
+.PP
+.TP 8
+.I -k name
+set the width name used in the XLFD name.  The default is `Normal'.
+.PP
+.TP 8
+.I -d name
+set the additional style name used in the XLFD name.  The default is an empty
+string.
+.PP
+.TP 8
+.I -u char
+set the character used to replace the dashes/spaces in a font name.  The
+default is the space character.
+.PP
+.TP 8
+.I -l subset
+define a list of character codes which will be used to select a subset
+of glyphs from the font.  The syntax of the subset string is the same
+as the syntax for selecting subsets in X11 XLFD font names.  Example:
+.sp
+% otf2bdf -l '60 70 80_90' font.ttf -o font.bdf
+.sp
+The command above will only generate the glyphs for codes 60, 70, and 80
+through 90 inclusive.  Glyphs that are not in the subset are not
+generated.
+.PP
+.TP 8
+.I -m mapfile
+specifies a mapping file which will reencode the BDF font when it is
+generated.  Any glyphs with codes that do not have a mapping will not
+be generated.
+.sp
+The remapping file should begin with two lines, one which starts with
+REGISTRY followed by the character set registry and one which starts
+with ENCODING followed by the encoding.  An example from the
+iso8859.2 file:
+.sp
+REGISTRY ISO8859
+.br
+ENCODING 2
+.sp
+The remapping data should be two columns of hexadecimal numbers, separated by
+spaces or tabs.  The first column should have the code which should be used in
+the BDF font.  The second column should be the hexadecimal code of the glyph
+in the "cmap" table otf2bdf is using.  An example mapping file is provided
+which will map fonts from Unicode (the default "cmap" table) to ISO8859-2.
+.sp
+Unicode is not the only option.  If you choose another platform and
+encoding ID on the command line, then the remapping is assumed to map
+from the chosen platform and encoding to some other character set.
+
+.SH "SEE ALSO"
+gbdfed(1), xfed(1), bdftopcf(1), bdftosnf(1), bdfresize(1)
+.br
+\fIGlyph Bitmap Distribution Format (BDF) Specification\fP, Application
+Note 5005, Adobe System Inc, 1993
+.br
+\fIX Logical Font Description Conventions\fP, X Consortium
+
+.SH ACKNOWLEDGMENTS
+
+The FreeType project for providing the renderer!
+.br
+Robert Wilhelm <robert@physiol.med.tu-muenchen.de> for pointing out a
+crucial problem with the pre-1.0 code.
+.br
+Lho Li-Da <ollie@ms1.hinet.net> for problem reports.
+.br
+Adrian Havill <havill@threeweb.ad.jp> for unintentionally pointing out a
+missing feature.
+.br
+Richard Verhoeven <rcb5@win.tue.nl> for problem reports and patches.
+.br
+Choi Jun Ho <junker@jazz.snu.ac.kr> whose implementation provided some
+nice new features.
+.br
+Pavel Kankovsky <peak@kerberos.troja.mff.cuni.cz> for providing some
+critical metrics fixes and other improvements.
+.br
+Matti Koskinen <mjkoskin@sci.fi> for pointing out a problem.
+.br
+Eugene Bobin <gene@ftim.ustu.ru> for mapping tables.
+.br
+Oleg N. Yakovlev <yashka@optima.dnepropetrovsk.ua> for pointing out a problem.
+.br
+Bertrand Petit <elrond@phoe.frmug.org> for additional functionality.
+.br
+Roman Czyborra <czyborra@cs.tu-berlin.de> for pointing out some problems.
+.br
+Mike Blazer <blazer@mail.nevalink.ru> for some Window's compilation advice.
+.br
+Solofo Ramangalahy <solofo@mpi-sb.mpg.de> for contributing some mapping
+tables.
+.br
+Antoine Leca <Antoine.Leca@renault.fr> for mapping table suggestions.
+.br
+Patrick Hagglund <patrik.hagglund@bredband.net> for Freetype2 patches.
+.br
+Christos Tountas <cvt@sprynet.com> for finding problems.
+.br
+Nelson Beebe <beebe@math.utah.edu> for finding problems.
+.br
+"Prophet of the Way" <afu@wta.att.ne.jp> for finding a problem.
+.SH AUTHOR
+Mark Leisher
+.br
+Computing Research Lab
+.br
+New Mexico State University
+.br
+Email: mleisher@crl.nmsu.edu

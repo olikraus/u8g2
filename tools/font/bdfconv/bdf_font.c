@@ -280,8 +280,12 @@ void bf_CalculateMaxBBX(bf_t *bf)
   
   if ( bf->bbx_mode == BDF_BBX_MODE_M8 )
   {
+    /* old 
     bf->max.w = ( bf->max.w + 7 ) & ~7;
     bf->max.h = ( bf->max.h + 7 ) & ~7;
+    */
+    bf->max.w = 8;
+    bf->max.h = 7;
   }
 
   
@@ -362,11 +366,15 @@ void bf_copy_bbx_and_update_shift(bf_t *bf, bbx_t *target_bbx, bg_t *bg)
       }
       else if ( bf->bbx_mode == BDF_BBX_MODE_M8 )
       {
+	/* old
 	target_bbx->w = bf->max.w;
 	if ( target_bbx->w < bg->dwidth_x )
 	  target_bbx->w = bg->dwidth_x;
 	target_bbx->w = (target_bbx->w+7) & ~7;
 	target_bbx->h = (bf->max.h+7) & ~7;
+	*/
+	target_bbx->w = 8;
+	target_bbx->h = 8;
 	target_bbx->x = bf->max.x;
 	target_bbx->y = bf->max.y;
 	target_bbx->x = 0;
