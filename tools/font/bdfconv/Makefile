@@ -27,5 +27,8 @@ greek:
 helvb18:
 	./bdfconv -f 1 -m '32-127' ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr
 
+helvb18n:
+	./bdfconv -v -f 1 -m '32,48-57' ../bdf/helvB18.bdf -o helvb18_tn.c -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf
+
 	
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support

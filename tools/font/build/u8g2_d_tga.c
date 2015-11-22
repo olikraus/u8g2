@@ -24,7 +24,7 @@ uint8_t tga_b = 0;
 
 uint8_t tga_desc_r = 0;
 uint8_t tga_desc_g = 0;
-uint8_t tga_desc_b = 255;
+uint8_t tga_desc_b = 0;
 
 int tga_init(uint16_t w, uint16_t h)
 {
@@ -36,15 +36,14 @@ int tga_init(uint16_t w, uint16_t h)
   if ( tga_data != NULL )
   {
     tga_data = (uint8_t *)realloc(tga_data, w*h*3);
-    //memset(tga_data, 255, (long)w*(long)h*3L);
   }
   else
   {
     tga_data = (uint8_t *)malloc(w*h*3);
-    //memset(tga_data, 255, (long)w*(long)h*3L);
   }
   if ( tga_data == NULL )
     return 0;
+  memset(tga_data, 255, (long)w*(long)h*3L);
   tga_width = w;
   tga_height = h;
   return 1;
@@ -210,8 +209,8 @@ uint8_t u8x8_d_tga(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8g2);
-      if ( tga_data == NULL )
-	tga_init(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+      //if ( tga_data == NULL )
+      tga_init(DEFAULT_WIDTH, DEFAULT_HEIGHT);
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       break;
