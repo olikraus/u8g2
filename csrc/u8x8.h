@@ -454,9 +454,11 @@ uint8_t u8x8_d_ssd1306_128x64_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 
 /*==========================================*/
 /* u8x8_8x8.c */
+uint16_t u8x8_get_encoding_from_utf8_string(const char **str);
 void u8x8_Set8x8Font(u8x8_t *u8x8, const uint8_t *font_8x8);
 void u8x8_Draw8x8Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding);
 void u8x8_Draw8x8String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
+void u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
 
 /*==========================================*/
 /* start font list */

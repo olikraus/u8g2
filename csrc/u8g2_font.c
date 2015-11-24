@@ -707,9 +707,10 @@ u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const ch
 }
 #endif
 
+#ifdef OBSOLETE
 /* return the next unicode from a UTF-8 string */
-static uint16_t u8g2_get_encoding_from_utf8_string(const char **str) U8G2_NOINLINE;
-static uint16_t u8g2_get_encoding_from_utf8_string(const char **str) 
+uint16_t u8g2_get_encoding_from_utf8_string(const char **str) U8G2_NOINLINE;
+uint16_t u8g2_get_encoding_from_utf8_string(const char **str) 
 {
   uint16_t e;
   uint8_t b;
@@ -749,6 +750,7 @@ static uint16_t u8g2_get_encoding_from_utf8_string(const char **str)
   }
   return e;
 }
+#endif /* OBSOLETE */
 
 /* UTF-8 version */
 u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
@@ -769,7 +771,7 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
   
   for(;;)
   {
-    e = u8g2_get_encoding_from_utf8_string(&str);
+    e = u8x8_get_encoding_from_utf8_string(&str);
     if ( e == 0 )
       break;
     delta = u8g2_DrawGlyph(u8g2, x, y, e);
@@ -925,7 +927,7 @@ u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
   
   for(;;)
   {
-    e = u8g2_get_encoding_from_utf8_string(&s);
+    e = u8x8_get_encoding_from_utf8_string(&s);
     if ( e == 0 )
       break;
     w += u8g2_GetGlyphWidth(u8g2, e);
