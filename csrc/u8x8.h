@@ -119,6 +119,8 @@ typedef struct u8x8_display_info_struct u8x8_display_info_t;
 typedef struct u8x8_tile_struct u8x8_tile_t;
 
 typedef uint8_t (*u8x8_msg_cb)(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+typedef uint16_t (*u8x8_char_cb)(const char **s);
+
 
 
 //struct u8x8_mcd_struct
@@ -190,6 +192,7 @@ struct u8x8_struct
   u8x8_msg_cb byte_cb;
   u8x8_msg_cb gpio_and_delay_cb;
   const uint8_t *font;
+  u8x8_char_cb char_cb;		/*  procedure, which will be used to get the next char from the string */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
 };
 
@@ -458,7 +461,7 @@ uint16_t u8x8_get_encoding_from_utf8_string(const char **str);
 void u8x8_Set8x8Font(u8x8_t *u8x8, const uint8_t *font_8x8);
 void u8x8_Draw8x8Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding);
 void u8x8_Draw8x8String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
-void u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
+uint8_t u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
 
 /*==========================================*/
 /* start font list */

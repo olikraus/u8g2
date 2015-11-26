@@ -52,7 +52,6 @@
 #define U8G2_WITH_INTERSECTION
 
 /*
-  24 Nov 2015: OBSOLETE
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
   The following macro activates this support. Deactivation would save some ROM.
   This definition also defines the behavior of the expected string encoding.
@@ -64,7 +63,7 @@
   and ISO 8859-1.
   
   This macro does not affect the u8x8 string draw function.
-  u8x8 always assumes ISO 8859-1/CP1252 encoding.
+  u8x8 has two function, one for pure strings and one for UTF8
   
   Conclusion:
     U8G2_WITH_UNICODE defined
@@ -75,7 +74,6 @@
       - C-Code Strings are assumbed to be ISO 8859-1/CP1252 encoded
       - Only character values 0 to 255 are supported in the font file.
 */
-//   24 Nov 2015: OBSOLETE
 #define U8G2_WITH_UNICODE
 
 

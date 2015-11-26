@@ -942,3 +942,4 @@ void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
   u8g2->font_decode.dir = dir;
 #endif
 }
+

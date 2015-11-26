@@ -65,6 +65,9 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
 21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
 26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
 31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+
+This function returns 0x0ffff for end of string (0x0ffff is not a unicode glyph)
+
 */
 uint16_t u8x8_get_encoding_from_utf8_string(const char **str) 
 {
@@ -105,12 +108,42 @@ uint16_t u8x8_get_encoding_from_utf8_string(const char **str)
   return e;
 }
 
+const uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+const uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  uint16_t c;
+  uint8_t cnt = 0;
+  for(;;)
+  {
+    c = u8x8->char_cb(&s);
+    if ( c == 0 )
+      break;
+    if ( c <= 255 )
+    {
+      u8x8_Draw8x8Glyph(u8x8, x, y, (uint8_t)c);
+      x++;
+      cnt++;
+    }
+  }
+  return cnt;
+}
+
+uint8_t u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  u8x8->char_cb = u8x8_get_encoding_from_utf8_string;
+  return u8x8_draw_string(u8x8, x, y, s);
+}
+
+
+/*
 void u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
 {
   uint16_t unicode;
-  while( *s != '\0'  )
+  for(;;)
   {
     unicode = u8x8_get_encoding_from_utf8_string(&s);
+    if ( unicode == 0 )
+      break;
     if ( unicode <= 255 )
     {
       u8x8_Draw8x8Glyph(u8x8, x, y, (uint8_t)unicode);
@@ -118,3 +151,8 @@ void u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
     }
   }
 }
+*/
+
+
+
+
