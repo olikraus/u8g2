@@ -11,12 +11,12 @@
 
 
 
-void u8x8_Set8x8Font(u8x8_t *u8x8, const uint8_t *font_8x8)
+void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)
 {
   u8x8->font = font_8x8;
 }
 
-void u8x8_Draw8x8Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
 {
   uint8_t first, last, i;
   uint8_t buf[8];
@@ -44,16 +44,6 @@ void u8x8_Draw8x8Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
     }
   }
   u8x8_display_DrawTile(u8x8, x, y, 1, buf);
-}
-
-void u8x8_Draw8x8String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
-{
-  while( *s != '\0'  )
-  {
-    u8x8_Draw8x8Glyph(u8x8, x, y, (uint8_t)*s);
-    s++;
-    x++;
-  }
 }
 
 /*
@@ -108,8 +98,15 @@ uint16_t u8x8_get_encoding_from_utf8_string(const char **str)
   return e;
 }
 
-const uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
-const uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+uint16_t u8x8_get_char_from_string(const char **str)
+{
+  uint8_t b = **str;
+  (*str)++;
+  return b; 
+}
+
+static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
 {
   uint16_t c;
   uint8_t cnt = 0;
@@ -120,7 +117,7 @@ const uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s
       break;
     if ( c <= 255 )
     {
-      u8x8_Draw8x8Glyph(u8x8, x, y, (uint8_t)c);
+      u8x8_DrawGlyph(u8x8, x, y, (uint8_t)c);
       x++;
       cnt++;
     }
@@ -128,10 +125,40 @@ const uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s
   return cnt;
 }
 
-uint8_t u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  u8x8->char_cb = u8x8_get_char_from_string;
+  return u8x8_draw_string(u8x8, x, y, s);
+}
+
+uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
 {
   u8x8->char_cb = u8x8_get_encoding_from_utf8_string;
   return u8x8_draw_string(u8x8, x, y, s);
+}
+
+static uint8_t u8x8_strlen(u8x8_t *u8x8, const char *s) U8X8_NOINLINE;
+static uint8_t u8x8_strlen(u8x8_t *u8x8, const char *s)
+{
+  uint16_t c;
+  uint8_t cnt = 0;
+  for(;;)
+  {
+    c = u8x8->char_cb(&s);
+    if ( c == 0 )
+      break;
+    if ( c <= 255 )
+    {
+      cnt++;
+    }
+  }
+  return cnt;
+}
+
+uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s)
+{
+  u8x8->char_cb = u8x8_get_encoding_from_utf8_string;
+  return u8x8_strlen(u8x8, s);
 }
 
 
