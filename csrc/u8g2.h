@@ -298,10 +298,15 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
 u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
+u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
+
 #define u8g2_GetMaxCharHeight(u8g2) ((u8g2)->font_info.max_char_height)
 #define u8g2_GetMaxCharWidth(u8g2) ((u8g2)->font_info.max_char_width)
 #define u8g2_GetAscent(u8g2) ((u8g2)->font_info.ascent_A)
 #define u8g2_GetDescent(u8g2) ((u8g2)->font_info.descent_g)
+
+u8g2_uint_t u8g2_GetStringWidth(u8g2_t *u8g2, const char *s);
+u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
 
 
 /*==========================================*/

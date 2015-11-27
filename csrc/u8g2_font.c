@@ -707,51 +707,67 @@ u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const ch
 }
 #endif
 
-#ifdef OBSOLETE
-/* return the next unicode from a UTF-8 string */
-uint16_t u8g2_get_encoding_from_utf8_string(const char **str) U8G2_NOINLINE;
-uint16_t u8g2_get_encoding_from_utf8_string(const char **str) 
+static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
+static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   uint16_t e;
-  uint8_t b;
-  b = **str;
-#ifdef U8G2_WITH_UNICODE  
-  if ( b >= 0xc0 )
+  u8g2_uint_t delta, sum;
+  sum = 0;
+  for(;;)
   {
-    if ( b >= 0xf0 )	/* check for UTF-8 4, 5 and 6-byte sequence */
+    e = u8g2->u8x8.char_cb(&str);
+    if ( e == 0 )
+      break;
+    delta = u8g2_DrawGlyph(u8g2, x, y, e);
+    
+#ifdef U8G2_WITH_FONT_ROTATION
+    switch(u8g2->font_decode.dir)
     {
-      b &= 0x01;	/* only consider lowest bit, because only plane 0 (16 bit) is supported with u8glib v2 */
-    }
-    else if ( b >= 0xe0 )	/* check for UTF-8 3-byte sequence */
-    {
-      b &= 0x0f;
-    }
-    else /* assume UTF-8 2-byte sequence */
-    {
-      b &= 0x1f;
-    }
-    e = b;    
-    for(;;)
-    {
-      (*str)++;
-      b = **str;
-      if ( (b & 0x0c0) != 0x080 )
+      case 0:
+	x += delta;
 	break;
-      b &= 0x3f;
-      e <<=6;
-      e |= b;
-    }      
+      case 1:
+	y += delta;
+	break;
+      case 2:
+	x -= delta;
+	break;
+      case 3:
+	y -= delta;
+	break;
+    }
+#else
+    x += delta;
+#endif    
+    sum += delta;    
   }
-  else
-#endif /* U8G2_WITH_UNICODE */
-  {
-    e = b;		/* init with ASCII code */
-    (*str)++;
-  }
-  return e;
+  return sum;
 }
-#endif /* OBSOLETE */
 
+u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+{
+  u8g2->u8x8.char_cb = u8x8_get_char_from_string;
+  return u8g2_draw_string(u8g2, x, y, str);
+}
+
+/*
+source: https://en.wikipedia.org/wiki/UTF-8
+Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
+  7 	U+0000 		U+007F 		1 		0xxxxxxx
+11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
+16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
+21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+*/
+u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+{
+  u8g2->u8x8.char_cb = u8x8_get_encoding_from_utf8_string;
+  return u8g2_draw_string(u8g2, x, y, str);
+}
+
+
+#ifdef OBSOLETE
 /* UTF-8 version */
 u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
@@ -800,7 +816,7 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
   return sum;
 }
 
-
+#endif
 
 /*===============================================*/
 
@@ -917,7 +933,51 @@ void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font)
 
 /*===============================================*/
 
-u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
+static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str) U8G2_NOINLINE;
+static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
+{
+  uint16_t e;
+  u8g2_uint_t  w;
+  
+  /* reset the total width to zero, this will be expanded during calculation */
+  w = 0;
+  
+  for(;;)
+  {
+    e = u8g2->u8x8.char_cb(&str);
+    if ( e == 0 )
+      break;
+    w += u8g2_GetGlyphWidth(u8g2, e);
+    
+  }
+  return w;  
+}
+
+u8g2_uint_t u8g2_GetStringWidth(u8g2_t *u8g2, const char *s)
+{
+  u8g2->u8x8.char_cb = u8x8_get_char_from_string;
+  return u8g2_string_width(u8g2, s);
+}
+
+/*
+source: https://en.wikipedia.org/wiki/UTF-8
+Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
+  7 	U+0000 		U+007F 		1 		0xxxxxxx
+11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
+16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
+21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+*/
+u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str)
+{
+  u8g2->u8x8.char_cb = u8x8_get_encoding_from_utf8_string;
+  return u8g2_string_width(u8g2, str);
+}
+
+
+#ifdef OBSOLETE
+u8g2_uint_t u8g2_GetStringWidth(u8g2_t *u8g2, const char *s)
 {
   uint16_t e;
   u8g2_uint_t  w;
@@ -935,6 +995,7 @@ u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
   }
   return w;  
 }
+#endif
 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
 {
