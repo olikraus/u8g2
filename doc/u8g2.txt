@@ -12,4 +12,14 @@ U8glib V2: Features and Limitations
   2 and 3 byte sequences are detected and handled.
   Limitation:  
     Behavior for sequences with more than 3 bytes is unknown.
-    
+
+- Compilation speed improved (font file)
+
+- "Text only" sub library
+
+- less RAM/ROM usage
+
+- Hardware supported display flip
+
+- Better hardware support
+

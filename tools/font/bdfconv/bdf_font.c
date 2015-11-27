@@ -587,7 +587,7 @@ int bf_WriteUCGCByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *i
   return 1;
 }
 
-int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *indent)
+int OLD___bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *indent)
 {
   int i;
   int bytes_per_line = 16;
@@ -620,6 +620,59 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
   }
 
   fprintf(out_fp, "};\n");  
+  return 1;
+}
+
+int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *indent)
+{
+  int i;
+  int bytes_per_line = 32;
+  int extra1;
+  
+  fprintf(out_fp, "/*\n");
+  fprintf(out_fp, "  Fontname: %s\n", bf->str_font);
+  fprintf(out_fp, "  Copyright: %s\n", bf->str_copyright);
+  fprintf(out_fp, "  Glyphs: %d/%d\n", (int)bf->selected_glyphs, (int)bf->glyph_cnt );
+  fprintf(out_fp, "  BBX Build Mode: %d\n", (int)bf->bbx_mode);
+  fprintf(out_fp, "*/\n");
+  
+  if ( bf->target_data[bf->target_cnt-1] == 0 )
+    extra1 = 0;
+  else
+    extra1 = 1;
+  
+  if ( bf->bbx_mode == 3 )
+  {
+    //fprintf(out_fp, "#include \"u8x8.h\"\n");  
+    fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") = \n", fontname, bf->target_cnt+extra1, fontname);
+  }
+  else
+  {
+    //fprintf(out_fp, "#include \"u8g2.h\"\n");  
+    fprintf(out_fp, "const uint8_t %s[%d] U8G2_FONT_SECTION(\"%s\") = \n", fontname, bf->target_cnt+extra1, fontname);
+  }
+  fprintf(out_fp, "%s\"", indent);
+    
+  for( i = 0; i < bf->target_cnt-1+extra1; i++ )
+  {
+    if ( bf->target_data[i] < 32 || bf->target_data[i] == '\"' || bf->target_data[i] == '\\'  || ( bf->target_data[i] >= '0' && bf->target_data[i] <= '9' ))
+    {
+      fprintf(out_fp, "\\%o", bf->target_data[i]);
+      //fprintf(out_fp, "\\x%02x", bf->target_data[i]);
+    }
+    else if ( bf->target_data[i] < 128 )
+    {
+      fprintf(out_fp, "%c", bf->target_data[i]);
+    }
+    else
+    {
+      fprintf(out_fp, "\\%o", bf->target_data[i]);
+    }
+    if ( (i+1) % bytes_per_line == 0 )
+      fprintf(out_fp, "\"\n%s\"", indent); 
+  }
+
+  fprintf(out_fp, "\";\n");  
   return 1;
 }
 

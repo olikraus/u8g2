@@ -100,7 +100,7 @@ static const char *bf_get_eol_string(bf_t *bf)
   
   if ( bf_curr(bf) == '\"' )
     return bf_get_string(bf);
-  bf_next(bf);
+  //bf_next(bf);
   
   for(;;)
   {
