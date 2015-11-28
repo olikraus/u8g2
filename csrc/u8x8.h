@@ -498,6 +498,14 @@ extern const uint8_t u8x8_font_victoriabold8_u[] U8X8_FONT_SECTION("u8x8_font_vi
 extern const uint8_t u8x8_font_victoriamedium8_r[] U8X8_FONT_SECTION("u8x8_font_victoriamedium8_r");
 extern const uint8_t u8x8_font_victoriamedium8_n[] U8X8_FONT_SECTION("u8x8_font_victoriamedium8_n");
 extern const uint8_t u8x8_font_victoriamedium8_u[] U8X8_FONT_SECTION("u8x8_font_victoriamedium8_u");
+extern const uint8_t u8x8_font_pressstart2p_f[] U8X8_FONT_SECTION("u8x8_font_pressstart2p_f");
+extern const uint8_t u8x8_font_pressstart2p_r[] U8X8_FONT_SECTION("u8x8_font_pressstart2p_r");
+extern const uint8_t u8x8_font_pressstart2p_n[] U8X8_FONT_SECTION("u8x8_font_pressstart2p_n");
+extern const uint8_t u8x8_font_pressstart2p_u[] U8X8_FONT_SECTION("u8x8_font_pressstart2p_u");
+extern const uint8_t u8x8_font_pcsenior_f[] U8X8_FONT_SECTION("u8x8_font_pcsenior_f");
+extern const uint8_t u8x8_font_pcsenior_r[] U8X8_FONT_SECTION("u8x8_font_pcsenior_r");
+extern const uint8_t u8x8_font_pcsenior_n[] U8X8_FONT_SECTION("u8x8_font_pcsenior_n");
+extern const uint8_t u8x8_font_pcsenior_u[] U8X8_FONT_SECTION("u8x8_font_pcsenior_u");
 
 /* end font list */
 

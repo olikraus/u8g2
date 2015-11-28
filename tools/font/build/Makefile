@@ -17,8 +17,8 @@ ASM2 = $(SRC2:.c=.s)
 
 
 build1: $(SRC1)
-	$(CC) $(LDFLAGS) $(SRC1) -o build1
-	./build1
+	$(CC) -Wall -g $(LDFLAGS) $(SRC1) -o build1
+#	./build1
 
 build2: $(OBJ2) 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ2) -o build2
