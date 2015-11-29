@@ -183,8 +183,8 @@ void u8x8_Setup_SSD1306_128x64_NONAME(u8x8_t *u8x8)
   /* setup specific callbacks */
   u8x8->display_cb = u8x8_d_ssd1306_128x64_noname;
   u8x8->cad_cb = u8x8_cad_001;
-  u8x8->byte_cb = u8x8_byte_arduino_hw_spi;
-  //u8x8->byte_cb = u8x8_byte_8bit_sw_spi;
+  //u8x8->byte_cb = u8x8_byte_arduino_hw_spi;
+  u8x8->byte_cb = u8x8_byte_8bit_sw_spi;
   u8x8->gpio_and_delay_cb = u8x8_gpio_and_delay_arduino;
   
   /* setup display info */
@@ -215,9 +215,9 @@ void loop(void)
     
     delay(500);
 
-    u8x8_Set8x8Font(&u8g2, bdf_font);
-    u8x8_Draw8x8String(&u8g2, 0, 0, "Hello gAjByCD");
-    u8x8_Draw8x8String(&u8g2, 3, 1, "World B");
+    u8x8_SetFont(&u8g2, bdf_font);
+    u8x8_DrawString(&u8g2, 0, 0, "Hello gAjByCD");
+    u8x8_DrawString(&u8g2, 3, 1, "World B");
     
     u8x8_display_DrawTile(&u8g2, 1, 1, 1, tile);
     u8x8_display_DrawTile(&u8g2, 2, 2, 1, tile);

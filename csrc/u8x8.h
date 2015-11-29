@@ -417,7 +417,7 @@ uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 
 #define u8x8_gpio_SetDC(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_DC, (v))
 #define u8x8_gpio_SetCS(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS, (v))
-#define u8x8_gpio_SetReset(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS, (v))
+#define u8x8_gpio_SetReset(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_RESET, (v))
 #define u8x8_gpio_SetClock(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CLOCK, (v))
 #define u8x8_gpio_SetData(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_DATA, (v))
 
