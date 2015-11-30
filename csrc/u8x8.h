@@ -184,6 +184,12 @@ struct u8x8_display_info_struct
   uint8_t default_x_offset;	/* default x offset for the display */
 };
 
+
+
+#ifdef U8X8_USE_PINS 
+#define U8X8_PIN_CNT 12
+#endif
+
 struct u8x8_struct
 {
   const u8x8_display_info_t *display_info;
@@ -194,7 +200,30 @@ struct u8x8_struct
   const uint8_t *font;
   u8x8_char_cb char_cb;		/*  procedure, which will be used to get the next char from the string */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
+
+#ifdef U8X8_USE_PINS 
+  uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
+#endif
 };
+
+
+/* list of U8x8 pins */
+#define U8X8_PIN_D0 0
+#define U8X8_PIN_CLOCK 0
+#define U8X8_PIN_D1 1
+#define U8X8_PIN_DATA 1
+#define U8X8_PIN_D2 2
+#define U8X8_PIN_D3 3
+#define U8X8_PIN_D4 4
+#define U8X8_PIN_D5 5
+#define U8X8_PIN_D6 6
+#define U8X8_PIN_D7 7
+
+#define U8X8_PIN_E 8
+#define U8X8_PIN_CS 9			/* parallel, SPI */
+#define U8X8_PIN_DC 10			/* parallel, SPI */
+#define U8X8_PIN_RESET 11		/* parallel, SPI, I2C */
+
 
 
 
@@ -401,11 +430,23 @@ uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 #define U8X8_MSG_DELAY_100NANO		43
 #define U8X8_MSG_DELAY_NANO		44
 
-#define U8X8_MSG_GPIO_DC 45
-#define U8X8_MSG_GPIO_CS 46		
-#define U8X8_MSG_GPIO_RESET 47
-#define U8X8_MSG_GPIO_CLOCK 48
-#define U8X8_MSG_GPIO_DATA 49
+#define U8X8_MSG_GPIO(x) (64+(x))
+
+#define U8X8_MSG_GPIO_D0		U8X8_MSG_GPIO(U8X8_PIN_D0)
+#define U8X8_MSG_GPIO_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_CLOCK)
+#define U8X8_MSG_GPIO_D1		U8X8_MSG_GPIO(U8X8_PIN_D1)
+#define U8X8_MSG_GPIO_DATA		U8X8_MSG_GPIO(U8X8_PIN_DATA)
+#define U8X8_MSG_GPIO_D2		U8X8_MSG_GPIO(U8X8_PIN_D2)
+#define U8X8_MSG_GPIO_D3		U8X8_MSG_GPIO(U8X8_PIN_D3)
+#define U8X8_MSG_GPIO_D4		U8X8_MSG_GPIO(U8X8_PIN_D4)
+#define U8X8_MSG_GPIO_D5		U8X8_MSG_GPIO(U8X8_PIN_D5)
+#define U8X8_MSG_GPIO_D6		U8X8_MSG_GPIO(U8X8_PIN_D6)
+#define U8X8_MSG_GPIO_D7		U8X8_MSG_GPIO(U8X8_PIN_D7)
+#define U8X8_MSG_GPIO_E 		U8X8_MSG_GPIO(U8X8_PIN_E)
+#define U8X8_MSG_GPIO_CS		U8X8_MSG_GPIO(U8X8_PIN_CS)
+#define U8X8_MSG_GPIO_DC		U8X8_MSG_GPIO(U8X8_PIN_DC)
+#define U8X8_MSG_GPIO_RESET 	U8X8_MSG_GPIO(U8X8_PIN_RESET)
+
 
 #define u8x8_gpio_Init(u8x8) ((u8x8)->gpio_and_delay_cb((u8x8), U8X8_MSG_GPIO_AND_DELAY_INIT, 0, NULL ))
 
