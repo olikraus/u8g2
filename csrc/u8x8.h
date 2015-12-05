@@ -110,6 +110,10 @@ extern "C" {
 #  define u8x8_pgm_read(adr) (*(const uint8_t *)(adr)) 
 #endif
 
+#ifdef ARDUINO
+#define U8X8_USE_PINS
+#endif
+
 /*==========================================*/
 /* U8X8 typedefs and data structures */
 
@@ -188,6 +192,7 @@ struct u8x8_display_info_struct
 
 #ifdef U8X8_USE_PINS 
 #define U8X8_PIN_CNT 12
+#define U8X8_PIN_NONE 255
 #endif
 
 struct u8x8_struct
@@ -224,7 +229,9 @@ struct u8x8_struct
 #define U8X8_PIN_DC 10			/* parallel, SPI */
 #define U8X8_PIN_RESET 11		/* parallel, SPI, I2C */
 
-
+#ifdef U8X8_USE_PINS 
+#define u8x8_SetPin(u8x8,pin,val) (u8x8)->pins[pin] = (val)
+#endif
 
 
 /*==========================================*/
