@@ -75,8 +75,8 @@ static const u8x8_display_info_t u8x8_uc1701_display_info =
   /* pre_chip_disable_wait_ns = */ 5,
   /* reset_pulse_width_ms = */ 1, 
   /* post_reset_wait_ms = */ 6, 
-  /* sda_setup_time_ns = */ 15,		/* if this is smaller  than sck_pulse_width_ns, use sck_pulse_width_ns, so use 15 instead of 12*/
-  /* sck_pulse_width_ns = */ 15,
+  /* sda_setup_time_ns = */ 12,		
+  /* sck_pulse_width_ns = */ 75,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
   /* sck_takeover_edge = */ 1,		/* rising edge */
   /* i2c_bus_clock_100kHz = */ 37,
   /* data_setup_time_ns = */ 30,

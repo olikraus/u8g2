@@ -16,44 +16,29 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
   switch(msg)
   {
     case U8X8_MSG_GPIO_AND_DELAY_INIT:
-      /* new code */
+    
       for( i = 0; i < U8X8_PIN_CNT; i++ )
 	if ( u8x8->pins[i] != U8X8_PIN_NONE )
 	  pinMode(u8x8->pins[i], OUTPUT);
 	  
-      /* old code, can be removed */
-      pinMode(8, OUTPUT);
-      pinMode(9, OUTPUT);
-      pinMode(10, OUTPUT);
-      pinMode(11, OUTPUT);
-      pinMode(13, OUTPUT);
       break;
   
     case U8X8_MSG_DELAY_MILLI:
       delay(arg_int);
       break;
-      
-    case U8X8_MSG_GPIO_DC:
-	digitalWrite(9, arg_int);
-	break;
-	
-    case U8X8_MSG_GPIO_CS:
-	digitalWrite(10, arg_int);
-	break;
-	
-    case U8X8_MSG_GPIO_RESET:
-	digitalWrite(8, arg_int);
-	break;
-	
-    case U8X8_MSG_GPIO_CLOCK:
-	digitalWrite(13, arg_int);
-	break;
-      
-    case U8X8_MSG_GPIO_DATA:
-	digitalWrite(11, arg_int);
-	break;
-      
+    case U8X8_MSG_DELAY_I2C:
+      /* arg_int is 1 or 4: 100KHz (5us) or 400KHz (1.25us) */
+      delayMicroseconds(arg_int<=2?5:2);
+      break;
     default:
+      if ( msg >= U8X8_MSG_GPIO(0) )
+      {
+	i = u8x8_GetPinValue(u8x8, msg);
+	if ( i != U8X8_PIN_NONE )
+	  digitalWrite(i, arg_int);
+	break;
+      }
+      
       return 0;
   }
   return 1;
@@ -68,7 +53,6 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
   switch(msg)
   {
     case U8X8_MSG_BYTE_SEND:
-
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
       {
@@ -83,24 +67,35 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
+      pinMode(11, OUTPUT);
+      pinMode(13, OUTPUT);
       digitalWrite(13, u8g2->display_info->sck_takeover_edge);
       break;
+      
     case U8X8_MSG_BYTE_SET_DC:
       u8x8_gpio_SetDC(u8g2, arg_int);
       break;
+      
     case U8X8_MSG_BYTE_START_TRANSFER:
       SPI.begin();
-      SPI.setClockDivider( SPI_CLOCK_DIV2 );
+      
+      if ( u8g2->display_info->sck_pulse_width_ns < 70 )
+	SPI.setClockDivider( SPI_CLOCK_DIV2 );
+      else
+	SPI.setClockDivider( SPI_CLOCK_DIV4 );
       SPI.setDataMode(SPI_MODE0);
       SPI.setBitOrder(MSBFIRST);
       
       u8x8_gpio_SetCS(u8g2, u8g2->display_info->chip_enable_level);  
       u8g2->gpio_and_delay_cb(u8g2, U8X8_MSG_DELAY_NANO, u8g2->display_info->post_chip_enable_wait_ns, NULL);
       break;
-    case U8X8_MSG_BYTE_END_TRANSFER:
+      
+    case U8X8_MSG_BYTE_END_TRANSFER:      
       u8g2->gpio_and_delay_cb(u8g2, U8X8_MSG_DELAY_NANO, u8g2->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8g2, u8g2->display_info->chip_disable_level);
+
       SPI.end();
+
       break;
     case U8X8_MSG_BYTE_SET_I2C_ADR:
       break;
@@ -187,42 +182,31 @@ void u8x8_Setup_HW_4Wire_SPI(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t cs, u
 
   /* setup display info */
   u8x8_display_Setup(u8x8);
-
 }
+
+void u8x8_Setup_SW_SSD13xx_I2C(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clock, uint8_t data, uint8_t reset)
+{
+  /* setup defaults and reset pins to U8X8_PIN_NONE */
+  u8x8_SetupDefaults(u8x8);
+  
+  /* assign individual pin values (only for ARDUINO, if pin_list is available) */
+  u8x8_SetPin(u8x8, U8X8_PIN_CLOCK, clock);
+  u8x8_SetPin(u8x8, U8X8_PIN_DATA, data);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+
+  /* setup specific callbacks */
+  u8x8->display_cb = display_cb;
+  u8x8->cad_cb = u8x8_cad_001;
+  u8x8->byte_cb = u8x8_byte_ssd13xx_sw_i2c;
+  u8x8->gpio_and_delay_cb = u8x8_gpio_and_delay_arduino;
+
+  /* setup display info */
+  u8x8_display_Setup(u8x8);
+}
+
 
 /*=============================================*/
 /* display setup procedures */
-
-void u8x8_Setup_UC1701_DOGS102(u8x8_t *u8x8)
-{
-  /* setup defaults and reset pins to U8X8_PIN_NONE */
-  u8x8_SetupDefaults(u8x8);
-  
-  /* setup specific callbacks */
-  u8x8->display_cb = u8x8_d_uc1701_dogs102;
-  u8x8->cad_cb = u8x8_cad_001;
-  u8x8->byte_cb = u8x8_byte_8bit_sw_spi;
-  u8x8->gpio_and_delay_cb = u8x8_gpio_and_delay_arduino;
-
-  /* setup display info */
-  u8x8_display_Setup(u8x8);
-}
-
-void u8x8_Setup_SSD1306_128x64_NONAME(u8x8_t *u8x8)
-{
-  /* setup defaults and reset pins to U8X8_PIN_NONE */
-  u8x8_SetupDefaults(u8x8);
-  
-  /* setup specific callbacks */
-  u8x8->display_cb = u8x8_d_ssd1306_128x64_noname;
-  u8x8->cad_cb = u8x8_cad_001;
-  //u8x8->byte_cb = u8x8_byte_arduino_hw_spi;
-  u8x8->byte_cb = u8x8_byte_8bit_sw_spi;
-  u8x8->gpio_and_delay_cb = u8x8_gpio_and_delay_arduino;
-  
-  /* setup display info */
-  u8x8_display_Setup(u8x8);
-}
 
 
 u8x8_t u8x8;
@@ -230,12 +214,19 @@ uint8_t tile[8] = { 0x0f, 0x0f, 0x0f, 0x0f, 0xf0, 0xf0, 0xf0, 0xf0 };
 
 void setup(void)
 {
-  //u8x8_Setup_UC1701_DOGS102(&u8x8);  
-  //u8x8_Setup_SSD1306_128x64_NONAME(&u8x8);
+  pinMode(7, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  digitalWrite(7, 0);	// default output in I2C mode for the SSD1306 test shield
+  digitalWrite(9, 0);	// default output in I2C mode for the SSD1306 test shield: set the i2c adr to 0
+  digitalWrite(10, 0);	// default output in I2C mode for the SSD1306 test shield
+  
   //u8x8_Setup_SW_4Wire_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 10, 9, 8);
-  u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 10, 9, 8);		// works!!
+  u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 10, 9, 8);
+  //u8x8_Setup_SW_SSD13xx_I2C(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 8);
+  
   //u8x8_Setup_SW_4Wire_SPI(&u8x8, u8x8_d_uc1701_dogs102, 13, 11, 10, 9, 8);
-  //u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_uc1701_dogs102, 10, 9, 8);		// broken???? does not work
+  //u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_uc1701_dogs102, 10, 9, 8);		
 }
 
 void loop(void)
@@ -243,6 +234,7 @@ void loop(void)
   u8x8_display_Init(&u8x8);  
   //u8x8_display_SetFlipMode(&u8x8, 1);
 
+  //digitalWrite(9, 0);	// default output in I2C mode for the SSD1306 test shield: set the i2c adr to 0
 
   for(;;)
   {
@@ -250,7 +242,7 @@ void loop(void)
     u8x8_display_SetPowerSave(&u8x8, 0);
     //u8x8_display_SetContrast(&u8x8, 10);
     
-    delay(500);
+    //delay(500);
 
     u8x8_SetFont(&u8x8, u8x8_font_chroma48medium8_r);
     u8x8_DrawString(&u8x8, 0, 0, "Hello World");
@@ -263,7 +255,7 @@ void loop(void)
     u8x8_display_DrawTile(&u8x8, 5, 5, 1, tile);
     u8x8_display_DrawTile(&u8x8, 6, 6, 1, tile);
 
-    delay(2000);
+    //delay(2000);
   }
 }
 

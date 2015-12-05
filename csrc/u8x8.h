@@ -163,7 +163,8 @@ struct u8x8_display_info_struct
   uint8_t sda_setup_time_ns;		/* UC1601: 12ns */
   /* the pulse width of the the clock signal, cycle time is twice this value */
   /* max freq is 1/(2*sck_pulse_width_ns) */
-  uint8_t sck_pulse_width_ns;		/* UC1601: 15ns */
+  /* AVR: below 70: DIV2, 8 MHz, >= 70 --> 4MHz clock (DIV4) */
+  uint8_t sck_pulse_width_ns;		/* UC1701: 50ns */
   
   /* data takeover edge:  0=falling edge, 1=rising edge*/
   /* initial default value for sck is low (0) for falling edge and high for rising edge */
@@ -205,7 +206,7 @@ struct u8x8_struct
   const uint8_t *font;
   u8x8_char_cb char_cb;		/*  procedure, which will be used to get the next char from the string */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
-
+  uint8_t i2c_started;	/* for i2c interface */
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
 #endif
@@ -417,6 +418,7 @@ uint8_t u8x8_byte_SendByte(u8x8_t *u8x8, uint8_t byte) U8X8_NOINLINE;
 uint8_t u8x8_byte_SendBytes(u8x8_t *u8x8, uint8_t cnt, uint8_t *data) U8X8_NOINLINE;
 
 uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 /*==========================================*/
@@ -436,8 +438,13 @@ uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 #define U8X8_MSG_DELAY_10MICRO		42
 #define U8X8_MSG_DELAY_100NANO		43
 #define U8X8_MSG_DELAY_NANO		44
+/* delay of one i2c unit, should be 5us for 100K, and 1.25us for 400K */
+#define U8X8_MSG_DELAY_I2C		45
 
 #define U8X8_MSG_GPIO(x) (64+(x))
+#ifdef U8X8_USE_PINS 
+#define u8x8_GetPinValue(u8x8, msg) ((u8x8)->pins[(msg)&0x3f])
+#endif
 
 #define U8X8_MSG_GPIO_D0		U8X8_MSG_GPIO(U8X8_PIN_D0)
 #define U8X8_MSG_GPIO_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_CLOCK)
@@ -456,6 +463,7 @@ uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 
 
 #define u8x8_gpio_Init(u8x8) ((u8x8)->gpio_and_delay_cb((u8x8), U8X8_MSG_GPIO_AND_DELAY_INIT, 0, NULL ))
+
 
 /*
 #define u8x8_gpio_SetDC(u8x8, v) ((u8x8)->gpio_and_delay_cb((u8x8), U8X8_MSG_GPIO_DC, (v), NULL ))
