@@ -192,8 +192,8 @@ uint8_t u8x8_d_tga_desc(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_pt
   uint8_t *ptr;
   switch(msg)
   {
-    case U8X8_MSG_DISPLAY_SETUP:
-      u8x8_d_helper_display_setup(u8g2, &u8x8_tga_desc_info);
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8g2, &u8x8_tga_desc_info);
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8g2);
@@ -292,8 +292,8 @@ uint8_t u8x8_d_tga_lcd(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr
   uint8_t *ptr;
   switch(msg)
   {
-    case U8X8_MSG_DISPLAY_SETUP:
-      u8x8_d_helper_display_setup(u8g2, &u8x8_tga_lcd_info);
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8g2, &u8x8_tga_lcd_info);
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8g2);

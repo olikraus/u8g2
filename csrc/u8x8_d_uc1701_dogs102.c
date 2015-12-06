@@ -96,8 +96,8 @@ uint8_t u8x8_d_uc1701_dogs102(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   uint8_t *ptr;
   switch(msg)
   {
-    case U8X8_MSG_DISPLAY_SETUP:
-      u8x8_d_helper_display_setup(u8x8, &u8x8_uc1701_display_info);
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1701_display_info);
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);

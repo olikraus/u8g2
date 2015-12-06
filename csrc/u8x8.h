@@ -9,7 +9,7 @@
 
   The topmost level is the display layer. It includes the following messages:
   
-    U8X8_MSG_DISPLAY_SETUP			no communicaation with the display, setup memory ony
+    U8X8_MSG_DISPLAY_SETUP_MEMORY			no communicaation with the display, setup memory ony
     U8X8_MSG_DISPLAY_INIT
     U8X8_MSG_DISPLAY_SET_FLIP_MODE
     U8X8_MSG_DISPLAY_SET_POWER_SAVE
@@ -241,19 +241,21 @@ struct u8x8_struct
 /*==========================================*/
 
 /* helper functions */
-void u8x8_d_helper_display_setup(u8x8_t *u8x8, const u8x8_display_info_t *display_info);
+void u8x8_d_helper_display_setup_memory(u8x8_t *u8x8, const u8x8_display_info_t *display_info);
 void u8x8_d_helper_display_init(u8x8_t *u8g2);
 
 /* Display Interface */
 
 /*
-  Name: 	U8X8_MSG_DISPLAY_SETUP
+  Name: 	U8X8_MSG_DISPLAY_SETUP_MEMORY
   Args:	None
   Tasks:
     1) setup u8g2->display_info
       copy u8g2->display_info->default_x_offset to u8g2->x_offset
+      
+   usually calls u8x8_d_helper_display_setup_memory()
 */
-#define U8X8_MSG_DISPLAY_SETUP 9
+#define U8X8_MSG_DISPLAY_SETUP_MEMORY 9
 
 /*
   Name: 	U8X8_MSG_DISPLAY_INIT
@@ -328,7 +330,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 /* u8x8_display.c */
 uint8_t u8x8_display_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr);
 
-/* setup display memory structures */
+/* setup u8x8 memory structures */
 void u8x8_display_Setup(u8x8_t *u8x8);
 /* Init display, but keep display in power save mode. Usually this command must be followed by u8x8_display_SetPowerSave() */
 void u8x8_display_Init(u8x8_t *u8x8);
@@ -441,8 +443,11 @@ uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 /* arg_int: milliseconds */
 #define U8X8_MSG_DELAY_MILLI		41
 
+/* 10MICRO and 100NANO are not used at the moment */
 #define U8X8_MSG_DELAY_10MICRO		42
 #define U8X8_MSG_DELAY_100NANO		43
+
+
 #define U8X8_MSG_DELAY_NANO		44
 /* delay of one i2c unit, should be 5us for 100K, and 1.25us for 400K */
 #define U8X8_MSG_DELAY_I2C		45

@@ -8,7 +8,7 @@
     u8x8_Setup_XYZ
       u8x8_SetupDefaults(u8g2);
       assign u8x8 callbacks
-      u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SETUP, 0, NULL);  
+      u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SETUP_MEMORY, 0, NULL);  
     setup tile buffer
     
   
