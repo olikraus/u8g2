@@ -65,7 +65,7 @@ void u8x8_SetupMemory(u8x8_t *u8x8)
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SETUP_MEMORY, 0, NULL);  
 }
 
-void u8x8_display_Init(u8x8_t *u8x8)
+void u8x8_InitDisplay(u8x8_t *u8x8)
 {
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_INIT, 0, NULL);  
 }

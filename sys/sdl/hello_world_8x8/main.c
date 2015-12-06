@@ -6,7 +6,7 @@ u8x8_t u8g2;
 int main(void)
 {
   u8x8_Setup_SDL_128x64(&u8g2);
-  u8x8_display_Init(&u8g2);  
+  u8x8_InitDisplay(&u8g2);  
 
   u8x8_SetFont(&u8g2, u8x8_font_amstrad_cpc_r);
   

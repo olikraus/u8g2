@@ -12,7 +12,7 @@ int main(void)
   int i;
   
   u8g2_Setup_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
-  u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+  u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
   

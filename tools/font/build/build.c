@@ -665,7 +665,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   
     printf("8x8 font overview picture %s\n", target_font_identifier);  
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
-    u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+    u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8x8_display_ClearScreen(u8g2_GetU8x8(&u8g2));
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_r);
@@ -701,7 +701,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   {
     printf("overview picture %s\n", target_font_identifier);
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
-    u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+    u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8g2_SetFont(&u8g2, u8g2_font_helvB14_tr);
 
@@ -734,7 +734,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
   {
     printf("8x8 font short overview picture %s\n", target_font_identifier);  
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
-    u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+    u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8x8_display_ClearScreen(u8g2_GetU8x8(&u8g2));
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
@@ -757,7 +757,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
   {
     printf("short overview picture %s\n", target_font_identifier);
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
-    u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+    u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8g2_SetFont(&u8g2, u8g2_font_helvB14_tr);
 
@@ -808,7 +808,7 @@ void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, cha
   else if ( fm == FM_C ) 
   {
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
-    u8x8_display_Init(u8g2_GetU8x8(&u8g2));
+    u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     if ( u8g2_font_list[u8g2_fnt_cnt] != NULL )
     {

@@ -146,7 +146,7 @@ void setup(void)
 
 void loop(void)
 {
-  u8x8_display_Init(&u8g2);  
+  u8x8_InitDisplay(&u8g2);  
   //u8x8_display_SetFlipMode(&u8g2, 1);
 
 
