@@ -115,9 +115,9 @@ u8x8_SetPin(u8x8,pin,val)
 
 values for "pin":
 U8X8_PIN_D0
-U8X8_PIN_CLOCK
+U8X8_PIN_SPI_CLOCK
 U8X8_PIN_D1
-U8X8_PIN_DATA
+U8X8_PIN_SPI_DATA
 U8X8_PIN_D2
 U8X8_PIN_D3
 U8X8_PIN_D4
@@ -144,8 +144,8 @@ void u8x8_Setup_SW_4Wire_SPI(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clock
   u8x8_SetupDefaults(u8x8);
   
   /* assign individual pin values (only for ARDUINO, if pin_list is available) */
-  u8x8_SetPin(u8x8, U8X8_PIN_CLOCK, clock);
-  u8x8_SetPin(u8x8, U8X8_PIN_DATA, data);
+  u8x8_SetPin(u8x8, U8X8_PIN_SPI_CLOCK, clock);
+  u8x8_SetPin(u8x8, U8X8_PIN_SPI_DATA, data);
   u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
   u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
@@ -190,8 +190,8 @@ void u8x8_Setup_SW_SSD13xx_I2C(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clo
   u8x8_SetupDefaults(u8x8);
   
   /* assign individual pin values (only for ARDUINO, if pin_list is available) */
-  u8x8_SetPin(u8x8, U8X8_PIN_CLOCK, clock);
-  u8x8_SetPin(u8x8, U8X8_PIN_DATA, data);
+  u8x8_SetPin(u8x8, U8X8_PIN_I2C_CLOCK, clock);
+  u8x8_SetPin(u8x8, U8X8_PIN_I2C_DATA, data);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 
   /* setup specific callbacks */
@@ -222,8 +222,8 @@ void setup(void)
   digitalWrite(10, 0);	// default output in I2C mode for the SSD1306 test shield
   
   //u8x8_Setup_SW_4Wire_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 10, 9, 8);
-  u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 10, 9, 8);
-  //u8x8_Setup_SW_SSD13xx_I2C(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 8);
+  //u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 10, 9, 8);
+  u8x8_Setup_SW_SSD13xx_I2C(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 8);
   
   //u8x8_Setup_SW_4Wire_SPI(&u8x8, u8x8_d_uc1701_dogs102, 13, 11, 10, 9, 8);
   //u8x8_Setup_HW_4Wire_SPI(&u8x8, u8x8_d_uc1701_dogs102, 10, 9, 8);		

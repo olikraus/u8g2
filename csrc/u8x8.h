@@ -192,7 +192,7 @@ struct u8x8_display_info_struct
 
 
 #ifdef U8X8_USE_PINS 
-#define U8X8_PIN_CNT 12
+#define U8X8_PIN_CNT 14
 #define U8X8_PIN_NONE 255
 #endif
 
@@ -215,9 +215,9 @@ struct u8x8_struct
 
 /* list of U8x8 pins */
 #define U8X8_PIN_D0 0
-#define U8X8_PIN_CLOCK 0
+#define U8X8_PIN_SPI_CLOCK 0
 #define U8X8_PIN_D1 1
-#define U8X8_PIN_DATA 1
+#define U8X8_PIN_SPI_DATA 1
 #define U8X8_PIN_D2 2
 #define U8X8_PIN_D3 3
 #define U8X8_PIN_D4 4
@@ -229,6 +229,9 @@ struct u8x8_struct
 #define U8X8_PIN_CS 9			/* parallel, SPI */
 #define U8X8_PIN_DC 10			/* parallel, SPI */
 #define U8X8_PIN_RESET 11		/* parallel, SPI, I2C */
+
+#define U8X8_PIN_I2C_CLOCK 12	/* 1 = Input/high impedance, 0 = drive low */
+#define U8X8_PIN_I2C_DATA 13	/* 1 = Input/high impedance, 0 = drive low */
 
 #ifdef U8X8_USE_PINS 
 #define u8x8_SetPin(u8x8,pin,val) (u8x8)->pins[pin] = (val)
@@ -446,20 +449,23 @@ uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 #define u8x8_GetPinValue(u8x8, msg) ((u8x8)->pins[(msg)&0x3f])
 #endif
 
-#define U8X8_MSG_GPIO_D0		U8X8_MSG_GPIO(U8X8_PIN_D0)
-#define U8X8_MSG_GPIO_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_CLOCK)
-#define U8X8_MSG_GPIO_D1		U8X8_MSG_GPIO(U8X8_PIN_D1)
-#define U8X8_MSG_GPIO_DATA		U8X8_MSG_GPIO(U8X8_PIN_DATA)
-#define U8X8_MSG_GPIO_D2		U8X8_MSG_GPIO(U8X8_PIN_D2)
-#define U8X8_MSG_GPIO_D3		U8X8_MSG_GPIO(U8X8_PIN_D3)
-#define U8X8_MSG_GPIO_D4		U8X8_MSG_GPIO(U8X8_PIN_D4)
-#define U8X8_MSG_GPIO_D5		U8X8_MSG_GPIO(U8X8_PIN_D5)
-#define U8X8_MSG_GPIO_D6		U8X8_MSG_GPIO(U8X8_PIN_D6)
-#define U8X8_MSG_GPIO_D7		U8X8_MSG_GPIO(U8X8_PIN_D7)
-#define U8X8_MSG_GPIO_E 		U8X8_MSG_GPIO(U8X8_PIN_E)
-#define U8X8_MSG_GPIO_CS		U8X8_MSG_GPIO(U8X8_PIN_CS)
-#define U8X8_MSG_GPIO_DC		U8X8_MSG_GPIO(U8X8_PIN_DC)
-#define U8X8_MSG_GPIO_RESET 	U8X8_MSG_GPIO(U8X8_PIN_RESET)
+#define U8X8_MSG_GPIO_D0			U8X8_MSG_GPIO(U8X8_PIN_D0)
+#define U8X8_MSG_GPIO_SPI_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_SPI_CLOCK)
+#define U8X8_MSG_GPIO_D1			U8X8_MSG_GPIO(U8X8_PIN_D1)
+#define U8X8_MSG_GPIO_SPI_DATA		U8X8_MSG_GPIO(U8X8_PIN_SPI_DATA)
+#define U8X8_MSG_GPIO_D2			U8X8_MSG_GPIO(U8X8_PIN_D2)
+#define U8X8_MSG_GPIO_D3			U8X8_MSG_GPIO(U8X8_PIN_D3)
+#define U8X8_MSG_GPIO_D4			U8X8_MSG_GPIO(U8X8_PIN_D4)
+#define U8X8_MSG_GPIO_D5			U8X8_MSG_GPIO(U8X8_PIN_D5)
+#define U8X8_MSG_GPIO_D6			U8X8_MSG_GPIO(U8X8_PIN_D6)
+#define U8X8_MSG_GPIO_D7			U8X8_MSG_GPIO(U8X8_PIN_D7)
+#define U8X8_MSG_GPIO_E 			U8X8_MSG_GPIO(U8X8_PIN_E)
+#define U8X8_MSG_GPIO_CS			U8X8_MSG_GPIO(U8X8_PIN_CS)
+#define U8X8_MSG_GPIO_DC			U8X8_MSG_GPIO(U8X8_PIN_DC)
+#define U8X8_MSG_GPIO_RESET 		U8X8_MSG_GPIO(U8X8_PIN_RESET)
+#define U8X8_MSG_GPIO_I2C_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_I2C_CLOCK)
+#define U8X8_MSG_GPIO_I2C_DATA		U8X8_MSG_GPIO(U8X8_PIN_I2C_DATA)
+
 
 
 #define u8x8_gpio_Init(u8x8) ((u8x8)->gpio_and_delay_cb((u8x8), U8X8_MSG_GPIO_AND_DELAY_INIT, 0, NULL ))
@@ -474,8 +480,10 @@ uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 #define u8x8_gpio_SetDC(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_DC, (v))
 #define u8x8_gpio_SetCS(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS, (v))
 #define u8x8_gpio_SetReset(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_RESET, (v))
-#define u8x8_gpio_SetClock(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CLOCK, (v))
-#define u8x8_gpio_SetData(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_DATA, (v))
+#define u8x8_gpio_SetSPIClock(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_SPI_CLOCK, (v))
+#define u8x8_gpio_SetSPIData(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_SPI_DATA, (v))
+#define u8x8_gpio_SetI2CClock(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_I2C_CLOCK, (v))
+#define u8x8_gpio_SetI2CData(u8x8, v) u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_I2C_DATA, (v))
 
 void u8x8_gpio_call(u8x8_t *u8x8, uint8_t msg, uint8_t arg) U8X8_NOINLINE;
 

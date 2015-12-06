@@ -66,14 +66,14 @@ uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	for( i = 0; i < 8; i++ )
 	{
 	  if ( b & 128 )
-	    u8x8_gpio_SetData(u8x8, 1);
+	    u8x8_gpio_SetSPIData(u8x8, 1);
 	  else
-	    u8x8_gpio_SetData(u8x8, 0);
+	    u8x8_gpio_SetSPIData(u8x8, 0);
 	  b <<= 1;
 	  
-	  u8x8_gpio_SetClock(u8x8, not_takeover_edge);
+	  u8x8_gpio_SetSPIClock(u8x8, not_takeover_edge);
 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
-	  u8x8_gpio_SetClock(u8x8, takeover_edge);
+	  u8x8_gpio_SetSPIClock(u8x8, takeover_edge);
 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
 	}    
       }
@@ -85,7 +85,7 @@ uint8_t u8x8_byte_8bit_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      u8x8_gpio_SetClock(u8x8, u8x8->display_info->sck_takeover_edge);
+      u8x8_gpio_SetSPIClock(u8x8, u8x8->display_info->sck_takeover_edge);
       break;
     case U8X8_MSG_BYTE_SET_DC:
       u8x8_gpio_SetDC(u8x8, arg_int);
@@ -125,8 +125,8 @@ static void i2c_delay(u8x8_t *u8x8)
 
 static void i2c_init(u8x8_t *u8x8)
 {
-  u8x8_gpio_SetClock(u8x8, 1);
-  u8x8_gpio_SetData(u8x8, 1);
+  u8x8_gpio_SetI2CClock(u8x8, 1);
+  u8x8_gpio_SetI2CData(u8x8, 1);
   
   i2c_delay(u8x8);
 }
@@ -136,26 +136,26 @@ static void i2c_init(u8x8_t *u8x8)
 static void i2c_read_scl_and_delay(u8x8_t *u8x8)
 {
   /* set as input (line will be high) */
-  u8x8_gpio_SetClock(u8x8, 1);
+  u8x8_gpio_SetI2CClock(u8x8, 1);
 
   i2c_delay(u8x8);
 }
 
 static void i2c_clear_scl(u8x8_t *u8x8)
 {
-  u8x8_gpio_SetClock(u8x8, 0);
+  u8x8_gpio_SetI2CClock(u8x8, 0);
 }
 
 static void i2c_read_sda(u8x8_t *u8x8)
 {
   /* set as input (line will be high) */
-  u8x8_gpio_SetData(u8x8, 1);
+  u8x8_gpio_SetI2CData(u8x8, 1);
 }
 
 static void i2c_clear_sda(u8x8_t *u8x8)
 {
   /* set open collector and drive low */
-  u8x8_gpio_SetData(u8x8, 0);
+  u8x8_gpio_SetI2CData(u8x8, 0);
 }
 
 static void i2c_start(u8x8_t *u8x8)
