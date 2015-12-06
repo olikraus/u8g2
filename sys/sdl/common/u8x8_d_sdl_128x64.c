@@ -264,7 +264,7 @@ void u8x8_Setup_SDL_128x64(u8x8_t *u8x8)
   u8x8->display_cb = u8x8_d_sdl;
 
   /* setup display info */
-  u8x8_display_Setup(u8x8);  
+  u8x8_SetupMemory(u8x8);  
 }
 
 void u8g2_Setup_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)

@@ -331,7 +331,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 uint8_t u8x8_display_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr);
 
 /* setup u8x8 memory structures */
-void u8x8_display_Setup(u8x8_t *u8x8);
+void u8x8_SetupMemory(u8x8_t *u8x8);
 /* Init display, but keep display in power save mode. Usually this command must be followed by u8x8_display_SetPowerSave() */
 void u8x8_display_Init(u8x8_t *u8x8);
 /* wake up display from power save mode */

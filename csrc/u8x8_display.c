@@ -60,7 +60,7 @@ uint8_t u8x8_display_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, u
 }
 
 /* should be implemented as macro */
-void u8x8_display_Setup(u8x8_t *u8x8)
+void u8x8_SetupMemory(u8x8_t *u8x8)
 {
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SETUP_MEMORY, 0, NULL);  
 }

@@ -115,7 +115,7 @@ void u8x8_Setup_UC1701_DOGS102(u8x8_t *u8x8)
   u8x8->gpio_and_delay_cb = u8x8_gpio_and_delay_arduino;
 
   /* setup display info */
-  u8x8_display_Setup(u8x8);
+  u8x8_SetupMemory(u8x8);
 }
 
 void u8x8_Setup_SSD1306_128x64_NONAME(u8x8_t *u8x8)
@@ -131,7 +131,7 @@ void u8x8_Setup_SSD1306_128x64_NONAME(u8x8_t *u8x8)
   u8x8->gpio_and_delay_cb = u8x8_gpio_and_delay_arduino;
   
   /* setup display info */
-  u8x8_display_Setup(u8x8);
+  u8x8_SetupMemory(u8x8);
 }
 
 
