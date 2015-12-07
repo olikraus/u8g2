@@ -59,7 +59,7 @@
 /*==========================================*/
 /* Global Defines */
 
-/* Undefine this to remove u8x8_display_SetContrast function */
+/* Undefine this to remove u8x8_SetContrast function */
 #define U8X8_WITH_SET_CONTRAST
 
 /* Undefine this to remove u8x8_SetFlipMode function */
@@ -328,7 +328,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 //#define U8X8_MSG_DISPLAY_GET_LAYOUT 16
 
 /* u8x8_display.c */
-uint8_t u8x8_display_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr);
+uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr);
 
 /* setup u8x8 memory structures */
 void u8x8_SetupMemory(u8x8_t *u8x8);
@@ -337,8 +337,8 @@ void u8x8_InitDisplay(u8x8_t *u8x8);
 /* wake up display from power save mode */
 void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable);
 void u8x8_SetFlipMode(u8x8_t *u8x8, uint8_t mode);
-void u8x8_display_SetContrast(u8x8_t *u8x8, uint8_t value);
-void u8x8_display_ClearScreen(u8x8_t *u8x8);
+void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value);
+void u8x8_ClearScreen(u8x8_t *u8x8);
 
 
 

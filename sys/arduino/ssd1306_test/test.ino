@@ -334,9 +334,9 @@ void loop(void)
 
   for(;;)
   {
-    u8x8_display_ClearScreen(&u8x8);  
+    u8x8_ClearScreen(&u8x8);  
     u8x8_SetPowerSave(&u8x8, 0);
-    //u8x8_display_SetContrast(&u8x8, 10);
+    //u8x8_SetContrast(&u8x8, 10);
     
     //delay(500);
 
@@ -344,12 +344,12 @@ void loop(void)
     u8x8_DrawString(&u8x8, 0, 0, "Hello World");
     u8x8_DrawString(&u8x8, 3, 1, "ABCdefg");
     
-    u8x8_display_DrawTile(&u8x8, 1, 1, 1, tile);
-    u8x8_display_DrawTile(&u8x8, 2, 2, 1, tile);
-    u8x8_display_DrawTile(&u8x8, 3, 3, 1, tile);
-    u8x8_display_DrawTile(&u8x8, 4, 4, 1, tile);
-    u8x8_display_DrawTile(&u8x8, 5, 5, 1, tile);
-    u8x8_display_DrawTile(&u8x8, 6, 6, 1, tile);
+    u8x8_DrawTile(&u8x8, 1, 1, 1, tile);
+    u8x8_DrawTile(&u8x8, 2, 2, 1, tile);
+    u8x8_DrawTile(&u8x8, 3, 3, 1, tile);
+    u8x8_DrawTile(&u8x8, 4, 4, 1, tile);
+    u8x8_DrawTile(&u8x8, 5, 5, 1, tile);
+    u8x8_DrawTile(&u8x8, 6, 6, 1, tile);
 
     //delay(2000);
   }

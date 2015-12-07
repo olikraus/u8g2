@@ -49,7 +49,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8x8)
 /*==========================================*/
 /* official functions */
 
-uint8_t u8x8_display_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr)
+uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr)
 {
   u8x8_tile_t tile;
   tile.x_pos = x;
@@ -80,13 +80,13 @@ void u8x8_SetFlipMode(u8x8_t *u8x8, uint8_t mode)
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_FLIP_MODE, mode, NULL);  
 }
 
-void u8x8_display_SetContrast(u8x8_t *u8x8, uint8_t value)
+void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value)
 {
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_CONTRAST, value, NULL);  
 }
 
 
-void u8x8_display_ClearScreen(u8x8_t *u8x8)
+void u8x8_ClearScreen(u8x8_t *u8x8)
 {
   uint8_t buf[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
   u8x8_tile_t tile;

@@ -32,7 +32,7 @@ static void u8g2_send_tile_row(u8g2_t *u8g2, uint8_t src_tile_row, uint8_t dest_
   offset *= 8;
   ptr += offset;
     
-  u8x8_display_DrawTile(u8g2_GetU8x8(u8g2), 0, dest_tile_row, w, ptr);
+  u8x8_DrawTile(u8g2_GetU8x8(u8g2), 0, dest_tile_row, w, ptr);
 }
 
 void u8g2_SendBuffer(u8g2_t *u8g2)

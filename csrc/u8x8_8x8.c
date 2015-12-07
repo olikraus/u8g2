@@ -43,7 +43,7 @@ void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
       buf[i] = 0;
     }
   }
-  u8x8_display_DrawTile(u8x8, x, y, 1, buf);
+  u8x8_DrawTile(u8x8, x, y, 1, buf);
 }
 
 /*
