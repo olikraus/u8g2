@@ -205,7 +205,7 @@ int main(void)
 
   u8g2_Setup_TGA_LCD(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
-  u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
+  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
   
   x = 50;

@@ -59,7 +59,7 @@ int main(void)
   u8g2_Setup_SDL_128x64(&u8g2, &u8g2_cb_r0);
   
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
-  u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);
+  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);
 
   
   u8g2_DrawHVLine(&u8g2, 5, 20, 40, 0);

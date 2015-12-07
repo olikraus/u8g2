@@ -352,7 +352,7 @@ void setup(void)
   //u8x8_Setup_UC1701_DOGS102(&u8g2);  
   u8g2_Setup_SSD1306_128x64_NONAME_1(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
-  u8x8_display_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
+  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
 }
 
@@ -363,13 +363,13 @@ void loop(void)
   uint8_t i;
 
   //u8x8_InitDisplay(&u8g2);  
-  //u8x8_display_SetFlipMode(&u8g2, 1);
+  //u8x8_SetFlipMode(&u8g2, 1);
 
 
   for(;;)
   {
     //u8x8_display_ClearScreen(&u8g2);  
-    //u8x8_display_SetPowerSave(&u8g2, 0);
+    //u8x8_SetPowerSave(&u8g2, 0);
     //u8x8_display_SetContrast(&u8g2, 10);
     
     delay(500);

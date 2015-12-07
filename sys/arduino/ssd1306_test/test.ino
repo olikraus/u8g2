@@ -328,14 +328,14 @@ void setup(void)
 void loop(void)
 {
   u8x8_InitDisplay(&u8x8);  
-  //u8x8_display_SetFlipMode(&u8x8, 1);
+  //u8x8_SetFlipMode(&u8x8, 1);
 
   //digitalWrite(9, 0);	// default output in I2C mode for the SSD1306 test shield: set the i2c adr to 0
 
   for(;;)
   {
     u8x8_display_ClearScreen(&u8x8);  
-    u8x8_display_SetPowerSave(&u8x8, 0);
+    u8x8_SetPowerSave(&u8x8, 0);
     //u8x8_display_SetContrast(&u8x8, 10);
     
     //delay(500);

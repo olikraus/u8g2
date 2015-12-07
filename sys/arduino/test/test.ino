@@ -147,13 +147,13 @@ void setup(void)
 void loop(void)
 {
   u8x8_InitDisplay(&u8g2);  
-  //u8x8_display_SetFlipMode(&u8g2, 1);
+  //u8x8_SetFlipMode(&u8g2, 1);
 
 
   for(;;)
   {
     u8x8_display_ClearScreen(&u8g2);  
-    u8x8_display_SetPowerSave(&u8g2, 0);
+    u8x8_SetPowerSave(&u8g2, 0);
     //u8x8_display_SetContrast(&u8g2, 10);
     
     delay(500);

@@ -58,7 +58,7 @@ int main(void)
 {
   u8x8_Setup_TGA_DESC(&u8x8);
   u8x8_InitDisplay(&u8x8);  
-  u8x8_display_SetPowerSave(&u8x8, 0);
+  u8x8_SetPowerSave(&u8x8, 0);
 
   u8x8_Set8x8Font(&u8x8, bdf_font);
   u8x8_Draw8x8String(&u8x8, 0, 0, "Hello World!");
