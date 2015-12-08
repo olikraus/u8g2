@@ -327,12 +327,34 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 /*  arg_ptr: layout struct */
 //#define U8X8_MSG_DISPLAY_GET_LAYOUT 16
 
+
+/*==========================================*/
+/* u8x8_setup.c */
+
+/* 
+  Setup u8x8 object itself. This should be the very first function 
+  called on the new u8x8 object. After this call, assign the callback
+  functions. Optional: Set the pins 
+*/
+
+void u8x8_SetupDefaults(u8x8_t *u8x8);
+
+/*==========================================*/
 /* u8x8_display.c */
 uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr);
 
-/* setup u8x8 memory structures */
+/* 
+  After a call to u8x8_SetupDefaults, 
+  setup u8x8 memory structures & inform callbacks 
+*/
 void u8x8_SetupMemory(u8x8_t *u8x8);
-/* Init display, but keep display in power save mode. Usually this command must be followed by u8x8_SetPowerSave() */
+
+/*
+  After calling u8x8_SetupMemory(), init the display hardware itself.
+  This will will the first time, u8x8 talks to the display.
+  It will init the display, but keep display in power save mode. 
+  Usually this command must be followed by u8x8_SetPowerSave() 
+*/
 void u8x8_InitDisplay(u8x8_t *u8x8);
 /* wake up display from power save mode */
 void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable);
@@ -499,9 +521,6 @@ void u8x8_gpio_call(u8x8_t *u8x8, uint8_t msg, uint8_t arg) U8X8_NOINLINE;
 //void u8x8_gpio_Delay(u8x8_t *u8x8, uint8_t msg, uint8_t dly) U8X8_NOINLINE;
 
 
-/*==========================================*/
-/* u8x8_setup.c */
-void u8x8_SetupDefaults(u8x8_t *u8x8);
 
 
 /*==========================================*/

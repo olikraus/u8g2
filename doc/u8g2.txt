@@ -3,6 +3,7 @@ U8glib V2: Features and Limitations
 
 - Arduino Standard Libs
 - Full Memory Buffer 
+- 3-wire-SPI
 
 - Unicode Support
   Unicode plane 0 (Basic Multilingual Plane, BMP, glyphs with 0x0000-0xffff) 

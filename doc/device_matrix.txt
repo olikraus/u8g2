@@ -1,0 +1,18 @@
+3=3 wire SPI
+4=4 wire SPI
+2=I2C
+6=6800 8 bit parallel
+8=8080 8 bit parallel
+
+s=Arduino Standard Software Communication
+  pinMode and digitalWrite are used for communication
+o=Arduino Optimized Software Communication
+  uC Specific low level functions for digital write and read
+h=Hardware Communication with Standard Libs
+  TWI and SPI library
+H=uC specific hardware communication
+
+
+SSD1306 128x64 
+  Arduino with ATMega328 (e.g. Uno)	s2s3s4s6s8 h2h4
+  Arduino with AT91SAM3X8E (Due)		s2s3s4s6s8 h2h4
