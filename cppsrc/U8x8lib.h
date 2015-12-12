@@ -71,17 +71,32 @@ class U8X8_SSD1306_128X64_4W_SW_SPI : public U8X8 {
   public: U8X8_SSD1306_128X64_4W_SW_SPI(uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup_4Wire_SW_SPI(getU8x8(), u8x8_d_ssd1306_128x64_noname, clock, data, cs, dc, reset);
   }
-}
+};
 class U8X8_SSD1306_128X64_4W_HW_SPI : public U8X8 {
   public: U8X8_SSD1306_128X64_4W_HW_SPI(uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup_4Wire_HW_SPI(getU8x8(), u8x8_d_ssd1306_128x64_noname, cs, dc, reset);
   }
-}
+};
 class U8X8_SSD1306_128X64_3W_SW_SPI : public U8X8 {
   public: U8X8_SSD1306_128X64_3W_SW_SPI(uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup_3Wire_SW_SPI(getU8x8(), u8x8_d_ssd1306_128x64_noname, clock, data, cs, reset);
   }
-}
+};
+class U8X8_SSD1306_128X64_SW_I2C : public U8X8 {
+  public: U8X8_SSD1306_128X64_SW_I2C(uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup_SSD13xx_SW_I2C(getU8x8(), u8x8_d_ssd1306_128x64_noname, clock,  data,  reset);
+  }
+};
+class U8X8_SSD1306_128X64_6800 : public U8X8 {
+  public: U8X8_SSD1306_128X64_6800(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup_8Bit_6800(getU8x8(), u8x8_d_ssd1306_128x64_noname, d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset);
+  }
+};
+class U8X8_SSD1306_128X64_8080 : public U8X8 {
+  public: U8X8_SSD1306_128X64_8080(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup_8Bit_8080(getU8x8(), u8x8_d_ssd1306_128x64_noname, d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset);
+  }
+};
 
 // constructor list end
   

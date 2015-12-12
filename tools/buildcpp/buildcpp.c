@@ -13,7 +13,6 @@ char elements[10][CSVLINELEN];
 #define DEVICE elements[0]
 #define PINSET elements[1]
 #define CONSTRUCTOR elements[2]
-#define SETUP elements[3]
 
 
 /*
@@ -120,29 +119,65 @@ void write_u8x8(const char *prefix, FILE *fp)
 {
   fprintf(fp, "class %s_%s : public %s {\n", prefix, CONSTRUCTOR, prefix);
   fprintf(fp, "  public: %s_%s(", prefix, CONSTRUCTOR);
+  
   if ( strcmp(PINSET, "4WSWSPI") == 0 )
     fprintf(fp, "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE");
   else if ( strcmp(PINSET, "4WHWSPI") == 0 )
     fprintf(fp, "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE");
   else if ( strcmp(PINSET, "3WSWSPI") == 0 )
     fprintf(fp, "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE");
+  else if ( strcmp(PINSET, "SSDSWI2C") == 0 )
+    fprintf(fp, "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE");
+  else if ( strcmp(PINSET, "6800") == 0 )
+    fprintf(fp, "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE");
+  else if ( strcmp(PINSET, "8080") == 0 )
+    fprintf(fp, "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE");
   else 
     fprintf(fp, "... unknown pinset ...");
+  
+  
+  
   fprintf(fp, ") : %s() {\n", prefix);
-  fprintf(fp, "    %s(getU8x8(), %s", SETUP, DEVICE);
+  fprintf(fp, "    ");
+  
+  if ( strcmp(PINSET, "4WSWSPI") == 0 )
+    fprintf(fp, "u8x8_Setup_4Wire_SW_SPI");
+  else if ( strcmp(PINSET, "4WHWSPI") == 0 )
+    fprintf(fp, "u8x8_Setup_4Wire_HW_SPI");
+  else if ( strcmp(PINSET, "3WSWSPI") == 0 )
+    fprintf(fp, "u8x8_Setup_3Wire_SW_SPI");
+  else if ( strcmp(PINSET, "SSDSWI2C") == 0 )
+    fprintf(fp, "u8x8_Setup_SSD13xx_SW_I2C");
+  else if ( strcmp(PINSET, "6800") == 0 )
+    fprintf(fp, "u8x8_Setup_8Bit_6800");
+  else if ( strcmp(PINSET, "8080") == 0 )
+    fprintf(fp, "u8x8_Setup_8Bit_8080");
+  else   
+    fprintf(fp, "... unknown pinset ...");
+  
+  
+  fprintf(fp, "(getU8x8(), %s", DEVICE);
+  
   if ( strcmp(PINSET, "4WSWSPI") == 0 )
     fprintf(fp, ", clock, data, cs, dc, reset");
   else if ( strcmp(PINSET, "4WHWSPI") == 0 )
     fprintf(fp, ", cs, dc, reset");    
   else if ( strcmp(PINSET, "3WSWSPI") == 0 )
     fprintf(fp, ", clock, data, cs, reset");
+  else if ( strcmp(PINSET, "SSDSWI2C") == 0 )
+    fprintf(fp, ", clock,  data,  reset");
+  else if ( strcmp(PINSET, "6800") == 0 )
+    fprintf(fp, ", d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset");
+  else if ( strcmp(PINSET, "8080") == 0 )
+    fprintf(fp, ", d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset");
   else 
     fprintf(fp, "... unknown pinset ...");
+  
   fprintf(fp, ");\n");
 
   
   fprintf(fp, "  }\n");
-  fprintf(fp, "}\n");
+  fprintf(fp, "};\n");
   
 }
 
