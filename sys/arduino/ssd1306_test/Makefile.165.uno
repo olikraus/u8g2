@@ -45,7 +45,7 @@ BOARD:=uno
 
   
 U8G_PATH:=$(shell cd ../../.. && pwd)/csrc/
-#U8G_CPP_PATH:=$(shell cd ../../.. && pwd)/cppsrc/
+U8G_CPP_PATH:=$(shell cd ../../.. && pwd)/cppsrc/
 #U8G_FONT_PATH:=$(shell cd ../../.. && pwd)/sfntsrc/
 
 
@@ -102,9 +102,9 @@ CSRC:=$(shell ls $(CDIRS) 2>/dev/null)
 
 CCSRC:=$(shell ls *.cc 2>/dev/null)
 
-CPPDIRS:=$(EXTRA_DIRS) $(addsuffix utility/,$(EXTRA_DIRS))
+CPPDIRS:=$(EXTRA_DIRS) $(addsuffix utility/,$(EXTRA_DIRS)) $(U8G_CPP_PATH)
 CPPDIRS:=*.cpp utility/*.cpp $(addsuffix *.cpp,$(CPPDIRS)) $(ARDUINO_PATH)hardware/arduino/cores/arduino/*.cpp 
-CPPSRC:=$(shell ls $(CPPDIRS) 2>/dev/null)
+CPPSRC:=$(shell ls $(CPPDIRS) 2>/dev/null) 
 
 #=== build internal variables ===
 
@@ -156,10 +156,9 @@ COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) $(DEFS) -DARDUINO=100
 # COMMON_FLAGS += -gdwarf-2
 COMMON_FLAGS += -Os
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
-COMMON_FLAGS += -I.
 COMMON_FLAGS += -I$(ARDUINO_PATH)hardware/arduino/cores/arduino
 COMMON_FLAGS += -I$(ARDUINO_PATH)hardware/arduino/variants/$(VARIANT)
-COMMON_FLAGS += -I. -I$(U8G_PATH)
+COMMON_FLAGS += -I. -I$(U8G_PATH) -I$(U8G_CPP_PATH)
 COMMON_FLAGS += $(addprefix -I,$(EXTRA_DIRS))
 COMMON_FLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
 COMMON_FLAGS += -Wl,--Map=output.map
