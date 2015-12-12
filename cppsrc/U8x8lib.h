@@ -66,6 +66,7 @@ class U8X8 : public Print
       
 };
 
+// constructor list start
 
 class U8X8_SSD1306_128X64_4W_SW_SPI : public U8X8
 {
@@ -76,6 +77,7 @@ class U8X8_SSD1306_128X64_4W_SW_SPI : public U8X8
     }
 };
 
+// constructor list end
   
 
 
