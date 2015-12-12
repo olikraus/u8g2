@@ -337,7 +337,9 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
   functions. Optional: Set the pins 
 */
 
-void u8x8_SetupDefaults(u8x8_t *u8x8);
+void u8x8_SetupDefaults(u8x8_t *u8x8); /* do not use this, use u8x8_Setup() instead */
+
+void u8x8_Setup(u8x8_t *u8x8, u8x8_msg_cb display_cb, u8x8_msg_cb cad_cb, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 
 /*==========================================*/
 /* u8x8_display.c */

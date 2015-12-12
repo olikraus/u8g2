@@ -35,8 +35,35 @@ void u8x8_SetupDefaults(u8x8_t *u8x8)
       u8x8->pins[i] = U8X8_PIN_NONE;
   }
 #endif
-  
-    
 }
 
+
+/*
+  Description:
+    Setup u8x8 and assign the callback function. The dummy 
+    callback "u8x8_dummy_cb" can be used, if no callback is required.
+    This setup will not communicate with the display itself.
+    Use u8x8_InitDisplay() to send the startup code to the Display.
+  Args:
+    u8x8				An empty u8x8 structure
+    display_cb			Display/controller specific callback function
+    cad_cb				Display controller specific communication callback function
+    byte_cb			Display controller/communication specific callback funtion
+    gpio_and_delay_cb	Environment specific callback function
+
+*/
+void u8x8_Setup(u8x8_t *u8x8, u8x8_msg_cb display_cb, u8x8_msg_cb cad_cb, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)
+{
+  /* setup defaults and reset pins to U8X8_PIN_NONE */
+  u8x8_SetupDefaults(u8x8);
+
+  /* setup specific callbacks */
+  u8x8->display_cb = display_cb;
+  u8x8->cad_cb = cad_cb;
+  u8x8->byte_cb = byte_cb;
+  u8x8->gpio_and_delay_cb = gpio_and_delay_cb;
+
+  /* setup display info */
+  u8x8_SetupMemory(u8x8);
+}
 
