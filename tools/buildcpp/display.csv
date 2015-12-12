@@ -4,6 +4,8 @@
 # 3. constructor name w/o prefix,
 # 4. setup function
 
-u8x8_d_ssd1306_128x64_noname, 		4WSPI,	SSD1306_128X64_4W_SW_SPI,	u8x8_Setup_4Wire_SW_SPI
+u8x8_d_ssd1306_128x64_noname, 		4WSWSPI,	SSD1306_128X64_4W_SW_SPI,	u8x8_Setup_4Wire_SW_SPI
+u8x8_d_ssd1306_128x64_noname, 		4WHWSPI,	SSD1306_128X64_4W_HW_SPI,	u8x8_Setup_4Wire_HW_SPI
+u8x8_d_ssd1306_128x64_noname, 		3WSWSPI,	SSD1306_128X64_3W_SW_SPI,	u8x8_Setup_3Wire_SW_SPI
 
 

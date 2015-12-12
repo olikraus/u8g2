@@ -120,14 +120,22 @@ void write_u8x8(const char *prefix, FILE *fp)
 {
   fprintf(fp, "class %s_%s : public %s {\n", prefix, CONSTRUCTOR, prefix);
   fprintf(fp, "  public: %s_%s(", prefix, CONSTRUCTOR);
-  if ( strcmp(PINSET, "4WSPI") == 0 )
+  if ( strcmp(PINSET, "4WSWSPI") == 0 )
     fprintf(fp, "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE");
+  else if ( strcmp(PINSET, "4WHWSPI") == 0 )
+    fprintf(fp, "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE");
+  else if ( strcmp(PINSET, "3WSWSPI") == 0 )
+    fprintf(fp, "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE");
   else 
     fprintf(fp, "... unknown pinset ...");
   fprintf(fp, ") : %s() {\n", prefix);
   fprintf(fp, "    %s(getU8x8(), %s", SETUP, DEVICE);
-  if ( strcmp(PINSET, "4WSPI") == 0 )
+  if ( strcmp(PINSET, "4WSWSPI") == 0 )
     fprintf(fp, ", clock, data, cs, dc, reset");
+  else if ( strcmp(PINSET, "4WHWSPI") == 0 )
+    fprintf(fp, ", cs, dc, reset");    
+  else if ( strcmp(PINSET, "3WSWSPI") == 0 )
+    fprintf(fp, ", clock, data, cs, reset");
   else 
     fprintf(fp, "... unknown pinset ...");
   fprintf(fp, ");\n");
