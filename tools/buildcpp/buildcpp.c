@@ -194,7 +194,7 @@ int main(void)
   readcsv("display.csv", "ctor.h");
   
   
-  //insert_into_file("../../cppsrc/U8x8lib.h", "ctor.h", "// constructor list start", "// constructor list end");
+  insert_into_file("../../cppsrc/U8x8lib.h", "ctor.h", "// constructor list start", "// constructor list end");
   return 0;
 }
 
