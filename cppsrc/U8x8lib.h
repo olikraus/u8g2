@@ -27,6 +27,9 @@ class U8X8 : public Print
     U8X8(void) { home(); }
     u8x8_t *getU8x8(void) { return &u8x8; }
 
+    uint8_t getCols(void) { return u8x8_GetCols(&u8x8); }
+    uint8_t getRows(void) { return u8x8_GetRows(&u8x8); }
+    
     void drawTile(uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr) {
       u8x8_DrawTile(&u8x8, x, y, cnt, tile_ptr); }
       
@@ -72,8 +75,8 @@ class U8X8 : public Print
       return 1;
      }
      
-     void inverse(void) { u8x8_SetInverseFont(&u8x8, 1); }
-     void noInverse(void) { u8x8_SetInverseFont(&u8x8, 0); }
+     void inverse(void) { setInverseFont(1); }
+     void noInverse(void) { setInverseFont(0); }
      
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0; }

@@ -213,6 +213,9 @@ struct u8x8_struct
 #endif
 };
 
+#define u8x8_GetCols(u8x8) ((u8x8)->display_info->tile_width)
+#define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
+
 
 /* list of U8x8 pins */
 #define U8X8_PIN_D0 0
