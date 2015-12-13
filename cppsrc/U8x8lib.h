@@ -22,7 +22,9 @@ class U8X8 : public Print
   protected:
     u8x8_t u8x8;
   public:
-    U8X8(void) {}  
+    uint8_t tx, ty;
+  
+    U8X8(void) { home(); }
     u8x8_t *getU8x8(void) { return &u8x8; }
 
     void drawTile(uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr) {
@@ -46,6 +48,9 @@ class U8X8 : public Print
     void setContrast(uint8_t value) {
       u8x8_SetContrast(&u8x8, value); }
 
+    void setInverseFont(uint8_t value) {
+      u8x8_SetInverseFont(&u8x8, value); }
+
     void setFont(const uint8_t *font_8x8) {
       u8x8_SetFont(&u8x8, font_8x8); }
 
@@ -62,8 +67,24 @@ class U8X8 : public Print
       return u8x8_GetUTF8Len(&u8x8, s); }
     
     size_t write(uint8_t v) {
+      u8x8_DrawGlyph(&u8x8, tx, ty, v);
+      tx++;
+      return 1;
      }
-      
+     
+     void inverse(void) { u8x8_SetInverseFont(&u8x8, 1); }
+     void noInverse(void) { u8x8_SetInverseFont(&u8x8, 0); }
+     
+     /* LiquidCrystal compatible functions */
+    void home(void) { tx = 0; ty = 0; }
+    void clear(void) { clearScreen(); home(); }
+    void noDisplay(void) { u8x8_SetPowerSave(&u8x8, 1); }
+    void display(void) { u8x8_SetPowerSave(&u8x8, 0); }
+    void setCursor(uint8_t x, uint8_t y) { tx = x; ty = y; }
+ 
+    void noCursor(void) {}
+    void cursor(void) {}
+        
 };
 
 // constructor list start

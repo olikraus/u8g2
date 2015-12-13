@@ -206,6 +206,7 @@ struct u8x8_struct
   const uint8_t *font;
   u8x8_char_cb char_cb;		/*  procedure, which will be used to get the next char from the string */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
+  uint8_t is_font_inverse_mode; 	/* 0: normal, 1: font glyphs are inverted */
   uint8_t i2c_started;	/* for i2c interface */
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
@@ -558,6 +559,8 @@ void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding);
 uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
 uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
 uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
+#define u8x8_SetInverseFont(u8x8, b) (u8x8)->is_font_inverse_mode = (b)
+
 
 /*==========================================*/
 /* start font list */
