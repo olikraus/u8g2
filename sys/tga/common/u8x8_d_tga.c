@@ -5,7 +5,7 @@
 #include <string.h>
 
 #define FACTOR 3
-#define XOFFSET (FACTOR*32)
+#define XOFFSET (FACTOR*64)
 #define YOFFSET (FACTOR*32)
 #define DEFAULT_WIDTH (FACTOR*128)
 #define DEFAULT_HEIGHT (FACTOR*64)
@@ -17,13 +17,32 @@ uint16_t tga_max_y;
 static uint16_t tga_width;
 static uint16_t tga_height;
 static uint8_t *tga_data = NULL;
-uint8_t tga_r = 0;
-uint8_t tga_g = 0;
-uint8_t tga_b = 0;
 
-uint8_t tga_desc_r = 0;
-uint8_t tga_desc_g = 0;
-uint8_t tga_desc_b = 255;
+uint8_t tga_is_transparent = 0;
+
+uint8_t tga_fg_r = 0;
+uint8_t tga_fg_g = 0;
+uint8_t tga_fg_b = 0;
+
+uint8_t tga_bg_r = 255;
+uint8_t tga_bg_g = 255;
+uint8_t tga_bg_b = 255;
+
+uint8_t tga_desc_fg_r = 0;
+uint8_t tga_desc_fg_g = 0;
+uint8_t tga_desc_fg_b = 255;
+
+uint8_t tga_desc_bg_r = 0;
+uint8_t tga_desc_bg_g = 0;
+uint8_t tga_desc_bg_b = 0;
+
+uint8_t tga_lcd_fg_r = 0;
+uint8_t tga_lcd_fg_g = 0;
+uint8_t tga_lcd_fg_b = 0;
+
+uint8_t tga_lcd_bg_r = 255;
+uint8_t tga_lcd_bg_g = 255;
+uint8_t tga_lcd_bg_b = 255;
 
 int tga_init(uint16_t w, uint16_t h)
 {
@@ -54,9 +73,9 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint16_t f)
       {
 	//printf ("(%d %d) ", xx, yy);
 	p = tga_data + (tga_height-yy-1)*tga_width*3 + xx*3;
-	*p++ = tga_b;
-	*p++ = tga_g;
-	*p++ = tga_r;
+	*p++ = tga_fg_b;
+	*p++ = tga_fg_g;
+	*p++ = tga_fg_r;
       }
     }
   }
@@ -66,15 +85,17 @@ void tga_clr_pixel(uint16_t x, uint16_t y, uint16_t f)
 {
   uint8_t *p;
   uint16_t xx,yy;
+  if ( tga_is_transparent )
+    return;
   for( yy = y; yy < y+f; yy++ )
   {
     for( xx = x; xx < x+f; xx++ )
     {
       
       p = tga_data + (tga_height-yy-1)*tga_width*3 + xx*3;
-      *p++ = 255;
-      *p++ = 255;
-      *p++ = 255;
+      *p++ = tga_bg_b;
+      *p++ = tga_bg_g;
+      *p++ = tga_bg_r;
     }
   }
 }
@@ -157,6 +178,14 @@ void tga_save(const char *name)
   }
 }
 
+void tga_save_png(const char *name)
+{
+  char convert_cmd[1024*2];
+  tga_save("tmp.tga");
+  sprintf(convert_cmd, "convert tmp.tga -trim %s", name );
+  system(convert_cmd);
+}
+
 /*==========================================*/
 /* tga description procedures */
 
@@ -208,9 +237,14 @@ uint8_t u8x8_d_tga_desc(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_pt
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       
-      tga_r = tga_desc_r;
-      tga_g = tga_desc_g;
-      tga_b = tga_desc_b;
+      tga_fg_r = tga_desc_fg_r;
+      tga_fg_g = tga_desc_fg_g;
+      tga_fg_b = tga_desc_fg_b;
+
+      tga_bg_r = tga_desc_bg_r;
+      tga_bg_g = tga_desc_bg_g;
+      tga_bg_b = tga_desc_bg_b;
+
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       //printf("U8X8_MSG_DISPLAY_DRAW_TILE x=%d, ", x);
@@ -227,6 +261,7 @@ uint8_t u8x8_d_tga_desc(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_pt
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 	tga_set_multiple_8pixel(x, y, c*8, ptr, 1);
 	arg_int--;
+	x += c*8;
       } while( arg_int > 0 );
 
       break;
@@ -308,9 +343,13 @@ uint8_t u8x8_d_tga_lcd(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
 
-      tga_r = 0;
-      tga_g = 0;
-      tga_b = 0;
+      tga_fg_r = tga_lcd_fg_r;
+      tga_fg_g = tga_lcd_fg_g;
+      tga_fg_b = tga_lcd_fg_b;
+
+      tga_bg_r = tga_lcd_bg_r;
+      tga_bg_g = tga_lcd_bg_g;
+      tga_bg_b = tga_lcd_bg_b;
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       //printf("U8X8_MSG_DISPLAY_DRAW_TILE x=%d, ", x);
@@ -331,6 +370,7 @@ uint8_t u8x8_d_tga_lcd(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 	tga_set_multiple_8pixel(x, y, c*8, ptr, FACTOR);
 	arg_int--;
+	x += c*8*FACTOR;
       } while( arg_int > 0 );
 
       break;
