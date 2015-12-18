@@ -30,7 +30,7 @@ u8g2_t desc;
 void ra(uint8_t tx, uint8_t ty, const char *s)
 {
   int x,y, i, w;
-  x = tx*8*3+64*3 + 6;
+  x = tx*8*3+64*3 + 4;
   y = ty*8*3+32*3 + 4*3;
   for( i = 0; i < 6; i++)
   {
@@ -89,8 +89,9 @@ int main(void)
 
   u8x8_Setup_TGA_LCD(&u8x8);
   u8x8_InitDisplay(&u8x8);  
-  u8x8_SetPowerSave(&u8x8, 0);
+  
   u8x8_ClearScreen(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
   u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
   u8x8_DrawString(&u8x8, 0, 0, "Hello World!");
 
@@ -101,10 +102,53 @@ int main(void)
     u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
     ra(0,0, "x=0, y=0");
   } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
 
 
   //tga_save("u8x8.tga");
-  tga_save_png("u8x8.png");
+  tga_save_png("u8x8_hello_world.png");
+
+
+  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
+  u8x8_ClearScreen(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
+  u8x8_DrawString(&u8x8, 0, 0, "A");
+  u8x8_DrawString(&u8x8, u8x8_GetCols(&u8x8)-1, u8x8_GetRows(&u8x8)-1, "B");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(0,0, "x=0, y=0");
+    ra(15,7, "x=15, y=7");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_tile_size.png");
+
+  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
+  u8x8_ClearScreen(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
+  u8x8_SetInverseFont(&u8x8, 1);
+  u8x8_DrawString(&u8x8, 2, 2, "Inverse");
+  u8x8_SetInverseFont(&u8x8, 0);
+  u8x8_DrawString(&u8x8, 2, 3, "Normal");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(2,2, "x=2, y=2");
+    ra(2,3, "x=2, y=3");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_inverse.png");
+  
   return 0;
 }
 
