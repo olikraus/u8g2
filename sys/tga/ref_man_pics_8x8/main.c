@@ -148,6 +148,24 @@ int main(void)
   tga_is_transparent = 0;
   
   tga_save_png("u8x8_inverse.png");
+
+  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
+  u8x8_ClearScreen(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetInverseFont(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_f);
+  u8x8_DrawString(&u8x8, 2, 2, "Umlaut \xe4\xf6\xfc");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(2,2, "x=2, y=2");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_umlaut.png");
   
   return 0;
 }
