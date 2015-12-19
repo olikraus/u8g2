@@ -112,7 +112,31 @@ class U8X8_SSD1306_128X64_4W_SW_SPI : public U8X8
 };
 */
 
+char *get_args(const char *ps)
+{
+  static char s[1024];
+  if ( strcmp(ps, "4WSWSPI") == 0 )
+    sprintf(s, "clock, data, cs, dc, reset");
+  else if ( strcmp(ps, "4WHWSPI") == 0 )
+    sprintf(s, "cs, dc, reset");    
+  else if ( strcmp(ps, "3WSWSPI") == 0 )
+    sprintf(s, "clock, data, cs, reset");
+  else if ( strcmp(ps, "SSDSWI2C") == 0 )
+    sprintf(s, "clock,  data,  reset");
+  else if ( strcmp(ps, "6800") == 0 )
+    sprintf(s, "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset");
+  else if ( strcmp(ps, "8080") == 0 )
+    sprintf(s, "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset");
+  else 
+    sprintf(s, "... unknown pinset ...");
+  return s;
+}
 
+void write_u8x8_md(FILE *fp)
+{
+  fprintf(fp, "| U8X8_%s(", CONSTRUCTOR);  
+  fprintf(fp, "%s) |\n", get_args(PINSET));  
+}
 
 
 void write_u8x8(const char *prefix, FILE *fp)
@@ -157,7 +181,10 @@ void write_u8x8(const char *prefix, FILE *fp)
   
   
   fprintf(fp, "(getU8x8(), %s", DEVICE);
-  
+
+  fprintf(fp, ", %s", get_args(PINSET));
+
+    /*
   if ( strcmp(PINSET, "4WSWSPI") == 0 )
     fprintf(fp, ", clock, data, cs, dc, reset");
   else if ( strcmp(PINSET, "4WHWSPI") == 0 )
@@ -172,6 +199,7 @@ void write_u8x8(const char *prefix, FILE *fp)
     fprintf(fp, ", d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset");
   else 
     fprintf(fp, "... unknown pinset ...");
+    */
   
   fprintf(fp, ");\n");
 
@@ -181,7 +209,7 @@ void write_u8x8(const char *prefix, FILE *fp)
   
 }
 
-void readcsvline(char *s)
+void readcsv_createu8x8line(char *s)
 {
   char *t;
   int i = 0;
@@ -199,8 +227,39 @@ void readcsvline(char *s)
   }
 }
 
+void readcsv_createu8x8md(const char *name, const char *mdname)
+{
+  FILE *fp;
+  FILE *md_fp;
+  char *s;
+  fp = fopen(name, "r");
+  md_fp = fopen(mdname, "w");
+  if ( md_fp != NULL )
+  {
+    for(;;)
+    {
+      s = fgets(csvline, CSVLINELEN, fp);
+      if ( s == NULL )
+	break;
+      if ( s[0] == '\0' )
+	continue;
+      if ( s[0] == '\r' )
+	continue;
+      if ( s[0] == '\n' )
+	continue;
+      if ( s[0] == '#' )
+	continue;
+      readcsv_createu8x8line(s);
+      write_u8x8_md(md_fp);
+    }
+    fclose(fp);
+    fclose(md_fp);
+  }
+  
+}
 
-void readcsv(const char *name, const char *ctorname)
+
+void readcsv_createu8x8(const char *name, const char *ctorname)
 {
   FILE *fp;
   FILE *ctor_fp;
@@ -222,7 +281,7 @@ void readcsv(const char *name, const char *ctorname)
 	continue;
       if ( s[0] == '#' )
 	continue;
-      readcsvline(s);
+      readcsv_createu8x8line(s);
       write_u8x8("U8X8", ctor_fp);
     }
     fclose(fp);
@@ -234,10 +293,11 @@ void readcsv(const char *name, const char *ctorname)
 
 int main(void)
 {
-  readcsv("display.csv", "ctor.h");
+  readcsv_createu8x8("display.csv", "ctor.h");
+  readcsv_createu8x8md("display.csv", "md");
   
   
-  insert_into_file("../../cppsrc/U8x8lib.h", "ctor.h", "// constructor list start", "// constructor list end");
+  //insert_into_file("../../cppsrc/U8x8lib.h", "ctor.h", "// constructor list start", "// constructor list end");
   return 0;
 }
 
