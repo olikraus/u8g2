@@ -76,7 +76,7 @@ int main(void)
   u8x8_Setup_TGA_DESC(&desc);
   u8x8_InitDisplay(&desc);  
   u8x8_SetPowerSave(&desc, 0);
-  u8x8_ClearScreen(&desc);
+  u8x8_ClearDisplay(&desc);
   u8x8_SetFont(&desc, u8x8_font_amstrad_cpc_r);
   u8x8_DrawString(&desc, 0, 0, "Description");
 */
@@ -84,13 +84,13 @@ int main(void)
   u8g2_Setup_TGA_DESC(&desc, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&desc));  
   u8x8_SetPowerSave(u8g2_GetU8x8(&desc), 0);
-  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
 
 
   u8x8_Setup_TGA_LCD(&u8x8);
   u8x8_InitDisplay(&u8x8);  
   
-  u8x8_ClearScreen(&u8x8);
+  u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
   u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
   u8x8_DrawString(&u8x8, 0, 0, "Hello World!");
@@ -109,8 +109,8 @@ int main(void)
   tga_save_png("u8x8_hello_world.png");
 
 
-  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
-  u8x8_ClearScreen(&u8x8);
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
   u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
   u8x8_DrawString(&u8x8, 0, 0, "A");
@@ -128,8 +128,8 @@ int main(void)
   
   tga_save_png("u8x8_tile_size.png");
 
-  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
-  u8x8_ClearScreen(&u8x8);
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
   u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
   u8x8_SetInverseFont(&u8x8, 1);
@@ -149,8 +149,8 @@ int main(void)
   
   tga_save_png("u8x8_inverse.png");
 
-  u8x8_ClearScreen(u8g2_GetU8x8(&desc));
-  u8x8_ClearScreen(&u8x8);
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
   u8x8_SetInverseFont(&u8x8, 0);
   u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_f);

@@ -366,7 +366,7 @@ void u8x8_InitDisplay(u8x8_t *u8x8);
 void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable);
 void u8x8_SetFlipMode(u8x8_t *u8x8, uint8_t mode);
 void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value);
-void u8x8_ClearScreen(u8x8_t *u8x8);
+void u8x8_ClearDisplay(u8x8_t *u8x8);
 
 
 

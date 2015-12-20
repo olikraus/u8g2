@@ -44,7 +44,7 @@ void loop(void)
 
   for(;;)
   {
-    u8x8_ClearScreen(&u8x8);  
+    u8x8_ClearDisplay(&u8x8);  
     u8x8_SetPowerSave(&u8x8, 0);
     //u8x8_SetContrast(&u8x8, 10);
     

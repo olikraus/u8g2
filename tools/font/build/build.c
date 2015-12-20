@@ -667,7 +667,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
-    //u8x8_ClearScreen(u8g2_GetU8x8(&u8g2));
+    //u8x8_ClearDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_r);
     u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, 0, target_font_identifier);
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
@@ -736,7 +736,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
     u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
-    //u8x8_ClearScreen(u8g2_GetU8x8(&u8g2));
+    //u8x8_ClearDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
 
     if ( mm == MM_N )

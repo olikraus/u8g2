@@ -139,7 +139,7 @@ void write_u8x8_md(FILE *fp)
 }
 
 
-void write_u8x8(const char *prefix, FILE *fp)
+void write_class(const char *prefix, FILE *fp)
 {
   fprintf(fp, "class %s_%s : public %s {\n", prefix, CONSTRUCTOR, prefix);
   fprintf(fp, "  public: %s_%s(", prefix, CONSTRUCTOR);
@@ -259,7 +259,7 @@ void readcsv_createu8x8md(const char *name, const char *mdname)
 }
 
 
-void readcsv_createu8x8(const char *name, const char *ctorname)
+void readcsv_create(const char *prefix, const char *name, const char *ctorname)
 {
   FILE *fp;
   FILE *ctor_fp;
@@ -282,7 +282,7 @@ void readcsv_createu8x8(const char *name, const char *ctorname)
       if ( s[0] == '#' )
 	continue;
       readcsv_createu8x8line(s);
-      write_u8x8("U8X8", ctor_fp);
+      write_class(prefix, ctor_fp);
     }
     fclose(fp);
     fclose(ctor_fp);
@@ -293,11 +293,14 @@ void readcsv_createu8x8(const char *name, const char *ctorname)
 
 int main(void)
 {
-  readcsv_createu8x8("display.csv", "ctor.h");
+  readcsv_create("U8X8", "display.csv", "ctor.h");
+  
+  //insert_into_file("../../cppsrc/U8x8lib.h", "ctor.h", "// constructor list start", "// constructor list end");
+  
+  readcsv_create("U8G2", "display.csv", "ctor.h");
   readcsv_createu8x8md("display.csv", "md");
   
   
-  //insert_into_file("../../cppsrc/U8x8lib.h", "ctor.h", "// constructor list start", "// constructor list end");
   return 0;
 }
 

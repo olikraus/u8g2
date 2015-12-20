@@ -1,3 +1,10 @@
+/*
+
+  U8x8lib.h
+  
+  C++ Arduino wrapper for the u8x8 struct and c functions.
+
+*/
 
 #ifndef _U8X8LIB_HH
 #define _U8X8LIB_HH
@@ -37,7 +44,7 @@ class U8X8 : public Print
       u8x8_InitDisplay(&u8x8); }
       
     void clearScreen(void) {
-      u8x8_ClearScreen(&u8x8); }
+      u8x8_ClearDisplay(&u8x8); }
       
     void setPowerSave(uint8_t is_enable) {
       u8x8_SetPowerSave(&u8x8, is_enable); }

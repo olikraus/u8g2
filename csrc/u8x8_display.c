@@ -86,7 +86,7 @@ void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value)
 }
 
 
-void u8x8_ClearScreen(u8x8_t *u8x8)
+void u8x8_ClearDisplay(u8x8_t *u8x8)
 {
   uint8_t buf[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
   u8x8_tile_t tile;
