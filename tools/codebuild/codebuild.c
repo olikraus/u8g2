@@ -22,14 +22,14 @@ struct controller
 struct controller controller_list[] =
 {
   {
-    "SSD1306", 	16, 	8, 	"u8x8_cad_001",
+    "ssd1306", 	16, 	8, 	"u8x8_cad_001",
     {
       { "128x64_noname" },
       { NULL }
     }
   },
   {
-    "UC1701", 	9, 	8, 	"u8x8_cad_001",
+    "uc1701", 		9, 	8, 	"u8x8_cad_001",
     {
       { "dogs102" },
       { NULL }
@@ -43,8 +43,17 @@ char *strlowercase(const char *s)
 {
   int i, len = strlen(s);
   static char buf[1024];
-  for( i = 0; i < len; i++ )
+  for( i = 0; i <= len; i++ )
     buf[i] = tolower(s[i]);
+  return buf;
+}
+
+char *struppercase(const char *s)
+{
+  int i, len = strlen(s);
+  static char buf[1024];
+  for( i = 0; i <= len; i++ )
+    buf[i] = toupper(s[i]);
   return buf;
 }
 
@@ -57,6 +66,22 @@ FILE *setup_code_fp;
 
 
 /*===========================================*/
+
+void do_display(int controller_idx, int display_idx, const char *postfix)
+{
+  fprintf(setup_code_fp, "uint8_t *u8g2_Setup_");
+  fprintf(setup_code_fp, "%s_", strlowercase(controller_list[controller_idx].name));
+  fprintf(setup_code_fp, "%s_", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(setup_code_fp, "%s(uint8_t *u8g2, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)\n", postfix);
+  fprintf(setup_code_fp, "{\n");
+  fprintf(setup_code_fp, "  u8g2_SetupDisplay(u8x8_d_");
+  fprintf(setup_code_fp, "%s_", strlowercase(controller_list[controller_idx].name));
+  fprintf(setup_code_fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(setup_code_fp, "%s, ", controller_list[controller_idx].cad);
+  fprintf(setup_code_fp, "byte_cb, gpio_and_delay_cb);");
+    
+  fprintf(setup_code_fp, "}\n");
+}
 
 void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int rows)
 {
@@ -77,6 +102,7 @@ void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int ro
   while( controller_list[idx].display_list[display_idx].name != NULL )
   {
     printf("%s\n", controller_list[idx].display_list[display_idx].name);
+    do_display(idx, display_idx, postfix);
     display_idx++;
   }
   
@@ -105,7 +131,7 @@ int main(void)
   fprintf(buf_header_fp, "/* start of generated code, codebuild, u8g2 project */\n");
 
   setup_code_fp = fopen("u8g2_setup.c", "w");
-  fprintf(buf_code_fp, "/* start of generated code, codebuild, u8g2 project */\n");
+  fprintf(setup_code_fp, "/* start of generated code, codebuild, u8g2 project */\n");
   
   do_controller_list();
   
@@ -114,6 +140,9 @@ int main(void)
   
   fprintf(buf_header_fp, "/* end of generated code */\n");
   fclose(buf_header_fp);
+
+  fprintf(setup_code_fp, "/* end of generated code */\n");
+  fclose(setup_code_fp);
   
   return 0;
 }

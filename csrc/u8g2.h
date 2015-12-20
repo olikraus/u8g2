@@ -4,7 +4,7 @@
   
   call sequence
   
-  u8g2_Setup_XYZ
+  u8g2_SetupBuffer_XYZ
     u8x8_Setup_XYZ
       u8x8_SetupDefaults(u8g2);
       assign u8x8 callbacks
@@ -247,6 +247,20 @@ struct u8g2_struct
 #define u8g2_GetU8x8(u8g2) ((u8x8_t *)(u8g2))
 
 /*==========================================*/
+/* u8x8 wrapper */
+
+#define u8g2_SetupDisplay(u8g2, display_cb, cad_cb, byte_cb, gpio_and_delay_cb) \
+  u8x8_Setup(u8g2_GetU8x8(u8g2), (display_cb), (cad_cb), (byte_cb), (gpio_and_delay_cb))
+
+#define u8g2_InitDisplay(u8g2) u8x8_InitDisplay(u8g2_GetU8x8(u8g2))
+#define u8g2_SetPowerSave(u8g2, is_enable) u8x8_SetPowerSave(u8g2_GetU8x8(u8g2), (is_enable))
+#define u8g2_SetFlipMode(u8g2, mode) u8x8_SetFlipMode(u8g2_GetU8x8(u8g2), (mode))
+#define u8g2_SetContrast(u8g2, value) u8x8_SetContrast(u8g2_GetU8x8(u8g2), (value))
+#define u8g2_ClearDisplay(u8g2) u8x8_ClearDisplay(u8g2_GetU8x8(u8g2))
+
+
+
+/*==========================================*/
 /* u8g2_setup.c */
 
 extern const u8g2_cb_t u8g2_cb_r0;
@@ -254,7 +268,7 @@ extern const u8g2_cb_t u8g2_cb_r1;
 extern const u8g2_cb_t u8g2_cb_r2;
 extern const u8g2_cb_t u8g2_cb_r3;
 
-void u8g2_Setup(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, const u8g2_cb_t *u8g2_cb);
 
 
 
@@ -311,13 +325,13 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
 
 /*==========================================*/
 /* u8x8_d_sdl_128x64.c */
-void u8g2_Setup_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
-void u8g2_Setup_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/
 /* u8x8_d_tga.c */
-void u8g2_Setup_TGA_DESC(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
-void u8g2_Setup_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer_TGA_DESC(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 
 

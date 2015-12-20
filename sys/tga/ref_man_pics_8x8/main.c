@@ -81,7 +81,7 @@ int main(void)
   u8x8_DrawString(&desc, 0, 0, "Description");
 */
 
-  u8g2_Setup_TGA_DESC(&desc, &u8g2_cb_r0);
+  u8g2_SetupBuffer_TGA_DESC(&desc, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&desc));  
   u8x8_SetPowerSave(u8g2_GetU8x8(&desc), 0);
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));

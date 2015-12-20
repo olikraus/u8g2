@@ -261,11 +261,11 @@ void u8x8_Setup_TGA(u8x8_t *u8x8)
   u8x8_SetupMemory(u8x8);  
 }
 
-void u8g2_Setup_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+void u8g2_SetupBuffer_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 {
   static uint8_t buf[(DEFAULT_WIDTH)*8*8];
   
   u8x8_Setup_TGA(u8g2_GetU8x8(u8g2));
-  u8g2_Setup(u8g2, buf, 8, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, buf, 8, u8g2_cb);
 }
 

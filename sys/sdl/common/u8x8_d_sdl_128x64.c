@@ -267,23 +267,23 @@ void u8x8_Setup_SDL_128x64(u8x8_t *u8x8)
   u8x8_SetupMemory(u8x8);  
 }
 
-void u8g2_Setup_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+void u8g2_SetupBuffer_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 {
   
   static uint8_t buf[128*8];
   
   u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
-  u8g2_Setup(u8g2, buf, 8, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, buf, 8, u8g2_cb);
 }
 
 
-void u8g2_Setup_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+void u8g2_SetupBuffer_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 {
   
   static uint8_t buf[128*3];
   
   u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
-  u8g2_Setup(u8g2, buf, 3, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, buf, 3, u8g2_cb);
 }
 
 

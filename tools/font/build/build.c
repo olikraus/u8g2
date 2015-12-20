@@ -14,7 +14,7 @@ extern const uint8_t *u8g2_font_list[] ;
 extern char *u8g2_font_names[] ;
 
 #ifdef BUILD2
-extern void u8g2_Setup_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+extern void u8g2_SetupBuffer_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 extern void tga_save(const char *name);
 #endif
 
@@ -664,7 +664,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   {
   
     printf("8x8 font overview picture %s\n", target_font_identifier);  
-    u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
+    u8g2_SetupBuffer_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8x8_ClearDisplay(u8g2_GetU8x8(&u8g2));
@@ -700,7 +700,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   else if ( fm == FM_C ) 
   {
     printf("overview picture %s\n", target_font_identifier);
-    u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
+    u8g2_SetupBuffer_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8g2_SetFont(&u8g2, u8g2_font_helvB14_tr);
@@ -733,7 +733,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
   if ( fm == FM_8 )
   {
     printf("8x8 font short overview picture %s\n", target_font_identifier);  
-    u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
+    u8g2_SetupBuffer_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8x8_ClearDisplay(u8g2_GetU8x8(&u8g2));
@@ -756,7 +756,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
   else if ( fm == FM_C ) 
   {
     printf("short overview picture %s\n", target_font_identifier);
-    u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
+    u8g2_SetupBuffer_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8g2_SetFont(&u8g2, u8g2_font_helvB14_tr);
@@ -807,7 +807,7 @@ void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, cha
   }
   else if ( fm == FM_C ) 
   {
-    u8g2_Setup_TGA(&u8g2, &u8g2_cb_r0);
+    u8g2_SetupBuffer_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     if ( u8g2_font_list[u8g2_fnt_cnt] != NULL )

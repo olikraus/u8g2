@@ -58,7 +58,7 @@ const uint8_t bdf_font[762] U8G2_FONT_SECTION("bdf_font") = {
 int main(void)
 {
   uint8_t tile[8] = { 0x0f, 0x0f, 0x0f, 0x0f, 0xf0, 0xf0, 0xf0, 0xf0 };
-  u8g2_SetupStdio(&u8g2);  
+  u8g2_SetupBufferStdio(&u8g2);  
 
   u8g2_display_Init(&u8g2);  
   u8g2_display_PowerUp(&u8g2);
