@@ -29,7 +29,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "uc1701", 		9, 	8, 	"u8x8_cad_001",
+    "uc1701", 		13, 	8, 	"u8x8_cad_001",
     {
       { "dogs102" },
       { NULL }
@@ -72,14 +72,18 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   fprintf(setup_code_fp, "uint8_t *u8g2_Setup_");
   fprintf(setup_code_fp, "%s_", strlowercase(controller_list[controller_idx].name));
   fprintf(setup_code_fp, "%s_", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
-  fprintf(setup_code_fp, "%s(uint8_t *u8g2, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)\n", postfix);
+  fprintf(setup_code_fp, "%s(uint8_t *u8g2, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb, const u8g2_cb_t *rotation)\n", postfix);
   fprintf(setup_code_fp, "{\n");
+  fprintf(setup_code_fp, "  uint8_t tile_buf_height;\n");
+  fprintf(setup_code_fp, "  uint8_t *buffer;\n");
   fprintf(setup_code_fp, "  u8g2_SetupDisplay(u8x8_d_");
   fprintf(setup_code_fp, "%s_", strlowercase(controller_list[controller_idx].name));
   fprintf(setup_code_fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
   fprintf(setup_code_fp, "%s, ", controller_list[controller_idx].cad);
-  fprintf(setup_code_fp, "byte_cb, gpio_and_delay_cb);");
-    
+  fprintf(setup_code_fp, "byte_cb, gpio_and_delay_cb);\n");    
+  fprintf(setup_code_fp, "  buffer = ");
+  fprintf(setup_code_fp, "u8g2_m_%s_%s(&tile_buf_height);\n", strlowercase(controller_list[controller_idx].name), postfix);
+  fprintf(setup_code_fp, "  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);\n");
   fprintf(setup_code_fp, "}\n");
 }
 
@@ -99,9 +103,9 @@ void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int ro
     strlowercase(controller_list[idx].name), postfix);
   
   display_idx = 0;
+  fprintf(setup_code_fp, "/* %s %s */\n", controller_list[idx].name, postfix);
   while( controller_list[idx].display_list[display_idx].name != NULL )
   {
-    printf("%s\n", controller_list[idx].display_list[display_idx].name);
     do_display(idx, display_idx, postfix);
     display_idx++;
   }
@@ -116,6 +120,7 @@ void do_controller_list(void)
   for( i = 0; i < sizeof(controller_list)/sizeof(*controller_list); i++ )
   {
     puts(controller_list[i].name);
+    fprintf(setup_code_fp, "/* %s */\n", controller_list[i].name);
     do_controller_buffer_code(i, "1", controller_list[i].tile_width*8, 1);
     do_controller_buffer_code(i, "2", controller_list[i].tile_width*8*2, 2);
     do_controller_buffer_code(i, "f", controller_list[i].tile_width*8*controller_list[i].tile_height, controller_list[i].tile_height);
