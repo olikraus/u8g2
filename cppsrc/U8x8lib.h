@@ -92,9 +92,6 @@ class U8X8 : public Print
     void display(void) { u8x8_SetPowerSave(&u8x8, 0); }
     void setCursor(uint8_t x, uint8_t y) { tx = x; ty = y; }
  
-    void noCursor(void) {}
-    void cursor(void) {}
-        
 };
 
 // constructor list start
