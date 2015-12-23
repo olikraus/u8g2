@@ -55,15 +55,16 @@
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
   The following macro activates this support. Deactivation would save some ROM.
   This definition also defines the behavior of the expected string encoding.
-  If the following macro is defined, then all strings in the c-code are assumed 
+  If the following macro is defined, then the DrawUTF8 function is enabled and 
+  the string argument for this function is assumed 
   to be UTF-8 encoded.
   If the following macro is not defined, then all strings in the c-code are assumed 
-  to be ISO 8859-1/CP1252 encoded. Note: This is NOT supported by the Arduino 
-  IDE. However note, that the chars 0 to 127 have identical encoding for UTF-8
-  and ISO 8859-1.
+  to be ISO 8859-1/CP1252 encoded. 
+  Independently from this macro, the Arduino print function never accepts UTF-8
+  strings.
   
   This macro does not affect the u8x8 string draw function.
-  u8x8 has two function, one for pure strings and one for UTF8
+  u8x8 has also two function, one for pure strings and one for UTF8
   
   Conclusion:
     U8G2_WITH_UNICODE defined
@@ -217,7 +218,7 @@ struct u8g2_struct
   u8g2_uint_t buf_y0;
   u8g2_uint_t buf_y1;
   
-  /* display dimensions in pixel for the user, calculated inu8g2_update_dimension_common(), used in u8g2_draw_hv_line_2dir() */
+  /* display dimensions in pixel for the user, calculated in u8g2_update_dimension_common(), used in u8g2_draw_hv_line_2dir() */
   u8g2_uint_t width;
   u8g2_uint_t height;
   
@@ -258,6 +259,8 @@ struct u8g2_struct
 #define u8g2_SetContrast(u8g2, value) u8x8_SetContrast(u8g2_GetU8x8(u8g2), (value))
 #define u8g2_ClearDisplay(u8g2) u8x8_ClearDisplay(u8g2_GetU8x8(u8g2))
 
+#define u8g2_GetDisplayHeight(u8g2) ((u8g2)->height)
+#define u8g2_GetDisplayWidth(u8g2) ((u8g2)->width)
 
 
 /*==========================================*/

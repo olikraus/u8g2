@@ -50,14 +50,14 @@ class U8X8 : public Print
     void initDisplay(void) {
       u8x8_InitDisplay(&u8x8); }
       
-    void clearScreen(void) {
+    void clearDisplay(void) {
       u8x8_ClearDisplay(&u8x8); }
       
     void setPowerSave(uint8_t is_enable) {
       u8x8_SetPowerSave(&u8x8, is_enable); }
 
     void begin(void) {
-      initDisplay(); clearScreen(); setPowerSave(0); }
+      initDisplay(); clearDisplay(); setPowerSave(0); }
       
     void setFlipMode(uint8_t mode) {
       u8x8_SetFlipMode(&u8x8, mode); }

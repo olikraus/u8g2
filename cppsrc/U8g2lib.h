@@ -38,16 +38,27 @@ class U8G2 : public Print
     void initDisplay(void) {
       u8g2_InitDisplay(&u8g2); }
       
-    void clearScreen(void) {
+    void clearDisplay(void) {
       u8g2_ClearDisplay(&u8g2); }
       
     void setPowerSave(uint8_t is_enable) {
       u8g2_SetPowerSave(&u8g2, is_enable); }
+      
+    void setFlipMode(uint8_t mode) {
+      u8g2_SetFlipMode(&u8g2, mode); }
+
+    void setContrast(uint8_t value) {
+      u8g2_SetContrast(&u8g2, value); }
     
     void begin(void) {
-      initDisplay(); clearScreen(); setPowerSave(0); }
+      initDisplay(); clearDisplay(); setPowerSave(0); }
     
     /* u8g2  */
+
+      
+    u8g2_uint_t getDisplayHeight() { return u8g2_GetDisplayHeight(&u8g2); }
+    u8g2_uint_t getDisplayWidth() { return u8g2_GetDisplayWidth(&u8g2); }
+      
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
 
