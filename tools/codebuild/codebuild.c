@@ -82,7 +82,7 @@ struct interface interface_list[] =
     "u8x8_byte_8bit_6800mode",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset"
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset"
   },
   /* 3 */
   {
@@ -91,7 +91,7 @@ struct interface interface_list[] =
     "u8x8_byte_8bit_8080mode",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset"
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset"
   },
   /* 4 */
   {
@@ -493,6 +493,7 @@ int main(void)
   insert_into_file("../../csrc/u8g2.h", "u8g2_memory.h", "/* u8g2_d_memory.c generated code start */", "/* u8g2_d_memory.c generated code end */");
   insert_into_file("../../csrc/u8g2.h", "u8g2_setup.h", "/* u8g2_d_setup.c generated code start */", "/* u8g2_d_setup.c generated code end */");
   insert_into_file("../../cppsrc/U8g2lib.h", "U8g2lib.h", "/* Arduino constructor list start */", "/* Arduino constructor list end */");
+  insert_into_file("../../cppsrc/U8x8lib.h", "U8x8lib.h", "// constructor list start", "// constructor list end");
 
   return 0;
 }
