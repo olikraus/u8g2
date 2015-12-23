@@ -275,7 +275,7 @@ void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const cha
   fprintf(fp, "void u8g2_Setup_");
   fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
   fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
-  fprintf(fp, "%s(u8g2_t *u8g2, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb, const u8g2_cb_t *rotation)", postfix);
+  fprintf(fp, "%s(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)", postfix);
 }
 
 /*===========================================*/
@@ -323,7 +323,7 @@ class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
   public:
     U8G2_SSD1306_128x64_NONAME_1_SW_SPI(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE)
     {
-      u8g2_Setup_ssd1306_128x64_noname_1(&u8g2, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino, rotation);
+      u8g2_Setup_ssd1306_128x64_noname_1(&u8g2, rotation, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino,);
       u8x8_SetPin_4Wire_SW_SPI(getU8x8(), clock, data, cs, dc, reset);
     }
 };
@@ -353,9 +353,9 @@ void do_display_interface(int controller_idx, int display_idx, const char *postf
   fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
   fprintf(fp, "%s", postfix);
   fprintf(fp, "(&u8g2, ");
+  fprintf(fp, "rotation, ");
   fprintf(fp, "%s, ", interface_list[interface_idx].arduino_com_procedure);  
-  fprintf(fp, "%s, ", interface_list[interface_idx].arduino_gpio_procedure);  
-  fprintf(fp, "rotation);\n");
+  fprintf(fp, "%s);\n", interface_list[interface_idx].arduino_gpio_procedure);  
   fprintf(fp, "    ");
   fprintf(fp, "%s(getU8x8(), ", interface_list[interface_idx].setpin_function);  
   fprintf(fp, "%s);\n", interface_list[interface_idx].pins_plain);
