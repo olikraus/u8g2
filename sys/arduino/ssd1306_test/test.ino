@@ -24,10 +24,10 @@ void setup(void)
   digitalWrite(10, 0);	// default output in I2C mode for the SSD1306 test shield
   
   //u8x8_Setup_3Wire_SW_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 10, 8);
-  u8x8_Setup_4Wire_SW_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 10, 9, 8);
+  //u8x8_Setup_4Wire_SW_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 10, 9, 8);
   //u8x8_Setup_4Wire_HW_SPI(&u8x8, u8x8_d_ssd1306_128x64_noname, 10, 9, 8);
 
-  //u8x8_Setup_SSD13xx_SW_I2C(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 8);
+  u8x8_Setup_SSD13xx_SW_I2C(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 8);
   //u8x8_Setup_8Bit_6800(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 2, 3, 4, 5, 6, A4, /*enable=*/ 7, /*cs=*/ 10, /*dc=*/ 9, /*reset=*/ 8);
   //u8x8_Setup_8Bit_8080(&u8x8, u8x8_d_ssd1306_128x64_noname, 13, 11, 2, 3, 4, 5, 6, A4, /*enable=*/ 7, /*cs=*/ 10, /*dc=*/ 9, /*reset=*/ 8);
   

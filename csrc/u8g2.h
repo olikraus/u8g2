@@ -271,6 +271,11 @@ extern const u8g2_cb_t u8g2_cb_r1;
 extern const u8g2_cb_t u8g2_cb_r2;
 extern const u8g2_cb_t u8g2_cb_r3;
 
+#define U8G2_R0	(&u8g2_cb_r0)
+#define U8G2_R1	(&u8g2_cb_r1)
+#define U8G2_R2	(&u8g2_cb_r2)
+#define U8G2_R3	(&u8g2_cb_r3)
+
 void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/

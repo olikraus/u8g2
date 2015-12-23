@@ -249,6 +249,7 @@ FILE *buf_header_fp;
 FILE *setup_code_fp;
 FILE *setup_header_fp;
 FILE *u8g2_cpp_header_fp;
+FILE *u8x8_cpp_header_fp;
 
 
 void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const char *postfix)
@@ -260,6 +261,44 @@ void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const cha
 }
 
 /*===========================================*/
+
+/*
+class U8X8_SSD1306_128X64_4W_SW_SPI : public U8X8 {
+  public: U8X8_SSD1306_128X64_4W_SW_SPI(uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup(getU8x8(), u8x8_d_ssd1306_128x64_noname, u8x8_cad_001, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_4Wire_SW_SPI(getU8x8(), clock, data, cs, dc, reset);
+  }
+}
+*/
+void do_u8x8_header(int controller_idx, int display_idx, int interface_idx)
+{
+  FILE *fp = u8x8_cpp_header_fp;
+  fprintf(fp, "class U8X8_");
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+  fprintf(fp, " : public U8X8 {\n");
+  fprintf(fp, "  public: ");
+  fprintf(fp, "U8X8_");
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+  fprintf(fp, "(%s) : U8X8() {\n", interface_list[interface_idx].pins_with_type);
+  fprintf(fp, "    ");
+  fprintf(fp, "u8x8_Setup(getU8x8(), u8x8_d_");
+  fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
+  fprintf(fp, "%s, ", interface_list[interface_idx].arduino_com_procedure);  
+  fprintf(fp, "%s);\n", interface_list[interface_idx].arduino_gpio_procedure);  
+  fprintf(fp, "    ");
+  fprintf(fp, "%s(getU8x8(), ", interface_list[interface_idx].setpin_function);  
+  fprintf(fp, "%s);\n", interface_list[interface_idx].pins_plain);
+  fprintf(fp, "  }\n");
+  fprintf(fp, "};\n");
+  
+}
+
 /*
 class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
 {
@@ -271,6 +310,7 @@ class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
     }
 };
 */
+
 
 void do_display_interface(int controller_idx, int display_idx, const char *postfix, int interface_idx)
 {
@@ -304,8 +344,12 @@ void do_display_interface(int controller_idx, int display_idx, const char *postf
   fprintf(fp, "  }\n");
   fprintf(fp, "};\n");
   
+  if ( strcmp(postfix, "1") == 0 )
+    do_u8x8_header(controller_idx, display_idx, interface_idx);
   
 }
+
+
 
 /*===========================================*/
 
@@ -421,6 +465,9 @@ int main(void)
   u8g2_cpp_header_fp = fopen("U8g2lib.h", "w");
   fprintf(u8g2_cpp_header_fp, "/* generated code (codebuild), u8g2 project */\n");
   
+  u8x8_cpp_header_fp = fopen("U8x8lib.h", "w");
+  fprintf(u8x8_cpp_header_fp, "/* generated code (codebuild), u8g2 project */\n");
+  
   
   do_controller_list();
   
@@ -437,6 +484,8 @@ int main(void)
   fclose(setup_header_fp);
 
   fclose(u8g2_cpp_header_fp);
+
+  fclose(u8x8_cpp_header_fp);
 
   system("cp u8g2_d_memory.c ../../csrc/.");
   system("cp u8g2_d_setup.c ../../csrc/.");
