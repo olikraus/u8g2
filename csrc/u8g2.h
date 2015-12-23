@@ -331,7 +331,7 @@ int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);
 u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding);
 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
-u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
+u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 
 #define u8g2_GetMaxCharHeight(u8g2) ((u8g2)->font_info.max_char_height)

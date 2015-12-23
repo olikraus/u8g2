@@ -31,13 +31,13 @@ int main(void)
     u8g2_ClearBuffer(&u8g2);
     
       u8g2_SetFontDirection(&u8g2, 0);
-      u8g2_DrawString(&u8g2, x, y, "ABC");
+      u8g2_DrawStr(&u8g2, x, y, "ABC");
       u8g2_SetFontDirection(&u8g2, 1);
-      u8g2_DrawString(&u8g2, x, y, "abc");
+      u8g2_DrawStr(&u8g2, x, y, "abc");
       u8g2_SetFontDirection(&u8g2, 2);
-      u8g2_DrawString(&u8g2, x, y, "abc");
+      u8g2_DrawStr(&u8g2, x, y, "abc");
       u8g2_SetFontDirection(&u8g2, 3);
-      u8g2_DrawString(&u8g2, x, y, "abc");
+      u8g2_DrawStr(&u8g2, x, y, "abc");
     
     u8g2_SendBuffer(&u8g2);
     */
@@ -47,13 +47,13 @@ int main(void)
     do
     {
       u8g2_SetFontDirection(&u8g2, 0);
-      u8g2_DrawString(&u8g2, x, y, "ABC");
+      u8g2_DrawStr(&u8g2, x, y, "ABC");
       u8g2_SetFontDirection(&u8g2, 1);
-      u8g2_DrawString(&u8g2, x, y, "abc");
+      u8g2_DrawStr(&u8g2, x, y, "abc");
       u8g2_SetFontDirection(&u8g2, 2);
-      u8g2_DrawString(&u8g2, x, y, "abc");
+      u8g2_DrawStr(&u8g2, x, y, "abc");
       u8g2_SetFontDirection(&u8g2, 3);
-      u8g2_DrawString(&u8g2, x, y, "abc");
+      u8g2_DrawStr(&u8g2, x, y, "abc");
       if ( i == 1 )
       {
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x0, u8g2.user_y0, 1, 0);

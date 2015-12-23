@@ -608,11 +608,11 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
     u8g2_GetAscent(&u8g2));
     
   u8g2_SetFont(&u8g2, u8g2_font_7x13_tr);    
-  u8g2_DrawString(&u8g2, 0, h, u8g2_font_names[u8g2_fnt_cnt]);
-  u8g2_DrawString(&u8g2, 0, h*2, s);
+  u8g2_DrawStr(&u8g2, 0, h, u8g2_font_names[u8g2_fnt_cnt]);
+  u8g2_DrawStr(&u8g2, 0, h*2, s);
   
   sprintf(s, "Font Data Size: %d Bytes", u8g2_GetFontSize(u8g2_font_list[u8g2_fnt_cnt]));
-  u8g2_DrawString(&u8g2, 0, h*3, s);
+  u8g2_DrawStr(&u8g2, 0, h*3, s);
 
   u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
   u8g2_SetFontDirection(&u8g2, 0);
@@ -632,7 +632,7 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
       u8g2_SetFont(&u8g2, u8g2_font_7x13_tr);    
       sprintf(s, "%5d/%04x ", encoding, encoding);
       
-      x = u8g2_DrawString(&u8g2, 0, y, s);
+      x = u8g2_DrawStr(&u8g2, 0, y, s);
       overview_draw_line(i, encoding, x, y, cw+1);
       y += ch;
     }
@@ -647,11 +647,11 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
     u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
     u8g2_SetFontDirection(&u8g2, 0); 
     //y += u8g2_GetMaxCharHeight(&u8g2);
-    u8g2_DrawString(&u8g2, 0, y, "The quick brown fox");
+    u8g2_DrawStr(&u8g2, 0, y, "The quick brown fox");
     y += u8g2_GetMaxCharHeight(&u8g2);
-    u8g2_DrawString(&u8g2, 0, y, "jumps over the lazy dog.");
+    u8g2_DrawStr(&u8g2, 0, y, "jumps over the lazy dog.");
   }
-  //u8g2_DrawString(&u8g2, 0, y, "Woven silk pyjamas exchanged for blue quartz"); 
+  //u8g2_DrawStr(&u8g2, 0, y, "Woven silk pyjamas exchanged for blue quartz"); 
 
 }
 
@@ -771,11 +771,11 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
     {
 
       if ( mm == MM_N )
-	u8g2_DrawString(&u8g2, 0, ch, "1234567890");
+	u8g2_DrawStr(&u8g2, 0, ch, "1234567890");
       else if ( mm == MM_U )
-	u8g2_DrawString(&u8g2, 0, ch, "ABCDEF 123");
+	u8g2_DrawStr(&u8g2, 0, ch, "ABCDEF 123");
       else
-	u8g2_DrawString(&u8g2, 0, ch, "Abcdefg 123");
+	u8g2_DrawStr(&u8g2, 0, ch, "Abcdefg 123");
     
     } while( u8g2_NextPage(&u8g2) );
 

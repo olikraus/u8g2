@@ -673,7 +673,7 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 }
 
 #ifdef OBSOLETE
-u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   u8g2_uint_t delta, sum;
   sum = 0;
@@ -744,7 +744,7 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
   return sum;
 }
 
-u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   u8g2->u8x8.char_cb = u8x8_get_char_from_string;
   return u8g2_draw_string(u8g2, x, y, str);
@@ -769,7 +769,7 @@ u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char
 
 #ifdef OBSOLETE
 /* UTF-8 version */
-u8g2_uint_t u8g2_DrawString(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   uint16_t e;
   u8g2_uint_t delta, sum;

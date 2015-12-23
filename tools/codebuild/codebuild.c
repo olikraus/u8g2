@@ -5,6 +5,23 @@
 
 /*===========================================*/
 
+#define COM_4WSPI		0x0001
+#define COM_3WSPI		0x0002
+#define COM_6800		0x0004
+#define COM_8080		0x0008
+#define COM_SSDI2C	0x0010
+
+struct interface
+{
+  const char *interface_name;		/* SW_SPI */
+  const char *setpin_function;		/* u8x8_SetPin_4Wire_SW_SPI */
+  const char *arduino_com_procedure;	/* u8x8_byte_4wire_sw_spi */
+  const char *arduino_gpio_procedure;	/* u8x8_gpio_and_delay_arduino */
+  const char *pins_with_type;		/* uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE */
+  const char *pins_plain;			/* clock, data, cs, dc, reset */
+};
+
+
 struct display
 {
   const char *name;
@@ -16,25 +33,47 @@ struct controller
   int tile_width;
   int tile_height;
   const char *cad;
+  unsigned com;
   struct display display_list[10];	/* usually not used completly, but space does not matter much here */  
 };
 
 struct controller controller_list[] =
 {
   {
-    "ssd1306", 	16, 	8, 	"u8x8_cad_001",
+    "ssd1306", 	16, 	8, 	"u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080|COM_SSDI2C,
     {
       { "128x64_noname" },
       { NULL }
     }
   },
   {
-    "uc1701", 		13, 	8, 	"u8x8_cad_001",
+    "uc1701", 		13, 	8, 	"u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
     {
       { "dogs102" },
       { NULL }
     }
   }
+};
+
+struct interface interface_list[] = 
+{
+  {
+    "SW_SPI",
+    "u8x8_SetPin_4Wire_SW_SPI",
+    "u8x8_byte_4wire_sw_spi",
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
+    "clock, data, cs, dc, reset"
+  },
+  {
+    "HW_SPI",
+    "u8x8_SetPin_4Wire_HW_SPI",
+    "u8x8_byte_4wire_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
+    "cs, dc, reset"
+  },
+  
 };
 
 
@@ -163,6 +202,54 @@ void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const cha
 }
 
 /*===========================================*/
+/*
+class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
+{
+  public:
+    U8G2_SSD1306_128x64_NONAME_1_SW_SPI(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE)
+    {
+      u8g2_Setup_ssd1306_128x64_noname_1(&u8g2, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino, rotation);
+      u8x8_SetPin_4Wire_SW_SPI(getU8x8(), clock, data, cs, dc, reset);
+    }
+};
+*/
+
+void do_display_interface(int controller_idx, int display_idx, const char *postfix, int interface_idx)
+{
+  FILE *fp = stdout;
+  fprintf(fp, "class U8G2_");
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s_", struppercase(postfix));
+  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));  
+  fprintf(fp, " : public U8G2 {\n");
+  fprintf(fp, "  public: ");
+  fprintf(fp, "U8G2_");
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s_", struppercase(postfix));
+  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));  
+  fprintf(fp, "(const u8g2_cb_t *rotation, ");
+  fprintf(fp, "%s) {\n", interface_list[interface_idx].pins_with_type);
+  fprintf(fp, "    ");
+  fprintf(fp, "u8g2_Setup_");
+  fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s", postfix);
+  fprintf(fp, "(&u8g2, ");
+  fprintf(fp, "%s, ", interface_list[interface_idx].arduino_com_procedure);  
+  fprintf(fp, "%s, ", interface_list[interface_idx].arduino_gpio_procedure);  
+  fprintf(fp, "rotation);\n");
+  fprintf(fp, "    ");
+  fprintf(fp, "%s(getU8x8(), ", interface_list[interface_idx].setpin_function);  
+  fprintf(fp, "%s);\n", interface_list[interface_idx].pins_plain);
+  fprintf(fp, "  }\n");
+  fprintf(fp, "}\n");
+  
+  
+}
+
+/*===========================================*/
 
 void do_display(int controller_idx, int display_idx, const char *postfix)
 {
@@ -183,6 +270,30 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   fprintf(setup_code_fp, "u8g2_m_%s_%d_%s(&tile_buf_height);\n", strlowercase(controller_list[controller_idx].name), controller_list[controller_idx].tile_width, postfix);
   fprintf(setup_code_fp, "  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);\n");
   fprintf(setup_code_fp, "}\n");
+  
+  /* generate interfaces for this display */
+  if ( controller_list[controller_idx].com & COM_4WSPI )
+  {
+    do_display_interface(controller_idx, display_idx, postfix, 0);		/* SW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, 1);		/* HW SPI */
+  }
+  if ( controller_list[controller_idx].com & COM_3WSPI )
+  {
+    
+  }
+  if ( controller_list[controller_idx].com & COM_6800 )
+  {
+    
+  }
+  if ( controller_list[controller_idx].com & COM_8080 )
+  {
+    
+  }
+  if ( controller_list[controller_idx].com & COM_SSDI2C )
+  {
+    
+  }
+  
 }
 
 void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int rows)

@@ -14,7 +14,7 @@ U8glib V2: Features and Limitations
   Limitation:  
     Behavior for sequences with more than 3 bytes is unknown.
 
-- Compilation speed improved (font file)
+- Compilation speed improved (font data)
 
 - "Text only" sub library
 
@@ -24,3 +24,7 @@ U8glib V2: Features and Limitations
 
 - Better hardware support
 
+
+u8g vs. u8g2
+- begin() must be called
+- constructor contains name of communicaton interface

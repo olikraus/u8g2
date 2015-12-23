@@ -53,7 +53,7 @@ class U8G2 : public Print
 
     void setFont(const uint8_t  *font) {u8g2_SetFont(&u8g2, font); }
     
-    u8g2_uint_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char *s) { return u8g2_DrawString(&u8g2, x, y, s); }
+    u8g2_uint_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char *s) { return u8g2_DrawStr(&u8g2, x, y, s); }
 
     size_t write(uint8_t v) {
       tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
@@ -84,14 +84,10 @@ class U8G2 : public Print
 class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
 {
   public:
-    U8G2_SSD1306_128x64_NONAME_1_SW_SPI(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset)
+    U8G2_SSD1306_128x64_NONAME_1_SW_SPI(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE)
     {
       u8g2_Setup_ssd1306_128x64_noname_1(&u8g2, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino, rotation);
-      u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_SPI_CLOCK, clock);
-      u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_SPI_DATA, data);
-      u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_CS, cs);
-      u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_DC, dc);
-      u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_RESET, reset);
+      u8x8_SetPin_4Wire_SW_SPI(getU8x8(), clock, data, cs, dc, reset);
     }
 };
 
