@@ -27,4 +27,5 @@ U8glib V2: Features and Limitations
 
 u8g vs. u8g2
 - begin() must be called
-- constructor contains name of communicaton interface
+- constructor contains name of communicaton interface and 
+    also contains the display orientation as first argument

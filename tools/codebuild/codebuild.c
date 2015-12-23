@@ -57,22 +57,79 @@ struct controller controller_list[] =
 
 struct interface interface_list[] = 
 {
+  /* 0 */
   {
-    "SW_SPI",
+    "4W_SW_SPI",
     "u8x8_SetPin_4Wire_SW_SPI",
     "u8x8_byte_4wire_sw_spi",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
     "clock, data, cs, dc, reset"
   },
+  /* 1 */
   {
-    "HW_SPI",
+    "4W_HW_SPI",
     "u8x8_SetPin_4Wire_HW_SPI",
     "u8x8_byte_arduino_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
     "cs, dc, reset"
+  },  
+  /* 2 */
+  {
+    "6800",
+    "u8x8_SetPin_8Bit_6800",
+    "u8x8_byte_8bit_6800mode",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
+    "d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset"
   },
+  /* 3 */
+  {
+    "8080",
+    "u8x8_SetPin_8Bit_8080",
+    "u8x8_byte_8bit_8080mode",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
+    "d0,  d1,  d2,  d3,  d4,  d5,  d6,  d7,  enable,  cs,  dc,  reset"
+  },
+  /* 4 */
+  {
+    "3W_SW_SPI",
+    "u8x8_SetPin_3Wire_SW_SPI",
+    "u8x8_byte_3wire_sw_spi",
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
+    "clock, data, cs, reset"
+  },
+  /* 5 */
+  {
+    "3W_HW_SPI",
+    "",
+    "",
+    "",   
+    "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
+    "cs, reset"
+  },  
+  /* 6 */
+  {
+    "SW_I2C",
+    "u8x8_SetPin_SSD13xx_SW_I2C",
+    "u8x8_byte_ssd13xx_sw_i2c",
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE",
+    "clock,  data,  reset"
+  },
+  /* 7 */
+  {
+    "HW_I2C",
+    "",
+    "",
+    "",   
+    "uint8_t reset = U8X8_PIN_NONE",
+    "reset"
+  },  
+  
   
 };
 
@@ -231,7 +288,7 @@ void do_display_interface(int controller_idx, int display_idx, const char *postf
   fprintf(fp, "%s_", struppercase(postfix));
   fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));  
   fprintf(fp, "(const u8g2_cb_t *rotation, ");
-  fprintf(fp, "%s) {\n", interface_list[interface_idx].pins_with_type);
+  fprintf(fp, "%s) : U8G2() {\n", interface_list[interface_idx].pins_with_type);
   fprintf(fp, "    ");
   fprintf(fp, "u8g2_Setup_");
   fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
@@ -280,19 +337,21 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   }
   if ( controller_list[controller_idx].com & COM_3WSPI )
   {
-    
+    do_display_interface(controller_idx, display_idx, postfix, 4);		/* 3wire SW SPI */
+    //do_display_interface(controller_idx, display_idx, postfix, 5);		/* 3wire HW SPI (not implemented) */
   }
   if ( controller_list[controller_idx].com & COM_6800 )
   {
-    
+    do_display_interface(controller_idx, display_idx, postfix, 2);		/* 6800 mode */    
   }
   if ( controller_list[controller_idx].com & COM_8080 )
   {
-    
+    do_display_interface(controller_idx, display_idx, postfix, 3);		/* 8080 mode */    
   }
   if ( controller_list[controller_idx].com & COM_SSDI2C )
   {
-    
+    do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW SPI */
+    //do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW SPI (not yet implemented) */
   }
   
 }
