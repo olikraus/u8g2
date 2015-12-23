@@ -94,7 +94,7 @@ class U8X8 : public Print
      
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0; }
-    void clear(void) { clearScreen(); home(); }
+    void clear(void) { clearDisplay(); home(); }
     void noDisplay(void) { u8x8_SetPowerSave(&u8x8, 1); }
     void display(void) { u8x8_SetPowerSave(&u8x8, 0); }
     void setCursor(uint8_t x, uint8_t y) { tx = x; ty = y; }

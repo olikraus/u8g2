@@ -73,7 +73,7 @@ class U8G2 : public Print
 
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0; }
-    void clear(void) { clearScreen(); home(); }
+    void clear(void) { clearDisplay(); home(); }
     void noDisplay(void) { u8g2_SetPowerSave(&u8g2, 1); }
     void display(void) { u8g2_SetPowerSave(&u8g2, 0); }
     void setCursor(uint8_t x, uint8_t y) { tx = x; ty = y; }
