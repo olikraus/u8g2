@@ -19,6 +19,8 @@ struct interface
   const char *arduino_gpio_procedure;	/* u8x8_gpio_and_delay_arduino */
   const char *pins_with_type;		/* uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE */
   const char *pins_plain;			/* clock, data, cs, dc, reset */
+  const char *pins_md_plain;			/* clock, data, cs, dc, reset */
+  const char *generic_com_procedure;	/* u8x8_byte_4wire_sw_spi */
 };
 
 
@@ -64,7 +66,9 @@ struct interface interface_list[] =
     "u8x8_byte_4wire_sw_spi",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "clock, data, cs, dc, reset"
+    "clock, data, cs, dc, reset",
+    "clock, data, cs, dc [, reset]",
+    "u8x8_byte_4wire_sw_spi"
   },
   /* 1 */
   {
@@ -73,7 +77,9 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "cs, dc, reset"
+    "cs, dc, reset",
+    "cs, dc [, reset]",
+    "<uC specific>"
   },  
   /* 2 */
   {
@@ -82,7 +88,9 @@ struct interface interface_list[] =
     "u8x8_byte_8bit_6800mode",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset"
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc [, reset]",
+    "u8x8_byte_8bit_6800mode"
   },
   /* 3 */
   {
@@ -91,7 +99,9 @@ struct interface interface_list[] =
     "u8x8_byte_8bit_8080mode",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset"
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc [, reset]",
+    "u8x8_byte_8bit_8080mode"
   },
   /* 4 */
   {
@@ -100,7 +110,9 @@ struct interface interface_list[] =
     "u8x8_byte_3wire_sw_spi",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "clock, data, cs, reset"
+    "clock, data, cs, reset",
+    "clock, data, cs [, reset]",
+    "u8x8_byte_3wire_sw_spi"
   },
   /* 5 */
   {
@@ -109,7 +121,9 @@ struct interface interface_list[] =
     "",
     "",   
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "cs, reset"
+    "cs, reset",
+    "cs [, reset]",
+    "<uC specific>"
   },  
   /* 6 */
   {
@@ -118,7 +132,9 @@ struct interface interface_list[] =
     "u8x8_byte_ssd13xx_sw_i2c",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE",
-    "clock,  data,  reset"
+    "clock,  data,  reset",
+    "clock,  data [,  reset]",
+    "u8x8_byte_ssd13xx_sw_i2c"
   },
   /* 7 */
   {
@@ -127,7 +143,9 @@ struct interface interface_list[] =
     "",
     "",   
     "uint8_t reset = U8X8_PIN_NONE",
-    "reset"
+    "reset",
+    "[reset]",
+    "<uC specific>"
   },  
   
   
@@ -440,6 +458,102 @@ void do_controller_list(void)
   }
 }
 
+
+
+
+
+void do_md_display(int controller_idx, int display_idx)
+{
+  FILE *fp = stdout;
+  fprintf(fp, "%s:", controller_list[controller_idx].name);
+  fprintf(fp, "%s\n", controller_list[controller_idx].display_list[display_idx].name);
+}
+
+void do_md_display_interface_buffer(int controller_idx, int display_idx, int interface_idx, char *prefix, int size, int rows)
+{
+  FILE *fp = stdout;
+  /*
+  fprintf(fp, "%s:", controller_list[controller_idx].name);
+  fprintf(fp, "%s:", controller_list[controller_idx].display_list[display_idx].name);
+  fprintf(fp, "%s:", prefix);
+  fprintf(fp, "%s\n", interface_list[interface_idx].interface_name);
+  */
+  fprintf(fp, "U8G2_");
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s_", struppercase(prefix));
+  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+  fprintf(fp, "(rotation, %s)\n", interface_list[interface_idx].pins_md_plain);
+  
+}
+
+void do_md_display_interface(int controller_idx, int display_idx, int interface_idx)
+{
+  FILE *fp = stdout;
+  
+  fprintf(fp, "U8X8_");
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+  fprintf(fp, "(%s) | ", interface_list[interface_idx].pins_md_plain);
+  fprintf(fp, "U8x8 Arduino Constructor\n");
+  
+  fprintf(fp, "u8x8_Setup(u8x8_d_");
+  fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
+  fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
+  fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
+  fprintf(fp, "%s, ", strlowercase(interface_list[interface_idx].generic_com_procedure));
+  fprintf(fp, "<uC specific>) | ");
+  fprintf(fp, "U8x8 C Code Setup\n");
+  
+  do_md_display_interface_buffer(controller_idx, display_idx, interface_idx, "1", controller_list[controller_idx].tile_width*8, 1);
+  do_md_display_interface_buffer(controller_idx, display_idx, interface_idx, "2", controller_list[controller_idx].tile_width*8*2, 2);
+  do_md_display_interface_buffer(controller_idx, display_idx, interface_idx, "f", controller_list[controller_idx].tile_width*8*controller_list[controller_idx].tile_height, controller_list[controller_idx].tile_height);
+  
+}
+
+void do_md_controller_list(void)
+{
+  int controller_idx, display_idx;
+  
+  for( controller_idx = 0; controller_idx < sizeof(controller_list)/sizeof(*controller_list); controller_idx++ )
+  {
+
+    display_idx = 0;
+    while( controller_list[controller_idx].display_list[display_idx].name != NULL )
+    {
+      do_md_display(controller_idx, display_idx);
+      /* generate interfaces for this display */
+      if ( controller_list[controller_idx].com & COM_4WSPI )
+      {
+	do_md_display_interface(controller_idx, display_idx, 0);		/* SW SPI */
+	do_md_display_interface(controller_idx, display_idx, 1);		/* HW SPI */
+      }
+      if ( controller_list[controller_idx].com & COM_3WSPI )
+      {
+	do_md_display_interface(controller_idx, display_idx, 4);		/* 3wire SW SPI */
+	//do_md_display_interface(controller_idx, display_idx, 5);		/* 3wire HW SPI (not implemented) */
+      }
+      if ( controller_list[controller_idx].com & COM_6800 )
+      {
+	do_md_display_interface(controller_idx, display_idx, 2);		/* 6800 mode */    
+      }
+      if ( controller_list[controller_idx].com & COM_8080 )
+      {
+	do_md_display_interface(controller_idx, display_idx, 3);		/* 8080 mode */    
+      }
+      if ( controller_list[controller_idx].com & COM_SSDI2C )
+      {
+	do_md_display_interface(controller_idx, display_idx, 6);		/* SW SPI */
+	//do_md_display_interface(controller_idx, display_idx, 7);		/* HW SPI (not yet implemented) */
+      }
+      
+      display_idx++;
+    }    
+  }
+}
+
+
 int main(void)
 {
   buf_code_fp = fopen("u8g2_d_memory.c", "w");
@@ -470,6 +584,7 @@ int main(void)
   
   
   do_controller_list();
+  do_md_controller_list();
   
   fprintf(buf_code_fp, "/* end of generated code */\n");
   fclose(buf_code_fp);
@@ -494,6 +609,8 @@ int main(void)
   insert_into_file("../../csrc/u8g2.h", "u8g2_setup.h", "/* u8g2_d_setup.c generated code start */", "/* u8g2_d_setup.c generated code end */");
   insert_into_file("../../cppsrc/U8g2lib.h", "U8g2lib.h", "/* Arduino constructor list start */", "/* Arduino constructor list end */");
   insert_into_file("../../cppsrc/U8x8lib.h", "U8x8lib.h", "// constructor list start", "// constructor list end");
+
+
 
   return 0;
 }
