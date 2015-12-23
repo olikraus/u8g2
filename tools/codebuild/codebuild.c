@@ -68,7 +68,7 @@ struct interface interface_list[] =
   {
     "HW_SPI",
     "u8x8_SetPin_4Wire_HW_SPI",
-    "u8x8_byte_4wire_hw_spi",
+    "u8x8_byte_arduino_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
     "cs, dc, reset"
@@ -191,6 +191,7 @@ FILE *buf_code_fp;
 FILE *buf_header_fp;
 FILE *setup_code_fp;
 FILE *setup_header_fp;
+FILE *u8g2_cpp_header_fp;
 
 
 void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const char *postfix)
@@ -216,7 +217,7 @@ class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
 
 void do_display_interface(int controller_idx, int display_idx, const char *postfix, int interface_idx)
 {
-  FILE *fp = stdout;
+  FILE *fp = u8g2_cpp_header_fp;
   fprintf(fp, "class U8G2_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
@@ -244,7 +245,7 @@ void do_display_interface(int controller_idx, int display_idx, const char *postf
   fprintf(fp, "%s(getU8x8(), ", interface_list[interface_idx].setpin_function);  
   fprintf(fp, "%s);\n", interface_list[interface_idx].pins_plain);
   fprintf(fp, "  }\n");
-  fprintf(fp, "}\n");
+  fprintf(fp, "};\n");
   
   
 }
@@ -358,6 +359,10 @@ int main(void)
   setup_header_fp = fopen("u8g2_setup.h", "w");
   //fprintf(setup_header_fp, "/* start of generated code, codebuild, u8g2 project */\n");
   
+  u8g2_cpp_header_fp = fopen("U8g2lib.h", "w");
+  fprintf(u8g2_cpp_header_fp, "/* generated code (codebuild), u8g2 project */\n");
+  
+  
   do_controller_list();
   
   fprintf(buf_code_fp, "/* end of generated code */\n");
@@ -372,11 +377,14 @@ int main(void)
   //fprintf(setup_header_fp, "/* end of generated code */\n");
   fclose(setup_header_fp);
 
+  fclose(u8g2_cpp_header_fp);
+
   system("cp u8g2_d_memory.c ../../csrc/.");
   system("cp u8g2_d_setup.c ../../csrc/.");
 
   insert_into_file("../../csrc/u8g2.h", "u8g2_memory.h", "/* u8g2_d_memory.c generated code start */", "/* u8g2_d_memory.c generated code end */");
   insert_into_file("../../csrc/u8g2.h", "u8g2_setup.h", "/* u8g2_d_setup.c generated code start */", "/* u8g2_d_setup.c generated code end */");
+  insert_into_file("../../cppsrc/U8g2lib.h", "U8g2lib.h", "/* Arduino constructor list start */", "/* Arduino constructor list end */");
 
   return 0;
 }
