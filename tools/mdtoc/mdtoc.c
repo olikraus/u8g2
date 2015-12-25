@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 
 
@@ -15,6 +16,7 @@ char toc_end[] = "[tocend]: # (toc end)";
 char toc[TOC_ENTRIES][TOC_ENTRY_SIZE];
 int toc_level[TOC_ENTRIES];
 int toc_cnt = 0;
+int existing_toc_found = 0;
 
 char *getentry(const char *s)
 {
@@ -71,6 +73,8 @@ char *getref(const char *s)
 
 void add_toc(int level, char *entry)
 {
+  if ( toc_cnt >= TOC_ENTRIES )
+    return;
   strncpy( toc[toc_cnt], entry, TOC_ENTRY_SIZE);
   toc[toc_cnt][TOC_ENTRY_SIZE-1] = '\0';
   toc_level[toc_cnt] = level;
@@ -106,6 +110,7 @@ void read_md_fp(FILE *in, FILE *out)
       }
       else if ( strncmp(s, toc_start, strlen(toc_start)) == 0 )
       {
+	existing_toc_found = 1;
 	is_inside_toc = 1;
       }
       else if ( strncmp(s, "# ", 2) == 0 )
@@ -218,10 +223,43 @@ int main(int argc, char **argv)
   while( *argv != NULL )
   {
     toc_cnt = 0;
+    existing_toc_found = 0;
     read_md(*argv, "tmp.md");
-    copy_to_md("tmp.md", *argv);
-    printf("%s: added %d toc entries\n", *argv, toc_cnt);
+    if ( toc_cnt != 0 )
+    {
+      copy_to_md("tmp.md", *argv);
+    }
+    if ( toc_cnt == 0 )
+    {
+      printf("%s: nothing changed (no headings found)\n", *argv);
+    }
+    else
+    {
+      if ( existing_toc_found == 0 )
+      {
+	if ( toc_cnt == 1 )
+	{
+	  printf("%s: added %d toc entry\n", *argv, toc_cnt);
+	}
+	else
+	{
+	  printf("%s: added %d toc entries\n", *argv, toc_cnt);
+	}
+      }
+      else
+      {
+	if ( toc_cnt == 1 )
+	{
+	  printf("%s: replaced %d toc entry\n", *argv, toc_cnt);
+	}
+	else
+	{
+	  printf("%s: replaced %d toc entries\n", *argv, toc_cnt);
+	}
+      }
+    }
     argv++;
   }
+  return 0;
 }
 
