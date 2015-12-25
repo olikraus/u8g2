@@ -2,6 +2,23 @@
 
 This page contains fonts from http://fontstruct.com.
 
+# Amstrad CPC extended
+
+This font is called `amstrad_cpc` in u8g2. Additionally encodings 128 to 159 
+had been added by this project.
+
+## Reference
+
+Link: http://fontstruct.com/fontstructions/show/25590
+
+## Copyright
+
+The FontStruction "Amstrad CPC extended"
+(http://fontstruct.com/fontstructions/show/25590) by "ruboku" is licensed
+under a Creative Commons Attribution license
+(http://creativecommons.org/licenses/by/3.0/).
+
+
 # Baby
 
 ## Reference

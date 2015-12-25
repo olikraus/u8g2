@@ -1,3 +1,7 @@
+# 
+# Markdown TOC Generator
+# type "make wiki" and commit & push wiki 
+# 
 # works within ubuntu and min-gw (win7) environment
 
 CFLAGS = -g -DBUILD2 -Wall -I../../../csrc/
