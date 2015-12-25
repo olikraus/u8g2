@@ -488,13 +488,13 @@ void do_md_display(int controller_idx, int display_idx)
     fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
     fprintf(fp, "Display \"%s\" | ", controller_list[controller_idx].display_list[display_idx].name);
     fprintf(fp, "Descirption |\n");
-    fprintf(fp, "|--|--|\n");
+    fprintf(fp, "|---|---|\n");
   }
   else
   {
     fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
     fprintf(fp, "Display \"%s\" |\n", controller_list[controller_idx].display_list[display_idx].name);
-    fprintf(fp, "|--|\n");    
+    fprintf(fp, "|---|\n");    
   }
 }
 
@@ -717,6 +717,10 @@ int main(void)
   insert_into_file("../../cppsrc/U8g2lib.h", "U8g2lib.h", "/* Arduino constructor list start */", "/* Arduino constructor list end */");
   insert_into_file("../../cppsrc/U8x8lib.h", "U8x8lib.h", "// constructor list start", "// constructor list end");
 
+  insert_into_file("../../../u8g2.wiki/u8g2setupc.md", "u8g2setupc.md", "# Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8g2setupcpp.md", "u8g2setupcpp.md", "# Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8x8setupc.md", "u8x8setupc.md", "# Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8x8setupcpp.md", "u8x8setupcpp.md", "# Reference", "# Links");
 
 
   return 0;

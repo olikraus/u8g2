@@ -61,6 +61,9 @@ class U8G2 : public Print
       
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
+    
+    void sendBuffer(void) { u8g2_SendBuffer(&u8g2); }
+    void clearBuffer(void) { u8g2_ClearBuffer(&u8g2); }    
 
     void setFont(const uint8_t  *font) {u8g2_SetFont(&u8g2, font); }
     

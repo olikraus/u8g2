@@ -16,7 +16,7 @@ U8glib V2: Features and Limitations
 
 - Compilation speed improved (font data)
 
-- "Text only" sub library
+- "Text only" sub library: U8x8
 
 - less RAM/ROM usage
 
