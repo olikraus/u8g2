@@ -227,7 +227,7 @@ const uint8_t u8x8_font_5x8_n[218] U8X8_FONT_SECTION("u8x8_font_5x8_n") =
   Glyphs: 222/228
   BBX Build Mode: 3
 */
-const uint8_t u8x8_font_amstrad_cpc_f[1794] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_f") = 
+const uint8_t u8x8_font_amstrad_cpc_extended_f[1794] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_extended_f") = 
   " \377\0\0\0\0\0\0\0\0\0\0\0__\0\0\0\0\7\7\0\7\7\0\0\24\34"
   "\24\0\0$**\22\0Ff\60\30\14fb\0\60zO]\67zH\0\0\0\0\7\7\0"
   "\0\0\0\0\34>cA\0\0\0\0Ac>\34\0\0\10*>\34\34>*\10\0\10\10>>\10"
@@ -291,7 +291,7 @@ const uint8_t u8x8_font_amstrad_cpc_f[1794] U8X8_FONT_SECTION("u8x8_font_amstrad
   Glyphs: 95/228
   BBX Build Mode: 3
 */
-const uint8_t u8x8_font_amstrad_cpc_r[762] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_r") = 
+const uint8_t u8x8_font_amstrad_cpc_extended_r[762] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_extended_r") = 
   " ~\0\0\0\0\0\0\0\0\0\0\0__\0\0\0\0\7\7\0\7\7\0\0\24\34"
   "\24\0\0$**\22\0Ff\60\30\14fb\0\60zO]\67zH\0\0\0\0\7\7\0"
   "\0\0\0\0\34>cA\0\0\0\0Ac>\34\0\0\10*>\34\34>*\10\0\10\10>>\10"
@@ -322,7 +322,7 @@ const uint8_t u8x8_font_amstrad_cpc_r[762] U8X8_FONT_SECTION("u8x8_font_amstrad_
   Glyphs: 18/228
   BBX Build Mode: 3
 */
-const uint8_t u8x8_font_amstrad_cpc_n[218] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_n") = 
+const uint8_t u8x8_font_amstrad_cpc_extended_n[218] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_extended_n") = 
   " :\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
   "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
   "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\10*>\34\34>*\10\0\10\10>>\10"
@@ -336,7 +336,7 @@ const uint8_t u8x8_font_amstrad_cpc_n[218] U8X8_FONT_SECTION("u8x8_font_amstrad_
   Glyphs: 64/228
   BBX Build Mode: 3
 */
-const uint8_t u8x8_font_amstrad_cpc_u[515] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_u") = 
+const uint8_t u8x8_font_amstrad_cpc_extended_u[515] U8X8_FONT_SECTION("u8x8_font_amstrad_cpc_extended_u") = 
   " _\0\0\0\0\0\0\0\0\0\0\0__\0\0\0\0\7\7\0\7\7\0\0\24\34"
   "\24\0\0$**\22\0Ff\60\30\14fb\0\60zO]\67zH\0\0\0\0\7\7\0"
   "\0\0\0\0\34>cA\0\0\0\0Ac>\34\0\0\10*>\34\34>*\10\0\10\10>>\10"

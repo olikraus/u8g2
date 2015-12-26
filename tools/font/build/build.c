@@ -225,7 +225,7 @@ struct fontinfo fi[] = {
   { 0, "profont17.bdf", 		"profont17", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "amstrad_cpc.bdf", 	"amstrad_cpc", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
 
 //#ifdef TMP
   
@@ -668,7 +668,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
     //u8x8_ClearDisplay(u8g2_GetU8x8(&u8g2));
-    u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_r);
+    u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_extended_r);
     u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, 0, target_font_identifier);
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
     {
@@ -677,7 +677,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
       static char s[32];
       for( y = 0; y < 16; y++ )
       {
-	u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_r);
+	u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_extended_r);
 	sprintf(s, "%3d/%02x ", y*16, y*16);
 	u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, y+2, s);
   	u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
