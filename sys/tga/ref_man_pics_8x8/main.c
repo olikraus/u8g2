@@ -77,7 +77,7 @@ int main(void)
   u8x8_InitDisplay(&desc);  
   u8x8_SetPowerSave(&desc, 0);
   u8x8_ClearDisplay(&desc);
-  u8x8_SetFont(&desc, u8x8_font_amstrad_cpc_r);
+  u8x8_SetFont(&desc, u8x8_font_amstrad_cpc_extended_r);
   u8x8_DrawString(&desc, 0, 0, "Description");
 */
 
@@ -92,7 +92,7 @@ int main(void)
   
   u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
-  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);
   u8x8_DrawString(&u8x8, 0, 0, "Hello World!");
 
   tga_is_transparent = 1;
@@ -112,7 +112,7 @@ int main(void)
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
   u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
-  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);
   u8x8_DrawString(&u8x8, 0, 0, "A");
   u8x8_DrawString(&u8x8, u8x8_GetCols(&u8x8)-1, u8x8_GetRows(&u8x8)-1, "B");
 
@@ -131,7 +131,7 @@ int main(void)
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
   u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
-  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_r);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);
   u8x8_SetInverseFont(&u8x8, 1);
   u8x8_DrawString(&u8x8, 2, 2, "Inverse");
   u8x8_SetInverseFont(&u8x8, 0);
@@ -153,7 +153,7 @@ int main(void)
   u8x8_ClearDisplay(&u8x8);
   u8x8_SetPowerSave(&u8x8, 0);
   u8x8_SetInverseFont(&u8x8, 0);
-  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_f);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_f);
   u8x8_DrawString(&u8x8, 2, 2, "Umlaut \xe4\xf6\xfc");
 
   tga_is_transparent = 1;
