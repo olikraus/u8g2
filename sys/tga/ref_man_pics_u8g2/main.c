@@ -1,0 +1,185 @@
+
+#include "u8x8.h"
+#include "u8g2.h"
+
+
+
+extern uint8_t tga_is_transparent;
+
+extern uint8_t tga_desc_fg_r;
+extern uint8_t tga_desc_fg_g;
+extern uint8_t tga_desc_fg_b;
+
+extern uint8_t tga_desc_bg_r;
+extern uint8_t tga_desc_bg_g;
+extern uint8_t tga_desc_bg_b;
+
+extern uint8_t tga_lcd_fg_r;
+extern uint8_t tga_lcd_fg_g;
+extern uint8_t tga_lcd_fg_b;
+
+extern uint8_t tga_lcd_bg_r;
+extern uint8_t tga_lcd_bg_g;
+extern uint8_t tga_lcd_bg_b;
+
+extern void tga_save_png(const char *name);
+
+u8x8_t u8x8;
+u8g2_t u8g2;
+u8g2_t desc;
+
+void ra(uint8_t tx, uint8_t ty, const char *s)
+{
+  int x,y, i, w;
+  x = tx*3+64*3 + 0;
+  y = ty*3+32*3 + 1;
+  for( i = 0; i < 6; i++)
+  {
+    u8g2_DrawHVLine(&desc, x-2*i, y-i, 1+2*i, 1);
+    u8g2_DrawHVLine(&desc, x-2*i-1, y-i, 1+2*i, 1);
+  }
+  u8g2_DrawHVLine(&desc, x-30, y-1, 28, 0);
+  u8g2_DrawHVLine(&desc, x-30, y, 20, 0);
+  u8g2_DrawHVLine(&desc, x-30, y+1, 28, 0);
+
+  w = u8g2_GetStringWidth(&desc, s);
+  u8g2_DrawStr(&desc, x-34-w, y+u8g2_GetAscent(&desc)/2, s);
+  
+  
+}
+
+
+int main(void)
+{
+  /*
+  tga_desc_fg_r = 100;
+  tga_desc_fg_g = 118;
+  tga_desc_fg_b = 135;
+  */
+
+  tga_desc_fg_r = 106;
+  tga_desc_fg_g = 0;
+  tga_desc_fg_b = 255;
+
+  tga_desc_bg_r = 255;
+  tga_desc_bg_g = 255;
+  tga_desc_bg_b = 255;
+
+  tga_lcd_fg_r = 0;
+  tga_lcd_fg_g = 0;
+  tga_lcd_fg_b = 0;
+
+  tga_lcd_bg_r = 240;
+  tga_lcd_bg_g = 163;
+  tga_lcd_bg_b = 10;
+
+  /*
+  u8x8_Setup_TGA_DESC(&desc);
+  u8x8_InitDisplay(&desc);  
+  u8x8_SetPowerSave(&desc, 0);
+  u8x8_ClearDisplay(&desc);
+  u8x8_SetFont(&desc, u8x8_font_amstrad_cpc_extended_r);
+  u8x8_DrawString(&desc, 0, 0, "Description");
+*/
+
+  u8g2_SetupBuffer_TGA_DESC(&desc, &u8g2_cb_r0);
+  u8g2_InitDisplay(&desc);  
+  u8g2_SetPowerSave(&desc, 0);
+  u8g2_ClearDisplay(&desc);
+
+
+  u8x8_Setup_TGA_LCD(&u8x8);
+  u8x8_InitDisplay(&u8x8);    
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+
+  u8g2_SetupBuffer_TGA_LCD(&u8g2, &u8g2_cb_r0);
+  u8g2_InitDisplay(&u8g2);  
+  u8g2_SetPowerSave(&u8g2, 0);
+  u8g2_ClearDisplay(&u8g2);
+
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);
+  u8x8_DrawString(&u8x8, 0, 0, "Hello World!");
+  
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB14_tf);
+    u8g2_DrawStr(&u8g2, 0, 15, "Hello World!");
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(0,15, "x=0, y=15");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+
+
+  //tga_save("u8x8.tga");
+  tga_save_png("u8x8_hello_world.png");
+
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);
+  u8x8_DrawString(&u8x8, 0, 0, "A");
+  u8x8_DrawString(&u8x8, u8x8_GetCols(&u8x8)-1, u8x8_GetRows(&u8x8)-1, "B");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(0,0, "x=0, y=0");
+    ra(15,7, "x=15, y=7");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_tile_size.png");
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);
+  u8x8_SetInverseFont(&u8x8, 1);
+  u8x8_DrawString(&u8x8, 2, 2, "Inverse");
+  u8x8_SetInverseFont(&u8x8, 0);
+  u8x8_DrawString(&u8x8, 2, 3, "Normal");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(2,2, "x=2, y=2");
+    ra(2,3, "x=2, y=3");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_inverse.png");
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetInverseFont(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_f);
+  u8x8_DrawString(&u8x8, 2, 2, "Umlaut \xe4\xf6\xfc");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(2,2, "x=2, y=2");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_umlaut.png");
+  
+  return 0;
+}
+
