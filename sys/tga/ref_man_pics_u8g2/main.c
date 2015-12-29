@@ -76,9 +76,9 @@ int main(void)
   tga_desc_fg_b = 135;
   */
 
-  tga_desc_fg_r = 86;
+  tga_desc_fg_r = 76;
   tga_desc_fg_g = 0;
-  tga_desc_fg_b = 235;
+  tga_desc_fg_b = 205;
 
   tga_desc_bg_r = 255;
   tga_desc_bg_g = 255;
@@ -153,7 +153,7 @@ int main(void)
     vm(25,19, u8g2_GetAscent(&u8g2));
     
     /* descent usually is negative */
-    vm(55,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+    vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
   } while( u8g2_NextPage(&desc) );
   tga_is_transparent = 0;
 
