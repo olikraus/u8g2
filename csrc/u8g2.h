@@ -150,7 +150,7 @@ struct _u8g2_font_info_t
   
   /* offset 13 */
   int8_t  ascent_A;
-  int8_t  descent_g;
+  int8_t  descent_g;	/* usually a negative value */
   int8_t  ascent_para;
   int8_t  descent_para;
     
