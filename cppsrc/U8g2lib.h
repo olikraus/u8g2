@@ -66,8 +66,15 @@ class U8G2 : public Print
     void clearBuffer(void) { u8g2_ClearBuffer(&u8g2); }    
 
     void setFont(const uint8_t  *font) {u8g2_SetFont(&u8g2, font); }
+
+/*
+uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);
+int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);
+*/
     
+    u8g2_uint_t drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding) { return u8g2_DrawGlyph(&u8g2, x, y, encoding); }    
     u8g2_uint_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char *s) { return u8g2_DrawStr(&u8g2, x, y, s); }
+    u8g2_uint_t drawUTF8(u8g2_uint_t x, u8g2_uint_t y, const char *s) { return u8g2_DrawUTF8(&u8g2, x, y, s); }
 
     size_t write(uint8_t v) {
       tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
@@ -79,7 +86,7 @@ class U8G2 : public Print
     void clear(void) { clearBuffer(); home(); }
     void noDisplay(void) { u8g2_SetPowerSave(&u8g2, 1); }
     void display(void) { u8g2_SetPowerSave(&u8g2, 0); }
-    void setCursor(uint8_t x, uint8_t y) { tx = x; ty = y; }
+    void setCursor(u8g2_uint_t x, u8g2_uint_t y) { tx = x; ty = y; }
  
 };
 
