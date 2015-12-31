@@ -1,4 +1,9 @@
 
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "u8x8.h"
 #include "u8g2.h"
 
@@ -163,6 +168,49 @@ int main(void)
 
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
   
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_unifont_t_symbols);
+    u8g2_DrawGlyph(&u8g2, 5, 20, 0x2603);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(5,20, "x=5, y=20");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+
+  tga_save_png("u8g2_snowman_glyph.png");
+
+/*=========================================*/
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_unifont_t_symbols);
+    u8g2_DrawUTF8(&u8g2, 5, 20, "Snowman: ☃");
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(5,20, "x=5, y=20");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+
+  tga_save_png("u8g2_snowman_utf8.png");
+
+/*=========================================*/
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
   
   return 0;
 }
