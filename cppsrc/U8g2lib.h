@@ -75,6 +75,10 @@ int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);
     u8g2_uint_t drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding) { return u8g2_DrawGlyph(&u8g2, x, y, encoding); }    
     u8g2_uint_t drawStr(u8g2_uint_t x, u8g2_uint_t y, const char *s) { return u8g2_DrawStr(&u8g2, x, y, s); }
     u8g2_uint_t drawUTF8(u8g2_uint_t x, u8g2_uint_t y, const char *s) { return u8g2_DrawUTF8(&u8g2, x, y, s); }
+    
+    u8g2_uint_t getStrWidth(const char *s) { return u8g2_GetStringWidth(&u8g2, s); }
+    u8g2_uint_t getUTF8Width(const char *s) { return u8g2_GetUTF8Width(&u8g2, s); }
+    
 
     size_t write(uint8_t v) {
       tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
