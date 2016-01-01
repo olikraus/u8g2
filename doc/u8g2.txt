@@ -1,4 +1,15 @@
 
+U8glib V2: Name and project goals
+
+https://github.com/olikraus/u8g2
+
+U8g2 = Universal 8bit Graphics
+
+[U]niversal: Support for many displays ans development platforms
+[8]bit: Initial focus had been 8 bit microcontroller systems
+[g]raphics": U8g2 is a graphics library with focus on monochrome graphics displays
+[2]: Second generation and successor of u8glib
+
 U8glib V2: Features and Limitations
 
 - Arduino Standard Libs
@@ -14,6 +25,8 @@ U8glib V2: Features and Limitations
   Limitation:  
     Behavior for sequences with more than 3 bytes is unknown.
 
+- Large number of fonts
+
 - Compilation speed improved (font data)
 
 - "Text only" sub library: U8x8
@@ -26,6 +39,6 @@ U8glib V2: Features and Limitations
 
 
 u8g vs. u8g2
-- begin() must be called
+- begin() must be called (optional in u8g)
 - constructor contains name of communicaton interface and 
     also contains the display orientation as first argument
