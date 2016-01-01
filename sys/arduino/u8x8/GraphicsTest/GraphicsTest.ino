@@ -18,7 +18,7 @@ void setup(void)
 
 void pre(void)
 {
-  u8x8.setFont(u8x8_font_amstrad_cpc_f);    
+  u8x8.setFont(u8x8_font_amstrad_cpc_extended_f);    
   u8x8.clear();
 
   u8x8.inverse();
@@ -88,7 +88,7 @@ void loop(void)
   draw_bar(u8x8.getCols()-1, 0);
 
   pre();
-  u8x8.setFont(u8x8_font_amstrad_cpc_f); 
+  u8x8.setFont(u8x8_font_amstrad_cpc_extended_f); 
   for( d = 0; d < 8; d ++ )
   {
     for( r = 1; r < u8x8.getRows(); r++ )

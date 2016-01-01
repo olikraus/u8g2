@@ -44,8 +44,8 @@ BOARD:=uno
 #DEFS:=-DARDUINO=105
 
   
-U8G_PATH:=$(shell cd ../../.. && pwd)/csrc/
-U8G_CPP_PATH:=$(shell cd ../../.. && pwd)/cppsrc/
+U8G_PATH:=$(shell cd ../../../.. && pwd)/csrc/
+U8G_CPP_PATH:=$(shell cd ../../../.. && pwd)/cppsrc/
 #U8G_FONT_PATH:=$(shell cd ../../.. && pwd)/sfntsrc/
 
 
