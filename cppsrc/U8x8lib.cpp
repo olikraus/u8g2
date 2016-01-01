@@ -37,9 +37,10 @@
 */
 
 
-
 #include "U8x8lib.h"
+#ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
+#endif 
 
 
 /*=============================================*/
@@ -74,7 +75,12 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
       }
       else
       {
+#ifdef INPUT_PULLUP
 	pinMode(u8x8_GetPinValue(u8x8, msg), INPUT_PULLUP);
+#else
+	pinMode(u8x8_GetPinValue(u8x8, msg), OUTPUT);
+	digitalWrite(u8x8_GetPinValue(u8x8, msg), 1);
+#endif 
       }
       break;
     default:
@@ -96,6 +102,7 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 
 extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
+#ifdef HAVE_HW_SPI	
   uint8_t *data;
  
   switch(msg)
@@ -152,6 +159,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
     default:
       return 0;
   }
+#endif
   return 1;
 }
 

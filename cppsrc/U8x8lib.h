@@ -44,6 +44,26 @@
 
 #include "u8x8.h"
 
+
+/* Assumption: All Arduino Boards have "SPI.h" */
+#define U8X8_HAVE_HW_SPI
+
+/* Undefine U8X8_HAVE_HW_SPI for those Boards without SPI.h */
+
+#ifdef ARDUINO_AVR_DIGISPARK
+#ifdef U8X8_HAVE_HW_SPI
+#undef U8X8_HAVE_HW_SPI
+#endif 
+#endif
+
+#ifdef __AVR_ATtiny85__
+#ifdef U8X8_HAVE_HW_SPI
+#undef U8X8_HAVE_HW_SPI
+#endif 
+#endif
+
+
+
 extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
