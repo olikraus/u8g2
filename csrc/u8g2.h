@@ -378,7 +378,7 @@ u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char
 #define u8g2_GetAscent(u8g2) ((u8g2)->font_info.ascent_A)
 #define u8g2_GetDescent(u8g2) ((u8g2)->font_info.descent_g)
 
-u8g2_uint_t u8g2_GetStringWidth(u8g2_t *u8g2, const char *s);
+u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
 
 

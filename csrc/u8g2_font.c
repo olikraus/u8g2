@@ -982,7 +982,7 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   return w;  
 }
 
-u8g2_uint_t u8g2_GetStringWidth(u8g2_t *u8g2, const char *s)
+u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
 {
   u8g2->u8x8.char_cb = u8x8_get_char_from_string;
   return u8g2_string_width(u8g2, s);
@@ -1006,7 +1006,7 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str)
 
 
 #ifdef OBSOLETE
-u8g2_uint_t u8g2_GetStringWidth(u8g2_t *u8g2, const char *s)
+u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
 {
   uint16_t e;
   u8g2_uint_t  w;

@@ -41,7 +41,7 @@ void ra(uint8_t tx, uint8_t ty, const char *s)
   u8g2_DrawHVLine(&desc, x-30, y, 20, 0);
   u8g2_DrawHVLine(&desc, x-30, y+1, 28, 0);
 
-  w = u8g2_GetStringWidth(&desc, s);
+  w = u8g2_GetStrWidth(&desc, s);
   u8g2_DrawStr(&desc, x-34-w, y+u8g2_GetAscent(&desc)/2, s);
   
   
