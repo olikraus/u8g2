@@ -10,12 +10,19 @@ sed -i 's|u8x8.h|clib/u8x8.h|g' ./../../../../U8g2_Arduino/src/U8x8lib.h
 cp ../../../csrc/*.c ./../../../../U8g2_Arduino/src/clib/.
 cp ../../../csrc/*.h ./../../../../U8g2_Arduino/src/clib/.
 rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
+
 # copy examples
 mkdir ../../../../U8g2_Arduino/examples/u8g2_page_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_page_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8g2_page_buffer/HelloWorld/.
 
+mkdir ../../../../U8g2_Arduino/examples/u8g2_page_buffer/U8g2Logo
+cp ../../../sys/arduino/u8g2_page_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/u8g2_page_buffer/U8g2Logo/.
+
 mkdir ../../../../U8g2_Arduino/examples/u8g2_full_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8g2_full_buffer/HelloWorld/.
+
+mkdir ../../../../U8g2_Arduino/examples/u8g2_full_buffer/U8g2Logo
+cp ../../../sys/arduino/u8g2_full_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/u8g2_full_buffer/U8g2Logo/.
 
 mkdir ../../../../U8g2_Arduino/examples/u8x8/HelloWorld
 cp ../../../sys/arduino/u8x8/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8x8/HelloWorld/.

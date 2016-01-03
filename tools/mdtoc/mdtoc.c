@@ -4,7 +4,7 @@
   
   Markdown TOC Generator
 
-  Universal 8bit Graphics Library (http://code.google.com/p/u8g2/)
+  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
   Copyright (c) 2015, olikraus@gmail.com
   All rights reserved.
