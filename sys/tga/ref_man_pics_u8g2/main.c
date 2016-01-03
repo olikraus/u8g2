@@ -274,7 +274,6 @@ int main(void)
     u8g2_SetFont(&u8g2, u8g2_font_4x6_tr);
     u8g2_DrawStr(&u8g2, 1,54,"github.com/olikraus/u8g2");
     
-    
   } while( u8g2_NextPage(&u8g2) );
 
   u8g2_SetFontDirection(&u8g2, 0);
