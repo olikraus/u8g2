@@ -344,6 +344,9 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
 /*==========================================*/
 /* u8g2_hvline.c */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
+void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len);
+void u8g2_DrawVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len);
+void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y);
 
 
 
@@ -364,6 +367,7 @@ size_t u8g2_GetFontSize(const uint8_t *font_arg);
 #define U8G2_FONT_HEIGHT_MODE_ALL 2
 
 void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font);
+void u8g2_SetFontMode(u8g2_t *u8g2, uint8_t is_transparent);
 
 uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);
 int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);

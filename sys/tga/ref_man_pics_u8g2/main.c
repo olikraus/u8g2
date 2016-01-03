@@ -248,6 +248,51 @@ int main(void)
 
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
   
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFontMode(&u8g2, 1);	/* transparent */
+    
+    u8g2_SetFontDirection(&u8g2, 0);
+    u8g2_SetFont(&u8g2, u8g2_font_inb24_mf);
+    u8g2_DrawStr(&u8g2, 0, 30, "U");
+    
+    u8g2_SetFontDirection(&u8g2, 1);
+    u8g2_SetFont(&u8g2, u8g2_font_inb30_mr);
+    u8g2_DrawStr(&u8g2, 21, 8,"8");
+        
+    u8g2_SetFont(&u8g2, u8g2_font_inb24_mf);
+    u8g2_SetFontDirection(&u8g2, 0);
+    u8g2_DrawStr(&u8g2, 51,30,"g");
+    u8g2_DrawStr(&u8g2, 67,30,"\xb2");
+    
+    u8g2_DrawHLine(&u8g2, 2, 35, 47);
+    u8g2_DrawHLine(&u8g2, 3, 36, 47);
+    u8g2_DrawVLine(&u8g2, 45, 32, 12);
+    u8g2_DrawVLine(&u8g2, 46, 33, 12);
+    
+    u8g2_SetFont(&u8g2, u8g2_font_4x6_tr);
+    u8g2_DrawStr(&u8g2, 1,54,"github.com/olikraus/u8g2");
+    
+    
+  } while( u8g2_NextPage(&u8g2) );
+
+  u8g2_SetFontDirection(&u8g2, 0);
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+
+  tga_save_png("u8g2_logo.png");
+
+/*=========================================*/
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+
   return 0;
 }
 

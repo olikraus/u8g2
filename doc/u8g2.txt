@@ -42,3 +42,5 @@ u8g vs. u8g2
 - begin() must be called (optional in u8g)
 - constructor contains name of communicaton interface and 
     also contains the display orientation as first argument
+- u8g2.drawStr90 does not exist use
+      void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);

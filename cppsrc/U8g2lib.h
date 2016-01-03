@@ -113,7 +113,13 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     u8g2_uint_t getStrWidth(const char *s) { return u8g2_GetStrWidth(&u8g2, s); }
     u8g2_uint_t getUTF8Width(const char *s) { return u8g2_GetUTF8Width(&u8g2, s); }
     
-
+    
+    void drawHVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir) {
+      u8g2_DrawHVLine(&u8g2, x, y, len, dir); }
+    void drawHLine(u8g_uint_t x, u8g_uint_t y, u8g_uint_t w) { u8g2_DrawHLine(&u8g, x, y, w); }
+    void drawVLine(u8g_uint_t x, u8g_uint_t y, u8g_uint_t h) { u8g2_DrawVLine(&u8g, x, y, h); }
+    
+    /* virtual function for print base class */    
     size_t write(uint8_t v) {
       tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
       return 1;

@@ -543,9 +543,28 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-  /* Make a call the the callback function. The callback may rotate the hv line */
+  /* Make a call to the callback function. The callback may rotate the hv line */
   /* after rotation this will call u8g2_draw_hv_line_4dir() */
   if ( len != 0 )
     u8g2->cb->draw_l90(u8g2, x, y, len, dir);
 }
+
+void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
+{
+  u8g2_DrawHVLine(u8g2, x, y, len, 0);
+}
+
+void u8g2_DrawVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
+{
+  u8g2_DrawHVLine(u8g2, x, y, len, 1);
+}
+
+void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2_DrawHVLine(u8g2, x, y, 1, 0);
+}
+
+
+
+
 
