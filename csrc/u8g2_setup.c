@@ -73,7 +73,8 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   t *= 8;
   u8g2->pixel_buf_height = t;
   
-  t = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+  t = u8g2_GetU8x8(u8g2)->display_info->tile_width;
+  t *= 8;
   u8g2->pixel_buf_width = t;
   
   t = u8g2->tile_curr_row;
@@ -90,9 +91,8 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   u8g2->buf_y1 = u8g2->buf_y0;
   u8g2->buf_y1 += t;
 
-  u8g2->width = u8g2->pixel_buf_width;
-  t = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
-  u8g2->height = t;
+  u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+  u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
 }
 
 void u8g2_update_dimension_r0(u8g2_t *u8g2)
@@ -113,9 +113,9 @@ void u8g2_update_dimension_r1(u8g2_t *u8g2)
 {
   u8g2_update_dimension_common(u8g2);
   
-  u8g2->width = u8g2->height;
-  u8g2->height = u8g2->pixel_buf_width;
-
+  u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+  u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+  
   u8g2->user_x0 = u8g2->buf_y0;
   u8g2->user_x1 = u8g2->buf_y1;
   
@@ -144,11 +144,11 @@ void u8g2_update_dimension_r3(u8g2_t *u8g2)
 {
   u8g2_update_dimension_common(u8g2);
   
-  u8g2->width = u8g2->height;
-  u8g2->height = u8g2->pixel_buf_width;
+  u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+  u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
 
-  u8g2->user_x0 = u8g2->height - u8g2->buf_y1;
-  u8g2->user_x1 = u8g2->height - u8g2->buf_y0;
+  u8g2->user_x0 = u8g2->width - u8g2->buf_y1;
+  u8g2->user_x1 = u8g2->width - u8g2->buf_y0;
   
   u8g2->user_y0 = 0;
   u8g2->user_y1 = u8g2->pixel_buf_width;
@@ -204,7 +204,7 @@ void u8g2_draw_l90_r3(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
 
   xx = y;
   
-  yy = u8g2->height;
+  yy = u8g2->width;
   yy -= x;
   yy--;
   
