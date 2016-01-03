@@ -84,13 +84,16 @@ class U8G2 : public Print
     
     void begin(void) {
       initDisplay(); clearDisplay(); setPowerSave(0); }
-    
+      
+
     /* u8g2  */
 
       
     u8g2_uint_t getDisplayHeight() { return u8g2_GetDisplayHeight(&u8g2); }
     u8g2_uint_t getDisplayWidth() { return u8g2_GetDisplayWidth(&u8g2); }
-      
+
+    
+    
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
     
@@ -98,6 +101,9 @@ class U8G2 : public Print
     void clearBuffer(void) { u8g2_ClearBuffer(&u8g2); }    
 
     void setFont(const uint8_t  *font) {u8g2_SetFont(&u8g2, font); }
+    void setFontMode(uint8_t  is_transparent) {u8g2_SetFontMode(&u8g2, is_transparent); }
+    void setFontDirection(uint8_t dir) {u8g2_SetFontDirection(&u8g2, dir); }
+
 
 /*
 uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);
@@ -116,8 +122,8 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     
     void drawHVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir) {
       u8g2_DrawHVLine(&u8g2, x, y, len, dir); }
-    void drawHLine(u8g_uint_t x, u8g_uint_t y, u8g_uint_t w) { u8g2_DrawHLine(&u8g, x, y, w); }
-    void drawVLine(u8g_uint_t x, u8g_uint_t y, u8g_uint_t h) { u8g2_DrawVLine(&u8g, x, y, h); }
+    void drawHLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w) { u8g2_DrawHLine(&u8g2, x, y, w); }
+    void drawVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t h) { u8g2_DrawVLine(&u8g2, x, y, h); }
     
     /* virtual function for print base class */    
     size_t write(uint8_t v) {
