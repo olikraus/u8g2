@@ -73,8 +73,7 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   t *= 8;
   u8g2->pixel_buf_height = t;
   
-  t = u8g2_GetU8x8(u8g2)->display_info->tile_width;
-  t *= 8;
+  t = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
   u8g2->pixel_buf_width = t;
   
   t = u8g2->tile_curr_row;
@@ -92,8 +91,7 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   u8g2->buf_y1 += t;
 
   u8g2->width = u8g2->pixel_buf_width;
-  t = u8g2_GetU8x8(u8g2)->display_info->tile_height;
-  t *= 8;
+  t = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
   u8g2->height = t;
 }
 

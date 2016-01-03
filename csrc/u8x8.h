@@ -216,6 +216,15 @@ struct u8x8_display_info_struct
   uint8_t tile_height;
 
   uint8_t default_x_offset;	/* default x offset for the display */
+ 
+ /* pixel width is not used by the u8x8 procedures */
+ /* instead it will be used by the u8g2 procedure, because the pixel dimension can */
+ /* not always be calculated from the tile_width/_height */
+ /* the following conditions must be true: */
+ /* pixel_width <= tile_width*8 */
+ /* pixel_height <= tile_height*8 */
+  uint16_t pixel_width;
+  uint16_t pixel_height;
 };
 
 
