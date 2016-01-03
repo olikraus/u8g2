@@ -585,12 +585,10 @@ void u8x8_Setup_TGA_LCD(u8x8_t *u8x8);
 void tga_save(const char *name);
 
 /*==========================================*/
-/* u8x8_d_uc1701_dogs102.c */
+/* u8x8_d_XXX.c */
 uint8_t u8x8_d_uc1701_dogs102(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
-
-/*==========================================*/
-/* u8x8_d_ssd1306_128x64_noname.c */
 uint8_t u8x8_d_ssd1306_128x64_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 /*==========================================*/
 /* u8x8_8x8.c */

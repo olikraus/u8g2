@@ -49,6 +49,13 @@ struct controller controller_list[] =
     }
   },
   {
+    "st7920", 	24, 	4, 	"u8x8_cad_001", COM_6800|COM_8080,
+    {
+      { "192x32" },
+      { NULL }
+    }
+  },
+  {
     "uc1701", 		13, 	8, 	"u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
     {
       { "dogs102" },
@@ -236,6 +243,8 @@ int insert_into_file(const char *filename, const char *insertname, const char *s
   fclose(dest_fp);
   
   unlink(tmpname);
+  
+  printf("patched %s\n", filename);
 
   return 1;
 }
@@ -710,7 +719,9 @@ int main(void)
 
 
   system("cp u8g2_d_memory.c ../../csrc/.");
+  puts("generate u8g2_d_memory.c");
   system("cp u8g2_d_setup.c ../../csrc/.");
+  puts("generate u8g2_d_setup.c");
 
   insert_into_file("../../csrc/u8g2.h", "u8g2_memory.h", "/* u8g2_d_memory.c generated code start */", "/* u8g2_d_memory.c generated code end */");
   insert_into_file("../../csrc/u8g2.h", "u8g2_setup.h", "/* u8g2_d_setup.c generated code start */", "/* u8g2_d_setup.c generated code end */");

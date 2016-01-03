@@ -31,6 +31,34 @@ void u8g2_Setup_ssd1306_128x64_noname_f(u8g2_t *u8g2, const u8g2_cb_t *rotation,
   buf = u8g2_m_ssd1306_16_f(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);
 }
+/* st7920 */
+/* st7920 1 */
+void u8g2_Setup_st7920_192x32_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)
+{
+  uint8_t tile_buf_height;
+  uint8_t *buf;
+  u8g2_SetupDisplay(u8g2, u8x8_d_st7920_192x32, u8x8_cad_001, byte_cb, gpio_and_delay_cb);
+  buf = u8g2_m_st7920_24_1(&tile_buf_height);
+  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);
+}
+/* st7920 2 */
+void u8g2_Setup_st7920_192x32_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)
+{
+  uint8_t tile_buf_height;
+  uint8_t *buf;
+  u8g2_SetupDisplay(u8g2, u8x8_d_st7920_192x32, u8x8_cad_001, byte_cb, gpio_and_delay_cb);
+  buf = u8g2_m_st7920_24_2(&tile_buf_height);
+  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);
+}
+/* st7920 f */
+void u8g2_Setup_st7920_192x32_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)
+{
+  uint8_t tile_buf_height;
+  uint8_t *buf;
+  u8g2_SetupDisplay(u8g2, u8x8_d_st7920_192x32, u8x8_cad_001, byte_cb, gpio_and_delay_cb);
+  buf = u8g2_m_st7920_24_f(&tile_buf_height);
+  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);
+}
 /* uc1701 */
 /* uc1701 1 */
 void u8g2_Setup_uc1701_dogs102_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)
