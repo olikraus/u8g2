@@ -728,10 +728,10 @@ int main(void)
   insert_into_file("../../cppsrc/U8g2lib.h", "U8g2lib.h", "/* Arduino constructor list start */", "/* Arduino constructor list end */");
   insert_into_file("../../cppsrc/U8x8lib.h", "U8x8lib.h", "// constructor list start", "// constructor list end");
 
-  insert_into_file("../../../u8g2.wiki/u8g2setupc.md", "u8g2setupc.md", "# Reference", "# Links");
-  insert_into_file("../../../u8g2.wiki/u8g2setupcpp.md", "u8g2setupcpp.md", "# Reference", "# Links");
-  insert_into_file("../../../u8g2.wiki/u8x8setupc.md", "u8x8setupc.md", "# Reference", "# Links");
-  insert_into_file("../../../u8g2.wiki/u8x8setupcpp.md", "u8x8setupcpp.md", "# Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8g2setupc.md", "u8g2setupc.md", "# Setup Function Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8g2setupcpp.md", "u8g2setupcpp.md", "# Setup Function Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8x8setupc.md", "u8x8setupc.md", "# Setup Function Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8x8setupcpp.md", "u8x8setupcpp.md", "# Setup Function Reference", "# Links");
 
 
   return 0;
