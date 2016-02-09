@@ -86,7 +86,7 @@ struct interface interface_list[] =
     "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
     "cs, dc, reset",
     "cs, dc [, reset]",
-    "<uC specific>"
+    "uC specific"
   },  
   /* 2 */
   {
@@ -130,7 +130,7 @@ struct interface interface_list[] =
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
     "cs, reset",
     "cs [, reset]",
-    "<uC specific>"
+    "uC specific"
   },  
   /* 6 */
   {
@@ -152,7 +152,7 @@ struct interface interface_list[] =
     "uint8_t reset = U8X8_PIN_NONE",
     "reset",
     "[reset]",
-    "<uC specific>"
+    "uC specific"
   },  
   
   
@@ -544,7 +544,7 @@ void do_md_display_interface_buffer(int controller_idx, int display_idx, int int
       fprintf(fp, "(u8g2, ");
       fprintf(fp, "rotation, ");
       fprintf(fp, "%s, ", interface_list[interface_idx].generic_com_procedure);  
-      fprintf(fp, "%s)", "<uC specific>");  
+      fprintf(fp, "%s)", "uC specific");  
       if ( postfix[0] == 'f' )
       {
 	fprintf(fp, " | full framebuffer, size = %d bytes |\n", size);
@@ -580,7 +580,7 @@ void do_md_display_interface(int controller_idx, int display_idx, int interface_
       fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
       fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
       fprintf(fp, "%s, ", strlowercase(interface_list[interface_idx].generic_com_procedure));
-      fprintf(fp, "<uC specific>) |\n");
+      fprintf(fp, "uC specific) |\n");
     }  
   }
   do_md_display_interface_buffer(controller_idx, display_idx, interface_idx, "1", controller_list[controller_idx].tile_width*8, 1);
