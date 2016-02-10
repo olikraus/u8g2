@@ -115,13 +115,13 @@ uint8_t u8x8_cad_EndTransfer(u8x8_t *u8x8)
 }
 
 /*
-  0000ccaa	command arg combination, aa = no of args, cc = no of commands
-  0001dddd	data sequence
-  11110000	CS Off
-  11110001	CS On
-  11111110	xxxxxxxx		delay in millis
-  11111111	End of sequence
-
+  21 c		send command c
+  22 a		send arg a
+  23 d		send data d
+  24			CS on
+  25			CS off
+  254 milli	delay by milliseconds
+  255		end of sequence
 */
 
 void u8x8_cad_SendSequence(u8x8_t *u8x8, uint8_t const *data)

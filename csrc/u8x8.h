@@ -463,7 +463,7 @@ uint8_t u8x8_cad_EndTransfer(u8x8_t *u8x8) U8X8_NOINLINE;
 
 #define U8X8_START_TRANSFER()	(U8X8_MSG_CAD_START_TRANSFER)
 #define U8X8_END_TRANSFER()	(U8X8_MSG_CAD_END_TRANSFER)
-#define U8X8_DLY(m)			(0xfe),(m)
+#define U8X8_DLY(m)			(0xfe),(m)		/* delay in milli seconds */
 #define U8X8_END()			(0xff)
 
 void u8x8_cad_SendSequence(u8x8_t *u8x8, uint8_t const *data);
