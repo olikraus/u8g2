@@ -205,6 +205,8 @@ static const u8x8_display_info_t u8x8_sdl_128x64_info =
 #else
   /* default_x_offset = */ 0,
 #endif
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 64
 };
 
 

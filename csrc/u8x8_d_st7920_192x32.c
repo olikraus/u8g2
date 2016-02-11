@@ -43,9 +43,9 @@
 
 static const uint8_t u8x8_d_st7920_192x32_init_seq[] = {
     
-  U8X8_DLY(1000),				
+  U8X8_DLY(100),
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_DLY(1000),				
+  U8X8_DLY(100),
   
   U8X8_C(0x038),            			/* 8 Bit interface (DL=1), basic instruction set (RE=0) */
   U8X8_C(0x00c),		                /* display on, cursor & blink off; 0x08: all off */
