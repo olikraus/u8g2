@@ -50,12 +50,13 @@
 //U8X8_SSD1306_128X64_NONAME_8080 u8x8(13, 11, 2, 3, 4, 5, 6, A4, /*enable=*/ 7, /*cs=*/ 10, /*dc=*/ 9, /*reset=*/ 8);
 U8X8_ST7920_192X32_8080 u8x8(8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
 //U8X8_ST7920_192X32_6800 u8x8(8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
-// pin 16 must be high
+// pin 16 must be low
 //U8GLIB_ST7920_192X32_1X u8g(8, 9, 10, 11, 4, 5, 6, 7, 18, 17, 16);   // 8Bit Com: D0..D7: 8,9,10,11,4,5,6,7 en=18, di=17,rw=16
 
 
 void setup(void)
 {
+  pinMode(16, OUTPUT);
   digitalWrite(16, 0);
   u8x8.begin();
   u8x8.setPowerSave(0);
@@ -65,10 +66,11 @@ void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.drawString(0,0,"Hello World!");
+  /*
   delay(1000);
   u8x8.setPowerSave(1);
   delay(1000);
   u8x8.setPowerSave(0);
   delay(1000);
-  
+  */
 }

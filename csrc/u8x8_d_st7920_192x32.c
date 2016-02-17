@@ -57,6 +57,14 @@ static const uint8_t u8x8_d_st7920_192x32_init_seq[] = {
   U8X8_C(0x080),		                /* x */
   U8X8_C(0x080),		                /* y */
   
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
+  U8X8_D1(0x055),		                /* data */
   U8X8_D1(0x0ff),		                /* data */
   U8X8_D1(0x0ff),		                /* data */
   U8X8_D1(0x0ff),		                /* data */
@@ -110,7 +118,7 @@ static const u8x8_display_info_t u8x8_st7920_192x32_display_info =
 
 uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, y, c;
+  uint8_t x, y, c, i, j;
   uint8_t *ptr;
   switch(msg)
   {
@@ -133,20 +141,39 @@ uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       //x *= 8;
       //x += u8x8->x_offset;
     
-      u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
-      u8x8_cad_SendCmd(u8x8, 0x080 | y );      /* y pos  */
-      u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
 
+      u8x8_cad_StartTransfer(u8x8);
+    
+    
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      for( i = 0; i < 8; i++ )
+      {
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	ptr += i;
+
+	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
+	u8x8_cad_SendCmd(u8x8, 0x080 | (y+i) );      /* y pos  */
+	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
+	
+	for( j = 0; j < c; j++ )
+	{
+	  u8x8_cad_SendData(u8x8, 2, ptr);	/* note: SendData can not handle more than 255 bytes */
+	  ptr += 8;
+	}
+      }
+
+      /*
       do
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	u8x8_cad_SendData(u8x8, c*8, ptr);	/* note: SendData can not handle more than 255 bytes */
+	u8x8_cad_SendData(u8x8, c*8, ptr);
 	arg_int--;
       } while( arg_int > 0 );
+      */
       
       u8x8_cad_EndTransfer(u8x8);
+
       break;
     default:
       return 0;
