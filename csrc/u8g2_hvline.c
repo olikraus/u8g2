@@ -146,7 +146,8 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
     len -= y;
   }
   
-  u8g2_draw_low_level_hv_line(u8g2, x, y, len, dir);
+  u8g2->ll_hvline(u8g2, x, y, len, dir);
+  //u8g2_draw_low_level_hv_line(u8g2, x, y, len, dir);
 }
 
 #endif
@@ -182,7 +183,8 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 #ifdef U8G2_WITH_CLIPPING
   u8g2_draw_hv_line_2dir(u8g2, x, y, len, dir);
 #else
-  u8g2_draw_low_level_hv_line(u8g2, x, y, len, dir);
+  u8g2->ll_hvline(u8g2, x, y, len, dir);
+  //u8g2_draw_low_level_hv_line(u8g2, x, y, len, dir);
 #endif
 }
 

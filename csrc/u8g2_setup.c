@@ -40,6 +40,8 @@
 
 void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, const u8g2_cb_t *u8g2_cb)
 {
+  u8g2->ll_hvline = u8g2_draw_low_level_hv_line;
+  
   u8g2->tile_buf_ptr = buf;
   u8g2->tile_buf_height = tile_buf_height;
   
