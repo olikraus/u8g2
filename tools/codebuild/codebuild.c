@@ -1,3 +1,10 @@
+/*
+
+  generate and update c/c++ files
+  this also replaces the buildcpp tool
+
+*/
+
 
 #include <stdio.h>
 #include <stdlib.h>
