@@ -362,6 +362,8 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
 
 /* SSD13xx, UC17xx, UC16xx */
 void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
+/* ST7920 */
+void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 
 
 /*==========================================*/

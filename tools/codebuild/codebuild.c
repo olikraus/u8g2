@@ -59,7 +59,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "st7920", 	24, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", COM_6800|COM_8080,
+    "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", COM_6800|COM_8080,
     {
       { "192x32" },
       { NULL }

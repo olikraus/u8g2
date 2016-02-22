@@ -38,11 +38,11 @@
 #include "u8g2.h"
 #include <assert.h>
 
+/*=================================================*/
 /*
   u8g2_ll_hvline_vertical_top_lsb
     SSD13xx
-    UC1701
-    
+    UC1701    
 */
 
 
@@ -158,7 +158,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 /*
   x,y position within the buffer
 */
-static void u8g2_draw_pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
+static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
 {
   uint16_t offset;
   uint8_t *ptr;
@@ -202,13 +202,13 @@ static void u8g2_draw_pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
   asumption: 
     all clipping done
 */
-void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+void u8g2_ll_hvline_vertical_top_lsb_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   if ( dir == 0 )
   {
     do
     {
-      u8g2_draw_pixel(u8g2, x, y);
+      u8g2_draw_pixel_vertical_top_lsb(u8g2, x, y);
       x++;
       len--;
     } while( len != 0 );
@@ -217,7 +217,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   {
     do
     {
-      u8g2_draw_pixel(u8g2, x, y);
+      u8g2_draw_pixel_vertical_top_lsb(u8g2, x, y);
       y++;
       len--;
     } while( len != 0 );
@@ -226,4 +226,79 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 
 
 #endif /* U8G2_HVLINE_SPEED_OPTIMIZATION */
+
+/*=================================================*/
+/*
+  u8g2_ll_hvline_horizontal_right_lsb
+    ST7920
+*/
+
+/*
+  x,y position within the buffer
+*/
+static void u8g2_draw_pixel_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
+{
+  uint16_t offset;
+  uint8_t *ptr;
+  uint8_t bit_pos, mask;
+
+  //assert(x >= u8g2->buf_x0);
+  assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
+  //assert(y >= u8g2->buf_y0);
+  assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
+  
+  /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
+  bit_pos = x;		/* overflow truncate is ok here... */
+  bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
+  mask = 1;
+  mask <<= bit_pos;
+  x >>= 3;
+
+  offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
+  offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
+  ptr = u8g2->tile_buf_ptr;
+  ptr += offset;
+  ptr += x;
+  
+  
+  if ( u8g2->draw_color != 0 )
+  {
+    *ptr |= mask;
+  }
+  else
+  {
+    mask ^= 255;
+    *ptr &= mask;
+  }  
+}
+
+/*
+  x,y		Upper left position of the line within the local buffer (not the display!)
+  len		length of the line in pixel, len must not be 0
+  dir		0: horizontal line (left to right)
+		1: vertical line (top to bottom)
+  asumption: 
+    all clipping done
+*/
+void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+{
+  if ( dir == 0 )
+  {
+    do
+    {
+      u8g2_draw_pixel_horizontal_right_lsb(u8g2, x, y);
+      x++;
+      len--;
+    } while( len != 0 );
+  }
+  else
+  {
+    do
+    {
+      u8g2_draw_pixel_horizontal_right_lsb(u8g2, x, y);
+      y++;
+      len--;
+    } while( len != 0 );
+  }
+}
 
