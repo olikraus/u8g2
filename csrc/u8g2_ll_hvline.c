@@ -38,6 +38,14 @@
 #include "u8g2.h"
 #include <assert.h>
 
+/*
+  u8g2_ll_hvline_vertical_top_lsb
+    SSD13xx
+    UC1701
+    
+*/
+
+
 #ifdef U8G2_HVLINE_SPEED_OPTIMIZATION
 
 /*
@@ -48,7 +56,7 @@
   asumption: 
     all clipping done
 */
-void u8g2_draw_low_level_hv_line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   uint16_t offset;
   uint8_t *ptr;
@@ -194,7 +202,7 @@ static void u8g2_draw_pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
   asumption: 
     all clipping done
 */
-void u8g2_draw_low_level_hv_line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   if ( dir == 0 )
   {

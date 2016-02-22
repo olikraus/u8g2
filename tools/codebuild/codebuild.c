@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <unistd.h>
 
 /*===========================================*/
 
@@ -34,6 +36,7 @@ struct controller
   const char *name;
   int tile_width;
   int tile_height;
+  const char *ll_hvline;
   const char *cad;
   unsigned com;
   struct display display_list[10];	/* usually not used completly, but space does not matter much here */  
@@ -42,21 +45,21 @@ struct controller
 struct controller controller_list[] =
 {
   {
-    "ssd1306", 	16, 	8, 	"u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080|COM_SSDI2C,
+    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080|COM_SSDI2C,
     {
       { "128x64_noname" },
       { NULL }
     }
   },
   {
-    "st7920", 	24, 	4, 	"u8x8_cad_001", COM_6800|COM_8080,
+    "st7920", 	24, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", COM_6800|COM_8080,
     {
       { "192x32" },
       { NULL }
     }
   },
   {
-    "uc1701", 		13, 	8, 	"u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "uc1701", 		13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
     {
       { "dogs102" },
       { NULL }
@@ -402,7 +405,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   fprintf(setup_code_fp, "byte_cb, gpio_and_delay_cb);\n");    
   fprintf(setup_code_fp, "  buf = ");
   fprintf(setup_code_fp, "u8g2_m_%s_%d_%s(&tile_buf_height);\n", strlowercase(controller_list[controller_idx].name), controller_list[controller_idx].tile_width, postfix);
-  fprintf(setup_code_fp, "  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, rotation);\n");
+  fprintf(setup_code_fp, "  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, %s, rotation);\n", controller_list[controller_idx].ll_hvline);
   fprintf(setup_code_fp, "}\n");
   
   /* generate interfaces for this display */
@@ -435,7 +438,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
 void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int rows)
 {
   int display_idx;
-  FILE *fp = stdout;
+  //FILE *fp = stdout;
   fprintf(buf_code_fp, "uint8_t *u8g2_m_%s_%d_%s(uint8_t *page_cnt)\n", 
     strlowercase(controller_list[idx].name), controller_list[idx].tile_width, postfix);
   fprintf(buf_code_fp, "{\n");

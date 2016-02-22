@@ -309,7 +309,7 @@ extern const u8g2_cb_t u8g2_cb_r3;
 #define U8G2_R2	(&u8g2_cb_r2)
 #define U8G2_R3	(&u8g2_cb_r3)
 
-void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb ll_hvline_cb, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/
 /* u8g2_d_memory.c generated code start */
@@ -359,7 +359,9 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
   asumption: 
     all clipping done
 */
-void u8g2_draw_low_level_hv_line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
+
+/* SSD13xx, UC17xx, UC16xx */
+void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 
 
 /*==========================================*/
