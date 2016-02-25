@@ -250,15 +250,15 @@ static void u8g2_draw_pixel_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8
   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
   bit_pos = x;		/* overflow truncate is ok here... */
   bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
-  mask = 1;
-  mask <<= bit_pos;
+  mask = 128;
+  mask >>= bit_pos;
   x >>= 3;
 
   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
   offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
+  offset += x;
   ptr = u8g2->tile_buf_ptr;
   ptr += offset;
-  ptr += x;
   
   
   if ( u8g2->draw_color != 0 )

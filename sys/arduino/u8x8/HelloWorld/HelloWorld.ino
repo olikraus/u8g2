@@ -65,7 +65,7 @@ void setup(void)
 void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  u8x8.drawString(0,0,"Hello World!");
+  u8x8.drawString(0,1,"Hello World!");
   /*
   delay(1000);
   u8x8.setPowerSave(1);

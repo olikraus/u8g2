@@ -53,6 +53,8 @@ static const uint8_t u8x8_d_st7920_192x32_init_seq[] = {
   U8X8_C(0x002),		                /* disable scroll, enable CGRAM adress  */
   //U8X8_C(0x001),		                /* clear RAM, needs 1.6 ms */
   U8X8_DLY(2),					/* delay 2ms */
+
+#ifdef ST7920_TEST_PATTERN  
   U8X8_C(0x03e),		                /* enable extended instruction set */
   U8X8_C(0x080),		                /* x */
   U8X8_C(0x080),		                /* y */
@@ -73,6 +75,7 @@ static const uint8_t u8x8_d_st7920_192x32_init_seq[] = {
   U8X8_D1(0x0ff),		                /* data */
   U8X8_D1(0x0ff),		                /* data */
   U8X8_D1(0x0ff),		                /* data */
+#endif
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -137,7 +140,10 @@ uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+      y*=8;
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      x /= 2;		/* not sure whether this is a clever idea, problem is, the ST7920 can address only every second tile */
+      /* two tiles have to be written through data transfer */
       //x *= 8;
       //x += u8x8->x_offset;
     
@@ -145,10 +151,11 @@ uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       u8x8_cad_StartTransfer(u8x8);
     
     
-      c = ((u8x8_tile_t *)arg_ptr)->cnt;
+#ifdef OLD
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
       for( i = 0; i < 8; i++ )
       {
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
 	ptr += i;
 
 	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
@@ -157,9 +164,28 @@ uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 	
 	for( j = 0; j < c; j++ )
 	{
-	  u8x8_cad_SendData(u8x8, 2, ptr);	/* note: SendData can not handle more than 255 bytes */
+	  u8x8_cad_SendData(u8x8, 1, ptr);	/* note: SendData can not handle more than 255 bytes */
 	  ptr += 8;
 	}
+      }
+#endif
+
+      /* 
+	Tile structure is reused here. 
+	tile_ptr points to data which has cnt*8 bytes (same as SSD1306 tiles)
+	however, buffer is expected to have 8 lines of code fitting to the ST7920 internal memory
+	"cnt" includes the number of horizontal bytes. width is equal to cnt*8
+	Also important: Width must be a multiple of 16 (ST7920 requirement), so cnt must be even.
+      */
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
+      for( i = 0; i < 8; i++ )
+      {
+	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
+	u8x8_cad_SendCmd(u8x8, 0x080 | (y+i) );      /* y pos  */
+	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
+	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
+	ptr += c;
       }
 
       /*
