@@ -19,6 +19,7 @@
 #define COM_6800		0x0004
 #define COM_8080		0x0008
 #define COM_SSDI2C	0x0010
+#define COM_ST7920SPI	0x0020
 
 struct interface
 {
@@ -59,7 +60,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", COM_6800|COM_8080,
+    "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", COM_6800|COM_8080|COM_ST7920SPI,
     {
       { "192x32" },
       { NULL }
@@ -162,6 +163,28 @@ struct interface interface_list[] =
     "uint8_t reset = U8X8_PIN_NONE",
     "reset",
     "[reset]",
+    "uC specific"
+  },  
+  /* 8 */
+  {
+    "ST7920_SW_SPI",
+    "u8x8_SetPin_3Wire_SW_SPI",
+    "u8x8_byte_st7920_sw_spi",
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
+    "clock, data, cs, reset",
+    "clock, data, cs [, reset]",
+    "u8x8_byte_st7920_sw_spi"
+  },
+  /* 9 */
+  {
+    "ST7920_HW_SPI",
+    "",
+    "",
+    "",   
+    "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
+    "cs, reset",
+    "cs [, reset]",
     "uC specific"
   },  
   
@@ -439,6 +462,12 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
     do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW SPI */
     //do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW SPI (not yet implemented) */
   }
+  if ( controller_list[controller_idx].com & COM_ST7920SPI )
+  {
+    do_display_interface(controller_idx, display_idx, postfix, 8);		/* SW SPI */
+    //do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI (not yet implemented) */
+  }
+  
   
 }
 
