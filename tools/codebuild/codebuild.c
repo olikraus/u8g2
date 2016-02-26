@@ -379,7 +379,11 @@ class U8G2_SSD1306_128x64_NONAME_1_SW_SPI : public U8G2
 
 void do_display_interface(int controller_idx, int display_idx, const char *postfix, int interface_idx)
 {
+  
   FILE *fp = u8g2_cpp_header_fp;
+  
+  printf("  %s %s\n", postfix, interface_list[interface_idx].interface_name);
+  
   fprintf(fp, "class U8G2_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
@@ -464,7 +468,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   }
   if ( controller_list[controller_idx].com & COM_ST7920SPI )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 8);		/* SW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, 8);		/* ST7920 SW SPI */
     //do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI (not yet implemented) */
   }
   
@@ -666,6 +670,11 @@ void do_md_controller_list(void)
 	do_md_display_interface(controller_idx, display_idx, 6);		/* SW SPI */
 	//do_md_display_interface(controller_idx, display_idx, 7);		/* HW SPI (not yet implemented) */
       }
+      if ( controller_list[controller_idx].com & COM_ST7920SPI )
+      {
+	do_md_display_interface(controller_idx, display_idx, 8);		/* ST7920 SW SPI */
+	//do_md_display_interface(controller_idx, display_idx, 9);		/* HW SPI (not yet implemented) */
+      }
       
       display_idx++;
     }    
@@ -768,9 +777,9 @@ int main(void)
   insert_into_file("../../cppsrc/U8x8lib.h", "U8x8lib.h", "// constructor list start", "// constructor list end");
 
   insert_into_file("../../../u8g2.wiki/u8g2setupc.md", "u8g2setupc.md", "# Setup Function Reference", "# Links");
-  insert_into_file("../../../u8g2.wiki/u8g2setupcpp.md", "u8g2setupcpp.md", "# Setup Function Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8g2setupcpp.md", "u8g2setupcpp.md", "# Constructor Reference", "# Links");
   insert_into_file("../../../u8g2.wiki/u8x8setupc.md", "u8x8setupc.md", "# Setup Function Reference", "# Links");
-  insert_into_file("../../../u8g2.wiki/u8x8setupcpp.md", "u8x8setupcpp.md", "# Setup Function Reference", "# Links");
+  insert_into_file("../../../u8g2.wiki/u8x8setupcpp.md", "u8x8setupcpp.md", "# Constructor Reference", "# Links");
 
 
   return 0;
