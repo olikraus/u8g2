@@ -230,3 +230,51 @@ uint8_t u8x8_cad_001(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
   return 1;
 }
 
+/* cad procedure for the ST7920 in SPI mode */
+/* u8x8_byte_SetDC is not used */
+uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t *data;
+  uint8_t b;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_CAD_SEND_CMD:
+      //u8x8_byte_SetDC(u8x8, 0);
+      u8x8_byte_SendByte(u8x8, 0x0f8);
+      u8x8_byte_SendByte(u8x8, arg_int & 0x0f0);
+      u8x8_byte_SendByte(u8x8, arg_int << 4);
+      break;
+    case U8X8_MSG_CAD_SEND_ARG:
+      //u8x8_byte_SetDC(u8x8, 0);
+      u8x8_byte_SendByte(u8x8, 0x0f8);
+      u8x8_byte_SendByte(u8x8, arg_int & 0x0f0);
+      u8x8_byte_SendByte(u8x8, arg_int << 4);
+      break;
+    case U8X8_MSG_CAD_SEND_DATA:
+      //u8x8_byte_SetDC(u8x8, 1);
+    
+      u8x8_byte_SendByte(u8x8, 0x0fa);
+
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 )
+      {
+	b = *data;
+	u8x8_byte_SendByte(u8x8, b & 0x0f0);
+	u8x8_byte_SendByte(u8x8, b << 4);
+	data++;
+	arg_int--;
+      }
+      break;
+    case U8X8_MSG_CAD_INIT:
+    case U8X8_MSG_CAD_START_TRANSFER:
+    case U8X8_MSG_CAD_END_TRANSFER:
+    case U8X8_MSG_CAD_SET_I2C_ADR:
+    case U8X8_MSG_CAD_SET_DEVICE:
+      return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+    default:
+      return 0;
+  }
+  return 1;
+}
+

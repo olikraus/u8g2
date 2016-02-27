@@ -318,6 +318,8 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 
 /*=========================================*/
 
+#ifdef OLDOLDOLD
+
 static void u8x8_byte_st7920_send_byte(u8x8_t *u8x8, uint8_t b) U8X8_NOINLINE;
 static void u8x8_byte_st7920_send_byte(u8x8_t *u8x8, uint8_t b)
 {
@@ -337,6 +339,8 @@ static void u8x8_byte_st7920_send_byte(u8x8_t *u8x8, uint8_t b)
     u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
     u8x8_gpio_SetSPIClock(u8x8, takeover_edge);
     u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+    
+    b<<=1;
     cnt--;
   } while( cnt != 0 );
   
@@ -345,7 +349,7 @@ static void u8x8_byte_st7920_send_byte(u8x8_t *u8x8, uint8_t b)
 uint8_t u8x8_byte_st7920_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t *data;
-  uint16_t b;
+  uint8_t b;
   static uint8_t last_dc;
  
   switch(msg)
@@ -368,7 +372,8 @@ uint8_t u8x8_byte_st7920_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
       while( arg_int > 0 )
       {
 	b = *data;
-	u8x8_byte_st7920_send_byte(u8x8, b);
+	u8x8_byte_st7920_send_byte(u8x8, b & 0x0f0);
+	u8x8_byte_st7920_send_byte(u8x8, b << 4);
 	data++;
 	arg_int--;
       }
@@ -402,7 +407,7 @@ uint8_t u8x8_byte_st7920_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
   }
   return 1;
 }
-
+#endif
 
 /*=========================================*/
 
