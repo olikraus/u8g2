@@ -541,7 +541,7 @@ uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 {
   uint8_t *data;
   static uint8_t last_dc = 0;
-  static uint8_t is_send_dc = 0;
+  static uint8_t is_send_dc = 0;	/* instruction, whether i2c-start including dc has to be sent */
  
   switch(msg)
   {
