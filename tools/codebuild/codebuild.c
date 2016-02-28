@@ -457,7 +457,7 @@ void do_display_interface(int controller_idx, int display_idx, const char *postf
   
   FILE *fp = u8g2_cpp_header_fp;
   
-  printf("  %s %s\n", postfix, interface_list[interface_idx].interface_name);
+  printf("  %s %s", postfix, interface_list[interface_idx].interface_name);
   
   fprintf(fp, "class U8G2_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
@@ -591,11 +591,12 @@ void do_controller_list(void)
   int i;
   for( i = 0; i < sizeof(controller_list)/sizeof(*controller_list); i++ )
   {
-    puts(controller_list[i].name);
+    printf("%s: ",controller_list[i].name);
     fprintf(setup_code_fp, "/* %s */\n", controller_list[i].name);
     do_controller_buffer_code(i, "1", controller_list[i].tile_width*8, 1);
     do_controller_buffer_code(i, "2", controller_list[i].tile_width*8*2, 2);
     do_controller_buffer_code(i, "f", controller_list[i].tile_width*8*controller_list[i].tile_height, controller_list[i].tile_height);
+    printf("\n");
   }
 }
 

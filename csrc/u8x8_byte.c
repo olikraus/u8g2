@@ -51,6 +51,15 @@ uint8_t u8x8_byte_SendByte(u8x8_t *u8x8, uint8_t byte)
   return u8x8_byte_SendBytes(u8x8, 1, &byte);
 }
 
+uint8_t u8x8_byte_StartTransfer(u8x8_t *u8x8)
+{
+  return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_START_TRANSFER, 0, NULL);
+}
+
+uint8_t u8x8_byte_EndTransfer(u8x8_t *u8x8)
+{
+  return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_END_TRANSFER, 0, NULL);
+}
 
 
 /*

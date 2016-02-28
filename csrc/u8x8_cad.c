@@ -256,6 +256,8 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     
       u8x8_byte_SendByte(u8x8, 0x0fa);
 
+      /* this loop should be optimized: multiple bytes should be sent */
+      /* u8x8_byte_SendBytes(u8x8, arg_int, arg_ptr); */
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
       {
@@ -272,6 +274,50 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     case U8X8_MSG_CAD_SET_I2C_ADR:
     case U8X8_MSG_CAD_SET_DEVICE:
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+/* cad procedure for the SSD13xx family in I2C mode */
+/* u8x8_byte_SetDC is not used */
+/* U8X8_MSG_BYTE_START_TRANSFER starts i2c transfer, U8X8_MSG_BYTE_END_TRANSFER stops transfer */
+
+uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_CAD_SEND_CMD:
+    case U8X8_MSG_CAD_SEND_ARG:
+      //u8x8_byte_SetDC(u8x8, 0);
+      u8x8_byte_StartTransfer(u8x8);    
+      u8x8_byte_SendByte(u8x8, u8x8_GetI2CAddress(u8x8));
+      u8x8_byte_SendByte(u8x8, 0x000);
+      u8x8_byte_SendByte(u8x8, arg_int);
+      u8x8_byte_EndTransfer(u8x8);      
+      break;
+    case U8X8_MSG_CAD_SEND_DATA:
+      //u8x8_byte_SetDC(u8x8, 1);
+      u8x8_byte_StartTransfer(u8x8);    
+      u8x8_byte_SendByte(u8x8, u8x8_GetI2CAddress(u8x8));
+      u8x8_byte_SendByte(u8x8, 0x040);
+      u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+      u8x8_byte_EndTransfer(u8x8);
+      break;
+    case U8X8_MSG_CAD_INIT:
+      /* apply default i2c adr if required so that the start transfer msg can use this */
+      if ( u8x8->i2c_address == 255 )
+	u8x8->i2c_address = 0x078;
+	/* fall through */
+    case U8X8_MSG_CAD_SET_I2C_ADR:
+    case U8X8_MSG_CAD_SET_DEVICE:
+      return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+    case U8X8_MSG_CAD_START_TRANSFER:
+    case U8X8_MSG_CAD_END_TRANSFER:
+      /* cad transfer commands are ignored */
+      break;
     default:
       return 0;
   }
