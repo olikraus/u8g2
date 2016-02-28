@@ -185,12 +185,6 @@ class U8G2_SSD1306_128X64_NONAME_1_8080 : public U8G2 {
     u8x8_SetPin_8Bit_8080(getU8x8(), d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset);
   }
 };
-class U8G2_SSD1306_128X64_NONAME_1_SW_I2C : public U8G2 {
-  public: U8G2_SSD1306_128X64_NONAME_1_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
-    u8g2_Setup_ssd1306_128x64_noname_1(&u8g2, rotation, u8x8_byte_ssd13xx_sw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_SSD13xx_SW_I2C(getU8x8(), clock,  data,  reset);
-  }
-};
 class U8G2_SSD1306_128X64_NONAME_2_4W_SW_SPI : public U8G2 {
   public: U8G2_SSD1306_128X64_NONAME_2_4W_SW_SPI(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
     u8g2_Setup_ssd1306_128x64_noname_2(&u8g2, rotation, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino);
@@ -219,12 +213,6 @@ class U8G2_SSD1306_128X64_NONAME_2_8080 : public U8G2 {
   public: U8G2_SSD1306_128X64_NONAME_2_8080(const u8g2_cb_t *rotation, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
     u8g2_Setup_ssd1306_128x64_noname_2(&u8g2, rotation, u8x8_byte_8bit_8080mode, u8x8_gpio_and_delay_arduino);
     u8x8_SetPin_8Bit_8080(getU8x8(), d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset);
-  }
-};
-class U8G2_SSD1306_128X64_NONAME_2_SW_I2C : public U8G2 {
-  public: U8G2_SSD1306_128X64_NONAME_2_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
-    u8g2_Setup_ssd1306_128x64_noname_2(&u8g2, rotation, u8x8_byte_ssd13xx_sw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_SSD13xx_SW_I2C(getU8x8(), clock,  data,  reset);
   }
 };
 class U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI : public U8G2 {
@@ -257,9 +245,21 @@ class U8G2_SSD1306_128X64_NONAME_F_8080 : public U8G2 {
     u8x8_SetPin_8Bit_8080(getU8x8(), d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset);
   }
 };
+class U8G2_SSD1306_128X64_NONAME_1_SW_I2C : public U8G2 {
+  public: U8G2_SSD1306_128X64_NONAME_1_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_ssd1306_i2c_128x64_noname_1(&u8g2, rotation, u8x8_byte_ssd13xx_sw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_SSD13xx_SW_I2C(getU8x8(), clock,  data,  reset);
+  }
+};
+class U8G2_SSD1306_128X64_NONAME_2_SW_I2C : public U8G2 {
+  public: U8G2_SSD1306_128X64_NONAME_2_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_ssd1306_i2c_128x64_noname_2(&u8g2, rotation, u8x8_byte_ssd13xx_sw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_SSD13xx_SW_I2C(getU8x8(), clock,  data,  reset);
+  }
+};
 class U8G2_SSD1306_128X64_NONAME_F_SW_I2C : public U8G2 {
   public: U8G2_SSD1306_128X64_NONAME_F_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
-    u8g2_Setup_ssd1306_128x64_noname_f(&u8g2, rotation, u8x8_byte_ssd13xx_sw_i2c, u8x8_gpio_and_delay_arduino);
+    u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, rotation, u8x8_byte_ssd13xx_sw_i2c, u8x8_gpio_and_delay_arduino);
     u8x8_SetPin_SSD13xx_SW_I2C(getU8x8(), clock,  data,  reset);
   }
 };
