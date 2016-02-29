@@ -632,6 +632,7 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
     case U8X8_MSG_BYTE_START_TRANSFER:
       i2c_start(u8x8);
       i2c_write_byte(u8x8, u8x8_GetI2CAddress(u8x8));
+      //i2c_write_byte(u8x8, 0x078);
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:
       i2c_stop(u8x8);

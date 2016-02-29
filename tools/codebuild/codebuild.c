@@ -62,7 +62,8 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "i2c", COM_SSDI2C,
+    /* "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "i2c", COM_SSDI2C, */
+    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
     {
       { "128x64_noname" },
       { NULL }
@@ -177,12 +178,12 @@ struct interface interface_list[] =
   {
     "SW_I2C",
     "u8x8_SetPin_SSD13xx_SW_I2C",
-    "u8x8_byte_ssd13xx_sw_i2c",
+    "u8x8_byte_sw_i2c" /* "u8x8_byte_ssd13xx_sw_i2c" */,
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE",
     "clock,  data,  reset",
     "clock,  data [,  reset]",
-    "u8x8_byte_ssd13xx_sw_i2c"
+    "u8x8_byte_sw_i2c" /* "u8x8_byte_ssd13xx_sw_i2c" */
   },
   /* 7 */
   {

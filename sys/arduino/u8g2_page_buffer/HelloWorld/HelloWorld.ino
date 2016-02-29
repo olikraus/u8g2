@@ -65,6 +65,8 @@ U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11,
 
 
 void setup(void) {
+  pinMode(13, OUTPUT);
+  pinMode(11, OUTPUT);
   pinMode(9, OUTPUT);
   digitalWrite(9, 0);	// default output in I2C mode for the SSD1306 test shield: set the i2c adr to 0
   pinMode(16, OUTPUT);
@@ -79,6 +81,6 @@ void loop(void) {
     u8g2.setFont(u8g2_font_ncenB14_tr);
     u8g2.drawStr(0,24,"Hello World!");
   } while ( u8g2.nextPage() );
-  delay(1000);
+  //delay(1000);
 }
 

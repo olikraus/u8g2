@@ -292,8 +292,8 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     case U8X8_MSG_CAD_SEND_CMD:
     case U8X8_MSG_CAD_SEND_ARG:
       //u8x8_byte_SetDC(u8x8, 0);
-      u8x8_byte_StartTransfer(u8x8);    
-      u8x8_byte_SendByte(u8x8, u8x8_GetI2CAddress(u8x8));
+      u8x8_byte_StartTransfer(u8x8);
+      //u8x8_byte_SendByte(u8x8, u8x8_GetI2CAddress(u8x8));
       u8x8_byte_SendByte(u8x8, 0x000);
       u8x8_byte_SendByte(u8x8, arg_int);
       u8x8_byte_EndTransfer(u8x8);      
@@ -301,7 +301,7 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     case U8X8_MSG_CAD_SEND_DATA:
       //u8x8_byte_SetDC(u8x8, 1);
       u8x8_byte_StartTransfer(u8x8);    
-      u8x8_byte_SendByte(u8x8, u8x8_GetI2CAddress(u8x8));
+      //u8x8_byte_SendByte(u8x8, u8x8_GetI2CAddress(u8x8));
       u8x8_byte_SendByte(u8x8, 0x040);
       u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
       u8x8_byte_EndTransfer(u8x8);
