@@ -1,3 +1,5 @@
+CC = gcc
+
 CFLAGS = -g -Wall -I../../../csrc/. 
 
 SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c 

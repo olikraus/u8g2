@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CHGR_WIDTH 128
-#define CHGR_HEIGHT 64
+#define CHGR_WIDTH 96
+#define CHGR_HEIGHT 32
 unsigned char chgr_bitmap[CHGR_HEIGHT/2][CHGR_WIDTH/2];
 
 unsigned char *chgr_bitmap_pos(unsigned x, unsigned y)
