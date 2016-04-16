@@ -308,6 +308,16 @@ extern const u8g2_cb_t u8g2_cb_r3;
 #define U8G2_R1	(&u8g2_cb_r1)
 #define U8G2_R2	(&u8g2_cb_r2)
 #define U8G2_R3	(&u8g2_cb_r3)
+/*
+  u8g2:			A new, not yet initialized u8g2 memory areay
+  buf:			Memory are of size tile_buf_height*<width of the display in pixel>
+  tile_buf_height:	Number of full lines
+  ll_hvline_cb:		one of:
+    u8g2_ll_hvline_vertical_top_lsb
+    u8g2_ll_hvline_horizontal_right_lsb
+  u8g2_cb			U8G2_R0 .. U8G2_R3
+      
+*/
 
 void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb ll_hvline_cb, const u8g2_cb_t *u8g2_cb);
 
