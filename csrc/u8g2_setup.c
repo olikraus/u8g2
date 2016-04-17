@@ -63,9 +63,9 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
   update dimension: 
   calculate the following variables:
     u8g2_uint_t buf_x0;	left corner of the buffer
-    u8g2_uint_t buf_x1;	right corner of the buffer (excluded)
+    u8g2_uint_t buf_x1;	right corner of the buffer (included)
     u8g2_uint_t buf_y0;
-    u8g2_uint_t buf_y1;
+    u8g2_uint_t buf_y1; 	
 */
 
 static void u8g2_update_dimension_common(u8g2_t *u8g2)
@@ -108,6 +108,9 @@ void u8g2_update_dimension_r0(u8g2_t *u8g2)
   u8g2->user_y0 = u8g2->buf_y0;
   u8g2->user_y1 = u8g2->buf_y1;
   
+  u8g2->user_x1--;
+  u8g2->user_y1--;
+  
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
 }
@@ -125,6 +128,9 @@ void u8g2_update_dimension_r1(u8g2_t *u8g2)
   u8g2->user_y0 = 0;
   u8g2->user_y1 = u8g2->pixel_buf_width;
   
+  u8g2->user_x1--;
+  u8g2->user_y1--;
+  
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
 }
@@ -138,6 +144,9 @@ void u8g2_update_dimension_r2(u8g2_t *u8g2)
   
   u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+
+  u8g2->user_x1--;
+  u8g2->user_y1--;
   
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
@@ -155,6 +164,9 @@ void u8g2_update_dimension_r3(u8g2_t *u8g2)
   
   u8g2->user_y0 = 0;
   u8g2->user_y1 = u8g2->pixel_buf_width;
+
+  u8g2->user_x1--;
+  u8g2->user_y1--;
   
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);

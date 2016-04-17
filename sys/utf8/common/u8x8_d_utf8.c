@@ -82,13 +82,13 @@ void chgr_show(void)
   unsigned x, y;
   for( y = 0; y < CHGR_HEIGHT/2; y++)
   {
-    printf("%02d ", y*2);
+    printf("%02d|", y*2);
     for( x = 0; x < CHGR_WIDTH/2; x++)
     {
       //printf("%x", chgr_bitmap[y][x]);
       printf("%s", chgr_to_str(chgr_bitmap[y][x]));
     }
-    printf("\n");
+    printf("|\n");
   }
 }
 

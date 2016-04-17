@@ -61,7 +61,7 @@
 /*
   calculate the intersection between a0/a1 and v0/v1
   The intersection check returns one if the range of a0/a1 has an intersection with v0/v1.
-  The intersection check includes the boundary values a0 and a1.
+  The intersection check includes the boundary values v1 and a1.
 
   The following asserts will succeed:
     assert( u8g2_is_intersection_decision_tree(4, 6, 7, 9) == 0 );

@@ -256,10 +256,12 @@ struct u8g2_struct
   u8g2_uint_t height;
   
   /* ths is the clip box for the user to check if a specific box has an intersection */
+  /* use u8g2_IsIntersection from u8g2_intersection.c to test against this intersection */
+  /* boundary values are part of the box so that they can be used with u8g2_IsIntersection */
   u8g2_uint_t user_x0;	/* left corner of the buffer */
-  u8g2_uint_t user_x1;	/* right corner of the buffer (excluded) */
-  u8g2_uint_t user_y0;
-  u8g2_uint_t user_y1;
+  u8g2_uint_t user_x1;	/* right corner of the buffer (included) */
+  u8g2_uint_t user_y0;	/* upper edge of the buffer */
+  u8g2_uint_t user_y1;	/* lower edge of the buffer (included) */
   
   /* information about the current font */
   const uint8_t *font;             /* current font for all text procedures */
@@ -393,7 +395,11 @@ void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_
 
 /*==========================================*/
 /* u8g2_hvline.c */
+
+/* u8g2_DrawHVLine does not use u8g2_IsIntersection */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
+
+/* the following three function will do an intersection test of this is enabled with U8G2_WITH_INTERSECTION */
 void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len);
 void u8g2_DrawVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len);
 void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y);
