@@ -174,6 +174,7 @@ int main(void)
   tga_save_png("u8g2_hello_world.png");
 
 /*=========================================*/
+/* u8g2_ascent_descent.png */
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
   
@@ -199,6 +200,37 @@ int main(void)
   tga_is_transparent = 0;
 
   tga_save_png("u8g2_ascent_descent.png");
+
+  /*=========================================*/
+/* u8g2_pos_center.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    u8g2_DrawStr(&u8g2, 5, 20, "Agi");
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(5,20, "x=5, y=20");
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    /* descent usually is negative */
+    vm(48,19+u8g2.font_calc_vref(&u8g2)-u8g2_GetDescent(&u8g2), u8g2_GetAscent(&u8g2)-u8g2_GetDescent(&u8g2));
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_pos_center.png");
 
 /*=========================================*/
 

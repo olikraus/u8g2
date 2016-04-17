@@ -435,6 +435,11 @@ u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
 
+void u8g2_SetFontPosBaseline(u8g2_t *u8g2);
+void u8g2_SetFontPosBottom(u8g2_t *u8g2);
+void u8g2_SetFontPosTop(u8g2_t *u8g2);
+void u8g2_SetFontPosCenter(u8g2_t *u8g2);
+
 
 /*==========================================*/
 /* u8x8_d_sdl_128x64.c */
@@ -446,6 +451,10 @@ void u8g2_SetupBuffer_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetupBuffer_TGA_DESC(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetupBuffer_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
+/*==========================================*/
+/* u8x8_d_utf8.c */
+/* 96x32 stdout */
+void u8g2_SetupBuffer_Utf8(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 
 

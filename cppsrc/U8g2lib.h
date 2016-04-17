@@ -104,6 +104,10 @@ class U8G2 : public Print
     void setFontMode(uint8_t  is_transparent) {u8g2_SetFontMode(&u8g2, is_transparent); }
     void setFontDirection(uint8_t dir) {u8g2_SetFontDirection(&u8g2, dir); }
 
+    void setFontPosBaseline(u8g2_t *u8g2) { u8g2_SetFontPosBaseline(&u8g2); }
+    void setFontPosBottom(u8g2_t *u8g2) { u8g2_SetFontPosBottom(&u8g2); }
+    void setFontPosTop(u8g2_t *u8g2) { u8g2_SetFontPosTop(&u8g2); }
+    void setFontPosCenter(u8g2_t *u8g2) { u8g2_SetFontPosCenter(&u8g2); }
 
 /*
 uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);

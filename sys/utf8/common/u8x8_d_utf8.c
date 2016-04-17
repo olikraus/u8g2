@@ -220,7 +220,11 @@ void u8g2_SetupBuffer_Utf8(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
   static uint8_t buf[CHGR_WIDTH*8];
   
   u8x8_Setup_Utf8(u8g2_GetU8x8(u8g2));
-  u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_horizontal_right_lsb, u8g2_cb);
+
+  //  u8g2_ll_hvline_vertical_top_lsb
+  //  u8g2_ll_hvline_horizontal_right_lsb
+  
+  u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
 }
 
 void utf8_show(void)
