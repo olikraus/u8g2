@@ -14,4 +14,4 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
    * Only fonts allowed with fixed size per character (8x8 pixel).
    * Writes directly to the display. No buffer in the microcontroller required.
 
-[https://github.com/olikraus/u8g2/wiki](Setup Guide and Reference Manual)
+[Setup Guide and Reference Manual](https://github.com/olikraus/u8g2/wiki)
