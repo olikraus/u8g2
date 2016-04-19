@@ -46,6 +46,7 @@
 
 #ifdef U8G2_WITH_INTERSECTION    
 
+#ifdef OLD_VERSION_WITH_SYMETRIC_BOUNDARIES
 
 /*
   intersection assumptions:
@@ -69,7 +70,6 @@
     assert( u8g2_is_intersection_decision_tree(6, 9, 4, 6) != 0 );
     assert( u8g2_is_intersection_decision_tree(7, 9, 4, 6) == 0 );  
 */
-
 
 //static uint8_t U8G2_ALWAYS_INLINE u8g2_is_intersection_decision_tree(u8g_uint_t a0, u8g_uint_t a1, u8g_uint_t v0, u8g_uint_t v1) 
 static uint8_t u8g2_is_intersection_decision_tree(u8g2_uint_t a0, u8g2_uint_t a1, u8g2_uint_t v0, u8g2_uint_t v1) 
@@ -111,6 +111,55 @@ static uint8_t u8g2_is_intersection_decision_tree(u8g2_uint_t a0, u8g2_uint_t a1
     }
   }
 }
+
+#endif	/* OLD_VERSION_WITH_SYMETRIC_BOUNDARIES */
+
+
+/*
+  version with asymetric boundaries.
+  a1 and v1 are excluded
+  v0 == v1 is not support end return 1
+*/
+uint8_t u8g2_is_intersection_decision_tree(uint8_t a0, uint8_t a1, uint8_t v0, uint8_t v1)
+{
+  if ( v0 < a1 )		// v0 <= a1
+  {
+    if ( v1 > a0 )	// v1 >= a0
+    {
+      return 1;
+    }
+    else
+    {
+      if ( v0 > v1 )	// v0 > v1
+      {
+	return 1;
+      }
+      else
+      {
+	return 0;
+      }
+    }
+  }
+  else
+  {
+    if ( v1 > a0 )	// v1 >= a0
+    {
+      if ( v0 > v1 )	// v0 > v1
+      {
+	return 1;
+      }
+      else
+      {
+	return 0;
+      }
+    }
+    else
+    {
+      return 0;
+    }
+  }
+}
+
 
 
 /* usually upper limits are not included, however this intersection check INCLUDES the limits */

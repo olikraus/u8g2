@@ -209,6 +209,7 @@ uint8_t u8g_is_intersection_math(uint8_t a0, uint8_t a1, uint8_t v0, uint8_t v1)
 /*
   version with asymetric boundaries.
   a1 and v1 are excluded
+  v0 == v1 is not support end return 1
 */
 uint8_t u8g_is_intersection_decision_tree(uint8_t a0, uint8_t a1, uint8_t v0, uint8_t v1)
 {

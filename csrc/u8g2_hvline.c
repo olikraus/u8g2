@@ -203,7 +203,7 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
 void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
 {
 #ifdef U8G2_WITH_INTERSECTION
-  if ( u8g2_IsIntersection(u8g2, x, y, x+len-1, y) == 0 ) 
+  if ( u8g2_IsIntersection(u8g2, x, y, x+len, y+1) == 0 ) 
     return;
 #endif /* U8G2_WITH_INTERSECTION */
   u8g2_DrawHVLine(u8g2, x, y, len, 0);
@@ -212,7 +212,7 @@ void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
 void u8g2_DrawVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
 {
 #ifdef U8G2_WITH_INTERSECTION
-  if ( u8g2_IsIntersection(u8g2, x, y, x, y+len-1) == 0 ) 
+  if ( u8g2_IsIntersection(u8g2, x, y, x+1, y+len) == 0 ) 
     return;
 #endif /* U8G2_WITH_INTERSECTION */
   u8g2_DrawHVLine(u8g2, x, y, len, 1);
