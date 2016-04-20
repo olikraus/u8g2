@@ -63,7 +63,7 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
   update dimension: 
   calculate the following variables:
     u8g2_uint_t buf_x0;	left corner of the buffer
-    u8g2_uint_t buf_x1;	right corner of the buffer (included)
+    u8g2_uint_t buf_x1;	right corner of the buffer (excluded)
     u8g2_uint_t buf_y0;
     u8g2_uint_t buf_y1; 	
 */

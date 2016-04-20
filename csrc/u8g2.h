@@ -259,9 +259,9 @@ struct u8g2_struct
   /* use u8g2_IsIntersection from u8g2_intersection.c to test against this intersection */
   /* boundary values are part of the box so that they can be used with u8g2_IsIntersection */
   u8g2_uint_t user_x0;	/* left corner of the buffer */
-  u8g2_uint_t user_x1;	/* right corner of the buffer (included) */
+  u8g2_uint_t user_x1;	/* right corner of the buffer (excluded) */
   u8g2_uint_t user_y0;	/* upper edge of the buffer */
-  u8g2_uint_t user_y1;	/* lower edge of the buffer (included) */
+  u8g2_uint_t user_y1;	/* lower edge of the buffer (excluded) */
   
   /* information about the current font */
   const uint8_t *font;             /* current font for all text procedures */
