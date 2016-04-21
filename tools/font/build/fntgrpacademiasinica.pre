@@ -40,7 +40,6 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 The font gb16st is extend with glyphs from the 9x15 X11 font. 
 The font gb24st is extend with glyphs from the 10x20 X11 font. 
 
-The overview pictures are truncated due to a internal limitation of u8g2.
 
 # Font Details
 
