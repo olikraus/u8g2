@@ -372,7 +372,10 @@ int main(int argc, char **argv)
   if ( bf_desc_font != NULL )
   {
     tga_init(1024, 1024*9);
-    y = tga_draw_font(0, bdf_filename, bf_desc_font, bf);
+    if ( target_fontname[0] != '\0' )
+      y = tga_draw_font(0, target_fontname, bf_desc_font, bf);
+    else
+      y = tga_draw_font(0, bdf_filename, bf_desc_font, bf);
     
     if ( runtime_test != 0 )
     {
