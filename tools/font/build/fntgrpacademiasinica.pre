@@ -11,7 +11,6 @@ Copyright information for X11 fonts are available on the [x.org](http://www.x.or
 
 Copyright string from the font file: 
 
-{{{
 Copyright (C) 1988  The Institute of Software, Academia Sinica.
 
 Correspondence Address:  P.O.Box 8718, Beijing, China 100080.
@@ -36,12 +35,12 @@ CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-}}}
+
 
 The font gb16st is extend with glyphs from the 9x15 X11 font. 
 The font gb24st is extend with glyphs from the 10x20 X11 font. 
 
-The overview pictures are truncated due to a internal limitation of u8g2, 
+The overview pictures are truncated due to a internal limitation of u8g2.
 
 # Font Details
 
