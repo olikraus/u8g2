@@ -40,6 +40,20 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 The font gb16st is extend with glyphs from the 9x15 X11 font. 
 The font gb24st is extend with glyphs from the 10x20 X11 font. 
 
+U8g2lib font names are:
+
+`u8g2_font_gb16st_t_1`
+
+`u8g2_font_gb16st_t_2`
+
+`u8g2_font_gb16st_t_3`
+
+`u8g2_font_gb24st_t_1`
+
+`u8g2_font_gb24st_t_2`
+
+`u8g2_font_gb24st_t_3`
+
 
 # Font Details
 
