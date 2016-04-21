@@ -1,6 +1,7 @@
 # works within ubuntu and min-gw (win7) environment
 # win7 exe uploaded on google drive
 
+CC = gcc
 CFLAGS = -g -Wall
 #CFLAGS = -O4 -Wall
 
