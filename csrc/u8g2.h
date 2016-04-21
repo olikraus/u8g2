@@ -76,7 +76,7 @@
 /*
   The following macro activates the early intersection check with the current visible area.
   Clipping (and low level intersection calculation) may still happen and is controlled by U8G2_WITH_CLIPPING.
-  This early intersection check mainly improves speed for the picture loop (u8g2_FirstPage/NextPage).
+  This early intersection check only improves speed for the picture loop (u8g2_FirstPage/NextPage).
   With a full framebuffer in RAM and if most graphical elements are drawn within the visible area, then this
   macro can be commented to reduce code size.
 */
@@ -669,6 +669,15 @@ extern const uint8_t u8g2_font_cu12_t_symbols[] U8G2_FONT_SECTION("u8g2_font_cu1
 extern const uint8_t u8g2_font_unifont_t_latin[] U8G2_FONT_SECTION("u8g2_font_unifont_t_latin");
 extern const uint8_t u8g2_font_unifont_t_greek[] U8G2_FONT_SECTION("u8g2_font_unifont_t_greek");
 extern const uint8_t u8g2_font_unifont_t_cyrillic[] U8G2_FONT_SECTION("u8g2_font_unifont_t_cyrillic");
+extern const uint8_t u8g2_font_unifont_t_chinese1[] U8G2_FONT_SECTION("u8g2_font_unifont_t_chinese1");
+extern const uint8_t u8g2_font_unifont_t_chinese2[] U8G2_FONT_SECTION("u8g2_font_unifont_t_chinese2");
+extern const uint8_t u8g2_font_unifont_t_chinese3[] U8G2_FONT_SECTION("u8g2_font_unifont_t_chinese3");
+extern const uint8_t u8g2_font_gb16st_t_1[] U8G2_FONT_SECTION("u8g2_font_gb16st_t_1");
+extern const uint8_t u8g2_font_gb16st_t_2[] U8G2_FONT_SECTION("u8g2_font_gb16st_t_2");
+extern const uint8_t u8g2_font_gb16st_t_3[] U8G2_FONT_SECTION("u8g2_font_gb16st_t_3");
+extern const uint8_t u8g2_font_gb24st_t_1[] U8G2_FONT_SECTION("u8g2_font_gb24st_t_1");
+extern const uint8_t u8g2_font_gb24st_t_2[] U8G2_FONT_SECTION("u8g2_font_gb24st_t_2");
+extern const uint8_t u8g2_font_gb24st_t_3[] U8G2_FONT_SECTION("u8g2_font_gb24st_t_3");
 extern const uint8_t u8g2_font_unifont_t_symbols[] U8G2_FONT_SECTION("u8g2_font_unifont_t_symbols");
 extern const uint8_t u8g2_font_artossans8_8r[] U8G2_FONT_SECTION("u8g2_font_artossans8_8r");
 extern const uint8_t u8g2_font_artossans8_8n[] U8G2_FONT_SECTION("u8g2_font_artossans8_8n");

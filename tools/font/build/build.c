@@ -166,6 +166,8 @@ struct groupinfo gi[] = {
   { "Logisoso", 		"fntgrplogisoso", 		"../../../../u8g2.wiki/fntgrplogisoso.md", 		"fntgrplogisoso.pre" }, 		/* 10 */
   { "Inconsolata", 	"fntgrpinconsolata", 	"../../../../u8g2.wiki/fntgrpinconsolata.md", 	"fntgrpinconsolata.pre" }, 		/* 11 */
   { "Codeman38", 	"fntgrpcodeman38",	"../../../../u8g2.wiki/fntgrpcodeman38.md",	"fntgrpcodeman38.pre" },		/* 12 */
+  { "Academia Sinica","fntgrpacademiasinica",	"../../../../u8g2.wiki/fntgrpfntgrpacademiasinica.md",	"fntgrpacademiasinica.pre" },		/* 13 */
+  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -179,11 +181,12 @@ struct groupinfo gi[] = {
 #define MM_U	4	/* uppercase */
 #define MM_N	8	/* numbers */
 #define MM_C	16	/* custom */
+#define MM_M	32	/* map file */
 
 
 struct fontinfo fi[] = {
   { 0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
-
+  
   
   { 0, "m2icon_5.bdf", 		"m2icon_5", 		0, 0, BM_T, FM_C, MM_F, "", ""},
   { 0, "m2icon_7.bdf", 		"m2icon_7", 		0, 0, BM_T, FM_C, MM_F, "", ""},
@@ -227,13 +230,28 @@ struct fontinfo fi[] = {
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
 
-//#ifdef TMP
   
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+
+
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
+
+  { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
+  { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
+  { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
+
+  { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
+  { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
+  { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
+
+//#ifdef TMP
+  
   /*
     $20a0-$20bf currency symbols
     $2103 Circle C
@@ -316,7 +334,6 @@ struct fontinfo fi[] = {
   
   /* Adobe symb skipped... */
   
-//#endif
   
   { "-r 72 -p 8", "baby.ttf",			"baby",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 8", "blipfest_07.ttf",		"blipfest_07",		2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
@@ -517,6 +534,8 @@ inconsolata
 
   { "-r 72 -p 8", "PressStart2P.ttf",	"pressstart2p",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   { "-r 72 -p 8", "pcsenior.ttf",		"pcsenior",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+
+//#endif
 
 };
 
@@ -913,6 +932,12 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     strcat(bdf_cmd, fi[i].map_custom);
     strcat(bdf_cmd, "'");
   }
+  if ( mm == MM_M ) 
+  {
+    strcat(bdf_cmd, " -M '");
+    strcat(bdf_cmd, fi[i].map_custom);
+    strcat(bdf_cmd, "'");
+  }
 
   strcat(bdf_cmd, " ");
   if ( fi[i].ttf_opt != NULL )
@@ -1058,6 +1083,8 @@ void map_font(int i, int fm, char *fms, int bm, char *bms, cbfn_t cb)
     gen_font(i, fm, fms, bm, bms, MM_U, "u", cb);
   if ( (fi[i].map_mode & MM_C) != 0 )
     gen_font(i, fm, fms, bm, bms, MM_C, fi[i].map_custom_postfix, cb);
+  if ( (fi[i].map_mode & MM_M) != 0 )
+    gen_font(i, fm, fms, bm, bms, MM_M, fi[i].map_custom_postfix, cb);
 }
 
 void build_font(int i, int fm, char *fms, cbfn_t cb)
