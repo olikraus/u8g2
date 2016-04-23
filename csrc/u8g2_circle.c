@@ -301,7 +301,7 @@ void u8g2_DrawEllipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t 
   /* check for bounding box */
 #ifdef U8G2_WITH_INTERSECTION
   {
-    if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0-rx+1, y0-ry+1) == 0 ) 
+    if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0+rx+1, y0+ry+1) == 0 ) 
       return;
   }
 #endif /* U8G2_WITH_INTERSECTION */
@@ -434,7 +434,7 @@ void u8g2_DrawFilledEllipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_u
   /* check for bounding box */
 #ifdef U8G2_WITH_INTERSECTION
   {
-    if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0-rx+1, y0-ry+1) == 0 ) 
+    if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0+rx+1, y0+ry+1) == 0 ) 
       return;
   }
 #endif /* U8G2_WITH_INTERSECTION */
