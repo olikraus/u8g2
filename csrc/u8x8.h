@@ -123,19 +123,22 @@ extern "C" {
 
 #ifdef __GNUC__
 #  define U8X8_NOINLINE __attribute__((noinline))
+#  define U8X8_SECTION(name) __attribute__ ((section (name)))
 #else
+#  define U8X8_SECTION(name)
 #  define U8X8_NOINLINE
 #endif
 
 #if defined(__GNUC__) && defined(__AVR__)
-#  define U8X8_SECTION(name) __attribute__ ((section (name)))
 #  define U8X8_FONT_SECTION(name) U8X8_SECTION(".progmem." name)
 #  define u8x8_pgm_read(adr) pgm_read_byte_near(adr)
 #endif
 
-#ifndef U8X8_SECTION
-#  define U8X8_SECTION(name) __attribute__ ((section (name)))
+#ifndef U8X8_FONT_SECTION
 #  define U8X8_FONT_SECTION(name) 
+#endif
+
+#ifndef u8x8_pgm_read
 #  define u8x8_pgm_read(adr) (*(const uint8_t *)(adr)) 
 #endif
 

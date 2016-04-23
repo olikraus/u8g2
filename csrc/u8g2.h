@@ -148,6 +148,9 @@ extern "C" {
 /*==========================================*/
 
 typedef uint16_t u8g2_uint_t;	/* for pixel position only */
+typedef int16_t u8g2_int_t;		/* introduced for circle calculation */
+typedef int32_t u8g2_long_t;		/* introduced for ellipse calculation */
+
 
 typedef struct u8g2_struct u8g2_t;
 typedef struct u8g2_cb_struct u8g2_cb_t;
@@ -411,6 +414,16 @@ void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y);
 #ifdef U8G2_WITH_INTERSECTION    
 uint8_t u8g2_IsIntersection(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t x1, u8g2_uint_t y1);
 #endif /* U8G2_WITH_INTERSECTION */
+
+
+
+/*==========================================*/
+/* u8g2_circle.c */
+#define U8G2_DRAW_UPPER_RIGHT 0x01
+#define U8G2_DRAW_UPPER_LEFT  0x02
+#define U8G2_DRAW_LOWER_LEFT 0x04
+#define U8G2_DRAW_LOWER_RIGHT  0x08
+#define U8G2_DRAW_ALL (U8G2_DRAW_UPPER_RIGHT|U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_LOWER_RIGHT|U8G2_DRAW_LOWER_LEFT)
 
 
 /*==========================================*/
