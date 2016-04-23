@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -g -Wall -Wextra -Wcast-qual -I../../../csrc/. 
+CFLAGS = -g -W -Wall -Wextra -Wcast-qual -Wno-overlength-strings -Wno-unused-parameter -I../../../csrc/. 
 
 SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c 
 
