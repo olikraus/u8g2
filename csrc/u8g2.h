@@ -414,6 +414,11 @@ uint8_t u8g2_IsIntersection(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_u
 
 
 /*==========================================*/
+/* u8g2_box.c */
+void u8g2_DrawBox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h);
+
+
+/*==========================================*/
 /* u8g2_font.c */
 
 size_t u8g2_GetFontSize(const uint8_t *font_arg);
