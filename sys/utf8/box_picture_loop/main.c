@@ -24,7 +24,10 @@ int main(void)
     u8g2_DrawBox(&u8g2, 2, 3, 7, 9);
     u8g2_DrawBox(&u8g2, 12, 3, 2, 13);
     u8g2_DrawBox(&u8g2, 12,17, 13, 2);
+    u8g2_DrawFrame(&u8g2, 2,21, 11, 7);
+    u8g2_DrawFrame(&u8g2, 25,24, 27, 5);
     u8g2_DrawStr(&u8g2, 30, 10, "DrawBox");
+    u8g2_DrawStr(&u8g2, 30, 20, "DrawFrame");
   } while( u8g2_NextPage(&u8g2) );
     
   utf8_show();
