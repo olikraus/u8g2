@@ -77,17 +77,11 @@ void u8g2_DrawCircle(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t r
   /* check for bounding box */
 #ifdef U8G2_WITH_INTERSECTION
   {
-    u8g2_uint_t radp, radp2;
-    
-    radp = rad;
-    radp++;
-    radp2 = radp;
-    radp2 *= 2;
-
-  if ( u8g2_IsIntersection(u8g2, x0-radp, y0-radp, radp2, radp2) == 0 ) 
-    return;
+    if ( u8g2_IsIntersection(u8g2, x0-rad, y0-rad, x0+rad+1, y0+rad+1) == 0 ) 
+      return;
   }
 #endif /* U8G2_WITH_INTERSECTION */
+  
   
   /* draw circle */
   u8g2_draw_circle(u8g2, x0, y0, rad, option);
@@ -169,15 +163,8 @@ void u8g2_DrawDisc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad
   /* check for bounding box */
 #ifdef U8G2_WITH_INTERSECTION
   {
-    u8g2_uint_t radp, radp2;
-    
-    radp = rad;
-    radp++;
-    radp2 = radp;
-    radp2 *= 2;
-
-  if ( u8g2_IsIntersection(u8g2, x0-radp, y0-radp, radp2, radp2) == 0 ) 
-    return;
+    if ( u8g2_IsIntersection(u8g2, x0-rad, y0-rad, x0+rad+1, y0+rad+1) == 0 ) 
+      return;
   }
 #endif /* U8G2_WITH_INTERSECTION */
   
@@ -314,20 +301,7 @@ void u8g2_DrawEllipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t 
   /* check for bounding box */
 #ifdef U8G2_WITH_INTERSECTION
   {
-    u8g2_uint_t rxp, rxp2;
-    u8g2_uint_t ryp, ryp2;
-    
-    rxp = rx;
-    rxp++;
-    rxp2 = rxp;
-    rxp2 *= 2;
-
-    ryp = ry;
-    ryp++;
-    ryp2 = ryp;
-    ryp2 *= 2;
-    
-    if ( u8g2_IsIntersection(u8g2, x0-rxp, y0-ryp, rxp2, ryp2) == 0 ) 
+    if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0-rx+1, y0-ry+1) == 0 ) 
       return;
   }
 #endif /* U8G2_WITH_INTERSECTION */
@@ -460,20 +434,7 @@ void u8g2_DrawFilledEllipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_u
   /* check for bounding box */
 #ifdef U8G2_WITH_INTERSECTION
   {
-    u8g2_uint_t rxp, rxp2;
-    u8g2_uint_t ryp, ryp2;
-    
-    rxp = rx;
-    rxp++;
-    rxp2 = rxp;
-    rxp2 *= 2;
-
-    ryp = ry;
-    ryp++;
-    ryp2 = ryp;
-    ryp2 *= 2;
-    
-    if ( u8g2_IsIntersection(u8g2, x0-rxp, y0-ryp, rxp2, ryp2) == 0 ) 
+    if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0-rx+1, y0-ry+1) == 0 ) 
       return;
   }
 #endif /* U8G2_WITH_INTERSECTION */
