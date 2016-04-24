@@ -483,6 +483,42 @@ int main(void)
   tga_save_png("u8g2_circle.png");
 
   /*=========================================*/
+  /* u8g2_rframe.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    //u8g2_DrawEllipse(&u8g2, 20, 25, 15, 10, U8G2_DRAW_UPPER_RIGHT|U8G2_DRAW_LOWER_LEFT|U8G2_DRAW_LOWER_RIGHT);
+    u8g2_DrawRFrame(&u8g2, 20, 15, 30, 22, 7);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,15, "x=20, y=15");
+    /* descent usually is negative */
+    vm(20+30+1, 15+22-1, 7);
+    vm(20+30+1+8, 15+22-1, 22);
+    hm(20+30-7, 15+22+1, 7);
+    hm(20, 15+22+1+11, 30);
+
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_rframe.png");
+
+
+  /*=========================================*/
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
 
