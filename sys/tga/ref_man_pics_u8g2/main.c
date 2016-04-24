@@ -108,6 +108,24 @@ void vm(uint16_t tx, uint16_t ty, uint16_t dy)
   u8g2_DrawStr(&desc, x+6, y-(dy*3)/2+u8g2_GetAscent(&desc)/2, s);
 }
 
+/* horizontal measure */
+/* tx,ty: left point */
+void hm(uint16_t tx, uint16_t ty, uint16_t dx)
+{
+  char s[10];
+  
+  int x,y, i, w;
+  x = tx*3+64*3 + 1;
+  y = ty*3+32*3 +3;
+  
+  u8g2_DrawHVLine(&desc, x-1, y-3, 7, 1);
+  u8g2_DrawHVLine(&desc, x, y, dx*3-1, 0);
+  u8g2_DrawHVLine(&desc, x+(dx-1)*3+1, y-3, 7, 1);
+
+  sprintf(s, "%d", dx);
+  w = u8g2_GetStrWidth(&desc, s);
+  u8g2_DrawStr(&desc, x+(dx*3)/2-w/2, y+6+u8g2_GetAscent(&desc), s);
+}
 
 int main(void)
 {
@@ -202,7 +220,7 @@ int main(void)
   tga_save_png("u8g2_ascent_descent.png");
 
   /*=========================================*/
-/* u8g2_pos_center.png */
+  /* u8g2_pos_center.png */
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
 
@@ -320,7 +338,151 @@ int main(void)
 
   tga_save_png("u8g2_logo.png");
 
-/*=========================================*/
+  /*=========================================*/
+  /* u8g2_box.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    u8g2_DrawBox(&u8g2, 3, 7, 25, 15);
+    //u8g2_DrawFrame(&u8g2, 60, 40, 16, 9);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(3,7, "x=3, y=7");
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    /* descent usually is negative */
+    vm(3+25+2,7+15-1, 15);
+    hm(3, 7+15+1, 25);
+
+    //ra(60,40, "x=60, y=40");
+    //vm(60+16+2,40+9-1, 9);
+    //hm(60, 40+9+1, 16);
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_box.png");
+
+  /*=========================================*/
+  /* u8g2_frame.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    u8g2_DrawFrame(&u8g2, 3, 7, 25, 15);
+    //u8g2_DrawFrame(&u8g2, 60, 40, 16, 9);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(3,7, "x=3, y=7");
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    /* descent usually is negative */
+    vm(3+25+2,7+15-1, 15);
+    hm(3, 7+15+1, 25);
+
+    //ra(60,40, "x=60, y=40");
+    //vm(60+16+2,40+9-1, 9);
+    //hm(60, 40+9+1, 16);
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_frame.png");
+
+  /*=========================================*/
+  /* u8g2_ellipse.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    //u8g2_DrawEllipse(&u8g2, 20, 25, 15, 10, U8G2_DRAW_UPPER_RIGHT|U8G2_DRAW_LOWER_LEFT|U8G2_DRAW_LOWER_RIGHT);
+    u8g2_DrawEllipse(&u8g2, 20, 25, 15, 10, U8G2_DRAW_ALL);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,25, "x=20, y=25");
+    /* descent usually is negative */
+    vm(20+15+1, 25-1, 10);
+    vm(20+15+1+13, 25+10, 21);
+    hm(20+1, 25+10+1, 15);
+    hm(20-15, 25+10+1+11, 31);
+
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_ellipse.png");
+
+  /*=========================================*/
+  /* u8g2_circle.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    //u8g2_DrawEllipse(&u8g2, 20, 25, 15, 10, U8G2_DRAW_UPPER_RIGHT|U8G2_DRAW_LOWER_LEFT|U8G2_DRAW_LOWER_RIGHT);
+    u8g2_DrawCircle(&u8g2, 20, 25, 10, U8G2_DRAW_ALL);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,25, "x=20, y=25");
+    /* descent usually is negative */
+    vm(20+15+1, 25-1, 10);
+    vm(20+15+1+13, 25+10, 21);
+    hm(20+1, 25+10+1, 10);
+    hm(20-10, 25+10+1+11, 21);
+
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_circle.png");
+
+  /*=========================================*/
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
 

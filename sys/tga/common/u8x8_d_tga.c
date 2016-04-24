@@ -212,6 +212,8 @@ static const u8x8_display_info_t u8x8_tga_desc_info =
 #else
   /* default_x_offset = */ 0,
 #endif
+  /* pixel_width = */ (2*XOFFSET+DEFAULT_WIDTH),
+  /* pixel_height = */ (2*YOFFSET+DEFAULT_HEIGHT)
 };
 
 
