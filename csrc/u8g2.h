@@ -438,6 +438,14 @@ void u8g2_DrawRFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, 
 
 
 /*==========================================*/
+/* u8g2_polygon.c */
+void u8g2_ClearPolygonXY(void);
+void u8g2_AddPolygonXY(u8g2_t *u8g2, int16_t x, int16_t y);
+void u8g2_DrawPolygon(u8g2_t *u8g2);
+void u8g2_DrawTriangle(u8g2_t *u8g2, int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+
+
+/*==========================================*/
 /* u8g2_font.c */
 
 size_t u8g2_GetFontSize(const uint8_t *font_arg);
