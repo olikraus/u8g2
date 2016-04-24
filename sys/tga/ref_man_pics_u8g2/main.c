@@ -519,6 +519,38 @@ int main(void)
 
 
   /*=========================================*/
+  /* u8g2_triangle.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+    u8g2_DrawTriangle(&u8g2, 20, 5, 27, 50, 5, 32);
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,5, "x=20, y=5");
+    ra(27,50, "x=27, y=50");
+    ra(5,32, "x=5, y=32");
+
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_triangle.png");
+
+
+  /*=========================================*/
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
 
