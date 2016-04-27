@@ -635,11 +635,16 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
   fprintf(out_fp, "  Glyphs: %d/%d\n", (int)bf->selected_glyphs, (int)bf->glyph_cnt );
   fprintf(out_fp, "  BBX Build Mode: %d\n", (int)bf->bbx_mode);
   fprintf(out_fp, "*/\n");
-  
+
   if ( bf->target_data[bf->target_cnt-1] == 0 )
     extra1 = 0;
   else
     extra1 = 1;
+  
+  if ( bf->target_cnt-1+extra1 > 32760 )
+  {
+    fprintf(out_fp, "#ifdef U8G2_USE_LARGE_FONTS\n");    
+  }
   
   if ( bf->bbx_mode == 3 )
   {
@@ -673,6 +678,12 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
   }
 
   fprintf(out_fp, "\";\n");  
+
+  if ( bf->target_cnt-1+extra1 > 32760 )
+  {
+    fprintf(out_fp, "#endif /* U8G2_USE_LARGE_FONTS */\n");    
+  }
+  
   return 1;
 }
 

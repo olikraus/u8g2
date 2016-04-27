@@ -137,6 +137,12 @@
 #define U8G2_FONT_SECTION(name) U8X8_FONT_SECTION(name) 
 
 
+/* the macro U8G2_USE_LARGE_FONTS disables large fonts */
+/* it has to enabled for those uC supporting marger arrays */
+#ifdef __arm__
+#define U8G2_USE_LARGE_FONTS
+#endif
+
 /*==========================================*/
 /* C++ compatible */
 

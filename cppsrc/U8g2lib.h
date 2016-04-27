@@ -102,8 +102,8 @@ class U8G2 : public Print
 
     /* u8g2_hvline.c */
     void setDrawColor(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }
-    uint8_t getDrawColor(void) { return u8g2_GetDrawColor(&u8g); }
-    void drawPixel(u8g2_uint_t x, u8g2_uint_t y) { u8g_DrawPixel(&u8g2, x, y); }
+    uint8_t getDrawColor(void) { return u8g2_GetDrawColor(&u8g2); }
+    void drawPixel(u8g2_uint_t x, u8g2_uint_t y) { u8g2_DrawPixel(&u8g2, x, y); }
     void drawHLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w) { u8g2_DrawHLine(&u8g2, x, y, w); }
     void drawVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t h) { u8g2_DrawVLine(&u8g2, x, y, h); }
     void drawHVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir) {
@@ -132,13 +132,13 @@ class U8G2 : public Print
     void setFontMode(uint8_t  is_transparent) {u8g2_SetFontMode(&u8g2, is_transparent); }
     void setFontDirection(uint8_t dir) {u8g2_SetFontDirection(&u8g2, dir); }
 
-    int8_t getAscent(void) { return u8g_GetAscent(&u8g); }
-    int8_t getDescent(void) { return u8g_GetDescent(&u8g); }
+    int8_t getAscent(void) { return u8g2_GetAscent(&u8g2); }
+    int8_t getDescent(void) { return u8g2_GetDescent(&u8g2); }
     
-    void setFontPosBaseline(u8g2_t *u8g2) { u8g2_SetFontPosBaseline(&u8g2); }
-    void setFontPosBottom(u8g2_t *u8g2) { u8g2_SetFontPosBottom(&u8g2); }
-    void setFontPosTop(u8g2_t *u8g2) { u8g2_SetFontPosTop(&u8g2); }
-    void setFontPosCenter(u8g2_t *u8g2) { u8g2_SetFontPosCenter(&u8g2); }
+    void setFontPosBaseline(void) { u8g2_SetFontPosBaseline(&u8g2); }
+    void setFontPosBottom(void) { u8g2_SetFontPosBottom(&u8g2); }
+    void setFontPosTop(void) { u8g2_SetFontPosTop(&u8g2); }
+    void setFontPosCenter(void) { u8g2_SetFontPosCenter(&u8g2); }
 
 /*
 uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);
@@ -174,9 +174,9 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     void sleepOn(void) { u8g2_SetPowerSave(&u8g2, 1); }
     void sleepOff(void) { u8g2_SetPowerSave(&u8g2, 0); }    
     void setColorIndex(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }
-    uint8_t getColorIndex(void) { return u8g2_GetDrawColor(&u8g); }
-    int8_t getFontAscent(void) { return u8g_GetAscent(&u8g); }
-    int8_t getFontDescent(void) { return u8g_GetDescent(&u8g); }
+    uint8_t getColorIndex(void) { return u8g2_GetDrawColor(&u8g2); }
+    int8_t getFontAscent(void) { return u8g2_GetAscent(&u8g2); }
+    int8_t getFontDescent(void) { return u8g2_GetDescent(&u8g2); }
     
 };
 
