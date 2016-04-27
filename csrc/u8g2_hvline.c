@@ -233,7 +233,20 @@ void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
   u8g2_DrawHVLine(u8g2, x, y, 1, 0);
 }
 
-
-
+/*
+  Assign the draw color for all drawing functions.
+  color may be 0 or 1. The actual color is defined by the display.
+  With color = 1 the drawing function will set the display memory to 1.
+  For OLEDs this ususally means, that the pixel is enabled and the LED 
+  at the pixel is turned on.
+  On an LCD it usually means that the LCD segment of the pixel is enabled, 
+  which absorbs the light.
+*/
+void u8g2_SetDrawColor(u8g2_t *u8g2, uint8_t color)
+{
+  u8g2->draw_color = 0;
+  if ( color )
+    u8g2->draw_color = 1;
+}
 
 

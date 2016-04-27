@@ -214,6 +214,8 @@ struct _u8g2_font_decode_t
 
   uint8_t decode_bit_pos;			/* bitpos inside a byte of the compressed data */
   uint8_t is_transparent;
+  uint8_t fg_color;
+  uint8_t bg_color;
 #ifdef U8G2_WITH_FONT_ROTATION  
   uint8_t dir;				/* direction */
 #endif
@@ -275,7 +277,8 @@ struct u8g2_struct
   int8_t font_ref_ascent;
   int8_t font_ref_descent;
 
-  uint8_t draw_color;		/* 0: clear pixel, 1: set pixel */
+  uint8_t draw_color;		/* 0: clear pixel, 1: set pixel, modified and restored by font procedures */
+					/* draw_color can be used also directly by the user API */
   
 #ifdef U8G2_WITH_HVLINE_COUNT
   unsigned long hv_cnt;
@@ -405,7 +408,7 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
 void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len);
 void u8g2_DrawVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len);
 void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y);
-
+void u8g2_SetDrawColor(u8g2_t *u8g2, uint8_t color) U8G2_NOINLINE;  /* u8g: u8g_SetColorIndex(u8g_t *u8g, uint8_t idx); */
 
 
 /*==========================================*/

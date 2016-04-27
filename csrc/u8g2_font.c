@@ -406,7 +406,7 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
     /* draw foreground and background (if required) */
     if ( is_foreground )
     {
-      u8g2->draw_color = 1;			/* Fix me: Must be the glyph color (additional variable) */
+      u8g2->draw_color = decode->fg_color;			/* draw_color will be restored later */
       u8g2_DrawHVLine(u8g2, 
 	x, 
 	y, 
@@ -420,7 +420,7 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
     }
     else if ( decode->is_transparent == 0 )    
     {
-      u8g2->draw_color = 0;			/* Fix me: Must be the complement of the glyph color (additional variable) */
+      u8g2->draw_color = decode->bg_color;			/* draw_color will be restored later */
       u8g2_DrawHVLine(u8g2, 
 	x, 
 	y, 
@@ -461,6 +461,10 @@ static void u8g2_font_setup_decode(u8g2_t *u8g2, const uint8_t *glyph_data)
   
   decode->glyph_width = u8g2_font_decode_get_unsigned_bits(decode, u8g2->font_info.bits_per_char_width);
   decode->glyph_height = u8g2_font_decode_get_unsigned_bits(decode,u8g2->font_info.bits_per_char_height);
+  
+  decode->fg_color = u8g2->draw_color;
+  decode->bg_color = decode->fg_color;
+  decode->bg_color ^= 1;
 }
 
 
@@ -560,6 +564,9 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
       if ( decode->y >= h )
 	break;
     }
+    
+    /* restore the u8g2 draw color, because this is modified by the decode algo */
+    u8g2->draw_color = decode->fg_color;
   }
   return d;
 }
