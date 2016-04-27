@@ -39,7 +39,6 @@
   U8g2 class is based on the u8g2 struct from u8g2.h, the U8x8 class from U8x8lib.h is not used.
 
 
-
 */
 
 
