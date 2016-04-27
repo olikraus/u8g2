@@ -93,17 +93,49 @@ class U8G2 : public Print
     u8g2_uint_t getDisplayWidth() { return u8g2_GetDisplayWidth(&u8g2); }
 
     
+    /* u8g2_buffer.c */
+    void sendBuffer(void) { u8g2_SendBuffer(&u8g2); }
+    void clearBuffer(void) { u8g2_ClearBuffer(&u8g2); }    
     
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
     
-    void sendBuffer(void) { u8g2_SendBuffer(&u8g2); }
-    void clearBuffer(void) { u8g2_ClearBuffer(&u8g2); }    
+
+    /* u8g2_hvline.c */
+    void setDrawColor(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }
+    uint8_t getDrawColor(void) { return u8g2_GetDrawColor(&u8g); }
+    void drawPixel(u8g2_uint_t x, u8g2_uint_t y) { u8g_DrawPixel(&u8g2, x, y); }
+    void drawHLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w) { u8g2_DrawHLine(&u8g2, x, y, w); }
+    void drawVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t h) { u8g2_DrawVLine(&u8g2, x, y, h); }
+    void drawHVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir) {
+      u8g2_DrawHVLine(&u8g2, x, y, len, dir); }
+    
+    /* u8g2_box.c */
+    void drawFrame(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) { u8g2_DrawFrame(&u8g2, x, y, w, h); }
+    void drawRFrame(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, u8g2_uint_t r) { u8g2_DrawRFrame(&u8g2, x, y, w, h,r); }
+    void drawBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) { u8g2_DrawBox(&u8g2, x, y, w, h); }
+    void drawRBox(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, u8g2_uint_t r) { u8g2_DrawRBox(&u8g2, x, y, w, h,r); }
+    
+    /* u8g2_circle.c */
+    void drawCircle(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t opt = U8G2_DRAW_ALL) { u8g2_DrawCircle(&u8g2, x0, y0, rad, opt); }
+    void drawDisc(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t opt = U8G2_DRAW_ALL) { u8g2_DrawDisc(&u8g2, x0, y0, rad, opt); }     
+    void drawEllipse(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rx, u8g2_uint_t ry, uint8_t opt = U8G2_DRAW_ALL) { u8g2_DrawEllipse(&u8g2, x0, y0, rx, ry, opt); }
+    void drawFilledEllipse(u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rx, u8g2_uint_t ry, uint8_t opt = U8G2_DRAW_ALL) { u8g2_DrawFilledEllipse(&u8g2, x0, y0, rx, ry, opt); }    
+
+    /* u8g2_polygon.c */
+    void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2) 
+      { u8g2_DrawTriangle(&u8g2, x0, y0, x1, y1, x2, y2); }
+      
+    
+    /* u8g2_font.c */
 
     void setFont(const uint8_t  *font) {u8g2_SetFont(&u8g2, font); }
     void setFontMode(uint8_t  is_transparent) {u8g2_SetFontMode(&u8g2, is_transparent); }
     void setFontDirection(uint8_t dir) {u8g2_SetFontDirection(&u8g2, dir); }
 
+    int8_t getAscent(void) { return u8g_GetAscent(&u8g); }
+    int8_t getDescent(void) { return u8g_GetDescent(&u8g); }
+    
     void setFontPosBaseline(u8g2_t *u8g2) { u8g2_SetFontPosBaseline(&u8g2); }
     void setFontPosBottom(u8g2_t *u8g2) { u8g2_SetFontPosBottom(&u8g2); }
     void setFontPosTop(u8g2_t *u8g2) { u8g2_SetFontPosTop(&u8g2); }
@@ -123,11 +155,8 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     u8g2_uint_t getStrWidth(const char *s) { return u8g2_GetStrWidth(&u8g2, s); }
     u8g2_uint_t getUTF8Width(const char *s) { return u8g2_GetUTF8Width(&u8g2, s); }
     
-    
-    void drawHVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir) {
-      u8g2_DrawHVLine(&u8g2, x, y, len, dir); }
-    void drawHLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w) { u8g2_DrawHLine(&u8g2, x, y, w); }
-    void drawVLine(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t h) { u8g2_DrawVLine(&u8g2, x, y, h); }
+    void printUTF8(const char *s) { tx += u8g2_DrawUTF8(&u8g2, tx, ty, s); }
+	
     
     /* virtual function for print base class */    
     size_t write(uint8_t v) {
@@ -142,6 +171,14 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     void display(void) { u8g2_SetPowerSave(&u8g2, 0); }
     void setCursor(u8g2_uint_t x, u8g2_uint_t y) { tx = x; ty = y; }
  
+    /* u8glib compatible functions */
+    void sleepOn(void) { u8g2_SetPowerSave(&u8g2, 1); }
+    void sleepOff(void) { u8g2_SetPowerSave(&u8g2, 0); }    
+    void setColorIndex(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }
+    uint8_t getColorIndex(void) { return u8g2_GetDrawColor(&u8g); }
+    int8_t getFontAscent(void) { return u8g_GetAscent(&u8g); }
+    int8_t getFontDescent(void) { return u8g_GetDescent(&u8g); }
+    
 };
 
 /* 

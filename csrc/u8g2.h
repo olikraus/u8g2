@@ -301,6 +301,7 @@ struct u8g2_struct
 
 #define u8g2_GetDisplayHeight(u8g2) ((u8g2)->height)
 #define u8g2_GetDisplayWidth(u8g2) ((u8g2)->width)
+#define u8g2_GetDrawColor(u8g2) ((u8g2)->draw_color)
 
 
 /*==========================================*/

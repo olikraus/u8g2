@@ -10,20 +10,28 @@ U8g2 = Universal 8bit Graphics
 [g]raphics": U8g2 is a graphics library with focus on monochrome graphics displays
 [2]: Second generation and successor of u8glib
 
+
+U8glib V2 Goals
+
+- Support for monochrome LCDs and OLEDs 
+- Focus on "monochrome"
+- Low memory footprint
+
+
 U8glib V2: Features and Limitations
 
-- Arduino Standard Libs
+- Arduino Standard Library
 - Full Memory Buffer 
 - 3-wire-SPI
 
 - Unicode Support
   Unicode plane 0 (Basic Multilingual Plane, BMP, glyphs with 0x0000-0xffff) 
   is fully supported.
-  Limitation: Unicode planes > 0 are not supported
+	Limitation: Unicode planes > 0 are not supported
 - UTF-8 Support
   2 and 3 byte sequences are detected and handled.
   Limitation:  
-    Behavior for sequences with more than 3 bytes is unknown.
+	Behavior for sequences with more than 3 bytes is unknown.
 
 - Large number of fonts
 
@@ -39,13 +47,48 @@ U8glib V2: Features and Limitations
 
 
 u8g vs. u8g2
-- begin() must be called (optional in u8g)
+
+Major Changes (Code rework required)
+
+- begin() must be called (optional in U8glib)
 - constructor contains name of communicaton interface and 
     also contains the display orientation as first argument
-- u8g2.drawStr90 does not exist any more use
+- u8g2.drawStr90 does not exist any more, use
       void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
-- Font transparency was defined in the .begin() statement. This is now
-      handled by setFontMode
+- "P" versions of the string functions are not yet implemented.
+	This includes drawStrP(), getStrWidthP(), etc
+	Use the print function with the F() macro instead.
+- In U8glib font transparency was defined in the .begin() statement. This is now
+      handled by setFontMode 
 - getHeight() renamed to getDisplayHeight()
 - getWidth() renamed to getDisplayWidth()
+- Screen rotation does not exisit any more:
+	The functions undoRotation, setRot90, setRot180 and setRot270 are
+	replaced by the first argument of the constructor
+- Screen scaling is not there in u8g2
+	It is completly removed, there are no corresponding function in u8g2 
+	for undoScale() and setScale2x2().
+- setColorEntry(), setHiColor(), setHiColorByRGB(), setRGB: Not supported any more
+	(u8g2 focus are monochrome displays, use Ucglib instead)
+- getMode(): Is not available any more because there is only one monochrome mode.	
+- setDefaultForegroundColor(), setDefaultBackgroundColor() and 
+	setDefaultMidColor() are not required any more. These functions do not
+	exist in U8g2
+- getFontLineSpacing() and setFontLineSpacingFactor() are not supported any more. 
+- setFontRefHeightText(), setFontRefHeightExtendedText() and setFontRefHeightAll() are
+	not supported as of now. Maybe this will be added in the future.	
+
+	
+Minor Changes (Code update might be required)
+
+- U8g2 drawTriangle() expects signed arguments (u8glib expects unsigned arguments)
+
+Change Notes (No code change required)
+
+- sleepOn(), sleepOff(): supported, but better user setPowerSave()
+- setColorIndex() and getColorIndex() are renamed to setDrawColor() and 
+	getDrawColor(). The old names are still supported.
+- getFontAscent() and getFontDescent() are renamed to getAscent() and getDescent()
+	The old names are still supported.
+
 
