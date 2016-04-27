@@ -50,6 +50,8 @@ u8g vs. u8g2
 
 Major Changes (Code rework required)
 
+- Old Arduino IDE 00xx (before 1.00) is not supported any more.
+	ARDUINO macro must be >= 100
 - begin() must be called (optional in U8glib)
 - constructor contains name of communicaton interface and 
     also contains the display orientation as first argument
@@ -77,11 +79,19 @@ Major Changes (Code rework required)
 - getFontLineSpacing() and setFontLineSpacingFactor() are not supported any more. 
 - setFontRefHeightText(), setFontRefHeightExtendedText() and setFontRefHeightAll() are
 	not supported as of now. Maybe this will be added in the future.	
-
+- getStrPixelWidth() is not supported any more, use getStrWidth() instead
+- setHardwareBackup() not yet supported. Might be implemented later
+- Cursor functions are not available. This includes:
+	setCursorFont(), setCursorStyle(), setCursorPos(), setCursorColor(),
+	enableCursor(), disableCursor(), drawCursor()
+- Virtual screen handling is not supported:
+	setVirtualScreenDimension(), addToVirtualScreen()
 	
 Minor Changes (Code update might be required)
 
 - U8g2 drawTriangle() expects signed arguments (u8glib expects unsigned arguments)
+- U8g2 has different font names. Some of the old font names are known to u8g2 and are
+	mapped automatically. If the font name is unknown, please choose a different font from the font list.
 
 Change Notes (No code change required)
 
@@ -90,5 +100,9 @@ Change Notes (No code change required)
 	getDrawColor(). The old names are still supported.
 - getFontAscent() and getFontDescent() are renamed to getAscent() and getDescent()
 	The old names are still supported.
-
+- Signal names are renamed in the constructor calls:
+	U8glib sck == U8g2 clock
+	U8glib mosi == U8g2 data
+	U8glib a0 == U8g2 dc
+	
 
