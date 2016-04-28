@@ -504,6 +504,13 @@ void u8g2_SetupBuffer_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 /* 96x32 stdout */
 void u8g2_SetupBuffer_Utf8(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
+/*==========================================*/
+/* u8g2_u8toa.c */
+const char *u8g2_u8toa(uint8_t v, uint8_t d);
+
+/*==========================================*/
+/* u8g2_u16toa.c */
+const char *u8g2_u16toa(uint16_t v, uint8_t d);
 
 
 /*==========================================*/

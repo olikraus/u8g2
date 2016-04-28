@@ -177,6 +177,8 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     uint8_t getColorIndex(void) { return u8g2_GetDrawColor(&u8g2); }
     int8_t getFontAscent(void) { return u8g2_GetAscent(&u8g2); }
     int8_t getFontDescent(void) { return u8g2_GetDescent(&u8g2); }
+    u8g2_uint_t getHeight() { return u8g2_GetDisplayHeight(&u8g2); }
+    u8g2_uint_t getWidth() { return u8g2_GetDisplayWidth(&u8g2); }
     
 };
 

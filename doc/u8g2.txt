@@ -20,9 +20,9 @@ U8glib V2 Goals
 
 U8glib V2: Features and Limitations
 
-- Arduino Standard Library
 - Full Memory Buffer 
 - 3-wire-SPI
+- Support for Arduino Libraries SPI and TWI
 
 - Unicode Support
   Unicode plane 0 (Basic Multilingual Plane, BMP, glyphs with 0x0000-0xffff) 
@@ -50,6 +50,12 @@ u8g vs. u8g2
 
 Major Changes (Code rework required)
 
+- The name of the include file has changed: Use 
+    #include "U8g2lib.h"
+- The native type for pixel coordinates has changed to u8g2_uint_t
+  Use the following line to redefine this at the beginning of your code
+    typedef u8g2_uint_t u8g_uint_t;
+
 - Old Arduino IDE 00xx (before 1.00) is not supported any more.
 	ARDUINO macro must be >= 100
 - begin() must be called (optional in U8glib)
@@ -62,8 +68,6 @@ Major Changes (Code rework required)
 	Use the print function with the F() macro instead.
 - In U8glib font transparency was defined in the .begin() statement. This is now
       handled by setFontMode 
-- getHeight() renamed to getDisplayHeight()
-- getWidth() renamed to getDisplayWidth()
 - Screen rotation does not exisit any more:
 	The functions undoRotation, setRot90, setRot180 and setRot270 are
 	replaced by the first argument of the constructor
@@ -104,5 +108,7 @@ Change Notes (No code change required)
 	U8glib sck == U8g2 clock
 	U8glib mosi == U8g2 data
 	U8glib a0 == U8g2 dc
+- getHeight() renamed to getDisplayHeight(), old name still exists
+- getWidth() renamed to getDisplayWidth(), old name still exists
 	
 
