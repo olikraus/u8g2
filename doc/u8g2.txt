@@ -58,7 +58,7 @@ Major Changes (Code rework required)
 
 - Old Arduino IDE 00xx (before 1.00) is not supported any more.
 	ARDUINO macro must be >= 100
-- begin() must be called (optional in U8glib)
+- begin() must be called (this was optional in U8glib)
 - constructor contains name of communicaton interface and 
     also contains the display orientation as first argument
 - u8g2.drawStr90 does not exist any more, use
