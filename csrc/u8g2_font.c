@@ -708,41 +708,6 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
   return u8g2_font_draw_glyph(u8g2, x, y, encoding);
 }
 
-#ifdef OBSOLETE
-u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
-{
-  u8g2_uint_t delta, sum;
-  sum = 0;
-  while( *str != '\0' )
-  {
-    delta = u8g2_DrawGlyph(u8g2, x, y, (uint8_t)*str);
-    
-#ifdef U8G2_WITH_FONT_ROTATION
-    switch(u8g2->font_decode.dir)
-    {
-      case 0:
-	x += delta;
-	break;
-      case 1:
-	y += delta;
-	break;
-      case 2:
-	x -= delta;
-	break;
-      case 3:
-	y -= delta;
-	break;
-    }
-#else
-    x += delta;
-#endif    
-    sum += delta;    
-    str++;
-  }
-  return sum;
-}
-#endif
-
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {

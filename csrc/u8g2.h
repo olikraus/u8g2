@@ -60,9 +60,21 @@
 
 #include "u8x8.h"
 
+
+/*
+  The following macro enables 16 Bit mode. 
+  Without defining this macro all calulations are done with 8 Bit (1 Byte) variables.
+  Especially on AVR architecture, this will save some space. 
+  If this macro is defined, then U8g2 will switch to 16 Bit mode.
+  Use 16 Bit mode for any display with more than 240 pixel in one 
+  direction.
+*/
+//#define U8G2_16BIT
+
 /*
   The following macro enables the HVLine speed optimization.
   It will consume about 40 bytes more in flash memory of the AVR.
+  HVLine procedures are also used by the text drawing functions.
 */
 #define U8G2_HVLINE_SPEED_OPTIMIZATION
 
@@ -74,7 +86,7 @@
 
 /*
   The following macro activates the early intersection check with the current visible area.
-  Clipping (and low level intersection calculation) may still happen and is controlled by U8G2_WITH_CLIPPING.
+  Clipping (and low level intersection calculation) will still happen and is controlled by U8G2_WITH_CLIPPING.
   This early intersection check only improves speed for the picture loop (u8g2_FirstPage/NextPage).
   With a full framebuffer in RAM and if most graphical elements are drawn within the visible area, then this
   macro can be commented to reduce code size.
@@ -125,6 +137,9 @@
 */
 #define U8G2_WITH_CLIPPING
 
+
+
+
 /*==========================================*/
 
 
@@ -137,8 +152,8 @@
 #define U8G2_FONT_SECTION(name) U8X8_FONT_SECTION(name) 
 
 
-/* the macro U8G2_USE_LARGE_FONTS disables large fonts */
-/* it has to enabled for those uC supporting marger arrays */
+/* the macro U8G2_USE_LARGE_FONTS disables large fonts (>32K) */
+/* it can be enabled for those uC supporting larger arrays */
 #ifdef __arm__
 #define U8G2_USE_LARGE_FONTS
 #endif
@@ -152,9 +167,15 @@ extern "C" {
 
 /*==========================================*/
 
+#ifdef U8G2_16BIT
 typedef uint16_t u8g2_uint_t;	/* for pixel position only */
 typedef int16_t u8g2_int_t;		/* introduced for circle calculation */
 typedef int32_t u8g2_long_t;		/* introduced for ellipse calculation */
+#else
+typedef uint8_t u8g2_uint_t;		/* for pixel position only */
+typedef int8_t u8g2_int_t;		/* introduced for circle calculation */
+typedef int16_t u8g2_long_t;		/* introduced for ellipse calculation */
+#endif
 
 
 typedef struct u8g2_struct u8g2_t;

@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -I../../../csrc/.  `sdl-config --cflags`
+CFLAGS = -g -Wall -I../../../csrc/.  `sdl-config --cflags` -DU8G2_16BIT
 
 SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c 
 
