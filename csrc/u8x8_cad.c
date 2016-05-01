@@ -75,10 +75,6 @@ uint8_t u8x8_cad_template(u8x8_t *u8x8, uint8_t msg, uint16_t arg_int, void *arg
       return mcd->next->cb(mcd->next, msg, arg_int, arg_ptr);
     case U8X8_MSG_CAD_END_TRANSFER:
       return mcd->next->cb(mcd->next, msg, arg_int, arg_ptr);
-    case U8X8_MSG_CAD_SET_I2C_ADR:
-      return mcd->next->cb(mcd->next, msg, arg_int, arg_ptr);
-    case U8X8_MSG_CAD_SET_DEVICE:
-      return mcd->next->cb(mcd->next, msg, arg_int, arg_ptr);
     default:
       break;
   }
@@ -187,8 +183,6 @@ uint8_t u8x8_cad_110(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
     case U8X8_MSG_CAD_INIT:
     case U8X8_MSG_CAD_START_TRANSFER:
     case U8X8_MSG_CAD_END_TRANSFER:
-    case U8X8_MSG_CAD_SET_I2C_ADR:
-    case U8X8_MSG_CAD_SET_DEVICE:
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
     default:
       return 0;
@@ -221,8 +215,6 @@ uint8_t u8x8_cad_001(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
     case U8X8_MSG_CAD_INIT:
     case U8X8_MSG_CAD_START_TRANSFER:
     case U8X8_MSG_CAD_END_TRANSFER:
-    case U8X8_MSG_CAD_SET_I2C_ADR:
-    case U8X8_MSG_CAD_SET_DEVICE:
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
     default:
       return 0;
@@ -271,8 +263,6 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     case U8X8_MSG_CAD_INIT:
     case U8X8_MSG_CAD_START_TRANSFER:
     case U8X8_MSG_CAD_END_TRANSFER:
-    case U8X8_MSG_CAD_SET_I2C_ADR:
-    case U8X8_MSG_CAD_SET_DEVICE:
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
     default:
       return 0;
@@ -310,9 +300,6 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       /* apply default i2c adr if required so that the start transfer msg can use this */
       if ( u8x8->i2c_address == 255 )
 	u8x8->i2c_address = 0x078;
-	/* fall through */
-    case U8X8_MSG_CAD_SET_I2C_ADR:
-    case U8X8_MSG_CAD_SET_DEVICE:
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
     case U8X8_MSG_CAD_START_TRANSFER:
     case U8X8_MSG_CAD_END_TRANSFER:

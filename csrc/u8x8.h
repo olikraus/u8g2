@@ -53,8 +53,8 @@
   to communicate with the display hardware.
   This layer only deals with data, commands and arguments. D/C line is unknown.
     U8X8_MSG_CAD_INIT
-    U8X8_MSG_CAD_SET_I2C_ADR
-    U8X8_MSG_CAD_SET_DEVICE
+    U8X8_MSG_CAD_SET_I2C_ADR	(obsolete)
+    U8X8_MSG_CAD_SET_DEVICE (obsolete)
     U8X8_MSG_CAD_START_TRANSFER
     U8X8_MSG_CAD_SEND_CMD
     U8X8_MSG_CAD_SEND_ARG
@@ -71,8 +71,8 @@
     U8X8_MSG_BYTE_SET_DC 31
     U8X8_MSG_BYTE_START_TRANSFER
     U8X8_MSG_BYTE_END_TRANSFER
-    U8X8_MSG_BYTE_SET_I2C_ADR
-    U8X8_MSG_BYTE_SET_DEVICE
+    U8X8_MSG_BYTE_SET_I2C_ADR (obsolete)
+    U8X8_MSG_BYTE_SET_DEVICE (obsolete)
 
   GPIO and Delay
     U8X8_MSG_GPIO_INIT
@@ -249,7 +249,10 @@ struct u8x8_struct
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
   uint8_t is_font_inverse_mode; 	/* 0: normal, 1: font glyphs are inverted */
   uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something usefull during DISPLAY_INIT */
+					/* i2c_address is the address for writing data to the display */
+					/* usually, the lowest bit must be zero for a valid address */
   uint8_t i2c_started;	/* for i2c interface */
+  uint8_t device_address;	/* this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
 #endif
@@ -437,8 +440,8 @@ void u8x8_ClearDisplay(u8x8_t *u8x8);
 /* arg_int: expected cs level after processing this msg */
 #define U8X8_MSG_CAD_END_TRANSFER 25
 /* arg_int = 0: disable chip, arg_int = 1: enable chip */
-#define U8X8_MSG_CAD_SET_I2C_ADR 26
-#define U8X8_MSG_CAD_SET_DEVICE 27
+//#define U8X8_MSG_CAD_SET_I2C_ADR 26
+//#define U8X8_MSG_CAD_SET_DEVICE 27
 
 
 
@@ -489,8 +492,8 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 #define U8X8_MSG_BYTE_START_TRANSFER U8X8_MSG_CAD_START_TRANSFER
 #define U8X8_MSG_BYTE_END_TRANSFER U8X8_MSG_CAD_END_TRANSFER
 
-#define U8X8_MSG_BYTE_SET_I2C_ADR U8X8_MSG_CAD_SET_I2C_ADR
-#define U8X8_MSG_BYTE_SET_DEVICE U8X8_MSG_CAD_SET_DEVICE
+//#define U8X8_MSG_BYTE_SET_I2C_ADR U8X8_MSG_CAD_SET_I2C_ADR
+//#define U8X8_MSG_BYTE_SET_DEVICE U8X8_MSG_CAD_SET_DEVICE
 
 
 uint8_t u8x8_byte_SetDC(u8x8_t *u8x8, uint8_t dc) U8X8_NOINLINE;

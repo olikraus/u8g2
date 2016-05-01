@@ -306,6 +306,7 @@ struct u8g2_struct
 
   uint8_t draw_color;		/* 0: clear pixel, 1: set pixel, modified and restored by font procedures */
 					/* draw_color can be used also directly by the user API */
+					
   
 #ifdef U8G2_WITH_HVLINE_COUNT
   unsigned long hv_cnt;
@@ -329,6 +330,9 @@ struct u8g2_struct
 #define u8g2_GetDisplayHeight(u8g2) ((u8g2)->height)
 #define u8g2_GetDisplayWidth(u8g2) ((u8g2)->width)
 #define u8g2_GetDrawColor(u8g2) ((u8g2)->draw_color)
+
+#define u8g2_SetI2CAddress(u8g2, address) ((u8g2_GetU8x8(u8g2))->i2c_address = (address))
+#define u8g2_GetI2CAddress(u8g2)   u8x8_GetI2CAddress(u8g2_GetU8x8(u8g2))
 
 
 /*==========================================*/

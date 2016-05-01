@@ -2,4 +2,6 @@
 https://github.com/olikraus/u8g2 ChangeLog
 
 
-2016-01-01	v2.00	olikraus@gmail.com
+2016-04-30	v2.0.1	olikraus@gmail.com
+  * Support for DOGS102, ST7920, SSD1306
+  * Most graphics primitives are implemented

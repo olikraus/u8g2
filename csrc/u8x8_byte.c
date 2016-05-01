@@ -83,8 +83,6 @@ uint8_t u8x8_byte_EndTransfer(u8x8_t *u8x8)
     U8X8_MSG_BYTE_SET_DC
     U8X8_MSG_BYTE_START_TRANSFER
     U8X8_MSG_BYTE_END_TRANSFER
-    U8X8_MSG_BYTE_SET_I2C_ADR	(ignored)
-    U8X8_MSG_BYTE_SET_DEVICE	(ignored)
 */
 
 uint8_t u8x8_byte_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -138,10 +136,6 @@ uint8_t u8x8_byte_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
       break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
-      break;
     default:
       return 0;
   }
@@ -194,10 +188,6 @@ uint8_t u8x8_byte_8bit_6800mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
       break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
-      break;
     default:
       return 0;
   }
@@ -247,10 +237,6 @@ uint8_t u8x8_byte_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
     case U8X8_MSG_BYTE_END_TRANSFER:
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
-      break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
       break;
     default:
       return 0;
@@ -314,10 +300,6 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
     case U8X8_MSG_BYTE_END_TRANSFER:
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
-      break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
       break;
     default:
       return 0;
@@ -406,10 +388,6 @@ uint8_t u8x8_byte_st7920_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
     case U8X8_MSG_BYTE_END_TRANSFER:
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
-      break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
       break;
     default:
       return 0;
@@ -596,10 +574,6 @@ uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
     case U8X8_MSG_BYTE_END_TRANSFER:
       i2c_stop(u8x8);
       break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
-      break;
     default:
       return 0;
   }
@@ -636,10 +610,6 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:
       i2c_stop(u8x8);
-      break;
-    case U8X8_MSG_BYTE_SET_I2C_ADR:
-      break;
-    case U8X8_MSG_BYTE_SET_DEVICE:
       break;
     default:
       return 0;
