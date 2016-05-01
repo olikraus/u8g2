@@ -37,12 +37,19 @@ struct interface
 
 struct display
 {
-  const char *name;
+  /* this name must match the display part of the device procedure */
+  /* u8x8_d_<controller>_<display> */
+  
+
+  const char *name;	
 };
 
 struct controller
 {
+  /* the name must match the controller part of the device procedure */
+  /* u8x8_d_<controller>_<display> */
   const char *name;
+  
   int tile_width;
   int tile_height;
   const char *ll_hvline;
