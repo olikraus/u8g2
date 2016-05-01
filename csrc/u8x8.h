@@ -120,6 +120,13 @@ extern "C" {
 /*==========================================*/
 /* U8G2 internal defines */
 
+/* the following macro returns the first value for the normal mode */
+/* or the second argument for the flip mode */
+#if U8X8_DEFAULT_FLIP_MODE == 0
+#define U8X8_IF_DEFAULT_NORMAL_OR_FLIP(normal, flipmode) (normal)
+#else
+#define U8X8_IF_DEFAULT_NORMAL_OR_FLIP(normal, flipmode) (flipmode)
+#endif
 
 #ifdef __GNUC__
 #  define U8X8_NOINLINE __attribute__((noinline))

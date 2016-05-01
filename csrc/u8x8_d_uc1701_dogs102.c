@@ -117,11 +117,7 @@ static const u8x8_display_info_t u8x8_uc1701_display_info =
   /* write_pulse_width_ns = */ 40,
   /* tile_width = */ 13,
   /* tile_hight = */ 8,
-#if U8X8_DEFAULT_FLIP_MODE == 0 
-  /* default_x_offset = */ 0,
-#else
-  /* default_x_offset = */ 30,
-#endif
+  /* default_x_offset = */ U8X8_IF_DEFAULT_NORMAL_OR_FLIP(0, 30),
   /* pixel_width = */ 102,
   /* pixel_height = */ 64
 };

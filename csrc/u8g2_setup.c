@@ -103,7 +103,7 @@ void u8g2_update_dimension_r0(u8g2_t *u8g2)
   u8g2_update_dimension_common(u8g2);
 
   u8g2->user_x0 = 0;
-  u8g2->user_x1 = u8g2->pixel_buf_width;
+  u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
   
   u8g2->user_y0 = u8g2->buf_y0;
   u8g2->user_y1 = u8g2->buf_y1;
@@ -123,7 +123,7 @@ void u8g2_update_dimension_r1(u8g2_t *u8g2)
   u8g2->user_x1 = u8g2->buf_y1;
   
   u8g2->user_y0 = 0;
-  u8g2->user_y1 = u8g2->pixel_buf_width;
+  u8g2->user_y1 = u8g2->width;	/* pixel_buf_width replaced with width */
   
   //printf("x0=%d x1=%d y0=%d y1=%d\n", 
    //   u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
@@ -134,7 +134,7 @@ void u8g2_update_dimension_r2(u8g2_t *u8g2)
   u8g2_update_dimension_common(u8g2);
 
   u8g2->user_x0 = 0;
-  u8g2->user_x1 = u8g2->pixel_buf_width;
+  u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
   
   u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
@@ -154,7 +154,7 @@ void u8g2_update_dimension_r3(u8g2_t *u8g2)
   u8g2->user_x1 = u8g2->width - u8g2->buf_y0;
   
   u8g2->user_y0 = 0;
-  u8g2->user_y1 = u8g2->pixel_buf_width;
+  u8g2->user_y1 = u8g2->width;	/* pixel_buf_width replaced with width */
 
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
