@@ -120,9 +120,11 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
 
   y -= u8g2->tile_curr_row*8;
   
-  h = u8g2->pixel_buf_height;
-  w = u8g2->pixel_buf_width;
   
+  h = u8g2->pixel_buf_height;		// this must be the real buffer height
+  w = u8g2->pixel_buf_width;		// this could be replaced by u8g2->u8x8.display_info->pixel_width
+
+
   if ( dir == 0 )
   {
     if ( y >= h )

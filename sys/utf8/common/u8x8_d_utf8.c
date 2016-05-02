@@ -4,15 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CHGR_WIDTH 96
+//#define CHGR_WIDTH 96
+#define CHGR_WIDTH 102
 #define CHGR_HEIGHT 32
 unsigned char chgr_bitmap[CHGR_HEIGHT/2][CHGR_WIDTH/2];
 
 unsigned char *chgr_bitmap_pos(unsigned x, unsigned y)
 {
-  if ( x > CHGR_WIDTH )
+  if ( x >= CHGR_WIDTH )
     return NULL;
-  if ( y > CHGR_HEIGHT )
+  if ( y >= CHGR_HEIGHT )
     return NULL;
   return &(chgr_bitmap[y/2][x/2]);  
 }
@@ -146,8 +147,8 @@ static const u8x8_display_info_t u8x8_utf8_info =
   /* i2c_bus_clock_100kHz = */ 0,
   /* data_setup_time_ns = */ 0,
   /* write_pulse_width_ns = */ 0,
-  /* tile_width = */ (CHGR_WIDTH)/8,
-  /* tile_hight = */ (CHGR_HEIGHT)/8,
+  /* tile_width = */ (CHGR_WIDTH+7)/8,
+  /* tile_hight = */ (CHGR_HEIGHT+7)/8,
 #if U8X8_DEFAULT_FLIP_MODE == 0 
   /* default_x_offset = */ 0,
 #else
@@ -219,7 +220,7 @@ void u8x8_Setup_Utf8(u8x8_t *u8x8)
 
 void u8g2_SetupBuffer_Utf8(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 {
-  static uint8_t buf[CHGR_WIDTH*8];
+  static uint8_t buf[CHGR_WIDTH*8];   // i guess this is to big. it should be (CHGR_WIDTH+7)/8
   
   u8x8_Setup_Utf8(u8g2_GetU8x8(u8g2));
 

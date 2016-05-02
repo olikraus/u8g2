@@ -115,7 +115,7 @@ static const u8x8_display_info_t u8x8_uc1701_display_info =
   /* i2c_bus_clock_100kHz = */ 37,
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
-  /* tile_width = */ 13,
+  /* tile_width = */ 13,		/* width of 13*8=104 pixel */
   /* tile_hight = */ 8,
   /* default_x_offset = */ U8X8_IF_DEFAULT_NORMAL_OR_FLIP(0, 30),
   /* pixel_width = */ 102,
