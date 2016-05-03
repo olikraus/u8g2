@@ -73,8 +73,7 @@ void loop(void) {
   u8g2.firstPage();
   do {
     u8g2.drawStr(0,24,"Hello World!");
-    u8g2.drawStr(20,14,"Hello World!");
-    u8g2.drawPixel(u8g2.getDisplayWidth()-1, 3);
+    
     u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
   } while ( u8g2.nextPage() );
 
@@ -86,6 +85,6 @@ void loop(void) {
     u8g2.drawStr(0,24,"Hello World!");
     u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
   } while ( u8g2.nextPage() );
-  delay(2000);
+  delay(400);
 }
 

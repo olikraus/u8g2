@@ -29,12 +29,12 @@ int main(void)
   do
   {      
     
-    //u8g2_DrawFrame(&u8g2, 0, 0, 
-    //  u8g2_GetDisplayWidth(&u8g2), u8g2_GetDisplayHeight(&u8g2));
+    u8g2_DrawFrame(&u8g2, 0, 0, 
+      u8g2_GetDisplayWidth(&u8g2), u8g2_GetDisplayHeight(&u8g2));
     //u8g2_DrawHLine(&u8g2, 0, 0, u8g2_GetDisplayWidth(&u8g2));
-    u8g2_DrawHLine(&u8g2, 0, u8g2_GetDisplayHeight(&u8g2)-1, u8g2_GetDisplayWidth(&u8g2));
+    //u8g2_DrawHLine(&u8g2, 0, u8g2_GetDisplayHeight(&u8g2)-1, u8g2_GetDisplayWidth(&u8g2));
     //u8g2_DrawHLine(&u8g2, 0, 32, 10);
-    // u8g2_DrawStr(&u8g2, 10, 20, "Frame");
+    u8g2_DrawStr(&u8g2, 10, 20, "Frame");
     //u8g2_DrawStr(&u8g2, u8g2_GetDisplayWidth(&u8g2)-9, 10, "Frame");
     //u8g2_DrawStr(&u8g2, u8g2_GetDisplayWidth(&u8g2)-8, 20, "Frame");
     //u8g2_DrawStr(&u8g2, u8g2_GetDisplayWidth(&u8g2)-7, 30, "Frame");
