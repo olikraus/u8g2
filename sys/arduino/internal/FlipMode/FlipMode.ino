@@ -65,26 +65,45 @@ void setup(void) {
   u8g2.setFont(u8g2_font_helvB12_tr);
 }
 
+
+void draw(const char *s)
+{
+  u8g2.firstPage();
+  do {
+    u8g2.drawStr(0,24,"Hello World!");    
+    u8g2.drawStr(0,44,s);    
+    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
+  } while ( u8g2.nextPage() );
+  delay(1000);
+}
+
+
 void loop(void) {
 
-  
 
-  u8g2.setFlipMode(1);
-  u8g2.firstPage();
-  do {
-    u8g2.drawStr(0,24,"Hello World!");
-    
-    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-  } while ( u8g2.nextPage() );
-
-  delay(2000);
-  
+  u8g2.setDisplayRotation(U8G2_R0);
   u8g2.setFlipMode(0);
-  u8g2.firstPage();
-  do {
-    u8g2.drawStr(0,24,"Hello World!");
-    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-  } while ( u8g2.nextPage() );
-  delay(400);
+  draw("R0, F0");
+  u8g2.setFlipMode(1);
+  draw("R0, F1");
+
+  u8g2.setDisplayRotation(U8G2_R1);
+  u8g2.setFlipMode(0);
+  draw("R1, F0");
+  u8g2.setFlipMode(1);
+  draw("R1, F1");
+
+  u8g2.setDisplayRotation(U8G2_R2);
+  u8g2.setFlipMode(0);
+  draw("R2, F0");
+  u8g2.setFlipMode(1);
+  draw("R2, F1");
+
+  u8g2.setDisplayRotation(U8G2_R3);
+  u8g2.setFlipMode(0);
+  draw("R3, F0");
+  u8g2.setFlipMode(1);
+  draw("R3, F1");
+
 }
 

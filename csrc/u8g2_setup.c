@@ -57,6 +57,16 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
 #endif
 }
 
+/*
+  Usually the display rotation is set initially, but it could be done later also
+  u8g2_cb can be U8G2_R0..U8G2_R3
+*/
+void u8g2_SetDisplayRotation(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+{
+  u8g2->cb = u8g2_cb;
+  u8g2->cb->update(u8g2);
+}
+
 
 /*============================================*/
 /* 
