@@ -58,9 +58,12 @@ class U8G2 : public Print
   public:
     u8g2_uint_t tx, ty;
   
-    U8G2(void) { home(); }
+    U8G2(void) { u8g2.u8x8.next_cb = u8x8_ascii_next; home(); }
     u8x8_t *getU8x8(void) { return u8g2_GetU8x8(&u8g2); }
     u8g2_t *getU8g2(void) { return &u8g2; }
+    
+    void enablePrintUTF8(void) { u8g2.u8x8.next_cb = u8x8_utf8_next; }
+    void disablePrintUTF8(void) { u8g2.u8x8.next_cb = u8x8_ascii_next; }
 
     /* u8x8 interface */
     uint8_t getCols(void) { return u8x8_GetCols(u8g2_GetU8x8(&u8g2)); }
@@ -165,17 +168,20 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     u8g2_uint_t getStrWidth(const char *s) { return u8g2_GetStrWidth(&u8g2, s); }
     u8g2_uint_t getUTF8Width(const char *s) { return u8g2_GetUTF8Width(&u8g2, s); }
     
-    void printUTF8(const char *s) { tx += u8g2_DrawUTF8(&u8g2, tx, ty, s); }
+    // not required any more, enable UTF8 for print 
+    //void printUTF8(const char *s) { tx += u8g2_DrawUTF8(&u8g2, tx, ty, s); }
 	
     
     /* virtual function for print base class */    
     size_t write(uint8_t v) {
-      tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
+      uint16_t e = u8g2.u8x8.next_cb(&(u8g2.u8x8), v);
+      if ( e < 0x0fffe )
+	tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
       return 1;
      }
 
      /* LiquidCrystal compatible functions */
-    void home(void) { tx = 0; ty = 0; }
+    void home(void) { tx = 0; ty = 0;  u8x8_utf8_init(u8g2_GetU8x8(&u8g2)); }
     void clear(void) { clearBuffer(); home(); }
     void noDisplay(void) { u8g2_SetPowerSave(&u8g2, 1); }
     void display(void) { u8g2_SetPowerSave(&u8g2, 0); }
