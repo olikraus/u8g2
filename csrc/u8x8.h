@@ -162,7 +162,8 @@ typedef struct u8x8_display_info_struct u8x8_display_info_t;
 typedef struct u8x8_tile_struct u8x8_tile_t;
 
 typedef uint8_t (*u8x8_msg_cb)(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
-typedef uint16_t (*u8x8_char_cb)(const char **s);
+typedef uint16_t (*u8x8_char_cb)(u8x8_t *u8x8, uint8_t b);
+
 
 
 
@@ -247,12 +248,13 @@ struct u8x8_display_info_struct
 struct u8x8_struct
 {
   const u8x8_display_info_t *display_info;
+  u8x8_char_cb next_cb; /*  procedure, which will be used to get the next char from the string */
   u8x8_msg_cb display_cb;
   u8x8_msg_cb cad_cb;
   u8x8_msg_cb byte_cb;
   u8x8_msg_cb gpio_and_delay_cb;
   const uint8_t *font;
-  u8x8_char_cb char_cb;		/*  procedure, which will be used to get the next char from the string */
+  uint16_t encoding;		/* encoding result for utf8 decoder in next_cb */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
   uint8_t is_font_inverse_mode; 	/* 0: normal, 1: font glyphs are inverted */
   uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something usefull during DISPLAY_INIT */
@@ -260,6 +262,7 @@ struct u8x8_struct
 					/* usually, the lowest bit must be zero for a valid address */
   uint8_t i2c_started;	/* for i2c interface */
   uint8_t device_address;	/* this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
+  uint8_t utf8_state;		/* number of chars which are still to scan */
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
 #endif
@@ -621,8 +624,13 @@ uint8_t u8x8_d_st7920_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 /*==========================================*/
 /* u8x8_8x8.c */
-uint16_t u8x8_get_encoding_from_utf8_string(const char **str);
-uint16_t u8x8_get_char_from_string(const char **str);
+
+void u8x8_utf8_init(u8x8_t *u8x8);
+uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b);
+uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b);
+// the following two functions are replaced by the init/next functions 
+//uint16_t u8x8_get_encoding_from_utf8_string(const char **str);
+//uint16_t u8x8_get_char_from_string(const char **str);
 
 void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8);
 void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding);

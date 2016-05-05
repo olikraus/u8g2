@@ -713,41 +713,46 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
 {
   uint16_t e;
   u8g2_uint_t delta, sum;
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   sum = 0;
   for(;;)
   {
-    e = u8g2->u8x8.char_cb(&str);
-    if ( e == 0 )
+    e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    if ( e == 0x0ffff )
       break;
-    delta = u8g2_DrawGlyph(u8g2, x, y, e);
+    str++;
+    if ( e != 0x0fffe )
+    {
+      delta = u8g2_DrawGlyph(u8g2, x, y, e);
     
 #ifdef U8G2_WITH_FONT_ROTATION
-    switch(u8g2->font_decode.dir)
-    {
-      case 0:
-	x += delta;
-	break;
-      case 1:
-	y += delta;
-	break;
-      case 2:
-	x -= delta;
-	break;
-      case 3:
-	y -= delta;
-	break;
-    }
+      switch(u8g2->font_decode.dir)
+      {
+	case 0:
+	  x += delta;
+	  break;
+	case 1:
+	  y += delta;
+	  break;
+	case 2:
+	  x -= delta;
+	  break;
+	case 3:
+	  y -= delta;
+	  break;
+      }
 #else
-    x += delta;
+      x += delta;
 #endif    
-    sum += delta;    
+      sum += delta;    
+    }
   }
   return sum;
 }
 
 u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
-  u8g2->u8x8.char_cb = u8x8_get_char_from_string;
+  u8g2->u8x8.next_cb = u8x8_ascii_next;
   return u8g2_draw_string(u8g2, x, y, str);
 }
 
@@ -763,7 +768,7 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
 */
 u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
-  u8g2->u8x8.char_cb = u8x8_get_encoding_from_utf8_string;
+  u8g2->u8x8.next_cb = u8x8_utf8_next;
   return u8g2_draw_string(u8g2, x, y, str);
 }
 
@@ -940,23 +945,28 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   uint16_t e;
   u8g2_uint_t  w;
   
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
+  
   /* reset the total width to zero, this will be expanded during calculation */
   w = 0;
   
   for(;;)
   {
-    e = u8g2->u8x8.char_cb(&str);
-    if ( e == 0 )
+    e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    if ( e == 0x0ffff )
       break;
-    w += u8g2_GetGlyphWidth(u8g2, e);
-    
+    str++;
+    if ( e != 0x0fffe )
+    {
+      w += u8g2_GetGlyphWidth(u8g2, e);
+    }
   }
   return w;  
 }
 
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
 {
-  u8g2->u8x8.char_cb = u8x8_get_char_from_string;
+  u8g2->u8x8.next_cb = u8x8_ascii_next;
   return u8g2_string_width(u8g2, s);
 }
 
@@ -972,7 +982,7 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
 */
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str)
 {
-  u8g2->u8x8.char_cb = u8x8_get_encoding_from_utf8_string;
+  u8g2->u8x8.next_cb = u8x8_utf8_next;
   return u8g2_string_width(u8g2, str);
 }
 

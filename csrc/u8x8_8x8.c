@@ -95,6 +95,7 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
 This function returns 0x0ffff for end of string (0x0ffff is not a unicode glyph)
 
 */
+#ifdef OBSOLETE
 uint16_t u8x8_get_encoding_from_utf8_string(const char **str) 
 {
   uint16_t e;
@@ -133,7 +134,82 @@ uint16_t u8x8_get_encoding_from_utf8_string(const char **str)
   }
   return e;
 }
+#endif
 
+/* reset the internal state machine */
+void u8x8_utf8_init(u8x8_t *u8x8)
+{
+  u8x8->utf8_state = 0;
+}
+
+uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b)
+{
+  if ( b == 0 )
+    return 0x0ffff;	/* end of string detected*/
+  return b;
+}
+
+/*
+  pass a byte from an utf8 encoded string to the utf8 decoder state machine
+  returns 
+    0x0fffe: no glyph, just continue
+    0x0ffff: end of string
+    anything else: The decoded encoding
+*/
+uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b)
+{
+  if ( b == 0 )
+    return 0x0ffff;	/* end of string detected, pending UTF8 is discarded */
+  if ( u8x8->utf8_state == 0 )
+  {
+    if ( b >= 0xfc )	/* 6 byte sequence */
+    {
+      u8x8->utf8_state = 5;
+      b &= 1;
+    }
+    else if ( b >= 0xf8 )
+    {
+      u8x8->utf8_state = 4;
+      b &= 3;
+    }
+    else if ( b >= 0xf0 )
+    {
+      u8x8->utf8_state = 3;
+      b &= 7;      
+    }
+    else if ( b >= 0xe0 )
+    {
+      u8x8->utf8_state = 2;
+      b &= 15;
+    }
+    else if ( b >= 0xc0 )
+    {
+      u8x8->utf8_state = 1;
+      b &= 0x01f;
+    }
+    else
+    {
+      /* do nothing, just use the value as encoding */
+      return b;
+    }
+    u8x8->encoding = b;
+    return 0x0fffe;
+  }
+  else
+  {
+    u8x8->utf8_state--;
+    /* The case b < 0x080 (an illegal UTF8 encoding) is not checked here. */
+    u8x8->encoding<<=6;
+    b &= 0x03f;
+    u8x8->encoding |= b;
+    if ( u8x8->utf8_state != 0 )
+      return 0x0fffe;	/* nothing to do yet */
+  }
+  return u8x8->encoding;
+}
+
+
+#ifdef OBSOLETE
 uint16_t u8x8_get_char_from_string(const char **str)
 {
   uint8_t b = **str;
@@ -160,41 +236,58 @@ static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *
   }
   return cnt;
 }
+#endif
 
-uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
 {
-  u8x8->char_cb = u8x8_get_char_from_string;
-  return u8x8_draw_string(u8x8, x, y, s);
-}
-
-uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
-{
-  u8x8->char_cb = u8x8_get_encoding_from_utf8_string;
-  return u8x8_draw_string(u8x8, x, y, s);
-}
-
-static uint8_t u8x8_strlen(u8x8_t *u8x8, const char *s) U8X8_NOINLINE;
-static uint8_t u8x8_strlen(u8x8_t *u8x8, const char *s)
-{
-  uint16_t c;
+  uint16_t e;
   uint8_t cnt = 0;
+  u8x8_utf8_init(u8x8);
   for(;;)
   {
-    c = u8x8->char_cb(&s);
-    if ( c == 0 )
+    e = u8x8->next_cb(u8x8, (uint8_t)*s);
+    if ( e == 0x0ffff )
       break;
-    if ( c <= 255 )
+    s++;
+    if ( e != 0x0fffe )
     {
+      u8x8_DrawGlyph(u8x8, x, y, e);
+      x++;
       cnt++;
     }
   }
   return cnt;
 }
 
+
+uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  u8x8->next_cb = u8x8_ascii_next;
+  return u8x8_draw_string(u8x8, x, y, s);
+}
+
+uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  u8x8->next_cb = u8x8_utf8_next;
+  return u8x8_draw_string(u8x8, x, y, s);
+}
+
 uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s)
 {
-  u8x8->char_cb = u8x8_get_encoding_from_utf8_string;
-  return u8x8_strlen(u8x8, s);
+  uint16_t e;
+  uint8_t cnt = 0;
+  u8x8_utf8_init(u8x8);
+  for(;;)
+  {
+    e = u8x8_utf8_next(u8x8, *s);
+    if ( e == 0x0ffff )
+      break;
+    s++;
+    if ( e != 0x0fffe )
+      cnt++;
+  }
+  return cnt;
 }
 
 
