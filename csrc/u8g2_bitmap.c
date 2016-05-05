@@ -41,7 +41,7 @@
   b		Pointer to the bitmap line.
 */
 
-void u8g2_DrawHBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
+void u8g2_DrawHorizontalBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
 {
   uint8_t mask;
   uint8_t color = u8g2->draw_color;
@@ -70,6 +70,28 @@ void u8g2_DrawHBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
   }
   u8g2->draw_color = color;
 }
+
+
+/* u8glib compatible bitmap draw function */
+void u8g2_DrawBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t cnt, u8g2_uint_t h, const uint8_t *bitmap)
+{
+  u8g2_uint_t w;
+  w = cnt;
+  w *= 8;
+#ifdef U8G2_WITH_INTERSECTION
+  if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
+    return;
+#endif /* U8G2_WITH_INTERSECTION */
+  
+  while( h > 0 )
+  {
+    u8g2_DrawHorizontalBitmap(u8g2, x, y, w, bitmap);
+    bitmap += cnt;
+    y++;
+    h--;
+  }
+}
+
 
 void u8g2_DrawHXBM(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
 {

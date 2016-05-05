@@ -23,8 +23,8 @@ int main(void)
   u8g2_FirstPage(&u8g2);
   do
   {      
-    u8g2_DrawHBitmap(&u8g2, 0, 0, 10, b);
-    u8g2_DrawStr(&u8g2, 30, 20, "HBitmap");
+    u8g2_DrawHorizontalBitmap(&u8g2, 0, 0, 10, b);
+    u8g2_DrawStr(&u8g2, 1, 20, "HorizontalBitmap");
   } while( u8g2_NextPage(&u8g2) );
     
   utf8_show();
