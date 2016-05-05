@@ -66,6 +66,9 @@ Major Changes (Code rework required)
 	Use the print function with the F() macro instead.
 - In U8glib font transparency was defined in the .begin() statement. This is now
       handled by setFontMode 
+- drawBitmap: The width/count argument of the u8glib drawBitmap function
+      has changed: U8g2 expects the number of pixel. Just multiply the 
+      third argument with 8 for the u8g2 function.
 - Screen rotation does not exisit any more:
 	The functions undoRotation, setRot90, setRot180 and setRot270 are
 	replaced by the first argument of the constructor

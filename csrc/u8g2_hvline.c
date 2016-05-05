@@ -251,35 +251,3 @@ void u8g2_SetDrawColor(u8g2_t *u8g2, uint8_t color)
     u8g2->draw_color = 1;
 }
 
-void u8g2_DrawHBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t *b)
-{
-  uint8_t mask;
-  uint8_t color = u8g2->draw_color;
-  uint8_t ncolor = 1-color;
-#ifdef U8G2_WITH_INTERSECTION
-  if ( u8g2_IsIntersection(u8g2, x, y, x+len, y+1) == 0 ) 
-    return;
-#endif /* U8G2_WITH_INTERSECTION */
-  
-  mask = 128;
-  while(len > 0)
-  {
-    if ( *b & mask )
-      u8g2->draw_color = color;
-    else
-      u8g2->draw_color = ncolor;
-    u8g2_DrawHVLine(u8g2, x, y, 1, 0);
-    x++;
-    mask >>= 1;
-    if ( mask == 0 )
-    {
-      mask = 128;
-      b++;
-    }
-    len--;
-  }
-  u8g2->draw_color = color;
-}
-
-
-
