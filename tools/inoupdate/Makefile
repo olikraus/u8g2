@@ -17,4 +17,4 @@ clean:
 	-rm ./inoupdate
 
 ino:	inoupdate
-	echo "tbd"
+	find ../../sys/arduino/. -name "*.ino" -exec ./inoupdate {} \;

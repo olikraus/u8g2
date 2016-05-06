@@ -44,11 +44,8 @@
 
 
 
-#define TOC_ENTRIES 512
-#define TOC_ENTRY_SIZE 1024
 
-
-char inoupdate_start[] = "// Start of constructor list";
+char inoupdate_start[] = "// Please UNCOMMENT one of the contructor lines below";
 char inoupdate_end[] = "// End of constructor list";
 
 
@@ -83,7 +80,7 @@ int file_copy(const char *source_file_name, const char *dest_file_name)
 int insert_into_file(const char *filename, const char *insertname, const char *start_line, const char *end_line)
 {
   int ch;
-  int is_found;
+  int is_found = 0;
   static char line[1024*4];
   const char *tmpname = "tmp.h";
   FILE *source_fp;
