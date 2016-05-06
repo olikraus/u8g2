@@ -55,15 +55,16 @@ class U8G2 : public Print
 {
   protected:
     u8g2_t u8g2;
+    u8x8_char_cb cpp_next_cb; /*  the cpp interface has its own decoding function for the Arduino print command */
   public:
     u8g2_uint_t tx, ty;
   
-    U8G2(void) { u8g2.u8x8.next_cb = u8x8_ascii_next; home(); }
+    U8G2(void) { cpp_next_cb = u8x8_ascii_next; home(); }
     u8x8_t *getU8x8(void) { return u8g2_GetU8x8(&u8g2); }
     u8g2_t *getU8g2(void) { return &u8g2; }
     
-    void enablePrintUTF8(void) { u8g2.u8x8.next_cb = u8x8_utf8_next; }
-    void disablePrintUTF8(void) { u8g2.u8x8.next_cb = u8x8_ascii_next; }
+    void enablePrintUTF8(void) { cpp_next_cb = u8x8_utf8_next; }
+    void disablePrintUTF8(void) { cpp_next_cb = u8x8_ascii_next; }
 
     /* u8x8 interface */
     uint8_t getCols(void) { return u8x8_GetCols(u8g2_GetU8x8(&u8g2)); }
@@ -89,7 +90,7 @@ class U8G2 : public Print
 
     
     void begin(void) {
-      initDisplay(); clearDisplay(); setPowerSave(0); }
+      initDisplay(); clearDisplay(); setPowerSave(0); u8x8_utf8_init(u8g2_GetU8x8(&u8g2));}
       
 
     /* u8g2  */
@@ -174,9 +175,10 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     
     /* virtual function for print base class */    
     size_t write(uint8_t v) {
-      uint16_t e = u8g2.u8x8.next_cb(&(u8g2.u8x8), v);
+      uint16_t e = cpp_next_cb(&(u8g2.u8x8), v);
+      
       if ( e < 0x0fffe )
-	tx += u8g2_DrawGlyph(&u8g2, tx, ty, v);
+	tx += u8g2_DrawGlyph(&u8g2, tx, ty, e);
       return 1;
      }
 
