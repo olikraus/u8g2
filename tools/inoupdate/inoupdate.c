@@ -144,15 +144,26 @@ int insert_into_file(const char *filename, const char *insertname, const char *s
 
 int main(int argc, char **argv)
 {
-  if ( argc <= 1 )
+  char *replacefile;
+  char *inoupdate_start;
+  char *inoupdate_end;
+  if ( argc <= 4 )
   {
-    printf("%s [.ino files]\n", argv[0]);
+    printf("%s replacefilename \"start-text\" \"end-text\" [.ino files]\n", argv[0]);
     return 1;
   }
   argv++;
+  replacefile = *argv;
+  argv++;
+  inoupdate_start = *argv;
+  argv++;
+  inoupdate_end = *argv;
+  argv++;
+  
+  
   while( *argv != NULL )
   {
-    insert_into_file(*argv, "inoupdate.ino", inoupdate_start, inoupdate_end);
+    insert_into_file(*argv, replacefile, inoupdate_start, inoupdate_end);
     argv++;
   }
   return 0;
