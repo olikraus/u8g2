@@ -3,6 +3,7 @@
   PrintHelloWorld.ino
   
   Use the (Arduino compatible) u8g2 function "print"  to draw a text.
+  Also use the Arduino F() macro to place the text into PROGMEM area.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -73,11 +74,11 @@ void setup(void) {
 }
 
 void loop(void) {
+  u8g2.setFont(u8g2_font_ncenB14_tr);
   u8g2.firstPage();
   do {
-    u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.setCursor(0, 15);
-    u8g2.print("Hello World!");
+    u8g2.setCursor(0, 20);
+    u8g2.print(F("Hello World!"));
   } while ( u8g2.nextPage() );
   delay(1000);
 }
