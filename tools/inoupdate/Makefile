@@ -18,3 +18,4 @@ clean:
 
 ino:	inoupdate
 	find ../../sys/arduino/. -name "*.ino" -exec ./inoupdate page_buffer.ino "// U8g2 Contructor List (Picture Loop Page Buffer)" "// End of constructor list" {} \;
+	find ../../sys/arduino/. -name "*.ino" -exec ./inoupdate frame_buffer.ino "// U8g2 Contructor List (Frame Buffer)" "// End of constructor list" {} \;
