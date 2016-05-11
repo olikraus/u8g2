@@ -182,6 +182,16 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
       return 1;
      }
 
+    size_t write(const uint8_t *buffer, size_t size) {
+      size_t cnt = 0;
+      while( size > 0 ) {
+	cnt += write(*buffer++); 
+	size--;
+      }
+      return cnt;
+    }
+     
+
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0;  u8x8_utf8_init(u8g2_GetU8x8(&u8g2)); }
     void clear(void) { clearBuffer(); home(); }
