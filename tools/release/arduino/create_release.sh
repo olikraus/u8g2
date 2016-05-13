@@ -12,17 +12,29 @@ cp ../../../csrc/*.h ./../../../../U8g2_Arduino/src/clib/.
 rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # copy examples
-mkdir ../../../../U8g2_Arduino/examples/u8g2_page_buffer/HelloWorld
-cp ../../../sys/arduino/u8g2_page_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8g2_page_buffer/HelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8g2_page_buffer/U8g2Logo
-cp ../../../sys/arduino/u8g2_page_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/u8g2_page_buffer/U8g2Logo/.
+# page buffer
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld
+cp ../../../sys/arduino/u8g2_page_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8g2_full_buffer/HelloWorld
-cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8g2_full_buffer/HelloWorld/.
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld
+cp ../../../sys/arduino/u8g2_page_buffer/PrintHelloWorld/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8g2_full_buffer/U8g2Logo
-cp ../../../sys/arduino/u8g2_full_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/u8g2_full_buffer/U8g2Logo/.
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8
+cp ../../../sys/arduino/u8g2_page_buffer/PrintUTF8/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/U8g2Logo
+cp ../../../sys/arduino/u8g2_page_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/page_buffer/U8g2Logo/.
+
+# full buffer
+
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld
+cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld/.
+
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo
+cp ../../../sys/arduino/u8g2_full_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo/.
+
+# u8x8
 
 mkdir ../../../../U8g2_Arduino/examples/u8x8/HelloWorld
 cp ../../../sys/arduino/u8x8/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8x8/HelloWorld/.
@@ -64,6 +76,9 @@ cd ..
 
 echo "== create local zip file =="
 zip -q -r --exclude="*.git*" u8g2_arduino_${ver}.zip ./U8g2_Arduino
+cp u8g2_arduino_${ver}.zip ~/Arduino/libraries/.
+cd ~/Arduino/libraries
+unzip u8g2_arduino_${ver}.zip
 
 popd
 
