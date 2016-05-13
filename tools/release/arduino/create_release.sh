@@ -78,7 +78,7 @@ echo "== create local zip file =="
 zip -q -r --exclude="*.git*" u8g2_arduino_${ver}.zip ./U8g2_Arduino
 cp u8g2_arduino_${ver}.zip ~/Arduino/libraries/.
 cd ~/Arduino/libraries
-unzip u8g2_arduino_${ver}.zip
+unzip -o u8g2_arduino_${ver}.zip
 
 popd
 
