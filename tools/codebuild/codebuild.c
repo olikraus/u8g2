@@ -69,13 +69,44 @@ struct controller controller_list[] =
     }
   },
   {
-    /* "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "i2c", COM_SSDI2C, */
     "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
     {
       { "128x64_noname" },
       { NULL }
     }
   },
+
+   {
+    "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    {
+      { "128x64_noname" },
+      { NULL }
+    }
+  },
+  {
+    "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
+    {
+      { "128x64_noname" },
+      { NULL }
+    }
+  },
+
+  {
+    "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    {
+      { "128x32_univision" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
+    {
+      { "128x32_univision" },
+      { NULL }
+    }
+  },
+
+  
   {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     {
@@ -401,6 +432,7 @@ const char *get_setup_function_name(int controller_idx, int display_idx, const c
   strcat(s, strlowercase(controller_list[controller_idx].display_list[display_idx].name));
   strcat(s, "_");
   strcat(s, postfix);
+  return s;
 }
 
 void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const char *postfix)
