@@ -226,9 +226,9 @@ struct interface interface_list[] =
   /* 7 */
   {
     "HW_I2C",
-    "",
-    "",
-    "",   
+    "u8x8_SetPin_SSD13xx_HW_I2C",
+    "u8x8_byte_arduino_hw_i2c",
+    "u8x8_gpio_and_delay_arduino",
     "uint8_t reset = U8X8_PIN_NONE",
     "reset",
     "[reset]",
@@ -589,8 +589,8 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   }
   if ( controller_list[controller_idx].com & COM_SSDI2C )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW SPI */
-    //do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW SPI (not yet implemented) */
+    do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW I2C */
+    do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW I2C */
   }
   if ( controller_list[controller_idx].com & COM_ST7920SPI )
   {
@@ -803,8 +803,8 @@ void do_md_controller_list(void)
       }
       if ( controller_list[controller_idx].com & COM_SSDI2C )
       {
-	do_md_display_interface(controller_idx, display_idx, 6);		/* SW SPI */
-	//do_md_display_interface(controller_idx, display_idx, 7);		/* HW SPI (not yet implemented) */
+	do_md_display_interface(controller_idx, display_idx, 6);		/* SW I2C */
+	do_md_display_interface(controller_idx, display_idx, 7);		/* HW I2C  */
       }
       if ( controller_list[controller_idx].com & COM_ST7920SPI )
       {

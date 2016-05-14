@@ -41,7 +41,9 @@
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif 
-
+#ifdef U8X8_HAVE_HW_TWI
+#include <Wire.h>
+#endif
 
 /*=============================================*/
 /* callbacks */
@@ -160,6 +162,42 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
 }
 
 
+/*=============================================*/
+
+extern "C" uint8_t u8x8_byte_arduino_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+#ifdef U8X8_HAVE_HW_TWI
+  uint8_t *data;
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+      //Wire.write((uint8_t *)arg_ptr, (int)arg_int);
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 )
+      {
+	Wire.write(*data);
+	data++;
+	arg_int--;
+      }
+      break;
+    case U8X8_MSG_BYTE_INIT:
+      Wire.begin();
+      break;
+    case U8X8_MSG_BYTE_SET_DC:
+      break;
+    case U8X8_MSG_BYTE_START_TRANSFER:
+      Wire.beginTransmission(u8x8_GetI2CAddress(u8x8)>>1);
+      break;
+    case U8X8_MSG_BYTE_END_TRANSFER:
+      Wire.endTransmission();
+      break;
+    default:
+      return 0;
+  }
+#endif
+  return 1;
+}
+
 
 /*
   use U8X8_PIN_NONE as value for "reset", if there is no reset line
@@ -251,6 +289,11 @@ void u8x8_Setup_SSD13xx_SW_I2C(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clo
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
 #endif /* obsolete com specific setup */
+
+void u8x8_SetPin_SSD13xx_HW_I2C(u8x8_t *u8x8, uint8_t reset)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+}
 
 void u8x8_SetPin_8Bit_6800(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset)
 {
