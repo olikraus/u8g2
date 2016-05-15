@@ -49,22 +49,22 @@
 #define U8X8_HAVE_HW_SPI
 
 
-/* Assumption: All Arduino Boards have "TWI.h" */
-#define U8X8_HAVE_HW_TWI
+/* Assumption: All Arduino Boards have "Wire.h" */
+#define U8X8_HAVE_HW_I2C
 
 /* Undefine U8X8_HAVE_HW_SPI for those Boards without SPI.h */
 
 #ifdef ARDUINO_AVR_DIGISPARK
 #ifdef U8X8_HAVE_HW_SPI
 #undef U8X8_HAVE_HW_SPI
-#undef U8X8_HAVE_HW_TWI
+#undef U8X8_HAVE_HW_I2C
 #endif 
 #endif
 
 #ifdef __AVR_ATtiny85__
 #ifdef U8X8_HAVE_HW_SPI
 #undef U8X8_HAVE_HW_SPI
-#undef U8X8_HAVE_HW_TWI
+#undef U8X8_HAVE_HW_I2C
 #endif 
 #endif
 
