@@ -14,6 +14,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 # copy examples
 
 # page buffer
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/FPS
+cp ../../../sys/arduino/u8g2_page_buffer/FPS/*.ino ../../../../U8g2_Arduino/examples/page_buffer/FPS/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_page_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld/.
 
