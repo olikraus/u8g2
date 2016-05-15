@@ -41,7 +41,7 @@ U8glib V2: Features and Limitations
 
 - Hardware supported display flip
 
-- Better hardware support
+- Better hardware support: Tested with avr, esp8266 and sam architectures.
 
 
 u8g vs. u8g2

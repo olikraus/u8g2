@@ -5,3 +5,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-04-30	v2.0.1	olikraus@gmail.com
   * Support for DOGS102, ST7920, SSD1306
   * Most graphics primitives are implemented
+2016-05-15	v2.0.3	olikraus@gmail.com
+  * Support for Adafruit FeatherWing 128x32 OLED
+  * Added Wire.h support (I2C for SSD1306)
+  * Successfully tested with Adafruit ESP8266 Feather Board (HW+SW I2C)
