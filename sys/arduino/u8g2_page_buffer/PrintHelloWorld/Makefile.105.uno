@@ -68,6 +68,8 @@ AVRDUDE_PORT:=/dev/ttyACM0
 EXTRA_DIRS=$(ARDUINO_PATH)libraries/LiquidCrystal/
 EXTRA_DIRS+=$(ARDUINO_PATH)libraries/SD/
 EXTRA_DIRS+=$(ARDUINO_PATH)libraries/SD/utility/
+EXTRA_DIRS+=$(ARDUINO_PATH)libraries/Wire/
+EXTRA_DIRS+=$(ARDUINO_PATH)libraries/Wire/utility/
 EXTRA_DIRS+=$(ARDUINO_PATH)libraries/SPI/
 #EXTRA_DIRS+=$(ARDUINO_PATH)libraries/.../
 

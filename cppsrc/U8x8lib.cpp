@@ -167,7 +167,6 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
 extern "C" uint8_t u8x8_byte_arduino_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
 #ifdef U8X8_HAVE_HW_I2C
-  uint8_t *data;
   switch(msg)
   {
     case U8X8_MSG_BYTE_SEND:
