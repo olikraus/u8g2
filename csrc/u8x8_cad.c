@@ -275,6 +275,15 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 /* u8x8_byte_SetDC is not used */
 /* U8X8_MSG_BYTE_START_TRANSFER starts i2c transfer, U8X8_MSG_BYTE_END_TRANSFER stops transfer */
 
+static void u8x8_i2c_data_transfer(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr) U8X8_NOINLINE;
+static void u8x8_i2c_data_transfer(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
+{
+    u8x8_byte_StartTransfer(u8x8);    
+    u8x8_byte_SendByte(u8x8, 0x040);
+    u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, arg_int, arg_ptr);
+    u8x8_byte_EndTransfer(u8x8);
+}
+
 uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   switch(msg)
@@ -292,25 +301,19 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       //u8x8_byte_SetDC(u8x8, 1);
     
       /* the FeatherWing OLED with the 32u4 transfer of long byte */
-      /* streams was not possible. This is why this is broken down to */
+      /* streams was not possible. This is broken down to */
       /* smaller streams, 32 seems to be the limit... */
       /* I guess this is related to the size of the Wire buffers in Arduino */
-      /* Unfortunately, this can not be handled in the lower level drivers, */
+      /* Unfortunately, this can not be handled in the byte level drivers, */
       /* so this is done here. Even further, only 24 bytes will be sent, */
-      /* because there will be another byte (DC) required before the transfer */
+      /* because there will be another byte (DC) required during the transfer */
        while( arg_int > 24 )
       {
-	u8x8_byte_StartTransfer(u8x8);    
-	u8x8_byte_SendByte(u8x8, 0x040);
-	u8x8->byte_cb(u8x8, msg, 24, arg_ptr);
-	u8x8_byte_EndTransfer(u8x8);
+	u8x8_i2c_data_transfer(u8x8, 24, arg_ptr);
 	arg_int-=24;
 	arg_ptr+=24;
       }
-      u8x8_byte_StartTransfer(u8x8);    
-      u8x8_byte_SendByte(u8x8, 0x040);
-      u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
-      u8x8_byte_EndTransfer(u8x8);
+      u8x8_i2c_data_transfer(u8x8, arg_int, arg_ptr);
       break;
     case U8X8_MSG_CAD_INIT:
       /* apply default i2c adr if required so that the start transfer msg can use this */
