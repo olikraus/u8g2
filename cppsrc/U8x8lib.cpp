@@ -102,6 +102,139 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 
 /*=============================================*/
 
+/*
+  replacement for a more faster u8x8_byte_4wire_sw_spi
+  in general u8x8_byte_4wire_sw_spi could be a fallback:
+
+  uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+  {
+    return u8x8_byte_4wire_sw_spi(u8x8, msg,arg_int, arg_ptr);
+  }
+
+
+
+*/
+
+#ifndef __AVR_ARCH__
+#define __AVR_ARCH__ 0
+#endif 
+
+#if !defined(U8X8_USE_PINS)
+  /* no pin information (very strange), so fallback */
+  uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+  {
+    return u8x8_byte_4wire_sw_spi(u8x8, msg,arg_int, arg_ptr);
+  }
+
+#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6
+
+/* this function completly replaces u8x8_byte_4wire_sw_spi*/
+extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t i, b;
+  uint8_t *data;
+  uint8_t takeover_edge = u8x8->display_info->sck_takeover_edge;
+  uint8_t not_takeover_edge = 1 - takeover_edge;
+
+  /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
+  /* so, it should be possible to used multiple displays with different pins */
+  
+  static volatile uint8_t *arduino_clock_port;
+  static volatile uint8_t arduino_clock_mask;
+  static volatile uint8_t arduino_clock_n_mask;
+  
+  static volatile uint8_t *arduino_data_port;
+  static volatile uint8_t arduino_data_mask;
+  static volatile uint8_t arduino_data_n_mask;
+
+
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 )
+      {
+	b = *data;
+	data++;
+	arg_int--;
+	for( i = 0; i < 8; i++ )
+	{
+	  if ( b & 128 )
+	    *arduino_data_port |= arduino_data_mask;
+	  else
+	    *arduino_data_port &= arduino_data_n_mask;
+	  b <<= 1;
+
+	  if ( not_takeover_edge != 0 )
+	    *arduino_clock_port |= arduino_clock_mask;
+	  else
+	    *arduino_clock_port &= arduino_clock_n_mask;
+		
+	  /* AVR Architecture is very slow, extra call is not required */
+	  //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
+	  
+	  if ( takeover_edge != 0 )
+	    *arduino_clock_port |= arduino_clock_mask;
+	  else
+	    *arduino_clock_port &= arduino_clock_n_mask;
+	  
+	  /* AVR Architecture is very slow, extra call is not required */
+	  //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+	}    
+      }
+      break;
+      
+    case U8X8_MSG_BYTE_INIT:
+      /* disable chipselect */
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+      /* no wait required here */
+      
+      /* for SPI: setup correct level of the clock signal */
+      u8x8_gpio_SetSPIClock(u8x8, u8x8->display_info->sck_takeover_edge);
+      break;
+    case U8X8_MSG_BYTE_SET_DC:
+      u8x8_gpio_SetDC(u8x8, arg_int);
+      break;
+    case U8X8_MSG_BYTE_START_TRANSFER:
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
+
+      /* there is no consistency checking for u8x8->pins[U8X8_PIN_SPI_CLOCK] */
+    
+      arduino_clock_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_CLOCK]));
+      arduino_clock_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_CLOCK]);
+      arduino_clock_n_mask = ~arduino_clock_mask;
+
+      /* there is no consistency checking for u8x8->pins[U8X8_PIN_SPI_DATA] */
+
+      arduino_data_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_DATA]));
+      arduino_data_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_DATA]);
+      arduino_data_n_mask = ~arduino_data_mask;
+    
+      break;
+    case U8X8_MSG_BYTE_END_TRANSFER:
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+#else
+  /* fallback */
+  uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+  {
+    return u8x8_byte_4wire_sw_spi(u8x8, msg,arg_int, arg_ptr);
+  }
+  
+#endif
+
+
+/*=============================================*/
+
+
 extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
 #ifdef U8X8_HAVE_HW_SPI

@@ -132,6 +132,14 @@
   Uno DOGS102 u8g(13, 11, 10, 9);    			SW SPI	        FPS: Clip=3.0 Box=3.3  @=2.1 Pix=2.4		11472 Bytes
   Uno DOGS102 u8g(10, 9);    					HW SPI	        FPS: Clip=24.5 Box=87.4  @=5.0 Pix=7.3	11554 Bytes
 
+  15. Mai 2016
+  Uno U8G2_UC1701_DOGS102_1_4W_SW_SPI		SW SPI	        FPS: Clip=3.5 Box=3.8  @=2.3 Pix=2.7		Arduino Flash Size: 13262 Bytes
+  Uno U8G2_UC1701_DOGS102_1_4W_HW_SPI    	HW SPI	        FPS: Clip=26.3 Box=90.5  @=5.1 Pix=8.5	Arduino Flash Size: 13370 Bytes
+  Uno U8G2_UC1701_DOGS102_F_4W_HW_SPI    	HW SPI	        FPS: Clip=50.6 Box=119.6  @=9.4 Pix=15.7	Arduino Flash Size: 13370 Bytes
+
+  16. Mai 2016 (improved SW 4-Wire SPI)
+  Uno U8G2_UC1701_DOGS102_1_4W_SW_SPI		SW SPI	        FPS: Clip=18.6 Box=42.2  @=4.7 Pix=7.7		
+
 */
 
 
@@ -150,8 +158,8 @@
 //U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 21, /* data=*/ 20, /* reset=*/ U8X8_PIN_NONE);   // Adafruit Feather M0 Basic Proto + FeatherWing OLED
 //U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // Adafruit Feather ESP8266/32u4 Boards + FeatherWing OLED
 //U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
-//U8G2_UC1701_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-U8G2_UC1701_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_UC1701_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_UC1701_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7920_192X32_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_192X32_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);

@@ -31,7 +31,7 @@ struct interface
   const char *pins_with_type;		/* uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE */
   const char *pins_plain;			/* clock, data, cs, dc, reset */
   const char *pins_md_plain;			/* clock, data, cs, dc, reset */
-  const char *generic_com_procedure;	/* u8x8_byte_4wire_sw_spi */
+  const char *generic_com_procedure;	/* u8x8_byte_4wire_sw_spi, this is used for documentation, so it suould be generic for all uC architectures */
 };
 
 
@@ -150,7 +150,7 @@ struct interface interface_list[] =
   {
     "4W_SW_SPI",
     "u8x8_SetPin_4Wire_SW_SPI",
-    "u8x8_byte_4wire_sw_spi",
+    "u8x8_byte_arduino_4wire_sw_spi",	/* improved version over u8x8_byte_4wire_sw_spi */
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
     "clock, data, cs, dc, reset",
