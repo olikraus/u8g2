@@ -2,6 +2,8 @@
 
   FPS.pde
   
+  Frames Per Second: Display Performance Test
+  
   >>> Before compiling: Please remove comment from the constructor of the 
   >>> connected graphics display (see below).
   

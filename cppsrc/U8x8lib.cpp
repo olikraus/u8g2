@@ -57,7 +57,21 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
     
       for( i = 0; i < U8X8_PIN_CNT; i++ )
 	if ( u8x8->pins[i] != U8X8_PIN_NONE )
-	  pinMode(u8x8->pins[i], OUTPUT);
+	{
+	  if ( i < U8X8_PIN_OUTPUT_CNT )
+	  {
+	    pinMode(u8x8->pins[i], OUTPUT);
+	  }
+	  else
+	  {
+#ifdef INPUT_PULLUP
+	    pinMode(u8x8->pins[i], INPUT_PULLUP);
+#else
+	    pinMode(u8x8->pins[i], OUTPUT);
+	    digitalWrite(u8x8->pins[i], 1);
+#endif 
+	  }
+	}
 	  
       break;
   
@@ -90,7 +104,16 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
       {
 	i = u8x8_GetPinValue(u8x8, msg);
 	if ( i != U8X8_PIN_NONE )
-	  digitalWrite(i, arg_int);
+	{
+	  if ( u8x8_GetPinIndex(u8x8, msg) < U8X8_PIN_OUTPUT_CNT )
+	  {
+	    digitalWrite(i, arg_int);
+	  }
+	  else
+	  {
+	    u8x8_SetGPIOResult(u8x8, digitalRead(i) == 0 ? 0 : 1);
+	  }
+	}
 	break;
       }
       

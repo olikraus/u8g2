@@ -106,6 +106,18 @@ class U8X8 : public Print
     void drawTile(uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr) {
       u8x8_DrawTile(&u8x8, x, y, cnt, tile_ptr); }
       
+#ifdef U8X8_USE_PINS 
+    /* set the menu pins before begin() or initDisplay() */
+    void setMenuSelectPin(uint8_t val) {
+      u8x8_SetMenuSelectPin(&u8x8, val); }
+    void setMenuPrevPin(uint8_t val) {
+      u8x8_SetMenuPrevPin(&u8x8, val); }
+    void setMenuNextPin(uint8_t val) {
+      u8x8_SetMenuNextPin(&u8x8, val); }
+    void setMenuHomePin(uint8_t val) {
+      u8x8_SetMenuHomePin(&u8x8, val); }
+#endif
+      
     void initDisplay(void) {
       u8x8_InitDisplay(&u8x8); }
       
@@ -159,6 +171,12 @@ class U8X8 : public Print
      
      void inverse(void) { setInverseFont(1); }
      void noInverse(void) { setInverseFont(0); }
+     
+    /* return 0 for no event or U8X8_MSG_GPIO_MENU_SELECT, */
+    /* U8X8_MSG_GPIO_MENU_NEXT, U8X8_MSG_GPIO_MENU_PREV, */
+    /* U8X8_MSG_GPIO_MENU_HOME */
+    uint8_t getMenuEvent(void) { return u8x8_GetMenuEvent(&u8x8); }
+     
      
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0; }

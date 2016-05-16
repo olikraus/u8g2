@@ -240,8 +240,37 @@ struct u8x8_display_info_struct
 
 
 
+/* list of U8x8 pins */
+#define U8X8_PIN_D0 0
+#define U8X8_PIN_SPI_CLOCK 0
+#define U8X8_PIN_D1 1
+#define U8X8_PIN_SPI_DATA 1
+#define U8X8_PIN_D2 2
+#define U8X8_PIN_D3 3
+#define U8X8_PIN_D4 4
+#define U8X8_PIN_D5 5
+#define U8X8_PIN_D6 6
+#define U8X8_PIN_D7 7
+
+#define U8X8_PIN_E 8
+#define U8X8_PIN_CS 9			/* parallel, SPI */
+#define U8X8_PIN_DC 10			/* parallel, SPI */
+#define U8X8_PIN_RESET 11		/* parallel, SPI, I2C */
+
+#define U8X8_PIN_I2C_CLOCK 12	/* 1 = Input/high impedance, 0 = drive low */
+#define U8X8_PIN_I2C_DATA 13	/* 1 = Input/high impedance, 0 = drive low */
+
+#define U8X8_PIN_OUTPUT_CNT 14
+
+#define U8X8_PIN_MENU_SELECT 14
+#define U8X8_PIN_MENU_NEXT 15
+#define U8X8_PIN_MENU_PREV 16
+#define U8X8_PIN_MENU_HOME 17
+
+#define U8X8_PIN_INPUT_CNT 4
+
 #ifdef U8X8_USE_PINS 
-#define U8X8_PIN_CNT 14
+#define U8X8_PIN_CNT (U8X8_PIN_OUTPUT_CNT+U8X8_PIN_INPUT_CNT)
 #define U8X8_PIN_NONE 255
 #endif
 
@@ -263,6 +292,11 @@ struct u8x8_struct
   uint8_t i2c_started;	/* for i2c interface */
   uint8_t device_address;	/* this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
   uint8_t utf8_state;		/* number of chars which are still to scan */
+  uint8_t gpio_result;	/* return value from the gpio call (only for MENU keys at the moment) */ 
+  uint8_t debounce_default_pin_state;
+  uint8_t debounce_last_pin_state;
+  uint8_t debounce_state;
+  uint8_t debounce_result_msg;	/* result msg or event after debounce */
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
 #endif
@@ -271,30 +305,16 @@ struct u8x8_struct
 #define u8x8_GetCols(u8x8) ((u8x8)->display_info->tile_width)
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
 #define u8x8_GetI2CAddress(u8x8) ((u8x8)->i2c_address)
+#define u8x8_SetGPIOResult(u8x8, val) ((u8x8)->gpio_result = (val))
 
 
-/* list of U8x8 pins */
-#define U8X8_PIN_D0 0
-#define U8X8_PIN_SPI_CLOCK 0
-#define U8X8_PIN_D1 1
-#define U8X8_PIN_SPI_DATA 1
-#define U8X8_PIN_D2 2
-#define U8X8_PIN_D3 3
-#define U8X8_PIN_D4 4
-#define U8X8_PIN_D5 5
-#define U8X8_PIN_D6 6
-#define U8X8_PIN_D7 7
-
-#define U8X8_PIN_E 8
-#define U8X8_PIN_CS 9			/* parallel, SPI */
-#define U8X8_PIN_DC 10			/* parallel, SPI */
-#define U8X8_PIN_RESET 11		/* parallel, SPI, I2C */
-
-#define U8X8_PIN_I2C_CLOCK 12	/* 1 = Input/high impedance, 0 = drive low */
-#define U8X8_PIN_I2C_DATA 13	/* 1 = Input/high impedance, 0 = drive low */
 
 #ifdef U8X8_USE_PINS 
 #define u8x8_SetPin(u8x8,pin,val) (u8x8)->pins[pin] = (val)
+#define u8x8_SetMenuSelectPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_SELECT,(val))
+#define u8x8_SetMenuNextPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_NEXT,(val))
+#define u8x8_SetMenuPrevPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_PREV,(val))
+#define u8x8_SetMenuHomePin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_HOME,(val))
 #endif
 
 
@@ -546,6 +566,7 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 
 #define U8X8_MSG_GPIO(x) (64+(x))
 #ifdef U8X8_USE_PINS 
+#define u8x8_GetPinIndex(u8x8, msg) ((msg)&0x3f)
 #define u8x8_GetPinValue(u8x8, msg) ((u8x8)->pins[(msg)&0x3f])
 #endif
 
@@ -566,6 +587,11 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 #define U8X8_MSG_GPIO_I2C_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_I2C_CLOCK)
 #define U8X8_MSG_GPIO_I2C_DATA		U8X8_MSG_GPIO(U8X8_PIN_I2C_DATA)
 
+/* these message expect the return value in u8x8->gpio_result */
+#define U8X8_MSG_GPIO_MENU_SELECT	U8X8_MSG_GPIO(U8X8_PIN_MENU_SELECT)
+#define U8X8_MSG_GPIO_MENU_NEXT	U8X8_MSG_GPIO(U8X8_PIN_MENU_NEXT)
+#define U8X8_MSG_GPIO_MENU_PREV	U8X8_MSG_GPIO(U8X8_PIN_MENU_PREV)
+#define U8X8_MSG_GPIO_MENU_HOME	U8X8_MSG_GPIO(U8X8_PIN_MENU_HOME)
 
 
 #define u8x8_gpio_Init(u8x8) ((u8x8)->gpio_and_delay_cb((u8x8), U8X8_MSG_GPIO_AND_DELAY_INIT, 0, NULL ))
@@ -591,7 +617,9 @@ void u8x8_gpio_call(u8x8_t *u8x8, uint8_t msg, uint8_t arg) U8X8_NOINLINE;
 //void u8x8_gpio_Delay(u8x8_t *u8x8, uint8_t msg, uint8_t dly) U8X8_NOINLINE;
 
 
-
+/*==========================================*/
+/* u8x8_debounce.c */
+uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8);
 
 /*==========================================*/
 /* u8x8_d_stdio.c */
@@ -685,6 +713,17 @@ extern const uint8_t u8x8_font_pcsenior_u[] U8X8_FONT_SECTION("u8x8_font_pcsenio
 
 /* end font list */
 
+/*==========================================*/
+
+/* scrollable list */
+struct _u8sl_struct
+{
+  uint8_t visible;		/* number of visible elements in the menu */
+  uint8_t total;			/* total number of elements in the menu */
+  uint8_t first_pos;		/* position of the first visible line */
+  uint8_t current_pos;	/* starts at 0 */
+};
+typedef struct _u8sl_struct u8sl_t;
 
 #ifdef __cplusplus
 }

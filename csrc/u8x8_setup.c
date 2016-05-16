@@ -57,8 +57,9 @@ void u8x8_SetupDefaults(u8x8_t *u8x8)
     u8x8->byte_cb = u8x8_dummy_cb;
     u8x8->gpio_and_delay_cb = u8x8_dummy_cb;
     u8x8->is_font_inverse_mode = 0;
-    u8x8->i2c_address = 255;
     u8x8->device_address = 0;
+    u8x8->i2c_address = 255;
+    u8x8->debounce_default_pin_state = 255;	/* assume all low active buttons */
   
 #ifdef U8X8_USE_PINS 
   {

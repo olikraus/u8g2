@@ -70,6 +70,23 @@ class U8G2 : public Print
     uint8_t getCols(void) { return u8x8_GetCols(u8g2_GetU8x8(&u8g2)); }
     uint8_t getRows(void) { return u8x8_GetRows(u8g2_GetU8x8(&u8g2)); }
 
+#ifdef U8X8_USE_PINS 
+    /* set the menu pins before begin() or initDisplay() */
+    void setMenuSelectPin(uint8_t val) {
+      u8g2_SetMenuSelectPin(&u8g2, val); }
+    void setMenuPrevPin(uint8_t val) {
+      u8g2_SetMenuPrevPin(&u8g2, val); }
+    void setMenuNextPin(uint8_t val) {
+      u8g2_SetMenuNextPin(&u8g2, val); }
+    void setMenuHomePin(uint8_t val) {
+      u8g2_SetMenuHomePin(&u8g2, val); }
+#endif
+
+    /* return 0 for no event or U8X8_MSG_GPIO_MENU_SELECT, */
+    /* U8X8_MSG_GPIO_MENU_NEXT, U8X8_MSG_GPIO_MENU_PREV, */
+    /* U8X8_MSG_GPIO_MENU_HOME */
+    uint8_t getMenuEvent(void) { return u8x8_GetMenuEvent(u8g2_GetU8x8(&u8g2)); }
+
     void initDisplay(void) {
       u8g2_InitDisplay(&u8g2); }
       
