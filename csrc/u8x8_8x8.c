@@ -144,7 +144,7 @@ void u8x8_utf8_init(u8x8_t *u8x8)
 
 uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b)
 {
-  if ( b == 0 )
+  if ( b == 0 || b == '\n' ) /* '\n' terminates the string to support the string list procedures */
     return 0x0ffff;	/* end of string detected*/
   return b;
 }
@@ -158,7 +158,7 @@ uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b)
 */
 uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b)
 {
-  if ( b == 0 )
+  if ( b == 0 || b == '\n' )	/* '\n' terminates the string to support the string list procedures */
     return 0x0ffff;	/* end of string detected, pending UTF8 is discarded */
   if ( u8x8->utf8_state == 0 )
   {

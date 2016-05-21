@@ -725,6 +725,9 @@ struct _u8sl_struct
 };
 typedef struct _u8sl_struct u8sl_t;
 
+typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, void *aux);
+
+
 #ifdef __cplusplus
 }
 #endif

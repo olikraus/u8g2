@@ -1,8 +1,8 @@
 /*
 
-  u8x8_sl.h
+  u8x8_string.c
   
-  selection list with scroll option
+  font procedures, directly interfaces display procedures
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -31,56 +31,70 @@
   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
-  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
-  
+  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+
 */
 
 #include "u8x8.h"
 
-/*
-  increase the cursor position
-*/
-void u8sl_Next(u8sl_t *u8sl)
+uint8_t u8x8_get_line_cnt(u8x8_t u8x8, const char *str)
 {
-  u8sl->current_pos++;
-  if ( u8sl->current_pos > u8sl->total )
+  char e;
+  uint8_t line_cnt = 1;
+  u8x8_utf8_init(u8x8);
+  for(;;)
   {
-    u8sl->current_pos = 0;
-    u8sl->first_pos = 0;
+    e = *str;
+    if ( e == '\0' )
+      break;
+    str++;
+    if ( e == '\n' )
+      line_cnt++;
   }
-  else
+  return line_cnt;
+}
+
+uint8_t u8x8_GetStringLineCnt(u8x8_t u8x8, const char *s)
+{
+  u8x8->next_cb = u8x8_ascii_next;
+  return u8x8_get_line_cnt(u8x8, s);
+}
+
+uint8_t u8x8_GetUTF8LineCnt(u8x8_t u8x8, const char *s)
+{
+  u8x8->next_cb = u8x8_utf8_next;
+  return u8x8_get_line_cnt(u8x8, s);
+}
+
+/*
+    Assumes strings, separated by '\n' in "str".
+    Returns the string at index "line_idx". First strng has line_idx = 0
+    Example:
+      Returns "xyz" for line_idx = 1 with str = "abc\nxyz"
+    Support both UTF8 and normal strings.
+*/
+const char *str u8x8_GetStringLine(u8x8_t u8x8, uint8_t line_idx, const char *str )
+{
+  char e;
+  uint8_t line_cnt = 1;
+  
+  if ( line_idx == 0 )
+    return str;
+
+  for(;;)
   {
-    if ( u8sl->first_pos + u8sl->visible < u8sl->current_pos  )
+    e = *str;
+    if ( e == '\0' )
+      break;
+    str++;
+    if ( e == '\n' )
     {
-      u8sl->first_pos = u8sl->current_pos - u8sl->visible + 1;
+      if ( line_cnt == line_idx )
+	return str;
+      line_cnt++;
     }
   }
+  
+  return NULL;	/* line not found */
 }
-
-void u8sl_Prev(u8sl_t *u8sl)
-{
-  if ( u8sl->current_pos == 0 )
-  {
-    u8sl->current_pos = u8sl->total - 1;
-    u8sl->first_pos = 0;
-    if ( u8sl->total > u8sl->visible )
-      u8sl->first_pos = u8sl->total - u8sl->visible;
-  }
-  else
-  {
-    u8sl->current_pos--;
-    if ( u8sl->first_pos < u8sl->current_pos )
-      u8sl->first_pos = u8sl->current_pos;
-  }
-}
-
-void u8x8_DrawSelectionList(u8x8_t *u8x8, u8sl_t *u8sl, u8x8_sl_cb sl_cb, void *aux)
-{
-  uint8_t i;
-  for( i = 0; i < u8sl->visible; i++ )
-  {
-    sl_cb(u8x8, u8sl, i+u8sl->first_pos, aux);
-  }
-}
-
 
