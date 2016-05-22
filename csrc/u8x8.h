@@ -671,6 +671,13 @@ uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 
 
 /*==========================================*/
+/* u8x8_string.c */
+
+uint8_t u8x8_GetStringLineCnt(u8x8_t u8x8, const char *str);
+const char *u8x8_GetStringLine(u8x8_t u8x8, uint8_t line_idx, const char *str );
+
+
+/*==========================================*/
 /* start font list */
 extern const uint8_t u8x8_font_5x7_f[] U8X8_FONT_SECTION("u8x8_font_5x7_f");
 extern const uint8_t u8x8_font_5x7_r[] U8X8_FONT_SECTION("u8x8_font_5x7_r");

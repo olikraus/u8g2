@@ -37,11 +37,10 @@
 
 #include "u8x8.h"
 
-uint8_t u8x8_get_line_cnt(u8x8_t u8x8, const char *str)
+uint8_t u8x8_GetStringLineCnt(u8x8_t u8x8, const char *str)
 {
   char e;
   uint8_t line_cnt = 1;
-  u8x8_utf8_init(u8x8);
   for(;;)
   {
     e = *str;
@@ -54,17 +53,6 @@ uint8_t u8x8_get_line_cnt(u8x8_t u8x8, const char *str)
   return line_cnt;
 }
 
-uint8_t u8x8_GetStringLineCnt(u8x8_t u8x8, const char *s)
-{
-  u8x8->next_cb = u8x8_ascii_next;
-  return u8x8_get_line_cnt(u8x8, s);
-}
-
-uint8_t u8x8_GetUTF8LineCnt(u8x8_t u8x8, const char *s)
-{
-  u8x8->next_cb = u8x8_utf8_next;
-  return u8x8_get_line_cnt(u8x8, s);
-}
 
 /*
     Assumes strings, separated by '\n' in "str".
@@ -73,7 +61,7 @@ uint8_t u8x8_GetUTF8LineCnt(u8x8_t u8x8, const char *s)
       Returns "xyz" for line_idx = 1 with str = "abc\nxyz"
     Support both UTF8 and normal strings.
 */
-const char *str u8x8_GetStringLine(u8x8_t u8x8, uint8_t line_idx, const char *str )
+const char *u8x8_GetStringLine(u8x8_t u8x8, uint8_t line_idx, const char *str )
 {
   char e;
   uint8_t line_cnt = 1;
