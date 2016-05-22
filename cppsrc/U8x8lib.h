@@ -107,7 +107,7 @@ class U8X8 : public Print
       u8x8_DrawTile(&u8x8, x, y, cnt, tile_ptr); }
       
 #ifdef U8X8_USE_PINS 
-    /* set the menu pins before begin() or initDisplay() */
+    /* set the menu pins before calling begin() or initDisplay() */
     void setMenuSelectPin(uint8_t val) {
       u8x8_SetMenuSelectPin(&u8x8, val); }
     void setMenuPrevPin(uint8_t val) {
@@ -129,6 +129,15 @@ class U8X8 : public Print
 
     void begin(void) {
       initDisplay(); clearDisplay(); setPowerSave(0); }
+
+#ifdef U8X8_USE_PINS 
+    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_home_pin) {
+      setMenuSelectPin(menu_select_pin);
+      setMenuNextPin(menu_next_pin);
+      setMenuPrevPin(menu_prev_pin);
+      setMenuHomePin(menu_home_pin);
+      begin(); }
+#endif
       
     void setFlipMode(uint8_t mode) {
       u8x8_SetFlipMode(&u8x8, mode); }

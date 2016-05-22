@@ -65,18 +65,9 @@ U8X8_UC1701_DOGS102_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 
 
 void setup(void) {
-  u8x8.setMenuSelectPin(5);
-  u8x8.setMenuNextPin(4);
-  u8x8.setMenuPrevPin(2);
-  u8x8.setMenuHomePin(3);
   
-  u8x8.begin();
-  u8x8.setPowerSave(0);
+  u8x8.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_home_pin= */ 3);
   
-  u8x8.setMenuSelectPin(5);
-  u8x8.setMenuNextPin(4);
-  u8x8.setMenuPrevPin(2);
-  u8x8.setMenuHomePin(3);
   u8x8.setFont(u8x8_font_chroma48medium8_r);
 }
 

@@ -673,8 +673,8 @@ uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 /*==========================================*/
 /* u8x8_string.c */
 
-uint8_t u8x8_GetStringLineCnt(u8x8_t u8x8, const char *str);
-const char *u8x8_GetStringLine(u8x8_t u8x8, uint8_t line_idx, const char *str );
+uint8_t u8x8_GetStringLineCnt(const char *str);
+const char *u8x8_GetStringLine(uint8_t line_idx, const char *str );
 
 
 /*==========================================*/

@@ -71,7 +71,7 @@ class U8G2 : public Print
     uint8_t getRows(void) { return u8x8_GetRows(u8g2_GetU8x8(&u8g2)); }
 
 #ifdef U8X8_USE_PINS 
-    /* set the menu pins before begin() or initDisplay() */
+    /* set the menu pins before calling begin() or initDisplay() */
     void setMenuSelectPin(uint8_t val) {
       u8g2_SetMenuSelectPin(&u8g2, val); }
     void setMenuPrevPin(uint8_t val) {
@@ -109,6 +109,14 @@ class U8G2 : public Print
     void begin(void) {
       initDisplay(); clearDisplay(); setPowerSave(0); u8x8_utf8_init(u8g2_GetU8x8(&u8g2));}
       
+#ifdef U8X8_USE_PINS 
+    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_home_pin) {
+      setMenuSelectPin(menu_select_pin);
+      setMenuNextPin(menu_next_pin);
+      setMenuPrevPin(menu_prev_pin);
+      setMenuHomePin(menu_home_pin);
+      begin(); }
+#endif
 
     /* u8g2  */
 
