@@ -43,14 +43,14 @@
 void u8sl_Next(u8sl_t *u8sl)
 {
   u8sl->current_pos++;
-  if ( u8sl->current_pos > u8sl->total )
+  if ( u8sl->current_pos >= u8sl->total )
   {
     u8sl->current_pos = 0;
     u8sl->first_pos = 0;
   }
   else
   {
-    if ( u8sl->first_pos + u8sl->visible < u8sl->current_pos  )
+    if ( u8sl->first_pos + u8sl->visible <= u8sl->current_pos + 1 )
     {
       u8sl->first_pos = u8sl->current_pos - u8sl->visible + 1;
     }
@@ -69,12 +69,12 @@ void u8sl_Prev(u8sl_t *u8sl)
   else
   {
     u8sl->current_pos--;
-    if ( u8sl->first_pos < u8sl->current_pos )
+    if ( u8sl->first_pos > u8sl->current_pos )
       u8sl->first_pos = u8sl->current_pos;
   }
 }
 
-void u8x8_DrawSelectionList(u8x8_t *u8x8, u8sl_t *u8sl, u8x8_sl_cb sl_cb, void *aux)
+void u8x8_DrawSelectionList(u8x8_t *u8x8, u8sl_t *u8sl, u8x8_sl_cb sl_cb, const void *aux)
 {
   uint8_t i;
   for( i = 0; i < u8sl->visible; i++ )
@@ -83,4 +83,75 @@ void u8x8_DrawSelectionList(u8x8_t *u8x8, u8sl_t *u8sl, u8x8_sl_cb sl_cb, void *
   }
 }
 
+/* selection list with string line */
+void u8x8_sl_string_line_cb(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux)
+{
+  const char *s;
+  uint8_t col;
+  uint8_t row;
+  /* calculate offset from display upper border */
+  row = u8x8_GetRows(u8x8);
+  row -= u8sl->visible;
+  row /= 2;
+  
+  /* calculate target pos */
+  row += idx;
+  row -= u8sl->first_pos;
+  
+  /* check whether this is the current cursor line */
+  if ( idx == u8sl->current_pos )
+    u8x8_SetInverseFont(u8x8, 1);
+  else
+    u8x8_SetInverseFont(u8x8, 0);
+  
+  /* get the line from the array */
+  s = u8x8_GetStringLine(idx, (const char *)aux);
+  
+  /* draw the line */
+  if ( s == NULL )
+    s = "";
+  col = u8x8_DrawUTF8(u8x8, 0, row, s);
+  
+  /* fill up the line with some more spaced */
+  while( col < u8x8_GetCols(u8x8) )
+    u8x8_DrawUTF8(u8x8, col++, row, " ");
+}
+
+/*
+
+  returns start_pos if user has pressed the home key
+  returns the selected line if user has pressed the select key
+*/
+uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, uint8_t start_pos, const char *sl)
+{
+  u8sl_t u8sl;
+  uint8_t event;
+  u8sl.visible = u8x8_GetRows(u8x8);
+  u8sl.total = u8x8_GetStringLineCnt(sl);
+  u8sl.first_pos = 0;
+  u8sl.current_pos = start_pos;
+  if ( u8sl.current_pos >= u8sl.total )
+    u8sl.current_pos = u8sl.total-1;
+
+  u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
+  
+  for(;;)
+  {
+    event = u8x8_GetMenuEvent(u8x8);
+    if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+      return u8sl.current_pos;
+    else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+      return start_pos;
+    else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+    {
+      u8sl_Next(&u8sl);
+      u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
+    }
+    else if ( event == U8X8_MSG_GPIO_MENU_PREV )
+    {
+      u8sl_Prev(&u8sl);
+      u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
+    }    
+  }
+}
 

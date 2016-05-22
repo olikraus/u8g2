@@ -619,6 +619,7 @@ void u8x8_gpio_call(u8x8_t *u8x8, uint8_t msg, uint8_t arg) U8X8_NOINLINE;
 
 /*==========================================*/
 /* u8x8_debounce.c */
+/* return U8X8_MSG_GPIO_MENU_xxxxx messages */
 uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8);
 
 /*==========================================*/
@@ -722,18 +723,19 @@ extern const uint8_t u8x8_font_pcsenior_u[] U8X8_FONT_SECTION("u8x8_font_pcsenio
 
 /*==========================================*/
 
-/* scrollable list */
+/* u8x8_sl.c scrollable list */
 struct _u8sl_struct
 {
   uint8_t visible;		/* number of visible elements in the menu */
   uint8_t total;			/* total number of elements in the menu */
   uint8_t first_pos;		/* position of the first visible line */
-  uint8_t current_pos;	/* starts at 0 */
+  uint8_t current_pos;	/* current cursor position, starts at 0 */  
 };
 typedef struct _u8sl_struct u8sl_t;
 
-typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, void *aux);
+typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux);
 
+uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, uint8_t start_pos, const char *sl);
 
 #ifdef __cplusplus
 }

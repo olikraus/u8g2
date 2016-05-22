@@ -61,7 +61,7 @@ U8G2_UC1701_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=
 
 
 void setup(void) {
-  u8g2.begin();
+  u8g2.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_home_pin= */ 3);
   u8g2.setFont(u8g2_font_helvB12_tr);
 }
 

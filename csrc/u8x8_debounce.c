@@ -42,7 +42,7 @@ static uint8_t u8x8_read_pin_state(u8x8_t *u8x8)
   uint8_t i;
   uint8_t pin_state;
   
-  pin_state = 0;
+  pin_state = 255;	/* be compatible with the setup of the default pin setup, which is 255 */
   for( i = 0; i < U8X8_PIN_INPUT_CNT; i++ )
   {
     pin_state <<= 1;
@@ -132,15 +132,21 @@ uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
       {
 	/* keypress detected */
 	u8x8->debounce_last_pin_state = pin_state;
+	//result_msg = U8X8_MSG_GPIO_MENU_NEXT;
 	u8x8->debounce_state = 0x020;	/* got to state C */	
       }
       break;
     case 0x20:	/* State C */
-      if ( u8x8->debounce_last_pin_state != pin_state )
+      /* wait until key release */
+      if ( u8x8->debounce_default_pin_state == pin_state )
       {
-	/* key press detected */
 	u8x8->debounce_state = 0x00;	/* back to state A */
-	result_msg = U8X8_MSG_GPIO(u8x8_find_first_diff(u8x8->debounce_last_pin_state, pin_state)+U8X8_PIN_OUTPUT_CNT);
+	result_msg = U8X8_MSG_GPIO(u8x8_find_first_diff(u8x8->debounce_default_pin_state, u8x8->debounce_last_pin_state)+U8X8_PIN_OUTPUT_CNT);
+      }
+      else
+      {
+	//result_msg = U8X8_MSG_GPIO_MENU_NEXT;
+	// maybe implement autorepeat here 
       }
       break;
     default:
