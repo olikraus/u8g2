@@ -1,6 +1,6 @@
 /*
 
-  u8x8_sl.h
+  u8x8_selection_list.h
   
   selection list with scroll option
   
@@ -87,12 +87,9 @@ void u8x8_DrawSelectionList(u8x8_t *u8x8, u8sl_t *u8sl, u8x8_sl_cb sl_cb, const 
 void u8x8_sl_string_line_cb(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux)
 {
   const char *s;
-  uint8_t col;
   uint8_t row;
   /* calculate offset from display upper border */
-  row = u8x8_GetRows(u8x8);
-  row -= u8sl->visible;
-  row /= 2;
+  row = u8sl->y;
   
   /* calculate target pos */
   row += idx;
@@ -110,29 +107,42 @@ void u8x8_sl_string_line_cb(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void 
   /* draw the line */
   if ( s == NULL )
     s = "";
-  col = u8x8_DrawUTF8(u8x8, 0, row, s);
-  
-  /* fill up the line with some more spaced */
-  while( col < u8x8_GetCols(u8x8) )
-    u8x8_DrawUTF8(u8x8, col++, row, " ");
+  u8x8_DrawUTF8Line(u8x8, u8sl->x, row, u8x8_GetCols(u8x8), s);  
 }
 
 /*
-
+  title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\n'
+  start_pos: 	default position for the cursor
+  sl:			string list (list of strings separated by \n)
   returns start_pos if user has pressed the home key
   returns the selected line if user has pressed the select key
 */
-uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, uint8_t start_pos, const char *sl)
+uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t start_pos, const char *sl)
 {
   u8sl_t u8sl;
   uint8_t event;
+  uint8_t title_lines;
+  
   u8sl.visible = u8x8_GetRows(u8x8);
   u8sl.total = u8x8_GetStringLineCnt(sl);
   u8sl.first_pos = 0;
   u8sl.current_pos = start_pos;
+  u8sl.x = 0;
+  u8sl.y = 0;
+
+  //u8x8_ClearDisplay(u8x8);   /* not required because all is 100% filled */
+  
+  if ( title != NULL )
+  {
+    title_lines = u8x8_DrawUTF8Lines(u8x8, u8sl.x, u8sl.y, u8x8_GetCols(u8x8), title);
+    u8sl.y+=title_lines;
+    u8sl.visible-=title_lines;
+  }
+  
   if ( u8sl.current_pos >= u8sl.total )
     u8sl.current_pos = u8sl.total-1;
 
+  
   u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
   
   for(;;)

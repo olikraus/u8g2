@@ -666,7 +666,7 @@ uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b);
 void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8);
 void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding);
 uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
-uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);
+uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);	/* return number of glyps */
 uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 #define u8x8_SetInverseFont(u8x8, b) (u8x8)->is_font_inverse_mode = (b)
 
@@ -676,6 +676,8 @@ uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 
 uint8_t u8x8_GetStringLineCnt(const char *str);
 const char *u8x8_GetStringLine(uint8_t line_idx, const char *str );
+uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
+uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
 
 
 /*==========================================*/
@@ -730,12 +732,15 @@ struct _u8sl_struct
   uint8_t total;			/* total number of elements in the menu */
   uint8_t first_pos;		/* position of the first visible line */
   uint8_t current_pos;	/* current cursor position, starts at 0 */  
+  
+  uint8_t x;
+  uint8_t y;
 };
 typedef struct _u8sl_struct u8sl_t;
 
 typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux);
 
-uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, uint8_t start_pos, const char *sl);
+uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t start_pos, const char *sl);
 
 #ifdef __cplusplus
 }

@@ -2,7 +2,7 @@
 
   u8x8_string.c
   
-  font procedures, directly interfaces display procedures
+  string line procedures
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -41,6 +41,8 @@ uint8_t u8x8_GetStringLineCnt(const char *str)
 {
   char e;
   uint8_t line_cnt = 1;
+  if ( str == NULL )
+    return 0;
   for(;;)
   {
     e = *str;
@@ -86,3 +88,64 @@ const char *u8x8_GetStringLine(uint8_t line_idx, const char *str )
   return NULL;	/* line not found */
 }
 
+/*
+  Draw a string
+  Extend the string to size "w"
+  Center the string, if the first char is a '\t' (center with respect to "w")
+  return the size of the string
+
+*/
+uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s)
+{
+  uint8_t d, lw;
+  uint8_t cx, dx;
+  
+  
+  d = 0;
+  if ( *s == '\t' )
+  {
+    s++;		/* skip '\t' */
+    lw = u8x8_GetUTF8Len(u8x8, s);
+    if ( lw < w )
+    {
+      d = w;
+      d -=lw;
+      d /= 2;
+    }
+  }
+  cx = x;
+  dx = cx + d;
+  while( cx < dx )
+  {
+    u8x8_DrawUTF8(u8x8, cx, y, " ");
+    cx++;
+  }
+  cx += u8x8_DrawUTF8(u8x8, cx, y, s);
+  dx = x + w;
+  while( cx < dx )
+  {
+    u8x8_DrawUTF8(u8x8, cx, y, " ");
+    cx++;
+  }
+  cx -= x;
+  return cx;
+}
+
+/*
+  draw several lines at position x,y.
+  lines are stored in s and must be separated with '\n'.
+  lines can be centered with respect to "w" if the first char in the line is a '\t'
+  returns the number of lines in s
+*/
+uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s)
+{
+  uint8_t i;
+  uint8_t cnt;
+  cnt = u8x8_GetStringLineCnt(s);
+  for( i = 0; i < cnt; i++ )
+  {
+    u8x8_DrawUTF8Line(u8x8, x, y, w, u8x8_GetStringLine(i, s));
+    y++;
+  }
+  return cnt;
+}

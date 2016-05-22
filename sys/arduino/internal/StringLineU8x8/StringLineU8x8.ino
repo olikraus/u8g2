@@ -57,8 +57,8 @@
 //U8X8_SSD1306_128X64_NONAME_8080 u8x8(13, 11, 2, 3, 4, 5, 6, A4, /*enable=*/ 7, /*cs=*/ 10, /*dc=*/ 9, /*reset=*/ 8);
 //U8X8_ST7920_192X32_8080 u8x8(8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
 //U8X8_ST7920_192X32_6800 u8x8(8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
-//U8X8_UC1701_DOGS102_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-U8X8_UC1701_DOGS102_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8X8_UC1701_DOGS102_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8X8_UC1701_DOGS102_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 
 
 
@@ -70,12 +70,27 @@ void setup(void) {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
 }
 
-const char *string_list = "000\n111\n222\n333\n444\n555\n666\n777\n888\n999";
+const char *string_list = 
+  "\tAltocumulus\n"
+  "\tAltostratus\n"
+  "\tCirrocumulus\n"
+  "\tCirrostratus\n"
+  "\tCirrus\n"
+  "\tCumulonimbus\n"
+  "\tCumulus\n"
+  "\tNimbostratus\n"
+  "\tStratocumulus\n"
+  "\tStratus";
+
 uint8_t current_selection = 0;
 
 
 
 void loop(void) {
-  current_selection = u8x8_UserInterfaceSelectionList(u8x8.getU8x8(), current_selection, string_list);
+  current_selection = u8x8_UserInterfaceSelectionList(
+    u8x8.getU8x8(), 
+    "\tCloud Types\n\t-----------",
+    current_selection, 
+    string_list);
 }
 
