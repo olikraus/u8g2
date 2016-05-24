@@ -40,7 +40,7 @@
 #include "u8x8.h"
 
 
-static const u8x8_display_info_t u8x8_ls913b7dh03_128x128_display_info =
+static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
 {
   /* chip_enable_level = */ 1,
   /* chip_disable_level = */ 0,
@@ -63,40 +63,40 @@ static const u8x8_display_info_t u8x8_ls913b7dh03_128x128_display_info =
 };
 
 
-uint8_t u8x8_d_ls913b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c, i;
   uint8_t *ptr;
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ls913b7dh03_128x128_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ls013b7dh03_128x128_display_info);
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      /* u8x8_cad_SendSequence(u8x8, u8x8_d_ls913b7dh03_init_seq); */
+      /* u8x8_cad_SendSequence(u8x8, u8x8_d_ls013b7dh03_init_seq); */
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
-      /* not available for the ls913b7dh03 */
+      /* not available for the ls013b7dh03 */
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       y++;		/* lines are from 1..128, so add 1 here */
     
-      /* x has to be zero for all transfers to the ls913b7dh03 */
+      /* x has to be zero for all transfers to the ls013b7dh03 */
       /* in fact all data has to start at the left edge */
     
       u8x8_cad_StartTransfer(u8x8);
         
 
       /* 
-	Tile structure is reused here for the ls913b7dh03, however u8x8 is not supported 
+	Tile structure is reused here for the ls013b7dh03, however u8x8 is not supported 
 	tile_ptr points to data which has cnt*8 bytes (same as SSD1306 tiles)
-	Buffer is expected to have 8 lines of code fitting to the ls913b7dh03 internal memory
+	Buffer is expected to have 8 lines of code fitting to the ls013b7dh03 internal memory
 	"cnt" includes the number of horizontal bytes. width is equal to cnt*8
 	
       */
-      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles. This must be 16 for the ls913b7dh03 128x128 */
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles. This must be 16 for the ls013b7dh03 128x128 */
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
       for( i = 0; i < 8; i++ )
       {
