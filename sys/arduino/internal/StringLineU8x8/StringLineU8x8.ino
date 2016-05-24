@@ -87,10 +87,19 @@ uint8_t current_selection = 0;
 
 
 void loop(void) {
+
   current_selection = u8x8_UserInterfaceSelectionList(
     u8x8.getU8x8(), 
     "\tCloud Types\n\t-----------",
     current_selection, 
     string_list);
+
+  u8x8_UserInterfaceMessage(
+      u8x8.getU8x8(), 
+      "\tSelection:", 
+      u8x8_GetStringLineStart(current_selection, string_list ),
+      "",
+      " ok \n cancel ");
+    
 }
 

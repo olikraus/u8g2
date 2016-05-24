@@ -102,12 +102,13 @@ void u8x8_sl_string_line_cb(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void 
     u8x8_SetInverseFont(u8x8, 0);
   
   /* get the line from the array */
-  s = u8x8_GetStringLine(idx, (const char *)aux);
+  s = u8x8_GetStringLineStart(idx, (const char *)aux);
   
   /* draw the line */
   if ( s == NULL )
     s = "";
   u8x8_DrawUTF8Line(u8x8, u8sl->x, row, u8x8_GetCols(u8x8), s);  
+  u8x8_SetInverseFont(u8x8, 0);
 }
 
 /*
@@ -131,6 +132,7 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
   u8sl.y = 0;
 
   //u8x8_ClearDisplay(u8x8);   /* not required because all is 100% filled */
+  u8x8_SetInverseFont(u8x8, 0);
   
   if ( title != NULL )
   {

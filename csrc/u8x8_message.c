@@ -48,7 +48,7 @@ uint8_t u8x8_draw_button_line(u8x8_t *u8x8, uint8_t y, uint8_t w, uint8_t cursor
   total = 0;
   for( i = 0; i < cnt; i++ )
   {
-    total += u8x8_GetUTF8Len(u8x8, u8x8_GetStringLine(i, s));
+    total += u8x8_GetUTF8Len(u8x8, u8x8_GetStringLineStart(i, s));
   }
   total += (cnt-1);	/* had one space between the buttons */
   
@@ -63,45 +63,65 @@ uint8_t u8x8_draw_button_line(u8x8_t *u8x8, uint8_t y, uint8_t w, uint8_t cursor
   
   /* draw the buttons */
   x = d;
+  u8x8_SetInverseFont(u8x8, 0);
   for( i = 0; i < cnt; i++ )
   {
     if ( i == cursor )
       u8x8_SetInverseFont(u8x8, 1);
-    else
-      u8x8_SetInverseFont(u8x8, 0);
       
-    x+=u8x8_DrawUTF8(x, y, u8x8_GetStringLine(i, s));
-    x+=u8x8_DrawUTF8(x, y, " ");
+    x+=u8x8_DrawUTF8(u8x8, x, y, u8x8_GetStringLineStart(i, s));
+    u8x8_SetInverseFont(u8x8, 0);
+    x+=u8x8_DrawUTF8(u8x8, x, y, " ");
   }
   
   /* return the number of buttons */
   return cnt;
 }
 
-uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *title2, const char *buttons,  )
+/*
+  title1:	Multiple lines,separated by '\n'
+  title2:	A single line/string which is terminated by '\0' or '\n' . "title2" accepts the return value from u8x8_GetStringLineStart()
+  title3:	Multiple lines,separated by '\n'
+  buttons:	one more more buttons separated by '\n' and terminated with '\0'
+*/
+
+uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *title2, const char *title3, const char *buttons)
 {
   uint8_t height;
   uint8_t y;
   uint8_t cursor = 0;
   uint8_t button_cnt;
+  uint8_t event;
   
   /* calculate overall height of the message box */
+  u8x8_SetInverseFont(u8x8, 0);
   height = 1;	/* button line */
   height += u8x8_GetStringLineCnt(title1);
-  height += u8x8_GetStringLineCnt(title2);
+  if ( title2 != NULL )
+    height ++;
+  height += u8x8_GetStringLineCnt(title3);
   
   /* calculate offset from the top */
   y = 0;
-  if ( u8x8_GetRows(u8x8) < height )
+  
+  if ( height < u8x8_GetRows(u8x8)  )
   {
-    y = height;
-    y -= u8x8_GetRows(u8x8);
+    y = u8x8_GetRows(u8x8);
+    y -= height;
     y /= 2;
   }
+
+  
+  u8x8_ClearDisplay(u8x8);   /* required, because not everything is filled */
   
   y += u8x8_DrawUTF8Lines(u8x8, 0, y, u8x8_GetCols(u8x8), title1);
-  y += u8x8_DrawUTF8Lines(u8x8, 0, y, u8x8_GetCols(u8x8), title2);
-  
+  if ( title2 != NULL )
+  {
+    u8x8_DrawUTF8Line(u8x8, 0, y, u8x8_GetCols(u8x8), title2);
+    y++;
+  }
+  y += u8x8_DrawUTF8Lines(u8x8, 0, y, u8x8_GetCols(u8x8), title3);
+
   button_cnt = u8x8_draw_button_line(u8x8, y, u8x8_GetCols(u8x8), cursor, buttons);
   
   for(;;)

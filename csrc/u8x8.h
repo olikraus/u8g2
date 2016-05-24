@@ -651,6 +651,7 @@ uint8_t u8x8_d_sh1106_128x64_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 uint8_t u8x8_d_st7920_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_st7920_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ssd1306_128x32_univision(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_d_ls913b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 /*==========================================*/
@@ -674,10 +675,36 @@ uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 /*==========================================*/
 /* u8x8_string.c */
 
-uint8_t u8x8_GetStringLineCnt(const char *str);
-const char *u8x8_GetStringLine(uint8_t line_idx, const char *str );
+uint8_t u8x8_GetStringLineCnt(const char *str);  /* return 0 for str==NULL */
+const char *u8x8_GetStringLineStart(uint8_t line_idx, const char *str );
+void u8x8_CopyStringLine(char *dest, const char *str);
 uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
 uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
+
+/*==========================================*/
+
+/* u8x8_sl.c scrollable list */
+struct _u8sl_struct
+{
+  uint8_t visible;		/* number of visible elements in the menu */
+  uint8_t total;			/* total number of elements in the menu */
+  uint8_t first_pos;		/* position of the first visible line */
+  uint8_t current_pos;	/* current cursor position, starts at 0 */  
+  
+  uint8_t x;
+  uint8_t y;
+};
+typedef struct _u8sl_struct u8sl_t;
+
+typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux);
+
+uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t start_pos, const char *sl);
+
+/*==========================================*/
+
+/* u8x8_message.c  */
+uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *title2, const char *title3, const char *buttons);
+
 
 
 /*==========================================*/
@@ -723,24 +750,6 @@ extern const uint8_t u8x8_font_pcsenior_u[] U8X8_FONT_SECTION("u8x8_font_pcsenio
 
 /* end font list */
 
-/*==========================================*/
-
-/* u8x8_sl.c scrollable list */
-struct _u8sl_struct
-{
-  uint8_t visible;		/* number of visible elements in the menu */
-  uint8_t total;			/* total number of elements in the menu */
-  uint8_t first_pos;		/* position of the first visible line */
-  uint8_t current_pos;	/* current cursor position, starts at 0 */  
-  
-  uint8_t x;
-  uint8_t y;
-};
-typedef struct _u8sl_struct u8sl_t;
-
-typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux);
-
-uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t start_pos, const char *sl);
 
 #ifdef __cplusplus
 }

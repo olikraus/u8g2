@@ -63,7 +63,7 @@ uint8_t u8x8_GetStringLineCnt(const char *str)
       Returns "xyz" for line_idx = 1 with str = "abc\nxyz"
     Support both UTF8 and normal strings.
 */
-const char *u8x8_GetStringLine(uint8_t line_idx, const char *str )
+const char *u8x8_GetStringLineStart(uint8_t line_idx, const char *str )
 {
   char e;
   uint8_t line_cnt = 1;
@@ -84,8 +84,26 @@ const char *u8x8_GetStringLine(uint8_t line_idx, const char *str )
       line_cnt++;
     }
   }
-  
   return NULL;	/* line not found */
+}
+
+/* copy until first '\n' or '\0' in str */
+void u8x8_CopyStringLine(char *dest, const char *str)
+{
+  if ( dest == NULL )
+    return;
+  if ( str != NULL )
+  {
+    for(;;)
+    {
+      if ( *str == '\n' || *str == '\0' )
+	break;
+      *dest = *str;
+      dest++;
+      str++;
+    }
+  }
+  *dest = '\0';
 }
 
 /*
@@ -135,6 +153,7 @@ uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const c
   draw several lines at position x,y.
   lines are stored in s and must be separated with '\n'.
   lines can be centered with respect to "w" if the first char in the line is a '\t'
+  if s == NULL nothing is drawn and 0 is returned
   returns the number of lines in s
 */
 uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s)
@@ -144,7 +163,7 @@ uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const 
   cnt = u8x8_GetStringLineCnt(s);
   for( i = 0; i < cnt; i++ )
   {
-    u8x8_DrawUTF8Line(u8x8, x, y, w, u8x8_GetStringLine(i, s));
+    u8x8_DrawUTF8Line(u8x8, x, y, w, u8x8_GetStringLineStart(i, s));
     y++;
   }
   return cnt;
