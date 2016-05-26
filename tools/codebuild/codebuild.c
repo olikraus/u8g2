@@ -104,9 +104,7 @@ struct controller controller_list[] =
       { "128x32_univision" },
       { NULL }
     }
-  },
-
-  
+  },  
   {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     {
@@ -145,14 +143,21 @@ struct controller controller_list[] =
   {
     "uc1701", 		13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     {
-      { "dogs102" },
+      { "ea_dogs102" },
       { NULL }
     }
   },
   {
     "st7565", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     {
-      { "dogm128" },
+      { "ea_dogm128" },
+      { NULL }
+    },
+  },
+  {
+    "st7565", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    {
+      { "nhd_c12832" },
       { NULL }
     }
   }

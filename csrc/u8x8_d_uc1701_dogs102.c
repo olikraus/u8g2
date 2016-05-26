@@ -122,7 +122,7 @@ static const u8x8_display_info_t u8x8_uc1701_display_info =
   /* pixel_height = */ 64
 };
 
-uint8_t u8x8_d_uc1701_dogs102(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_uc1701_ea_dogs102(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c;
   uint8_t *ptr;
