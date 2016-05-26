@@ -58,6 +58,7 @@ static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
   /* tile_width = */ 16,
   /* tile_hight = */ 16,
   /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
   /* pixel_height = */ 128
 };

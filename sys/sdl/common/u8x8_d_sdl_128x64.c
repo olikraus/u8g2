@@ -200,11 +200,8 @@ static const u8x8_display_info_t u8x8_sdl_128x64_info =
   /* write_pulse_width_ns = */ 0,
   /* tile_width = */ 16,
   /* tile_hight = */ 8,
-#if U8X8_DEFAULT_FLIP_MODE == 0 
   /* default_x_offset = */ 0,
-#else
-  /* default_x_offset = */ 0,
-#endif
+  /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };

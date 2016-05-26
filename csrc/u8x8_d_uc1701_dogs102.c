@@ -46,13 +46,11 @@ static const uint8_t u8x8_d_uc1701_dogs102_init_seq[] = {
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x040),		                /* set display start line to 0 */
   
-#if U8X8_DEFAULT_FLIP_MODE == 0 
   U8X8_C(0x0a1),		                /* ADC set to reverse */
   U8X8_C(0x0c0),		                /* common output mode */
-#else
-  U8X8_C(0x0a0),		                /* ADC set to reverse */
-  U8X8_C(0x0c8),		                /* common output mode */
-#endif
+  // Flipmode
+  //U8X8_C(0x0a0),		                /* ADC set to reverse */
+  //U8X8_C(0x0c8),		                /* common output mode */
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
@@ -81,7 +79,6 @@ static const uint8_t u8x8_d_uc1701_dogs102_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-#ifdef U8X8_WITH_SET_FLIP_MODE
 static const uint8_t u8x8_d_uc1701_dogs102_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
@@ -97,7 +94,6 @@ static const uint8_t u8x8_d_uc1701_dogs102_flip1_seq[] = {
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
-#endif
 
 
 static const u8x8_display_info_t u8x8_uc1701_display_info =
@@ -117,7 +113,8 @@ static const u8x8_display_info_t u8x8_uc1701_display_info =
   /* write_pulse_width_ns = */ 40,
   /* tile_width = */ 13,		/* width of 13*8=104 pixel */
   /* tile_hight = */ 8,
-  /* default_x_offset = */ U8X8_IF_DEFAULT_NORMAL_OR_FLIP(0, 30),
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 30,
   /* pixel_width = */ 102,
   /* pixel_height = */ 64
 };
@@ -141,20 +138,18 @@ uint8_t u8x8_d_uc1701_ea_dogs102(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1701_dogs102_powersave1_seq);
       break;
- #ifdef U8X8_WITH_SET_FLIP_MODE
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1701_dogs102_flip0_seq);
-	u8x8->x_offset = 0;
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1701_dogs102_flip1_seq);
-	u8x8->x_offset = 30;
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }	
       break;
-#endif
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);

@@ -190,11 +190,10 @@ static const u8x8_display_info_t u8x8_tga_info =
   /* write_pulse_width_ns = */ 0,
   /* tile_width = */ (DEFAULT_WIDTH)/8,
   /* tile_hight = */ (DEFAULT_HEIGHT)/8,
-#if U8X8_DEFAULT_FLIP_MODE == 0 
   /* default_x_offset = */ 0,
-#else
-  /* default_x_offset = */ 0,
-#endif
+  /* flipmode_x_offset = */ 0,
+  DEFAULT_WIDTH,
+  DEFAULT_HEIGHT
 };
 
 

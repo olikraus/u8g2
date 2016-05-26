@@ -52,13 +52,11 @@ static const uint8_t u8x8_d_ssd1306_128x64_noname_init_seq[] = {
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable */
   U8X8_CA(0x020, 0x000),		/* page addressing mode */
   
-#if U8X8_DEFAULT_FLIP_MODE == 0 
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
-#else
-  U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
-#endif
+  // Flipmode
+  // U8X8_C(0x0a0),				/* segment remap a0/a1*/
+  // U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
   U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
   U8X8_CA(0x081, 0x0cf),		/* [2] set contrast control */
@@ -87,7 +85,6 @@ static const uint8_t u8x8_d_ssd1306_128x64_noname_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-#ifdef U8X8_WITH_SET_FLIP_MODE
 static const uint8_t u8x8_d_ssd1306_128x64_noname_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
@@ -103,7 +100,6 @@ static const uint8_t u8x8_d_ssd1306_128x64_noname_flip1_seq[] = {
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
-#endif
 
 
 static uint8_t u8x8_d_ssd1306_sh1106_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -127,14 +123,18 @@ static uint8_t u8x8_d_ssd1306_sh1106_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_powersave1_seq);
       break;
-#ifdef U8X8_WITH_SET_FLIP_MODE
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
+      {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
       else
+      {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
       break;
-#endif
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
@@ -195,6 +195,7 @@ static const u8x8_display_info_t u8x8_ssd1306_128x64_noname_display_info =
   /* tile_width = */ 16,
   /* tile_hight = */ 8,
   /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };
@@ -228,6 +229,7 @@ static const u8x8_display_info_t u8x8_sh1106_128x64_noname_display_info =
   /* tile_width = */ 16,
   /* tile_hight = */ 8,
   /* default_x_offset = */ 2,
+  /* flipmode_x_offset = */ 2,
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };

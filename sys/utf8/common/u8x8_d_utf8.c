@@ -149,11 +149,8 @@ static const u8x8_display_info_t u8x8_utf8_info =
   /* write_pulse_width_ns = */ 0,
   /* tile_width = */ (CHGR_WIDTH+7)/8,
   /* tile_hight = */ (CHGR_HEIGHT+7)/8,
-#if U8X8_DEFAULT_FLIP_MODE == 0 
   /* default_x_offset = */ 0,
-#else
-  /* default_x_offset = */ 0,
-#endif
+  /* flipmode_x_offset = */ 0,
   /* pixel_width = */ CHGR_WIDTH,
   /* pixel_height = */ CHGR_HEIGHT
 };

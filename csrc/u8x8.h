@@ -92,11 +92,13 @@
 #define U8X8_WITH_SET_CONTRAST
 
 /* Undefine this to remove u8x8_SetFlipMode function */
-#define U8X8_WITH_SET_FLIP_MODE
+/* 26 May 2016: Obsolete */
+//#define U8X8_WITH_SET_FLIP_MODE
 
 /* Select 0 or 1 for the default flip mode. This is not affected by U8X8_WITH_FLIP_MODE */
 /* Note: Not all display types support a mirror functon for the frame buffer */
-#define U8X8_DEFAULT_FLIP_MODE 0
+/* 26 May 2016: Obsolete */
+//#define U8X8_DEFAULT_FLIP_MODE 0
 
 /*==========================================*/
 /* Includes */
@@ -122,11 +124,14 @@ extern "C" {
 
 /* the following macro returns the first value for the normal mode */
 /* or the second argument for the flip mode */
+
+/* 26 May 2016: Obsolete
 #if U8X8_DEFAULT_FLIP_MODE == 0
 #define U8X8_IF_DEFAULT_NORMAL_OR_FLIP(normal, flipmode) (normal)
 #else
 #define U8X8_IF_DEFAULT_NORMAL_OR_FLIP(normal, flipmode) (flipmode)
 #endif
+*/
 
 #ifdef __GNUC__
 #  define U8X8_NOINLINE __attribute__((noinline))
@@ -226,7 +231,8 @@ struct u8x8_display_info_struct
   uint8_t tile_width;
   uint8_t tile_height;
 
-  uint8_t default_x_offset;	/* default x offset for the display */
+  uint8_t default_x_offset;		/* default x offset for the display */
+  uint8_t flipmode_x_offset;	/* x offset, if flip mode is enabled */
  
  /* pixel width is not used by the u8x8 procedures */
  /* instead it will be used by the u8g2 procedures, because the pixel dimension can */
