@@ -52,7 +52,7 @@ static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
   /* sda_setup_time_ns = */ 227,	/* 227 nsec according to the datasheet */		
   /* sck_pulse_width_ns = */  255,	/* 450 nsec according to the datasheet */
   /* sck_takeover_edge = */ 1,		/* rising edge */
-  /* i2c_bus_clock_100kHz = */ 37,
+  /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 100,
   /* write_pulse_width_ns = */ 100,
   /* tile_width = */ 16,
@@ -65,7 +65,7 @@ static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
 
 uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, y, c, i;
+  uint8_t y, c, i;
   uint8_t *ptr;
   switch(msg)
   {
