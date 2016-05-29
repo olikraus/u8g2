@@ -62,6 +62,6 @@ const char *u8x8_u8toa(uint8_t v, uint8_t d)
 {
   static char buf[4];
   d = 3-d;
-  return u8g2_u8toap(buf, v) + d;
+  return u8x8_u8toap(buf, v) + d;
 }
 

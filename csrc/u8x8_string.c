@@ -94,7 +94,7 @@ void u8x8_CopyStringLine(char *dest, uint8_t line_idx, const char *str)
 {
   if ( dest == NULL )
     return;
-  str = u8x8_GetStringLineStart( line_idx, str )
+  str = u8x8_GetStringLineStart( line_idx, str );
   if ( str != NULL )
   {
     for(;;)
