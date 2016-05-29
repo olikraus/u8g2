@@ -92,18 +92,18 @@ uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *
   uint8_t cursor = 0;
   uint8_t button_cnt;
   uint8_t event;
+
+  u8x8_SetInverseFont(u8x8, 0);
   
   /* calculate overall height of the message box */
-  u8x8_SetInverseFont(u8x8, 0);
   height = 1;	/* button line */
   height += u8x8_GetStringLineCnt(title1);
   if ( title2 != NULL )
     height ++;
   height += u8x8_GetStringLineCnt(title3);
   
-  /* calculate offset from the top */
+  /* calculate offset from top */
   y = 0;
-  
   if ( height < u8x8_GetRows(u8x8)  )
   {
     y = u8x8_GetRows(u8x8);
@@ -111,6 +111,7 @@ uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *
     y /= 2;
   }
 
+  /* draw message box */
   
   u8x8_ClearDisplay(u8x8);   /* required, because not everything is filled */
   

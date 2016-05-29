@@ -78,34 +78,24 @@ void setup(void) {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
 }
 
-const char *string_list = 
-  "\tAltocumulus\n"
-  "\tAltostratus\n"
-  "\tCirrocumulus\n"
-  "\tCirrostratus\n"
-  "\tCirrus\n"
-  "\tCumulonimbus\n"
-  "\tCumulus\n"
-  "\tNimbostratus\n"
-  "\tStratocumulus\n"
-  "\tStratus";
 
-uint8_t current_selection = 0;
+uint8_t current_value = 0;
 
 
 
 void loop(void) {
 
-  current_selection = u8x8_UserInterfaceSelectionList(
+  u8x8_UserInterfaceInputValue(
     u8x8.getU8x8(), 
-    "\tCloud Types\n\t-----------",
-    current_selection, 
-    string_list);
+    "\tEnter Number:",
+    "\t", 
+    &current_value, 
+    3, 20, 3);
 
   u8x8_UserInterfaceMessage(
       u8x8.getU8x8(), 
-      "\tSelection:", 
-      u8x8_GetStringLineStart(current_selection, string_list ),
+      "\tValue:", 
+      u8x8_u8toa(current_value, 2),
       "",
       " ok \n cancel ");
     

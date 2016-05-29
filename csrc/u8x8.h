@@ -718,6 +718,11 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
 /* u8x8_message.c  */
 uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *title2, const char *title3, const char *buttons);
 
+/*==========================================*/
+
+/* u8x8_input_value.c  */
+
+uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *label, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits);
 
 
 /*==========================================*/
