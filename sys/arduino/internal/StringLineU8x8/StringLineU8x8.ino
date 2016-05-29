@@ -61,8 +61,53 @@
 //U8X8_UC1701_EA_DOGS102_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_UC1701_EA_DOGS102_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
 //U8X8_ST7565_EA_DOGM128_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8X8_ST7565_EA_DOGM128_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8X8_ST7565_EA_DOGM128_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_ST7565_NHD_C12832_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_ST7565_NHD_C12832_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 
+// End of constructor list
+
+
+void setup(void) {
+  
+  // DOGS102 Shield (http://shieldlist.org/controlconnection/dogs102)
+  //u8x8.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_home_pin= */ 3);
+  // DOGM128 Shield (http://shieldlist.org/schmelle2/dogm128) + DOGXL160 Shield
+  u8x8.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_home_pin= */ 8);	
+  
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+}
+
+const char *string_list = 
+  "\tAltocumulus\n"
+  "\tAltostratus\n"
+  "\tCirrocumulus\n"
+  "\tCirrostratus\n"
+  "\tCirrus\n"
+  "\tCumulonimbus\n"
+  "\tCumulus\n"
+  "\tNimbostratus\n"
+  "\tStratocumulus\n"
+  "\tStratus";
+
+uint8_t current_selection = 0;
+
+
+
+void loop(void) {
+
+  current_selection = u8x8_UserInterfaceSelectionList(
+    u8x8.getU8x8(), 
+    "\tCloud Types\n\t-----------",
+    current_selection, 
+    string_list);
+
+  u8x8_UserInterfaceMessage(
+      u8x8.getU8x8(), 
+      "\tSelection:", 
+      u8x8_GetStringLineStart(current_selection, string_list ),
+      "",
+      " ok \n cancel ");
+    
+}
 
