@@ -1,6 +1,6 @@
 /*
 
-  u8x8_message.h
+  u8x8_message.c
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 

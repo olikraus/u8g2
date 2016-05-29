@@ -679,19 +679,24 @@ uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s);	/* ret
 uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 #define u8x8_SetInverseFont(u8x8, b) (u8x8)->is_font_inverse_mode = (b)
 
+/*==========================================*/
+/* itoa procedures */
+const char *u8x8_u8toa(uint8_t v, uint8_t d);
+const char *u8x8_u16toa(uint16_t v, uint8_t d);
+
 
 /*==========================================*/
 /* u8x8_string.c */
 
 uint8_t u8x8_GetStringLineCnt(const char *str);  /* return 0 for str==NULL */
 const char *u8x8_GetStringLineStart(uint8_t line_idx, const char *str );
-void u8x8_CopyStringLine(char *dest, const char *str);
+void u8x8_CopyStringLine(char *dest, uint8_t line_idx, const char *str);
 uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
 uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
 
 /*==========================================*/
 
-/* u8x8_sl.c scrollable list */
+/* u8x8_selection_list.c */
 struct _u8sl_struct
 {
   uint8_t visible;		/* number of visible elements in the menu */

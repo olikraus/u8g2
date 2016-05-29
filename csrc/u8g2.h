@@ -574,12 +574,9 @@ void u8g2_SetupBuffer_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetupBuffer_Utf8(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/
-/* u8g2_u8toa.c */
-const char *u8g2_u8toa(uint8_t v, uint8_t d);
-
-/*==========================================*/
-/* u8g2_u16toa.c */
-const char *u8g2_u16toa(uint16_t v, uint8_t d);
+/* itoa procedures */
+#define u8g2_u8toa u8x8_u8toa
+#define u8g2_u16toa u8x8_u16toa
 
 
 /*==========================================*/

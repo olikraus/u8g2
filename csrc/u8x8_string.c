@@ -88,10 +88,13 @@ const char *u8x8_GetStringLineStart(uint8_t line_idx, const char *str )
 }
 
 /* copy until first '\n' or '\0' in str */
-void u8x8_CopyStringLine(char *dest, const char *str)
+/* Important: There is no string overflow check, ensure */
+/* that the destination buffer is large enough */
+void u8x8_CopyStringLine(char *dest, uint8_t line_idx, const char *str)
 {
   if ( dest == NULL )
     return;
+  str = u8x8_GetStringLineStart( line_idx, str )
   if ( str != NULL )
   {
     for(;;)
