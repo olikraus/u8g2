@@ -41,7 +41,7 @@
     1: value has been updated
 */
 
-uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *label, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits)
+uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post)
 {
   uint8_t height;
   uint8_t y;
@@ -66,11 +66,13 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
   
   /* calculate offset from left for the label */
   x = 0;
-  width = u8x8_GetUTF8Len(u8x8, label);
+  width = u8x8_GetUTF8Len(u8x8, pre);
   width += digits;
-  if ( *label == '\t' )
+  width += u8x8_GetUTF8Len(u8x8, post);
+  if ( *pre == '\t' )
   {
-    label++;
+    width--;
+    pre++;
     if ( width < u8x8_GetCols(u8x8) )
     {
       x = u8x8_GetCols(u8x8);
@@ -83,7 +85,8 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
   u8x8_ClearDisplay(u8x8);   /* required, because not everything is filled */
   u8x8_SetInverseFont(u8x8, 0);  
   y += u8x8_DrawUTF8Lines(u8x8, 0, y, u8x8_GetCols(u8x8), title);
-  x += u8x8_DrawUTF8(u8x8, x, y, label);
+  x += u8x8_DrawUTF8(u8x8, x, y, pre);
+  u8x8_DrawUTF8(u8x8, x+digits, y, post);
   u8x8_SetInverseFont(u8x8, 1);
   
   /* event loop */

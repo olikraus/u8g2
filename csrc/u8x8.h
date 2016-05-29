@@ -722,7 +722,7 @@ uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *
 
 /* u8x8_input_value.c  */
 
-uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *label, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits);
+uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post);
 
 
 /*==========================================*/

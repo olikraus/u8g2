@@ -87,10 +87,10 @@ void loop(void) {
 
   u8x8_UserInterfaceInputValue(
     u8x8.getU8x8(), 
-    "\tEnter Number:",
+    "\tEnter Distance:",
     "\t", 
     &current_value, 
-    3, 20, 3);
+    3, 20, 3, " cm");
 
   u8x8_UserInterfaceMessage(
       u8x8.getU8x8(), 
