@@ -191,6 +191,10 @@ struct fontinfo fi[] = {
   { 0, "m2icon_5.bdf", 		"m2icon_5", 		0, 0, BM_T, FM_C, MM_F, "", ""},
   { 0, "m2icon_7.bdf", 		"m2icon_7", 		0, 0, BM_T, FM_C, MM_F, "", ""},
   { 0, "m2icon_9.bdf", 		"m2icon_9", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  
+  { 0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
+  { 0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
+  
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
   { 0, "micro.bdf", 			"micro", 			1, 0, BM_T|BM_M, FM_C, MM_R|MM_N, "", "" },		/* micro does not have the full set */

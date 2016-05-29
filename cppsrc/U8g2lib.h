@@ -63,8 +63,8 @@ class U8G2 : public Print
     u8x8_t *getU8x8(void) { return u8g2_GetU8x8(&u8g2); }
     u8g2_t *getU8g2(void) { return &u8g2; }
     
-    void enablePrintUTF8(void) { cpp_next_cb = u8x8_utf8_next; }
-    void disablePrintUTF8(void) { cpp_next_cb = u8x8_ascii_next; }
+    void enableUTF8Print(void) { cpp_next_cb = u8x8_utf8_next; }
+    void disableUTF8Print(void) { cpp_next_cb = u8x8_ascii_next; }
 
     /* u8x8 interface */
     uint8_t getCols(void) { return u8x8_GetCols(u8g2_GetU8x8(&u8g2)); }
