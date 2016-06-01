@@ -691,7 +691,9 @@ const char *u8x8_u16toa(uint16_t v, uint8_t d);
 uint8_t u8x8_GetStringLineCnt(const char *str);  /* return 0 for str==NULL */
 const char *u8x8_GetStringLineStart(uint8_t line_idx, const char *str );
 void u8x8_CopyStringLine(char *dest, uint8_t line_idx, const char *str);
+/* draw one line, consider \t for center */
 uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
+/* draw multiple lines, handle \t */
 uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s);
 
 /*==========================================*/
@@ -710,6 +712,9 @@ struct _u8sl_struct
 typedef struct _u8sl_struct u8sl_t;
 
 typedef void (*u8x8_sl_cb)(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void *aux);
+
+void u8sl_Next(u8sl_t *u8sl);
+void u8sl_Prev(u8sl_t *u8sl);
 
 uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t start_pos, const char *sl);
 

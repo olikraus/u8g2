@@ -1,6 +1,6 @@
 /*
 
-  u8x8_selection_list.h
+  u8x8_selection_list.c
   
   selection list with scroll option
   

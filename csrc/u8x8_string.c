@@ -120,8 +120,7 @@ uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const c
 {
   uint8_t d, lw;
   uint8_t cx, dx;
-  
-  
+    
   d = 0;
   if ( *s == '\t' )
   {
