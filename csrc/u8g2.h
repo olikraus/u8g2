@@ -546,8 +546,8 @@ u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char
 
 #define u8g2_GetMaxCharHeight(u8g2) ((u8g2)->font_info.max_char_height)
 #define u8g2_GetMaxCharWidth(u8g2) ((u8g2)->font_info.max_char_width)
-#define u8g2_GetAscent(u8g2) ((u8g2)->font_info.ascent_A)
-#define u8g2_GetDescent(u8g2) ((u8g2)->font_info.descent_g)
+#define u8g2_GetAscent(u8g2) ((u8g2)->font_ref_ascent)
+#define u8g2_GetDescent(u8g2) ((u8g2)->font_ref_descent)
 
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
@@ -557,6 +557,13 @@ void u8g2_SetFontPosBottom(u8g2_t *u8g2);
 void u8g2_SetFontPosTop(u8g2_t *u8g2);
 void u8g2_SetFontPosCenter(u8g2_t *u8g2);
 
+void u8g2_SetFontRefHeightText(u8g2_t *u8g2);
+void u8g2_SetFontRefHeightExtendedText(u8g2_t *u8g2);
+void u8g2_SetFontRefHeightAll(u8g2_t *u8g2);
+
+/*==========================================*/
+/* u8g2_selection_list.c */
+void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, const char *s, uint8_t border_size, uint8_t is_invert);
 
 /*==========================================*/
 /* u8x8_d_sdl_128x64.c */
@@ -572,6 +579,9 @@ void u8g2_SetupBuffer_TGA_LCD(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 /* u8x8_d_utf8.c */
 /* 96x32 stdout */
 void u8g2_SetupBuffer_Utf8(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+
+
+
 
 /*==========================================*/
 /* itoa procedures */

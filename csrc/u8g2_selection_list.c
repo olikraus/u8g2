@@ -39,30 +39,47 @@
 
 
 /*
-  Draw a string
-  Extend the string to size "w"
-  Center the string, if the first char is a '\t' (center with respect to "w")
-  return the size of the string
+  Draw a string at x,y
+  Center string within w (left adjust if w < pixel len of s)
+  
+  Side effects:
+    u8g2_SetFontDirection(u8g2, 0);
+  
 
 */
-void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, const char *s)
+void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, const char *s, uint8_t border_size, uint8_t is_invert)
 {
-  u8g2_uint_t d, lw;
+  u8g2_uint_t d, str_width;
+  
+  /* only horizontal strings are supported, so force this here */
+  u8g2_SetFontDirection(u8g2, 0);
+  
+  /* revert y position back to baseline ref */
+  y += u8g2->font_calc_vref(u8g2);
     
-  d = 0;
-  if ( *s == '\t' )
+  /* calculate the width of the string in pixel */
+  str_width = u8g2_GetUTF8Width(u8g2, s);
+  
+  /* calculate delta d within the box */
+  d = 0;  
+  if ( str_width < w )
   {
-    s++;		/* skip '\t' */
-    lw = u8g2_GetUTF8Len(u8g2, s);
-    if ( lw < w )
-    {
-      d = w;
-      d -=lw;
-      d /= 2;
-    }
+    d = w;
+    d -=str_width;
+    d /= 2;
   }
-  x += d
-  u8g2_DrawUTF8(u8g2, x, y, s);
+  
+  
+  
+  /*
+  if ( is_invert )
+  {
+    u8g2_SetDrawColor(u8g2, 1);
+  }
+  */
+  
+  u8g2_DrawUTF8(u8g2, x+d, y, s);
+  
 }
 
 
