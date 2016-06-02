@@ -658,6 +658,7 @@ uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
   return 0;
 }
 
+/* side effect: updates u8g2->font_decode */
 int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
 {
   const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, requested_encoding);
@@ -670,6 +671,8 @@ int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
 
   return u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_delta_x);
 }
+
+
 
 
 /*
@@ -943,12 +946,14 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str) U8G2_NOINLIN
 static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
 {
   uint16_t e;
-  u8g2_uint_t  w;
+  u8g2_uint_t  w, dx, pw;
   
   u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   
   /* reset the total width to zero, this will be expanded during calculation */
   w = 0;
+  dx = 0;
+  pw = 0;
   
   for(;;)
   {
@@ -958,9 +963,16 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
     str++;
     if ( e != 0x0fffe )
     {
-      w += u8g2_GetGlyphWidth(u8g2, e);
+      dx = u8g2_GetGlyphWidth(u8g2, e);		/* delta x value of the glyph */
+      w += dx;
+      pw = u8g2->font_decode.glyph_width;	/* the real pixel width of the glyph */
     }
   }
+  
+  /* adjust the last glyph */
+  w -= dx;
+  w += pw;
+  
   return w;  
 }
 

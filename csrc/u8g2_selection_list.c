@@ -50,6 +50,7 @@
 void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, const char *s, uint8_t border_size, uint8_t is_invert)
 {
   u8g2_uint_t d, str_width;
+  u8g2_uint_t fx, fy, fw, fh;
   
   /* only horizontal strings are supported, so force this here */
   u8g2_SetFontDirection(u8g2, 0);
@@ -68,7 +69,17 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
     d -=str_width;
     d /= 2;
   }
+  else
+  {
+    w = str_width;
+  }
   
+  /* caluclate frame */
+  fx = x-1;		/* -1 adjustment so that the frame is outside */
+  fy = y - u8g2_GetAscent(u8g2) - 1;
+  fw = w+2;		/* +2 to make the frame outside */
+  fh = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) + 2;
+  u8g2_DrawFrame(u8g2, fx, fy, fw, fh );
   
   
   /*
