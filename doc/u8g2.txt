@@ -81,7 +81,7 @@ Major Changes (Code rework required)
 - getFontLineSpacing() and setFontLineSpacingFactor() are not supported any more. 
 - setFontRefHeightText(), setFontRefHeightExtendedText() and setFontRefHeightAll() are
 	not supported as of now. Maybe this will be added in the future.	
-- getStrPixelWidth() is not supported any more, use getStrWidth() instead
+- getStrPixelWidth() is replaced by getStrWidth() instead
 - setHardwareBackup() not yet supported. Might be implemented later
 - Cursor functions are not available. This includes:
 	setCursorFont(), setCursorStyle(), setCursorPos(), setCursorColor(),

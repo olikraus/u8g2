@@ -946,14 +946,14 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str) U8G2_NOINLIN
 static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
 {
   uint16_t e;
-  u8g2_uint_t  w, dx, pw;
+  u8g2_uint_t  w, dx;
   
+  u8g2->font_decode.glyph_width = 0;
   u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   
   /* reset the total width to zero, this will be expanded during calculation */
   w = 0;
   dx = 0;
-  pw = 0;
   
   for(;;)
   {
@@ -965,13 +965,12 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
     {
       dx = u8g2_GetGlyphWidth(u8g2, e);		/* delta x value of the glyph */
       w += dx;
-      pw = u8g2->font_decode.glyph_width;	/* the real pixel width of the glyph */
     }
   }
   
   /* adjust the last glyph */
   w -= dx;
-  w += pw;
+  w += u8g2->font_decode.glyph_width;  /* the real pixel width of the glyph, sideeffect of GetGlyphWidth */
   
   return w;  
 }

@@ -75,21 +75,34 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
   }
   
   /* caluclate frame */
-  fx = x-1;		/* -1 adjustment so that the frame is outside */
-  fy = y - u8g2_GetAscent(u8g2) - 1;
-  fw = w+2;		/* +2 to make the frame outside */
-  fh = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) + 2;
-  u8g2_DrawFrame(u8g2, fx, fy, fw, fh );
+  fx = x;		
+  fy = y - u8g2_GetAscent(u8g2) ;
+  fw = w;		
+  fh = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) ;
   
-  
-  /*
+  u8g2_SetDrawColor(u8g2, 1);
   if ( is_invert )
   {
-    u8g2_SetDrawColor(u8g2, 1);
+    u8g2_DrawBox(u8g2, fx, fy, fw, fh);
   }
-  */
+  
+  while( border_size > 0 )
+  {
+    fx--;
+    fy--;
+    fw +=2;
+    fh +=2;
+    u8g2_DrawFrame(u8g2, fx, fy, fw, fh );
+    border_size--;
+  }
+  
+  if ( is_invert )
+  {
+    u8g2_SetDrawColor(u8g2, 0);
+  }
   
   u8g2_DrawUTF8(u8g2, x+d, y, s);
+  u8g2_SetDrawColor(u8g2, 1);
   
 }
 

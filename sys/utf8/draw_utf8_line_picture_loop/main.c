@@ -21,7 +21,7 @@ int main(void)
   u8g2_FirstPage(&u8g2);
   do
   {      
-    u8g2_DrawUTF8Line(&u8g2, 5, 15, 10, "Agile", 1,0);
+    u8g2_DrawUTF8Line(&u8g2, 5, 15, 10, "Agile", 2,1);
   } while( u8g2_NextPage(&u8g2) );
     
   utf8_show();
