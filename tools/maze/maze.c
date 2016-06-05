@@ -3,6 +3,9 @@
 Source: http://rosettacode.org/wiki/Maze_generation#C
 License: http://www.gnu.org/licenses/fdl.html
 
+another option could be "recursive division"
+http://weblog.jamisbuck.org/2011/1/12/maze-generation-recursive-division-algorithm
+
 */
 
 

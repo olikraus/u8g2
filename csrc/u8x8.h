@@ -706,8 +706,8 @@ struct _u8sl_struct
   uint8_t first_pos;		/* position of the first visible line */
   uint8_t current_pos;	/* current cursor position, starts at 0 */  
   
-  uint8_t x;
-  uint8_t y;
+  uint8_t x;		/* u8x8 only, not used in u8g2 */
+  uint8_t y;		/* u8x8 only, not used in u8g2 */
 };
 typedef struct _u8sl_struct u8sl_t;
 

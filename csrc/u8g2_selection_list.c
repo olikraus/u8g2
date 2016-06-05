@@ -37,6 +37,8 @@
 
 #include "u8g2.h"
 
+#define MY_BORDER_SIZE 1
+
 
 /*
   Draw a string at x,y
@@ -74,18 +76,20 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
     w = str_width;
   }
   
-  /* caluclate frame */
+  /* caluclate text box */
   fx = x;		
   fy = y - u8g2_GetAscent(u8g2) ;
   fw = w;		
   fh = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) ;
   
+  /* draw the box, if inverted */
   u8g2_SetDrawColor(u8g2, 1);
   if ( is_invert )
   {
     u8g2_DrawBox(u8g2, fx, fy, fw, fh);
   }
-  
+
+  /* draw the frame */
   while( border_size > 0 )
   {
     fx--;
@@ -95,35 +99,63 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
     u8g2_DrawFrame(u8g2, fx, fy, fw, fh );
     border_size--;
   }
-  
+
   if ( is_invert )
   {
     u8g2_SetDrawColor(u8g2, 0);
   }
-  
+
+  /* draw the text */
   u8g2_DrawUTF8(u8g2, x+d, y, s);
   u8g2_SetDrawColor(u8g2, 1);
   
 }
 
 
-/* selection list with string line */
-#ifdef NOT_FINISHED
-void u8g2_draw_string_line(u8g2_t *u8g2, u8sl_t *u8sl, uint8_t idx, const char *s)
+/*
+  draw several lines at position x,y.
+  lines are stored in s and must be separated with '\n'.
+  lines can be centered with respect to "w" if the first char in the line is a '\t'
+  if s == NULL nothing is drawn and 0 is returned
+  returns the number of lines in s multiplied with line_height
+*/
+u8g2_uint_t u8g2_DrawUTF8Lines(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t line_height, const char *s)
 {
-  uint8_t row;
-  /* calculate offset from display upper border */
-  row = u8sl->y;
+  uint8_t i;
+  uint8_t cnt;
+  u8g2_uint_t yy = 0;
+  cnt = u8x8_GetStringLineCnt(s);
+  printf("cnt=%d, y=%d, line_height=%d\n", cnt, y, line_height);
+  for( i = 0; i < cnt; i++ )
+  {
+    u8g2_DrawUTF8Line(u8g2, x, y, w, u8x8_GetStringLineStart(i, s), 0, 0);
+    y+=line_height;
+    yy+=line_height;
+  }
+  return yy;
+}
+
+/* selection list with string line */
+static void u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s) U8G2_NOINLINE;
+static void u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s)
+{
+  u8g2_uint_t yy;
+  uint8_t border_size = 0;
+  uint8_t is_invert = 0;
+  u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
   
-  /* calculate target pos */
-  row += idx;
-  row -= u8sl->first_pos;
+  /* calculate offset from display upper border */
+  yy = idx;
+  yy -= u8sl->first_pos;
+  yy *= line_height;
+  yy += y;
   
   /* check whether this is the current cursor line */
   if ( idx == u8sl->current_pos )
-    u8x8_SetInverseFont(u8x8, 1);
-  else
-    u8x8_SetInverseFont(u8x8, 0);
+  {
+    border_size = MY_BORDER_SIZE;
+    is_invert = 1;
+  }
   
   /* get the line from the array */
   s = u8x8_GetStringLineStart(idx, s);
@@ -131,7 +163,61 @@ void u8g2_draw_string_line(u8g2_t *u8g2, u8sl_t *u8sl, uint8_t idx, const char *
   /* draw the line */
   if ( s == NULL )
     s = "";
-  u8x8_DrawUTF8Line(u8x8, u8sl->x, row, u8x8_GetCols(u8x8), s);  
-  u8x8_SetInverseFont(u8x8, 0);
+  u8g2_DrawUTF8Line(u8g2, MY_BORDER_SIZE, y, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, s, border_size, is_invert);
 }
-#endif
+
+void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const char *s)
+{
+  uint8_t i;
+  for( i = 0; i < u8sl->visible; i++ )
+  {
+    u8g2_draw_selection_list_line(u8g2, u8sl, y, i+u8sl->first_pos, s);
+  }
+}
+
+
+/*
+  title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\n'
+  start_pos: 	default position for the cursor
+  sl:			string list (list of strings separated by \n)
+  returns start_pos if user has pressed the home key
+  returns the selected line if user has pressed the select key
+*/
+uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t start_pos, const char *sl)
+{
+  u8sl_t u8sl;
+  u8g2_uint_t yy;
+  
+  uint8_t event;
+
+  u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
+  
+  uint8_t title_lines;
+  uint8_t display_lines;
+
+  display_lines = u8g2_GetDisplayHeight(u8g2) / line_height;
+  
+  u8sl.visible = display_lines;
+  u8sl.visible -= u8x8_GetStringLineCnt(title);
+
+  u8sl.total = u8x8_GetStringLineCnt(sl);
+  u8sl.first_pos = 0;
+  u8sl.current_pos = start_pos;
+
+  if ( u8sl.current_pos >= u8sl.total )
+    u8sl.current_pos = u8sl.total-1;
+  if ( u8sl.first_pos+u8sl.visible < u8sl.current_pos )
+    u8sl.first_pos = u8sl.current_pos-u8sl.visible;
+  
+  u8g2_FirstPage(u8g2);
+  do
+  {      
+    yy = u8g2_GetAscent(u8g2)-u8g2->font_calc_vref(u8g2);
+    if ( title != NULL )
+    {
+      yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, line_height, title);
+    }
+    u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl); 
+  } while( u8g2_NextPage(u8g2) );
+  
+}
