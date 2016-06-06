@@ -145,8 +145,8 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
     u8sl.current_pos = u8sl.total-1;
 
   
-  u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
-  
+  u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);
+
   for(;;)
   {
     event = u8x8_GetMenuEvent(u8x8);
@@ -163,7 +163,7 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
     {
       u8sl_Prev(&u8sl);
       u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
-    }    
+    }
   }
 }
 

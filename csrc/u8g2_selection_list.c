@@ -53,18 +53,18 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
 {
   u8g2_uint_t d, str_width;
   u8g2_uint_t fx, fy, fw, fh;
-  
+
   /* only horizontal strings are supported, so force this here */
   u8g2_SetFontDirection(u8g2, 0);
-  
+
   /* revert y position back to baseline ref */
   y += u8g2->font_calc_vref(u8g2);
-    
+
   /* calculate the width of the string in pixel */
   str_width = u8g2_GetUTF8Width(u8g2, s);
-  
+
   /* calculate delta d within the box */
-  d = 0;  
+  d = 0;
   if ( str_width < w )
   {
     d = w;
@@ -75,13 +75,13 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
   {
     w = str_width;
   }
-  
+
   /* caluclate text box */
-  fx = x;		
+  fx = x;
   fy = y - u8g2_GetAscent(u8g2) ;
-  fw = w;		
+  fw = w;
   fh = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) ;
-  
+
   /* draw the box, if inverted */
   u8g2_SetDrawColor(u8g2, 1);
   if ( is_invert )
@@ -104,11 +104,17 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
   {
     u8g2_SetDrawColor(u8g2, 0);
   }
+  else
+  {
+    u8g2_SetDrawColor(u8g2, 1);
+  }
 
   /* draw the text */
   u8g2_DrawUTF8(u8g2, x+d, y, s);
+
+  /* revert draw color */
   u8g2_SetDrawColor(u8g2, 1);
-  
+
 }
 
 
@@ -125,9 +131,11 @@ u8g2_uint_t u8g2_DrawUTF8Lines(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
   uint8_t cnt;
   u8g2_uint_t yy = 0;
   cnt = u8x8_GetStringLineCnt(s);
-  printf("cnt=%d, y=%d, line_height=%d\n", cnt, y, line_height);
+  //printf("str=%s\n", s);
+  //printf("cnt=%d, y=%d, line_height=%d\n", cnt, y, line_height);
   for( i = 0; i < cnt; i++ )
   {
+    //printf("  i=%d, y=%d, line_height=%d\n", i, y, line_height);
     u8g2_DrawUTF8Line(u8g2, x, y, w, u8x8_GetStringLineStart(i, s), 0, 0);
     y+=line_height;
     yy+=line_height;
@@ -135,28 +143,31 @@ u8g2_uint_t u8g2_DrawUTF8Lines(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
   return yy;
 }
 
-/* selection list with string line */
-static void u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s) U8G2_NOINLINE;
-static void u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s)
+/*
+  selection list with string line
+  returns line height
+*/
+static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s) U8G2_NOINLINE;
+static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s)
 {
   u8g2_uint_t yy;
   uint8_t border_size = 0;
   uint8_t is_invert = 0;
   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
-  
+
   /* calculate offset from display upper border */
   yy = idx;
   yy -= u8sl->first_pos;
   yy *= line_height;
   yy += y;
-  
+
   /* check whether this is the current cursor line */
   if ( idx == u8sl->current_pos )
   {
     border_size = MY_BORDER_SIZE;
     is_invert = 1;
   }
-  
+
   /* get the line from the array */
   s = u8x8_GetStringLineStart(idx, s);
   
@@ -164,6 +175,7 @@ static void u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_
   if ( s == NULL )
     s = "";
   u8g2_DrawUTF8Line(u8g2, MY_BORDER_SIZE, y, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, s, border_size, is_invert);
+  return line_height;
 }
 
 void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const char *s)
@@ -171,7 +183,7 @@ void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const cha
   uint8_t i;
   for( i = 0; i < u8sl->visible; i++ )
   {
-    u8g2_draw_selection_list_line(u8g2, u8sl, y, i+u8sl->first_pos, s);
+    y += u8g2_draw_selection_list_line(u8g2, u8sl, y, i+u8sl->first_pos, s);
   }
 }
 
@@ -187,16 +199,16 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
 {
   u8sl_t u8sl;
   u8g2_uint_t yy;
-  
+
   uint8_t event;
 
   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
-  
+
   uint8_t title_lines;
   uint8_t display_lines;
 
   display_lines = u8g2_GetDisplayHeight(u8g2) / line_height;
-  
+
   u8sl.visible = display_lines;
   u8sl.visible -= u8x8_GetStringLineCnt(title);
 
@@ -208,16 +220,35 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
     u8sl.current_pos = u8sl.total-1;
   if ( u8sl.first_pos+u8sl.visible < u8sl.current_pos )
     u8sl.first_pos = u8sl.current_pos-u8sl.visible;
-  
-  u8g2_FirstPage(u8g2);
-  do
-  {      
-    yy = u8g2_GetAscent(u8g2)-u8g2->font_calc_vref(u8g2);
-    if ( title != NULL )
-    {
-      yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, line_height, title);
-    }
-    u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl); 
-  } while( u8g2_NextPage(u8g2) );
-  
+
+  for(;;)
+  {
+      u8g2_FirstPage(u8g2);
+      do
+      {
+        yy = u8g2_GetAscent(u8g2)-u8g2->font_calc_vref(u8g2);
+        if ( title != NULL )
+        {
+          yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, line_height, title);
+        }
+        u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl);
+      } while( u8g2_NextPage(u8g2) );
+
+      for(;;)
+      {
+        event = u8g2_GetMenuEvent(u8g2);
+        if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+          return u8sl.current_pos;
+        else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+          return start_pos;
+        else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+        {
+          u8sl_Next(&u8sl);
+        }
+        else if ( event == U8X8_MSG_GPIO_MENU_PREV )
+        {
+          u8sl_Prev(&u8sl);
+        }
+      }
+  }
 }
