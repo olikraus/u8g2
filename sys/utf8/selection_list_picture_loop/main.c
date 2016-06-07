@@ -19,7 +19,7 @@ int main(void)
   u8g2_SetFont(&u8g2, u8g2_font_5x7_mf);
   u8g2_SetFontDirection(&u8g2, 0);
 
-  u8g2_UserInterfaceSelectionList(&u8g2, "Title", 0, "abc\ndef\nghi");
+  u8g2_UserInterfaceSelectionList(&u8g2, "Title", 0, "abc\ndef\nghi\njkl");
 
   utf8_show();
 

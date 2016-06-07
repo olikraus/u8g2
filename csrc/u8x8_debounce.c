@@ -99,9 +99,39 @@ static uint8_t u8x8_find_first_diff(uint8_t a, uint8_t b)
       --> State C
     u8x8->debounce_last_pin_state != current_state 
       --> State A
-    
-      
+
 */
+
+#ifdef __unix__
+
+#include <stdio.h>
+#include <stdlib.h>
+uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
+{
+    int c;
+    c = getc(stdin);
+    switch(c)
+    {
+        case 'n':
+            return  U8X8_MSG_GPIO_MENU_NEXT;
+        case 'p':
+            return  U8X8_MSG_GPIO_MENU_PREV;
+        case 's':
+            return  U8X8_MSG_GPIO_MENU_SELECT;
+        case 'h':
+            return  U8X8_MSG_GPIO_MENU_HOME;
+        case 'x':
+            exit(0);
+        default:
+            puts("press n, p, s, h or x");
+            break;
+    }
+    return 0;
+}
+
+
+#else  /* __unix__ */
+
 
 #define U8X8_DEBOUNCE_WAIT 1
 /* do debounce and return a GPIO msg which indicates the event */
@@ -155,3 +185,5 @@ uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
   }
   return result_msg;
 }
+
+#endif /* __unix__ */

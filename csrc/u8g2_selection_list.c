@@ -234,20 +234,27 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
         u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl);
       } while( u8g2_NextPage(u8g2) );
 
+#ifdef __unix__
+        utf8_show();
+#endif
+
       for(;;)
       {
-        event = u8g2_GetMenuEvent(u8g2);
+        event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
         if ( event == U8X8_MSG_GPIO_MENU_SELECT )
           return u8sl.current_pos;
         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
           return start_pos;
         else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
         {
+          puts("NEXT");
           u8sl_Next(&u8sl);
+          break;
         }
         else if ( event == U8X8_MSG_GPIO_MENU_PREV )
         {
           u8sl_Prev(&u8sl);
+          break;
         }
       }
   }
