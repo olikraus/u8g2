@@ -78,9 +78,11 @@ sed -i -e "s/version=.*/version=${ver}/" library.properties
 cd ..
 
 echo "== create local zip file =="
+rm u8g2_arduino_${ver}.zip
 zip -q -r --exclude="*.git*" u8g2_arduino_${ver}.zip ./U8g2_Arduino
 cp u8g2_arduino_${ver}.zip ~/Arduino/libraries/.
 cd ~/Arduino/libraries
+rm -rf U8g2_Arduino
 unzip -o u8g2_arduino_${ver}.zip
 
 popd

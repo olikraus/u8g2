@@ -247,7 +247,6 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
           return start_pos;
         else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
         {
-          puts("NEXT");
           u8sl_Next(&u8sl);
           break;
         }
