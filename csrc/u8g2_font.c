@@ -954,7 +954,9 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   /* reset the total width to zero, this will be expanded during calculation */
   w = 0;
   dx = 0;
-  
+
+  // printf("str=<%s>\n", str);
+	
   for(;;)
   {
     e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
@@ -971,6 +973,8 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   /* adjust the last glyph */
   w -= dx;
   w += u8g2->font_decode.glyph_width;  /* the real pixel width of the glyph, sideeffect of GetGlyphWidth */
+  
+  // printf("w=%d \n", w);
   
   return w;  
 }

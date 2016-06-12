@@ -89,6 +89,8 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
     u8g2_DrawBox(u8g2, fx, fy, fw, fh);
   }
 
+  printf("d=%d fx=%d\n", d, fx);
+  
   /* draw the frame */
   while( border_size > 0 )
   {
@@ -153,6 +155,7 @@ static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g
   u8g2_uint_t yy;
   uint8_t border_size = 0;
   uint8_t is_invert = 0;
+	
   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
 
   /* calculate offset from display upper border */
@@ -194,6 +197,10 @@ void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const cha
   sl:			string list (list of strings separated by \n)
   returns start_pos if user has pressed the home key
   returns the selected line if user has pressed the select key
+  side effects:
+    u8g2_SetFontDirection(u8g2, 0);
+    u8g2_SetFontPosBaseline(u8g2);
+	
 */
 uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t start_pos, const char *sl)
 {

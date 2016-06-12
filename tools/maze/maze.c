@@ -16,8 +16,9 @@ http://www.roguebasin.com/index.php?title=Finding_graphical_tiles
 	http://opengameart.org/content/tileset-1bit-color-extention
 	http://dwarffortresswiki.org/index.php/Tileset_repository
 	http://game-icons.net/	<< could be nice
-	
+https://www.reddit.com/r/gamedev/comments/444zbl/roguelike_tilesets/
 	http://cc.retinaleclipse.com/minirogue-c64-all.png (https://forums.tigsource.com/index.php?topic=14166.0)
+	http://quale-art.blogspot.de/p/scroll-o-sprites.html  oder http://imgur.com/a/uHx4k
 
 
 fonts:
