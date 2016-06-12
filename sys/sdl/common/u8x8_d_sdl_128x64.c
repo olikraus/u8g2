@@ -207,6 +207,51 @@ static const u8x8_display_info_t u8x8_sdl_128x64_info =
 };
 
 
+uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+	static int debounce_cnt = 0;
+	static int curr_msg = 0;
+	int event;
+	if ( debounce_cnt > 0 && msg == curr_msg )
+	{
+		debounce_cnt--;
+		u8x8_SetGPIOResult(u8x8, 0);		
+		return 1;
+	}
+	
+	event = u8g_sdl_get_key();
+	switch(event)
+	{
+		case 273:
+			curr_msg = U8X8_MSG_GPIO_MENU_UP;
+			debounce_cnt = 5;
+			break;
+		case 274:
+			curr_msg = U8X8_MSG_GPIO_MENU_DOWN;
+			debounce_cnt = 5;
+			break;
+		case 275:
+			curr_msg = U8X8_MSG_GPIO_MENU_NEXT;
+			debounce_cnt = 5;
+			break;
+		case 276:
+			curr_msg = U8X8_MSG_GPIO_MENU_PREV;
+			debounce_cnt = 5;
+			break;
+		case 's':
+			curr_msg = U8X8_MSG_GPIO_MENU_SELECT;
+			debounce_cnt = 5;
+			break;
+		case 'q':
+			curr_msg = U8X8_MSG_GPIO_MENU_HOME;
+			debounce_cnt = 5;
+			break;
+	}
+	
+	u8x8_SetGPIOResult(u8x8, 1);
+	return 1;
+}
+
 uint8_t u8x8_d_sdl(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
@@ -261,6 +306,8 @@ void u8x8_Setup_SDL_128x64(u8x8_t *u8x8)
   
   /* setup specific callbacks */
   u8x8->display_cb = u8x8_d_sdl;
+	
+  u8x8->gpio_and_delay_cb = u8x8_d_sdl_gpio;
 
   /* setup display info */
   u8x8_SetupMemory(u8x8);  
