@@ -970,10 +970,12 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
     }
   }
   
-  /* adjust the last glyph */
-  w -= dx;
-  w += u8g2->font_decode.glyph_width;  /* the real pixel width of the glyph, sideeffect of GetGlyphWidth */
-  
+  /* adjust the last glyph, check for issue #16: do not adjust if width is 0 */
+  if ( u8g2->font_decode.glyph_width != 0 )
+  {
+    w -= dx;
+    w += u8g2->font_decode.glyph_width;  /* the real pixel width of the glyph, sideeffect of GetGlyphWidth */
+  }
   // printf("w=%d \n", w);
   
   return w;  

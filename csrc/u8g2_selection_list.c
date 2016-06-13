@@ -89,8 +89,6 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
     u8g2_DrawBox(u8g2, fx, fy, fw, fh);
   }
 
-  printf("d=%d fx=%d\n", d, fx);
-  
   /* draw the frame */
   while( border_size > 0 )
   {
