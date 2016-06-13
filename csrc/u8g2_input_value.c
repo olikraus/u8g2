@@ -1,6 +1,6 @@
 /*
 
-  u8x8_input_value.c
+  u8g2_input_value.c
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -33,7 +33,7 @@
   
 */
 
-#include "u8x8.h"
+#include "u8g2.h"
 
 /*
   return:
@@ -52,14 +52,14 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
   uint8_t event;
 
   /* calculate overall height of the input value box */
-  height = 1;	/* button line */
+  height = 1;	/* value input line */
   height += u8x8_GetStringLineCnt(title);
   
   /* calculate offset from top */
   y = 0;
-  if ( height < u8x8_GetRows(u8x8)  )
+  if ( height < u8g2_GetDisplayHeight(u8g2)  )
   {
-    y = u8x8_GetRows(u8x8);
+    y = u8g2_GetDisplayHeight(u8g2);
     y -= height;
     y /= 2;
   }

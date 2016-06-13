@@ -13,4 +13,4 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-06-12	v2.0.4 	olikraus@gmail.com
   * Support for ST7565
 2016-xx-xx	v2.0.5 	olikraus@gmail.com
-  
+  * User interface functions
