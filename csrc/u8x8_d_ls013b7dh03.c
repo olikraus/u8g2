@@ -34,21 +34,24 @@
 
   The LS013B7DH02 is a simple display and controller
   --> no support for contrast adjustment, flip and power down.
-  
-  
 */
+
 #include "u8x8.h"
 
+#define SWAP8(a) ((((a) & 0x80) >> 7) | (((a) & 0x40) >> 5) | (((a) & 0x20) >> 3) | (((a) & 0x10) >> 1) | (((a) & 0x08) << 1) | (((a) & 0x04) << 3) | (((a) & 0x02) << 5) | (((a) & 0x01) << 7))
+
+#define LS013B7DH03_CMD_UPDATE     (0x01)
+#define LS013B7DH03_CMD_ALL_CLEAR  (0x04)
+#define LS013B7DH03_VAL_TRAILER    (0x00)
 
 static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
 {
   /* chip_enable_level = */ 1,
   /* chip_disable_level = */ 0,
-  
-  /* post_chip_enable_wait_ns = */ 255,	/* 6000ns ??? */
-  /* pre_chip_disable_wait_ns = */ 255,  /* 2000ns ??? */
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 6, 
+  /* post_chip_enable_wait_ns = */ 50,
+  /* pre_chip_disable_wait_ns = */ 50,
+  /* reset_pulse_width_ms = */ 1,
+  /* post_reset_wait_ms = */ 6,
   /* sda_setup_time_ns = */ 227,	/* 227 nsec according to the datasheet */		
   /* sck_pulse_width_ns = */  255,	/* 450 nsec according to the datasheet */
   /* sck_takeover_edge = */ 1,		/* rising edge */
@@ -63,7 +66,6 @@ static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
   /* pixel_height = */ 128
 };
 
-
 uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t y, c, i;
@@ -75,40 +77,38 @@ uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      /* u8x8_cad_SendSequence(u8x8, u8x8_d_ls013b7dh03_init_seq); */
+
+      /* clear screen */
+      u8x8_cad_SendCmd(u8x8, SWAP8(LS013B7DH03_CMD_ALL_CLEAR) );
+      u8x8_cad_SendCmd(u8x8, LS013B7DH03_VAL_TRAILER);
+
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       /* not available for the ls013b7dh03 */
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-      y = (((u8x8_tile_t *)arg_ptr)->y_pos);
-      y++;		/* lines are from 1..128, so add 1 here */
-    
-      /* x has to be zero for all transfers to the ls013b7dh03 */
-      /* in fact all data has to start at the left edge */
-    
-      u8x8_cad_StartTransfer(u8x8);
-        
+      /* each tile is 8 lines, with the data starting at the left edge */
+      y = ((((u8x8_tile_t *)arg_ptr)->y_pos) * 8) + 1;
 
-      /* 
-	Tile structure is reused here for the ls013b7dh03, however u8x8 is not supported 
-	tile_ptr points to data which has cnt*8 bytes (same as SSD1306 tiles)
-	Buffer is expected to have 8 lines of code fitting to the ls013b7dh03 internal memory
-	"cnt" includes the number of horizontal bytes. width is equal to cnt*8
-	
-      */
-      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles. This must be 16 for the ls013b7dh03 128x128 */
-      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+
+      /* send data mode byte */
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, SWAP8(LS013B7DH03_CMD_UPDATE) );
+
+      /* send 8 lines of 16 bytes (=128 pixels) */
       for( i = 0; i < 8; i++ )
       {
-	u8x8_cad_SendCmd(u8x8, 0x080 );	/* data mode byte */
-	u8x8_cad_SendCmd(u8x8, y );      /* y pos  */
-	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
-	u8x8_cad_SendCmd(u8x8, 0);      /* two bytes of dummy data  */
-	u8x8_cad_SendCmd(u8x8, 0);      /* two bytes of dummy data  */
-	ptr += c;
+        u8x8_cad_SendCmd(u8x8, SWAP8(y + i) );
+        u8x8_cad_SendData(u8x8, c, ptr);
+        u8x8_cad_SendCmd(u8x8, LS013B7DH03_VAL_TRAILER);
+
+        ptr += c;
       }
 
+      /* finish with a trailing byte */
+      u8x8_cad_SendCmd(u8x8, LS013B7DH03_VAL_TRAILER);
       u8x8_cad_EndTransfer(u8x8);
 
       break;
@@ -117,5 +117,3 @@ uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
   }
   return 1;
 }
-
-
