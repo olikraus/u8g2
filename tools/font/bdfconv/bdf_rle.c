@@ -389,6 +389,11 @@ int bg_rle_compress(bg_t *bg, bbx_t *bbx, unsigned rle_bits_per_0, unsigned rle_
   /* size, will be added later */
   if ( bg_AddTargetData(bg, 0) < 0 )
     return bg_err("error in bg_rle_compress"), 0;
+  // if ( bbx->w == 0 && bbx->h == 0 )
+  // {
+  //   printf("blank char: enc=%ld\n", bg->encoding);
+  // }
+  // w & h is 0 for the space glyphe (encoding 32)
   if ( bg_AddTargetBits(bg, bg->bf->bbx_w_max_bit_size, bbx->w) == 0 )
     return bg_err("error in bg_rle_compress"), 0;
   if ( bg_AddTargetBits(bg, bg->bf->bbx_h_max_bit_size, bbx->h) == 0 )
