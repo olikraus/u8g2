@@ -171,7 +171,7 @@ uint8_t u8g2_UserInterfaceMessage(u8g2_t *u8g2, const char *title1, const char *
 	    if ( event == U8X8_MSG_GPIO_MENU_SELECT )
 	      return cursor+1;
 	    else if ( event == U8X8_MSG_GPIO_MENU_HOME )
-	      break;
+	      return 0;
 	    else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
 	    {
 	      cursor++;

@@ -117,13 +117,11 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
       if ( event == U8X8_MSG_GPIO_MENU_SELECT )
       {
 	*value = local_value;
-	r = 1;
-	return r;
+	return 1;
       }
       else if ( event == U8X8_MSG_GPIO_MENU_HOME )
       {
-	r = 0;
-	return r;
+	return 0;
       }
       else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_UP )
       {

@@ -132,14 +132,14 @@ uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *
       return cursor+1;
     else if ( event == U8X8_MSG_GPIO_MENU_HOME )
       break;
-    else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+    else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_UP )
     {
       cursor++;
       if ( cursor >= button_cnt )
 	cursor = 0;
       u8x8_draw_button_line(u8x8, y, u8x8_GetCols(u8x8), cursor, buttons);
     }
-    else if ( event == U8X8_MSG_GPIO_MENU_PREV )
+    else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_DOWN  )
     {
       if ( cursor == 0 )
 	cursor = button_cnt;
