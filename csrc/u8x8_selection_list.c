@@ -154,12 +154,12 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
       return u8sl.current_pos;
     else if ( event == U8X8_MSG_GPIO_MENU_HOME )
       return start_pos;
-    else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+    else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
     {
       u8sl_Next(&u8sl);
       u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
     }
-    else if ( event == U8X8_MSG_GPIO_MENU_PREV )
+    else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_UP  )
     {
       u8sl_Prev(&u8sl);
       u8x8_DrawSelectionList(u8x8, &u8sl, u8x8_sl_string_line_cb, sl);      
