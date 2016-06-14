@@ -95,43 +95,53 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
     x /= 2;
   }
   
-  /* render */
-  yy = y;
-  yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), line_height, title);
-  xx = x;
-  xx += u8g2_DrawUTF8(u8g2, xx, yy, pre);
-  xx += u8g2_DrawUTF8(u8g2, xx, yy, u8x8_u8toa(local_value, digits));
-  u8g2_DrawUTF8(u8g2, xx, yy, post);
-  
   /* event loop */
   for(;;)
   {
-    event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
-    if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+    u8g2_FirstPage(u8g2);
+    do
     {
-      *value = local_value;
-      r = 1;
-      break;
+      /* render */
+      yy = y;
+      yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), line_height, title);
+      xx = x;
+      xx += u8g2_DrawUTF8(u8g2, xx, yy, pre);
+      xx += u8g2_DrawUTF8(u8g2, xx, yy, u8x8_u8toa(local_value, digits));
+      u8g2_DrawUTF8(u8g2, xx, yy, post);
+    } while( u8g2_NextPage(u8g2) );
+    
+    
+    for(;;)
+    {
+      event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
+      if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+      {
+	*value = local_value;
+	r = 1;
+	return r;
+      }
+      else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+      {
+	r = 0;
+	return r;
+      }
+      else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_UP )
+      {
+	if ( local_value >= hi )
+	  local_value = lo;
+	else
+	  local_value++;
+	break;
+      }
+      else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_DOWN )
+      {
+	if ( local_value <= lo )
+	  local_value = hi;
+	else
+	  local_value--;
+	break;
+      }        
     }
-    else if ( event == U8X8_MSG_GPIO_MENU_HOME )
-    {
-      r = 0;
-      break;
-    }
-    else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_UP )
-    {
-      if ( local_value >= hi )
-	local_value = lo;
-      else
-	local_value++;
-    }
-    else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_DOWN )
-    {
-      if ( local_value <= lo )
-	local_value = hi;
-      else
-	local_value--;
-    }        
   }
   
   return r;  
