@@ -121,7 +121,7 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
 /*
   draw several lines at position x,y.
   lines are stored in s and must be separated with '\n'.
-  lines can be centered with respect to "w" if the first char in the line is a '\t'
+  lines can be centered with respect to "w"
   if s == NULL nothing is drawn and 0 is returned
   returns the number of lines in s multiplied with line_height
 */

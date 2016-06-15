@@ -152,7 +152,7 @@ uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const c
 /*
   draw several lines at position x,y.
   lines are stored in s and must be separated with '\n'.
-  lines can be centered with respect to "w" if the first char in the line is a '\t'
+  lines can be centered with respect to "w" 
   if s == NULL nothing is drawn and 0 is returned
   returns the number of lines in s
 */

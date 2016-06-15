@@ -45,6 +45,12 @@ cp ../../../sys/arduino/u8x8/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/
 mkdir ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest
 cp ../../../sys/arduino/u8x8/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest/.
 
+mkdir ../../../../U8g2_Arduino/examples/u8x8/FlipMode
+cp ../../../sys/arduino/u8x8/FlipMode/*.ino ../../../../U8g2_Arduino/examples/u8x8/FlipMode/.
+
+mkdir ../../../../U8g2_Arduino/examples/u8x8/MessageBox
+cp ../../../sys/arduino/u8x8/MessageBox/*.ino ../../../../U8g2_Arduino/examples/u8x8/MessageBox/.
+
 # copy other files
 cp ../../../ChangeLog ./../../../../U8g2_Arduino/extras/.
 

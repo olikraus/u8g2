@@ -78,6 +78,10 @@ class U8G2 : public Print
       u8g2_SetMenuPrevPin(&u8g2, val); }
     void setMenuNextPin(uint8_t val) {
       u8g2_SetMenuNextPin(&u8g2, val); }
+    void setMenuUpPin(uint8_t val) {
+      u8g2_SetMenuUpPin(&u8g2, val); }
+    void setMenuDownPin(uint8_t val) {
+      u8g2_SetMenuDownPin(&u8g2, val); }
     void setMenuHomePin(uint8_t val) {
       u8g2_SetMenuHomePin(&u8g2, val); }
 #endif
@@ -110,10 +114,13 @@ class U8G2 : public Print
       initDisplay(); clearDisplay(); setPowerSave(0); u8x8_utf8_init(u8g2_GetU8x8(&u8g2));}
       
 #ifdef U8X8_USE_PINS 
-    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_home_pin) {
+    /* use U8X8_PIN_NONE if a pin is not required */
+    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
       setMenuSelectPin(menu_select_pin);
       setMenuNextPin(menu_next_pin);
       setMenuPrevPin(menu_prev_pin);
+      setMenuUpPin(menu_up_pin);
+      setMenuDownPin(menu_down_pin);
       setMenuHomePin(menu_home_pin);
       begin(); }
 #endif

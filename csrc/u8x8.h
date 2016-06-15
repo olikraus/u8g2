@@ -323,6 +323,8 @@ struct u8x8_struct
 #define u8x8_SetMenuNextPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_NEXT,(val))
 #define u8x8_SetMenuPrevPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_PREV,(val))
 #define u8x8_SetMenuHomePin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_HOME,(val))
+#define u8x8_SetMenuUpPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_UP,(val))
+#define u8x8_SetMenuDownPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_DOWN,(val))
 #endif
 
 

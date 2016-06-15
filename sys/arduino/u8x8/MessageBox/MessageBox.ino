@@ -1,8 +1,8 @@
 /*
 
-  HelloWorld.ino
+  MessageBox.ino
   
-  "Hello World" version for U8x8 API
+  Example for the Message Box for U8x8
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -72,21 +72,13 @@
 
 void setup(void)
 {
-  pinMode(16, OUTPUT);
-  digitalWrite(16, 0);
-  u8x8.begin();
-  u8x8.setPowerSave(0);
+  //u8x8.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
+  u8x8.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
 }
 
 void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  u8x8.drawString(0,1,"Hello World!");
-  /*
-  delay(1000);
-  u8x8.setPowerSave(1);
-  delay(1000);
-  u8x8.setPowerSave(0);
-  delay(1000);
-  */
+  u8x8_UserInterfaceMessage(u8x8.getU8x8(), "Message", "Box", NULL, " Ok \n Cancel ");
 }
+
