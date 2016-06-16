@@ -192,8 +192,14 @@ class U8X8 : public Print
     /* U8X8_MSG_GPIO_MENU_NEXT, U8X8_MSG_GPIO_MENU_PREV, */
     /* U8X8_MSG_GPIO_MENU_HOME */
     uint8_t getMenuEvent(void) { return u8x8_GetMenuEvent(&u8x8); }
-     
-     
+
+    uint8_t userInterfaceSelectionList(const char *title, uint8_t start_pos, const char *sl) {
+      return u8x8_UserInterfaceSelectionList(&u8x8, title, start_pos, sl); }
+    uint8_t userInterfaceMessage(const char *title1, const char *title2, const char *title3, const char *buttons) {
+      return u8x8_UserInterfaceMessage(&u8x8, title1, title2, title3, buttons); }
+    uint8_t userInterfaceInputValue(const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post) {
+      return u8x8_UserInterfaceInputValue(&u8x8, title, pre, value, lo, hi, digits, post); }
+         
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0; }
     void clear(void) { clearDisplay(); home(); }

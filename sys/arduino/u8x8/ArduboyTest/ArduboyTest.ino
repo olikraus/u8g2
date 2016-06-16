@@ -1,8 +1,8 @@
 /*
 
-  MessageBox.ino
+  Arduboy.ino
   
-  Example for the Message Box for U8x8
+  Arduboy Test Example with U8x8
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -36,6 +36,7 @@
 */
 
 #include <Arduino.h>
+#include <Arduboy.h>
 #include <U8x8lib.h>
 
 #ifdef U8X8_HAVE_HW_SPI
@@ -69,6 +70,8 @@ U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6
 
 // End of constructor list
 
+ArduboyCore arduboyCore;
+
 void setup(void)
 {
   //u8x8.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
@@ -77,20 +80,17 @@ void setup(void)
 
 void loop(void)
 {
-  uint8_t r;
+  static uint8_t c = 1;
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  r = u8x8_UserInterfaceMessage(u8x8.getU8x8(), "Message", "Box", NULL, " Ok \n Cancel ");
-  if ( r == 0 )
+  c = u8x8.userInterfaceSelectionList("Arduboy Test", c, "Red LEDs\nBlue LEDs");
+  if ( c == 2 )
   {
-    u8x8.userInterfaceMessage("You pressed the", "Home/Quit", "Button", " Ok ");  
-  }
-  else if ( r == 1 )
-  {
-    u8x8.userInterfaceMessage("You selected the", "Ok", "Button", " Ok ");  
-  }
-  else if ( r == 2 )
-  {
-    u8x8.userInterfaceMessage("You selected the", "Cancel", "Button", " Ok ");  
+    arduboyCore.setRGBled(255, 0, 0);
+    delay(500);
+    arduboyCore.setRGBled(0, 255, 0);
+    delay(500);
+    arduboyCore.setRGBled(0, 0, 255);
+    delay(500);
+    arduboyCore.setRGBled(0, 0, 0);
   }
 }
-

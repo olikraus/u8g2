@@ -113,10 +113,10 @@ void u8x8_sl_string_line_cb(u8x8_t *u8x8, u8sl_t *u8sl, uint8_t idx, const void 
 
 /*
   title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\n'
-  start_pos: 	default position for the cursor
+  start_pos: 	default position for the cursor (starts with 1)
   sl:			string list (list of strings separated by \n)
-  returns start_pos if user has pressed the home key
-  returns the selected line if user has pressed the select key
+  returns 0 if user has pressed the home key
+  returns the selected line+1 if user has pressed the select key (e.g. 1 for the first line)
 */
 uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t start_pos, const char *sl)
 {
@@ -124,12 +124,16 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
   uint8_t event;
   uint8_t title_lines;
   
+  if ( start_pos > 0 )
+    start_pos--;
+  
   u8sl.visible = u8x8_GetRows(u8x8);
   u8sl.total = u8x8_GetStringLineCnt(sl);
   u8sl.first_pos = 0;
   u8sl.current_pos = start_pos;
   u8sl.x = 0;
   u8sl.y = 0;
+  
 
   //u8x8_ClearDisplay(u8x8);   /* not required because all is 100% filled */
   u8x8_SetInverseFont(u8x8, 0);
@@ -151,9 +155,9 @@ uint8_t u8x8_UserInterfaceSelectionList(u8x8_t *u8x8, const char *title, uint8_t
   {
     event = u8x8_GetMenuEvent(u8x8);
     if ( event == U8X8_MSG_GPIO_MENU_SELECT )
-      return u8sl.current_pos;
+      return u8sl.current_pos+1;
     else if ( event == U8X8_MSG_GPIO_MENU_HOME )
-      return start_pos;
+      return 0;
     else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
     {
       u8sl_Next(&u8sl);
