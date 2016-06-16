@@ -87,7 +87,7 @@ void loop(void)
   {
     arduboyCore.setRGBled(255, 0, 0);
     delay(500);
-    arduboyCore.setRGBled(0, 255, 0);
+    arduboyCore.setRGBled(0, 255, 0);		// green is not there ???
     delay(500);
     arduboyCore.setRGBled(0, 0, 255);
     delay(500);
