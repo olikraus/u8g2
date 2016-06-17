@@ -171,7 +171,7 @@ static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g
 
   /* get the line from the array */
   s = u8x8_GetStringLineStart(idx, s);
-  
+
   /* draw the line */
   if ( s == NULL )
     s = "";
