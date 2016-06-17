@@ -1,8 +1,8 @@
 /*
 
-  HelloWorld.ino
+  Arduboy.ino
   
-  "Hello World" version for U8x8 API
+  Arduboy Test Example with U8x8
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -36,6 +36,7 @@
 */
 
 #include <Arduino.h>
+#include <Arduboy.h>
 #include <U8x8lib.h>
 
 #ifdef U8X8_HAVE_HW_SPI
@@ -47,8 +48,7 @@
 // The complete list is available here: https://github.com/olikraus/u8g2/wiki/u8x8setupcpp
 // Please update the pin numbers according to your setup. Use U8X8_PIN_NONE if the reset pin is not connected
 //U8X8_SSD1306_128X64_NONAME_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 6, /* dc=*/ 4, /* reset=*/ 12);	// Arduboy (DevKit)
-//U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy 10 (Production, Kickstarter Edition)
+U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy 10 (Production, Kickstarter Edition)
 //U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1306_128X64_NONAME_3W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8X8_SSD1306_128X64_NONAME_SW_I2C u8x8(/* clock=*/ 2, /* data=*/ 0, /* reset=*/ U8X8_PIN_NONE); 	      // Digispark ATTiny85
@@ -70,23 +70,27 @@
 
 // End of constructor list
 
+ArduboyCore arduboyCore;
+
 void setup(void)
 {
-  pinMode(16, OUTPUT);
-  digitalWrite(16, 0);
-  u8x8.begin();
-  u8x8.setPowerSave(0);
+  //u8x8.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
+  u8x8.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
 }
 
 void loop(void)
 {
+  static uint8_t c = 1;
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  u8x8.drawString(0,1,"Hello World!");
-  /*
-  delay(1000);
-  u8x8.setPowerSave(1);
-  delay(1000);
-  u8x8.setPowerSave(0);
-  delay(1000);
-  */
+  c = u8x8.userInterfaceSelectionList("Arduboy Test", c, "Red LEDs\nBlue LEDs");
+  if ( c == 2 )
+  {
+    arduboyCore.setRGBled(255, 0, 0);
+    delay(500);
+    arduboyCore.setRGBled(0, 255, 0);		// green is not there ???
+    delay(500);
+    arduboyCore.setRGBled(0, 0, 255);
+    delay(500);
+    arduboyCore.setRGBled(0, 0, 0);
+  }
 }

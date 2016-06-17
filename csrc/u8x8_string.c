@@ -112,7 +112,7 @@ void u8x8_CopyStringLine(char *dest, uint8_t line_idx, const char *str)
 /*
   Draw a string
   Extend the string to size "w"
-  Center the string, if the first char is a '\t' (center with respect to "w")
+  Center the string within "w"
   return the size of the string
 
 */
@@ -122,17 +122,15 @@ uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const c
   uint8_t cx, dx;
     
   d = 0;
-  if ( *s == '\t' )
+  
+  lw = u8x8_GetUTF8Len(u8x8, s);
+  if ( lw < w )
   {
-    s++;		/* skip '\t' */
-    lw = u8x8_GetUTF8Len(u8x8, s);
-    if ( lw < w )
-    {
-      d = w;
-      d -=lw;
-      d /= 2;
-    }
+    d = w;
+    d -=lw;
+    d /= 2;
   }
+    
   cx = x;
   dx = cx + d;
   while( cx < dx )
@@ -154,7 +152,7 @@ uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const c
 /*
   draw several lines at position x,y.
   lines are stored in s and must be separated with '\n'.
-  lines can be centered with respect to "w" if the first char in the line is a '\t'
+  lines can be centered with respect to "w" 
   if s == NULL nothing is drawn and 0 is returned
   returns the number of lines in s
 */

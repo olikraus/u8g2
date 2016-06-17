@@ -46,7 +46,7 @@
   
   Side effects:
     u8g2_SetFontDirection(u8g2, 0);
-  
+    u8g2_SetFontPosBaseline(u8g2);
 
 */
 void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, const char *s, uint8_t border_size, uint8_t is_invert)
@@ -58,7 +58,7 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
   u8g2_SetFontDirection(u8g2, 0);
 
   /* revert y position back to baseline ref */
-  y += u8g2->font_calc_vref(u8g2);
+  y += u8g2->font_calc_vref(u8g2);   
 
   /* calculate the width of the string in pixel */
   str_width = u8g2_GetUTF8Width(u8g2, s);
@@ -121,7 +121,7 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
 /*
   draw several lines at position x,y.
   lines are stored in s and must be separated with '\n'.
-  lines can be centered with respect to "w" if the first char in the line is a '\t'
+  lines can be centered with respect to "w"
   if s == NULL nothing is drawn and 0 is returned
   returns the number of lines in s multiplied with line_height
 */
@@ -153,6 +153,7 @@ static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g
   u8g2_uint_t yy;
   uint8_t border_size = 0;
   uint8_t is_invert = 0;
+	
   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
 
   /* calculate offset from display upper border */
@@ -194,6 +195,10 @@ void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const cha
   sl:			string list (list of strings separated by \n)
   returns start_pos if user has pressed the home key
   returns the selected line if user has pressed the select key
+  side effects:
+    u8g2_SetFontDirection(u8g2, 0);
+    u8g2_SetFontPosBaseline(u8g2);
+	
 */
 uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t start_pos, const char *sl)
 {
@@ -204,13 +209,21 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
 
   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
 
-  uint8_t title_lines;
+  uint8_t title_lines = u8x8_GetStringLineCnt(title);
   uint8_t display_lines;
 
-  display_lines = u8g2_GetDisplayHeight(u8g2) / line_height;
 
-  u8sl.visible = display_lines;
-  u8sl.visible -= u8x8_GetStringLineCnt(title);
+  if ( title_lines > 0 )
+  {
+	display_lines = (u8g2_GetDisplayHeight(u8g2)-3) / line_height;
+	u8sl.visible = display_lines;
+	u8sl.visible -= title_lines;
+  }
+  else
+  {
+	display_lines = u8g2_GetDisplayHeight(u8g2) / line_height;
+	u8sl.visible = display_lines;
+  }
 
   u8sl.total = u8x8_GetStringLineCnt(sl);
   u8sl.first_pos = 0;
@@ -221,22 +234,25 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
   if ( u8sl.first_pos+u8sl.visible < u8sl.current_pos )
     u8sl.first_pos = u8sl.current_pos-u8sl.visible;
 
+  u8g2_SetFontPosBaseline(u8g2);
+  
   for(;;)
   {
       u8g2_FirstPage(u8g2);
       do
       {
-        yy = u8g2_GetAscent(u8g2)-u8g2->font_calc_vref(u8g2);
-        if ( title != NULL )
+        yy = u8g2_GetAscent(u8g2);
+        if ( title_lines > 0 )
         {
-          yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, line_height, title);
+          yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), line_height, title);
+		
+	  u8g2_DrawHLine(u8g2, 0, yy-line_height- u8g2_GetDescent(u8g2) + 1, u8g2_GetDisplayWidth(u8g2));
+		
+	  yy += 3;
         }
         u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl);
       } while( u8g2_NextPage(u8g2) );
 
-#ifdef __unix__
-        utf8_show();
-#endif
 
       for(;;)
       {
@@ -245,13 +261,12 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
           return u8sl.current_pos;
         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
           return start_pos;
-        else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+        else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
         {
-          puts("NEXT");
           u8sl_Next(&u8sl);
           break;
         }
-        else if ( event == U8X8_MSG_GPIO_MENU_PREV )
+        else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_UP )
         {
           u8sl_Prev(&u8sl);
           break;

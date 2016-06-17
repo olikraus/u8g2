@@ -272,8 +272,10 @@ struct u8x8_display_info_struct
 #define U8X8_PIN_MENU_NEXT 15
 #define U8X8_PIN_MENU_PREV 16
 #define U8X8_PIN_MENU_HOME 17
+#define U8X8_PIN_MENU_UP 18
+#define U8X8_PIN_MENU_DOWN 19
 
-#define U8X8_PIN_INPUT_CNT 4
+#define U8X8_PIN_INPUT_CNT 6
 
 #ifdef U8X8_USE_PINS 
 #define U8X8_PIN_CNT (U8X8_PIN_OUTPUT_CNT+U8X8_PIN_INPUT_CNT)
@@ -321,6 +323,8 @@ struct u8x8_struct
 #define u8x8_SetMenuNextPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_NEXT,(val))
 #define u8x8_SetMenuPrevPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_PREV,(val))
 #define u8x8_SetMenuHomePin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_HOME,(val))
+#define u8x8_SetMenuUpPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_UP,(val))
+#define u8x8_SetMenuDownPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_DOWN,(val))
 #endif
 
 
@@ -598,6 +602,8 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 #define U8X8_MSG_GPIO_MENU_NEXT	U8X8_MSG_GPIO(U8X8_PIN_MENU_NEXT)
 #define U8X8_MSG_GPIO_MENU_PREV	U8X8_MSG_GPIO(U8X8_PIN_MENU_PREV)
 #define U8X8_MSG_GPIO_MENU_HOME	U8X8_MSG_GPIO(U8X8_PIN_MENU_HOME)
+#define U8X8_MSG_GPIO_MENU_UP		U8X8_MSG_GPIO(U8X8_PIN_MENU_UP)
+#define U8X8_MSG_GPIO_MENU_DOWN	U8X8_MSG_GPIO(U8X8_PIN_MENU_DOWN)
 
 
 #define u8x8_gpio_Init(u8x8) ((u8x8)->gpio_and_delay_cb((u8x8), U8X8_MSG_GPIO_AND_DELAY_INIT, 0, NULL ))

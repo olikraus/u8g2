@@ -281,6 +281,7 @@ void bg_DeleteFirstRow(bg_t *bg)
 
 void bg_ReduceGlyph(bg_t *bg)
 {
+  //long w;
   /* assign bitmap dimension (should be done already) */
   
   //bg->bbx.w = bg->bitmap_width;
@@ -288,6 +289,7 @@ void bg_ReduceGlyph(bg_t *bg)
   
   /* do not assign x,y because they are already set correctly */
   
+  //w = bg->bbx.w;
   
   while( bg->bbx.w > 0 )
   {
@@ -320,6 +322,26 @@ void bg_ReduceGlyph(bg_t *bg)
     bg_DeleteFirstRow(bg);
     bg->bbx.h--;
   }
+  
+  /*
+    problem: pixel width calculation failes, because a blank at
+    the end is not calculated correctly.
+    analysis:
+      - bbx.w is reduced to 0
+      - original bbx.w is sometimes identical to dwidth_x (6x10.bdf) 
+            or is 1 (helvR10.bdf)
+      -the bdf file for helvR10.bdf does not contain any other information then
+            delta x, so this should be used as bbx.w
+    solution:
+      Nothing done on the converter side, but handle this as a special case in the 
+      pixel width calculation
+  
+  */
+  //if ( bg->bbx.w == 0 && bg->bbx.h == 0 )
+  //{
+    //printf("enc=%ld, new bbx,w=%ld, original width=%ld, dx=%ld\n", bg->encoding, bg->bbx.w, w, bg->dwidth_x);
+    //printf("enc=%ld, new bbx.w=%ld, original width=%ld, dx=%ld\n", bg->encoding, bg->bbx.w, w, bg->dwidth_x);
+  //}
   
 }
 

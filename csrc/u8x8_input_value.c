@@ -69,16 +69,11 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
   width = u8x8_GetUTF8Len(u8x8, pre);
   width += digits;
   width += u8x8_GetUTF8Len(u8x8, post);
-  if ( *pre == '\t' )
+  if ( width < u8x8_GetCols(u8x8) )
   {
-    width--;
-    pre++;
-    if ( width < u8x8_GetCols(u8x8) )
-    {
-      x = u8x8_GetCols(u8x8);
-      x -= width;
-      x /= 2;
-    }
+    x = u8x8_GetCols(u8x8);
+    x -= width;
+    x /= 2;
   }
   
   /* render */
@@ -105,7 +100,7 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
       r = 0;
       break;
     }
-    else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+    else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_UP )
     {
       if ( local_value >= hi )
 	local_value = lo;
@@ -113,7 +108,7 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
 	local_value++;
       u8x8_DrawUTF8(u8x8, x, y, u8x8_u8toa(local_value, digits));
     }
-    else if ( event == U8X8_MSG_GPIO_MENU_PREV )
+    else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_DOWN )
     {
       if ( local_value <= lo )
 	local_value = hi;

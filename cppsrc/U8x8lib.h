@@ -114,6 +114,10 @@ class U8X8 : public Print
       u8x8_SetMenuPrevPin(&u8x8, val); }
     void setMenuNextPin(uint8_t val) {
       u8x8_SetMenuNextPin(&u8x8, val); }
+    void setMenuUpPin(uint8_t val) {
+      u8x8_SetMenuUpPin(&u8x8, val); }
+    void setMenuDownPin(uint8_t val) {
+      u8x8_SetMenuDownPin(&u8x8, val); }
     void setMenuHomePin(uint8_t val) {
       u8x8_SetMenuHomePin(&u8x8, val); }
 #endif
@@ -131,10 +135,13 @@ class U8X8 : public Print
       initDisplay(); clearDisplay(); setPowerSave(0); }
 
 #ifdef U8X8_USE_PINS 
-    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_home_pin) {
+    /* use U8X8_PIN_NONE if a pin is not required */
+    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
       setMenuSelectPin(menu_select_pin);
       setMenuNextPin(menu_next_pin);
       setMenuPrevPin(menu_prev_pin);
+      setMenuUpPin(menu_up_pin);
+      setMenuDownPin(menu_down_pin);
       setMenuHomePin(menu_home_pin);
       begin(); }
 #endif
@@ -185,8 +192,14 @@ class U8X8 : public Print
     /* U8X8_MSG_GPIO_MENU_NEXT, U8X8_MSG_GPIO_MENU_PREV, */
     /* U8X8_MSG_GPIO_MENU_HOME */
     uint8_t getMenuEvent(void) { return u8x8_GetMenuEvent(&u8x8); }
-     
-     
+
+    uint8_t userInterfaceSelectionList(const char *title, uint8_t start_pos, const char *sl) {
+      return u8x8_UserInterfaceSelectionList(&u8x8, title, start_pos, sl); }
+    uint8_t userInterfaceMessage(const char *title1, const char *title2, const char *title3, const char *buttons) {
+      return u8x8_UserInterfaceMessage(&u8x8, title1, title2, title3, buttons); }
+    uint8_t userInterfaceInputValue(const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post) {
+      return u8x8_UserInterfaceInputValue(&u8x8, title, pre, value, lo, hi, digits, post); }
+         
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0; }
     void clear(void) { clearDisplay(); home(); }

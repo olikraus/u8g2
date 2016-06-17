@@ -45,6 +45,15 @@ cp ../../../sys/arduino/u8x8/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/
 mkdir ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest
 cp ../../../sys/arduino/u8x8/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest/.
 
+mkdir ../../../../U8g2_Arduino/examples/u8x8/FlipMode
+cp ../../../sys/arduino/u8x8/FlipMode/*.ino ../../../../U8g2_Arduino/examples/u8x8/FlipMode/.
+
+mkdir ../../../../U8g2_Arduino/examples/u8x8/MessageBox
+cp ../../../sys/arduino/u8x8/MessageBox/*.ino ../../../../U8g2_Arduino/examples/u8x8/MessageBox/.
+
+mkdir ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest
+cp ../../../sys/arduino/u8x8/ArduboyTest/*.ino ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest/.
+
 # copy other files
 cp ../../../ChangeLog ./../../../../U8g2_Arduino/extras/.
 
@@ -78,9 +87,11 @@ sed -i -e "s/version=.*/version=${ver}/" library.properties
 cd ..
 
 echo "== create local zip file =="
+rm u8g2_arduino_${ver}.zip
 zip -q -r --exclude="*.git*" u8g2_arduino_${ver}.zip ./U8g2_Arduino
 cp u8g2_arduino_${ver}.zip ~/Arduino/libraries/.
 cd ~/Arduino/libraries
+rm -rf U8g2_Arduino
 unzip -o u8g2_arduino_${ver}.zip
 
 popd
