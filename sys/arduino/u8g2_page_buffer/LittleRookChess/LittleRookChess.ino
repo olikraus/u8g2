@@ -148,14 +148,15 @@ U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /*
 
 // End of constructor list
 
-u8g2_t *lrc_u8g;	/* pointer to the C object of u8g2 lib, this is used by the chess engine */
+void chess_Init(u8g2_t *u8g, uint8_t body_color);
 
 /* This is the main setup. Please provide the pin numbers for the buttons */
 /* Up/Down pins are not used in little rook chess */
 void setup(void) {
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
   u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
-  lrc_u8g = u8g2.getU8g2();
+  
+  chess_Init(u8g2.getU8g2(), 0);
 }
 
 /* Ignore PROGMEM for now */
@@ -361,6 +362,7 @@ typedef struct _lrc_struct lrc_t;
 /*==============================================================*/
 
 lrc_t lrc_obj;
+u8g2_t *lrc_u8g;  /* pointer to the C object of u8g2 lib, this is used by the chess engine */
 
 
 /*==============================================================*/
@@ -410,7 +412,7 @@ void ce_LoopPieces(void);
 /*==============================================================*/
 
 /* get current element from stack */
-stack_element_p stack_GetCurrElement(void)
+struct _stack_element_struct *stack_GetCurrElement(void)
 {
   return lrc_obj.curr_element;
 }
@@ -1342,8 +1344,8 @@ void ce_LoopKing(void)
 /*==============================================================*/
 
 /*
-  doppelschritt: nur von der grundlinie aus, beide (!) felder vor dem bauern müssen frei sein
-  en passant: nur unmittelbar nachdem ein doppelschritt ausgeführt wurde.
+  doppelschritt: nur von der grundlinie aus, beide (!) felder vor dem bauern mï¿½ssen frei sein
+  en passant: nur unmittelbar nachdem ein doppelschritt ausgefï¿½hrt wurde.
 */
 void ce_LoopPawnSideCapture(uint8_t loop_pos)
 {
@@ -2298,11 +2300,19 @@ void chess_Step(uint8_t keycode)
 #endif	/* UNIX_MAIN */
 
 void loop(void) {
+  static uint8_t keycode = 0;
+  
   u8g2.firstPage();
   do {
-    u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.drawStr(0,24,"Hello World!");
+    chess_Draw();
+    if ( keycode == 0 )
+      keycode = u8g2.getMenuEvent();
   } while ( u8g2.nextPage() );
-  //delay(1000);
-}
 
+    if ( keycode == 0 )
+      keycode = u8g2.getMenuEvent();
+      
+  chess_Step(keycode);
+  keycode = 0;
+  delay(1);
+}
