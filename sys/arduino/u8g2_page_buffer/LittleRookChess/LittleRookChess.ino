@@ -1864,7 +1864,7 @@ void mnu_DrawEntry(uint8_t y, const char *str, uint8_t is_clr_background, uint8_
   
   if ( is_highlight )
   {
-    u8g2_DrawFrame(lrc_u8g, x-1, (lrc_u8g->height-1) - y -MNU_ENTRY_HEIGHT +1, t, MNU_ENTRY_HEIGHT);
+    u8g2_DrawFrame(lrc_u8g, 0, (lrc_u8g->height-1) - y -MNU_ENTRY_HEIGHT +1, u8g2_GetDisplayWidth(lrc_u8g), MNU_ENTRY_HEIGHT);
   }
 }
 
@@ -2045,29 +2045,30 @@ void chess_DrawBoard(void)
       /* get piece from global board */
       if ( lrc_obj.orientation == COLOR_WHITE )
       {
-	cp =  lrc_obj.board[i*8+j];
+        cp =  lrc_obj.board[i*8+j];
       }
       else
       {
-	cp =  lrc_obj.board[(7-i)*8+7-j];
+        cp =  lrc_obj.board[(7-i)*8+7-j];
       }
       if ( cp_GetPiece(cp) != PIECE_NONE )
       {
-	ptr = chess_black_pieces_bm;
-	ptr += (cp_GetPiece(cp)-1)*8;
+      	ptr = chess_black_pieces_bm;
+	      ptr += (cp_GetPiece(cp)-1)*8;
         u8g2_SetDefaultForegroundColor(lrc_u8g);
         u8g2_DrawBitmap(lrc_u8g, j*chess_boxsize+chess_boxoffset-1, chess_low_edge - (i*chess_boxsize+chess_boxsize-chess_boxoffset), 1, 8, ptr);
-        
-	if ( cp_GetColor(cp) == lrc_obj.strike_out_color ) 
-	{
-	  ptr = chess_pieces_body_bm;
-	  ptr += (cp_GetPiece(cp)-1)*8;
+
+      	if ( cp_GetColor(cp) == lrc_obj.strike_out_color ) 
+      	{
+      	  ptr = chess_pieces_body_bm;
+      	  ptr += (cp_GetPiece(cp)-1)*8;
           u8g2_SetDefaultBackgroundColor(lrc_u8g);
           u8g2_DrawBitmap(lrc_u8g, j*chess_boxsize+chess_boxoffset-1, chess_low_edge - (i*chess_boxsize+chess_boxsize-chess_boxoffset), 1, 8, ptr);
-	}
+      	}
       }
     }
   }
+  u8g2_SetDefaultForegroundColor(lrc_u8g);
   
   if ( (chess_source_pos & 0x88) == 0 )
   {
@@ -2126,7 +2127,7 @@ void chess_Draw(void)
       uint8_t i;
       uint8_t entries = lrc_obj.chm_pos;
       if ( entries > 4 )
-	entries = 4;
+      	entries = 4;
       
       u8g2_SetFont(lrc_u8g, u8g2_font_5x7_tr);
       u8g2_SetDefaultForegroundColor(lrc_u8g);

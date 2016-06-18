@@ -39,13 +39,16 @@
   x,y 	Position on the display
   len		Length of bitmap line in pixel. Note: This differs from u8glib which had a bytecount here.
   b		Pointer to the bitmap line.
+  Only draw pixels which are set.
 */
 
 void u8g2_DrawHorizontalBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
 {
   uint8_t mask;
-  uint8_t color = u8g2->draw_color;
-  uint8_t ncolor = 1-color;
+  //uint8_t color = u8g2->draw_color;
+  //uint8_t ncolor = 0;
+  //if ( color == 0 )
+  //  ncolor = 1;
 #ifdef U8G2_WITH_INTERSECTION
   if ( u8g2_IsIntersection(u8g2, x, y, x+len, y+1) == 0 ) 
     return;
@@ -54,11 +57,14 @@ void u8g2_DrawHorizontalBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
   mask = 128;
   while(len > 0)
   {
+    /*
     if ( *b & mask )
-      u8g2->draw_color = color;
+      u8g2->draw_color = color;    
     else
       u8g2->draw_color = ncolor;
-    u8g2_DrawHVLine(u8g2, x, y, 1, 0);
+    */
+    if ( *b & mask )
+      u8g2_DrawHVLine(u8g2, x, y, 1, 0);
     x++;
     mask >>= 1;
     if ( mask == 0 )
@@ -68,7 +74,7 @@ void u8g2_DrawHorizontalBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
     }
     len--;
   }
-  u8g2->draw_color = color;
+  //u8g2->draw_color = color;
 }
 
 
