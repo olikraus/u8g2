@@ -2,7 +2,7 @@
 
   LittleRookChess.ino
   
-  A Simple Chess Engine (ported from U8glib)
+  A Simple Chess Engine (ported from U8glib to U8g2)
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -156,7 +156,7 @@ void setup(void) {
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
   u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
   
-  chess_Init(u8g2.getU8g2(), 0);
+  chess_Init(u8g2.getU8g2(), 1);  /* assuming Arduboy OLED here, so make the body_color be 1 for the white OLED pixel */
 }
 
 /* Ignore PROGMEM for now */
@@ -2021,18 +2021,29 @@ void chess_DrawBoard(void)
       {
         if ( ((i^j) & 8)  == 0 )
         {
-          u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-0);
-          u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-2);
-          u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-4);
-          u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-6);
-          u8g2_DrawPixel(lrc_u8g, j+2+x_offset, chess_low_edge - i-0);
-          u8g2_DrawPixel(lrc_u8g, j+2+x_offset, chess_low_edge - i-6);
-          u8g2_DrawPixel(lrc_u8g, j+4+x_offset, chess_low_edge - i-0);
-          u8g2_DrawPixel(lrc_u8g, j+4+x_offset, chess_low_edge - i-6);
-          u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-0);
-          u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-2);
-          u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-4);
-          u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-6);
+          if ( lrc_obj.orientation == COLOR_WHITE )
+          {
+            cp =  lrc_obj.board[i+j/8];
+          }
+          else
+          {
+            cp =  lrc_obj.board[(7-i/8)*8+7-j/8];
+          }
+          if ( cp_GetPiece(cp) == PIECE_NONE )
+          {
+            u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-0);
+            u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-2);
+            u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-4);
+            u8g2_DrawPixel(lrc_u8g, j+0+x_offset, chess_low_edge - i-6);
+            u8g2_DrawPixel(lrc_u8g, j+2+x_offset, chess_low_edge - i-0);
+            u8g2_DrawPixel(lrc_u8g, j+2+x_offset, chess_low_edge - i-6);
+            u8g2_DrawPixel(lrc_u8g, j+4+x_offset, chess_low_edge - i-0);
+            u8g2_DrawPixel(lrc_u8g, j+4+x_offset, chess_low_edge - i-6);
+            u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-0);
+            u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-2);
+            u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-4);
+            u8g2_DrawPixel(lrc_u8g, j+6+x_offset, chess_low_edge - i-6);
+          }
         }
       }
     }
@@ -2055,6 +2066,7 @@ void chess_DrawBoard(void)
       {
       	ptr = chess_black_pieces_bm;
 	      ptr += (cp_GetPiece(cp)-1)*8;
+       
         u8g2_SetDefaultForegroundColor(lrc_u8g);
         u8g2_DrawBitmap(lrc_u8g, j*chess_boxsize+chess_boxoffset-1, chess_low_edge - (i*chess_boxsize+chess_boxsize-chess_boxoffset), 1, 8, ptr);
 
@@ -2230,11 +2242,11 @@ void chess_Step(uint8_t keycode)
     case CHESS_STATE_SELECT_PIECE:
       if ( chess_key_cmd == CHESS_KEY_NEXT )
       {
-	chess_source_pos = chess_GetNextMarked(chess_source_pos, 0);
+      	chess_source_pos = chess_GetNextMarked(chess_source_pos, lrc_obj.orientation);
       }
       else if ( chess_key_cmd == CHESS_KEY_PREV )
       {
-	chess_source_pos = chess_GetNextMarked(chess_source_pos, 1);
+      	chess_source_pos = chess_GetNextMarked(chess_source_pos, 1-lrc_obj.orientation );
       }
       else if ( chess_key_cmd == CHESS_KEY_SELECT )
       {
@@ -2254,18 +2266,18 @@ void chess_Step(uint8_t keycode)
     case CHESS_STATE_SELECT_TARGET_POS:
       if ( chess_key_cmd == CHESS_KEY_NEXT )
       {
-	chess_target_pos = chess_GetNextMarked(chess_target_pos, 0);
+      	chess_target_pos = chess_GetNextMarked(chess_target_pos, lrc_obj.orientation);
       }
       else if ( chess_key_cmd == CHESS_KEY_PREV )
       {
-	chess_target_pos = chess_GetNextMarked(chess_target_pos, 1);
+      	chess_target_pos = chess_GetNextMarked(chess_target_pos, 1-lrc_obj.orientation);
       }
       else if ( chess_key_cmd == CHESS_KEY_BACK )
       {
-	chess_ClearMarks();
-	chess_MarkMovable();
-	chess_target_pos = ILLEGAL_POSITION;
-	chess_state = CHESS_STATE_SELECT_PIECE;
+      	chess_ClearMarks();
+      	chess_MarkMovable();
+      	chess_target_pos = ILLEGAL_POSITION;
+      	chess_state = CHESS_STATE_SELECT_PIECE;
       }
       else if ( chess_key_cmd == CHESS_KEY_SELECT )
       {
@@ -2310,10 +2322,18 @@ void loop(void) {
       keycode = u8g2.getMenuEvent();
   } while ( u8g2.nextPage() );
 
-    if ( keycode == 0 )
-      keycode = u8g2.getMenuEvent();
+  if ( keycode == 0 )
+    keycode = u8g2.getMenuEvent();
+
+  if ( keycode == U8X8_MSG_GPIO_MENU_DOWN )
+    keycode = CHESS_KEY_NEXT;
+  if ( keycode == U8X8_MSG_GPIO_MENU_UP )
+    keycode = CHESS_KEY_PREV;
+  if ( keycode == U8X8_MSG_GPIO_MENU_HOME )
+    keycode = CHESS_KEY_SELECT;
       
   chess_Step(keycode);
   keycode = 0;
   delay(1);
 }
+
