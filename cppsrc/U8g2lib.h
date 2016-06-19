@@ -187,6 +187,11 @@ class U8G2 : public Print
     void setFontPosTop(void) { u8g2_SetFontPosTop(&u8g2); }
     void setFontPosCenter(void) { u8g2_SetFontPosCenter(&u8g2); }
 
+    void setFontRefHeightText(void) { u8g2_SetFontRefHeightText(&u8g2); }
+    void setFontRefHeightExtendedText(void) { u8g2_SetFontRefHeightExtendedText(&u8g2); }
+    void setFontRefHeightAll(void) { u8g2_SetFontRefHeightAll(&u8g2); }
+    
+
 /*
 uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);
 int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);
@@ -222,7 +227,22 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
       }
       return cnt;
     }
-     
+ 
+
+     /* user interface */
+/*
+uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t start_pos, const char *sl);
+uint8_t u8g2_UserInterfaceMessage(u8g2_t *u8g2, const char *title1, const char *title2, const char *title3, const char *buttons);
+uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post);
+*/
+
+    uint8_t userInterfaceSelectionList(const char *title, uint8_t start_pos, const char *sl) {
+      return u8g2_UserInterfaceSelectionList(&u8g2, title, start_pos, sl); }
+    uint8_t userInterfaceMessage(const char *title1, const char *title2, const char *title3, const char *buttons) {
+      return u8g2_UserInterfaceMessage(&u8g2, title1, title2, title3, buttons); }
+    uint8_t userInterfaceInputValue(const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post) {
+      return u8g2_UserInterfaceInputValue(&u8g2, title, pre, value, lo, hi, digits, post); }
+    
 
      /* LiquidCrystal compatible functions */
     void home(void) { tx = 0; ty = 0;  u8x8_utf8_init(u8g2_GetU8x8(&u8g2)); }
