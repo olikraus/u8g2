@@ -252,6 +252,10 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
         }
         u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl);
       } while( u8g2_NextPage(u8g2) );
+      
+#ifdef U8G2_REF_MAN_PIC
+      return 0;
+#endif
 
 
       for(;;)

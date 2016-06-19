@@ -110,6 +110,9 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
       u8g2_DrawUTF8(u8g2, xx, yy, post);
     } while( u8g2_NextPage(u8g2) );
     
+#ifdef U8G2_REF_MAN_PIC
+      return 0;
+#endif
     
     for(;;)
     {

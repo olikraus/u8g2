@@ -645,6 +645,95 @@ int main(void)
   tga_save_png("u8g2_fontmode.png");
 
   /*=========================================*/
+  /* u8g2_message.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
+  u8g2_SetFontRefHeightAll(&u8g2);  /* this will add some extra space for the text inside the buttons */
+  
+  u8g2_UserInterfaceMessage(&u8g2, "Title1", "Title2", "Title3", " Ok \n Cancel ");
+  
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    /*
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,5, "x=20, y=5");
+    ra(27,50, "x=27, y=50");
+    ra(5,32, "x=5, y=32");
+    */
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontRefHeightText(&u8g2);
+
+  tga_save_png("u8g2_message.png");
+
+  /*=========================================*/
+  /* u8g2_selection_list.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
+  u8g2_SetFontRefHeightAll(&u8g2);  /* this will add some extra space for the text inside the buttons */
+  
+  u8g2_UserInterfaceSelectionList(&u8g2, "Title", 1, "abcdef\nghijkl\nmnopqr");
+  
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    /*
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,5, "x=20, y=5");
+    ra(27,50, "x=27, y=50");
+    ra(5,32, "x=5, y=32");
+    */
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontRefHeightText(&u8g2);
+
+  tga_save_png("u8g2_selection_list.png");
+
+  /*=========================================*/
+  /* u8g2_input_value.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
+  u8g2_SetFontRefHeightAll(&u8g2);  /* this will add some extra space for the text inside the buttons */
+  
+  {
+    uint8_t v = 4;
+    u8g2_UserInterfaceInputValue(&u8g2, "Select Voltage", "DAC= ", &v, 0, 5, 1, " V");
+  }
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    /*
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(20,5, "x=20, y=5");
+    ra(27,50, "x=27, y=50");
+    ra(5,32, "x=5, y=32");
+    */
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontRefHeightText(&u8g2);
+
+  tga_save_png("u8g2_input_value.png");
+
+  /*=========================================*/
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
 
