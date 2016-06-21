@@ -106,6 +106,13 @@ struct controller controller_list[] =
     }
   },  
   {
+    "ld7032", 	8, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI,
+    {
+      { "60x32" },
+      { NULL }
+    }
+  },
+  {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     {
       { "192x32" },
