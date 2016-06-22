@@ -146,7 +146,7 @@ static uint8_t u8x8_d_ld7032_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
       u8x8_cad_SendCmd(u8x8, 0x035 );
       u8x8_cad_SendArg(u8x8, 0x007 );
       u8x8_cad_SendCmd(u8x8, 0x036 );
-      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos) );
+      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos)*8 );
       u8x8_cad_SendCmd(u8x8, 0x037 );
       u8x8_cad_SendArg(u8x8, 0x01f );
       u8x8_cad_SendCmd(u8x8, 0x008 );
