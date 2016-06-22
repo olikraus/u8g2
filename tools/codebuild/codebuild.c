@@ -19,7 +19,7 @@
 #define COM_3WSPI		0x0002
 #define COM_6800		0x0004
 #define COM_8080		0x0008
-#define COM_SSDI2C	0x0010
+#define COM_I2C	0x0010
 #define COM_ST7920SPI	0x0020			/* mostly identical to COM_4WSPI, but does not use DC */
 
 struct interface
@@ -69,7 +69,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
+    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
     {
       { "128x64_noname" },
       { NULL }
@@ -84,7 +84,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
+    "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
     {
       { "128x64_noname" },
       { NULL }
@@ -99,7 +99,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_SSDI2C,
+    "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
     {
       { "128x32_univision" },
       { NULL }
@@ -107,6 +107,13 @@ struct controller controller_list[] =
   },  
   {
     "ld7032", 	8, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI,
+    {
+      { "60x32" },
+      { NULL }
+    }
+  },
+  {
+    "ld7032", 	8, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_ld7032_i2c", "i2c", COM_I2C,
     {
       { "60x32" },
       { NULL }
@@ -241,7 +248,7 @@ struct interface interface_list[] =
   /* 6 */
   {
     "SW_I2C",
-    "u8x8_SetPin_SSD13xx_SW_I2C",
+    "u8x8_SetPin_SW_I2C",
     "u8x8_byte_sw_i2c" /* "u8x8_byte_ssd13xx_sw_i2c" */,
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE",
@@ -252,7 +259,7 @@ struct interface interface_list[] =
   /* 7 */
   {
     "HW_I2C",
-    "u8x8_SetPin_SSD13xx_HW_I2C",
+    "u8x8_SetPin_HW_I2C",
     "u8x8_byte_arduino_hw_i2c",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t reset = U8X8_PIN_NONE",
@@ -613,7 +620,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   {
     do_display_interface(controller_idx, display_idx, postfix, 3);		/* 8080 mode */    
   }
-  if ( controller_list[controller_idx].com & COM_SSDI2C )
+  if ( controller_list[controller_idx].com & COM_I2C )
   {
     do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW I2C */
     do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW I2C */
@@ -827,7 +834,7 @@ void do_md_controller_list(void)
       {
 	do_md_display_interface(controller_idx, display_idx, 3);		/* 8080 mode */    
       }
-      if ( controller_list[controller_idx].com & COM_SSDI2C )
+      if ( controller_list[controller_idx].com & COM_I2C )
       {
 	do_md_display_interface(controller_idx, display_idx, 6);		/* SW I2C */
 	do_md_display_interface(controller_idx, display_idx, 7);		/* HW I2C  */

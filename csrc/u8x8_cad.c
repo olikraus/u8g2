@@ -362,3 +362,58 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   return 1;
 }
 
+/* cad i2c procedure for the ld7032 controller */
+uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  static uint8_t in_transfer = 0;
+  switch(msg)
+  {
+    case U8X8_MSG_CAD_SEND_CMD:
+      if ( in_transfer != 0 )
+	u8x8_byte_EndTransfer(u8x8); 
+      u8x8_byte_StartTransfer(u8x8);
+      u8x8_byte_SendByte(u8x8, arg_int);
+      in_transfer = 1;
+      break;
+    case U8X8_MSG_CAD_SEND_ARG:
+      u8x8_byte_SendByte(u8x8, arg_int);
+      break;
+    case U8X8_MSG_CAD_SEND_DATA:
+      //u8x8_byte_SetDC(u8x8, 1);
+    
+      /* the FeatherWing OLED with the 32u4 transfer of long byte */
+      /* streams was not possible. This is broken down to */
+      /* smaller streams, 32 seems to be the limit... */
+      /* I guess this is related to the size of the Wire buffers in Arduino */
+      /* Unfortunately, this can not be handled in the byte level drivers, */
+      /* so this is done here. Even further, only 24 bytes will be sent, */
+      /* because there will be another byte (DC) required during the transfer */
+       while( arg_int > 24 )
+      {
+	u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, 24, arg_ptr);
+	arg_int-=24;
+	arg_ptr+=24;
+	u8x8_byte_EndTransfer(u8x8); 
+	u8x8_byte_StartTransfer(u8x8);
+	u8x8_byte_SendByte(u8x8, 0x08);	/* data write for LD7032 */
+      }
+      u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, arg_int, arg_ptr);
+      break;
+    case U8X8_MSG_CAD_INIT:
+      /* apply default i2c adr if required so that the start transfer msg can use this */
+      if ( u8x8->i2c_address == 255 )
+	u8x8->i2c_address = 0x060;
+      return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+    case U8X8_MSG_CAD_START_TRANSFER:
+      in_transfer = 0;
+      break;
+    case U8X8_MSG_CAD_END_TRANSFER:
+      if ( in_transfer != 0 )
+	u8x8_byte_EndTransfer(u8x8); 
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+

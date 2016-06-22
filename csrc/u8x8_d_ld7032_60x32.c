@@ -1,6 +1,7 @@
 /*
 
   u8x8_d_ld7032_60x32.c
+  Note: Flip Mode is NOT supported
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -43,7 +44,7 @@ static const uint8_t u8x8_d_ld7032_60x32_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-  U8X8_CA(0x002, 0x001),		/* Dot Matrix Display ON */
+  //U8X8_CA(0x002, 0x001),		/* Dot Matrix Display ON */
   U8X8_CA(0x014, 0x000),		/* Stand-by OFF */
   U8X8_CA(0x01a, 0x004),		/* Dot Matrix Frame Rate,  special value for this OLED from manual*/
   U8X8_CA(0x01d, 0x000),		/* Graphics Memory Writing Direction: reset default (right down, horizontal) */
@@ -58,7 +59,7 @@ static const uint8_t u8x8_d_ld7032_60x32_init_seq[] = {
   U8X8_CA(0x048, 0x003),		/* Row overlap timing: Pre-Charge + Peak Delay + Peak boot Timing */
   U8X8_CA(0x03f, 0x011),		/* VCC_R_SEL: ??? */
   U8X8_CA(0x03d, 0x000),		/* VSS selection: 2.8V */
-  U8X8_CA(0x002, 0x001),		/* Dot Matrix Display ON */
+  //U8X8_CA(0x002, 0x001),		/* Dot Matrix Display ON */
   
     
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -81,14 +82,14 @@ static const uint8_t u8x8_d_ld7032_60x32_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_ld7032_60x32_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
+  U8X8_CA(0x009, 0x000),		/* Display Direction:  reset default (x,y: min --> max) */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ld7032_60x32_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
+  //U8X8_CA(0x009, 0x002),		/* Display Direction:  reset default (x,y: min --> max) */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };

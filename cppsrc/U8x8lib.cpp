@@ -419,7 +419,7 @@ void u8x8_Setup_4Wire_HW_SPI(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t cs, u
 #endif /* obsolete com specific setup */
 
 
-void u8x8_SetPin_SSD13xx_SW_I2C(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t reset)
+void u8x8_SetPin_SW_I2C(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t reset)
 {
   u8x8_SetPin(u8x8, U8X8_PIN_I2C_CLOCK, clock);
   u8x8_SetPin(u8x8, U8X8_PIN_I2C_DATA, data);
@@ -438,7 +438,7 @@ void u8x8_Setup_SSD13xx_SW_I2C(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clo
 }
 #endif /* obsolete com specific setup */
 
-void u8x8_SetPin_SSD13xx_HW_I2C(u8x8_t *u8x8, uint8_t reset)
+void u8x8_SetPin_HW_I2C(u8x8_t *u8x8, uint8_t reset)
 {
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
