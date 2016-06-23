@@ -281,15 +281,16 @@ struct interface interface_list[] =
   /* 9 */
   {
     /* ST7920 */ "HW_SPI",
-    "",
-    "",
-    "",   
+    "u8x8_SetPin_ST7920_HW_SPI",
+    "u8x8_byte_arduino_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
     "cs, reset",
     "cs [, reset]",
     "uC specific"
   },  
   
+
   
 };
 
@@ -628,7 +629,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   if ( controller_list[controller_idx].com & COM_ST7920SPI )
   {
     do_display_interface(controller_idx, display_idx, postfix, 8);		/* ST7920 SW SPI */
-    //do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI (not yet implemented) */
+    do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI (not yet implemented) */
   }
   
   
@@ -842,7 +843,7 @@ void do_md_controller_list(void)
       if ( controller_list[controller_idx].com & COM_ST7920SPI )
       {
 	do_md_display_interface(controller_idx, display_idx, 8);		/* ST7920 SW SPI */
-	//do_md_display_interface(controller_idx, display_idx, 9);		/* HW SPI (not yet implemented) */
+	do_md_display_interface(controller_idx, display_idx, 9);		/* HW SPI (not yet implemented) */
       }
       
       display_idx++;

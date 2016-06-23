@@ -405,6 +405,13 @@ void u8x8_SetPin_4Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t rese
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
 
+void u8x8_SetPin_ST7920_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
+  u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+}
+
 
 #ifdef _obsolete_com_specific_setup
 void u8x8_Setup_4Wire_HW_SPI(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t cs, uint8_t dc, uint8_t reset)
