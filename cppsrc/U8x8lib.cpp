@@ -294,8 +294,10 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
       
       if ( u8g2->display_info->sck_pulse_width_ns < 70 )
 	SPI.setClockDivider( SPI_CLOCK_DIV2 );
-      else
+      else if ( u8g2->display_info->sck_pulse_width_ns < 140 )
 	SPI.setClockDivider( SPI_CLOCK_DIV4 );
+      else
+	SPI.setClockDivider( SPI_CLOCK_DIV8 );
       SPI.setDataMode(SPI_MODE0);
       SPI.setBitOrder(MSBFIRST);
       
@@ -408,7 +410,6 @@ void u8x8_SetPin_4Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t rese
 void u8x8_SetPin_ST7920_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset)
 {
   u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
-  u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
 

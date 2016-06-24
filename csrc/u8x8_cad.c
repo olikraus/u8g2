@@ -287,7 +287,9 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       {
 	b = *data;
 	u8x8_byte_SendByte(u8x8, b & 0x0f0);
+	//u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 2);
 	u8x8_byte_SendByte(u8x8, b << 4);
+	//u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 2);
 	data++;
 	arg_int--;
       }
