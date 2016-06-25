@@ -15,6 +15,9 @@
 
 /*===========================================*/
 
+/* ll_hvline */
+#define U8X8_HVLINE "u8g2_ll_hvline_vertical_top_lsb"
+
 #define COM_4WSPI		0x0001
 #define COM_3WSPI		0x0002
 #define COM_6800		0x0004
@@ -694,15 +697,15 @@ void do_md_display(int controller_idx, int display_idx)
   fprintf(fp, "%s:", controller_list[controller_idx].name);
   fprintf(fp, "%s\n", controller_list[controller_idx].display_list[display_idx].name);
   */
-  
-  fprintf(fp, "\n");    
-  fprintf(fp, "## %s ", struppercase(controller_list[controller_idx].name));    
-  fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));    
-  fprintf(fp, "\n");    
-  
+
   
   if ( is_u8g2 )
   {
+	fprintf(fp, "\n");    
+	fprintf(fp, "## %s ", struppercase(controller_list[controller_idx].name));    
+	fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));    
+	fprintf(fp, "\n");    
+
     fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
     fprintf(fp, "Display \"%s\" | ", controller_list[controller_idx].display_list[display_idx].name);
     fprintf(fp, "Descirption |\n");
@@ -710,9 +713,18 @@ void do_md_display(int controller_idx, int display_idx)
   }
   else
   {
-    fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
-    fprintf(fp, "Display \"%s\" |\n", controller_list[controller_idx].display_list[display_idx].name);
-    fprintf(fp, "|---|\n");    
+	if ( is_u8g2 != 0 || strcmp(controller_list[controller_idx].ll_hvline, U8X8_HVLINE ) == 0 )
+	{
+
+		fprintf(fp, "\n");    
+		fprintf(fp, "## %s ", struppercase(controller_list[controller_idx].name));    
+		fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));    
+		fprintf(fp, "\n");    
+
+		fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
+		fprintf(fp, "Display \"%s\" |\n", controller_list[controller_idx].display_list[display_idx].name);
+		fprintf(fp, "|---|\n");    
+	}  
   }
 }
 
@@ -777,24 +789,27 @@ void do_md_display_interface(int controller_idx, int display_idx, int interface_
   
   if ( !is_u8g2 ) 
   {
-    if ( is_arduino_cpp )
+    if ( strcmp(controller_list[controller_idx].ll_hvline, U8X8_HVLINE ) == 0 )
     {
-      fprintf(fp, "| U8X8_");
-      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
-      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-      fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
-      fprintf(fp, "(%s) |\n", interface_list[interface_idx].pins_md_plain);
+	    if ( is_arduino_cpp )
+	    {
+	      fprintf(fp, "| U8X8_");
+	      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+	      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+	      fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+	      fprintf(fp, "(%s) |\n", interface_list[interface_idx].pins_md_plain);
+	    }
+	    else
+	    {
+	      
+	      fprintf(fp, "| u8x8_Setup(u8x8_d_");
+	      fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
+	      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
+	      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
+	      fprintf(fp, "%s, ", strlowercase(interface_list[interface_idx].generic_com_procedure));
+	      fprintf(fp, "uC specific) |\n");
+	    }  
     }
-    else
-    {
-      
-      fprintf(fp, "| u8x8_Setup(u8x8_d_");
-      fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
-      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
-      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
-      fprintf(fp, "%s, ", strlowercase(interface_list[interface_idx].generic_com_procedure));
-      fprintf(fp, "uC specific) |\n");
-    }  
   }
   do_md_display_interface_buffer(controller_idx, display_idx, interface_idx, "1", controller_list[controller_idx].tile_width*8, 1);
   do_md_display_interface_buffer(controller_idx, display_idx, interface_idx, "2", controller_list[controller_idx].tile_width*8*2, 2);
