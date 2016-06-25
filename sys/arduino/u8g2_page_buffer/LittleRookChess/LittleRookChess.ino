@@ -2256,10 +2256,14 @@ void chess_Step(uint8_t keycode)
       if ( chess_key_cmd == CHESS_KEY_NEXT )
       {
       	chess_target_pos = chess_GetNextMarked(chess_target_pos, lrc_obj.orientation);
+	if ( chess_target_pos == 255 )
+	  chess_target_pos = chess_GetNextMarked(chess_target_pos, lrc_obj.orientation);
       }
       else if ( chess_key_cmd == CHESS_KEY_PREV )
       {
       	chess_target_pos = chess_GetNextMarked(chess_target_pos, 1-lrc_obj.orientation);
+	if ( chess_target_pos == 255 )
+	  chess_target_pos = chess_GetNextMarked(chess_target_pos, 1-lrc_obj.orientation);
       }
       else if ( chess_key_cmd == CHESS_KEY_BACK )
       {
@@ -2318,8 +2322,8 @@ void loop(void) {
     keycode = CHESS_KEY_NEXT;
   if ( keycode == U8X8_MSG_GPIO_MENU_UP )
     keycode = CHESS_KEY_PREV;
-  if ( keycode == U8X8_MSG_GPIO_MENU_HOME )
-    keycode = CHESS_KEY_SELECT;
+  //if ( keycode == U8X8_MSG_GPIO_MENU_HOME )
+  //  keycode = CHESS_KEY_SELECT;
       
   chess_Step(keycode);
   keycode = 0;
