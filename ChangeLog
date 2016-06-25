@@ -12,5 +12,8 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Successfully tested with Adafruit Feather M0 Basic Board (HW+SW I2C)
 2016-06-12	v2.0.4 	olikraus@gmail.com
   * Support for ST7565
-2016-xx-xx	v2.0.5 	olikraus@gmail.com
+2016-06-25	v2.0.5 	olikraus@gmail.com
   * User interface functions
+  * Little Rook Chess ported
+  * ST7920 HW and SW SPI
+  
