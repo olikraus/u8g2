@@ -104,6 +104,7 @@ unzip -o u8g2_arduino_${ver}.zip
 popd
 
 echo now create a release in gitub for U8glib_Arduino, tag/name = ${ver}
+echo no prefix required, release name can be empty
 # Relases in github:
 # Tag: 1.02pre3
 # Release  name: 1.02pre3

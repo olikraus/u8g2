@@ -128,8 +128,12 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
 	u8x8_cad_SendCmd(u8x8, 0x080 | (y+i) );      /* y pos  */
 	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+	
+	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
 	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
 	ptr += c;
+	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
       }
 
       u8x8_cad_EndTransfer(u8x8);
