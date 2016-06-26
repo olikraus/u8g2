@@ -231,8 +231,8 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
 
   if ( u8sl.current_pos >= u8sl.total )
     u8sl.current_pos = u8sl.total-1;
-  if ( u8sl.first_pos+u8sl.visible < u8sl.current_pos )
-    u8sl.first_pos = u8sl.current_pos-u8sl.visible;
+  if ( u8sl.first_pos+u8sl.visible <= u8sl.current_pos )
+    u8sl.first_pos = u8sl.current_pos-u8sl.visible+1;
 
   u8g2_SetFontPosBaseline(u8g2);
   

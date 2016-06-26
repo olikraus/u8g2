@@ -101,16 +101,16 @@ void setup(void) {
 }
 
 const char *string_list = 
-  "\tAltocumulus\n"
-  "\tAltostratus\n"
-  "\tCirrocumulus\n"
-  "\tCirrostratus\n"
-  "\tCirrus\n"
-  "\tCumulonimbus\n"
-  "\tCumulus\n"
-  "\tNimbostratus\n"
-  "\tStratocumulus\n"
-  "\tStratus";
+  "Altocumulus\n"
+  "Altostratus\n"
+  "Cirrocumulus\n"
+  "Cirrostratus\n"
+  "Cirrus\n"
+  "Cumulonimbus\n"
+  "Cumulus\n"
+  "Nimbostratus\n"
+  "Stratocumulus\n"
+  "Stratus";
 
 uint8_t current_selection = 0;
 
@@ -118,12 +118,12 @@ uint8_t current_selection = 0;
 void loop(void) {
 
   current_selection = u8g2.userInterfaceSelectionList(
-    "\tCloud Types\n\t-----------",
+    "Cloud Types",
     current_selection, 
     string_list);
 
   u8g2.userInterfaceMessage(
-      "\tSelection:", 
+      "Selection:", 
       u8x8_GetStringLineStart(current_selection, string_list ),
       "",
       " ok \n cancel ");
