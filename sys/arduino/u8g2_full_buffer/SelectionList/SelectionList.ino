@@ -1,6 +1,6 @@
 /*
 
-  HelloWorld.ino
+  StringLineU8x8.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -78,15 +78,49 @@
 // End of constructor list
 
 
+
 void setup(void) {
-  u8g2.begin();
+  
+  // DOGS102 Shield (http://shieldlist.org/controlconnection/dogs102)
+  // u8x8.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_home_pin= */ 3);
+  
+  // DOGM128 Shield (http://shieldlist.org/schmelle2/dogm128) + DOGXL160 Shield
+  // u8x8.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_home_pin= */ 8);
+  
+  // Arduboy
+  //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
+  u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
+
+  u8g2.setFont(u8g2_font_6x12_tr);
 }
 
+const char *string_list = 
+  "\tAltocumulus\n"
+  "\tAltostratus\n"
+  "\tCirrocumulus\n"
+  "\tCirrostratus\n"
+  "\tCirrus\n"
+  "\tCumulonimbus\n"
+  "\tCumulus\n"
+  "\tNimbostratus\n"
+  "\tStratocumulus\n"
+  "\tStratus";
+
+uint8_t current_selection = 0;
+
+
 void loop(void) {
-  u8g2.clearBuffer();					// clear the internal menory
-  u8g2.setFont(u8g2_font_ncenB14_tr);	// choose a suitable font
-  u8g2.drawStr(0,20,"Hello World!");	// write something to the internal memory
-  u8g2.sendBuffer();					// transfer internal memory to the display
-  delay(1000);
+
+  current_selection = u8g2.userInterfaceSelectionList(
+    "\tCloud Types\n\t-----------",
+    current_selection, 
+    string_list);
+
+  u8g2.userInterfaceMessage(
+      "\tSelection:", 
+      u8x8_GetStringLineStart(current_selection, string_list ),
+      "",
+      " ok \n cancel ");
 }
+
 

@@ -1,6 +1,8 @@
 /*
 
-  HelloWorld.ino
+  PrintUTF8.ino
+  
+  Use the (Arduino compatible) u8g2 function "print"  to draw a text.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -78,15 +80,24 @@
 // End of constructor list
 
 
+
+
+
 void setup(void) {
   u8g2.begin();
+  u8g2.enableUTF8Print();		// enable UTF8 support for the Arduino print() function
 }
 
 void loop(void) {
-  u8g2.clearBuffer();					// clear the internal menory
-  u8g2.setFont(u8g2_font_ncenB14_tr);	// choose a suitable font
-  u8g2.drawStr(0,20,"Hello World!");	// write something to the internal memory
-  u8g2.sendBuffer();					// transfer internal memory to the display
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  // use chinese2 for all the glyphs of "你好世界"
+  u8g2.setFontDirection(0);
+  u8g2.clearBuffer();
+  u8g2.setCursor(0, 15);
+  u8g2.print("Hello World!");
+  u8g2.setCursor(0, 40);
+  u8g2.print("你好世界");		// Chinese "Hello World" 
+  u8g2.sendBuffer();
+  
   delay(1000);
 }
 

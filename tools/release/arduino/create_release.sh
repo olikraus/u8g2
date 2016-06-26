@@ -32,6 +32,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/FlipMode
 cp ../../../sys/arduino/u8g2_page_buffer/FlipMode/*.ino ../../../../U8g2_Arduino/examples/page_buffer/FlipMode/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/SelectionList
+cp ../../../sys/arduino/u8g2_page_buffer/SelectionList/*.ino ../../../../U8g2_Arduino/examples/page_buffer/SelectionList/.
+
 # games
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
@@ -43,6 +46,12 @@ cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Ardui
 
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo
 cp ../../../sys/arduino/u8g2_full_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo/.
+
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/PrintUTF8
+cp ../../../sys/arduino/u8g2_full_buffer/PrintUTF8/*.ino ../../../../U8g2_Arduino/examples/full_buffer/PrintUTF8/.
+
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/SelectionList
+cp ../../../sys/arduino/u8g2_full_buffer/SelectionList/*.ino ../../../../U8g2_Arduino/examples/full_buffer/SelectionList/.
 
 # u8x8
 
