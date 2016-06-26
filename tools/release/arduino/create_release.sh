@@ -35,6 +35,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/FlipMode/*.ino ../../../../U8g2_Arduino
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/SelectionList
 cp ../../../sys/arduino/u8g2_page_buffer/SelectionList/*.ino ../../../../U8g2_Arduino/examples/page_buffer/SelectionList/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest
+cp ../../../sys/arduino/u8g2_page_buffer/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest/.
+
 # games
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
