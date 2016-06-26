@@ -89,10 +89,7 @@ U8G2_ST7920_128X64_1_HW_SPI u8g2(U8G2_R0, /* CS=*/ 10, /* reset=*/ 8);
 //#define MINI_LOGO
 
 void setup(void) {
-  pinMode(9, OUTPUT);
-  digitalWrite(9, 0);	// default output in I2C mode for the SSD1306 test shield: set the i2c adr to 0
-
-  u8g2.begin();
+ u8g2.begin();
 }
 
 void drawLogo(void)

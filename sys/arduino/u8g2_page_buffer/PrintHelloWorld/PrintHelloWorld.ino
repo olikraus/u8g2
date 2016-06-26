@@ -84,9 +84,6 @@
 
 
 void setup(void) {
-  pinMode(9, OUTPUT);
-  digitalWrite(9, 0);	// default output in I2C mode for the SSD1306 test shield: set the i2c adr to 0
-
   u8g2.begin();
 }
 
