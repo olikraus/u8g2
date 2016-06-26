@@ -133,12 +133,10 @@ void u8g2_string(uint8_t a) {
 
 void u8g2_line(uint8_t a) {
   u8g2.drawStr( 0, 0, "drawLine");
-  /*
   u8g2.drawLine(7+a, 10, 40, 55);
   u8g2.drawLine(7+a*2, 10, 60, 55);
   u8g2.drawLine(7+a*3, 10, 80, 55);
   u8g2.drawLine(7+a*4, 10, 100, 55);
-  */
 }
 
 void u8g2_triangle(uint8_t a) {
@@ -202,8 +200,7 @@ uint8_t draw_state = 0;
 void draw(void) {
   u8g2_prepare();
   switch(draw_state >> 3) {
-    case 0: u8g2_extra_page(draw_state&7); break;
-    //case 0: u8g2_box_frame(draw_state&7); break;
+    case 0: u8g2_box_frame(draw_state&7); break;
     case 1: u8g2_disc_circle(draw_state&7); break;
     case 2: u8g2_r_frame(draw_state&7); break;
     case 3: u8g2_string(draw_state&7); break;
@@ -233,6 +230,6 @@ void loop(void) {
     draw_state = 0;
 
   // deley between each page
-  delay(150);
+  delay(100);
 
 }
