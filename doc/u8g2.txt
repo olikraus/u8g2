@@ -65,8 +65,8 @@ Major Changes (Code rework required)
 	This includes drawStrP(), getStrWidthP(), etc
 	Use the print function with the F() macro instead.
 - In U8glib font transparency was defined in the .begin() statement. This is now
-      handled by setFontMode 
-- Screen rotation does not exisit any more:
+      handled by setFontMode(). 
+- Screen rotation is handled by the constructor in u8g2
 	The functions undoRotation, setRot90, setRot180 and setRot270 are
 	replaced by the first argument of the constructor
 - Screen scaling is not there in u8g2
@@ -77,12 +77,10 @@ Major Changes (Code rework required)
 - getMode(): Is not available any more because there is only one monochrome mode.	
 - setDefaultForegroundColor(), setDefaultBackgroundColor() and 
 	setDefaultMidColor() are not required any more. These functions do not
-	exist in U8g2
+	exist in U8g2. Use setDrawColor() instead.
 - getFontLineSpacing() and setFontLineSpacingFactor() are not supported any more. 
-- setFontRefHeightText(), setFontRefHeightExtendedText() and setFontRefHeightAll() are
-	not supported as of now. Maybe this will be added in the future.	
-- getStrPixelWidth() is replaced by getStrWidth() instead
-- setHardwareBackup() not yet supported. Might be implemented later
+- getStrPixelWidth() is replaced by getStrWidth() 
+- setHardwareBackup() not supported any more. Might be implemented later
 - Cursor functions are not available. This includes:
 	setCursorFont(), setCursorStyle(), setCursorPos(), setCursorColor(),
 	enableCursor(), disableCursor(), drawCursor()

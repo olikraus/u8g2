@@ -56,6 +56,12 @@ cp ../../../sys/arduino/u8g2_full_buffer/PrintUTF8/*.ino ../../../../U8g2_Arduin
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/SelectionList
 cp ../../../sys/arduino/u8g2_full_buffer/SelectionList/*.ino ../../../../U8g2_Arduino/examples/full_buffer/SelectionList/.
 
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/GraphicsTest
+cp ../../../sys/arduino/u8g2_full_buffer/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/full_buffer/GraphicsTest/.
+
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/FPS
+cp ../../../sys/arduino/u8g2_full_buffer/FPS/*.ino ../../../../U8g2_Arduino/examples/full_buffer/FPS/.
+
 # u8x8
 
 mkdir ../../../../U8g2_Arduino/examples/u8x8/HelloWorld

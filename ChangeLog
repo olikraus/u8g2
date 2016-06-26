@@ -16,4 +16,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * User interface functions
   * Little Rook Chess ported
   * ST7920 HW and SW SPI
+2016-06-26	v2.0.7	  olikraus@gmail.com
+  * drawLine
+  * GraphicsTest Example
   
