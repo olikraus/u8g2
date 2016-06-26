@@ -1,6 +1,6 @@
 /*
 
-  StringLineU8x8.ino
+  SelectionList.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -34,8 +34,14 @@
 */
 
 #include <Arduino.h>
-#include <SPI.h>
 #include <U8g2lib.h>
+
+#ifdef U8X8_HAVE_HW_SPI
+#include <SPI.h>
+#endif
+#ifdef U8X8_HAVE_HW_I2C
+#include <Wire.h>
+#endif
 
 // Please UNCOMMENT one of the contructor lines below
 // U8g2 Contructor List (Picture Loop Page Buffer)
@@ -88,16 +94,16 @@ void setup(void) {
 }
 
 const char *string_list = 
-  "\tAltocumulus\n"
-  "\tAltostratus\n"
-  "\tCirrocumulus\n"
-  "\tCirrostratus\n"
-  "\tCirrus\n"
-  "\tCumulonimbus\n"
-  "\tCumulus\n"
-  "\tNimbostratus\n"
-  "\tStratocumulus\n"
-  "\tStratus";
+  "Altocumulus\n"
+  "Altostratus\n"
+  "Cirrocumulus\n"
+  "Cirrostratus\n"
+  "Cirrus\n"
+  "Cumulonimbus\n"
+  "Cumulus\n"
+  "Nimbostratus\n"
+  "Stratocumulus\n"
+  "Stratus";
 
 uint8_t current_selection = 0;
 
@@ -105,12 +111,12 @@ uint8_t current_selection = 0;
 void loop(void) {
 
   current_selection = u8g2.userInterfaceSelectionList(
-    "\tCloud Types\n\t-----------",
+    "Cloud Types",
     current_selection, 
     string_list);
 
   u8g2.userInterfaceMessage(
-      "\tSelection:", 
+      "Selection:", 
       u8x8_GetStringLineStart(current_selection, string_list ),
       "",
       " ok \n cancel ");

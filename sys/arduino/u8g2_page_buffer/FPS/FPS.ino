@@ -1,15 +1,15 @@
 /*
 
-  FPS.pde
+  FPS.ino
   
   Frames Per Second: Display Performance Test
   
   >>> Before compiling: Please remove comment from the constructor of the 
   >>> connected graphics display (see below).
   
-  Universal 8bit Graphics Library, https://github.com/olikraus/u8glib/
-  
-  Copyright (c) 2012, olikraus@gmail.com
+  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+
+  Copyright (c) 2016, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -35,6 +35,7 @@
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+
 
 
 ==============
@@ -149,7 +150,15 @@
 */
 
 
-#include "U8g2lib.h"
+#include <Arduino.h>
+#include <U8g2lib.h>
+
+#ifdef U8X8_HAVE_HW_SPI
+#include <SPI.h>
+#endif
+#ifdef U8X8_HAVE_HW_I2C
+#include <Wire.h>
+#endif
 
 // Please UNCOMMENT one of the contructor lines below
 // U8g2 Contructor List (Picture Loop Page Buffer)
