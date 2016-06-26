@@ -89,7 +89,7 @@ U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /*
 
 
 void u8g2_prepare(void) {
-  u8g2.setFont(u8g2_font_6x10_tr);
+  u8g2.setFont(u8g2_font_6x10_tf);
   u8g2.setFontRefHeightExtendedText();
   u8g2.setDrawColor(1);
   u8g2.setFontPosTop();
@@ -176,7 +176,24 @@ void u8g2_ascii_2() {
 
 void u8g2_extra_page(uint8_t a)
 {
-  u8g2.drawStr( 0, 12, "TBD");
+  u8g2.drawStr( 0, 0, "Unicode");
+  u8g2.setFont(u8g2_font_unifont_t_symbols);
+  u8g2.setFontPosTop();
+  u8g2.drawUTF8(0, 24, "☀ ☁");
+  switch(a) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      u8g2.drawUTF8(a*3, 36, "☂");
+      break;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+      u8g2.drawUTF8(a*3, 36, "☔");
+      break;
+  }
 }
 
 
@@ -185,7 +202,8 @@ uint8_t draw_state = 0;
 void draw(void) {
   u8g2_prepare();
   switch(draw_state >> 3) {
-    case 0: u8g2_box_frame(draw_state&7); break;
+    case 0: u8g2_extra_page(draw_state&7); break;
+    //case 0: u8g2_box_frame(draw_state&7); break;
     case 1: u8g2_disc_circle(draw_state&7); break;
     case 2: u8g2_r_frame(draw_state&7); break;
     case 3: u8g2_string(draw_state&7); break;
@@ -213,6 +231,8 @@ void loop(void) {
   draw_state++;
   if ( draw_state >= 9*8 )
     draw_state = 0;
-  
-}
 
+  // deley between each page
+  delay(150);
+
+}
