@@ -304,8 +304,13 @@ void out(pbm_t *pbm, FILE *fp)
   outline(pbm, fp, 320, 656, 16);	/* Food&Drink */
   outline(pbm, fp, 336, 672, 6);	/* Food&Drink */
 
-  outline(pbm, fp, 336+16, 672+48, 16);	/* Outfit */
-  outline(pbm, fp, 336+16+16, 672+48+16, 11);	/* Outfit */
+  outline(pbm, fp, 352, 720, 16);	/* Outfit */
+  outline(pbm, fp, 368, 736, 11);	/* Outfit */
+  
+  outline(pbm, fp, 384, 784, 15);	/* Magic */
+  outline(pbm, fp, 400, 832, 6);	/* Music */
+  outline(pbm, fp, 416, 880, 16);	/* Symbols */
+  outline(pbm, fp, 432, 896, 7);	/* Symbols */
   
   
   pbm_WriteFontEnd(fp);
