@@ -1,0 +1,10 @@
+
+scroll-o-sprites graphcis from here:
+
+http://quale-art.blogspot.de/p/scroll-o-sprites.html
+
+License: CC-BY-3.0
+
+
+gcc pbm.c && ./a.out Scroll-o-Sprites.pbm > Scroll-o-Sprites.bdf
+../bdfconv/bdfconv -v -f1 -m "32-512" -d ../bdf/7x13.bdf  Scroll-o-Sprites.bdf 
