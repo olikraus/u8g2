@@ -222,6 +222,7 @@ void pbm_WriteGlyph(pbm_t *pbm, uint16_t e, uint16_t x, uint16_t y, uint16_t w, 
 {
   fprintf(fp, "STARTCHAR %u\n", e);
   fprintf(fp, "ENCODING %u\n", e);
+  fprintf(fp, "SWIDTH %u 0\n", w*72);		// ???
   fprintf(fp, "DWIDTH %u 0\n", w);
   fprintf(fp, "BBX %u %u 0 0\n", w, h);
   fprintf(fp, "BITMAP\n");
@@ -233,6 +234,16 @@ void pbm_WriteFontStart(FILE *fp, const char *s)
 {
   fprintf(fp, "STARTFONT 2.1\n");
   fprintf(fp, "FONT %s\n", s);
+  fprintf(fp, "SIZE 16 75 75\n");
+  fprintf(fp, "FONTBOUNDINGBOX 16 16 0 0\n");
+	
+  fprintf(fp, "STARTPROPERTIES 3\n");
+  fprintf(fp, "COPYRIGHT \"CC-BY-3.0\"\n");
+  fprintf(fp, "FONT_ASCENT 0\n");
+  fprintf(fp, "FONT_DESCENT 0\n");
+  fprintf(fp, "ENDPROPERTIES\n");
+  fprintf(fp, "CHARS 235\n");		// hard coded :-(
+	
 }
 
 void pbm_WriteFontEnd(FILE *fp)
