@@ -229,10 +229,10 @@ void pbm_WriteGlyph(pbm_t *pbm, uint16_t e, uint16_t x, uint16_t y, uint16_t w, 
   fprintf(fp, "ENDCHAR\n");
 }
 
-void pbm_WriteFontStart(FILE *fp)
+void pbm_WriteFontStart(FILE *fp, const char *s)
 {
   fprintf(fp, "STARTFONT 2.1\n");
-  fprintf(fp, "FONT U8g2-pbm-converter\n");
+  fprintf(fp, "FONT %s\n", s);
 }
 
 void pbm_WriteFontEnd(FILE *fp)
@@ -282,35 +282,53 @@ void outline(pbm_t *pbm, FILE *fp, uint16_t e, uint16_t y, uint16_t cnt)
     pbm_WriteGlyph(pbm, i+e, 32+i*16, y, 16, 16, fp);
 }
 
-void out(pbm_t *pbm, FILE *fp)
+void out(pbm_t *pbm, FILE *fp, const char *s)
 {
-  pbm_WriteFontStart(fp);
-  outline(pbm, fp, 128, 96, 13);
-  outline(pbm, fp, 144, 112, 13);
-  outline(pbm, fp, 160, 128, 7);
-  outline(pbm, fp, 160+8, 272, 4);	/* Trollkind */
-  outline(pbm, fp, 176, 224, 13);	/* Fauna */
-  outline(pbm, fp, 192, 320, 8);	/* The Unliving */
-  outline(pbm, fp, 192+8, 368, 8);	/* Creatures */
+  uint16_t e;
+  pbm_WriteFontStart(fp, s);
+  outline(pbm, fp, 0x01, 320, 8);	/* The Unliving */
+  outline(pbm, fp, 0x10, 496, 12);	/* Traps&Devices */
+  outline(pbm, fp, 0x1c, 272, 4);	/* Trollkind */
+  outline(pbm, fp, 0x20, 96-32, 1);	/* Space */
+  outline(pbm, fp, 0x21, 784, 15);	/* Magic */
   
-  outline(pbm, fp, 208, 416, 16);	/* Building */
-  outline(pbm, fp, 224, 432, 7);	/* Building */
-  outline(pbm, fp, 240, 448, 12);	/* Building */
-
-  outline(pbm, fp, 256, 496, 12);	/* Traps&Devices */
-  outline(pbm, fp, 272, 544, 13);	/* Outerworld */
-  outline(pbm, fp, 288, 592, 16);	/* Exploration */
-  outline(pbm, fp, 304, 608, 5);	/* Exploration */
-  outline(pbm, fp, 320, 656, 16);	/* Food&Drink */
-  outline(pbm, fp, 336, 672, 6);	/* Food&Drink */
-
-  outline(pbm, fp, 352, 720, 16);	/* Outfit */
-  outline(pbm, fp, 368, 736, 11);	/* Outfit */
+  e = 0x030;
+  outline(pbm, fp, e, 96, 13);	/* Characters */
+  e+= 13;
+  outline(pbm, fp, e, 112, 13);	/* Characters */
+  e+= 13;
+  outline(pbm, fp, e, 128, 7);	/* Characters */
+  e+= 7;
+  outline(pbm, fp, e, 224, 13);	/* Fauna */
+  e+= 13;
+  outline(pbm, fp, e, 368, 8);	/* Creatures */
+  e+= 8;
+  outline(pbm, fp, e, 416, 16);	/* Building */
+  e+= 16;
+  outline(pbm, fp, e, 432, 7);	/* Building */
+  e+= 7;
+  outline(pbm, fp, e, 448, 12);	/* Building */
+  e+= 12;
+  outline(pbm, fp, e, 544, 13);	/* Outerworld */
+  e+= 13;
+  outline(pbm, fp, e, 592, 16);	/* Exploration */
+  e+= 16;
+  outline(pbm, fp, e, 608, 5);	/* Exploration */
+  e+= 5;
+  outline(pbm, fp, e, 656, 16);	/* Food&Drink */
+  e+= 16;
+  outline(pbm, fp, e, 672, 6);	/* Food&Drink */
+  e+= 6;
+  outline(pbm, fp, e, 720, 16);	/* Outfit */
+  e+= 16;
+  outline(pbm, fp, e, 736, 11);	/* Outfit */
+  e+= 11;
   
-  outline(pbm, fp, 384, 784, 15);	/* Magic */
-  outline(pbm, fp, 400, 832, 6);	/* Music */
-  outline(pbm, fp, 416, 880, 16);	/* Symbols */
-  outline(pbm, fp, 432, 896, 7);	/* Symbols */
+  //outline(pbm, fp, 400, 832, 6);	/* Music */
+  outline(pbm, fp, e, 880, 16);	/* Symbols */
+  e+= 16;
+  outline(pbm, fp, e, 896, 7);	/* Symbols */
+  e+= 7;
   
   
   pbm_WriteFontEnd(fp);
@@ -329,7 +347,7 @@ int main(int argc, char **argv)
   else
   {
     pbm_ReadFilename(&pbm, argv[1]);
-    out(&pbm, stdout);
+    out(&pbm, stdout, argv[1]);
     //printf("Size: %d x %d\n", pbm.w, pbm.h);
     //pbm_Show(&pbm);
   }

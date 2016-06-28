@@ -7,4 +7,13 @@ License: CC-BY-3.0
 
 
 gcc pbm.c && ./a.out Scroll-o-Sprites.pbm > Scroll-o-Sprites.bdf
-../bdfconv/bdfconv -v -f1 -m "32-512" -d ../bdf/7x13.bdf  Scroll-o-Sprites.bdf 
+../bdfconv/bdfconv -v -f1 -m "1-512" -d ../bdf/7x13.bdf  Scroll-o-Sprites.bdf 
+
+Convert to TTF
+http://www.fontconverter.org/  --> doesnt work
+
+Fonts:
+http://fontstruct.com/fontstructions/show/1127366/kingdom-2
+
+http://fontstruct.com/fontstructions/show/115246/kinglyquest
+
