@@ -177,7 +177,14 @@ struct controller controller_list[] =
       { "nhd_c12832" },
       { NULL }
     }
-  }
+  },
+  {
+    "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
+    {
+      { "240x128" },
+      { NULL }
+    }
+  },
 };
 
 struct interface interface_list[] = 
