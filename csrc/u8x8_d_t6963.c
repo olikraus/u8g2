@@ -74,16 +74,16 @@ static const uint8_t u8x8_d_t6963_init_seq[] = {
   U8X8_C(0x090),                             /* All Off */
   U8X8_AAC(0x00,0x00,0x024),	/* low, high, set adr pointer */
 
-  U8X8_C(0x0b0),                            /* autowrite start */
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_D1(255),
-  U8X8_C(0x0b2),                            /* autowrite reset */
+  //U8X8_C(0x0b0),                            /* autowrite start */
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_D1(255),
+  //U8X8_C(0x0b2),                            /* autowrite reset */
   
   U8X8_DLY(100),
   U8X8_END_TRANSFER(),             	/* disable chip */
