@@ -71,7 +71,7 @@ static const uint8_t u8x8_d_t6963_init_seq[] = {
   // ...
   // 0x09c: Graphic on, text on, cursor off, blink off
   // 0x09f: Graphic on, text on, cursor on, blink on
-  U8X8_C(0x098),                            /* mode register: Display Mode, Graphics on, Text off, Cursor off */
+  U8X8_C(0x090),                             /* All Off */
   U8X8_AAC(0x00,0x00,0x024),	/* low, high, set adr pointer */
 
   U8X8_C(0x0b0),                            /* autowrite start */
