@@ -81,7 +81,7 @@
 //U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_NHD_C12832_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_NHD_C12832_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-U8G2_T6963_240X128_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 17, /*cs=*/ 14, /*dc=*/ 15, /*reset=*/ 16); // Connect RD with +5V, FGx with GND
+U8G2_T6963_240X128_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 17, /*cs=*/ 14, /*dc=*/ 15, /*reset=*/ 16); // Connect RD with +5V, FS0 and FS1 with GND
 
 
 // End of constructor list
@@ -89,7 +89,11 @@ U8G2_T6963_240X128_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 17
 
 
 void setup(void) {
+  pinMode(18, OUTPUT);
+  digitalWrite(18, 1);
+  
   u8g2.begin();
+  
 }
 
 void loop(void) {
@@ -98,6 +102,6 @@ void loop(void) {
     u8g2.setFont(u8g2_font_ncenB14_tr);
     u8g2.drawStr(0,24,"Hello World!");
   } while ( u8g2.nextPage() );
-  delay(1000);
+  //delay(1000);
 }
 
