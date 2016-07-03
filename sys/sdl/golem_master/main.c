@@ -1,6 +1,7 @@
 
 #include "u8g2.h"
 #include <stdio.h>
+#include <unistd.h>
 
 
 const uint8_t scrollosprites[6642] U8G2_FONT_SECTION("scrollosprites") = 
@@ -263,6 +264,37 @@ struct map_struct
 };
 typedef struct map_struct map_t;
 
+/*=================================================*/
+
+struct gm_struct
+{
+  /* tile position of golem master (upper left corner) */
+  uint16_t tmx;
+  uint16_t tmy;
+  
+  uint8_t state;
+  uint8_t dir;		/* for GM_STATE_READY_FOR_WALK */
+  
+  /* target offset of the visible window in map pixel */
+  uint16_t opx;
+  uint16_t opy;
+  
+  uint16_t c_opx;
+  uint16_t c_opy;
+  
+  /* golem master offset */
+  u8g2_uint_t gmox;
+  u8g2_uint_t gmoy;
+};
+typedef struct gm_struct gm_t;
+
+#define GM_STATE_CENTER 0
+#define GM_STATE_READY_FOR_WALK 1
+
+#define GM_OFFSET (0x040)
+
+/*=================================================*/
+
 void map_Init(map_t *m)
 {
   /* constants */
@@ -271,8 +303,8 @@ void map_Init(map_t *m)
   m->pdx = 0;
   m->pdy = 0;
   
-  m->tmw = (m->pdw + 15)/16;
-  m->tmh = (m->pdh + 15)/16;
+  m->tmw = (m->pdw + 15)/16 + 1;
+  m->tmh = (m->pdh + 15)/16 + 1;
 }
 
 /* set the position of the visible window in the map */
@@ -288,8 +320,8 @@ void map_SetWindowPos(map_t *m, uint16_t x, uint16_t y)
   m->tmy = y;
   m->dpy = (m->pmy - (y<<4));
   
-  printf("pmx=%u tmx=%u delta-x=%u\n", m->pmx, m->tmx, m->dpx);
-  printf("pmy=%u tmy=%u delta-y=%u\n", m->pmy, m->tmy, m->dpy);
+  printf("pmx=%u tmx=%u delta-x=%u tmw=%u\n", m->pmx, m->tmx, m->dpx, m->tmw);
+  printf("pmy=%u tmy=%u delta-y=%u tmh=%u\n", m->pmy, m->tmy, m->dpy, m->tmh);
 }
 
 uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
@@ -322,6 +354,67 @@ uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
      return map[ty][tx];
 }
 
+/* for a x position on the map (tile coordinates) return pixel x pos on display */
+u8g2_uint_t map_GetDisplayXByTileMapX(map_t *m, uint16_t x)
+{
+  u8g2_uint_t v;
+  x -= m->tmx;	/* upper left tile corner of the visible areay */
+  v = x;
+  v <<= 4;		/* convert to pixel */
+  v -= m->dpx;	/* add the offset of the upper left tile corner */
+  v += m->pdx;	/* add display offset */
+  return v;
+}
+
+u8g2_uint_t map_GetDisplayYByTileMapY(map_t *m, uint16_t y)
+{
+  u8g2_uint_t v;
+  y -= m->tmy;	/* upper left tile corner of the visible areay */
+  v = y;
+  v <<= 4;		/* convert to pixel */
+  v -= m->dpy;	/* add the offset of the upper left tile corner */
+  v += m->pdy;	/* add display offset */
+  return v;
+}
+
+uint8_t map_IsTileVisible(map_t *m, uint16_t x, uint16_t y)
+{
+  uint16_t ux, uy;
+  
+  ux = m->tmx+m->tmw;
+  ux &=0x0fff;		/* wrap around mask for tiles */
+  uy = m->tmy+m->tmh;
+  uy &=0x0fff;		/* wrap around mask for tiles */
+  
+  if (  m->tmx < ux )
+  {
+    if ( x < m->tmx )
+      return 0;
+    if ( x >= ux )
+      return 0;
+  }
+  else
+  {
+    if ( x < ux && x >= m->tmx )
+      return 0;
+  }
+  
+  if (  m->tmy < uy )
+  {
+    if ( y < m->tmy )
+      return 0;
+    if ( y >= uy )
+      return 0;
+  }
+  else
+  {
+    if ( y < uy && y >= m->tmy )
+      return 0;
+  }
+  
+  return 1;
+}
+
 void map_Draw(map_t *m, u8g2_t *u8g2)
 {
   uint16_t tx;
@@ -340,23 +433,139 @@ void map_Draw(map_t *m, u8g2_t *u8g2)
     ppx = px;
     for( tx = 0; tx < m->tmw; tx++ )
     {
-      u8g2_DrawGlyph(u8g2, ppx, py, map_GetTile(m, tx+m->tmx, ty+m->tmy));
+      /* py+16 is there because reference point for the tiles is lower left (baseline) */ 
+      u8g2_DrawGlyph(u8g2, ppx, py+16, map_GetTile(m, tx+m->tmx, ty+m->tmy));
       ppx += 16;
     }
     py += 16;
   }
 }
 
+/*=================================================*/
 
+void gm_Init(gm_t *gm)
+{
+  gm->tmx = 1;
+  gm->tmy = 1;
+  gm->state = GM_STATE_CENTER;
+  gm->opx = GM_OFFSET;
+  gm->opy = GM_OFFSET;
+  gm->c_opx = GM_OFFSET;
+  gm->c_opy = GM_OFFSET;
+  gm->dir = 0;
+  gm->gmox = GM_OFFSET;
+  gm->gmoy = GM_OFFSET;
+}
+
+void gm_SetWindowPosByGolemMasterPos(gm_t *gm, map_t *map)
+{
+  uint16_t x;
+  uint16_t y;
+  x = gm->tmx;
+  x *= 16;
+  x -= map->pdw/2;
+  x += 8;	/* adjust half tile to center exaktly */
+  x += gm->c_opx;
+  x -= GM_OFFSET;
+
+  y = gm->tmy;
+  y *= 16;
+  y -= map->pdh/2;
+  y += 8;	/* adjust half tile to center exaktly */
+  y += gm->c_opy;
+  y -= GM_OFFSET;
+  
+  map_SetWindowPos(map, x, y);
+}
+
+void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
+{
+  u8g2_uint_t x;
+  u8g2_uint_t y;
+  
+  x = map_GetDisplayXByTileMapX(map, gm->tmx);
+  x += gm->gmox;
+  x -= GM_OFFSET;
+  y = map_GetDisplayYByTileMapY(map, gm->tmy);
+  y += gm->gmoy;
+  y -= GM_OFFSET;
+  
+  if ( map_IsTileVisible(map, gm->tmx, gm->tmy) )
+  {
+    // puts("visible!");
+    u8g2_DrawGlyph(u8g2, 
+      x,
+      y+16,
+      0x4e);
+  }
+  else
+  {
+    // puts("not visible");
+  }
+}
+
+void gm_Walk(gm_t *gm, uint8_t dir)
+{
+  printf("input dir=%d, curr state = %d\n", dir, gm->state);
+  if ( gm->state == GM_STATE_CENTER )
+  {
+    gm->state = GM_STATE_READY_FOR_WALK;
+    gm->dir = dir;
+    gm->opx = GM_OFFSET;
+    gm->opy = GM_OFFSET;
+    switch(dir)
+    {
+      case 0: gm->opx+=16; break;
+      case 1: gm->opy+=16; break;
+      case 2: gm->opx-=16; break;
+      case 3: gm->opy-=16; break;
+    }
+  }
+  else if ( gm->state == GM_STATE_READY_FOR_WALK )
+  {
+    if ( gm->dir != dir )
+    {
+      gm->state = GM_STATE_CENTER;
+      gm->dir = 0;
+      gm->opx = GM_OFFSET;
+      gm->opy = GM_OFFSET;
+      printf("reset state=%d dir=%d\n", gm->state, gm->dir);
+    }
+    else
+    {
+      switch(dir)
+      {
+	case 0: gm->tmx++; gm->c_opx=gm->opx-16; gm->gmox=GM_OFFSET-16; break;
+	case 1: gm->tmy++; gm->c_opy=gm->opy-16; gm->gmoy=GM_OFFSET-16; break;
+	case 2: gm->tmx--; gm->c_opx=gm->opx+16; gm->gmox=GM_OFFSET+16; break;
+	case 3: gm->tmy--; gm->c_opy=gm->opy+16; gm->gmoy=GM_OFFSET+16; break;
+      }
+      printf("walk state=%d dir=%d\n", gm->state, gm->dir);
+    }
+  }
+}
+
+void gm_Step(gm_t *gm, map_t *map)
+{
+  gm->c_opx = ((gm->c_opx+gm->opx))/2;
+  gm->c_opy = ((gm->c_opy+gm->opy))/2;
+  
+  gm->gmox = (gm->gmox + GM_OFFSET + 1)/2;
+  gm->gmoy = (gm->gmoy + GM_OFFSET +1)/2;
+  
+  gm_SetWindowPosByGolemMasterPos(gm, map);
+}
+
+/*=================================================*/
 
 u8g2_t u8g2;
 map_t map;
+gm_t gm;
 
 int main(void)
 {
   uint16_t x, y;
   int k;
-  int i;
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -368,41 +577,39 @@ int main(void)
   y = 30;
 
   map_Init(&map);
-  map_SetWindowPos(&map, 0, 0);
+  gm_Init(&gm);
 
   
   for(;;)
   {
     
-    
-    u8g2_FirstPage(&u8g2);
-    i = 0;
-    do
-    {
-      u8g2_SetFontDirection(&u8g2, 0);
-      map_Draw(&map, &u8g2);
-      /*
-      u8g2_DrawGlyph(&u8g2, -1, 48, 0x052);
-      u8g2_DrawStr(&u8g2, x, y      , "\x80\x7d\x86\x7d\x7d\x7d");
-      u8g2_DrawStr(&u8g2, x, y+16, "\x7e\x52\x7e");
-      u8g2_DrawStr(&u8g2, x, y+32, "\x82\x7d\x83");
-      */
-      
-      
-      i++;
-      
-
-    } while( u8g2_NextPage(&u8g2) );
+    gm_SetWindowPosByGolemMasterPos(&gm, &map);
     
     do
     {
+      u8g2_FirstPage(&u8g2);
+      do
+      {
+	u8g2_SetFontDirection(&u8g2, 0);
+	map_Draw(&map, &u8g2);
+	gm_Draw(&gm, &map, &u8g2);
+      } while( u8g2_NextPage(&u8g2) );
+    
+      gm_Step(&gm, &map);
+      usleep(100000);
       k = u8g_sdl_get_key();
     } while( k < 0 );
+
+    if ( k == 273 ) gm_Walk(&gm, 3);
+    if ( k == 274 ) gm_Walk(&gm, 1);
+    if ( k == 276 ) gm_Walk(&gm, 2);
+    if ( k == 275 ) gm_Walk(&gm, 0);
     
     if ( k == 273 ) y -= 7;
     if ( k == 274 ) y += 7;
     if ( k == 276 ) x -= 7;
     if ( k == 275 ) x += 7;
+
     
     if ( k == 'e' ) y -= 1;
     if ( k == 'x' ) y += 1;
@@ -410,7 +617,6 @@ int main(void)
     if ( k == 'd' ) x += 1;
     if ( k == 'q' ) break;
 
-  map_SetWindowPos(&map, x, y);
     
   }
   
