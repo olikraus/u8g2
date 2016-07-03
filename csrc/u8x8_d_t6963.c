@@ -40,55 +40,6 @@
 #include "u8x8.h"
 
 
-/* 240x128 */
-static const uint8_t u8x8_d_t6963_init_seq[] = {
-  U8X8_DLY(100),
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_DLY(100),
-  
-  U8X8_AAC(0x00,0x00,0x021),	/* low, high, set cursor pos */
-  U8X8_AAC(0x00,0x00,0x022),	/* low, high, set offset */
-  U8X8_AAC(0x00,0x00,0x040),	/* low, high, set text home */
-  U8X8_AAC(240/8,0x00,0x041),	/* low, high, set text columns */
-  U8X8_AAC(0x00,0x00,0x042),	/* low, high, graphics home */  
-  U8X8_AAC(240/8,0x00,0x043),	/* low, high, graphics columns */
-  U8X8_DLY(2),					/* delay 2ms */
-  // mode set
-  // 0x080: Internal CG, OR Mode
-  // 0x081: Internal CG, EXOR Mode
-  // 0x083: Internal CG, AND Mode
-  // 0x088: External CG, OR Mode
-  // 0x089: External CG, EXOR Mode
-  // 0x08B: External CG, AND Mode
-  U8X8_C(0x080),            			/* mode register: OR Mode, Internal Character Mode */
-  // display mode
-  // 0x090: Display off
-  // 0x094: Graphic off, text on, cursor off, blink off
-  // 0x096: Graphic off, text on, cursor on, blink off
-  // 0x097: Graphic off, text on, cursor on, blink on
-  // 0x098: Graphic on, text off, cursor off, blink off
-  // 0x09a: Graphic on, text off, cursor on, blink off
-  // ...
-  // 0x09c: Graphic on, text on, cursor off, blink off
-  // 0x09f: Graphic on, text on, cursor on, blink on
-  U8X8_C(0x090),                             /* All Off */
-  U8X8_AAC(0x00,0x00,0x024),	/* low, high, set adr pointer */
-
-  //U8X8_C(0x0b0),                            /* autowrite start */
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_D1(255),
-  //U8X8_C(0x0b2),                            /* autowrite reset */
-  
-  U8X8_DLY(100),
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_DLY(100),
-};
 
 static const uint8_t u8x8_d_t6963_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -116,11 +67,9 @@ uint8_t u8x8_d_t6963_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     /*
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       break;
-    */
     case U8X8_MSG_DISPLAY_INIT:
-      u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_t6963_init_seq);
       break;
+    */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
 	u8x8_cad_SendSequence(u8x8, u8x8_d_t6963_powersave0_seq);
@@ -194,6 +143,63 @@ static const u8x8_display_info_t u8x8_t6963_240x128_display_info =
   /* pixel_height = */ 128
 };
 
+/* 240x128 */
+static const uint8_t u8x8_d_t6963_240x128_init_seq[] = {
+  U8X8_DLY(100),
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_DLY(100),
+  
+  U8X8_AAC(0x00,0x00,0x021),	/* low, high, set cursor pos */
+  U8X8_AAC(0x00,0x00,0x022),	/* low, high, set offset */
+  U8X8_AAC(0x00,0x00,0x040),	/* low, high, set text home */
+  U8X8_AAC(240/8,0x00,0x041),	/* low, high, set text columns */
+  U8X8_AAC(0x00,0x00,0x042),	/* low, high, graphics home */  
+  U8X8_AAC(240/8,0x00,0x043),	/* low, high, graphics columns */
+  U8X8_DLY(2),					/* delay 2ms */
+  // mode set
+  // 0x080: Internal CG, OR Mode
+  // 0x081: Internal CG, EXOR Mode
+  // 0x083: Internal CG, AND Mode
+  // 0x088: External CG, OR Mode
+  // 0x089: External CG, EXOR Mode
+  // 0x08B: External CG, AND Mode
+  U8X8_C(0x080),            			/* mode register: OR Mode, Internal Character Mode */
+  // display mode
+  // 0x090: Display off
+  // 0x094: Graphic off, text on, cursor off, blink off
+  // 0x096: Graphic off, text on, cursor on, blink off
+  // 0x097: Graphic off, text on, cursor on, blink on
+  // 0x098: Graphic on, text off, cursor off, blink off
+  // 0x09a: Graphic on, text off, cursor on, blink off
+  // ...
+  // 0x09c: Graphic on, text on, cursor off, blink off
+  // 0x09f: Graphic on, text on, cursor on, blink on
+  U8X8_C(0x090),                             /* All Off */
+  U8X8_AAC(0x00,0x00,0x024),	/* low, high, set adr pointer */
+  
+  U8X8_DLY(100),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_DLY(100),
+};
+
+uint8_t u8x8_d_t6963_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_t6963_240x128_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_t6963_240x128_init_seq);
+      break;
+    default:
+      return u8x8_d_t6963_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
+
 static const u8x8_display_info_t u8x8_t6963_128x64_display_info =
 {
   /* chip_enable_level = */ 1,
@@ -217,18 +223,44 @@ static const u8x8_display_info_t u8x8_t6963_128x64_display_info =
   /* pixel_height = */ 64
 };
 
-uint8_t u8x8_d_t6963_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
-{
-  switch(msg)
-  {
-    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_t6963_240x128_display_info);
-      break;
-    default:
-      return u8x8_d_t6963_common(u8x8, msg, arg_int, arg_ptr);
-  }
-  return 1;
-}
+/* 240x128 */
+static const uint8_t u8x8_d_t6963_128x64_init_seq[] = {
+  U8X8_DLY(100),
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_DLY(100),
+  
+  U8X8_AAC(0x00,0x00,0x021),	/* low, high, set cursor pos */
+  U8X8_AAC(0x00,0x00,0x022),	/* low, high, set offset */
+  U8X8_AAC(0x00,0x00,0x040),	/* low, high, set text home */
+  U8X8_AAC(128/8,0x00,0x041),	/* low, high, set text columns */
+  U8X8_AAC(0x00,0x00,0x042),	/* low, high, graphics home */  
+  U8X8_AAC(128/8,0x00,0x043),	/* low, high, graphics columns */
+  U8X8_DLY(2),					/* delay 2ms */
+  // mode set
+  // 0x080: Internal CG, OR Mode
+  // 0x081: Internal CG, EXOR Mode
+  // 0x083: Internal CG, AND Mode
+  // 0x088: External CG, OR Mode
+  // 0x089: External CG, EXOR Mode
+  // 0x08B: External CG, AND Mode
+  U8X8_C(0x080),            			/* mode register: OR Mode, Internal Character Mode */
+  // display mode
+  // 0x090: Display off
+  // 0x094: Graphic off, text on, cursor off, blink off
+  // 0x096: Graphic off, text on, cursor on, blink off
+  // 0x097: Graphic off, text on, cursor on, blink on
+  // 0x098: Graphic on, text off, cursor off, blink off
+  // 0x09a: Graphic on, text off, cursor on, blink off
+  // ...
+  // 0x09c: Graphic on, text on, cursor off, blink off
+  // 0x09f: Graphic on, text on, cursor on, blink on
+  U8X8_C(0x090),                             /* All Off */
+  U8X8_AAC(0x00,0x00,0x024),	/* low, high, set adr pointer */
+  
+  U8X8_DLY(100),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_DLY(100),
+};
 
 uint8_t u8x8_d_t6963_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -236,6 +268,10 @@ uint8_t u8x8_d_t6963_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_t6963_128x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_t6963_128x64_init_seq);
       break;
     default:
       return u8x8_d_t6963_common(u8x8, msg, arg_int, arg_ptr);

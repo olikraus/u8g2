@@ -214,11 +214,147 @@ const uint8_t scrollosprites[6642] U8G2_FONT_SECTION("scrollosprites") =
   "\24\16E\203\261\220(\205\22:D\16\7\3\0\0\0";
 
 
+/*
+maze_Redraw()
+maze_SetData()
+maze->px		upper left corner (pixel pos)
+maze->py
+maze_SetPixelPos()
+maze_GetTile(tx, ty)
+
+gm_SetTilePos(tx, ty)
+gm_GetCurrTile()
+gm_GetNeighborTile(dir)		dir=0,1,2,3
+gm->state
+gm->tx, ty
+gm->walk_dir
+gm->px_delta, py_delta
+*/
+
+/*=================================================*/
+struct map_struct
+{
+  /* input: upper left corner of the visible area in the map */
+  uint16_t pmx;
+  uint16_t pmy;
+
+  /* input: dimensions of the visible window */
+  uint8_t pdw;
+  uint8_t pdh;	
+  
+  /* input: offset for the visible window on the display fromt he upper left display corner */
+  u8g2_uint_t pdx;	
+  u8g2_uint_t pdy;	
+  
+
+  
+  /* upper left tile, derived from px, py */
+  uint16_t tmx;	
+  uint16_t tmy;
+  
+  /* visible area in tiles */
+  uint8_t tmw;
+  uint8_t tmh;
+  
+  /* offset from the upper left tile corner to pmx/pmy */
+  u8g2_uint_t dpx;
+  u8g2_uint_t dpy;
+
+};
+typedef struct map_struct map_t;
+
+void map_Init(map_t *m)
+{
+  /* constants */
+  m->pdw = 128;
+  m->pdh = 64;
+  m->pdx = 0;
+  m->pdy = 0;
+  
+  m->tmw = (m->pdw + 15)/16;
+  m->tmh = (m->pdh + 15)/16;
+}
+
+/* set the position of the visible window in the map */
+void map_SetWindowPos(map_t *m, uint16_t x, uint16_t y)
+{
+  m->pmx = x;
+  x >>= 4;
+  m->tmx = x;
+  m->dpx = (m->pmx - (x<<4));
+  
+  m->pmy = y;
+  y >>= 4;  
+  m->tmy = y;
+  m->dpy = (m->pmy - (y<<4));
+  
+  printf("pmx=%u tmx=%u delta-x=%u\n", m->pmx, m->tmx, m->dpx);
+  printf("pmy=%u tmy=%u delta-y=%u\n", m->pmy, m->tmy, m->dpy);
+}
+
+uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
+{
+  static uint8_t map[12][12+1] =
+     {
+       "\x80\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x81",
+       "\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
+       "\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
+       "\x7e\x20\x43\x20\x20\x20\x20\x20\x20\x4e\x20\x7e",
+       "\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
+       "\x7e\x20\x20\x20\x20\x20\x45\x20\x20\x20\x20\x7e",
+       "\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x20\x93\x7e",
+       "\x7e\x20\x20\x20\x20\x20\x20\xa0\x20\x20\x20\x7e",
+       "\x7e\x20\x50\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
+       "\x7e\x20\x20\x20\x91\x20\x20\x20\x20\x92\x20\x7e",
+       "\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
+       "\x82\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x83"
+     };
+     
+     /* pixel dimensions are 2^16 * 2^16, this means tile dimension is 4096x4096 */
+     /* as a consequence, wrap around at 4096 */
+     /* am not sure to do this here, maybe it should be done outside this proc */
+     tx &= 0x0fff;
+     ty &= 0x0fff;
+     if ( tx > 12 )
+       return 32;
+     if ( ty > 12 )
+       return 32;
+     return map[ty][tx];
+}
+
+void map_Draw(map_t *m, u8g2_t *u8g2)
+{
+  uint16_t tx;
+  uint16_t ty;
+  u8g2_uint_t px, ppx;
+  u8g2_uint_t py;
+  
+  px = m->pdx;
+  px -= m->dpx;
+  
+  py = m->pdy;
+  py -= m->dpy;
+  
+  for( ty = 0; ty < m->tmh; ty++ )
+  {
+    ppx = px;
+    for( tx = 0; tx < m->tmw; tx++ )
+    {
+      u8g2_DrawGlyph(u8g2, ppx, py, map_GetTile(m, tx+m->tmx, ty+m->tmy));
+      ppx += 16;
+    }
+    py += 16;
+  }
+}
+
+
+
 u8g2_t u8g2;
+map_t map;
 
 int main(void)
 {
-  int x, y;
+  uint16_t x, y;
   int k;
   int i;
   
@@ -231,6 +367,9 @@ int main(void)
   x = 50;
   y = 30;
 
+  map_Init(&map);
+  map_SetWindowPos(&map, 0, 0);
+
   
   for(;;)
   {
@@ -241,9 +380,13 @@ int main(void)
     do
     {
       u8g2_SetFontDirection(&u8g2, 0);
-      u8g2_DrawStr(&u8g2, x, y, "\x80\x7d\x81");
+      map_Draw(&map, &u8g2);
+      /*
+      u8g2_DrawGlyph(&u8g2, -1, 48, 0x052);
+      u8g2_DrawStr(&u8g2, x, y      , "\x80\x7d\x86\x7d\x7d\x7d");
       u8g2_DrawStr(&u8g2, x, y+16, "\x7e\x52\x7e");
       u8g2_DrawStr(&u8g2, x, y+32, "\x82\x7d\x83");
+      */
       
       
       i++;
@@ -266,6 +409,8 @@ int main(void)
     if ( k == 's' ) x -= 1;
     if ( k == 'd' ) x += 1;
     if ( k == 'q' ) break;
+
+  map_SetWindowPos(&map, x, y);
     
   }
   
