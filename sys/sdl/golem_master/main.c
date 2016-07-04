@@ -302,25 +302,31 @@ typedef struct gm_struct gm_t;
 
 /*=================================================*/
 
-void v16_Set(v16_t *v, uint16_t x, uint16_t y )
+void v16_SetByConstant(v16_t *v, uint16_t x, uint16_t y )
 {
   v->v[0] = x;
   v->v[1] = y;
 }
 
-void v16_SetBoth(v16_t *v, uint16_t w)
+void v16_SetByConstantByV16(v16_t *v, v16_t *w )
+{
+  v->v[0] = w->v[0];
+  v->v[1] = w->v[1];
+}
+
+void v16_SetByConstantByOneConstant(v16_t *v, uint16_t w)
 {
   v->v[0] = w;
   v->v[1] = w;
 }
 
-void v16_Average(v16_t *v, uint16_t x, uint16_t y)
+void v16_AverageByConstant(v16_t *v, uint16_t x, uint16_t y)
 {
   v->v[0] = (v->v[0] + x + 1)/2;
   v->v[1] = (v->v[1] + y +1)/2;
 }
 
-void v16_AverageVV(v16_t *v, v16_t *vv)
+void v16_AverageByV16(v16_t *v, v16_t *vv)
 {
   v->v[0] = (v->v[0] + vv->v[0] + 1)/2;
   v->v[1] = (v->v[1] + vv->v[1] +1)/2;
@@ -502,9 +508,9 @@ void gm_Init(gm_t *gm)
   gm->tmy = 1;
   gm->state = GM_STATE_CENTER;
   gm->dir = 0;
-  v16_SetBoth(&(gm->twop), GM_OFFSET);
-  v16_SetBoth(&(gm->cwop), GM_OFFSET);
-  v16_SetBoth(&(gm->gmop), GM_OFFSET);
+  v16_SetByConstantByOneConstant(&(gm->twop), GM_OFFSET);
+  v16_SetByConstantByOneConstant(&(gm->cwop), GM_OFFSET);
+  v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
 }
 
 void gm_SetWindowPosByGolemMasterPos(gm_t *gm, map_t *map)
@@ -561,7 +567,7 @@ void gm_Walk(gm_t *gm, uint8_t dir)
   {
     gm->state = GM_STATE_READY_FOR_WALK;
     gm->dir = dir;
-    v16_SetBoth(&(gm->twop), GM_OFFSET);
+    v16_SetByConstantByOneConstant(&(gm->twop), GM_OFFSET);
     switch(dir)
     {
       case 0: gm->twop.v[0]+=16; break;
@@ -582,15 +588,18 @@ void gm_Walk(gm_t *gm, uint8_t dir)
     }
     else
     {
-      v16_SetBoth(&(gm->gmop), GM_OFFSET);
+      v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
       v16_AddDir(&(gm->gmop), dir, (uint16_t)-16);
+      v16_SetByConstantByV16(&(gm->cwop), &(gm->twop));
       switch(dir)
       {
-	case 0: gm->tmx++; gm->cwop.v[0]=gm->twop.v[0]-16;  break;
-	case 1: gm->tmy++; gm->cwop.v[1]=gm->twop.v[1]-16;  break;
-	case 2: gm->tmx--; gm->cwop.v[0]=gm->twop.v[0]+16; break;
-	case 3: gm->tmy--; gm->cwop.v[1]=gm->twop.v[1]+16; break;
+	case 0: gm->tmx++;  break;
+	case 1: gm->tmy++;  break;
+	case 2: gm->tmx--;  break;
+	case 3: gm->tmy--;  break;
       }
+      v16_AddDir(&(gm->cwop), dir, -16);
+
       printf("walk state=%d dir=%d\n", gm->state, gm->dir);
     }
   }
@@ -598,12 +607,14 @@ void gm_Walk(gm_t *gm, uint8_t dir)
 
 void gm_Step(gm_t *gm, map_t *map)
 {
-  gm->cwop.v[0] = ((gm->cwop.v[0]+gm->twop.v[0]))/2;
-  gm->cwop.v[1] = ((gm->cwop.v[1]+gm->twop.v[1]))/2;
+  //gm->cwop.v[0] = ((gm->cwop.v[0]+gm->twop.v[0]))/2;
+  //gm->cwop.v[1] = ((gm->cwop.v[1]+gm->twop.v[1]))/2;
+	
+  v16_AverageByV16(&(gm->cwop), &(gm->twop));
   
   //gm->gmop.v[0] = (gm->gmop.v[0] + GM_OFFSET + 1)/2;
   //gm->gmop.v[1] = (gm->gmop.v[1] + GM_OFFSET +1)/2;
-  v16_Average(&(gm->gmop), GM_OFFSET, GM_OFFSET);
+  v16_AverageByConstant(&(gm->gmop), GM_OFFSET, GM_OFFSET);
   
   gm_SetWindowPosByGolemMasterPos(gm, map);
 }
