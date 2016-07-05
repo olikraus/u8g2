@@ -276,8 +276,10 @@ typedef struct map_struct map_t;
 struct gm_struct
 {
   /* tile position of golem master (upper left corner) */
-  uint16_t tmx;
-  uint16_t tmy;
+  //uint16_t tmx;
+  //uint16_t tmy;
+  v16_t pt;
+  
   
   uint8_t state;
   uint8_t dir;		/* for GM_STATE_READY_FOR_WALK */
@@ -504,8 +506,8 @@ void map_Draw(map_t *m, u8g2_t *u8g2)
 
 void gm_Init(gm_t *gm)
 {
-  gm->tmx = 1;
-  gm->tmy = 1;
+  gm->pt.v[0] = 1;
+  gm->pt.v[1] = 1;
   gm->state = GM_STATE_CENTER;
   gm->dir = 0;
   v16_SetByConstantByOneConstant(&(gm->twop), GM_OFFSET);
@@ -517,14 +519,14 @@ void gm_SetWindowPosByGolemMasterPos(gm_t *gm, map_t *map)
 {
   uint16_t x;
   uint16_t y;
-  x = gm->tmx;
+  x = gm->pt.v[0];
   x *= 16;
   x -= map->pdw/2;
   x += 8;	/* adjust half tile to center exaktly */
   x += gm->cwop.v[0];
   x -= GM_OFFSET;
 
-  y = gm->tmy;
+  y = gm->pt.v[1];
   y *= 16;
   y -= map->pdh/2;
   y += 8;	/* adjust half tile to center exaktly */
@@ -539,14 +541,14 @@ void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
   u8g2_uint_t x;
   u8g2_uint_t y;
   
-  x = map_GetDisplayXByTileMapX(map, gm->tmx);
+  x = map_GetDisplayXByTileMapX(map, gm->pt.v[0]);
   x += gm->gmop.v[0];
   x -= GM_OFFSET;
-  y = map_GetDisplayYByTileMapY(map, gm->tmy);
+  y = map_GetDisplayYByTileMapY(map, gm->pt.v[1]);
   y += gm->gmop.v[1];
   y -= GM_OFFSET;
   
-  if ( map_IsTileVisible(map, gm->tmx, gm->tmy) )
+  if ( map_IsTileVisible(map, gm->pt.v[0], gm->pt.v[1]) )
   {
     // puts("visible!");
     u8g2_DrawGlyph(u8g2, 
@@ -568,13 +570,7 @@ void gm_Walk(gm_t *gm, uint8_t dir)
     gm->state = GM_STATE_READY_FOR_WALK;
     gm->dir = dir;
     v16_SetByConstantByOneConstant(&(gm->twop), GM_OFFSET);
-    switch(dir)
-    {
-      case 0: gm->twop.v[0]+=16; break;
-      case 1: gm->twop.v[1]+=16; break;
-      case 2: gm->twop.v[0]-=16; break;
-      case 3: gm->twop.v[1]-=16; break;
-    }
+    v16_AddDir(&(gm->twop), dir, (uint16_t)16);
   }
   else if ( gm->state == GM_STATE_READY_FOR_WALK )
   {
@@ -582,8 +578,7 @@ void gm_Walk(gm_t *gm, uint8_t dir)
     {
       gm->state = GM_STATE_CENTER;
       gm->dir = 0;
-      gm->twop.v[0] = GM_OFFSET;
-      gm->twop.v[1] = GM_OFFSET;
+      v16_SetByConstantByOneConstant(&(gm->twop), GM_OFFSET);
       printf("reset state=%d dir=%d\n", gm->state, gm->dir);
     }
     else
@@ -591,14 +586,8 @@ void gm_Walk(gm_t *gm, uint8_t dir)
       v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
       v16_AddDir(&(gm->gmop), dir, (uint16_t)-16);
       v16_SetByConstantByV16(&(gm->cwop), &(gm->twop));
-      switch(dir)
-      {
-	case 0: gm->tmx++;  break;
-	case 1: gm->tmy++;  break;
-	case 2: gm->tmx--;  break;
-	case 3: gm->tmy--;  break;
-      }
-      v16_AddDir(&(gm->cwop), dir, -16);
+      v16_AddDir(&(gm->cwop), dir, (uint16_t)-16);
+      v16_AddDir(&(gm->pt), dir, 1);
 
       printf("walk state=%d dir=%d\n", gm->state, gm->dir);
     }
