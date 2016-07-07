@@ -243,8 +243,8 @@ typedef struct v16_struct v16_t;
 struct map_struct
 {
   /* input: upper left corner of the visible area in the map */
-  uint16_t pmx;
-  uint16_t pmy;
+  /* visible window position in pixel coordinates (vwpp)  */
+  v16_t vwpp;
 
   /* input: dimensions of the visible window */
   uint8_t pdw;
@@ -254,19 +254,18 @@ struct map_struct
   u8g2_uint_t pdx;	
   u8g2_uint_t pdy;	
   
-
   
-  /* upper left tile, derived from px, py */
-  uint16_t tmx;	
-  uint16_t tmy;
+  /* upper left visible tile of the visible window, derived from vwpp.v[0], vwpp.v[1] */
+  /* visible window position in tile coordinats (vwpt)  */
+  v16_t vwpt;
   
   /* visible area in tiles */
   uint8_t tmw;
   uint8_t tmh;
+
   
-  /* offset from the upper left tile corner to pmx/pmy */
-  u8g2_uint_t dpx;
-  u8g2_uint_t dpy;
+  /* offset from the upper left tile corner to vwpp.v[0]/vwpp.v[1] */
+  v16_t dtwp;
 
 };
 typedef struct map_struct map_t;
@@ -276,8 +275,8 @@ typedef struct map_struct map_t;
 struct gm_struct
 {
   /* tile position of golem master (upper left corner) */
-  //uint16_t tmx;
-  //uint16_t tmy;
+  //uint16_t vwpt.v[0];
+  //uint16_t vwpt.v[1];
   v16_t pt;
   
   
@@ -310,10 +309,40 @@ void v16_SetByConstant(v16_t *v, uint16_t x, uint16_t y )
   v->v[1] = y;
 }
 
-void v16_SetByConstantByV16(v16_t *v, v16_t *w )
+void v16_SetByV16(v16_t *v, v16_t *w )
 {
   v->v[0] = w->v[0];
   v->v[1] = w->v[1];
+}
+
+void v16_RightShift(v16_t *v, uint8_t s )
+{
+  v->v[0]>>=s;
+  v->v[1]>>=s;
+}
+
+void v16_LeftShift(v16_t *v, uint8_t s )
+{
+  v->v[0]<<=s;
+  v->v[1]<<=s;
+}
+
+void v16_Add(v16_t *v, v16_t *w )
+{
+  v->v[0]+=w->v[0];
+  v->v[1]+=w->v[1];
+}
+
+void v16_AddConstant(v16_t *v, uint16_t c )
+{
+  v->v[0]+=c;
+  v->v[1]+=c;
+}
+
+void v16_Sub(v16_t *v, v16_t *w )
+{
+  v->v[0]-=w->v[0];
+  v->v[1]-=w->v[1];
 }
 
 void v16_SetByConstantByOneConstant(v16_t *v, uint16_t w)
@@ -371,18 +400,20 @@ void map_Init(map_t *m)
 /* set the position of the visible window in the map */
 void map_SetWindowPos(map_t *m, uint16_t x, uint16_t y)
 {
-  m->pmx = x;
+  m->vwpp.v[0] = x;
+  m->vwpp.v[1] = y;
+  
   x >>= 4;
-  m->tmx = x;
-  m->dpx = (m->pmx - (x<<4));
-  
-  m->pmy = y;
   y >>= 4;  
-  m->tmy = y;
-  m->dpy = (m->pmy - (y<<4));
   
-  printf("pmx=%u tmx=%u delta-x=%u tmw=%u\n", m->pmx, m->tmx, m->dpx, m->tmw);
-  printf("pmy=%u tmy=%u delta-y=%u tmh=%u\n", m->pmy, m->tmy, m->dpy, m->tmh);
+  m->vwpt.v[0] = x;
+  m->vwpt.v[1] = y;
+  
+  m->dtwp.v[0] = (m->vwpp.v[0] - (x<<4));
+  m->dtwp.v[1] = (m->vwpp.v[1] - (y<<4));
+  
+  printf("vwpp.v[0]=%u vwpt.v[0]=%u delta-x=%u tmw=%u\n", m->vwpp.v[0], m->vwpt.v[0], m->dtwp.v[0], m->tmw);
+  printf("vwpp.v[1]=%u vwpt.v[1]=%u delta-y=%u tmh=%u\n", m->vwpp.v[1], m->vwpt.v[1], m->dtwp.v[1], m->tmh);
 }
 
 uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
@@ -419,10 +450,10 @@ uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
 u8g2_uint_t map_GetDisplayXByTileMapX(map_t *m, uint16_t x)
 {
   u8g2_uint_t v;
-  x -= m->tmx;	/* upper left tile corner of the visible areay */
+  x -= m->vwpt.v[0];	/* upper left tile corner of the visible areay */
   v = x;
   v <<= 4;		/* convert to pixel */
-  v -= m->dpx;	/* add the offset of the upper left tile corner */
+  v -= m->dtwp.v[0];	/* add the offset of the upper left tile corner */
   v += m->pdx;	/* add display offset */
   return v;
 }
@@ -430,10 +461,10 @@ u8g2_uint_t map_GetDisplayXByTileMapX(map_t *m, uint16_t x)
 u8g2_uint_t map_GetDisplayYByTileMapY(map_t *m, uint16_t y)
 {
   u8g2_uint_t v;
-  y -= m->tmy;	/* upper left tile corner of the visible areay */
+  y -= m->vwpt.v[1];	/* upper left tile corner of the visible areay */
   v = y;
   v <<= 4;		/* convert to pixel */
-  v -= m->dpy;	/* add the offset of the upper left tile corner */
+  v -= m->dtwp.v[1];	/* add the offset of the upper left tile corner */
   v += m->pdy;	/* add display offset */
   return v;
 }
@@ -442,34 +473,34 @@ uint8_t map_IsTileVisible(map_t *m, uint16_t x, uint16_t y)
 {
   uint16_t ux, uy;
   
-  ux = m->tmx+m->tmw;
+  ux = m->vwpt.v[0]+m->tmw;
   ux &=0x0fff;		/* wrap around mask for tiles */
-  uy = m->tmy+m->tmh;
+  uy = m->vwpt.v[1]+m->tmh;
   uy &=0x0fff;		/* wrap around mask for tiles */
   
-  if (  m->tmx < ux )
+  if (  m->vwpt.v[0] < ux )
   {
-    if ( x < m->tmx )
+    if ( x < m->vwpt.v[0] )
       return 0;
     if ( x >= ux )
       return 0;
   }
   else
   {
-    if ( x < ux && x >= m->tmx )
+    if ( x < ux && x >= m->vwpt.v[0] )
       return 0;
   }
   
-  if (  m->tmy < uy )
+  if (  m->vwpt.v[1] < uy )
   {
-    if ( y < m->tmy )
+    if ( y < m->vwpt.v[1] )
       return 0;
     if ( y >= uy )
       return 0;
   }
   else
   {
-    if ( y < uy && y >= m->tmy )
+    if ( y < uy && y >= m->vwpt.v[1] )
       return 0;
   }
   
@@ -484,10 +515,10 @@ void map_Draw(map_t *m, u8g2_t *u8g2)
   u8g2_uint_t py;
   
   px = m->pdx;
-  px -= m->dpx;
+  px -= m->dtwp.v[0];
   
   py = m->pdy;
-  py -= m->dpy;
+  py -= m->dtwp.v[1];
   
   for( ty = 0; ty < m->tmh; ty++ )
   {
@@ -495,7 +526,7 @@ void map_Draw(map_t *m, u8g2_t *u8g2)
     for( tx = 0; tx < m->tmw; tx++ )
     {
       /* py+16 is there because reference point for the tiles is lower left (baseline) */ 
-      u8g2_DrawGlyph(u8g2, ppx, py+16, map_GetTile(m, tx+m->tmx, ty+m->tmy));
+      u8g2_DrawGlyph(u8g2, ppx, py+16, map_GetTile(m, tx+m->vwpt.v[0], ty+m->vwpt.v[1]));
       ppx += 16;
     }
     py += 16;
@@ -517,23 +548,22 @@ void gm_Init(gm_t *gm)
 
 void gm_SetWindowPosByGolemMasterPos(gm_t *gm, map_t *map)
 {
-  uint16_t x;
-  uint16_t y;
-  x = gm->pt.v[0];
-  x *= 16;
-  x -= map->pdw/2;
-  x += 8;	/* adjust half tile to center exaktly */
-  x += gm->cwop.v[0];
-  x -= GM_OFFSET;
-
-  y = gm->pt.v[1];
-  y *= 16;
-  y -= map->pdh/2;
-  y += 8;	/* adjust half tile to center exaktly */
-  y += gm->cwop.v[1];
-  y -= GM_OFFSET;
+  v16_t v, w;
   
-  map_SetWindowPos(map, x, y);
+  v16_SetByV16(&v, &(gm->pt));
+  v16_LeftShift(&v, 4);
+  //v16_SetByV16(&w, &(map->pdw));
+  w.v[0] = map->pdw;
+  w.v[1] = map->pdh;
+  v16_RightShift(&w, 1);  
+  v16_Sub(&v, &w);
+  v16_AddConstant(&v, 8);	/* adjust half tile to center exaktly */
+  v16_Add(&v, &(gm->cwop));
+  v16_AddConstant(&v, -(uint16_t)GM_OFFSET);
+  
+  
+  
+  map_SetWindowPos(map, v.v[0], v.v[1]);
 }
 
 void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
@@ -585,7 +615,7 @@ void gm_Walk(gm_t *gm, uint8_t dir)
     {
       v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
       v16_AddDir(&(gm->gmop), dir, (uint16_t)-16);
-      v16_SetByConstantByV16(&(gm->cwop), &(gm->twop));
+      v16_SetByV16(&(gm->cwop), &(gm->twop));
       v16_AddDir(&(gm->cwop), dir, (uint16_t)-16);
       v16_AddDir(&(gm->pt), dir, 1);
 
