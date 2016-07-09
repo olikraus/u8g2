@@ -6,6 +6,10 @@ OBJ = $(SRC:.c=.o)
 
 helloworld: $(OBJ) 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) `sdl-config --libs` -o u8g2_sdl
+	
+mapgen: mapgen.c 
+	$(CC) $(CFLAGS) $(LDFLAGS) mapgen.c -o mapgen
+
 
 clean:	
 	-rm $(OBJ) u8g2_sdl
