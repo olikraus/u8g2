@@ -251,8 +251,7 @@ struct map_struct
   uint8_t pdh;	
   
   /* input: offset for the visible window on the display fromt he upper left display corner */
-  u8g2_uint_t pdx;	
-  u8g2_uint_t pdy;	
+  v16_t vis_win_disp_pos_pix;
   
   
   /* upper left visible tile of the visible window, derived from vwpp.v[0], vwpp.v[1] */
@@ -339,6 +338,12 @@ void v16_AddConstant(v16_t *v, uint16_t c )
   v->v[1]+=c;
 }
 
+void v16_SubConstant(v16_t *v, uint16_t c )
+{
+  v->v[0]-=c;
+  v->v[1]-=c;
+}
+
 void v16_Sub(v16_t *v, v16_t *w )
 {
   v->v[0]-=w->v[0];
@@ -390,30 +395,29 @@ void map_Init(map_t *m)
   /* constants */
   m->pdw = 128;
   m->pdh = 64;
-  m->pdx = 0;
-  m->pdy = 0;
+  m->vis_win_disp_pos_pix.v[0] = 0;
+  m->vis_win_disp_pos_pix.v[1] = 0;
   
   m->tmw = (m->pdw + 15)/16 + 1;
   m->tmh = (m->pdh + 15)/16 + 1;
 }
 
 /* set the position of the visible window in the map */
-void map_SetWindowPos(map_t *m, uint16_t x, uint16_t y)
+void map_SetWindowPos(map_t *m, v16_t *newpos)
 {
-  m->vwpp.v[0] = x;
-  m->vwpp.v[1] = y;
   
-  x >>= 4;
-  y >>= 4;  
+  v16_t v;
+
+  v16_SetByV16(&(m->vwpp), newpos );
+  v16_SetByV16(&(m->vwpt), newpos );
+  v16_RightShift(&(m->vwpt), 4);
+  v16_SetByV16(&v, &(m->vwpt));
+  v16_LeftShift(&v, 4);
+  v16_SetByV16(&(m->dtwp), &(m->vwpp));
+  v16_Sub(&(m->dtwp), &v);
   
-  m->vwpt.v[0] = x;
-  m->vwpt.v[1] = y;
-  
-  m->dtwp.v[0] = (m->vwpp.v[0] - (x<<4));
-  m->dtwp.v[1] = (m->vwpp.v[1] - (y<<4));
-  
-  printf("vwpp.v[0]=%u vwpt.v[0]=%u delta-x=%u tmw=%u\n", m->vwpp.v[0], m->vwpt.v[0], m->dtwp.v[0], m->tmw);
-  printf("vwpp.v[1]=%u vwpt.v[1]=%u delta-y=%u tmh=%u\n", m->vwpp.v[1], m->vwpt.v[1], m->dtwp.v[1], m->tmh);
+  //printf("vwpp.v[0]=%u vwpt.v[0]=%u delta-x=%u tmw=%u\n", m->vwpp.v[0], m->vwpt.v[0], m->dtwp.v[0], m->tmw);
+  //printf("vwpp.v[1]=%u vwpt.v[1]=%u delta-y=%u tmh=%u\n", m->vwpp.v[1], m->vwpt.v[1], m->dtwp.v[1], m->tmh);
 }
 
 uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
@@ -430,7 +434,7 @@ uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
        "\x7e\x20\x20\x20\x20\x20\x20\xa0\x20\x20\x20\x7e",
        "\x7e\x20\x50\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
        "\x7e\x20\x20\x20\x91\x20\x20\x20\x20\x92\x20\x7e",
-       "\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
+       "\x7e\x54\x20\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
        "\x82\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x83"
      };
      
@@ -454,7 +458,7 @@ u8g2_uint_t map_GetDisplayXByTileMapX(map_t *m, uint16_t x)
   v = x;
   v <<= 4;		/* convert to pixel */
   v -= m->dtwp.v[0];	/* add the offset of the upper left tile corner */
-  v += m->pdx;	/* add display offset */
+  v += m->vis_win_disp_pos_pix.v[0];	/* add display offset */
   return v;
 }
 
@@ -465,8 +469,14 @@ u8g2_uint_t map_GetDisplayYByTileMapY(map_t *m, uint16_t y)
   v = y;
   v <<= 4;		/* convert to pixel */
   v -= m->dtwp.v[1];	/* add the offset of the upper left tile corner */
-  v += m->pdy;	/* add display offset */
+  v += m->vis_win_disp_pos_pix.v[1];	/* add display offset */
   return v;
+}
+
+void map_GetDisplayPosByTileMapPos(map_t *m, v16_t *dest_pos_pix, v16_t *src_tile_pos)
+{
+  dest_pos_pix->v[0] = map_GetDisplayXByTileMapX(m, src_tile_pos->v[0]);
+  dest_pos_pix->v[1] = map_GetDisplayYByTileMapY(m, src_tile_pos->v[1]);
 }
 
 uint8_t map_IsTileVisible(map_t *m, uint16_t x, uint16_t y)
@@ -514,10 +524,10 @@ void map_Draw(map_t *m, u8g2_t *u8g2)
   u8g2_uint_t px, ppx;
   u8g2_uint_t py;
   
-  px = m->pdx;
+  px = m->vis_win_disp_pos_pix.v[0];
   px -= m->dtwp.v[0];
   
-  py = m->pdy;
+  py = m->vis_win_disp_pos_pix.v[1];
   py -= m->dtwp.v[1];
   
   for( ty = 0; ty < m->tmh; ty++ )
@@ -559,31 +569,28 @@ void gm_SetWindowPosByGolemMasterPos(gm_t *gm, map_t *map)
   v16_Sub(&v, &w);
   v16_AddConstant(&v, 8);	/* adjust half tile to center exaktly */
   v16_Add(&v, &(gm->cwop));
-  v16_AddConstant(&v, -(uint16_t)GM_OFFSET);
+  v16_SubConstant(&v, GM_OFFSET);
   
   
-  
-  map_SetWindowPos(map, v.v[0], v.v[1]);
+  map_SetWindowPos(map, &v);
 }
 
 void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
 {
-  u8g2_uint_t x;
-  u8g2_uint_t y;
+  v16_t dest_pos_pix;
+
+
+  map_GetDisplayPosByTileMapPos(map, &dest_pos_pix, &(gm->pt));  
+  v16_Add(&dest_pos_pix, &(gm->gmop) );
+  v16_SubConstant(&dest_pos_pix, GM_OFFSET);
   
-  x = map_GetDisplayXByTileMapX(map, gm->pt.v[0]);
-  x += gm->gmop.v[0];
-  x -= GM_OFFSET;
-  y = map_GetDisplayYByTileMapY(map, gm->pt.v[1]);
-  y += gm->gmop.v[1];
-  y -= GM_OFFSET;
   
   if ( map_IsTileVisible(map, gm->pt.v[0], gm->pt.v[1]) )
   {
     // puts("visible!");
     u8g2_DrawGlyph(u8g2, 
-      x,
-      y+16,
+      dest_pos_pix.v[0],
+      dest_pos_pix.v[1]+16,
       0x4e);
   }
   else
