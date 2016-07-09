@@ -486,7 +486,15 @@ void map_GetDisplayPosByTileMapPos(map_t *m, v16_t *dest_pos_pix, v16_t *src_til
   v += m->vis_win_disp_pos_pix.v[0];	/* add display offset */
   
   dest_pos_pix->v[0] = v;
-  dest_pos_pix->v[1] = map_GetDisplayYByTileMapY(m, src_tile_pos->v[1]);
+  
+  y = src_tile_pos->v[1];
+  y -= m->vwpt.v[1];	/* upper left tile corner of the visible areay */
+  v = y;
+  v <<= 4;		/* convert to pixel */
+  v -= m->dtwp.v[1];	/* add the offset of the upper left tile corner */
+  v += m->vis_win_disp_pos_pix.v[1];	/* add display offset */
+  
+  dest_pos_pix->v[1] = v;
 }
 
 uint8_t map_IsTileVisible(map_t *m, uint16_t x, uint16_t y)
