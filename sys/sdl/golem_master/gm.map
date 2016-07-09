@@ -1,3 +1,14 @@
 # comment
-tile 'a 128 
-tile 'b 129
+tile 32 32	# map space to space
+tile '+ $80 0 '- '| 0
+tile '+ $81 0 0 '| '-
+tile '+ $82 '| '- 0 0
+tile '+ $83 '| 0 0 '-
+tile '| $7e 0 0 '| 0
+tile '| $7e 0 0 '+ 0
+tile '| $7f 0 0 0 0
+tile '- $7d 0 0 0 0 
+map first 32 16
+:+---+
+:|   |
+:+---+
