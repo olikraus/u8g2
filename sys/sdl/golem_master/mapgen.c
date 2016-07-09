@@ -245,8 +245,8 @@ int map_tile(int x, int y)
     printf("no tile mapping found for '%c' (x=%d, y=%d)\n", ascii, x, y);
     return 0;
   }
-  printf("tile mapping '%c' --> $%02x (x=%d, y=%d)\n", ascii, tile_list[i_best].map_to, x, y);
-  
+  //printf("tile mapping '%c' --> $%02x (x=%d, y=%d)\n", ascii, tile_list[i_best].map_to, x, y);
+  map2[y][x] = tile_list[i_best].map_to;
   return 1;
 }
 
@@ -268,6 +268,26 @@ void clear_map(void)
     for( x = 0; x < MAP_SIZE_X; x++ )
       map[y][x] =32;
   map_curr_line = 0;
+}
+
+void write_map(const char *filename)
+{
+  int x, y;
+  FILE *fp;
+  fp = fopen(filename, "w");
+  for( y = 0; y < map_height; y++ )
+  {
+    fprintf(fp, "    \"");
+    for( x = 0; x < map_width; x++ )
+    {
+      fprintf(fp, "\\x%02x", map2[y][x]);
+    }
+    fprintf(fp, "\"");
+    if ( y+1 < map_height )
+      fprintf(fp, ",");
+    fprintf(fp, "\n");
+  }
+  fclose(fp);
 }
 
 int map_read_tile(const char **s)
@@ -306,6 +326,7 @@ int map_read_row(const char **s)
     map[map_curr_line][x] = **s;
     (*s)++;
     x++;
+    
   }
   printf("\n");
   map_curr_line++;
@@ -389,5 +410,6 @@ int main(void)
 {
   clear_map();
   map_read_filename("gm.map");
-  map_all_tiles();
+  if ( map_all_tiles() )
+    write_map("gm.c");
 }
