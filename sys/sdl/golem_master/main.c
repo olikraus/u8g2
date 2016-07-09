@@ -475,7 +475,17 @@ u8g2_uint_t map_GetDisplayYByTileMapY(map_t *m, uint16_t y)
 
 void map_GetDisplayPosByTileMapPos(map_t *m, v16_t *dest_pos_pix, v16_t *src_tile_pos)
 {
-  dest_pos_pix->v[0] = map_GetDisplayXByTileMapX(m, src_tile_pos->v[0]);
+  u8g2_uint_t v;
+  uint16_t x, y;
+  
+  x = src_tile_pos->v[0];
+  x -= m->vwpt.v[0];	/* upper left tile corner of the visible areay */
+  v = x;
+  v <<= 4;		/* convert to pixel */
+  v -= m->dtwp.v[0];	/* add the offset of the upper left tile corner */
+  v += m->vis_win_disp_pos_pix.v[0];	/* add display offset */
+  
+  dest_pos_pix->v[0] = v;
   dest_pos_pix->v[1] = map_GetDisplayYByTileMapY(m, src_tile_pos->v[1]);
 }
 
