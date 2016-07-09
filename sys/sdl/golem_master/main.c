@@ -454,21 +454,11 @@ uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
 /* for a position on the map (tile coordinates) return pixel pos on display */
 void map_GetDisplayPosByTileMapPos(map_t *m, v16_t *dest_pos_pix, v16_t *src_tile_pos)
 {
-  dest_pos_pix->v[0] = src_tile_pos->v[0];
-  dest_pos_pix->v[1] = src_tile_pos->v[1];
-  
-  dest_pos_pix->v[0] -= m->vwpt.v[0];	/* upper left tile corner of the visible areay */
-  dest_pos_pix->v[1] -= m->vwpt.v[1];	/* upper left tile corner of the visible areay */
-  
-  dest_pos_pix->v[0] <<= 4;		/* convert to pixel */
-  dest_pos_pix->v[1] <<= 4;		/* convert to pixel */
-  
-  dest_pos_pix->v[0] -= m->dtwp.v[0];	/* add the offset of the upper left tile corner */
-  dest_pos_pix->v[1] -= m->dtwp.v[1];	/* add the offset of the upper left tile corner */
-  
-  dest_pos_pix->v[0] += m->vis_win_disp_pos_pix.v[0];	/* add display offset */
-  dest_pos_pix->v[1] += m->vis_win_disp_pos_pix.v[1];	/* add display offset */
-  
+  v16_SetByV16(dest_pos_pix, src_tile_pos );
+  v16_Sub(dest_pos_pix, &(m->vwpt));  /* upper left tile corner of the visible area */
+  v16_LeftShift(dest_pos_pix, 4);			/* convert to pixel */
+  v16_Sub(dest_pos_pix, &(m->dtwp));  /* add the offset of the upper left tile corner */
+  v16_Add(dest_pos_pix, &(m->vis_win_disp_pos_pix));  /* add display offset */
 }
 
 uint8_t map_IsTileVisible(map_t *m, uint16_t x, uint16_t y)
@@ -625,13 +615,7 @@ void gm_Walk(gm_t *gm, uint8_t dir)
 
 void gm_Step(gm_t *gm, map_t *map)
 {
-  //gm->cwop.v[0] = ((gm->cwop.v[0]+gm->twop.v[0]))/2;
-  //gm->cwop.v[1] = ((gm->cwop.v[1]+gm->twop.v[1]))/2;
-	
   v16_AverageByV16(&(gm->cwop), &(gm->twop));
-  
-  //gm->gmop.v[0] = (gm->gmop.v[0] + GM_OFFSET + 1)/2;
-  //gm->gmop.v[1] = (gm->gmop.v[1] + GM_OFFSET +1)/2;
   v16_AverageByConstant(&(gm->gmop), GM_OFFSET, GM_OFFSET);
   
   gm_SetWindowPosByGolemMasterPos(gm, map);
