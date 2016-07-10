@@ -1,3 +1,31 @@
+/*
+
+  golem master
+  
+  
+  
+  event language
+  if cond then action
+
+  cond:
+    1. part:
+      enter tile
+      leave tile
+      hit tile
+    2. AND part
+      flag is clear
+      flag is set
+      item part of inventory
+      item not part of inventory
+  action
+      set flag to one
+      add X to gold
+      add item to inventory
+      delete item from inventory
+
+*/
+
+
 
 #include "u8g2.h"
 #include <stdio.h>
@@ -297,6 +325,25 @@ typedef struct gm_struct gm_t;
 
 #define GM_OFFSET (0x040)
 
+/*=================================================*/
+
+struct obj_struct
+{
+  uint8_t tile;		/* glyph index, shape of the tile */
+  v16_t pos_t;		/* tile position of the object */
+  v16_t offset_p;	/* pixel offset of the object, used for animation, this will decrease to 0 */
+  
+  uint8_t health;	/* current health of the object */
+  uint8_t attack;	/* attack value of the object, 0 if it does not attack */
+  uint8_t defense;	
+  uint8_t mode;
+};
+typedef struct obj_struct obj_t;
+
+
+#define OBJ_MODE_ATTACK_PLAYER 1
+#define OBJ_MODE_ATTACK_MONSTER 2
+#define OBJ_MODE_MOVABLE 4
 
 /*=================================================*/
 
@@ -467,6 +514,24 @@ uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
      return map[ty][tx];
 }
 
+/* check whether the target object is occupied */
+int map_IsOccupied(map_t *m, v16_t *pos_t)
+{
+  uint8_t tile;
+  tile = map_GetTile(m, pos_t->v[0], pos_t->v[1]);
+  if ( tile == 32 )
+    return 0;
+  return 1;
+}
+
+/* check whether tile in direction dir is occpied */
+int map_isOccupiedInDir(map_t *m, v16_t *pos_t, uint8_t dir)
+{
+  v16_t tmp;
+  v16_SetByV16(&tmp, pos_t);
+  v16_AddDir(&tmp, dir, 1);
+  return map_IsOccupied(m, &tmp);
+}
 
 /* for a position on the map (tile coordinates) return pixel pos on display */
 void map_GetDisplayPosByTileMapPos(map_t *m, v16_t *dest_pos_pix, v16_t *src_tile_pos)
@@ -569,8 +634,7 @@ void gm_SetWindowPosByGolemMasterPos(gm_t *gm, map_t *map)
   v16_AddConstant(&v, 8);	/* adjust half tile to center exaktly */
   v16_Add(&v, &(gm->cwop));
   v16_SubConstant(&v, GM_OFFSET);
-  
-  
+    
   map_SetWindowPos(map, &v);
 }
 
@@ -651,9 +715,71 @@ void gm_Step(gm_t *gm, map_t *map)
 
 /*=================================================*/
 
+
+void obj_Init(obj_t *o)
+{
+  o->tile = 0xe0;
+  v16_SetByConstant(&(o->pos_t), 4, 3);
+  v16_SetByConstant(&(o->offset_p), 0, 0);
+  o->health = 10;
+  o->attack = 2;
+  o->defense = 2;
+  o->mode = OBJ_MODE_ATTACK_PLAYER;
+}
+
+
+/* try to walk towards destination */
+void obj_WalkTo(obj_t *o, map_t *map, v16_t *dest_t)
+{
+  uint8_t dir;
+  
+  /* which direction should the object move? */
+  if ( dest_t->v[0] < o->pos_t.v[0] && !map_isOccupiedInDir(map, &(o->pos_t), 2) )
+    dir = 2;
+  else if ( dest_t->v[0] > o->pos_t.v[0] && !map_isOccupiedInDir(map, &(o->pos_t), 0) )
+    dir = 0;
+  else if ( dest_t->v[1] > o->pos_t.v[1] && !map_isOccupiedInDir(map, &(o->pos_t), 1) )
+    dir = 1;
+  else if ( dest_t->v[1] < o->pos_t.v[1] && !map_isOccupiedInDir(map, &(o->pos_t), 3) )
+    dir = 3;
+  else
+    /* no move */
+    return;
+  
+  v16_AddDir(&(o->pos_t), dir, 1); 
+}
+
+void obj_Draw(obj_t *o, map_t *map, u8g2_t *u8g2)
+{
+  v16_t dest_pos_pix;
+
+
+  map_GetDisplayPosByTileMapPos(map, &dest_pos_pix, &(o->pos_t));  
+  
+  
+  if ( map_IsTileVisible(map, o->pos_t.v[0], o->pos_t.v[1]) )
+  {
+    // puts("visible!");
+    u8g2_DrawGlyph(u8g2, 
+      dest_pos_pix.v[0],
+      dest_pos_pix.v[1]+16,
+      o->tile);
+  }
+  else
+  {
+    puts("Spinne nicht sichtbar!!!");
+  }
+}
+
+
+
+/*=================================================*/
+
 u8g2_t u8g2;
 map_t map;
 gm_t gm;
+
+obj_t spider;
 
 int main(void)
 {
@@ -668,6 +794,9 @@ int main(void)
   
   x = 50;
   y = 30;
+  
+  obj_Init(&spider);
+  spider.tile = 0x54;
 
   map_Init(&map);
   gm_Init(&gm);
@@ -686,17 +815,20 @@ int main(void)
 	u8g2_SetFontDirection(&u8g2, 0);
 	map_Draw(&map, &u8g2);
 	gm_Draw(&gm, &map, &u8g2);
+	obj_Draw(&spider, &map,&u8g2);
       } while( u8g2_NextPage(&u8g2) );
     
       gm_Step(&gm, &map);
+      
       usleep(100000);
       k = u8g_sdl_get_key();
     } while( k < 0 );
+      
 
-    if ( k == 273 ) gm_Walk(&gm,&map, 3);
-    if ( k == 274 ) gm_Walk(&gm,&map, 1);
-    if ( k == 276 ) gm_Walk(&gm,&map, 2);
-    if ( k == 275 ) gm_Walk(&gm,&map, 0);
+    if ( k == 273 ) { gm_Walk(&gm,&map, 3); obj_WalkTo(&spider, &map, &(gm.pt)); }
+    if ( k == 274 ) { gm_Walk(&gm,&map, 1); obj_WalkTo(&spider, &map, &(gm.pt)); }
+    if ( k == 276 ) { gm_Walk(&gm,&map, 2); obj_WalkTo(&spider, &map, &(gm.pt)); }
+    if ( k == 275 ) { gm_Walk(&gm,&map, 0); obj_WalkTo(&spider, &map, &(gm.pt)); }
     
     if ( k == 273 ) y -= 7;
     if ( k == 274 ) y += 7;
