@@ -274,8 +274,6 @@ typedef struct map_struct map_t;
 struct gm_struct
 {
   /* tile position of golem master (upper left corner) */
-  //uint16_t vwpt.v[0];
-  //uint16_t vwpt.v[1];
   v16_t pt;
   
   
@@ -448,9 +446,9 @@ uint8_t map_GetTile(map_t *m, uint16_t tx, uint16_t ty)
     "\x20\x20\x7e\x20\x20\x20\x20\x84\x7d\x83\x20\x7e",
     "\x20\x20\x7e\x20\x20\x20\x20\x7f\x20\x20\x20\x7e",
     "\x20\x20\x7e\x20\x20\x20\x20\x20\x20\x20\x20\x7e",
-    "\x20\x20\x82\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x7d\x83",
-    "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
-    "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
+    "\x20\x20\x82\x7d\x81\x20\x7d\x7d\x7d\x7d\x7d\x85",
+    "\x20\x20\x20\x20\x7e\x20\x20\x20\x20\x54\xa0\x7e",
+    "\x20\x20\x20\x20\x82\x7d\x7d\x7d\x7d\x7d\x7d\x83",
     "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
     "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
     "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
@@ -600,7 +598,7 @@ void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
   }
 }
 
-void gm_Walk(gm_t *gm, uint8_t dir)
+void gm_Walk(gm_t *gm, map_t *map, uint8_t dir)
 {
   printf("input dir=%d, curr state = %d\n", dir, gm->state);
   if ( gm->state == GM_STATE_CENTER )
@@ -621,13 +619,24 @@ void gm_Walk(gm_t *gm, uint8_t dir)
     }
     else
     {
-      v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
-      v16_AddDir(&(gm->gmop), dir, (uint16_t)-16);
-      v16_SetByV16(&(gm->cwop), &(gm->twop));
-      v16_AddDir(&(gm->cwop), dir, (uint16_t)-16);
+      uint8_t dest_tile;
+      
       v16_AddDir(&(gm->pt), dir, 1);
+      dest_tile = map_GetTile(map, gm->pt.v[0], gm->pt.v[1]);
+      if ( dest_tile == 32 )
+      {
+	v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
+	v16_AddDir(&(gm->gmop), dir, (uint16_t)-16);
+	v16_SetByV16(&(gm->cwop), &(gm->twop));
+	v16_AddDir(&(gm->cwop), dir, (uint16_t)-16);
 
-      printf("walk state=%d dir=%d\n", gm->state, gm->dir);
+	printf("walk state=%d dir=%d\n", gm->state, gm->dir);
+      }
+      else
+      {
+	v16_AddDir(&(gm->pt), (dir+2)&3, 1);
+	printf("blocked\n");
+      }
     }
   }
 }
@@ -684,10 +693,10 @@ int main(void)
       k = u8g_sdl_get_key();
     } while( k < 0 );
 
-    if ( k == 273 ) gm_Walk(&gm, 3);
-    if ( k == 274 ) gm_Walk(&gm, 1);
-    if ( k == 276 ) gm_Walk(&gm, 2);
-    if ( k == 275 ) gm_Walk(&gm, 0);
+    if ( k == 273 ) gm_Walk(&gm,&map, 3);
+    if ( k == 274 ) gm_Walk(&gm,&map, 1);
+    if ( k == 276 ) gm_Walk(&gm,&map, 2);
+    if ( k == 275 ) gm_Walk(&gm,&map, 0);
     
     if ( k == 273 ) y -= 7;
     if ( k == 274 ) y += 7;
