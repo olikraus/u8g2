@@ -310,8 +310,8 @@ int map_read_tile(const char **s)
     tile_list[idx].condition[i] = get_num(s);
   }
   
-  printf("[%d] tile %c: ", idx, (int)ascii);
-  printf("map to $%02x\n", tile_list[idx].map_to);
+  //printf("[%d] tile %c: ", idx, (int)ascii);
+  //printf("map to $%02x\n", tile_list[idx].map_to);
     
   return 1;
 }
@@ -319,16 +319,20 @@ int map_read_tile(const char **s)
 int map_read_row(const char **s)
 {
   int x = 0;
-  printf("line %d\n", map_curr_line);
+  //printf("line %d\n", map_curr_line);
   while ( **s >= ' ' )
   {
-    printf("%d ", **s);
+    if ( x > map_width )
+    {
+      printf("map '%s': Row '%d' too long\n", map_name, map_curr_line);
+      return 0;
+    }
+    //printf("%d ", **s);
     map[map_curr_line][x] = **s;
     (*s)++;
     x++;
     
   }
-  printf("\n");
   map_curr_line++;
   return 1;
 }
