@@ -9,20 +9,24 @@
 
   cond:
     1. part:
-      enter tile
-      leave tile
-      hit tile
+      enter tile					$01
+      leave tile					$02
+      hit tile					$03
     2. AND part
-      flag is clear
-      flag is set
-      item part of inventory
-      item not part of inventory
+      flag is clear				$01	$xx
+      flag is set					$02	$xx
+      item part of inventory		$03  $xx
+      item not part of inventory		$04	$xx
   action
-      set flag to one
-      add X to gold
-      add item to inventory
-      delete item from inventory
-
+      set flag to zero				$01	$xx
+      set flag to one				$02	$xx
+      add item to inventory			$03	$xx
+      delete item from inventory		$04	$xx
+      add X to gold				$05	$xx
+      create obj					$06	<obj>
+      remove obj					$07 <obj>
+      
+      message					$0f	<len> 
 */
 
 
@@ -329,9 +333,10 @@ typedef struct gm_struct gm_t;
 
 struct obj_struct
 {
-  uint8_t tile;		/* glyph index, shape of the tile */
   v16_t pos_t;		/* tile position of the object */
   v16_t offset_p;	/* pixel offset of the object, used for animation, this will decrease to 0 */
+
+  uint8_t tile;		/* glyph index, shape of the tile, 0 means empty */
   
   uint8_t health;	/* current health of the object */
   uint8_t attack;	/* attack value of the object, 0 if it does not attack */
@@ -344,6 +349,30 @@ typedef struct obj_struct obj_t;
 #define OBJ_MODE_ATTACK_PLAYER 1
 #define OBJ_MODE_ATTACK_MONSTER 2
 #define OBJ_MODE_MOVABLE 4
+
+/*=================================================*/
+
+#define OBJ_LIST_MAX 16
+
+obj_t obj_list[OBJ_LIST_MAX];
+uint8_t obj_cnt = 0;
+
+void obj_list_Init(void)
+{
+  uint8_t i;
+  for( i = 0; i < OBJ_LIST_MAX; i++ )
+    obj_list[i].tile = 0;			/* mark as empty */
+}
+
+/* 255 means "not found" */
+uint8_t obj_list_GetEmpty(void)
+{
+  uint8_t i;
+  for( i = 0; i < OBJ_LIST_MAX; i++ )
+    if ( obj_list[i].tile == 0 )
+      return i;
+    return 255;
+}
 
 /*=================================================*/
 
@@ -771,6 +800,13 @@ void obj_Draw(obj_t *o, map_t *map, u8g2_t *u8g2)
   }
 }
 
+void obj_list_Draw(map_t *map, u8g2_t *u8g2)
+{
+  uint8_t i;
+  for( i = 0; i < OBJ_LIST_MAX; i++ )
+    obj_Draw(obj_list+i, map, u8g2);
+}
+
 
 
 /*=================================================*/
@@ -798,6 +834,7 @@ int main(void)
   obj_Init(&spider);
   spider.tile = 0x54;
 
+  obj_list_Init();
   map_Init(&map);
   gm_Init(&gm);
 
