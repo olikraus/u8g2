@@ -6,12 +6,14 @@
   
   event language
   if cond then action
+  if obj in [equip, inventory, map] move to [hand, shoe, body, head, inventory, map]
 
   cond:
     1. part:
-      enter tile					$01
-      leave tile					$02
-      hit tile					$03
+      enter tile					$01		(!BLOCKABLE, !MOVEABLE)
+      leave tile					$02		(!BLOCKABLE, !MOVEABLE)
+      hit tile					$03		(BLOCKABLE, MOVEABLE)
+      use tile (only for inventory)	$04		
     2. AND part
       flag is clear				$01	$xx
       flag is set					$02	$xx
@@ -22,11 +24,42 @@
       set flag to one				$02	$xx
       add item to inventory			$03	$xx
       delete item from inventory		$04	$xx
-      add X to gold				$05	$xx
-      create obj					$06	<obj>
-      remove obj					$07 <obj>
+      create obj					$06	<objnum>
+      remove obj					$07 <objnum>
+      add curr obj to Y			$1y			y=0: gold, y=1:health, y=2: attack, y=3:defense
+      equip curr obj to z			$2z			z=0:right hand, z=1:left hand z=2:shoe, 4: body 5:head
       
       message					$0f	<len> 
+      
+  object
+      obj base info			$01 <objnum> <tile> <mode>
+      default position			$02 <x> <y>
+      when equiped add X to Y	$1y	X			y=2: attack, y=3:defense
+      
+      
+    for each action of the player,there is a procedure
+      enter tile on map
+      leave tile on map
+      hit tile on map
+      use tile from inventory to tile on map
+      equip tile from inventory
+      
+      if  cond cond cond ... then action action ... else action action action... endif
+      
+      if $f0 
+      then $f1
+      else $f2
+      endif $f3
+      
+      condition
+	flag is set
+	flag is clear
+	target map obj is equal to <num>
+	
+      action
+         
+      
+      
 */
 
 
@@ -346,9 +379,11 @@ struct obj_struct
 typedef struct obj_struct obj_t;
 
 
-#define OBJ_MODE_ATTACK_PLAYER 1
-#define OBJ_MODE_ATTACK_MONSTER 2
-#define OBJ_MODE_MOVABLE 4
+#define OBJ_MODE_INIT_AT_MAPSTARTUP 1
+#define OBJ_MODE_ATTACK_PLAYER 2
+#define OBJ_MODE_ATTACK_MONSTER 4
+#define OBJ_MODE_MOVABLE 8
+#define OBJ_MODE_BLOCKABLE 16
 
 /*=================================================*/
 
