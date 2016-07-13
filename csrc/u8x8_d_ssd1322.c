@@ -61,6 +61,11 @@ static const uint8_t u8x8_d_ssd1322_init_seq[] = {
   U8X8_C(0xb9),		                /* linear grayscale */
   U8X8_CA(0xb1, 0xe2),			/* Phase 1 (Reset) & Phase 2 (Pre-Charge) Period Adjustment */  
   U8X8_CAA(0xd1, 0x082|0x020, 0x020),	/* Display Enhancement B */  
+  U8X8_CA(0xbb 0x1f),			/* precharge  voltage */  
+  U8X8_CA(0xb6 0x08),			/* precharge  period */  
+  U8X8_CA(0xbe 0x07),			/* vcomh */  
+  U8X8_C(0xa6),		                /* normal display */
+  U8X8_C(0xa9),		                /* exit partial display */
   
   
   U8X8_DLY(2),					/* delay 2ms */
