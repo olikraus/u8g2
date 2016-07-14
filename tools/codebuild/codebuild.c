@@ -191,6 +191,13 @@ struct controller controller_list[] =
       { "128x64" },
       { NULL }
     }
+  },
+  {
+    "ssd1322", 	32, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    {
+      { "256x64" },
+      { NULL }
+    }
   }
 };
 

@@ -32,8 +32,6 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 
-  The ssd1322 controller does not support hardware graphics flip.
-  Contrast adjustment is done by an external resistor --> no support for contrast adjustment
   
   
 */
@@ -61,9 +59,9 @@ static const uint8_t u8x8_d_ssd1322_init_seq[] = {
   U8X8_C(0xb9),		                /* linear grayscale */
   U8X8_CA(0xb1, 0xe2),			/* Phase 1 (Reset) & Phase 2 (Pre-Charge) Period Adjustment */  
   U8X8_CAA(0xd1, 0x082|0x020, 0x020),	/* Display Enhancement B */  
-  U8X8_CA(0xbb 0x1f),			/* precharge  voltage */  
-  U8X8_CA(0xb6 0x08),			/* precharge  period */  
-  U8X8_CA(0xbe 0x07),			/* vcomh */  
+  U8X8_CA(0xbb, 0x1f),			/* precharge  voltage */  
+  U8X8_CA(0xb6, 0x08),			/* precharge  period */  
+  U8X8_CA(0xbe, 0x07),			/* vcomh */  
   U8X8_C(0xa6),		                /* normal display */
   U8X8_C(0xa9),		                /* exit partial display */
   
@@ -90,9 +88,28 @@ static const uint8_t u8x8_d_ssd1322_powersave1_seq[] = {
 };
 
 
+/* interpret b as a monochrome bit pattern, write value 15 for high bit and value 0 for a low bit */
+/* topbit (msb) is sent last */
+/* example: b = 0x083 will send 0xff, 0x00, 0x00, 0xf0 */
+uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
+{
+  static uint8_t buf[4];
+  static uint8_t map[4] = { 0, 0x00f, 0x0f0, 0x0ff };
+  buf [3] = map[b & 3];
+  b>>=2;
+  buf [2] = map[b & 3];
+  b>>=2;
+  buf [1] = map[b & 3];
+  b>>=2;
+  buf [0] = map[b & 3];
+  return u8x8_cad_SendData(u8x8, 4, buf);	/* note: SendData can not handle more than 255 bytes, send one line of data */
+}
+
+
 uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, y, c, i;
+  // uint8_t x; 
+  uint8_t y, c, i;
   uint8_t *ptr;
   switch(msg)
   {
@@ -111,17 +128,22 @@ uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_powersave1_seq);
       break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      /* flip mode is NOT supported at the moment, however at least we assign the x_offset */
+      if ( arg_int == 0 )
+      {
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       y*=8;
-      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
-      x /= 2;		/* not sure whether this is a clever idea, problem is, the ssd1322 can address only every second tile */
-    
-      if ( y >= 32 )	/* this is the adjustment for 128x64 displays */
-      {
-	y-=32;
-	x+=8;
-      }
+      /* u8x8 API is not supported, so x is not required */
+      /* x = ((u8x8_tile_t *)arg_ptr)->x_pos; */
     
       u8x8_cad_StartTransfer(u8x8);
         
@@ -132,22 +154,28 @@ uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	Buffer is expected to have 8 lines of code fitting to the ssd1322 internal memory
 	"cnt" includes the number of horizontal bytes. width is equal to cnt*8
 	Also important: Width must be a multiple of 16 (ssd1322 requirement), so cnt must be even.
-	
-	TODO: Consider arg_int, however arg_int is not used by u8g2
       */
-      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+    
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
       for( i = 0; i < 8; i++ )
       {
-	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
-	u8x8_cad_SendCmd(u8x8, 0x080 | (y+i) );      /* y pos  */
-	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+	u8x8_cad_SendCmd(u8x8, 0x015 );	/* column adr */
+	u8x8_cad_SendArg(u8x8, u8x8->x_offset );		/* start col */
+	u8x8_cad_SendArg(u8x8, u8x8->x_offset + u8x8->display_info->pixel_width/4 + 1 );	/* end col */
 	
-	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
-	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
-	ptr += c;
-	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
+	u8x8_cad_SendCmd(u8x8, 0x075 );	/* row adr */
+	u8x8_cad_SendArg(u8x8, y );      		/* row adr*/
+	u8x8_cad_SendArg(u8x8, y+1 );     	 /* row adr + 1 */
+	
+	u8x8_cad_SendCmd(u8x8, 0x05c);       /* write to ram */  
+	
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */	
+	while( c > 0 )
+	{
+	  u8x8_write_byte_to_16gr_device(u8x8, *ptr);
+	  c--;
+	  ptr++;
+	}	
       }
 
       u8x8_cad_EndTransfer(u8x8);
@@ -159,81 +187,50 @@ uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   return 1;
 }
 
-static const u8x8_display_info_t u8x8_ssd1322_192x32_display_info =
+static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
 {
-  /* chip_enable_level = */ 1,
-  /* chip_disable_level = */ 0,
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
   
-  /* post_chip_enable_wait_ns = */ 5,
-  /* pre_chip_disable_wait_ns = */ 5,
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 6, 
-  /* sda_setup_time_ns = */ 20,		
-  /* sck_pulse_width_ns = */  140,	/* datasheet ssd1322 */
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* SSD1322: 2 us */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 50,		/* SSD1322: 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* SSD1322: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
   /* sck_takeover_edge = */ 1,		/* rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 30,
-  /* write_pulse_width_ns = */ 40,
-  /* tile_width = */ 24,
-  /* tile_hight = */ 4,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 192,
+  /* data_setup_time_ns = */ 10,
+  /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 32,		/* 256 pixel, so we require 32 bytes for this */
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0x01c,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* flipmode_x_offset = */ 0x01c,
+  /* pixel_width = */ 256,
   /* pixel_height = */ 32
 };
 
 
-static const u8x8_display_info_t u8x8_ssd1322_128x64_display_info =
-{
-  /* chip_enable_level = */ 1,
-  /* chip_disable_level = */ 0,
-  
-  /* post_chip_enable_wait_ns = */ 5,
-  /* pre_chip_disable_wait_ns = */ 5,
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 6, 
-  /* sda_setup_time_ns = */ 20,		
-  /* sck_pulse_width_ns = */  140,	/* */
-  /* sck_takeover_edge = */ 1,		/* rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 30,
-  /* write_pulse_width_ns = */ 40,
-  /* tile_width = */ 16,
-  /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 64
-};
 
-uint8_t u8x8_d_ssd1322_192x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_ssd1322_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1322_192x32_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1322_256x64_display_info);
       break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x0c1 );
+      u8x8_cad_SendArg(u8x8, arg_int );	/* ssd1322 has range from 0 to 255 */
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    
     default:
       return u8x8_d_ssd1322_common(u8x8, msg, arg_int, arg_ptr);
   }
   return 1;
 }
 
-uint8_t u8x8_d_ssd1322_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
-{
-  switch(msg)
-  {
-    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1322_128x64_display_info);
-      break;
-    default:
-      return u8x8_d_ssd1322_common(u8x8, msg, arg_int, arg_ptr);
-  }
-  return 1;
-}
-
-
-
-  
-
-  
