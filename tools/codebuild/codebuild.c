@@ -186,6 +186,13 @@ struct controller controller_list[] =
     }
   },
   {
+    "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
+    {
+      { "256x64" },
+      { NULL }
+    }
+  },
+  {
     "t6963", 	16, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
     {
       { "128x64" },

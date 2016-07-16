@@ -120,6 +120,9 @@ uint8_t u8x8_d_t6963_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   return 1;
 }
 
+/*=============================================*/
+
+
 static const u8x8_display_info_t u8x8_t6963_240x128_display_info =
 {
   /* chip_enable_level = */ 0,
@@ -200,6 +203,94 @@ uint8_t u8x8_d_t6963_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 }
 
 
+
+/*=============================================*/
+
+
+
+
+static const u8x8_display_info_t u8x8_t6963_256x64_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 110,	/* T6963 Datasheet p30 */
+  /* pre_chip_disable_wait_ns = */ 100,	/* T6963 Datasheet p30 */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 6, 
+  /* sda_setup_time_ns = */ 20,		
+  /* sck_pulse_width_ns = */  140,	
+  /* sck_takeover_edge = */ 1,		
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 80,
+  /* write_pulse_width_ns = */ 80,
+  /* tile_width = */ 32,
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 256,
+  /* pixel_height = */ 64
+};
+
+/* 256x64 */
+static const uint8_t u8x8_d_t6963_256x64_init_seq[] = {
+  U8X8_DLY(100),
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_DLY(100),
+  
+  U8X8_AAC(0x00,0x00,0x021),	/* low, high, set cursor pos */
+  U8X8_AAC(0x00,0x00,0x022),	/* low, high, set offset */
+  U8X8_AAC(0x00,0x00,0x040),	/* low, high, set text home */
+  U8X8_AAC(256/8,0x00,0x041),	/* low, high, set text columns */
+  U8X8_AAC(0x00,0x00,0x042),	/* low, high, graphics home */  
+  U8X8_AAC(256/8,0x00,0x043),	/* low, high, graphics columns */
+  U8X8_DLY(2),					/* delay 2ms */
+  // mode set
+  // 0x080: Internal CG, OR Mode
+  // 0x081: Internal CG, EXOR Mode
+  // 0x083: Internal CG, AND Mode
+  // 0x088: External CG, OR Mode
+  // 0x089: External CG, EXOR Mode
+  // 0x08B: External CG, AND Mode
+  U8X8_C(0x080),            			/* mode register: OR Mode, Internal Character Mode */
+  // display mode
+  // 0x090: Display off
+  // 0x094: Graphic off, text on, cursor off, blink off
+  // 0x096: Graphic off, text on, cursor on, blink off
+  // 0x097: Graphic off, text on, cursor on, blink on
+  // 0x098: Graphic on, text off, cursor off, blink off
+  // 0x09a: Graphic on, text off, cursor on, blink off
+  // ...
+  // 0x09c: Graphic on, text on, cursor off, blink off
+  // 0x09f: Graphic on, text on, cursor on, blink on
+  U8X8_C(0x090),                             /* All Off */
+  U8X8_AAC(0x00,0x00,0x024),	/* low, high, set adr pointer */
+  
+  U8X8_DLY(100),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_DLY(100),
+};
+
+uint8_t u8x8_d_t6963_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_t6963_256x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_t6963_256x64_init_seq);
+      break;
+    default:
+      return u8x8_d_t6963_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
+
+/*=============================================*/
+
 static const u8x8_display_info_t u8x8_t6963_128x64_display_info =
 {
   /* chip_enable_level = */ 1,
@@ -223,7 +314,7 @@ static const u8x8_display_info_t u8x8_t6963_128x64_display_info =
   /* pixel_height = */ 64
 };
 
-/* 240x128 */
+/* 128x64 */
 static const uint8_t u8x8_d_t6963_128x64_init_seq[] = {
   U8X8_DLY(100),
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
