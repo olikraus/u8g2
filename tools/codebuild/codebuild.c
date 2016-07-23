@@ -22,8 +22,9 @@
 #define COM_3WSPI		0x0002
 #define COM_6800		0x0004
 #define COM_8080		0x0008
-#define COM_I2C	0x0010
+#define COM_I2C		0x0010
 #define COM_ST7920SPI	0x0020			/* mostly identical to COM_4WSPI, but does not use DC */
+#define COM_UART		0x0040
 
 struct interface
 {
@@ -59,6 +60,8 @@ struct controller
   const char *cad;
   const char *cad_shortname;
   unsigned com;
+  char *note;
+  unsigned is_generate_u8g2_class;	/* currently not used, instead conrolled by COM_UART */
   struct display display_list[10];	/* usually not used completly, but space does not matter much here */  
 };
 
@@ -66,6 +69,7 @@ struct controller controller_list[] =
 {
   {
     "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
       { NULL }
@@ -73,6 +77,7 @@ struct controller controller_list[] =
   },
   {
     "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
       { NULL }
@@ -81,6 +86,7 @@ struct controller controller_list[] =
 
    {
     "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
       { NULL }
@@ -88,6 +94,7 @@ struct controller controller_list[] =
   },
   {
     "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
       { NULL }
@@ -96,6 +103,7 @@ struct controller controller_list[] =
 
   {
     "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x32_univision" },
       { NULL }
@@ -103,6 +111,7 @@ struct controller controller_list[] =
   },
   {
     "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x32_univision" },
       { NULL }
@@ -110,6 +119,7 @@ struct controller controller_list[] =
   },  
   {
     "ld7032", 	8, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "60x32" },
       { NULL }
@@ -117,6 +127,7 @@ struct controller controller_list[] =
   },
   {
     "ld7032", 	8, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_ld7032_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "60x32" },
       { NULL }
@@ -124,6 +135,7 @@ struct controller controller_list[] =
   },
   {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "192x32" },
       { NULL }
@@ -131,6 +143,7 @@ struct controller controller_list[] =
   },
   {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_st7920_spi", "s", COM_ST7920SPI,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "192x32" },
       { NULL }
@@ -138,6 +151,7 @@ struct controller controller_list[] =
   },
   {
     "st7920", 	16, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64" },
       { NULL }
@@ -145,6 +159,7 @@ struct controller controller_list[] =
   },
   {
     "st7920", 	16, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_st7920_spi", "s", COM_ST7920SPI,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64" },
       { NULL }
@@ -152,6 +167,7 @@ struct controller controller_list[] =
   },
   {
     "ls013b7dh03", 	16, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "", COM_4WSPI,		/* cad procedure is not required (no DC for this display) so it could be a dummy procedure here */
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x128" },
       { NULL }
@@ -159,6 +175,7 @@ struct controller controller_list[] =
   },
   {
     "uc1701", 		13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogs102" },
       { NULL }
@@ -166,6 +183,7 @@ struct controller controller_list[] =
   },
   {
     "st7565", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogm128" },
       { NULL }
@@ -173,6 +191,7 @@ struct controller controller_list[] =
   },
   {
     "st7565", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "nhd_c12832" },
       { NULL }
@@ -180,6 +199,7 @@ struct controller controller_list[] =
   },
   {
     "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
     {
       { "240x128" },
       { NULL }
@@ -187,6 +207,7 @@ struct controller controller_list[] =
   },
   {
     "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
+    "not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "256x64" },
       { NULL }
@@ -194,6 +215,7 @@ struct controller controller_list[] =
   },
   {
     "t6963", 	16, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
+    "not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64" },
       { NULL }
@@ -201,8 +223,17 @@ struct controller controller_list[] =
   },
   {
     "ssd1322", 	32, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "256x64" },
+      { NULL }
+    }
+  },
+  {
+    "a2printer", 	48, 	30, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_UART,
+    "", /* is_generate_u8g2_class= */ 0,
+    {
+      { "384x240" },
       { NULL }
     }
   }
@@ -662,7 +693,10 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
     do_display_interface(controller_idx, display_idx, postfix, 8);		/* ST7920 SW SPI */
     do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI (not yet implemented) */
   }
-  
+  if ( controller_list[controller_idx].com & COM_UART )
+  {
+    /* currently there is no Arduino C++ interface, instead the interface is created manually in the example */
+  }
   
 }
 
