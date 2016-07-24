@@ -48,11 +48,6 @@
 #include <Wire.h>
 #endif
 
-#include <Serial.h>
-
-/* define a u8g2 object just with the base class */
-/* the baseclass will be configured for the A2 printer in the setup() procedure */
-U8G2 u8g2();
 
 
 /* define our own serial function, this will be assigned later */
@@ -67,6 +62,9 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
       {
+      
+	while(PRINTER_SERIAL.available() > 0) 
+                PRINTER_SERIAL.read();      
 	PRINTER_SERIAL.write((uint8_t)*data);
 	data++;
 	arg_int--;
@@ -75,12 +73,16 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
       
     case U8X8_MSG_BYTE_INIT:
       PRINTER_SERIAL.begin(19200);
+      //PRINTER_SERIAL.begin(9600);
+      delay(500);
+	while(PRINTER_SERIAL.available() > 0) 
+                PRINTER_SERIAL.read();      
       break;
       
     case U8X8_MSG_BYTE_SET_DC:
       break;
       
-    case U8X8_MSG_BYTE_START_TRANSFER:      
+    case U8X8_MSG_BYTE_START_TRANSFER:  
       break;
       
     case U8X8_MSG_BYTE_END_TRANSFER:      
@@ -92,8 +94,9 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
   return 1;
 }
 
-
-// End of constructor list
+/* define a u8g2 object just with the base class */
+/* the baseclass will be configured for the A2 printer in the setup() procedure */
+class U8G2 u8g2;
 
 void setup(void) {
 
@@ -108,10 +111,16 @@ void setup(void) {
 
 void loop(void) {
   u8g2.firstPage();
+  u8g2.setFont(u8g2_font_ncenB24_tr);
   do {
-    u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.drawStr(0,24,"Hello World!");
+    u8g2.drawStr(0,40,"1. Hello World!");
+    u8g2.drawStr(0,80,"2. Hello World!");
+    u8g2.drawStr(0,120,"3. Hello World!");
+    u8g2.drawStr(0,160,"4. Hello World!");
+    u8g2.drawStr(0,200,"5. Hello World!");
+    u8g2.drawFrame(0,0,384,240);
+    u8g2.drawFrame(1,1,384-2,240-2);
   } while ( u8g2.nextPage() );
-  //delay(1000);
+  delay(1000);
 }
 
