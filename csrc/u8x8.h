@@ -211,10 +211,13 @@ struct u8x8_display_info_struct
   /* AVR: below 70: DIV2, 8 MHz, >= 70 --> 4MHz clock (DIV4) */
   uint8_t sck_pulse_width_ns;		/* UC1701: 50ns */
   
-  /* data takeover edge:  0=falling edge, 1=rising edge*/
-  /* initial default value for sck is low (0) for falling edge and high for rising edge */
-  /* this means, default value is identical to sck_takeover_edge */
-  uint8_t sck_takeover_edge;		/* UC1601: rising edge (1) */
+  /* SPI has four clock modes: */
+  /*   0: clock active high, data out on falling edge */
+  /*   1: clock active high, data out on rising edge */
+  /*   2: clock active low, data out on rising edge */
+  /*   3: clock active low, data out on falling edge */
+  /* most displays have clock mode 1 */
+  uint8_t sck_clock_mode;
   
   /* == I2C == */
   uint8_t i2c_bus_clock_100kHz;		/* UC1601: 1000000000/275 = 37 *100k */
@@ -314,7 +317,8 @@ struct u8x8_struct
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
 #define u8x8_GetI2CAddress(u8x8) ((u8x8)->i2c_address)
 #define u8x8_SetGPIOResult(u8x8, val) ((u8x8)->gpio_result = (val))
-
+#define u8x8_GetSckTakeoverEdge(u8x8) ((u8x8)->display_info->sck_clock_mode & 0x01)
+#define u8x8_GetSckPolarity(u8x8) (((u8x8)->display_info->sck_clock_mode & 0x10) >> 1)
 
 
 #ifdef U8X8_USE_PINS 

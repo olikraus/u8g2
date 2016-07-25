@@ -66,7 +66,7 @@ uint8_t u8x8_byte_EndTransfer(u8x8_t *u8x8)
   Uses:
     u8x8->display_info->sda_setup_time_ns
     u8x8->display_info->sck_pulse_width_ns
-    u8x8->display_info->sck_takeover_edge
+    u8x8->display_info->sck_clock_mode
     u8x8->display_info->chip_disable_level
     u8x8->display_info->chip_enable_level
     u8x8->display_info->post_chip_enable_wait_ns
@@ -89,7 +89,7 @@ uint8_t u8x8_byte_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 {
   uint8_t i, b;
   uint8_t *data;
-  uint8_t takeover_edge = u8x8->display_info->sck_takeover_edge;
+  uint8_t takeover_edge = u8x8_GetSckTakeoverEdge(u8x8);
   uint8_t not_takeover_edge = 1 - takeover_edge;
  
   switch(msg)
@@ -123,7 +123,7 @@ uint8_t u8x8_byte_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      u8x8_gpio_SetSPIClock(u8x8, u8x8->display_info->sck_takeover_edge);
+      u8x8_gpio_SetSPIClock(u8x8, u8x8_GetSckTakeoverEdge(u8x8));
       break;
     case U8X8_MSG_BYTE_SET_DC:
       u8x8_gpio_SetDC(u8x8, arg_int);
@@ -250,7 +250,7 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 {
   uint8_t i;
   uint8_t *data;
-  uint8_t takeover_edge = u8x8->display_info->sck_takeover_edge;
+  uint8_t takeover_edge = u8x8_GetSckTakeoverEdge(u8x8);
   uint8_t not_takeover_edge = 1 - takeover_edge;
   uint16_t b;
   static uint8_t last_dc;
@@ -288,7 +288,7 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      u8x8_gpio_SetSPIClock(u8x8, u8x8->display_info->sck_takeover_edge);
+      u8x8_gpio_SetSPIClock(u8x8, u8x8_GetSckTakeoverEdge(u8x8));
       break;
     case U8X8_MSG_BYTE_SET_DC:
       last_dc = arg_int;
@@ -314,7 +314,7 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 static void u8x8_byte_st7920_send_byte(u8x8_t *u8x8, uint8_t b) U8X8_NOINLINE;
 static void u8x8_byte_st7920_send_byte(u8x8_t *u8x8, uint8_t b)
 {
-  uint8_t takeover_edge = u8x8->display_info->sck_takeover_edge;
+  uint8_t takeover_edge = u8x8_GetSckTakeoverEdge(u8x8);
   uint8_t not_takeover_edge = 1 - takeover_edge;
   uint8_t cnt;
   
@@ -376,7 +376,7 @@ uint8_t u8x8_byte_st7920_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      u8x8_gpio_SetSPIClock(u8x8, u8x8->display_info->sck_takeover_edge);
+      u8x8_gpio_SetSPIClock(u8x8, u8x8_GetSckTakeoverEdge(u8x8));
       break;
     case U8X8_MSG_BYTE_SET_DC:
       last_dc = arg_int;

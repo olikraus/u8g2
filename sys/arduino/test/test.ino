@@ -74,7 +74,7 @@ uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, voi
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      digitalWrite(13, u8g2->display_info->sck_takeover_edge);
+      digitalWrite(13, u8x8_GetSckTakeoverEdge(u8g2_GetU8x8(u8g2)));
       break;
     case U8X8_MSG_BYTE_SET_DC:
       u8x8_gpio_SetDC(u8g2, arg_int);

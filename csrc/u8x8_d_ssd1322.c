@@ -198,7 +198,7 @@ static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
   /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
   /* sda_setup_time_ns = */ 50,		/* SSD1322: 15ns, but cycle time is 100ns, so use 100/2 */
   /* sck_pulse_width_ns = */ 50,	/* SSD1322: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
-  /* sck_takeover_edge = */ 1,		/* rising edge */
+  /* sck_clock_mode = */ 1,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
