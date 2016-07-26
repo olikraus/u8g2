@@ -217,7 +217,7 @@ struct u8x8_display_info_struct
   /*   2: clock active low, data out on rising edge */
   /*   3: clock active low, data out on falling edge */
   /* most displays have clock mode 1 */
-  uint8_t sck_clock_mode;
+  uint8_t spi_mode;
   
   /* == I2C == */
   uint8_t i2c_bus_clock_100kHz;		/* UC1601: 1000000000/275 = 37 *100k */
@@ -317,8 +317,8 @@ struct u8x8_struct
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
 #define u8x8_GetI2CAddress(u8x8) ((u8x8)->i2c_address)
 #define u8x8_SetGPIOResult(u8x8, val) ((u8x8)->gpio_result = (val))
-#define u8x8_GetSckTakeoverEdge(u8x8) ((u8x8)->display_info->sck_clock_mode & 0x01)
-#define u8x8_GetSckPolarity(u8x8) (((u8x8)->display_info->sck_clock_mode & 0x10) >> 1)
+#define u8x8_GetSPIClockPhase(u8x8) ((u8x8)->display_info->spi_mode & 0x01)
+#define u8x8_GetSPIClockPolarity(u8x8) (((u8x8)->display_info->spi_mode & 0x10) >> 1)
 
 
 #ifdef U8X8_USE_PINS 
