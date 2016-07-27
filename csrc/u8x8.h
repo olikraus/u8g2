@@ -211,6 +211,8 @@ struct u8x8_display_info_struct
   /* AVR: below 70: DIV2, 8 MHz, >= 70 --> 4MHz clock (DIV4) */
   uint8_t sck_pulse_width_ns;		/* UC1701: 50ns */
   
+  /* previous name "sck_takeover_edge" renamed to "spi_mode" */
+  /* bit 0 of spi_mode is equal to the value of the previous variable sck_takeover_edge */ 
   /* SPI has four clock modes: */
   /*   0: clock active high, data out on falling edge */
   /*   1: clock active high, data out on rising edge */
