@@ -156,7 +156,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 {
   uint8_t i, b;
   uint8_t *data;
-  uint8_t takeover_edge = u8x8->display_info->sck_takeover_edge;
+  uint8_t takeover_edge = u8x8_GetSPIClockPhase(u8x8);
   uint8_t not_takeover_edge = 1 - takeover_edge;
 
   /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
@@ -213,7 +213,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      u8x8_gpio_SetSPIClock(u8x8, u8x8->display_info->sck_takeover_edge);
+      u8x8_gpio_SetSPIClock(u8x8, u8x8_GetSPIClockPhase(u8x8));
       break;
     case U8X8_MSG_BYTE_SET_DC:
       u8x8_gpio_SetDC(u8x8, arg_int);
@@ -282,7 +282,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
       /* for SPI: setup correct level of the clock signal */
       pinMode(11, OUTPUT);
       pinMode(13, OUTPUT);
-      digitalWrite(13, u8g2->display_info->sck_takeover_edge);
+      digitalWrite(13, u8x8_GetSPIClockPhase(u8g2_GetU8x8(u8g2)));
       break;
       
     case U8X8_MSG_BYTE_SET_DC:
@@ -298,7 +298,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t a
 	SPI.setClockDivider( SPI_CLOCK_DIV4 );
       else
 	SPI.setClockDivider( SPI_CLOCK_DIV8 );
-      SPI.setDataMode(SPI_MODE0);
+      SPI.setDataMode(u8g2->display_info->spi_mode);
       SPI.setBitOrder(MSBFIRST);
       
       u8x8_gpio_SetCS(u8g2, u8g2->display_info->chip_enable_level);  
