@@ -111,7 +111,8 @@ class U8G2 : public Print
 
     
     void begin(void) {
-      initDisplay(); clearDisplay(); setPowerSave(0); u8x8_utf8_init(u8g2_GetU8x8(&u8g2));}
+      /* note: call to u8x8_utf8_init is not required here, this is done in the setup procedures before */
+      initDisplay(); clearDisplay(); setPowerSave(0); }
       
 #ifdef U8X8_USE_PINS 
     /* use U8X8_PIN_NONE if a pin is not required */

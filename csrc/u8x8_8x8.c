@@ -139,7 +139,7 @@ uint16_t u8x8_get_encoding_from_utf8_string(const char **str)
 /* reset the internal state machine */
 void u8x8_utf8_init(u8x8_t *u8x8)
 {
-  u8x8->utf8_state = 0;
+  u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
 }
 
 uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b)
