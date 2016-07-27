@@ -1,6 +1,9 @@
 /*
 
   A2Printer.ino
+  
+  This is a special example for the A2 Thermo Printer
+  This example can NOT be used with LCDs and OLEDs
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -61,8 +64,7 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
     case U8X8_MSG_BYTE_SEND:
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
-      {
-      
+      {      
 	while(PRINTER_SERIAL.available() > 0) 
                 PRINTER_SERIAL.read();      
 	PRINTER_SERIAL.write((uint8_t)*data);
@@ -79,10 +81,6 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
       PRINTER_SERIAL.write(27);	/* ESC */
       PRINTER_SERIAL.write(64); /* @ --> reset printer */
       delay(1000);
-	while(PRINTER_SERIAL.available() > 0) 
-                PRINTER_SERIAL.read();      
-      delay(1000);
-      PRINTER_SERIAL.println("Oli");	
       
       break;
       
@@ -90,7 +88,6 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
       break;
       
     case U8X8_MSG_BYTE_START_TRANSFER:  
-      PRINTER_SERIAL.begin(19200);
       break;
       
     case U8X8_MSG_BYTE_END_TRANSFER:      
@@ -114,18 +111,54 @@ void setup(void) {
     u8x8_byte_arduino_serial, 				/* this is the new procedure from above */
     u8x8_gpio_and_delay_arduino);			/* standard arduino low level proc, used only for delay */
 
-  u8g2.begin();  
+  u8g2.beginSimple();				/* Do not clear the display, wake is not required */  
+}
+
+#define XO 10
+
+void drawLogo(void)
+{
+    
+    u8g2.setFontMode(1);	// Transparent
+    u8g2.setFontDirection(0);
+    u8g2.setFont(u8g2_font_inb24_mf);
+    u8g2.drawStr(0+XO, 30, "U");
+    
+    u8g2.setFontDirection(1);
+    u8g2.setFont(u8g2_font_inb30_mn);
+    u8g2.drawStr(21+XO,8,"8");
+        
+    u8g2.setFontDirection(0);
+    u8g2.setFont(u8g2_font_inb24_mf);
+    u8g2.drawStr(51+XO,30,"g");
+    u8g2.drawStr(67+XO,30,"\xb2");
+    
+    u8g2.drawHLine(2+XO, 35, 47);
+    u8g2.drawHLine(3+XO, 36, 47);
+    u8g2.drawVLine(45+XO, 32, 12);
+    u8g2.drawVLine(46+XO, 33, 12);
+}
+
+void drawURL(void)
+{
+  u8g2.setFont(u8g2_font_6x12_tr);
+  u8g2.drawStr(1+XO,54,"github.com/olikraus/u8g2");
 }
 
 void loop(void) {
   u8g2.firstPage();
-  u8g2.setFont(u8g2_font_ncenB24_tr);
   do {
-    u8g2.drawStr(0,40,"1. Hello World!");
-    u8g2.drawStr(0,80,"2. Hello World!");
-    u8g2.drawStr(0,120,"3. Hello World!");
-    u8g2.drawStr(0,160,"4. Hello World!");
-    u8g2.drawStr(0,200,"5. Hello World!");
+    drawLogo();
+    drawURL();
+    
+    /* worst case heating test */
+    u8g2.drawRBox(4,90,384-8,20, 8);
+    
+    /* heating test with some text */
+    u8g2.setFont(u8g2_font_inb24_mf);
+    u8g2.drawStr(10,160,"Hello World!");  
+    
+    /* draw a frame around the picture */
     u8g2.drawFrame(0,0,384,240);
     u8g2.drawFrame(1,1,384-2,240-2);
   } while ( u8g2.nextPage() );

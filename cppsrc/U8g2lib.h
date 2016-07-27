@@ -113,6 +113,11 @@ class U8G2 : public Print
     void begin(void) {
       /* note: call to u8x8_utf8_init is not required here, this is done in the setup procedures before */
       initDisplay(); clearDisplay(); setPowerSave(0); }
+
+    void beginSimple(void) {
+      /* does not clear the display and does not wake up the display */
+      /* user is responsible for calling clearDisplay() and setPowerSave(0) */
+      initDisplay();  }
       
 #ifdef U8X8_USE_PINS 
     /* use U8X8_PIN_NONE if a pin is not required */

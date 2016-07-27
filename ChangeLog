@@ -22,5 +22,6 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-07-02	v2.1.0	  olikraus@gmail.com
   * T6963 Support
   * Experimental Support for SSD1322 256x64
+  * A2 Thermoprinter Support
   
   
