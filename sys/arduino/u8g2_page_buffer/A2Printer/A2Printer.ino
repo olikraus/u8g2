@@ -72,17 +72,25 @@ extern "C" uint8_t u8x8_byte_arduino_serial(u8x8_t *u8g2, uint8_t msg, uint8_t a
       break;
       
     case U8X8_MSG_BYTE_INIT:
+      delay(1000);
       PRINTER_SERIAL.begin(19200);
+      /* send something.... */
       //PRINTER_SERIAL.begin(9600);
-      delay(500);
+      PRINTER_SERIAL.write(27);	/* ESC */
+      PRINTER_SERIAL.write(64); /* @ --> reset printer */
+      delay(1000);
 	while(PRINTER_SERIAL.available() > 0) 
                 PRINTER_SERIAL.read();      
+      delay(1000);
+      PRINTER_SERIAL.println("Oli");	
+      
       break;
       
     case U8X8_MSG_BYTE_SET_DC:
       break;
       
     case U8X8_MSG_BYTE_START_TRANSFER:  
+      PRINTER_SERIAL.begin(19200);
       break;
       
     case U8X8_MSG_BYTE_END_TRANSFER:      
