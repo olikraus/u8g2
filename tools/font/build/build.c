@@ -167,6 +167,7 @@ struct groupinfo gi[] = {
   { "Inconsolata", 	"fntgrpinconsolata", 	"../../../../u8g2.wiki/fntgrpinconsolata.md", 	"fntgrpinconsolata.pre" }, 		/* 11 */
   { "Codeman38", 	"fntgrpcodeman38",	"../../../../u8g2.wiki/fntgrpcodeman38.md",	"fntgrpcodeman38.pre" },		/* 12 */
   { "Academia Sinica","fntgrpacademiasinica",	"../../../../u8g2.wiki/fntgrpacademiasinica.md",	"fntgrpacademiasinica.pre" },		/* 13 */
+  { "Oldschool PC Fonts","fntgrpoldschoolpcfonts",	"../../../../u8g2.wiki/fntgrpoldschoolpcfonts.md",	"fntgrpoldschoolpcfonts.pre" },  /* 14 */		/* 14 */
   
 };
 
@@ -539,6 +540,28 @@ inconsolata
   { "-r 72 -p 8", "PressStart2P.ttf",	"pressstart2p",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   { "-r 72 -p 8", "pcsenior.ttf",		"pcsenior",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
 
+
+    /*
+  PxPlus_IBM_CGAthin.ttf
+  PxPlus_IBM_CGA.ttf
+  PxPlus_TandyNew_TV.ttf
+  */
+  
+  { "-r 72 -p 8", "PxPlus_IBM_CGAthin.ttf",	"pxplusibmcgathin",	14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { "-r 72 -p 8", "PxPlus_IBM_CGA.ttf",		"pxplusibmcga",		14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { "-r 72 -p 8", "PxPlus_TandyNew_TV.ttf",	"pxplustandynewtv",	14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},  
+  { "-r 72 -p 8", "PxPlus_TandyNew_TV.ttf",	"pxplustandynewtv",	14, 0, BM_T|BM_8, FM_C, MM_C, "32-$ffff", "_all" },
+
+  
+  { "-r 72 -p 16", "PxPlus_IBM_VGA9.ttf",	"pxplusibmvga9",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  { "-r 72 -p 16", "PxPlus_IBM_VGA9.ttf",	"pxplusibmvga9",	14, 0, BM_T|BM_M, FM_C, MM_C, "32-$ffff", "_all" },
+  
+  { "-r 72 -p 16", "PxPlus_IBM_VGA8.ttf",	"pxplusibmvga8",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  { "-r 72 -p 16", "PxPlus_IBM_VGA8.ttf",	"pxplusibmvga8",	14, 0, BM_T|BM_M, FM_C, MM_C, "32-$ffff", "_all" },
+  
+  { "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  { "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  
 //#endif
 
 };

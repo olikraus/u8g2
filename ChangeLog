@@ -23,5 +23,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * T6963 Support
   * Experimental Support for SSD1322 256x64
   * A2 Thermoprinter Support
+  * Added several fonts from http://int10h.org/oldschool-pc-fonts/
+  
   
   
