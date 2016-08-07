@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -I../../../csrc/.  `sdl-config --cflags`
+CFLAGS = -g -Wall -Wpointer-arith -I../../../csrc/.  `sdl-config --cflags`
 
 SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c 
 

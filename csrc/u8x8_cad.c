@@ -375,6 +375,7 @@ static void u8x8_i2c_data_transfer(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
 
 uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
+  uint8_t *p;
   switch(msg)
   {
     case U8X8_MSG_CAD_SEND_CMD:
@@ -396,11 +397,12 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       /* Unfortunately, this can not be handled in the byte level drivers, */
       /* so this is done here. Even further, only 24 bytes will be sent, */
       /* because there will be another byte (DC) required during the transfer */
+      p = arg_ptr;
        while( arg_int > 24 )
       {
-	u8x8_i2c_data_transfer(u8x8, 24, arg_ptr);
+	u8x8_i2c_data_transfer(u8x8, 24, p);
 	arg_int-=24;
-	arg_ptr+=24;
+	p+=24;
       }
       u8x8_i2c_data_transfer(u8x8, arg_int, arg_ptr);
       break;
@@ -423,6 +425,7 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   static uint8_t in_transfer = 0;
+  uint8_t *p;
   switch(msg)
   {
     case U8X8_MSG_CAD_SEND_CMD:
@@ -445,11 +448,12 @@ uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       /* Unfortunately, this can not be handled in the byte level drivers, */
       /* so this is done here. Even further, only 24 bytes will be sent, */
       /* because there will be another byte (DC) required during the transfer */
+      p = arg_ptr;
        while( arg_int > 24 )
       {
-	u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, 24, arg_ptr);
+	u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, 24, p);
 	arg_int-=24;
-	arg_ptr+=24;
+	p+=24;
 	u8x8_byte_EndTransfer(u8x8); 
 	u8x8_byte_StartTransfer(u8x8);
 	u8x8_byte_SendByte(u8x8, 0x08);	/* data write for LD7032 */
