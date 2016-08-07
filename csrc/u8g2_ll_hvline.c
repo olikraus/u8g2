@@ -63,9 +63,9 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   uint8_t bit_pos, mask;
 
   //assert(x >= u8g2->buf_x0);
-  assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
+  //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
   //assert(y >= u8g2->buf_y0);
-  assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
+  //assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
   
   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
   bit_pos = y;		/* overflow truncate is ok here... */
@@ -165,9 +165,9 @@ static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_u
   uint8_t bit_pos, mask;
 
   //assert(x >= u8g2->buf_x0);
-  assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
+  //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
   //assert(y >= u8g2->buf_y0);
-  assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
+  //assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
   
   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
   bit_pos = y;		/* overflow truncate is ok here... */
@@ -243,9 +243,9 @@ static void u8g2_draw_pixel_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8
   uint8_t bit_pos, mask;
 
   //assert(x >= u8g2->buf_x0);
-  assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
+  //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
   //assert(y >= u8g2->buf_y0);
-  assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
+  //assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
   
   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
   bit_pos = x;		/* overflow truncate is ok here... */
