@@ -92,49 +92,8 @@ Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
 26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
 31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
 
-This function returns 0x0ffff for end of string (0x0ffff is not a unicode glyph)
 
 */
-#ifdef OBSOLETE
-uint16_t u8x8_get_encoding_from_utf8_string(const char **str) 
-{
-  uint16_t e;
-  uint8_t b;
-  b = **str;
-  if ( b >= 0xc0 )
-  {
-    if ( b >= 0xf0 )	/* check for UTF-8 4, 5 and 6-byte sequence */
-    {
-      b &= 0x01;	/* only consider lowest bit, because only plane 0 (16 bit) is supported with u8glib v2 */
-    }
-    else if ( b >= 0xe0 )	/* check for UTF-8 3-byte sequence */
-    {
-      b &= 0x0f;
-    }
-    else /* assume UTF-8 2-byte sequence */
-    {
-      b &= 0x1f;
-    }
-    e = b;    
-    for(;;)
-    {
-      (*str)++;
-      b = **str;
-      if ( (b & 0x0c0) != 0x080 )
-	break;
-      b &= 0x3f;
-      e <<=6;
-      e |= b;
-    }      
-  }
-  else
-  {
-    e = b;		/* init with ASCII code */
-    (*str)++;
-  }
-  return e;
-}
-#endif
 
 /* reset the internal state machine */
 void u8x8_utf8_init(u8x8_t *u8x8)
@@ -209,34 +168,6 @@ uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b)
 }
 
 
-#ifdef OBSOLETE
-uint16_t u8x8_get_char_from_string(const char **str)
-{
-  uint8_t b = **str;
-  (*str)++;
-  return b; 
-}
-
-static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
-static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
-{
-  uint16_t c;
-  uint8_t cnt = 0;
-  for(;;)
-  {
-    c = u8x8->char_cb(&s);
-    if ( c == 0 )
-      break;
-    if ( c <= 255 )
-    {
-      u8x8_DrawGlyph(u8x8, x, y, (uint8_t)c);
-      x++;
-      cnt++;
-    }
-  }
-  return cnt;
-}
-#endif
 
 static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
 static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
@@ -289,26 +220,5 @@ uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s)
   }
   return cnt;
 }
-
-
-/*
-void u8x8_Draw8x8UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
-{
-  uint16_t unicode;
-  for(;;)
-  {
-    unicode = u8x8_get_encoding_from_utf8_string(&s);
-    if ( unicode == 0 )
-      break;
-    if ( unicode <= 255 )
-    {
-      u8x8_Draw8x8Glyph(u8x8, x, y, (uint8_t)unicode);
-      x++;
-    }
-  }
-}
-*/
-
-
 
 
