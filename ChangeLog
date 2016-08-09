@@ -26,6 +26,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added several fonts from http://int10h.org/oldschool-pc-fonts/
   * Added Arabic, Greek and Cyrillic fonts.
   * Code cleanup (assert, spi modes, void * warning)
-  
+2016-xx-xx	v2.2.5	  olikraus@gmail.com
+  * U8x8: Upscale by 2 (Issue 41)
   
   
