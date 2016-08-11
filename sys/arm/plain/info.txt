@@ -1,0 +1,7 @@
+
+
+Web:
+http://www.nxp.com/products/software-and-tools/hardware-development-tools/lpcxpresso-boards/lpcopen-software-development-platform-lpc11xx:LPCOPEN-SOFTWARE-FOR-LPC11XX
+Source:
+http://cache.nxp.com/files/microcontrollers/software/LPCWare/lpcopen_v2_03_lpcxpresso_nxp_lpcxpresso_11u37h.zip
+
