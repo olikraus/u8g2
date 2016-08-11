@@ -58,6 +58,7 @@ LDSCRIPT:=lpc11u35.ld
 LIBNAME:=$(TARGETNAME).a
 ELFNAME:=$(TARGETNAME).elf
 HEXNAME:=$(TARGETNAME).hex
+BINNAME:=$(TARGETNAME).bin
 DISNAME:=$(TARGETNAME).dis
 MAPNAME:=$(TARGETNAME).map
 OBJ:=$(SRC:.c=.o) $(SYSSRC:.c=.o)
@@ -94,11 +95,11 @@ LFLAGS:=$(COMMON_FLAGS) $(GC) $(MAP)
 LDLIBS:=--specs=nano.specs -lc -lc -lnosys -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
 
 # Additional Suffixes
-.SUFFIXES: .elf .hex .dis
+.SUFFIXES: .elf .hex .bin .dis
 
 # Targets
 .PHONY: all
-all: $(DISNAME) $(HEXNAME)
+all: $(DISNAME) $(HEXNAME) $(BINNAME)
 	$(SIZE) $(ELFNAME)
 
 .PHONY: upload
@@ -114,6 +115,11 @@ clean:
 # implicit rules
 .elf.hex:
 	@$(OBJCOPY) -O ihex $< $@
+
+# create the binary version of the new flashfile
+# extend the file with 0xff to the size of the flash ROM area
+.elf.bin:
+	@$(OBJCOPY) -O binary --gap-fill 255 --pad-to 65536 $< $@
 
 # explicit rules
 $(ELFNAME): $(LIBNAME)($(OBJ)) 
