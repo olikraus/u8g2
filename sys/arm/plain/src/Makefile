@@ -110,16 +110,16 @@ upload: $(DISNAME) $(HEXNAME) $(ELFNAME)
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJ) $(HEXNAME) $(ELFNAME) $(LIBNAME) $(DISNAME) $(MAPNAME)
+	$(RM) $(OBJ) $(HEXNAME) $(ELFNAME) $(LIBNAME) $(DISNAME) $(MAPNAME) $(BINNAME)
 
 # implicit rules
 .elf.hex:
-	@$(OBJCOPY) -O ihex $< $@
+	$(OBJCOPY) -O ihex $< $@
 
 # create the binary version of the new flashfile
 # extend the file with 0xff to the size of the flash ROM area
 .elf.bin:
-	@$(OBJCOPY) -O binary --gap-fill 255 --pad-to 65536 $< $@
+	$(OBJCOPY) -O binary --gap-fill 255 --pad-to 65536 $< $@
 
 # explicit rules
 $(ELFNAME): $(LIBNAME)($(OBJ)) 

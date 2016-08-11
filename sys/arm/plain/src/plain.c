@@ -8,7 +8,7 @@
 #include <chip.h>
 
 #define SYS_CORE_CLOCK 12000000UL
-#define SYS_TICK_PERIOD_IN_MS 50
+#define SYS_TICK_PERIOD_IN_MS 100
 
 
 /*=======================================================================*/
@@ -38,6 +38,22 @@ int __attribute__ ((noinline)) main(void)
   
   /* turn on IOCON */
   Chip_Clock_EnablePeriphClock(SYSCTL_CLOCK_IOCON);
+  
+  Chip_GPIO_SetPinDIROutput(LPC_GPIO, 0, 7);	/* port 0, pin 7: LED on eHaJo Breakout Board */
+
+  for(;;)
+  {
+    uint32_t t;
+    Chip_GPIO_SetPinOutHigh(LPC_GPIO, 0, 7);
+    t = sys_tick_irq_cnt;
+    while( sys_tick_irq_cnt == t )
+      ;
+
+    Chip_GPIO_SetPinOutLow(LPC_GPIO, 0, 7);    
+    t = sys_tick_irq_cnt;
+    while( sys_tick_irq_cnt == t )
+      ;
+  }
   
   
   
