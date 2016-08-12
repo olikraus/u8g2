@@ -103,8 +103,10 @@ all: $(DISNAME) $(HEXNAME) $(BINNAME)
 	$(SIZE) $(ELFNAME)
 
 .PHONY: upload
-upload: $(DISNAME) $(HEXNAME) $(ELFNAME)
+upload: $(DISNAME) $(HEXNAME) $(ELFNAME) $(BINNAME)
 	dd bs=1024 conv=nocreat,notrunc if=$(BINNAME) of="/media/$(shell echo $$USER)/CRP DISABLD/firmware.bin"
+	cp "/media/$(shell echo $$USER)/CRP DISABLD/firmware.bin" tmp.bin
+	diff tmp.bin $(BINNAME)
 	$(SIZE) $(ELFNAME)
 
 .PHONY: clean
