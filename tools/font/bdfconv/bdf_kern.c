@@ -6,6 +6,21 @@
 
 #include "bdf_font.h"
 
+
+#define BDF_KERNING_MAX (1024*32)
+
+/* the following tables contain the first encodings if they do contain any kernings */
+uint16_t bdf_first_table_cnt;
+uint16_t bdf_first_encoding_table[BDF_KERNING_MAX];
+uint16_t bdf_index_to_second_table[BDF_KERNING_MAX];
+
+/* the index from bdf_index_to_second_table can be used to jump into the following table */
+uint16_t bdf_second_table_cnt;
+uint16_t bdf_second_encoding_table[BDF_KERNING_MAX];
+uint8_t bdf_kerning_values[BDF_KERNING_MAX]
+
+
+
 /*
   assumes 
     tga_set_font(font); 
