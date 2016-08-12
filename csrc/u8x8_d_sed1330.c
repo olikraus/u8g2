@@ -32,7 +32,7 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 
-  The device might also be good for the SED1335 and SED1336 controller.
+  The device might also work with the RA8835, SED1335 and SED1336 controller.
   
 */
 #include "u8x8.h"
@@ -119,16 +119,16 @@ static const u8x8_display_info_t u8x8_sed1330_240x128_display_info =
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
   
-  /* post_chip_enable_wait_ns = */ 110,	/* sed1330 Datasheet p30 */
-  /* pre_chip_disable_wait_ns = */ 100,	/* sed1330 Datasheet p30 */
+  /* post_chip_enable_wait_ns = */ 30,	/* G242CX Datasheet p5 */
+  /* pre_chip_disable_wait_ns = */ 10,	/* G242CX Datasheet p5 */
   /* reset_pulse_width_ms = */ 1, 
   /* post_reset_wait_ms = */ 6, 
   /* sda_setup_time_ns = */ 20,		
   /* sck_pulse_width_ns = */  140,	
   /* spi_mode = */ 1,		
   /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 80,
-  /* write_pulse_width_ns = */ 80,
+  /* data_setup_time_ns = */ 120,		/* G242CX Datasheet p5 */
+  /* write_pulse_width_ns = */ 220,		/* G242CX Datasheet p5 */
   /* tile_width = */ 30,
   /* tile_hight = */ 16,
   /* default_x_offset = */ 0,
