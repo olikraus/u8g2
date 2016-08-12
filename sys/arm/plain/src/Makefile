@@ -104,8 +104,7 @@ all: $(DISNAME) $(HEXNAME) $(BINNAME)
 
 .PHONY: upload
 upload: $(DISNAME) $(HEXNAME) $(ELFNAME)
-#	$(FLASHTOOL) $(HEXNAME) $(FLASHPORT) 115200 12000
-	$(FLASHTOOL) $(HEXNAME) $(FLASHPORT) 38400 12000
+	dd bs=1024 conv=nocreat,notrunc if=$(BINNAME) of="/media/$(shell echo $$USER)/CRP DISABLD/firmware.bin"
 	$(SIZE) $(ELFNAME)
 
 .PHONY: clean
