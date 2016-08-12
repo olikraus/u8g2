@@ -58,6 +58,7 @@ static int char_width;
 static int char_height;
 static int char_descent;
 static unsigned unicode_start_pos;
+static int tga_pixel_intersection;
 
 
 int tga_get_char_width(void)
@@ -74,6 +75,7 @@ int tga_init(uint16_t w, uint16_t h)
 {
   tga_width = 0;
   tga_height = 0;
+  tga_pixel_intersection = 0;
   if ( tga_data != NULL )
     free(tga_data);
   tga_data = (uint8_t *)malloc((size_t)w*(size_t)h*3);
@@ -93,9 +95,23 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b)
   if ( x>= tga_width)
     return;
   p = tga_data + (tga_height-y-1)*(size_t)tga_width*3 + (size_t)x*3;
+  
+  if ( p[0] != 255 || p[1] != 255 || p[2] != 255 )
+	  tga_pixel_intersection = 1;
+  
   *p++ = b;
   *p++ = g;
   *p++ = r;
+}
+
+int tga_is_pixel_intersection(void)
+{
+	return tga_pixel_intersection;
+}
+
+void tga_clear_pixel_intersection(void)
+{
+	tga_pixel_intersection = 0;
 }
 
 void tga_write_byte(FILE *fp, uint8_t byte)

@@ -148,13 +148,22 @@ static const uint8_t u8x8_d_sed1330_240x128_init_seq[] = {
   /* system init has total 8 parameters, so 7 more are here */
   U8X8_A(0x087),				/* no idea here... WF (topmost bit) is set to one because it is suggested in the datasheet, lowest 3 bits refer to text mode only */
   U8X8_A(0x007),				/* FY: height of a char+1, does not matter here (hopefully), because we use graphics mode only */
-  U8X8_A(240/8-1),				/* C/R: this could be the number of horizontal bytes - 1 (how knows????) */
-  U8X8_A(240/8-1+4),			/* TC/R: I just take the C/R value and add 4 as suggested in section  9.1.1, but it depends on timing also ... */
-  U8X8_A(127),				/* L/F: Lines per frame - 1, probably this is the height of the display - 1 */
-  U8X8_A(240/8),				/* Low byte of the virtual screen size. Maybe this is the sam as the number of horizontal bytes?  */
+  U8X8_A(240/8-1),				/* C/R: this could be the number of horizontal bytes - 1 (Value confirmed with app notes p41) */
+  U8X8_A(74),					/* TC/R: According to app notes fOSC=6Mhz fFF=70Hz --> TC/R = 74d*/
+  U8X8_A(127),				/* L/F: Lines per frame - 1, probably this is the height of the display - 1 (value confirmed with app notes p41)*/
+  U8X8_A(240/8),				/* Low byte of the virtual screen size. (Value confirmed with app notes p41)   */
   U8X8_A(0),					/* High byte of the virtual screen size, see also section 9.1.2 */
-  U8X8_C(0x044),				/* SCROLL: Let us hope that scrolling is disabled by using this command without args */
+	
+  U8X8_C(0x044),				/* SCROLL: Args taken fom app notes p41 */
+  U8X8_A(0),					
+  U8X8_A(0),					
+  U8X8_A(128),					
+  U8X8_A(0),					
+  U8X8_A(5),					
+  U8X8_A(128),
+	
   U8X8_CA(0x05a, 0),			/* HDOT SCR: Horizontal dotwise scroll... set to 0 */
+	
   U8X8_CA(0x05b, 0x0c),			/* OVLAY: 2-layer, all graphics, OR between layer 1 and 2 */
     
   U8X8_DLY(100),

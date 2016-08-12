@@ -1,3 +1,8 @@
+/*
+
+  bdf_font.h
+
+*/
 
 
 #ifndef _BDF_FONT_H
@@ -142,6 +147,8 @@ int tga_get_char_width(void);
 int tga_get_char_height(void);
 unsigned tga_draw_glyph(unsigned x, unsigned y, uint16_t encoding, int is_hints);
 unsigned tga_draw_string(unsigned x, unsigned y, const char *s, int is_hints, unsigned max_dx);
+int tga_is_pixel_intersection(void);
+void tga_clear_pixel_intersection(void);
 
 
 #endif
