@@ -139,6 +139,7 @@ int bf_MapFile(bf_t *bf, const char *map_file_name);
 
 /* bdf_tga.c */
 int tga_init(uint16_t w, uint16_t h);
+void tga_clear(void);
 void tga_set_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b);
 void tga_save(const char *name);
 void tga_set_font(uint8_t *font);
@@ -149,6 +150,10 @@ unsigned tga_draw_glyph(unsigned x, unsigned y, uint16_t encoding, int is_hints)
 unsigned tga_draw_string(unsigned x, unsigned y, const char *s, int is_hints, unsigned max_dx);
 int tga_is_pixel_intersection(void);
 void tga_clear_pixel_intersection(void);
+
+/* bdf_kern.c */
+unsigned bdf_calculate_kerning(uint8_t *font, uint16_t e1, uint16_t e2, uint8_t min_distance_in_per_cent_of_char_width);
+void bdf_calculate_all_kerning(bf_t *bf, uint8_t min_distance_in_per_cent_of_char_width);
 
 
 #endif

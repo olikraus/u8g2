@@ -9,6 +9,7 @@
     default := "*"
     maprange := <range> [  ">" <num> ]
     exclude := "~" <range> 
+    kern_exclude := "x" <range> 
     range := <num> [ "-" <num> ]
     num := <hexnum> | <decnum>
     hexnum := "$" <hexdigit> { <hexdigit> }
@@ -32,6 +33,7 @@
 static long range_from;
 static long range_to;
 static int is_exclude;
+static int is_kern_exclude;
 static long map_to;
 
 static void skip_space(const char **s)
@@ -156,6 +158,7 @@ static void map_cmd(const char **s)
     range_to = 255;
     map_to = 32;
     is_exclude = 0;
+    is_kern_exclude = 0;
     
     (*s)++;
     skip_space(s);
@@ -169,6 +172,15 @@ static void map_cmd(const char **s)
     skip_space(s);
     get_range(s);
     
+  }
+  else if ( **s == 'x' )
+  {
+    is_kern_exclude = 1;
+    map_to = 0;	/*will be ignored */
+    
+    (*s)++;
+    skip_space(s);
+    get_range(s);
   }
   else 
   {
@@ -202,13 +214,20 @@ void bf_map_cmd(bf_t *bf, const char **s)
     bg = bf->glyph_list[i];
     if ( bg->encoding >= range_from && bg->encoding <= range_to )
     {
-      if ( is_exclude != 0 )
+      if ( is_kern_exclude != 0 )
       {
-	bg->map_to = -1;
+	      bg->is_excluded_from_kerning = 1;
       }
       else
       {
-	bg->map_to = bg->encoding - range_from + map_to;
+	      if ( is_exclude != 0 )
+	      {
+		bg->map_to = -1;
+	      }
+	      else
+	      {
+		bg->map_to = bg->encoding - range_from + map_to;
+	      }
       }
     }
   }

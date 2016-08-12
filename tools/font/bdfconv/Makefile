@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -g -Wall
 #CFLAGS = -O4 -Wall
 
-SRC = main.c bdf_font.c bdf_glyph.c bdf_parser.c bdf_map.c bdf_rle.c bdf_tga.c fd.c bdf_8x8.c
+SRC = main.c bdf_font.c bdf_glyph.c bdf_parser.c bdf_map.c bdf_rle.c bdf_tga.c fd.c bdf_8x8.c bdf_kern.c
 
 OBJ = $(SRC:.c=.o)
 ASM = $(SRC:.c=.s)
@@ -19,22 +19,22 @@ bdfconv: $(OBJ) $(ASM)
 clean:	
 	-rm $(OBJ) $(ASM) bdfconv
 
-test:	
+test:	bdfconv
 	./bdfconv 
 
-greek:
+greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/unifont.bdf -n unifont_greek -o unifont_greek.c -d ../bdf/7x13.bdf
 	
-helvb18:
-	./bdfconv -f 1 -m '32-127' ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr
+helvb18: bdfconv
+	./bdfconv -f 1 -m '32-255,x32-64,x91-96,x123-191,x247,x697-879' ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr -d ../bdf/7x13.bdf 
 
-helvb18n:
+helvb18n: bdfconv
 	./bdfconv -v -f 1 -m '32,48-57' ../bdf/helvB18.bdf -o helvb18_tn.c -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf
 
-tga:
+tga: bdfconv
 	./bdfconv -v -f 1 -m '32-255' ../bdf/helvB18.bdf -o helvb18_tn.c -n u8g2_font_helvB18_tn -d ../bdf/7x13.bdf
 
-artos:
+artos: bdfconv
 	./bdfconv -b 3 -d ../bdf/7x13.bdf ../bdf/ArtosSerif-8.bdf -a -v
 	
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support

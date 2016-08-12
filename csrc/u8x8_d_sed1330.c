@@ -137,7 +137,7 @@ static const u8x8_display_info_t u8x8_sed1330_240x128_display_info =
   /* pixel_height = */ 128
 };
 
-/* 240x128 */
+/* 240x128 Seiko G242C */
 static const uint8_t u8x8_d_sed1330_240x128_init_seq[] = {
   U8X8_DLY(100),
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */

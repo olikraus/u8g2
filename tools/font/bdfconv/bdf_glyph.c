@@ -21,6 +21,7 @@ bg_t *bg_Open(void)
     bg->target_max = 0;
     bg->target_cnt = 0;
     bg->shift_x = 0;
+    bg->is_excluded_from_kerning = 0;
     
     return bg;
   }

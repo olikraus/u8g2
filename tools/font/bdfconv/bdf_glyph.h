@@ -31,6 +31,7 @@ struct _bdf_glyph_struct
 
   bbx_t bbx;				/* x,y are delta x,y from glyph, w,h start wth bitmap dimension, but may be reduced */
   long shift_x;				/* extra shift for BDF_BBX_MODE_HEIGHT alignment */
+  int is_excluded_from_kerning;
 
   uint8_t *bitmap_data;
   int bitmap_width;			/* the physical width within "bitmap_data", will be larger than or equal to bbx.w */
@@ -39,7 +40,7 @@ struct _bdf_glyph_struct
   //int actual_bitmap_width;	/* identical to bbx.w, maybe replace actual_bitmap_width by bbx.w */
   //int actual_bitmap_height;	/* identical to bbx.h, maybe replace actual_bitmap_height by bbx.h */
   
-  uint8_t *target_data;
+  uint8_t *target_data;		/* if this is not NULL, then there is a valid glyph */
   int target_max;
   int target_cnt;
   int target_bit_pos;

@@ -391,6 +391,11 @@ int main(int argc, char **argv)
     
     tga_save("bdf.tga");
   }
+
+  //bdf_calculate_kerning(bf->target_data, 'W', 'A', 25);
+  //bdf_calculate_kerning(bf->target_data, 'T', 'a', 25);
+  bdf_calculate_all_kerning(bf, 25);
+
   
   
   if ( c_filename != NULL )

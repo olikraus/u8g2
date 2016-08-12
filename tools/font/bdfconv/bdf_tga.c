@@ -87,6 +87,11 @@ int tga_init(uint16_t w, uint16_t h)
   return 1;
 }
 
+void tga_clear(void)
+{
+  memset(tga_data, 255, tga_width*tga_height*3);
+}
+
 void tga_set_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b)
 {
   uint8_t *p;
