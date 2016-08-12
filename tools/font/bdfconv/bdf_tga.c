@@ -208,23 +208,6 @@ void tga_set_font(uint8_t *font)
   
 }
 
-#ifdef OLD_CODE
-uint8_t *tga_get_glyph_data(uint8_t encoding)
-{
-  int i;
-  uint8_t *font = tga_font;
-  for( i = 0; i < glyph_cnt; i++ )
-  {
-    if ( font[0] == encoding )
-    {
-      return font;
-    }
-    font += font[1];
-  }
-  return NULL;
-}
-#endif
-
 uint8_t *tga_get_glyph_data(uint16_t encoding)
 {
   uint8_t *font = tga_font;
@@ -460,99 +443,6 @@ unsigned tga_fd_decode(tga_fd_t *f, uint8_t *glyph_data, int is_unicode)
   return d;
 }
 
-unsigned tga_fd_decode_old(tga_fd_t *f, uint8_t *glyph_data)
-{
-  unsigned a, b;
-  unsigned i;
-  int x, y;
-  unsigned d = 0;
-  //unsigned total;
-  
-  
-  /* init decode algorithm */
-  f->decode_ptr = glyph_data;
-  f->decode_bit_pos = 0;
-  
-  f->decode_ptr += 1;
-  /* read glyph info */
-  //total = *f->decode_ptr;
-  f->decode_ptr += 1;
-  
-  f->glyph_width = tga_fd_get_unsigned_bits(f, bits_per_char_width);
-  f->glyph_height = tga_fd_get_unsigned_bits(f, bits_per_char_height);
-  x = tga_fd_get_signed_bits(f, bits_per_char_x);
-  y = tga_fd_get_signed_bits(f, bits_per_char_y);
-  d = tga_fd_get_signed_bits(f, bits_per_delta_x);
-  
-  
-  
-  if ( f->glyph_width > 0 )
-  {
-    
-    //printf("width: %d\n", f->glyph_width);
-    //printf("height: %d\n", f->glyph_height);
-    //printf("x: %d\n", x);
-    //printf("y: %d\n", y);
-    //printf("d: %d\n", d);
-    
-    f->target_x += x;
-    f->target_y -= f->glyph_height ;
-    f->target_y -=y ;
-    
-    
-    /* reset local x/y position */
-    f->x = 0;
-    f->y = 0;
-    
-    //puts("");
-
-    //printf("start decode ");
-
-    /* decode glyph */
-    for(;;)
-    {
-      a = tga_fd_get_unsigned_bits(f, bits_per_0);
-      b = tga_fd_get_unsigned_bits(f, bits_per_1);
-      do
-      {
-	
-	for( i = 0; i < a; i++ )
-	{
-	  tga_fd_draw_bg_pixel(f,1);
-	  tga_fd_inc(f);    
-	}
-	
-	/*
-	while( a + f->x > f->glyph_width )
-	{
-	  tga_fd_draw_bg_pixel(f,f->glyph_width-f->x);
-	  f->x = 0;
-	  f->y++;
-	  a -= f->glyph_width-f->x;
-	}
-	tga_fd_draw_bg_pixel(f,1);
-	*/
-
-	for( i = 0; i < b; i++ )
-	{	
-	  tga_fd_draw_fg_pixel(f,1);
-	  tga_fd_inc(f);    
-	}
-	
-      } while( tga_fd_get_unsigned_bits(f, 1) != 0 );
-      
-      if ( f->y >= f->glyph_height )
-	break;
-    }
-  }
-  /*
-  printf("\n");
-  printf("[x=%u y=%u]\n", f->x, f->y);
-  printf("cnt=%u total=%u\n", f->decode_ptr-glyph_data-2, total);
-  printf("end decode\n");
-  */
-  return d;
-}
 
 unsigned tga_draw_glyph(unsigned x, unsigned y, uint16_t encoding, int is_hints)
 {
