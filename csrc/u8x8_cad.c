@@ -404,7 +404,7 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 	arg_int-=24;
 	p+=24;
       }
-      u8x8_i2c_data_transfer(u8x8, arg_int, arg_ptr);
+      u8x8_i2c_data_transfer(u8x8, arg_int, p);
       break;
     case U8X8_MSG_CAD_INIT:
       /* apply default i2c adr if required so that the start transfer msg can use this */
@@ -458,7 +458,7 @@ uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 	u8x8_byte_StartTransfer(u8x8);
 	u8x8_byte_SendByte(u8x8, 0x08);	/* data write for LD7032 */
       }
-      u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, arg_int, arg_ptr);
+      u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, arg_int, p);
       break;
     case U8X8_MSG_CAD_INIT:
       /* apply default i2c adr if required so that the start transfer msg can use this */
