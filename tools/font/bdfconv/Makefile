@@ -26,7 +26,7 @@ greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/unifont.bdf -n unifont_greek -o unifont_greek.c -d ../bdf/7x13.bdf
 	
 helvb18: bdfconv
-	./bdfconv -f 1 -m '32-255,x32-64,x91-96,x123-191,x247,x697-879' ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr -d ../bdf/7x13.bdf 
+	./bdfconv -f 1 -m '32-255,x32-64,x91-96,x123-191,x247,x697-879' ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr
 
 helvb18n: bdfconv
 	./bdfconv -v -f 1 -m '32,48-57' ../bdf/helvB18.bdf -o helvb18_tn.c -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf
