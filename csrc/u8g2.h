@@ -249,6 +249,17 @@ struct _u8g2_font_decode_t
 };
 typedef struct _u8g2_font_decode_t u8g2_font_decode_t;
 
+struct _u8g2_kerning_t
+{
+  uint16_t first_table_cnt;
+  uint16_t second_table_cnt;
+  uint16_t *first_encoding_table;  
+  uint16_t *index_to_second_table;
+  uint16_t *second_encoding_table;
+  uint8_t *kerning_values;
+};
+typedef struct _u8g2_kerning_t u8g2_kerning_t;
+
 
 struct u8g2_cb_struct
 {
@@ -296,6 +307,8 @@ struct u8g2_struct
   
   /* information about the current font */
   const uint8_t *font;             /* current font for all text procedures */
+  const u8g2_kerning_t *kerning;		/* can be NULL */
+  
   u8g2_font_calc_vref_fnptr font_calc_vref;
   u8g2_font_decode_t font_decode;		/* new font decode structure */
   u8g2_font_info_t font_info;			/* new font info structure */
@@ -303,6 +316,7 @@ struct u8g2_struct
   uint8_t font_height_mode;
   int8_t font_ref_ascent;
   int8_t font_ref_descent;
+  
 
   uint8_t draw_color;		/* 0: clear pixel, 1: set pixel, modified and restored by font procedures */
 					/* draw_color can be used also directly by the user API */

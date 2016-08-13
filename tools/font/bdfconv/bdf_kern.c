@@ -32,11 +32,11 @@ struct u8g2_kerning
 */
 
 
-static void bdf_write_uint16_array(FILE *fp, uint16_t cnt, const uint16_t *a)
+static void bdf_write_uint16_array(FILE *fp, const char *pre, const char *post, uint16_t cnt, const uint16_t *a)
 {
   uint16_t i;
   
-  fprintf(fp, "  {");
+  fprintf(fp, "static const uint16_t %s_%s[%u] = {\n  ", pre, post, cnt);
   for( i = 0; i < cnt; i++ )
   {
     fprintf(fp, "%u", a[i]);
@@ -49,14 +49,14 @@ static void bdf_write_uint16_array(FILE *fp, uint16_t cnt, const uint16_t *a)
       }
     }
   }
-  fprintf(fp, "}");
+  fprintf(fp, "};\n");
 }
 
-static void bdf_write_uint8_array(FILE *fp, uint16_t cnt, const uint8_t *a)
+static void bdf_write_uint8_array(FILE *fp, const char *pre, const char *post, uint16_t cnt, const uint8_t *a)
 {
   uint16_t i;
   
-  fprintf(fp, "  {");
+  fprintf(fp, "static const uint8_t %s_%s[%u] = {\n  ", pre, post, cnt);
   for( i = 0; i < cnt; i++ )
   {
     fprintf(fp, "%u", a[i]);
@@ -69,27 +69,28 @@ static void bdf_write_uint8_array(FILE *fp, uint16_t cnt, const uint8_t *a)
       }
     }
   }
-  fprintf(fp, "}");
+  fprintf(fp, "};\n");
 }
 
 
-void bdf_write_kerning_file(const char *kernfile)
+void bdf_write_kerning_file(const char *kernfile, const char *name)
 {
   FILE *fp;
   fp = fopen(kernfile, "w");
   
   fprintf(fp, "/* Size: %u Bytes */\n", bdf_first_table_cnt*4 + bdf_second_table_cnt*3 + 4);
+  bdf_write_uint16_array(fp, name, "first_encoding_table", bdf_first_table_cnt, bdf_first_encoding_table);
+  bdf_write_uint16_array(fp, name, "index_to_second_table", bdf_first_table_cnt, bdf_index_to_second_table);
+  bdf_write_uint16_array(fp, name, "second_encoding_table", bdf_second_table_cnt, bdf_second_encoding_table);
+  bdf_write_uint8_array(fp, name, "kerning_values", bdf_second_table_cnt, bdf_kerning_values);
+   
   
   fprintf(fp, "{\n");
   fprintf(fp, "  %u, %u,\n", bdf_first_table_cnt, bdf_second_table_cnt);
-  bdf_write_uint16_array(fp, bdf_first_table_cnt, bdf_first_encoding_table);
-  fprintf(fp, ",\n");
-  bdf_write_uint16_array(fp, bdf_first_table_cnt, bdf_index_to_second_table);
-  fprintf(fp, ",\n");
-  bdf_write_uint16_array(fp, bdf_second_table_cnt, bdf_second_encoding_table);
-  fprintf(fp, ",\n");
-  bdf_write_uint8_array(fp, bdf_second_table_cnt, bdf_kerning_values);
-  fprintf(fp, "};\n");
+  fprintf(fp, "  &%s_%s,\n", name, "first_encoding_table");
+  fprintf(fp, "  &%s_%s,\n", name, "index_to_second_table");
+  fprintf(fp, "  &%s_%s,\n", name, "second_encoding_table");
+  fprintf(fp, "  &%s_%s};\n", name, "kerning_values");
   fclose(fp);
 }
 
@@ -201,7 +202,7 @@ void bdf_calculate_all_kerning(bf_t *bf, uint8_t min_distance_in_per_cent_of_cha
   bdf_index_to_second_table[bdf_first_table_cnt]  = bdf_second_table_cnt;
   bdf_first_table_cnt++;
   
-  bdf_write_kerning_file("kernfile.c");
+  bdf_write_kerning_file("kernfile.c", "helv");
   
   
 }
