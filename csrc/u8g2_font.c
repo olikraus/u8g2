@@ -714,8 +714,9 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
+  uint16_t e_prev = 0x0ffff;
   uint16_t e;
-  u8g2_uint_t delta, sum;
+  u8g2_uint_t delta, sum, k;
   u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   sum = 0;
   for(;;)
@@ -726,6 +727,29 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
     str++;
     if ( e != 0x0fffe )
     {
+      k = u8g2->get_kerning_cb(u8g2, e_prev, e);
+      e_prev = e;
+
+#ifdef U8G2_WITH_FONT_ROTATION
+      switch(u8g2->font_decode.dir)
+      {
+	case 0:
+	  x -= k;
+	  break;
+	case 1:
+	  y -= k;
+	  break;
+	case 2:
+	  x += k;
+	  break;
+	case 3:
+	  y += k;
+	  break;
+      }
+#else
+      x -= k;
+#endif    
+    
       delta = u8g2_DrawGlyph(u8g2, x, y, e);
     
 #ifdef U8G2_WITH_FONT_ROTATION
@@ -746,7 +770,8 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
       }
 #else
       x += delta;
-#endif    
+#endif
+
       sum += delta;    
     }
   }
