@@ -185,6 +185,7 @@ typedef void (*u8g2_update_dimension_cb)(u8g2_t *u8g2);
 typedef void (*u8g2_draw_l90_cb)(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 typedef void (*u8g2_draw_ll_hvline_cb)(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 
+typedef void (*u8g2_get_kerning_cb)(u8g2_t *u8g2, uint16_t e1, uint16_t e2);
 
 
 /* from ucglib... */
@@ -253,10 +254,10 @@ struct _u8g2_kerning_t
 {
   uint16_t first_table_cnt;
   uint16_t second_table_cnt;
-  uint16_t *first_encoding_table;  
-  uint16_t *index_to_second_table;
-  uint16_t *second_encoding_table;
-  uint8_t *kerning_values;
+  const uint16_t *first_encoding_table;  
+  const uint16_t *index_to_second_table;
+  const uint16_t *second_encoding_table;
+  const uint8_t *kerning_values;
 };
 typedef struct _u8g2_kerning_t u8g2_kerning_t;
 
@@ -308,6 +309,7 @@ struct u8g2_struct
   /* information about the current font */
   const uint8_t *font;             /* current font for all text procedures */
   const u8g2_kerning_t *kerning;		/* can be NULL */
+  u8g2_get_kerning_cb get_kerning_cb;
   
   u8g2_font_calc_vref_fnptr font_calc_vref;
   u8g2_font_decode_t font_decode;		/* new font decode structure */
@@ -585,6 +587,13 @@ void u8g2_ClearPolygonXY(void);
 void u8g2_AddPolygonXY(u8g2_t *u8g2, int16_t x, int16_t y);
 void u8g2_DrawPolygon(u8g2_t *u8g2);
 void u8g2_DrawTriangle(u8g2_t *u8g2, int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+
+
+
+/*==========================================*/
+/* u8g2_kerning.c */
+uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2);
+uint8_t u8g2_GetKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2);
 
 
 /*==========================================*/
