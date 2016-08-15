@@ -7,7 +7,7 @@
 #include "bdf_font.h"
 #include <assert.h>
 
-#define BDF_KERNING_MAX (1024*32)
+#define BDF_KERNING_MAX (1024*60)
 
 /* the following tables contain the first encodings if they do contain any kernings */
 uint16_t bdf_first_table_cnt;
@@ -187,13 +187,21 @@ void bdf_calculate_all_kerning(bf_t *bf, const char *filename, const char *fontn
 	      bdf_first_encoding_table[bdf_first_table_cnt] = bg_first->encoding;
 	      bdf_index_to_second_table[bdf_first_table_cnt]  = bdf_second_table_cnt;
 	      bdf_first_table_cnt++;
-	      assert(bdf_first_table_cnt< BDF_KERNING_MAX);
+	      if (bdf_first_table_cnt > BDF_KERNING_MAX)
+	      {
+		      fprintf(stderr, "Kerning calculation aborted: bdf_first_table_cnt > BDF_KERNING_MAX\n");
+		      return;
+	      }
 	      is_first_encoding_added = 1;
 	    }
 	    bdf_second_encoding_table[bdf_second_table_cnt] = bg_second->encoding;
 	    bdf_kerning_values[bdf_second_table_cnt] = kerning;
 	    bdf_second_table_cnt++;
-            assert(bdf_second_table_cnt< BDF_KERNING_MAX);
+	    if (bdf_second_table_cnt > BDF_KERNING_MAX)
+	    {
+		      fprintf(stderr, "Kerning calculation aborted: bdf_second_table_cnt > BDF_KERNING_MAX\n");
+		      return;
+	    }
 	  }
         }
       }
