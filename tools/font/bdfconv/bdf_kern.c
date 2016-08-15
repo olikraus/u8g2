@@ -5,7 +5,7 @@
 */
 
 #include "bdf_font.h"
-
+#include <assert.h>
 
 #define BDF_KERNING_MAX (1024*32)
 
@@ -85,12 +85,12 @@ void bdf_write_kerning_file(const char *kernfile, const char *name)
   bdf_write_uint8_array(fp, name, "kerning_values", bdf_second_table_cnt, bdf_kerning_values);
    
   
-  fprintf(fp, "u8g2_kerning_t %s = {\n", name);
+  fprintf(fp, "u8g2_kerning_t %s_k = {\n", name);
   fprintf(fp, "  %u, %u,\n", bdf_first_table_cnt, bdf_second_table_cnt);
   fprintf(fp, "  %s_%s,\n", name, "first_encoding_table");
   fprintf(fp, "  %s_%s,\n", name, "index_to_second_table");
   fprintf(fp, "  %s_%s,\n", name, "second_encoding_table");
-  fprintf(fp, "  %s_%s};\n", name, "kerning_values");
+  fprintf(fp, "  %s_%s};\n\n", name, "kerning_values");
   fclose(fp);
 }
 
@@ -150,13 +150,13 @@ unsigned bdf_calculate_kerning(uint8_t *font, uint16_t e1, uint16_t e2, uint8_t 
   if ( kerning != 0 )
   {
     bdf_is_glyph_overlap(font, e1, e2, kerning, 1);
-    printf("bdf_calculate_kerning %u %u ", e1, e2);
-    printf("result: %d\n", kerning);
+    //printf("bdf_calculate_kerning %u %u ", e1, e2);
+    //printf("result: %d\n", kerning);
   }
   return kerning;
 }
 
-void bdf_calculate_all_kerning(bf_t *bf, uint8_t min_distance_in_per_cent_of_char_width)
+void bdf_calculate_all_kerning(bf_t *bf, const char *filename, const char *fontname, uint8_t min_distance_in_per_cent_of_char_width)
 {
   int first, second;
   bg_t *bg_first;
@@ -187,11 +187,13 @@ void bdf_calculate_all_kerning(bf_t *bf, uint8_t min_distance_in_per_cent_of_cha
 	      bdf_first_encoding_table[bdf_first_table_cnt] = bg_first->encoding;
 	      bdf_index_to_second_table[bdf_first_table_cnt]  = bdf_second_table_cnt;
 	      bdf_first_table_cnt++;
+	      assert(bdf_first_table_cnt< BDF_KERNING_MAX);
 	      is_first_encoding_added = 1;
 	    }
 	    bdf_second_encoding_table[bdf_second_table_cnt] = bg_second->encoding;
 	    bdf_kerning_values[bdf_second_table_cnt] = kerning;
 	    bdf_second_table_cnt++;
+            assert(bdf_second_table_cnt< BDF_KERNING_MAX);
 	  }
         }
       }
@@ -202,6 +204,6 @@ void bdf_calculate_all_kerning(bf_t *bf, uint8_t min_distance_in_per_cent_of_cha
   bdf_index_to_second_table[bdf_first_table_cnt]  = bdf_second_table_cnt;
   bdf_first_table_cnt++;
   
-  bdf_write_kerning_file("kernfile.c", "helv");
+  bdf_write_kerning_file(filename, fontname);
 }
 

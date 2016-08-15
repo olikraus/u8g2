@@ -153,7 +153,7 @@ void tga_clear_pixel_intersection(void);
 
 /* bdf_kern.c */
 unsigned bdf_calculate_kerning(uint8_t *font, uint16_t e1, uint16_t e2, uint8_t min_distance_in_per_cent_of_char_width);
-void bdf_calculate_all_kerning(bf_t *bf, uint8_t min_distance_in_per_cent_of_char_width);
+void bdf_calculate_all_kerning(bf_t *bf, const char *filename, const char *fontname, uint8_t min_distance_in_per_cent_of_char_width);
 
 
 #endif

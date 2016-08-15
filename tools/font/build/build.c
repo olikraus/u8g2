@@ -140,7 +140,7 @@ struct fontinfo
   char *filename;	/* filename including extension */
   char *name;
   int group;		/* group-index */
-  int	pt;			/* point size, ttf only OBSOLETE*/
+  int	kerning_min_distance_per_cent;			/* 0: do not generate kerning file */
   int build_mode;	/* Or'd BM_T, BM_H, BM_M, BM_8 */
   int font_mode;	/* Or'd FM_C and FM_8 */
   int map_mode;	/* Or'd MM_F, FM_N and FM_R */
@@ -228,7 +228,7 @@ struct fontinfo fi[] = {
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF", "_arabic" },
+  { 0, "10x20.bdf", 			"10x20", 			1, 24, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF", "_arabic" },
   { 0, "profont10.bdf", 		"profont10", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont11.bdf", 		"profont11", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont12.bdf", 		"profont12", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -243,11 +243,11 @@ struct fontinfo fi[] = {
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF", "_arabic" },
+  { 0, "cu12.bdf", 			"cu12", 			3, 24, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF", "_arabic" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF", "_arabic" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 24, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF", "_arabic" },
 
 
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
@@ -991,6 +991,15 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   //strcat(bdf_cmd, target_font_identifier);
   strcat(bdf_cmd, "font");
   strcat(bdf_cmd, ".c");
+  
+  
+  if ( fi[i].kerning_min_distance_per_cent > 0 )
+  {
+    strcat(bdf_cmd, " -k ");
+    strcat(bdf_cmd, target_font_identifier);
+    //strcat(bdf_cmd, "font");
+    strcat(bdf_cmd, "_k.c");
+  }
   
 /*
     fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);

@@ -79,7 +79,10 @@ void help(void)
   printf("-f <n>      Font format, 0: ucglib font, 1: u8g2 font, 2: u8g2 uncompressed 8x8 font (enforces -b 3)\n");
   printf("-m 'map'    Unicode ASCII mapping\n");
   printf("-M 'mapfile'    Read Unicode ASCII mapping from file 'mapname'\n");
-  printf("-o <file>   C output file\n");
+  printf("-o <file>   C output font file\n");
+  printf("-k <file>   C output file with kerning information\n");	
+  printf("-p <%%>    Minimum distance for kerning in percent of the global char width (lower values: Smaller gaps, more data)\n");	
+
   printf("-n <name>   C indentifier (font name)\n");
   printf("-d <file>   Overview picture: Enable generation of bdf.tga and assign BDF font <file> for description\n");
   printf("-l <margin> Overview picture: Set left margin\n");
@@ -89,10 +92,11 @@ void help(void)
   printf("\n");
 
   printf("map := <mapcmd> { \",\" <mapcmd> }\n");
-  printf("mapcmd := <default> | <maprange> | <exclude>\n");
+  printf("mapcmd := <default> | <maprange> | <exclude> | <exclude-kerning>\n");
   printf("default := \"*\"\n");
   printf("maprange := <range> [  \">\" <addexpr> ]        Move specified glyph <range> to target code <num>\n");
   printf("exclude := \"~\" <range> \n");
+  printf("exclude-kerning:= \"x\" <range> \n");
   printf("range := <addexpr> [ \"-\" <addexpr> ]          Select glyphs within specified range\n");
   printf("addexpr := <mulexpr> [ \"+\" <mulexpr> ]\n");
   printf("mulexpr := <num> [ \"*\" <num> ]\n");
@@ -122,10 +126,12 @@ void help(void)
 unsigned long left_margin = 1;
 unsigned long build_bbx_mode = 0;
 unsigned long font_format = 0;
+unsigned long min_distance_in_per_cent_of_char_width = 25;
 int font_picture_extra_info = 0;
 int font_picture_test_string = 0;
 int runtime_test = 0;
 char *c_filename = NULL;
+char *k_filename = NULL;
 char *target_fontname = "bdf_font";
 
 /*================================================*/
@@ -311,6 +317,9 @@ int main(int argc, char **argv)
     else if ( get_num_arg(&argv, 'l', &left_margin) != 0 )
     {
     }
+    else if ( get_num_arg(&argv, 'p', &min_distance_in_per_cent_of_char_width) != 0 )
+    {
+    }
     else if ( get_str_arg(&argv, 'd', &desc_font_str) != 0 )
     {      
     }
@@ -321,6 +330,9 @@ int main(int argc, char **argv)
     {      
     }
     else if ( get_str_arg(&argv, 'm', &map_str) != 0 )
+    {      
+    }
+    else if ( get_str_arg(&argv, 'k', &k_filename) != 0 )
     {      
     }
     else if ( get_str_arg(&argv, 'M', &map_filename) != 0 )
@@ -392,10 +404,6 @@ int main(int argc, char **argv)
     tga_save("bdf.tga");
   }
 
-  //bdf_calculate_kerning(bf->target_data, 'W', 'A', 25);
-  //bdf_calculate_kerning(bf->target_data, 'T', 'a', 25);
-  bdf_calculate_all_kerning(bf, 25);
-
   
   
   if ( c_filename != NULL )
@@ -411,6 +419,12 @@ int main(int argc, char **argv)
       bf_WriteU8G2CByFilename(bf, c_filename, target_fontname, "  ");
     }
   }
+
+  if ( k_filename != NULL )
+  {
+    bdf_calculate_all_kerning(bf, k_filename, target_fontname, min_distance_in_per_cent_of_char_width);
+  }
+
 
   
   bf_Close(bf);
