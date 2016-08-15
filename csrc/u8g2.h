@@ -319,6 +319,8 @@ struct u8g2_struct
   int8_t font_ref_ascent;
   int8_t font_ref_descent;
   
+  int8_t glyph_x_offset;		/* set by u8g2_GetGlyphWidth as a side effect */
+  
 
   uint8_t draw_color;		/* 0: clear pixel, 1: set pixel, modified and restored by font procedures */
 					/* draw_color can be used also directly by the user API */

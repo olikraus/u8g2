@@ -658,7 +658,7 @@ uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
   return 0;
 }
 
-/* side effect: updates u8g2->font_decode */
+/* side effect: updates u8g2->font_decode and u8g2->glyph_x_offset */
 int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
 {
   const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, requested_encoding);
@@ -666,13 +666,13 @@ int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
     return 0; 
   
   u8g2_font_setup_decode(u8g2, glyph_data);
-  u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_x);
+  u8g2->glyph_x_offset = u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_x);
   u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_y);
+  
+  /* glyph width is here: u8g2->font_decode.glyph_width */
 
   return u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_delta_x);
 }
-
-
 
 
 /*
@@ -943,6 +943,7 @@ void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font)
 
 /*===============================================*/
 
+/* string calculation is stilll not 100% perfect as it addes the initial string offset to the overall size */
 static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
 {
@@ -976,16 +977,112 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   {
     w -= dx;
     w += u8g2->font_decode.glyph_width;  /* the real pixel width of the glyph, sideeffect of GetGlyphWidth */
+    /* issue #46: we have to add the x offset also */
+    w += u8g2->glyph_x_offset;	/* this value is set as a side effect of u8g2_GetGlyphWidth() */
   }
   // printf("w=%d \n", w);
   
   return w;  
 }
 
+static void u8g2_GetGlyphHorizontalProperties(u8g2_t *u8g2, uint16_t requested_encoding, uint8_t *w, int8_t *ox, int8_t *dx)
+{
+  const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, requested_encoding);
+  if ( glyph_data == NULL )
+    return; 
+  
+  u8g2_font_setup_decode(u8g2, glyph_data);
+  *w = u8g2->font_decode.glyph_width;
+  *ox =  u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_x);
+  u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_y);
+  *dx = u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_delta_x);
+}
+
+
+
+static u8g2_uint_t u8g2_calculate_exact_string_width(u8g2_t *u8g2, const char *str)
+{
+
+  u8g2_uint_t  w;
+  uint16_t enc;
+  uint8_t gw; 
+  int8_t ox, dx;
+  
+  /* reset the total minimal width to zero, this will be expanded during calculation */
+  w = 0;
+    
+  
+  /* check for empty string, width is already 0 */
+  do
+  {
+    enc = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    str++;
+  } while( enc == 0x0fffe );
+  
+  if ( enc== 0x0ffff )
+     return w;
+  
+  /* get the glyph information of the first char. This must be valid, because we already checked for the empty string */
+  /* if *s is not inside the font, then the cached parameters of the glyph are all zero */
+  u8g2_GetGlyphHorizontalProperties(u8g2, enc, &gw, &ox, &dx);  
+
+  /* strlen(s) == 1:       width = width(s[0]) */
+  /* strlen(s) == 2:       width = - offx(s[0]) + deltax(s[0]) + offx(s[1]) + width(s[1]) */
+  /* strlen(s) == 3:       width = - offx(s[0]) + deltax(s[0]) + deltax(s[1]) + offx(s[2]) + width(s[2]) */
+  
+  /* assume that the string has size 2 or more, than start with negative offset-x */
+  /* for string with size 1, this will be nullified after the loop */
+  w = -ox;  
+  for(;;)
+  {
+    
+    /* check and stop if the end of the string is reached */
+    do
+    {
+      enc = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+      str++;
+    } while( enc == 0x0fffe );
+    if ( enc== 0x0ffff )
+      break;
+
+    u8g2_GetGlyphHorizontalProperties(u8g2, enc, &gw, &ox, &dx);  
+    
+    /* if there are still more characters, add the delta to the next glyph */
+    w += dx;    
+  }
+  
+  /* finally calculate the width of the last char */
+  /* here is another exception, if the last char is a black, use the dx value instead */
+  if ( enc != ' ' )
+  {
+    /* if g was not updated in the for loop (strlen() == 1), then the initial offset x gets removed */
+    w += gw;
+    w += ox;
+  }
+  else
+  {
+    w += dx;
+  }
+  
+  
+  return w;
+	
+}
+
+
+
+
+
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
 {
   u8g2->u8x8.next_cb = u8x8_ascii_next;
   return u8g2_string_width(u8g2, s);
+}
+
+u8g2_uint_t u8g2_GetExactStrWidth(u8g2_t *u8g2, const char *s)
+{
+  u8g2->u8x8.next_cb = u8x8_ascii_next;
+  return u8g2_calculate_exact_string_width(u8g2, s);
 }
 
 /*
