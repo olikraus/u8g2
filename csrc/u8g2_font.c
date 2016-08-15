@@ -714,9 +714,8 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
-  uint16_t e_prev = 0x0ffff;
   uint16_t e;
-  u8g2_uint_t delta, sum, k;
+  u8g2_uint_t delta, sum;
   u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   sum = 0;
   for(;;)
@@ -727,29 +726,6 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
     str++;
     if ( e != 0x0fffe )
     {
-      k = u8g2->get_kerning_cb(u8g2, e_prev, e);
-      e_prev = e;
-
-#ifdef U8G2_WITH_FONT_ROTATION
-      switch(u8g2->font_decode.dir)
-      {
-	case 0:
-	  x -= k;
-	  break;
-	case 1:
-	  y -= k;
-	  break;
-	case 2:
-	  x += k;
-	  break;
-	case 3:
-	  y += k;
-	  break;
-      }
-#else
-      x -= k;
-#endif    
-    
       delta = u8g2_DrawGlyph(u8g2, x, y, e);
     
 #ifdef U8G2_WITH_FONT_ROTATION
@@ -801,56 +777,56 @@ u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char
 }
 
 
-#ifdef OBSOLETE
-/* UTF-8 version */
-u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+
+u8g2_uint_t u8g2_DrawExtendedUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t to_left, u8g2_kerning_t *kerning, const char *str)
 {
+  u8g2->u8x8.next_cb = u8x8_utf8_next;
+  uint16_t e_prev = 0x0ffff;
   uint16_t e;
-  u8g2_uint_t delta, sum;
+  u8g2_uint_t delta, sum, k;
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   sum = 0;
-/*
-source: https://en.wikipedia.org/wiki/UTF-8
-Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
-  7 	U+0000 		U+007F 		1 		0xxxxxxx
-11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
-16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
-21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
-26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
-31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
-*/
-  
   for(;;)
   {
-    e = u8x8_get_encoding_from_utf8_string(&str);
-    if ( e == 0 )
+    e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    if ( e == 0x0ffff )
       break;
-    delta = u8g2_DrawGlyph(u8g2, x, y, e);
-    
-#ifdef U8G2_WITH_FONT_ROTATION
-    switch(u8g2->font_decode.dir)
+    str++;
+    if ( e != 0x0fffe )
     {
-      case 0:
-	x += delta;
-	break;
-      case 1:
-	y += delta;
-	break;
-      case 2:
+      delta = u8g2_GetGlyphWidth(u8g2, e);
+	    
+      if ( to_left )
+      {
+        k = u8g2_GetKerning(u8g2, kerning, e, e_prev);
+	delta -= k;
 	x -= delta;
-	break;
-      case 3:
-	y -= delta;
-	break;
+      }
+      else
+      {
+        k = u8g2_GetKerning(u8g2, kerning, e_prev, e);
+	delta -= k;
+      }
+      e_prev = e;
+
+      u8g2_DrawGlyph(u8g2, x, y, e);
+      if ( to_left )
+      {
+      }
+      else
+      {
+	x += delta;
+	x -= k;
+      }
+      
+      sum += delta;    
     }
-#else
-    x += delta;
-#endif    
-    sum += delta;    
   }
   return sum;
 }
 
-#endif
+
+
 
 /*===============================================*/
 
@@ -1029,26 +1005,6 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str)
 }
 
 
-#ifdef OBSOLETE
-u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s)
-{
-  uint16_t e;
-  u8g2_uint_t  w;
-  
-  /* reset the total width to zero, this will be expanded during calculation */
-  w = 0;
-  
-  for(;;)
-  {
-    e = u8x8_get_encoding_from_utf8_string(&s);
-    if ( e == 0 )
-      break;
-    w += u8g2_GetGlyphWidth(u8g2, e);
-    
-  }
-  return w;  
-}
-#endif
 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
 {

@@ -44,8 +44,8 @@
 void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb ll_hvline_cb, const u8g2_cb_t *u8g2_cb)
 {
   u8g2->font = NULL;
-  u8g2->kerning = NULL;
-  u8g2->get_kerning_cb = u8g2_GetNullKerning;
+  //u8g2->kerning = NULL;
+  //u8g2->get_kerning_cb = u8g2_GetNullKerning;
   
   //u8g2->ll_hvline = u8g2_ll_hvline_vertical_top_lsb;
   u8g2->ll_hvline = ll_hvline_cb;

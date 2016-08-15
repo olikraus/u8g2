@@ -115,9 +115,9 @@ static int bdf_is_glyph_overlap(uint8_t *font, uint16_t e1, uint16_t e2, uint8_t
 
   if ( is_save )
   {
-    char buf[64];
-    sprintf(buf, "glyph_intersection_%u_%u_%u.tga", e1, e2, kerning_test);
-    tga_save(buf);
+    //char buf[64];
+    //sprintf(buf, "glyph_intersection_%u_%u_%u.tga", e1, e2, kerning_test);
+    //tga_save(buf);
   }
   
   return tga_is_pixel_intersection();
@@ -180,7 +180,7 @@ void bdf_calculate_all_kerning(bf_t *bf, const char *filename, const char *fontn
         if ( bg_second->target_data != NULL && bg_second->is_excluded_from_kerning == 0 )
         {
           kerning = bdf_calculate_kerning(bf->target_data, bg_first->encoding, bg_second->encoding, min_distance_in_per_cent_of_char_width);
-	  if ( kerning > 0 )
+	  if ( kerning > 1 )
 	  {
 	    if ( is_first_encoding_added == 0 )
 	    {

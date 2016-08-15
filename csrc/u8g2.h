@@ -308,8 +308,8 @@ struct u8g2_struct
   
   /* information about the current font */
   const uint8_t *font;             /* current font for all text procedures */
-  const u8g2_kerning_t *kerning;		/* can be NULL */
-  u8g2_get_kerning_cb get_kerning_cb;
+  // removed: const u8g2_kerning_t *kerning;		/* can be NULL */
+  // removed: u8g2_get_kerning_cb get_kerning_cb;
   
   u8g2_font_calc_vref_fnptr font_calc_vref;
   u8g2_font_decode_t font_decode;		/* new font decode structure */
@@ -592,8 +592,8 @@ void u8g2_DrawTriangle(u8g2_t *u8g2, int16_t x0, int16_t y0, int16_t x1, int16_t
 
 /*==========================================*/
 /* u8g2_kerning.c */
-uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2);
-uint8_t u8g2_GetKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2);
+//uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2);
+uint8_t u8g2_GetKerning(u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint16_t e2);
 
 
 /*==========================================*/
@@ -615,11 +615,14 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
 u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
+u8g2_uint_t u8g2_DrawExtendedUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t to_left, u8g2_kerning_t *kerning, const char *str);
 
 #define u8g2_GetMaxCharHeight(u8g2) ((u8g2)->font_info.max_char_height)
 #define u8g2_GetMaxCharWidth(u8g2) ((u8g2)->font_info.max_char_width)
 #define u8g2_GetAscent(u8g2) ((u8g2)->font_ref_ascent)
 #define u8g2_GetDescent(u8g2) ((u8g2)->font_ref_descent)
+#define u8g2_GetFontAscent(u8g2) ((u8g2)->font_ref_ascent)
+#define u8g2_GetFontDescent(u8g2) ((u8g2)->font_ref_descent)
 
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
