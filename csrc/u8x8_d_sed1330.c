@@ -165,7 +165,21 @@ static const uint8_t u8x8_d_sed1330_240x128_init_seq[] = {
   U8X8_CA(0x05a, 0),			/* HDOT SCR: Horizontal dotwise scroll... set to 0 */
 	
   U8X8_CA(0x05b, 0x0c),			/* OVLAY: 2-layer, all graphics, OR between layer 1 and 2 */
-    
+
+  /* test code start */
+  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, where 0x030 is a wild guess */
+  U8X8_CA(0x059, 0x054),               /* send display on command (hex 0x059, see p37 ) */
+
+  U8X8_C(0x046),				/* CSRW */
+  U8X8_A(0),					/* adr low */
+  U8X8_A(0),					/* adr high */
+  U8X8_C(0x046),				/* write */
+  U8X8_A(0xaa),					/* adr high */
+  U8X8_A(0xaa),					/* adr high */
+  U8X8_A(0xaa),					/* adr high */
+  U8X8_A(0xaa),					/* adr high */
+  /* test code end */
+
   U8X8_DLY(100),
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_DLY(100),
@@ -181,6 +195,8 @@ uint8_t u8x8_d_sed1330_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_sed1330_240x128_init_seq);
+      for(;;)
+	;
       break;
     default:
       return u8x8_d_sed1330_common(u8x8, msg, arg_int, arg_ptr);
