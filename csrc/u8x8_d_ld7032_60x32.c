@@ -181,6 +181,7 @@ static const u8x8_display_info_t u8x8_ld7032_60x32_display_info =
   /* post_reset_wait_ms = */ 100, 
   /* sda_setup_time_ns = */ 30,		/* 20ns, but cycle time is 60ns, so use 60/2 */
   /* sck_pulse_width_ns = */ 30,	/* 20ns, but cycle time is 60ns, so use 60/2  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 1,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 20,

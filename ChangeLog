@@ -29,5 +29,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-xx-xx	v2.2.x	  olikraus@gmail.com
   * U8x8: Upscale by 2 (Issue 41)
   * Fixed SSD1306 I2C procedures (mirror pixel in last tile column, issue 44)
+  * Experimental support für mini12864 (pull request)
+  * Use beginTransaction for SPI. This requires Arduino 1.6.0
   
   

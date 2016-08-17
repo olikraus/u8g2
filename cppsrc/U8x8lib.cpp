@@ -280,9 +280,13 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
-      pinMode(11, OUTPUT);
-      pinMode(13, OUTPUT);
-      digitalWrite(13, u8x8_GetSPIClockPhase(u8x8));
+      // removed, use SPI.begin() instead: pinMode(11, OUTPUT);
+      // removed, use SPI.begin() instead: pinMode(13, OUTPUT);
+      // removed, use SPI.begin() instead: digitalWrite(13, u8x8_GetSPIClockPhase(u8x8));
+      
+      /* setup hardware with SPI.begin() instead of previous digitalWrite() and pinMode() calls */
+      SPI.begin();	
+
       break;
       
     case U8X8_MSG_BYTE_SET_DC:
@@ -290,6 +294,9 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       break;
       
     case U8X8_MSG_BYTE_START_TRANSFER:
+#if ARDUINO >= 10600
+      SPI.beginTransaction(SPISettings(u8x8->display_info->sck_clock_hz, MSBFIRST, u8x8->display_info->spi_mode));
+#else
       SPI.begin();
       
       if ( u8x8->display_info->sck_pulse_width_ns < 70 )
@@ -300,6 +307,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 	SPI.setClockDivider( SPI_CLOCK_DIV8 );
       SPI.setDataMode(u8x8->display_info->spi_mode);
       SPI.setBitOrder(MSBFIRST);
+#endif
       
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
@@ -309,7 +317,11 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
 
+#if ARDUINO >= 10600
+      SPI.endTransaction();
+#else
       SPI.end();
+#endif
 
       break;
     default:

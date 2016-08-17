@@ -54,6 +54,7 @@ static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
   /* post_reset_wait_ms = */ 6,
   /* sda_setup_time_ns = */ 227,	/* 227 nsec according to the datasheet */		
   /* sck_pulse_width_ns = */  255,	/* 450 nsec according to the datasheet */
+  /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 3,		/* active low, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 100,

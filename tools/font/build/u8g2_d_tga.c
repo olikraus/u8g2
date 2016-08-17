@@ -184,6 +184,7 @@ static const u8x8_display_info_t u8x8_tga_info =
   /* post_reset_wait_ms = */ 0, 
   /* sda_setup_time_ns = */ 0,		
   /* sck_pulse_width_ns = */ 0,
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 1,		
   /* i2c_bus_clock_100kHz = */ 0,
   /* data_setup_time_ns = */ 0,

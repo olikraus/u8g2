@@ -108,6 +108,7 @@ static const u8x8_display_info_t u8x8_uc1701_display_info =
   /* post_reset_wait_ms = */ 6, 
   /* sda_setup_time_ns = */ 12,		
   /* sck_pulse_width_ns = */ 75,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 1,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,
