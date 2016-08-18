@@ -33,5 +33,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Use beginTransaction for SPI. This requires Arduino 1.6.0
 2016-08-18	v2.3.x	  olikraus@gmail.com
  * MINI12874; Fixed HW Flip Mode (pull request 49)
- * ST7920 HW SPI 
+ * Fixed ST7920 HW SPI with very fast uC, issue 50
   
