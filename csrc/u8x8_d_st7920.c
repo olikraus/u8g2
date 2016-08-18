@@ -123,13 +123,16 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       */
       c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
+      /* The following byte is sent to allow the ST7920 to sync up with the data */
+      /* it solves some issues with garbage data */
+      u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
       for( i = 0; i < 8; i++ )
       {
 	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
 	u8x8_cad_SendCmd(u8x8, 0x080 | (y+i) );      /* y pos  */
 	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
-	
+
 	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
 	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
 	ptr += c;
@@ -181,6 +184,7 @@ static const u8x8_display_info_t u8x8_st7920_128x64_display_info =
   /* sda_setup_time_ns = */ 20,		
   /* sck_pulse_width_ns = */  140,	/* datasheet ST7920 */
   /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* ST7920+Due work with 1MHz but not with 2MHz, ST7920+Uno works with 2MHz */
   /* spi_mode = */ 1,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,

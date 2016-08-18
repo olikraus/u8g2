@@ -74,7 +74,23 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 	}
 	  
       break;
-  
+
+#ifndef __AVR__	
+    /* this case is not compiled for any AVR, because AVR uC are so slow */
+    /* that this delay does not matter */
+    case U8X8_MSG_DELAY_NANO:
+      delayMicroseconds(arg_int==0?0:1);
+      break;
+#endif
+    
+    case U8X8_MSG_DELAY_10MICRO:
+      /* not used at the moment */
+      break;
+    
+    case U8X8_MSG_DELAY_100NANO:
+      /* not used at the moment */
+      break;
+   
     case U8X8_MSG_DELAY_MILLI:
       delay(arg_int);
       break;
