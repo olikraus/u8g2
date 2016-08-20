@@ -993,17 +993,18 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   strcat(bdf_cmd, ".c");
   
   
+  /*
   if ( fi[i].kerning_min_distance_per_cent > 0 )
   {
     strcat(bdf_cmd, " -k ");
     strcat(bdf_cmd, target_font_identifier);
-    //strcat(bdf_cmd, "font");
     strcat(bdf_cmd, "_k.c");
 	  
     strcat(bdf_cmd, " -p ");
     sprintf(bdf_cmd+strlen(bdf_cmd), "%d", fi[i].kerning_min_distance_per_cent);
 	
   }
+  */
   
 /*
     fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") \n", fontname, bf->target_cnt, fontname);

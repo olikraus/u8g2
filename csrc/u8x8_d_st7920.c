@@ -160,7 +160,7 @@ static const u8x8_display_info_t u8x8_st7920_192x32_display_info =
   /* sda_setup_time_ns = */ 20,		
   /* sck_pulse_width_ns = */  140,	/* datasheet ST7920 */
   /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 1,		/* old: sck_takeover_edge, new: active high (bit 1), rising edge (bit 0) */
+  /* spi_mode = */ 3,		/* old: sck_takeover_edge, new: active high (bit 1), rising edge (bit 0), 18 Aug 16: changed from 1 to 3 which works for 101 */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
@@ -185,7 +185,7 @@ static const u8x8_display_info_t u8x8_st7920_128x64_display_info =
   /* sck_pulse_width_ns = */  140,	/* datasheet ST7920 */
   /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* ST7920+Due work with 1MHz but not with 2MHz, ST7920+Uno works with 2MHz */
-  /* spi_mode = */ 1,		/* active high, rising edge */
+  /* spi_mode = */ 3,		/* active high, rising edge, 18 Aug 16: changed from 1 to 3 which works for 101  */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
