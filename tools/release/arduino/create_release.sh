@@ -18,6 +18,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/A2Printer
 cp ../../../sys/arduino/u8g2_page_buffer/A2Printer/*.ino ../../../../U8g2_Arduino/examples/page_buffer/A2Printer/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/ExtUTF8
+cp ../../../sys/arduino/u8g2_page_buffer/ExtUTF8/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ExtUTF8/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/FPS
 cp ../../../sys/arduino/u8g2_page_buffer/FPS/*.ino ../../../../U8g2_Arduino/examples/page_buffer/FPS/.
 
