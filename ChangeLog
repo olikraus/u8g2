@@ -31,7 +31,10 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed SSD1306 I2C procedures (mirror pixel in last tile column, issue 44)
   * Experimental support für mini12864 (pull request)
   * Use beginTransaction for SPI. This requires Arduino 1.6.0
-2016-08-18	v2.3.x	  olikraus@gmail.com
+2016-08-18	v2.3.2	  olikraus@gmail.com
  * MINI12874; Fixed HW Flip Mode (pull request 49)
  * Fixed ST7920 HW SPI with very fast uC, issue 50
-  
+ * Improved HW SPI for SH1106 and SSD1306 displays
+ * Fixed issue with missing fonts
+2016-xx-xx	v2.4.x	olikraus@gmail.com
+

@@ -75,3 +75,20 @@ uint8_t u8g2_GetKerning(u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint
   return kerning->kerning_values[i2];
 }
 
+uint8_t u8g2_GetKerningByTable(u8g2_t *u8g2, const uint16_t *kt, uint16_t e1, uint16_t e2)
+{
+  uint16_t i;
+  i = 0;
+  if ( kt == NULL )
+    return 0;
+  for(;;)
+  {
+    if ( kt[i] == 0x0ffff )
+      break;
+    if ( kt[i] == e1 && kt[i+1] == e2 )
+      return kt[i+2];
+    i+=3;
+  }
+  return 0;
+}
+

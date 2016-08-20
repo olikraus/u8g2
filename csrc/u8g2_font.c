@@ -825,6 +825,52 @@ u8g2_uint_t u8g2_DrawExtendedUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, ui
   return sum;
 }
 
+u8g2_uint_t u8g2_DrawExtUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t to_left, const uint16_t *kerning_table, const char *str)
+{
+  u8g2->u8x8.next_cb = u8x8_utf8_next;
+  uint16_t e_prev = 0x0ffff;
+  uint16_t e;
+  u8g2_uint_t delta, sum, k;
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
+  sum = 0;
+  for(;;)
+  {
+    e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    if ( e == 0x0ffff )
+      break;
+    str++;
+    if ( e != 0x0fffe )
+    {
+      delta = u8g2_GetGlyphWidth(u8g2, e);
+	    
+      if ( to_left )
+      {
+        k = u8g2_GetKerningByTable(u8g2, kerning_table, e, e_prev);
+	delta -= k;
+	x -= delta;
+      }
+      else
+      {
+        k = u8g2_GetKerningByTable(u8g2, kerning_table, e_prev, e);
+	delta -= k;
+      }
+      e_prev = e;
+
+      u8g2_DrawGlyph(u8g2, x, y, e);
+      if ( to_left )
+      {
+      }
+      else
+      {
+	x += delta;
+	x -= k;
+      }
+      
+      sum += delta;    
+    }
+  }
+  return sum;
+}
 
 
 
