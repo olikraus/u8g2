@@ -321,8 +321,11 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     case U8X8_MSG_CAD_SEND_CMD:
       //u8x8_byte_SetDC(u8x8, 0);
       u8x8_byte_SendByte(u8x8, 0x0f8);
+      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 1);
       u8x8_byte_SendByte(u8x8, arg_int & 0x0f0);
+      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 1);
       u8x8_byte_SendByte(u8x8, arg_int << 4);
+      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 1);
       break;
     case U8X8_MSG_CAD_SEND_ARG:
       //u8x8_byte_SetDC(u8x8, 0);
@@ -334,6 +337,7 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       //u8x8_byte_SetDC(u8x8, 1);
     
       u8x8_byte_SendByte(u8x8, 0x0fa);
+      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 1);
 
       /* this loop should be optimized: multiple bytes should be sent */
       /* u8x8_byte_SendBytes(u8x8, arg_int, arg_ptr); */
@@ -348,6 +352,7 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 	data++;
 	arg_int--;
       }
+      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 1);
       break;
     case U8X8_MSG_CAD_INIT:
     case U8X8_MSG_CAD_START_TRANSFER:

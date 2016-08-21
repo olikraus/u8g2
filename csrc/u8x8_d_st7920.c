@@ -45,14 +45,14 @@ static const uint8_t u8x8_d_st7920_init_seq[] = {
     
   U8X8_DLY(100),
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_DLY(100),
+  U8X8_DLY(10),
   
   U8X8_C(0x038),            			/* 8 Bit interface (DL=1), basic instruction set (RE=0) */
-  U8X8_C(0x00c),		                /* display on, cursor & blink off; 0x08: all off */
+  U8X8_C(0x008),		                /* display on, cursor & blink off; 0x08: all off */
   U8X8_C(0x006),		                /* Entry mode: Cursor move to right ,DDRAM address counter (AC) plus 1, no shift  */  
   U8X8_C(0x002),		                /* disable scroll, enable CGRAM adress  */
-  //U8X8_C(0x001),		                /* clear RAM, needs 1.6 ms */
-  U8X8_DLY(2),					/* delay 2ms */
+  U8X8_C(0x001),		                /* clear RAM, needs 1.6 ms */
+  U8X8_DLY(4),					/* delay 2ms */
 
   
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -133,10 +133,10 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
 
-	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
+	//u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
 	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
 	ptr += c;
-	u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
+	//u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, 200, NULL);	/* extra dely required */
       }
 
       u8x8_cad_EndTransfer(u8x8);
@@ -161,6 +161,7 @@ static const u8x8_display_info_t u8x8_st7920_192x32_display_info =
   /* sck_pulse_width_ns = */  140,	/* datasheet ST7920 */
   /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 3,		/* old: sck_takeover_edge, new: active high (bit 1), rising edge (bit 0), 18 Aug 16: changed from 1 to 3 which works for 101 */
+	/* Arduino mode 3: aktive low clock, but use rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
@@ -186,6 +187,7 @@ static const u8x8_display_info_t u8x8_st7920_128x64_display_info =
   /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* ST7920+Due work with 1MHz but not with 2MHz, ST7920+Uno works with 2MHz */
   /* spi_mode = */ 3,		/* active high, rising edge, 18 Aug 16: changed from 1 to 3 which works for 101  */
+  /* in theory mode 3 should be correct  */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,

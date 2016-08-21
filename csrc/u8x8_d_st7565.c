@@ -82,7 +82,7 @@ static const u8x8_display_info_t u8x8_st7565_128x64_display_info =
   /* sda_setup_time_ns = */ 50,		/* st7565 datasheet, table 26, tsds */
   /* sck_pulse_width_ns = */ 120,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 1,		/* active high, rising edge */
+  /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
@@ -106,7 +106,7 @@ static const u8x8_display_info_t u8x8_st7565_128x32_display_info =
   /* sda_setup_time_ns = */ 50,		/* st7565 datasheet, table 26, tsds */
   /* sck_pulse_width_ns = */ 120,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 1,		/* active high, rising edge */
+  /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */

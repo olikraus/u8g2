@@ -215,10 +215,10 @@ struct u8x8_display_info_struct
   uint32_t sck_clock_hz;
   
   /* previous name "sck_takeover_edge" renamed to "spi_mode" */
-  /* bit 0 of spi_mode is equal to the value of the previous variable sck_takeover_edge */ 
+  /* bit 0 of spi_mode is equal to the value of the previous variable sck_takeover_edge, 20 Aug 16: This is wrong the bit is actually inverted */ 
   /* SPI has four clock modes: */
-  /*   0: clock active high, data out on falling edge */
-  /*   1: clock active high, data out on rising edge */
+  /*   0: clock active high, data out on falling edge, clock default value is zero, takover on rising edge */
+  /*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
   /*   2: clock active low, data out on rising edge */
   /*   3: clock active low, data out on falling edge */
   /* most displays have clock mode 1 */
@@ -322,8 +322,9 @@ struct u8x8_struct
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
 #define u8x8_GetI2CAddress(u8x8) ((u8x8)->i2c_address)
 #define u8x8_SetGPIOResult(u8x8, val) ((u8x8)->gpio_result = (val))
-#define u8x8_GetSPIClockPhase(u8x8) ((u8x8)->display_info->spi_mode & 0x01)  /* this returns "sck_takeover_edge" */
+#define u8x8_GetSPIClockPhase(u8x8) ((u8x8)->display_info->spi_mode & 0x01)  /* 0 means rising edge */
 #define u8x8_GetSPIClockPolarity(u8x8) (((u8x8)->display_info->spi_mode & 0x02) >> 1)
+#define u8x8_GetSPIClockDefaultLevel(u8x8) (((u8x8)->display_info->spi_mode & 0x02) >> 1)
 
 
 #ifdef U8X8_USE_PINS 

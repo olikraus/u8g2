@@ -4,7 +4,6 @@
 
 u8g2_t u8g2;
 
-      u8g2_DrawExtUTF8(&u8g2, x, y, 1, NULL, "سلام جهان");
 const uint16_t my_kerning_table[] = 
 {
 	/* first char, second char, gap reduction value */

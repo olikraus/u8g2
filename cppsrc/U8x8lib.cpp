@@ -278,6 +278,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 {
 #ifdef U8X8_HAVE_HW_SPI
   uint8_t *data;
+  uint8_t internal_spi_mode;
  
   switch(msg)
   {
@@ -310,8 +311,18 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       break;
       
     case U8X8_MSG_BYTE_START_TRANSFER:
+      /* SPI mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
+      internal_spi_mode =  0;
+      switch(u8x8->display_info->spi_mode)
+      {
+	case 0: internal_spi_mode = SPI_MODE0; break;
+	case 1: internal_spi_mode = SPI_MODE1; break;
+	case 2: internal_spi_mode = SPI_MODE2; break;
+	case 3: internal_spi_mode = SPI_MODE3; break;
+      }
+      
 #if ARDUINO >= 10600
-      SPI.beginTransaction(SPISettings(u8x8->display_info->sck_clock_hz, MSBFIRST, u8x8->display_info->spi_mode));
+      SPI.beginTransaction(SPISettings(u8x8->display_info->sck_clock_hz, MSBFIRST, internal_spi_mode));
 #else
       SPI.begin();
       
@@ -321,7 +332,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 	SPI.setClockDivider( SPI_CLOCK_DIV4 );
       else
 	SPI.setClockDivider( SPI_CLOCK_DIV8 );
-      SPI.setDataMode(u8x8->display_info->spi_mode);
+      SPI.setDataMode(internal_spi_mode);
       SPI.setBitOrder(MSBFIRST);
 #endif
       
@@ -343,6 +354,8 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
     default:
       return 0;
   }
+  
+#else
 #endif
   return 1;
 }
