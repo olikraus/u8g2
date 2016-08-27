@@ -168,6 +168,7 @@ struct groupinfo gi[] = {
   { "Codeman38", 	"fntgrpcodeman38",	"../../../../u8g2.wiki/fntgrpcodeman38.md",	"fntgrpcodeman38.pre" },		/* 12 */
   { "Academia Sinica","fntgrpacademiasinica",	"../../../../u8g2.wiki/fntgrpacademiasinica.md",	"fntgrpacademiasinica.pre" },		/* 13 */
   { "Oldschool PC Fonts","fntgrpoldschoolpcfonts",	"../../../../u8g2.wiki/fntgrpoldschoolpcfonts.md",	"fntgrpoldschoolpcfonts.pre" },  /* 14 */		/* 14 */
+  { "crox", 		"fntgrpcrox", 		"../../../../u8g2.wiki/fntgrpcrox.md", 		"fntgrpcrox.pre" }, 		/* 15 */
   
 };
 
@@ -237,6 +238,34 @@ struct fontinfo fi[] = {
   { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+
+  /* crox fonts are CP1251 encoded */
+  { 0, "win_crox1cb.bdf",		"crox1cb",		14,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox1c.bdf",		"crox1c",			14,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox1hb.bdf",		"crox1hb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox1h.bdf",		"crox1h",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox1tb.bdf",		"crox1tb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox1t.bdf",		"crox1t",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox2cb.bdf",		"crox2cb",		14,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox2c.bdf",		"crox2c",			14,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox2hb.bdf",		"crox2hb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox2h.bdf",		"crox2h",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox2tb.bdf",		"crox2tb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox2t.bdf",		"crox2t",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox3cb.bdf",		"crox3cb",		14,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox3c.bdf",		"crox3c",			14,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox3hb.bdf",		"crox3hb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox3h.bdf",		"crox3h",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox3tb.bdf",		"crox3tb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox3t.bdf",		"crox3t",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox4hb.bdf",		"crox4hb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox4h.bdf",		"crox4h",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox4tb.bdf",		"crox4tb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox4t.bdf",		"crox4t",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox5hb.bdf",		"crox5hb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox5h.bdf",		"crox5h",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox5tb.bdf",		"crox5tb",		14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "win_crox5t.bdf",		"crox5t",			14,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 
   
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },

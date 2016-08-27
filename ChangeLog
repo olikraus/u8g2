@@ -38,4 +38,6 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Fixed issue with missing fonts
 2016-08-21	v2.4.1	olikraus@gmail.com
  * Fixed HW SPI Modes (issue 52)
+2016-xx-xx	v2.5.x	 olikraus@gmail.com
+ * Added crox fonts (issue 57)
  
