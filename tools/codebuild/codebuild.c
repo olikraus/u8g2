@@ -246,6 +246,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "ra8835", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800|COM_8080,
+    "Tested with RA8835", /* is_generate_u8g2_class= */ 1,
+    {
+      { "nhd_240x128" },
+      { NULL }
+    }
+  },
+  {
     "a2printer", 	48, 	30, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_UART,
     "", /* is_generate_u8g2_class= */ 0,
     {
