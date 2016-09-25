@@ -72,6 +72,7 @@ static const uint8_t u8x8_d_ssd1325_128x64_nhd_init_seq[] = {
   U8X8_CA(0x0bf, 0x002|0x00d),           /* VSL voltage level (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
   U8X8_C(0x0a4),				/* normal display mode */
     
+  U8X8_CA(0x023, 0x003),		/* graphics accelleration: fill pixel */
     
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -206,16 +207,30 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 
 	do
 	{
-	  u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
-	  u8x8_cad_SendArg(u8x8, x );	/* start */
-	  u8x8_cad_SendArg(u8x8, x+3 );	/* end */
+	  if ( ptr[0] | ptr[1] | ptr[2] | ptr[3] | ptr[4] | ptr[5] | ptr[6] | ptr[7] )
+	  {
+	    /* draw the tile of pattern is not fully clear */
+	    u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
+	    u8x8_cad_SendArg(u8x8, x );	/* start */
+	    u8x8_cad_SendArg(u8x8, x+3 );	/* end */
 
-	  u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
-	  u8x8_cad_SendArg(u8x8, y);
-	  u8x8_cad_SendArg(u8x8, y+7);
-	  
-	  
-	  u8x8_cad_SendData(u8x8, 32, u8x8_8to32(u8x8, ptr));
+	    u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
+	    u8x8_cad_SendArg(u8x8, y);
+	    u8x8_cad_SendArg(u8x8, y+7);
+	    
+	    
+	    u8x8_cad_SendData(u8x8, 32, u8x8_8to32(u8x8, ptr));
+	  }
+	  else
+	  {
+	    /* tile is empty, use the graphics acceleration command */
+	    u8x8_cad_SendCmd(u8x8, 0x024 );	// draw rectangle
+	    u8x8_cad_SendArg(u8x8, x );	
+	    u8x8_cad_SendArg(u8x8, y );	
+	    u8x8_cad_SendArg(u8x8, x+3 );	
+	    u8x8_cad_SendArg(u8x8, y+7 );	
+	    u8x8_cad_SendArg(u8x8, 0 );	// clear	    
+	  }
 	  ptr += 8;
 	  x += 4;
 	  c--;
