@@ -40,4 +40,6 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Fixed HW SPI Modes (issue 52)
 2016-xx-xx	v2.5.x	 olikraus@gmail.com
  * Added crox fonts (issue 57)
+ * Support for RA8835 (issue 45)
+ 
  
