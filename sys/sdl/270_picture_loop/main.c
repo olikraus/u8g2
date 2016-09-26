@@ -50,6 +50,9 @@ int main(void)
 
       u8g2_SetFontDirection(&u8g2, 3);
       u8g2_DrawStr(&u8g2, x, y, "270");
+      
+      u8g2_DrawPixel(&u8g2, x-3, y);
+      
       if ( i == 1 )
       {
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x0, u8g2.user_y0, 1, 0);
