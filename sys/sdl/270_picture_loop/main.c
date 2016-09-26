@@ -48,10 +48,14 @@ int main(void)
     {
       u8g2_SetFontPosTop(&u8g2);
 
+           u8g2_SetFontDirection(&u8g2, 2);
+      u8g2_DrawStr(&u8g2, x, y, "270");
+ 
       u8g2_SetFontDirection(&u8g2, 3);
       u8g2_DrawStr(&u8g2, x, y, "270");
       
-      u8g2_DrawPixel(&u8g2, x-3, y);
+
+
       
       if ( i == 1 )
       {

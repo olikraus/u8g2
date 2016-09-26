@@ -525,15 +525,23 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
 	    break;
 	case 1:
 	    x0 -= h;
+	    x0++;	/* shift down, because of assymetric boundaries for the interseciton test */
+	    x1++;
 	    y1 += decode->glyph_width;
 	    break;
 	case 2:
 	    x0 -= decode->glyph_width;
+	    x0++;	/* shift down, because of assymetric boundaries for the interseciton test */
+	    x1++;
 	    y0 -= h;
+	    y0++;	/* shift down, because of assymetric boundaries for the interseciton test */
+	    y1++;
 	    break;	  
 	case 3:
 	    x1 += h;
 	    y0 -= decode->glyph_width;
+	    y0++;	/* shift down, because of assymetric boundaries for the interseciton test */
+	    y1++;
 	    break;	  
       }
 #else /* U8G2_WITH_FONT_ROTATION */

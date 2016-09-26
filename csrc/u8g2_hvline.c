@@ -225,11 +225,11 @@ void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
 #ifdef U8G2_WITH_INTERSECTION
   if ( y < u8g2->user_y0 )
     return;
-  if ( y > u8g2->user_y1 )
+  if ( y >= u8g2->user_y1 )
     return;
   if ( x < u8g2->user_x0 )
     return;
-  if ( x > u8g2->user_x1 )
+  if ( x >= u8g2->user_x1 )
     return;
 #endif /* U8G2_WITH_INTERSECTION */
   u8g2_DrawHVLine(u8g2, x, y, 1, 0);
