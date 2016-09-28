@@ -114,9 +114,9 @@ static const uint8_t u8x8_d_ssd1325_128x64_nhd_flip1_seq[] = {
     Tile for SSD1325 (32 Bytes)
 */
 
-static uint8_t u8x8_8to32_dest_buf[32];
+static uint8_t u8x8_ssd1325_8to32_dest_buf[32];
 
-static uint8_t *u8x8_8to32(u8x8_t *u8x8, uint8_t *ptr)
+static uint8_t *u8x8_ssd1325_8to32(u8x8_t *u8x8, uint8_t *ptr)
 {
   uint8_t v;
   uint8_t a,b;
@@ -125,7 +125,7 @@ static uint8_t *u8x8_8to32(u8x8_t *u8x8, uint8_t *ptr)
   
   for( j = 0; j < 4; j++ )
   {
-    dest = u8x8_8to32_dest_buf;
+    dest = u8x8_ssd1325_8to32_dest_buf;
     dest += j;
     a =*ptr;
     ptr++;
@@ -143,7 +143,7 @@ static uint8_t *u8x8_8to32(u8x8_t *u8x8, uint8_t *ptr)
     }
   }
   
-  return u8x8_8to32_dest_buf;
+  return u8x8_ssd1325_8to32_dest_buf;
 }
 
 
@@ -219,7 +219,7 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 	    u8x8_cad_SendArg(u8x8, y+7);
 	    
 	    
-	    u8x8_cad_SendData(u8x8, 32, u8x8_8to32(u8x8, ptr));
+	    u8x8_cad_SendData(u8x8, 32, u8x8_ssd1325_8to32(u8x8, ptr));
 	  }
 	  else
 	  {
@@ -236,7 +236,7 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 	  c--;
 	} while( c > 0 );
 	
-	x += 4;
+	//x += 4;
 	arg_int--;
       } while( arg_int > 0 );
       

@@ -41,9 +41,9 @@
 
 static const uint8_t u8x8_d_ssd1322_init_seq[] = {
     
-  U8X8_DLY(100),
+  U8X8_DLY(1),
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_DLY(100),
+  U8X8_DLY(1),
   
   U8X8_CA(0xfd, 0x12),            	/* unlock */
   U8X8_C(0xae),		                /* display off */
@@ -51,7 +51,8 @@ static const uint8_t u8x8_d_ssd1322_init_seq[] = {
   U8X8_CA(0xca, 0x3f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
   U8X8_CA(0xa2, 0x00),			/* display offset, shift mapping ram counter */  
   U8X8_CA(0xa1, 0x00),			/* display start line */  
-  U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
+  //U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
+  U8X8_CAA(0xa0, 0x06, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
   U8X8_CA(0xab, 0x01),			/* Enable Internal VDD Regulator */  
   U8X8_CAA(0xb4, 0xa0, 0x005|0x0fd),	/* Display Enhancement A */  
   U8X8_CA(0xc1, 0x9f),			/* contrast */  
@@ -64,9 +65,9 @@ static const uint8_t u8x8_d_ssd1322_init_seq[] = {
   U8X8_CA(0xbe, 0x07),			/* vcomh */  
   U8X8_C(0xa6),		                /* normal display */
   U8X8_C(0xa9),		                /* exit partial display */
-  
-  
-  U8X8_DLY(2),					/* delay 2ms */
+
+
+  U8X8_DLY(1),					/* delay 2ms */
 
   
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -83,6 +84,20 @@ static const uint8_t u8x8_d_ssd1322_powersave0_seq[] = {
 static const uint8_t u8x8_d_ssd1322_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0ae),		                /* ssd1322: display off */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1322_256x64_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CAA(0x0a0, 0x006, 0x011),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1322_256x64_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CAA(0x0a0, 0x014, 0x011),		/* remap */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -106,10 +121,50 @@ uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
 }
 
 
+/*
+  input:
+    one tile (8 Bytes)
+  output:
+    Tile for SSD1325 (32 Bytes)
+*/
+
+static uint8_t u8x8_ssd1322_8to32_dest_buf[32];
+
+static uint8_t *u8x8_ssd1322_8to32(u8x8_t *u8x8, uint8_t *ptr)
+{
+  uint8_t v;
+  uint8_t a,b;
+  uint8_t i, j;
+  uint8_t *dest;
+  
+  for( j = 0; j < 4; j++ )
+  {
+    dest = u8x8_ssd1322_8to32_dest_buf;
+    dest += j;
+    a =*ptr;
+    ptr++;
+    b = *ptr;
+    ptr++;
+    for( i = 0; i < 8; i++ )
+    {
+      v = 0;
+      if ( a&1 ) v |= 0xf0;
+      if ( b&1 ) v |= 0x0f;
+      *dest = v;
+      dest+=4;
+      a >>= 1;
+      b >>= 1;
+    }
+  }
+  
+  return u8x8_ssd1322_8to32_dest_buf;
+}
+
+
 uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  // uint8_t x; 
-  uint8_t y, c, i;
+  uint8_t x; 
+  uint8_t y, c;
   uint8_t *ptr;
   switch(msg)
   {
@@ -129,57 +184,64 @@ uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_powersave1_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
-      /* flip mode is NOT supported at the moment, however at least we assign the x_offset */
       if ( arg_int == 0 )
       {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
-    case U8X8_MSG_DISPLAY_DRAW_TILE:
-      y = (((u8x8_tile_t *)arg_ptr)->y_pos);
-      y*=8;
-      /* u8x8 API is not supported, so x is not required */
-      /* x = ((u8x8_tile_t *)arg_ptr)->x_pos; */
-    
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
-        
-
-      /* 
-	Tile structure is reused here for the ssd1322, however u8x8 is not supported 
-	tile_ptr points to data which has cnt*8 bytes (same as SSD1306 tiles)
-	Buffer is expected to have 8 lines of code fitting to the ssd1322 internal memory
-	"cnt" includes the number of horizontal bytes. width is equal to cnt*8
-	Also important: Width must be a multiple of 16 (ssd1322 requirement), so cnt must be even.
-      */
-    
-      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
-      for( i = 0; i < 8; i++ )
-      {
-	u8x8_cad_SendCmd(u8x8, 0x015 );	/* column adr */
-	u8x8_cad_SendArg(u8x8, u8x8->x_offset );		/* start col */
-	u8x8_cad_SendArg(u8x8, u8x8->x_offset + u8x8->display_info->pixel_width/4 + 1 );	/* end col */
-	
-	u8x8_cad_SendCmd(u8x8, 0x075 );	/* row adr */
-	u8x8_cad_SendArg(u8x8, y );      		/* row adr*/
-	u8x8_cad_SendArg(u8x8, y+1 );     	 /* row adr + 1 */
-	
-	u8x8_cad_SendCmd(u8x8, 0x05c);       /* write to ram */  
-	
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */	
-	while( c > 0 )
-	{
-	  u8x8_write_byte_to_16gr_device(u8x8, *ptr);
-	  c--;
-	  ptr++;
-	}	
-      }
-
+      u8x8_cad_SendCmd(u8x8, 0x081 );
+      u8x8_cad_SendArg(u8x8, arg_int );	/* ssd1325 has range from 0 to 255 */
       u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_cad_StartTransfer(u8x8);
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+      x *= 2;		// only every 4th col can be addressed
+      x += u8x8->x_offset;		
+    
+      y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+      y *= 8;
+    
+      
+      do
+      {
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 
+	do
+	{
+	  u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
+	  u8x8_cad_SendArg(u8x8, x );	/* start */
+	  u8x8_cad_SendArg(u8x8, x+1 );	/* end */
+
+	  u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
+	  u8x8_cad_SendArg(u8x8, y);
+	  u8x8_cad_SendArg(u8x8, y+7);
+	  
+	  u8x8_cad_SendCmd(u8x8, 0x05c );	/* write to ram */
+	  
+	  u8x8_cad_SendData(u8x8, 32, u8x8_ssd1322_8to32(u8x8, ptr));
+	  
+	  ptr += 8;
+	  x += 2;
+	  c--;
+	} while( c > 0 );
+	
+	//x += 2;
+	arg_int--;
+      } while( arg_int > 0 );
+      
+      u8x8_cad_EndTransfer(u8x8);
       break;
     default:
       return 0;
@@ -203,31 +265,31 @@ static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
+#ifdef U8G2_16BIT
   /* tile_width = */ 32,		/* 256 pixel, so we require 32 bytes for this */
+#else
+  /* tile_width = */ 31,		/* reduced to 240 pixel in 8 bit mode, looks odd, but at least something is visible */
+#endif
   /* tile_hight = */ 8,
   /* default_x_offset = */ 0x01c,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0x01c,
+#ifdef U8G2_16BIT
   /* pixel_width = */ 256,
+#else
+  /* pixel_width = */ 256-16,
+#endif
   /* pixel_height = */ 32
 };
 
 
 
-uint8_t u8x8_d_ssd1322_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_ssd1322_nhd_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1322_256x64_display_info);
       break;
-#ifdef U8X8_WITH_SET_CONTRAST
-    case U8X8_MSG_DISPLAY_SET_CONTRAST:
-      u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x0c1 );
-      u8x8_cad_SendArg(u8x8, arg_int );	/* ssd1322 has range from 0 to 255 */
-      u8x8_cad_EndTransfer(u8x8);
-      break;
-#endif
     
     default:
       return u8x8_d_ssd1322_common(u8x8, msg, arg_int, arg_ptr);
