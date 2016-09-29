@@ -265,19 +265,11 @@ static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
-#ifdef U8G2_16BIT
   /* tile_width = */ 32,		/* 256 pixel, so we require 32 bytes for this */
-#else
-  /* tile_width = */ 31,		/* reduced to 240 pixel in 8 bit mode, looks odd, but at least something is visible */
-#endif
   /* tile_hight = */ 8,
   /* default_x_offset = */ 0x01c,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0x01c,
-#ifdef U8G2_16BIT
   /* pixel_width = */ 256,
-#else
-  /* pixel_width = */ 256-16,
-#endif
   /* pixel_height = */ 64
 };
 

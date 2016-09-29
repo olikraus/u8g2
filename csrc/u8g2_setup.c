@@ -94,6 +94,10 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   u8g2->pixel_buf_height = t;
   
   t = u8g2_GetU8x8(u8g2)->display_info->tile_width;
+#ifndef U8G2_16BIT
+  if ( t >= 32 )
+    t = 31;
+#endif
   t *= 8;
   u8g2->pixel_buf_width = t;
   
@@ -111,8 +115,17 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   u8g2->buf_y1 = u8g2->buf_y0;
   u8g2->buf_y1 += t;
 
+  
+#ifdef U8G2_16BIT
   u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
   u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+#else
+  u8g2->width = 240;
+  if ( u8g2_GetU8x8(u8g2)->display_info->pixel_width <= 240 )
+    u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+  u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+#endif
+
 }
 
 void u8g2_update_dimension_r0(u8g2_t *u8g2)
