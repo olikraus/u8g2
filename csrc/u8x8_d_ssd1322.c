@@ -278,7 +278,7 @@ static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
 #else
   /* pixel_width = */ 256-16,
 #endif
-  /* pixel_height = */ 32
+  /* pixel_height = */ 64
 };
 
 
