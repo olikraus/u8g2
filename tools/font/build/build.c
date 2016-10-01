@@ -169,6 +169,7 @@ struct groupinfo gi[] = {
   { "Academia Sinica","fntgrpacademiasinica",	"../../../../u8g2.wiki/fntgrpacademiasinica.md",	"fntgrpacademiasinica.pre" },		/* 13 */
   { "Oldschool PC Fonts","fntgrpoldschoolpcfonts",	"../../../../u8g2.wiki/fntgrpoldschoolpcfonts.md",	"fntgrpoldschoolpcfonts.pre" },  /* 14 */		/* 14 */
   { "crox", 		"fntgrpcrox", 		"../../../../u8g2.wiki/fntgrpcrox.md", 		"fntgrpcrox.pre" }, 		/* 15 */
+  { "efont", 		"fntgrpefont", 		"../../../../u8g2.wiki/fntgrpefont.md", 		"fntgrpefont.pre" }, 		/* 16 */
   
 };
 
@@ -284,7 +285,7 @@ struct fontinfo fi[] = {
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
 
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese2" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
   { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
   { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
@@ -294,6 +295,37 @@ struct fontinfo fi[] = {
   { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
   { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
 
+  { 0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+
+  { 0, "f10.bdf", 			"f10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "f10.bdf", 			"f10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "f10_b.bdf", 			"f10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "f10_b.bdf", 			"f10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+
+  { 0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+
+  { 0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+
+  { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+
+  { 0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+
+  
 //#ifdef TMP
   
   /*
