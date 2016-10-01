@@ -41,5 +41,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-xx-xx	v2.5.x	 olikraus@gmail.com
  * Added crox fonts (issue 57)
  * Support for RA8835 (issue 45)
+ * Added support for SSD1322 and SSD1325
+ * Added DrawXBMP (AVR: Assume bitmap in PROGMEM)
  
  

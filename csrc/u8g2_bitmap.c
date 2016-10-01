@@ -99,6 +99,7 @@ void u8g2_DrawBitmap(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t cnt
 }
 
 
+
 void u8g2_DrawHXBM(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
 {
   uint8_t mask;
@@ -149,4 +150,61 @@ void u8g2_DrawXBM(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g
     h--;
   }
 }
+
+
+
+
+
+
+void u8g2_DrawHXBMP(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
+{
+  uint8_t mask;
+  uint8_t color = u8g2->draw_color;
+  uint8_t ncolor = 1-color;
+#ifdef U8G2_WITH_INTERSECTION
+  if ( u8g2_IsIntersection(u8g2, x, y, x+len, y+1) == 0 ) 
+    return;
+#endif /* U8G2_WITH_INTERSECTION */
+  
+  mask = 1;
+  while(len > 0)
+  {
+    if ( u8x8_pgm_read(b) & mask )
+      u8g2->draw_color = color;
+    else
+      u8g2->draw_color = ncolor;
+    u8g2_DrawHVLine(u8g2, x, y, 1, 0);
+    x++;
+    mask <<= 1;
+    if ( mask == 0 )
+    {
+      mask = 1;
+      b++;
+    }
+    len--;
+  }
+  u8g2->draw_color = color;
+}
+
+
+void u8g2_DrawXBMP(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, const uint8_t *bitmap)
+{
+  u8g2_uint_t blen;
+  blen = w;
+  blen += 7;
+  blen >>= 3;
+#ifdef U8G2_WITH_INTERSECTION
+  if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
+    return;
+#endif /* U8G2_WITH_INTERSECTION */
+  
+  while( h > 0 )
+  {
+    u8g2_DrawHXBMP(u8g2, x, y, w, bitmap);
+    bitmap += blen;
+    y++;
+    h--;
+  }
+}
+
 
