@@ -33,7 +33,13 @@
 
 
   The device might also work with the RA8835, SED1335 and SED1336 controller.
-  
+  The following devices might be compatible:
+    RA8835
+    SED1330
+    SED1335
+    S1D13700
+
+
 */
 #include "u8x8.h"
 
