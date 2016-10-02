@@ -101,9 +101,18 @@
 //#define MINI_LOGO
 
 void setup(void) {
-  pinMode(18, OUTPUT);
-  digitalWrite(18, 1);
- u8g2.begin();
+  /* U8g2 Project: SSD1306 Test Board */
+  //pinMode(10, OUTPUT);
+  //pinMode(9, OUTPUT);
+  //digitalWrite(10, 0);
+  //digitalWrite(9, 0);		
+
+  /* U8g2 Project: T6963 Test Board */
+  //pinMode(18, OUTPUT);
+  //digitalWrite(18, 1);
+  
+  u8g2.begin();
+  u8g2.setFlipMode(0);
 }
 
 void drawLogo(void)

@@ -38,7 +38,7 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Fixed issue with missing fonts
 2016-08-21	v2.4.1	olikraus@gmail.com
  * Fixed HW SPI Modes (issue 52)
-2016-10-01	v2.5.x	 olikraus@gmail.com
+2016-10-01	v2.5.2	 olikraus@gmail.com
  * Added crox fonts (issue 57)
  * Support for RA8835 (issue 45)
  * Added support for SSD1322 and SSD1325
