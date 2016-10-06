@@ -67,7 +67,7 @@ static const u8x8_display_info_t u8x8_ls013b7dh03_128x128_display_info =
   /* pixel_height = */ 128
 };
 
-uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, void *arg_ptr)
 {
   uint8_t y, c, i;
   uint8_t *ptr;

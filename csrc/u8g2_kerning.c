@@ -44,7 +44,7 @@ uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2)
 */
 
 /* this function is used as "u8g2_get_kerning_cb" */
-uint8_t u8g2_GetKerning(u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint16_t e2)
+uint8_t u8g2_GetKerning(U8X8_UNUSED u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint16_t e2)
 {
   uint16_t i1, i2, cnt, end;
   if ( kerning == NULL )
@@ -75,7 +75,7 @@ uint8_t u8g2_GetKerning(u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint
   return kerning->kerning_values[i2];
 }
 
-uint8_t u8g2_GetKerningByTable(u8g2_t *u8g2, const uint16_t *kt, uint16_t e1, uint16_t e2)
+uint8_t u8g2_GetKerningByTable(U8X8_UNUSED u8g2_t *u8g2, const uint16_t *kt, uint16_t e1, uint16_t e2)
 {
   uint16_t i;
   i = 0;

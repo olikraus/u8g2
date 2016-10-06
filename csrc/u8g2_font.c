@@ -932,7 +932,7 @@ void u8g2_SetFontRefHeightAll(u8g2_t *u8g2)
 /*===============================================*/
 /* callback procedures to correct the y position */
 
-u8g2_uint_t u8g2_font_calc_vref_font(u8g2_t *u8g2)
+u8g2_uint_t u8g2_font_calc_vref_font(U8X8_UNUSED u8g2_t *u8g2)
 {
   return 0;
 }

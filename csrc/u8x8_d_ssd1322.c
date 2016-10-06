@@ -130,7 +130,7 @@ uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
 
 static uint8_t u8x8_ssd1322_8to32_dest_buf[32];
 
-static uint8_t *u8x8_ssd1322_8to32(u8x8_t *u8x8, uint8_t *ptr)
+static uint8_t *u8x8_ssd1322_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 {
   uint8_t v;
   uint8_t a,b;

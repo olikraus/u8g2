@@ -61,7 +61,7 @@ uint16_t get_delay_in_milliseconds(uint8_t cnt, uint8_t *data)
   return time;
 }
 
-uint8_t u8x8_d_a2printer_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_a2printer_common(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, void *arg_ptr)
 {
   uint8_t c, i, j;
   uint8_t *ptr;

@@ -301,7 +301,7 @@ void pg_ClearPolygonXY(pg_struct *pg)
   pg->cnt = 0;
 }
 
-void pg_AddPolygonXY(pg_struct *pg, u8g2_t *u8g2, int16_t x, int16_t y)
+void pg_AddPolygonXY(pg_struct *pg, int16_t x, int16_t y)
 {
   if ( pg->cnt < PG_MAX_POINTS )
   {
@@ -325,9 +325,9 @@ void u8g2_ClearPolygonXY(void)
   pg_ClearPolygonXY(&u8g2_pg);
 }
 
-void u8g2_AddPolygonXY(u8g2_t *u8g2, int16_t x, int16_t y)
+void u8g2_AddPolygonXY(U8X8_UNUSED u8g2_t *u8g2, int16_t x, int16_t y)
 {
-  pg_AddPolygonXY(&u8g2_pg, u8g2, x, y);
+  pg_AddPolygonXY(&u8g2_pg, x, y);
 }
 
 void u8g2_DrawPolygon(u8g2_t *u8g2)

@@ -116,7 +116,7 @@ static const uint8_t u8x8_d_ssd1325_128x64_nhd_flip1_seq[] = {
 
 static uint8_t u8x8_ssd1325_8to32_dest_buf[32];
 
-static uint8_t *u8x8_ssd1325_8to32(u8x8_t *u8x8, uint8_t *ptr)
+static uint8_t *u8x8_ssd1325_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 {
   uint8_t v;
   uint8_t a,b;

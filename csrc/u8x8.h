@@ -136,9 +136,11 @@ extern "C" {
 #ifdef __GNUC__
 #  define U8X8_NOINLINE __attribute__((noinline))
 #  define U8X8_SECTION(name) __attribute__ ((section (name)))
+#  define U8X8_UNUSED __attribute__((unused))
 #else
 #  define U8X8_SECTION(name)
 #  define U8X8_NOINLINE
+#  define U8X8_UNUSED
 #endif
 
 #if defined(__GNUC__) && defined(__AVR__)

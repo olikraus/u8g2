@@ -157,7 +157,7 @@ AVRDUDE = $(AVRDUDE_PATH)avrdude
 COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) $(DEFS) -DARDUINO=100
 # COMMON_FLAGS += -gdwarf-2
 COMMON_FLAGS += -Os
-COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+COMMON_FLAGS += -Wall -Wextra -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 COMMON_FLAGS += -I$(ARDUINO_PATH)hardware/arduino/cores/arduino
 COMMON_FLAGS += -I$(ARDUINO_PATH)hardware/arduino/variants/$(VARIANT)
 COMMON_FLAGS += -I. -I$(U8G_PATH) -I$(U8G_CPP_PATH)
