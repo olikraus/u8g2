@@ -144,6 +144,4 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
       }        
     }
   }
-  
-  return r;  
 }
