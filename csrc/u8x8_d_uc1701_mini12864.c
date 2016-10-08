@@ -178,7 +178,7 @@ uint8_t u8x8_d_uc1701_mini12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 	controller: It is not allowed to write beyond the display limits.
 	This is in fact an issue within flip mode.
       */
-      if ( c + x > 132u )
+      if ( ((uint16_t) (c + x)) > 132u )
       {
 	c = 132u;
 	c -= x;
