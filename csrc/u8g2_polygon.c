@@ -244,7 +244,7 @@ static void pg_hline(pg_struct *pg, u8g2_t *u8g2)
   }
 }
 
-static void pg_line_init(pg_struct * pg, uint8_t pge_index)
+static void pg_line_init(pg_struct * const pg, uint8_t pge_index)
 {
   struct pg_edge_struct  *pge = pg->pge+pge_index;
   uint8_t idx;  

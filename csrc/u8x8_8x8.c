@@ -123,7 +123,7 @@ void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
 
 		z = x | (y << 1);
 */
-static uint16_t u8x8_upscale_byte(uint8_t x)
+uint16_t u8x8_upscale_byte(uint8_t x) 
 {
 	uint16_t y = x;
 	y |= (y << 4);		// x = (x | (x << S[2])) & B[2];

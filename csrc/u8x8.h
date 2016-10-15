@@ -699,10 +699,14 @@ uint8_t u8x8_d_a2printer_384x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 uint8_t u8x8_d_sed1330_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ra8835_nhd_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ssd1325_nhd_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_d_uc1610_ea_dogxl160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 /*==========================================*/
 /* u8x8_8x8.c */
+
+uint16_t u8x8_upscale_byte(uint8_t x) U8X8_NOINLINE;
+
 
 void u8x8_utf8_init(u8x8_t *u8x8);
 uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b);
