@@ -199,6 +199,24 @@ void u8g2_draw_l90_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
   u8g2_draw_hv_line_4dir(u8g2, x, y, len, dir);
 }
 
+void u8g2_draw_l90_mirrorr_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+{
+  u8g2_uint_t xx;
+  xx = u8g2->width;
+  xx -= x;
+  if ( (dir & 1) == 0 )
+  {
+    xx -= len;
+  }
+  else
+  {
+    xx--;
+  }
+  u8g2_draw_hv_line_4dir(u8g2, xx, y, len, dir);
+}
+
+
+
 void u8g2_draw_l90_r1(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   u8g2_uint_t xx, yy;
@@ -254,7 +272,7 @@ const u8g2_cb_t u8g2_cb_r1 = { u8g2_update_dimension_r1, u8g2_draw_l90_r1 };
 const u8g2_cb_t u8g2_cb_r2 = { u8g2_update_dimension_r2, u8g2_draw_l90_r2 };
 const u8g2_cb_t u8g2_cb_r3 = { u8g2_update_dimension_r3, u8g2_draw_l90_r3 };
   
-  
+const u8g2_cb_t u8g2_cb_mirror = { u8g2_update_dimension_r0, u8g2_draw_l90_mirrorr_r0 };
   
   
   
