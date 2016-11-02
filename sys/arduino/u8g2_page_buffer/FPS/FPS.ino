@@ -162,6 +162,9 @@
   U8G2_SSD1325_NHD_128X64_1_4W_HW_SPI		Uno			Clip=12.6 Box=19.1  @=3.6 Pix=5.8
   U8G2_SSD1325_NHD_128X64_1_4W_HW_SPI		Uno			Clip=15.1 Box=23.3  @=3.6 Pix=5.8		with graphics acceleration
 
+  Issue #79:
+  U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C Atmega32U8     Clip=15.7 Box=26.6  @=5.3 Pix=8.4
+
 */
 
 
