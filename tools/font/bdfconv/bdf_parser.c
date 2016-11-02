@@ -408,30 +408,33 @@ static int bf_parse_line(bf_t *bf)
     /* a line of the glyph bitmap */
     int c;
     strcpy(cmd, bf_get_string(bf));
-    if ( strcmp(cmd, "ENDCHAR" ) == 0 )		/* args: - */
+    if ( cmd[0] != '\0' )
     {
-      bf->is_bitmap_parsing = 0;
-      /* bg_ShowBitmap(bf->glyph_list[bf->glyph_pos]); */
-    }
-    else
-    {
-      bf->line_pos = 0;
-      bf_skipspace(bf);
-      
-      
-      bf->bitmap_x = 0;
-
-      
-      for(;;)
+      if ( strcmp(cmd, "ENDCHAR" ) == 0 )		/* args: - */
       {
-	c = bf_curr(bf);
-	if ( c < '0' )
-	  break;
-	bf_set_pixel_by_hex_char(bf, c);
-	bf_next(bf);
+	bf->is_bitmap_parsing = 0;
+	/* bg_ShowBitmap(bf->glyph_list[bf->glyph_pos]); */
       }
-      
-      bf->bitmap_y++;
+      else
+      {
+	bf->line_pos = 0;
+	bf_skipspace(bf);
+	
+	
+	bf->bitmap_x = 0;
+
+	
+	for(;;)
+	{
+	  c = bf_curr(bf);
+	  if ( c < '0' )
+	    break;
+	  bf_set_pixel_by_hex_char(bf, c);
+	  bf_next(bf);
+	}
+	
+	bf->bitmap_y++;
+      }
     }
   }
   return 1;
