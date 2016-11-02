@@ -190,7 +190,8 @@ uint8_t u8g2_UserInterfaceMessage(u8g2_t *u8g2, const char *title1, const char *
 	      break;
 	    }    
       }
-  }  
-  return 0;
+  }
+  /* never reached */
+  //return 0;
 }
 

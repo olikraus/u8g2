@@ -51,7 +51,7 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
   u8g2_uint_t  x, xx;
   
   uint8_t local_value = *value;
-  uint8_t r;
+  //uint8_t r; /* not used ??? */
   uint8_t event;
 
   /* only horizontal strings are supported, so force this here */
@@ -145,5 +145,6 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
     }
   }
   
-  return r;  
+  /* never reached */
+  //return r;  
 }

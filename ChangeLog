@@ -46,5 +46,5 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Added japanese fonts (issue 65)
 2016-xx-xx	v2.6.x	 olikraus@gmail.com
  * Added support for UC1610 (DOGXL160)
- 
+ * Use Wire.setClock() for improved HW I2C performance (issue 79) 
  
