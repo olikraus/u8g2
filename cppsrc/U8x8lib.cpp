@@ -377,6 +377,14 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t a
     case U8X8_MSG_BYTE_SET_DC:
       break;
     case U8X8_MSG_BYTE_START_TRANSFER:
+#if ARDUINO >= 10600
+      /* not sure when the setClock function was introduced, but it is there since 1.6.0 */
+      /* if there is any error with Wire.setClock() just remove this function call */
+      if ( u8x8->display_info->i2c_bus_clock_100kHz >= 4 )
+      {
+	Wire.setClock(400000);  
+      }
+#endif
       Wire.beginTransmission(u8x8_GetI2CAddress(u8x8)>>1);
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:
