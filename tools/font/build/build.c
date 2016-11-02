@@ -1101,6 +1101,11 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   printf("%s\n", bdf_cmd);
   system(bdf_cmd);
   
+  strcpy(bdf_cmd, "cp font.c ./single_font_files/");
+  strcat(bdf_cmd, target_font_identifier);
+  strcat(bdf_cmd, ".c");
+  system(bdf_cmd);
+  
 }
 
 void fontlist_identifier(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
