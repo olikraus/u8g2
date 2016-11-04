@@ -182,11 +182,14 @@ class U8X8 : public Print
     uint8_t getUTF8Len(const char *s) {
       return u8x8_GetUTF8Len(&u8x8, s); }
     
+    size_t write(uint8_t v);
+    /*
     size_t write(uint8_t v) {
       u8x8_DrawGlyph(&u8x8, tx, ty, v);
       tx++;
       return 1;
      }
+      */
      
     size_t write(const uint8_t *buffer, size_t size) {
       size_t cnt = 0;
