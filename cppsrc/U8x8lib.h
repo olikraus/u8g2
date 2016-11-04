@@ -100,6 +100,8 @@ class U8X8 : public Print
   
     U8X8(void) { home(); }
     u8x8_t *getU8x8(void) { return &u8x8; }
+    
+    void setI2CAddress(uint8_t adr) { u8x8_SetI2CAddress(&u8x8, adr); }
 
     uint8_t getCols(void) { return u8x8_GetCols(&u8x8); }
     uint8_t getRows(void) { return u8x8_GetRows(&u8x8); }

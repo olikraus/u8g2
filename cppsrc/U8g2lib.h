@@ -62,6 +62,9 @@ class U8G2 : public Print
     U8G2(void) { cpp_next_cb = u8x8_ascii_next; home(); }
     u8x8_t *getU8x8(void) { return u8g2_GetU8x8(&u8g2); }
     u8g2_t *getU8g2(void) { return &u8g2; }
+
+    void setI2CAddress(uint8_t adr) { u8g2_SetI2CAddress(&u8g2, adr); }
+    
     
     void enableUTF8Print(void) { cpp_next_cb = u8x8_utf8_next; }
     void disableUTF8Print(void) { cpp_next_cb = u8x8_ascii_next; }

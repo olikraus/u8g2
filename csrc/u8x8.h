@@ -328,6 +328,8 @@ struct u8x8_struct
 #define u8x8_GetCols(u8x8) ((u8x8)->display_info->tile_width)
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
 #define u8x8_GetI2CAddress(u8x8) ((u8x8)->i2c_address)
+#define u8x8_SetI2CAddress(u8x8, address) ((u8x8)->i2c_address = (address))
+
 #define u8x8_SetGPIOResult(u8x8, val) ((u8x8)->gpio_result = (val))
 #define u8x8_GetSPIClockPhase(u8x8) ((u8x8)->display_info->spi_mode & 0x01)  /* 0 means rising edge */
 #define u8x8_GetSPIClockPolarity(u8x8) (((u8x8)->display_info->spi_mode & 0x02) >> 1)
