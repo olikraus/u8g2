@@ -170,6 +170,7 @@ struct groupinfo gi[] = {
   { "Oldschool PC Fonts","fntgrpoldschoolpcfonts",	"../../../../u8g2.wiki/fntgrpoldschoolpcfonts.md",	"fntgrpoldschoolpcfonts.pre" },  /* 14 */		/* 14 */
   { "crox", 		"fntgrpcrox", 		"../../../../u8g2.wiki/fntgrpcrox.md", 		"fntgrpcrox.pre" }, 		/* 15 */
   { "efont", 		"fntgrpefont", 		"../../../../u8g2.wiki/fntgrpefont.md", 		"fntgrpefont.pre" }, 		/* 16 */
+  { "Tlwg (Thai-Fonts)","fntgrptlwg", 		"../../../../u8g2.wiki/fntgrptlwg.md", 		"fntgrptlwg.pre" }, 		/* 17 */
   
 };
 
@@ -239,7 +240,14 @@ struct fontinfo fi[] = {
   { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  
+  /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
+  { 0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
+  { 0, "etl16-thai.bdf", 		"etl16thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
+  { 0, "etl24-thai.bdf", 		"etl24thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
 
+  
+  
   /* crox fonts are CP1251 encoded */
   { 0, "win_crox1cb.bdf",		"crox1cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "win_crox1c.bdf",		"crox1c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
