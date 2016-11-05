@@ -180,6 +180,13 @@ void loop(void)
   u8x8.draw2x2String(0, 5, "Big");
   delay(3000);
   
+  pre();
+  u8x8.print("print \\n\n");
+  delay(500);
+  u8x8.println("println");
+  delay(500);
+  u8x8.println("done");
+  delay(1500);
 
 }
 
