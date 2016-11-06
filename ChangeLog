@@ -50,4 +50,5 @@ https://github.com/olikraus/u8g2 ChangeLog
     requires Arduino IDE 1.6.0 or higher.
  * Added Thai Fonts (issue 73)
  * Added support for "\n" in the print function for u8x8 (issue 74)
+ * Screen mirror option for U8g2 (issue 76)
  
