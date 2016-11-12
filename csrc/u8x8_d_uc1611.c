@@ -122,7 +122,7 @@ static const u8x8_display_info_t u8x8_uc1611_240x64_display_info =
 
 uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c;
+  uint8_t x, y, c;
   uint8_t *ptr;
   switch(msg)
   {
@@ -132,24 +132,17 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
-      //x += 4;
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+   
       u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+    
+      y = ((u8x8_tile_t *)arg_ptr)->y_pos;
+      u8x8_cad_SendCmd(u8x8, 0x060 | (y&15));
+      u8x8_cad_SendCmd(u8x8, 0x070 | (y>>4));
     
       c = ((u8x8_tile_t *)arg_ptr)->cnt;
       c *= 8;
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-      /* 
-	The following if condition checks the hardware limits of the uc1611 
-	controller: It is not allowed to write beyond the display limits.
-	This is in fact an issue within flip mode.
-      */
-      if ( c + x > 132u )
-      {
-	c = 132u;
-	c -= x;
-      }
       do
       {
 	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes */
