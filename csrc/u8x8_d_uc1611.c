@@ -72,54 +72,6 @@ static const uint8_t u8x8_d_uc1611_flip1_seq[] = {
 };
 
 
-static const u8x8_display_info_t u8x8_uc1611_240x128_display_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
-  /* pre_chip_disable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 10, 	/* uc1611 datasheet, page 67 */
-  /* sda_setup_time_ns = */ 10,		/* uc1611 datasheet, page 64, actually 0 */
-  /* sck_pulse_width_ns = */ 60,	/* half of cycle time  */
-  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
-  /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
-  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 16,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 240,
-  /* pixel_height = */ 128
-};
-
-static const u8x8_display_info_t u8x8_uc1611_240x64_display_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
-  /* pre_chip_disable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 10, 	/* uc1611 datasheet, page 67 */
-  /* sda_setup_time_ns = */ 10,		/* uc1611 datasheet, page 64, actually 0 */
-  /* sck_pulse_width_ns = */ 60,	/* half of cycle time  */
-  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
-  /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
-  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 240,
-  /* pixel_height = */ 64
-};
-
 uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
@@ -195,13 +147,37 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 /*================================================*/
 /* EA DOGM240 */
 
+static const u8x8_display_info_t u8x8_uc1611_240x64_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
+  /* pre_chip_disable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 10, 	/* uc1611 datasheet, page 67 */
+  /* sda_setup_time_ns = */ 10,		/* uc1611 datasheet, page 64, actually 0 */
+  /* sck_pulse_width_ns = */ 60,	/* half of cycle time  */
+  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
+  /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
+  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 240,
+  /* pixel_height = */ 64
+};
+
 static const uint8_t u8x8_d_uc1611_ea_dogm240_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x02f),            			/* internal pump control */
   U8X8_CA(0x0f1, 0x07f),			/* set COM end */
   U8X8_CA(0x0f2, 0x000),		/* display line start */
-  U8X8_CA(0x0f3, 0x000),		/* display line end */
+  U8X8_CA(0x0f3, 63),		/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
   U8X8_CA(0x081, 0x09f),		/* set contrast */
   
@@ -242,3 +218,76 @@ uint8_t u8x8_d_uc1611_ea_dogm240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
   return 1;
 }
 
+/*================================================*/
+/* EA DOGXL240 */
+
+static const uint8_t u8x8_d_uc1611_ea_dogxl240_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x02f),            			/* internal pump control */
+  U8X8_CA(0x0f1, 0x07f),			/* set COM end */
+  U8X8_CA(0x0f2, 0x000),		/* display line start */
+  U8X8_CA(0x0f3, 127),		/* display line end */
+  U8X8_C(0x0a3),            			/* line rate */
+  U8X8_CA(0x081, 0x09f),		/* set contrast */
+  
+  U8X8_C(0x0a9),            			/* display enable */
+
+  U8X8_C(0x0d1),            			/* display pattern */  
+  U8X8_C(0x089),            			/* auto increment */
+  U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
+  U8X8_C(0x000),		                /* column low nibble */
+  U8X8_C(0x010),		                /* column high nibble */  
+  U8X8_C(0x060),		                /* page adr low */
+  U8X8_C(0x070),		                /* page adr high */
+  
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_uc1611_240x128_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
+  /* pre_chip_disable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 10, 	/* uc1611 datasheet, page 67 */
+  /* sda_setup_time_ns = */ 10,		/* uc1611 datasheet, page 64, actually 0 */
+  /* sck_pulse_width_ns = */ 60,	/* half of cycle time  */
+  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
+  /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
+  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
+  /* tile_hight = */ 16,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 240,
+  /* pixel_height = */ 128
+};
+
+uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call common procedure first and handle messages there */
+  if ( u8x8_d_uc1611_common(u8x8, msg, arg_int, arg_ptr) == 0 )
+  {
+    /* msg not handled, then try here */
+    switch(msg)
+    {
+      case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1611_240x128_display_info);
+	break;
+      case U8X8_MSG_DISPLAY_INIT:
+	u8x8_d_helper_display_init(u8x8);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ea_dogxl240_init_seq);
+	break;
+      default:
+	return 0;		/* msg unknown */
+    }
+  }
+  return 1;
+}
