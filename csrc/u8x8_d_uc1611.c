@@ -43,14 +43,14 @@
 
 static const uint8_t u8x8_d_uc1611_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0af),		                /* display on */
+  U8X8_C(0x0a9),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1611_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a8),		                /* display off, enter sleep mode */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -200,87 +200,34 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 }
 
 /*================================================*/
-/* DOGM128 */
+/* EA DOGM240 */
 
-static const uint8_t u8x8_d_uc1611_dogm128_init_seq[] = {
+static const uint8_t u8x8_d_uc1611_ea_dogm240_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x02f),            			/* internal pump control */
+  U8X8_CA(0x0f1, 0x07f),			/* set COM end */
+  U8X8_CA(0x0f2, 0x000),		/* display line start */
+  U8X8_CA(0x0f3, 0x000),		/* display line end */
+  U8X8_C(0x0a3),            			/* line rate */
+  U8X8_CA(0x081, 0x09f),		/* set contrast */
   
-  U8X8_C(0x0e2),            			/* soft reset */
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_C(0x040),		                /* set display start line to 0 */
+  U8X8_C(0x0a9),            			/* display enable */
+
+  U8X8_C(0x0d1),            			/* display pattern */  
+  U8X8_C(0x089),            			/* auto increment */
+  U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
+  U8X8_C(0x000),		                /* column low nibble */
+  U8X8_C(0x010),		                /* column high nibble */  
+  U8X8_C(0x060),		                /* page adr low */
+  U8X8_C(0x070),		                /* page adr high */
   
-  U8X8_C(0x0a1),		                /* ADC set to reverse */
-  U8X8_C(0x0c0),		                /* common output mode */
-  // Flipmode
-  // U8X8_C(0x0a0),		                /* ADC set to reverse */
-  // U8X8_C(0x0c8),		                /* common output mode */
-  
-  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
-  U8X8_C(0x0a2),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
-  U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  U8X8_C(0x027),		                /* regulator, booster and follower */
-  U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
-  U8X8_C(0x0a4),		                /* normal display  */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-uint8_t u8x8_d_uc1611_ea_dogm128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
-{
-  /* call common procedure first and handle messages there */
-  if ( u8x8_d_uc1611_common(u8x8, msg, arg_int, arg_ptr) == 0 )
-  {
-    /* msg not handled, then try here */
-    switch(msg)
-    {
-      case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1611_240x128_display_info);
-	break;
-      case U8X8_MSG_DISPLAY_INIT:
-	u8x8_d_helper_display_init(u8x8);
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_dogm128_init_seq);
-	break;
-      default:
-	return 0;		/* msg unknown */
-    }
-  }
-  return 1;
-}
-
-
-/*================================================*/
-/* NHD-C12832 */
-
-static const uint8_t u8x8_d_uc1611_nhd_c12832_init_seq[] = {
-    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
-  U8X8_C(0x0e2),            			/* soft reset */
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_C(0x040),		                /* set display start line to 0 */
-  
-  U8X8_C(0x0a1),		                /* ADC set to reverse */
-  U8X8_C(0x0c0),		                /* common output mode */
-  // Flipmode
-  //U8X8_C(0x0a0),		                /* ADC set to reverse */
-  //U8X8_C(0x0c8),		                /* common output mode */
-  
-  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
-  U8X8_C(0x0a2),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
-  U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  U8X8_C(0x023),		                /* set V0 voltage resistor ratio to large*/
-  U8X8_CA(0x081, 0x00a),		/* set contrast, contrast value NHD C12832 */
-  U8X8_C(0x0a4),		                /* normal display  */
-  
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-uint8_t u8x8_d_uc1611_nhd_c12832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_uc1611_ea_dogm240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
   if ( u8x8_d_uc1611_common(u8x8, msg, arg_int, arg_ptr) == 0 )
@@ -293,7 +240,7 @@ uint8_t u8x8_d_uc1611_nhd_c12832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 	break;
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_nhd_c12832_init_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ea_dogm240_init_seq);
 	break;
       default:
 	return 0;		/* msg unknown */
@@ -301,3 +248,4 @@ uint8_t u8x8_d_uc1611_nhd_c12832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
   }
   return 1;
 }
+
