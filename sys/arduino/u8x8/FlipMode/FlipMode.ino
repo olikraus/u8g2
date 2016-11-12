@@ -1,8 +1,9 @@
 /*
 
-  HelloWorld.ino
+  FlipMode.ino
   
-  "Hello World" version for U8x8 API
+  Test flip functionality (180 degree roation)
+  Note: Not supported with all displays
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 

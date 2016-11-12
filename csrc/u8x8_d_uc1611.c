@@ -57,16 +57,14 @@ static const uint8_t u8x8_d_uc1611_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_uc1611_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1611_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  U8X8_CA(0x0c0, 0x002),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -134,7 +132,7 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int >> 2 );	/* uc1611 has range from 0 to 63 */
+      u8x8_cad_SendArg(u8x8, arg_int  );	/* uc1611 has range from 0 to 255 */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
@@ -177,11 +175,11 @@ static const uint8_t u8x8_d_uc1611_ea_dogm240_init_seq[] = {
   U8X8_C(0x02f),            			/* internal pump control */
   U8X8_CA(0x0f1, 0x07f),			/* set COM end */
   U8X8_CA(0x0f2, 0x000),		/* display line start */
-  U8X8_CA(0x0f3, 63),		/* display line end */
+  U8X8_CA(0x0f3, 63),			/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 0x09f),		/* set contrast */
+  U8X8_CA(0x081, 0x092),		/* set contrast, EA default: 0x08f */
   
-  U8X8_C(0x0a9),            			/* display enable */
+  //U8X8_C(0x0a9),            			/* display enable */
 
   U8X8_C(0x0d1),            			/* display pattern */  
   U8X8_C(0x089),            			/* auto increment */

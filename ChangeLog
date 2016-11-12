@@ -45,11 +45,12 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Added DrawXBMP (AVR: Assume bitmap in PROGMEM)
  * Added japanese fonts (issue 65)
 2016-xx-xx	v2.6.x	 olikraus@gmail.com
- * Added support for UC1610 (DOGXL160)
+ * Added support for UC1610 (EA DOGXL160)
  * Use Wire.setClock() for improved HW I2C performance (issue 79). This
     requires Arduino IDE 1.6.0 or higher.
  * Added Thai Fonts (issue 73)
  * Added support for "\n" in the print function for u8x8 (issue 74)
  * Screen mirror option for U8g2 (issue 76)
  * Added support for second wire interface (Constructor postfix 2ND_HW_I2C)
+ * Added support for UC1611 (EA DOGM240 and EA DOGXL240)
  
