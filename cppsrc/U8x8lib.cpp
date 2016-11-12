@@ -416,6 +416,40 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t a
   return 1;
 }
 
+extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+#ifdef U8X8_HAVE_2ND_HW_I2C
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+      Wire1.write((uint8_t *)arg_ptr, (int)arg_int);
+      break;
+    case U8X8_MSG_BYTE_INIT:
+      Wire1.begin();
+      break;
+    case U8X8_MSG_BYTE_SET_DC:
+      break;
+    case U8X8_MSG_BYTE_START_TRANSFER:
+#if ARDUINO >= 10600
+      /* not sure when the setClock function was introduced, but it is there since 1.6.0 */
+      /* if there is any error with Wire.setClock() just remove this function call */
+      if ( u8x8->display_info->i2c_bus_clock_100kHz >= 4 )
+      {
+	Wire1.setClock(400000L); 
+      }
+#endif
+      Wire1.beginTransmission(u8x8_GetI2CAddress(u8x8)>>1);
+      break;
+    case U8X8_MSG_BYTE_END_TRANSFER:
+      Wire1.endTransmission();
+      break;
+    default:
+      return 0;
+  }
+#endif
+  return 1;
+}
+
 
 /*
   use U8X8_PIN_NONE as value for "reset", if there is no reset line

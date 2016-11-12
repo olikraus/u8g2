@@ -425,6 +425,17 @@ struct interface interface_list[] =
     "cs [, reset]",
     "uC specific"
   },  
+  /* 10 */
+  {
+    "2ND_HW_I2C",
+    "u8x8_SetPin_HW_I2C",
+    "u8x8_byte_arduino_2nd_hw_i2c",
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t reset = U8X8_PIN_NONE",
+    "reset",
+    "[reset]",
+    "uC specific"
+  },  
   
 
   
@@ -761,6 +772,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   {
     do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW I2C */
     do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW I2C */
+    do_display_interface(controller_idx, display_idx, postfix, 10);	/* 2nd HW I2C */
   }
   if ( controller_list[controller_idx].com & COM_ST7920SPI )
   {
