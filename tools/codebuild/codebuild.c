@@ -222,7 +222,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1610", 		20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "", COM_I2C,
+    "uc1610", 		20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C,
     "3W SPI not tested, I2C not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogxl160" },
