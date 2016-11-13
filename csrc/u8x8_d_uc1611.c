@@ -177,7 +177,7 @@ static const uint8_t u8x8_d_uc1611_ea_dogm240_init_seq[] = {
   U8X8_CA(0x0f2, 0x000),		/* display line start */
   U8X8_CA(0x0f3, 63),			/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 0x092),		/* set contrast, EA default: 0x08f */
+  U8X8_CA(0x081, 0x08f),		/* set contrast, EA default: 0x08f */
   
   //U8X8_C(0x0a9),            			/* display enable */
 
@@ -227,9 +227,9 @@ static const uint8_t u8x8_d_uc1611_ea_dogxl240_init_seq[] = {
   U8X8_CA(0x0f2, 0x000),		/* display line start */
   U8X8_CA(0x0f3, 127),		/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 0x09f),		/* set contrast */
+  U8X8_CA(0x081, 0x08f),		/* set contrast */
   
-  U8X8_C(0x0a9),            			/* display enable */
+  //U8X8_C(0x0a9),            			/* display enable */
 
   U8X8_C(0x0d1),            			/* display pattern */  
   U8X8_C(0x089),            			/* auto increment */
