@@ -44,7 +44,7 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Added support for SSD1322 and SSD1325
  * Added DrawXBMP (AVR: Assume bitmap in PROGMEM)
  * Added japanese fonts (issue 65)
-2016-xx-xx	v2.6.x	 olikraus@gmail.com
+2016-11-13	v2.6.3	 olikraus@gmail.com
  * Added support for UC1610 (EA DOGXL160)
  * Use Wire.setClock() for improved HW I2C performance (issue 79). This
     requires Arduino IDE 1.6.0 or higher.
