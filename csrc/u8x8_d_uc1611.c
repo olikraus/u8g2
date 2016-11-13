@@ -173,11 +173,11 @@ static const uint8_t u8x8_d_uc1611_ea_dogm240_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x02f),            			/* internal pump control */
-  U8X8_CA(0x0f1, 0x07f),			/* set COM end */
+  U8X8_CA(0x0f1, 63),			/* set COM end */
   U8X8_CA(0x0f2, 0x000),		/* display line start */
   U8X8_CA(0x0f3, 63),			/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 0x08f),		/* set contrast, EA default: 0x08f */
+  U8X8_CA(0x081, 0x0b7),		/* set contrast, EA default: 0x0b7 */
   
   //U8X8_C(0x0a9),            			/* display enable */
 
