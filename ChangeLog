@@ -52,5 +52,5 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Added support for "\n" in the print function for u8x8 (issue 74)
  * Screen mirror option for U8g2 (issue 76)
  * Added support for second wire interface (Constructor postfix 2ND_HW_I2C)
- * Added support for UC1611 (EA DOGM240 and EA DOGXL240)
+ * Added support for UC1611 (EA DOGM240 and EA DOGXL240, issue 66)
  
