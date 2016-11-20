@@ -853,19 +853,19 @@ gm_t gm;
 
 obj_t spider;
 
+
+
 int main(void)
 {
-  uint16_t x, y;
   int k;
+  
+  int8_t walk_direction;
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   u8g2_SetFont(&u8g2, scrollosprites);
-  
-  x = 50;
-  y = 30;
   
   obj_Init(&spider);
   spider.tile = 0x54;
@@ -896,36 +896,26 @@ int main(void)
       usleep(100000);
       k = u8g_sdl_get_key();
     } while( k < 0 );
-      
 
-    if ( k == 273 ) { gm_Walk(&gm,&map, 3); obj_WalkTo(&spider, &map, &(gm.pt)); }
-    if ( k == 274 ) { gm_Walk(&gm,&map, 1); obj_WalkTo(&spider, &map, &(gm.pt)); }
-    if ( k == 276 ) { gm_Walk(&gm,&map, 2); obj_WalkTo(&spider, &map, &(gm.pt)); }
-    if ( k == 275 ) { gm_Walk(&gm,&map, 0); obj_WalkTo(&spider, &map, &(gm.pt)); }
+    if ( k == 'q' ) break;    
     
-    if ( k == 273 ) y -= 7;
-    if ( k == 274 ) y += 7;
-    if ( k == 276 ) x -= 7;
-    if ( k == 275 ) x += 7;
-
+    switch( k )
+    {
+      case 273: walk_direction = 3; break;
+      case 274: walk_direction = 1; break;
+      case 276: walk_direction = 2; break;
+      case 275: walk_direction = 0; break;      
+      default: walk_direction = -1; break;
+    }
     
-    if ( k == 'e' ) y -= 1;
-    if ( k == 'x' ) y += 1;
-    if ( k == 's' ) x -= 1;
-    if ( k == 'd' ) x += 1;
-    if ( k == 'q' ) break;
-
+    if ( walk_direction >= 0 )
+    {
+      gm_Walk(&gm,&map, walk_direction); 
+      obj_WalkTo(&spider, &map, &(gm.pt));
+    }
     
+        
   }
-  
-  //u8x8_Set8x8Font(u8g2_GetU8x8(&u8g2), bdf_font);
-  //u8x8_Draw8x8String(u8g2_GetU8x8(&u8g2), 0, 0, "Hello World!");
-  
-  
-  
-  
-  
-  
   return 0;
 }
 
