@@ -58,10 +58,10 @@ static const uint8_t u8x8_d_ssd1306_64x48_er_init_seq[] = {
   // U8X8_C(0x0a0),				/* segment remap a0/a1*/
   // U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
-  U8X8_CA(0x0da, 0x002),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
-  U8X8_CA(0x081, 0x08f),		/* [2] set contrast control, 0.66 OLED datasheet: 0xcf */
-  U8X8_CA(0x0d9, 0x0f1),		/* [2] pre-charge period 0x022/f1, 0.66 OLED datasheet: 0x22 */
-  U8X8_CA(0x0db, 0x040),		/* vcomh deselect level, 0.66 OLED datasheet: 0x00 */
+  U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5), 0.66 OLED */
+  U8X8_CA(0x081, 0x0cf),		/* [2] set contrast control, 0.66 OLED datasheet: 0xcf */
+  U8X8_CA(0x0d9, 0x022),		/* [2] pre-charge period 0x022/f1, 0.66 OLED datasheet: 0x22 */
+  U8X8_CA(0x0db, 0x000),		/* vcomh deselect level, 0.66 OLED datasheet: 0x00 */
   
   U8X8_C(0x02e),				/* Deactivate scroll */ 
   U8X8_C(0x0a4),				/* output ram to display */
