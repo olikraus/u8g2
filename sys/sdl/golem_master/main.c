@@ -507,6 +507,7 @@ void map_Init(map_t *m)
   m->vis_win_disp_pos_pix.v[0] = 0;
   m->vis_win_disp_pos_pix.v[1] = 0;
   
+  /* the visible area in tiles is a little bit bigger than the pixel size of the area in pixel */
   m->tmw = (m->pdw + 15)/16 + 1;
   m->tmh = (m->pdh + 15)/16 + 1;
 }
@@ -607,10 +608,12 @@ void map_GetDisplayPosByTileMapPos(map_t *m, v16_t *dest_pos_pix, v16_t *src_til
   v16_Add(dest_pos_pix, &(m->vis_win_disp_pos_pix));  /* add display offset */
 }
 
+/*x,y: tile position */
 uint8_t map_IsTileVisible(map_t *m, uint16_t x, uint16_t y)
 {
   uint16_t ux, uy;
   
+  /* calculate the lower left corner (ux/uy) of the visible window in tiles */
   ux = m->vwpt.v[0]+m->tmw;
   ux &=0x0fff;		/* wrap around mask for tiles */
   uy = m->vwpt.v[1]+m->tmh;
@@ -707,12 +710,10 @@ void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
 {
   v16_t dest_pos_pix;
 
-
   map_GetDisplayPosByTileMapPos(map, &dest_pos_pix, &(gm->pt));  
   v16_Add(&dest_pos_pix, &(gm->gmop) );
   v16_SubConstant(&dest_pos_pix, GM_OFFSET);
-  
-  
+    
   if ( map_IsTileVisible(map, gm->pt.v[0], gm->pt.v[1]) )
   {
     // puts("visible!");
@@ -727,8 +728,13 @@ void gm_Draw(gm_t *gm, map_t *map, u8g2_t *u8g2)
   }
 }
 
-void gm_Walk(gm_t *gm, map_t *map, uint8_t dir)
+/* returns 1 if gm made a step */
+int8_t gm_Walk(gm_t *gm, map_t *map, uint8_t dir)
 {
+  uint8_t gm_made_step;
+  
+  gm_made_step = 0; /* so far gm did not walk */
+  
   printf("input dir=%d, curr state = %d\n", dir, gm->state);
   if ( gm->state == GM_STATE_CENTER )
   {
@@ -750,10 +756,16 @@ void gm_Walk(gm_t *gm, map_t *map, uint8_t dir)
     {
       uint8_t dest_tile;
       
+      /* try to walk into the requested direction */
       v16_AddDir(&(gm->pt), dir, 1);
+      
+      /* check whether the dest tile is valid. if not, go back */
       dest_tile = map_GetTile(map, gm->pt.v[0], gm->pt.v[1]);
       if ( dest_tile == 32 )
       {
+	/* destination tile is valid, gm did a step */
+	gm_made_step = 1;
+	
 	v16_SetByConstantByOneConstant(&(gm->gmop), GM_OFFSET);
 	v16_AddDir(&(gm->gmop), dir, (uint16_t)-16);
 	v16_SetByV16(&(gm->cwop), &(gm->twop));
@@ -768,6 +780,7 @@ void gm_Walk(gm_t *gm, map_t *map, uint8_t dir)
       }
     }
   }
+  return gm_made_step;
 }
 
 void gm_Step(gm_t *gm, map_t *map)
@@ -910,8 +923,10 @@ int main(void)
     
     if ( walk_direction >= 0 )
     {
-      gm_Walk(&gm,&map, walk_direction); 
-      obj_WalkTo(&spider, &map, &(gm.pt));
+      if ( gm_Walk(&gm,&map, walk_direction) != 0 )
+      {
+	obj_WalkTo(&spider, &map, &(gm.pt));
+      }
     }
     
         
