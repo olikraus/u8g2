@@ -38,8 +38,8 @@
 
 
 
-/* 0.66 OLED */
-static const uint8_t u8x8_d_ssd1306_64x48_init_seq[] = {
+/* EastRising 0.66 OLED */
+static const uint8_t u8x8_d_ssd1306_64x48_er_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -112,11 +112,11 @@ static uint8_t u8x8_d_ssd1306_64x48_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1306_64x48_display_info);
       break;
-    */
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_64x48_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_64x48_er_init_seq);    
       break;
+    */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_64x48_powersave0_seq);
@@ -193,11 +193,18 @@ static const u8x8_display_info_t u8x8_ssd1306_64x48_display_info =
   /* pixel_height = */ 48
 };
 
-uint8_t u8x8_d_ssd1306_64x48(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+/* East Rising 0.66" OLED */
+uint8_t u8x8_d_ssd1306_64x48_er(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
     {
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1306_64x48_display_info);
+      return 1;
+    }
+    else if ( msg == U8X8_MSG_DISPLAY_INIT )
+    {
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_64x48_er_init_seq);    
       return 1;
     }
     return u8x8_d_ssd1306_64x48_generic(u8x8, msg, arg_int, arg_ptr);
