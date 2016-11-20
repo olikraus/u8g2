@@ -311,11 +311,11 @@ struct map_struct
   /* visible window position in pixel coordinates (vwpp)  */
   v16_t vwpp;
 
-  /* input: dimensions of the visible window */
+  /* input: dimensions of the visible window (pixel) */
   uint8_t pdw;
   uint8_t pdh;	
   
-  /* input: offset for the visible window on the display fromt he upper left display corner */
+  /* input: offset for the visible window on the display from the upper left display corner */
   v16_t vis_win_disp_pos_pix;
   
   
@@ -323,7 +323,7 @@ struct map_struct
   /* visible window position in tile coordinats (vwpt)  */
   v16_t vwpt;
   
-  /* visible area in tiles */
+  /* visible area in tiles, derived from pdw/pdh */
   uint8_t tmw;
   uint8_t tmh;
 
@@ -651,7 +651,8 @@ void map_Draw(map_t *m, u8g2_t *u8g2)
   uint16_t ty;
   u8g2_uint_t px, ppx;
   u8g2_uint_t py;
-  
+
+  /* offset for the visible window on the display from the upper left display corner */
   px = m->vis_win_disp_pos_pix.v[0];
   px -= m->dtwp.v[0];
   
