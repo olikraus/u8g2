@@ -63,7 +63,7 @@ static const uint8_t u8x8_d_uc1608_flip0_seq[] = {
 
 static const uint8_t u8x8_d_uc1608_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c8),            			/* LCD Mapping */
+  U8X8_C(0x0c4),            			/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -80,12 +80,12 @@ uint8_t u8x8_d_uc1608_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
-      x += u8x8->x_offset;
    
       u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
       u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
     
       y = ((u8x8_tile_t *)arg_ptr)->y_pos;
+      y += u8x8->x_offset;
       u8x8_cad_SendCmd(u8x8, 0x0b0 | (y&15));
     
       c = ((u8x8_tile_t *)arg_ptr)->cnt;
@@ -161,8 +161,8 @@ static const u8x8_display_info_t u8x8_uc1608_240x64_display_info =
   /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
+  /* default_x_offset = */ 0,	/* reused as y page offset */
+  /* flipmode_x_offset = */ 4,	/* reused as y page offset */
   /* pixel_width = */ 240,
   /* pixel_height = */ 64
 };
@@ -187,7 +187,7 @@ static const uint8_t u8x8_d_uc1608_erc24064_init_seq[] = {
   U8X8_C(0x090),            			/* no fixed lines */
   U8X8_C(0x089),            			/* RAM access control */
   
-  U8X8_CA(0x081, 0x040),		/* set contrast, ERC24064-1 default: 0x040 */
+  U8X8_CA(0x081, 0x014),		/* set contrast, ERC24064-1 default: 0x040 */
   
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  
