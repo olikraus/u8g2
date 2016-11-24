@@ -72,6 +72,9 @@ class U8G2 : public Print
     /* u8x8 interface */
     uint8_t getCols(void) { return u8x8_GetCols(u8g2_GetU8x8(&u8g2)); }
     uint8_t getRows(void) { return u8x8_GetRows(u8g2_GetU8x8(&u8g2)); }
+    void drawTile(uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr) {
+      u8x8_DrawTile(u8g2_GetU8x8(&u8g2), x, y, cnt, tile_ptr); }
+    
 
 #ifdef U8X8_USE_PINS 
     /* set the menu pins before calling begin() or initDisplay() */
