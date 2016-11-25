@@ -165,6 +165,8 @@
   Issue #79:
   U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C Atmega32U8     Clip=15.7 Box=26.6  @=5.3 Pix=8.4
 
+
+  U8G2_ST7920_128X64_1_8080				Uno			Clip=5.0 Box=4.8  @=2.5 Pix=3.4
 */
 
 
@@ -205,6 +207,7 @@
 //U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7920_192X32_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_192X32_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
+U8G2_ST7920_128X64_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18 /* A4 */, /*cs=*/ U8X8_PIN_NONE, /*dc/rs=*/ 17 /* A3 */, /*reset=*/ 15 /* A1 */);	// Remember to set R/W to 0 
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7920_128X64_1_HW_SPI u8g2(U8G2_R0, /* CS=*/ 10, /* reset=*/ 8);
@@ -370,6 +373,11 @@ void show_result(const char *s, uint16_t fps) {
 
 void setup(void) {
   u8g2.begin();
+
+  /* U8g2 Project: ST7920 128x64 Test Board: Set R/W to 0 */
+  //pinMode(16, OUTPUT);	// R/W
+  //digitalWrite(16, 0);
+
   // flip screen, if required
   // u8g2.setRot180();
   
