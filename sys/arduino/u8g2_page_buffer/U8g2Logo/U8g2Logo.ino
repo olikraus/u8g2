@@ -120,10 +120,6 @@ void setup(void) {
   //pinMode(18, OUTPUT);
   //digitalWrite(18, 1);
 
-  /* U8g2 Project: ST7920 128x64 Test Board: Set R/W to 0 */
-  //pinMode(16, OUTPUT);	// R/W
-  //digitalWrite(16, 0);
-
 
   u8g2.begin();
   u8g2.setFlipMode(0);

@@ -375,10 +375,6 @@ void show_result(const char *s, uint16_t fps) {
 void setup(void) {
   u8g2.begin();
 
-  /* U8g2 Project: ST7920 128x64 Test Board: Set R/W to 0 */
-  pinMode(16, OUTPUT);	// R/W
-  digitalWrite(16, 0);
-
   // flip screen, if required
   // u8g2.setRot180();
   
