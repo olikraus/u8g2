@@ -151,6 +151,11 @@ class U8G2 : public Print
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
     
+    uint8_t *getBufferPtr(void) { return u8g2_GetBufferPtr(&u8g2); }
+    uint8_t getBufferTileHeight(void) { return u8g2_GetBufferTileHeight(&u8g2); }
+    uint8_t getBufferTileWidth(void) { return u8g2_GetBufferTileWidth(&u8g2); }
+    uint8_t getBufferCurrTileRow(void) { return u8g2_GetBufferCurrTileRow(&u8g2); }
+    void setBufferCurrTileRow(uint8_t row) { u8g2_SetBufferCurrTileRow(&u8g2, row); }
 
     /* u8g2_hvline.c */
     void setDrawColor(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }
