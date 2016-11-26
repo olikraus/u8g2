@@ -167,7 +167,7 @@
 
   26.Nov 2016
   U8G2_ST7920_128X64_1_8080				Uno			Clip=13.5 Box=12.1  @=3.6 Pix=5.9		atmega&arduino optimized
-  U8G2_ST7920_128X64_1_SW_SPI 				Uno			Clip=1.2 Box=1.2  @=1.0 Pix=1.1		
+  U8G2_ST7920_128X64_1_SW_SPI 				Uno			Clip=10.1 Box=9.3  @=3.3 Pix=5.2			issue 87
   
 */
 
