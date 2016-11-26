@@ -192,18 +192,20 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   uint8_t i, b;
   uint8_t *data;
   uint8_t takeover_edge = u8x8_GetSPIClockPhase(u8x8);
-  uint8_t not_takeover_edge = 1 - takeover_edge;
+  //uint8_t not_takeover_edge = 1 - takeover_edge;
 
   /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
   /* so, it should be possible to used multiple displays with different pins */
   
   static volatile uint8_t *arduino_clock_port;
-  static volatile uint8_t arduino_clock_mask;
-  static volatile uint8_t arduino_clock_n_mask;
+  
+  static uint8_t arduino_clock_mask;
+  static uint8_t arduino_clock_n_mask;
   
   static volatile uint8_t *arduino_data_port;
-  static volatile uint8_t arduino_data_mask;
-  static volatile uint8_t arduino_data_n_mask;
+  static uint8_t arduino_data_mask;
+  static uint8_t arduino_data_n_mask;
+
 
 
   switch(msg)
@@ -217,6 +219,32 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	data++;
 	arg_int--;
 	
+	if ( b == 0 )
+	{
+	  /* do some high speed transfer for zero data */
+	  *arduino_data_port &= arduino_data_n_mask;
+	  if ( takeover_edge == 0 )
+	  {
+	    for( i = 0; i < 4; i++ )
+	    {
+	      *arduino_clock_port |= arduino_clock_mask;
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	    }
+	  }
+	  else
+	  {
+	    for( i = 0; i < 4; i++ )
+	    {
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;
+	    }
+	  }
+	}
+	else
 	{
 	  for( i = 0; i < 8; i++ )
 	  {
@@ -226,7 +254,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	      *arduino_data_port &= arduino_data_n_mask;
 	    b <<= 1;
 
-	    if ( not_takeover_edge != 0 )
+	    if ( takeover_edge == 0 )
 	      *arduino_clock_port |= arduino_clock_mask;
 	    else
 	      *arduino_clock_port &= arduino_clock_n_mask;
@@ -269,6 +297,8 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
       arduino_clock_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_CLOCK]));
       arduino_clock_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_CLOCK]);
       arduino_clock_n_mask = ~arduino_clock_mask;
+    
+      
 
       /* there is no consistency checking for u8x8->pins[U8X8_PIN_SPI_DATA] */
 

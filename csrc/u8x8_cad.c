@@ -343,6 +343,7 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       /* u8x8_byte_SendBytes(u8x8, arg_int, arg_ptr); */
       data = (uint8_t *)arg_ptr;
     
+      /* the following loop increases speed by 20% */
       while( arg_int >= 8 )
       {
 	i = 8;
@@ -358,6 +359,7 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 	arg_int -= 8;
 	u8x8_byte_SendBytes(u8x8, 16, buf); 
       }
+      
     
       while( arg_int > 0 )
       {
