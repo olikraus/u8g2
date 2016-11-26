@@ -56,4 +56,5 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-xx-xx	v2.7.x	 olikraus@gmail.com
   * Added support for 0.66" 64x48 SSD1306 OLED (issue 89)
   * Support for UC1608 (issue 92)
-  * Speed improvements for SW SPI und 8080 mode (issues 87 and 95)
+  * Speed improvements for SW SPI und 8080 mode (issues 87, 90 and 95)
+  * Fixed issue with ST7920 not using the optimized SW SPI procedures (issue 87)
