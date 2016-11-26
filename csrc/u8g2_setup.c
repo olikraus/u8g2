@@ -55,6 +55,7 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
   
   u8g2->tile_curr_row = 0;
   u8g2->draw_color = 1;
+  u8g2->is_auto_page_clear = 1;
   
   u8g2->cb = u8g2_cb;
   u8g2->cb->update(u8g2);

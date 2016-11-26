@@ -325,6 +325,7 @@ struct u8g2_struct
   uint8_t draw_color;		/* 0: clear pixel, 1: set pixel, modified and restored by font procedures */
 					/* draw_color can be used also directly by the user API */
 					
+  uint8_t is_auto_page_clear; 		/* set to 0 to disable automatic page clear in firstPage() and nextPage() */
   
 #ifdef U8G2_WITH_HVLINE_COUNT
   unsigned long hv_cnt;
@@ -332,6 +333,8 @@ struct u8g2_struct
 };
 
 #define u8g2_GetU8x8(u8g2) ((u8x8_t *)(u8g2))
+
+#define u8g2_SetAutoPageClear(u8g2, mode) ((u8g2)->is_auto_page_clear = (mode))
 
 /*==========================================*/
 /* u8x8 wrapper */

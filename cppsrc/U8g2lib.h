@@ -156,6 +156,8 @@ class U8G2 : public Print
     uint8_t getBufferTileWidth(void) { return u8g2_GetBufferTileWidth(&u8g2); }
     uint8_t getBufferCurrTileRow(void) { return u8g2_GetBufferCurrTileRow(&u8g2); }
     void setBufferCurrTileRow(uint8_t row) { u8g2_SetBufferCurrTileRow(&u8g2, row); }
+    
+    void setAutoPageClear(uint8_t mode)  { u8g2_SetAutoPageClear(&u8g2, mode); }
 
     /* u8g2_hvline.c */
     void setDrawColor(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }

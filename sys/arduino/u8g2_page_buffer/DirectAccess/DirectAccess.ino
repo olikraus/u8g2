@@ -202,12 +202,18 @@ uint8_t dir = 0;
 
 void loop(void) {
 
+  // buffer clear is not required any more 
+  // this increase performance a little bit
+  u8g2.setAutoPageClear(0);	
+
+  // draw the U8g2 logo with a custom background
   u8g2.firstPage();
   do {
     drawBackground(image_idx);
     drawLogo();
   } while ( u8g2.nextPage() );
   
+  // move the background around
   if ( dir == 0 ){
     image_idx++;
     if ( image_idx == 7 ) {
@@ -220,6 +226,6 @@ void loop(void) {
     }
   }    
   
-  delay(100);
+  delay(10);
 }
 
