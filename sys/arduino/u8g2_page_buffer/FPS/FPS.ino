@@ -165,8 +165,9 @@
   Issue #79:
   U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C Atmega32U8     Clip=15.7 Box=26.6  @=5.3 Pix=8.4
 
-
-  U8G2_ST7920_128X64_1_8080				Uno			Clip=5.0 Box=4.8  @=2.5 Pix=3.4
+  26.Nov 2016
+  U8G2_ST7920_128X64_1_8080				Uno			Clip=13.5 Box=12.1  @=3.6 Pix=5.9		atmega&arduino optimized
+  
 */
 
 
@@ -375,8 +376,8 @@ void setup(void) {
   u8g2.begin();
 
   /* U8g2 Project: ST7920 128x64 Test Board: Set R/W to 0 */
-  //pinMode(16, OUTPUT);	// R/W
-  //digitalWrite(16, 0);
+  pinMode(16, OUTPUT);	// R/W
+  digitalWrite(16, 0);
 
   // flip screen, if required
   // u8g2.setRot180();
