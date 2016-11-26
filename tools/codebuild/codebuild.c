@@ -472,7 +472,7 @@ struct interface interface_list[] =
   {
     /* ST7920 */ "SW_SPI",
     "u8x8_SetPin_3Wire_SW_SPI",		/* use the 3 wire interface, because the DC is not used */
-    "u8x8_byte_4wire_sw_spi", /* "u8x8_byte_st7920_sw_spi", */
+    "u8x8_byte_arduino_4wire_sw_spi",	/* improved version over u8x8_byte_4wire_sw_spi */
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
     "clock, data, cs, reset",

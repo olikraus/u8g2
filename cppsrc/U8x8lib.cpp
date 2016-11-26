@@ -210,36 +210,43 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   {
     case U8X8_MSG_BYTE_SEND:
       data = (uint8_t *)arg_ptr;
+      
       while( arg_int > 0 )
       {
 	b = *data;
 	data++;
 	arg_int--;
-	for( i = 0; i < 8; i++ )
+	
 	{
-	  if ( b & 128 )
-	    *arduino_data_port |= arduino_data_mask;
-	  else
-	    *arduino_data_port &= arduino_data_n_mask;
-	  b <<= 1;
+	  for( i = 0; i < 8; i++ )
+	  {
+	    if ( b & 128 )
+	      *arduino_data_port |= arduino_data_mask;
+	    else
+	      *arduino_data_port &= arduino_data_n_mask;
+	    b <<= 1;
 
-	  if ( not_takeover_edge != 0 )
-	    *arduino_clock_port |= arduino_clock_mask;
-	  else
-	    *arduino_clock_port &= arduino_clock_n_mask;
-		
-	  /* AVR Architecture is very slow, extra call is not required */
-	  //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
-	  
-	  if ( takeover_edge != 0 )
-	    *arduino_clock_port |= arduino_clock_mask;
-	  else
-	    *arduino_clock_port &= arduino_clock_n_mask;
-	  
-	  /* AVR Architecture is very slow, extra call is not required */
-	  //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
-	}    
+	    if ( not_takeover_edge != 0 )
+	      *arduino_clock_port |= arduino_clock_mask;
+	    else
+	      *arduino_clock_port &= arduino_clock_n_mask;
+		  
+	    /* AVR Architecture is very slow, extra call is not required */
+	    //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
+	    
+	    if ( takeover_edge != 0 )
+	      *arduino_clock_port |= arduino_clock_mask;
+	    else
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	    
+	    /* AVR Architecture is very slow, extra call is not required */
+	    //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+	  }    
+	}
       }
+      
+      
+      
       break;
       
     case U8X8_MSG_BYTE_INIT:
