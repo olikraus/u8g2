@@ -58,3 +58,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for UC1608 (issue 92)
   * Speed improvements for SW SPI und 8080 mode (issues 87, 90 and 95)
   * Fixed issue with ST7920 not using the optimized SW SPI procedures (issue 87)
+  * Direct buffer API (issue 93)
