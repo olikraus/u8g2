@@ -211,8 +211,81 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   switch(msg)
   {
     case U8X8_MSG_BYTE_SEND:
-      data = (uint8_t *)arg_ptr;
-      
+    
+      data = (uint8_t *)arg_ptr;      
+      if ( takeover_edge == 0 )
+      {
+	while( arg_int > 0 )
+	{
+	  b = *data;
+	  data++;
+	  arg_int--;
+	  if ( b == 0 )
+	  {
+	    *arduino_data_port &= arduino_data_n_mask;
+	    for( i = 0; i < 4; i++ )
+	    {
+	      *arduino_clock_port |= arduino_clock_mask;	    
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;	    
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	    }
+	  }
+	  else
+	  {
+	    for( i = 0; i < 8; i++ )
+	    {
+	      if ( b & 128 )
+		*arduino_data_port |= arduino_data_mask;
+	      else
+		*arduino_data_port &= arduino_data_n_mask;
+	      b <<= 1;
+
+	      *arduino_clock_port |= arduino_clock_mask;	    
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	    }
+	  }
+	}
+      }
+      else
+      {
+	while( arg_int > 0 )
+	{
+	  b = *data;
+	  data++;
+	  arg_int--;
+	  if ( b == 0 )
+	  {
+	    *arduino_data_port &= arduino_data_n_mask;
+	    for( i = 0; i < 4; i++ )
+	    {
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;	    
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;	    
+	    }
+	  }
+	  else
+	  {
+	    for( i = 0; i < 8; i++ )
+	    {
+	      if ( b & 128 )
+		*arduino_data_port |= arduino_data_mask;
+	      else
+		*arduino_data_port &= arduino_data_n_mask;
+	      b <<= 1;
+
+	      *arduino_clock_port &= arduino_clock_n_mask;
+	      *arduino_clock_port |= arduino_clock_mask;	    
+	    }
+	  }
+	}
+      }
+
+
+#ifdef NOTUSED
+    
+      data = (uint8_t *)arg_ptr;      
       while( arg_int > 0 )
       {
 	b = *data;
@@ -273,7 +346,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	}
       }
       
-      
+#endif
       
       break;
       
