@@ -53,7 +53,7 @@ https://github.com/olikraus/u8g2 ChangeLog
  * Screen mirror option for U8g2 (issue 76)
  * Added support for second wire interface (Constructor postfix 2ND_HW_I2C)
  * Added support for UC1611 (EA DOGM240 and EA DOGXL240, issue 66)
-2016-xx-xx	v2.7.x	 olikraus@gmail.com
+2016-11-28	v2.7.3	 olikraus@gmail.com
   * Added support for 0.66" 64x48 SSD1306 OLED (issue 89)
   * Support for UC1608 (issue 92)
   * Speed improvements for SW SPI und 8080 mode (issues 87, 90 and 95)
