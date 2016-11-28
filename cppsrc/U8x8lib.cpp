@@ -223,10 +223,8 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	  if ( b == 0 )
 	  {
 	    *arduino_data_port &= arduino_data_n_mask;
-	    for( i = 0; i < 4; i++ )
+	    for( i = 0; i < 8; i++ )
 	    {
-	      *arduino_clock_port |= arduino_clock_mask;	    
-	      *arduino_clock_port &= arduino_clock_n_mask;
 	      *arduino_clock_port |= arduino_clock_mask;	    
 	      *arduino_clock_port &= arduino_clock_n_mask;
 	    }
@@ -257,10 +255,8 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	  if ( b == 0 )
 	  {
 	    *arduino_data_port &= arduino_data_n_mask;
-	    for( i = 0; i < 4; i++ )
+	    for( i = 0; i < 8; i++ )
 	    {
-	      *arduino_clock_port &= arduino_clock_n_mask;
-	      *arduino_clock_port |= arduino_clock_mask;	    
 	      *arduino_clock_port &= arduino_clock_n_mask;
 	      *arduino_clock_port |= arduino_clock_mask;	    
 	    }

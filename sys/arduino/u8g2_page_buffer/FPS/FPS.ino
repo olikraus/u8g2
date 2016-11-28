@@ -167,7 +167,7 @@
 
   26.Nov 2016
   U8G2_ST7920_128X64_1_8080				Uno			Clip=13.5 Box=12.1  @=3.6 Pix=5.9		atmega&arduino optimized
-  U8G2_ST7920_128X64_1_SW_SPI 				Uno			Clip=13.5 Box=11.5  @=3.5 Pix=5.6			issue 87
+  U8G2_ST7920_128X64_1_SW_SPI 				Uno			Clip=13.2 Box=11.4  @=3.5 Pix=5.6			issue 87
   U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI	Uno			Clip=21.7 Box=46.8  @=4.0 Pix=7.1			
   U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno			Clip=25.8 Box=84.2  @=4.2 Pix=7.8			
   U8G2_SSD1306_128X64_NONAME_1_8080		Uno			Clip=16.1 Box=29.1  @=3.9 Pix=6.6		
