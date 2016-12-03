@@ -281,14 +281,17 @@ struct u8x8_display_info_struct
 #define U8X8_PIN_I2C_CLOCK 12	/* 1 = Input/high impedance, 0 = drive low */
 #define U8X8_PIN_I2C_DATA 13	/* 1 = Input/high impedance, 0 = drive low */
 
-#define U8X8_PIN_OUTPUT_CNT 14
+#define U8X8_PIN_CS1 14			/* KS0108 extra chip select */
+#define U8X8_PIN_CS2 15			/* KS0108 extra chip select */
 
-#define U8X8_PIN_MENU_SELECT 14
-#define U8X8_PIN_MENU_NEXT 15
-#define U8X8_PIN_MENU_PREV 16
-#define U8X8_PIN_MENU_HOME 17
-#define U8X8_PIN_MENU_UP 18
-#define U8X8_PIN_MENU_DOWN 19
+#define U8X8_PIN_OUTPUT_CNT 16
+
+#define U8X8_PIN_MENU_SELECT 16
+#define U8X8_PIN_MENU_NEXT 17
+#define U8X8_PIN_MENU_PREV 18
+#define U8X8_PIN_MENU_HOME 19
+#define U8X8_PIN_MENU_UP 20
+#define U8X8_PIN_MENU_DOWN 21
 
 #define U8X8_PIN_INPUT_CNT 6
 
