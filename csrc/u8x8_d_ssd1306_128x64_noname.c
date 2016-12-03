@@ -59,9 +59,10 @@ static const uint8_t u8x8_d_ssd1306_128x64_noname_init_seq[] = {
   // U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
   U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
-  U8X8_CA(0x081, 0x0cf),		/* [2] set contrast control */
-  U8X8_CA(0x0d9, 0x0f1),		/* [2] pre-charge period 0x022/f1*/
-  U8X8_CA(0x0db, 0x040),		/* vcomh deselect level */
+  U8X8_CA(0x081, 0x0ef),		/* [2] set contrast control,  */
+  U8X8_CA(0x0d9, 0x0a1),		/* [2] pre-charge period 0x022/f1*/
+  U8X8_CA(0x0db, 0x000),		/* vcomh deselect level 0x000 .. 0x070, low nibble always 0 */
+  // if vcomh is 0, then this will give the biggest range for contrast control issue #98
   
   U8X8_C(0x02e),				/* Deactivate scroll */ 
   U8X8_C(0x0a4),				/* output ram to display */
