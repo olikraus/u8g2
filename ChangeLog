@@ -59,4 +59,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Speed improvements for SW SPI und 8080 mode (issues 87, 90 and 95)
   * Fixed issue with ST7920 not using the optimized SW SPI procedures (issue 87)
   * Direct buffer API (issue 93)
-
+2016-xx-xx	v2.8.x	 olikraus@gmail.com
+  * Increased contrast range for SSD1306 (issue 98)

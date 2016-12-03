@@ -16,6 +16,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 # page buffer
 
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/ContrastTest
+cp ../../../sys/arduino/u8g2_page_buffer/ContrastTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ContrastTest/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/DirectAccess
 cp ../../../sys/arduino/u8g2_page_buffer/DirectAccess/*.ino ../../../../U8g2_Arduino/examples/page_buffer/DirectAccess/.
 
