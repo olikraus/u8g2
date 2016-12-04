@@ -309,9 +309,7 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 
 /*=========================================*/
 
-static void u8x8_byte_set_ks0108_cs(u8x8_t *u8x8, uint8_t arg) U8X8_NOINLINE;
-
-static void u8x8_byte_set_ks0108_cs(u8x8_t *u8x8, uint8_t arg)
+void u8x8_byte_set_ks0108_cs(u8x8_t *u8x8, uint8_t arg)
 {
   u8x8_gpio_SetCS(u8x8, arg&1);
   arg = arg >> 1;

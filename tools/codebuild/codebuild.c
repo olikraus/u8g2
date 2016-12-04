@@ -25,6 +25,7 @@
 #define COM_I2C		0x0010
 #define COM_ST7920SPI	0x0020			/* mostly identical to COM_4WSPI, but does not use DC */
 #define COM_UART		0x0040
+#define COM_KS0108	0x0080			/* mostly identical to 6800 mode, but has more chip select lines */
 
 struct interface
 {
@@ -313,6 +314,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "ks0108", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64" },
+      { NULL }
+    },
+  },
+  {
     "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
@@ -501,6 +510,17 @@ struct interface interface_list[] =
     "[reset]",
     "uC specific"
   },  
+  /* 11 */
+  {
+    "",
+    "u8x8_SetPin_KS0108",
+    "u8x8_byte_ks0108",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t dc, uint8_t cs0, uint8_t cs1, uint8_t cs2, uint8_t reset = U8X8_PIN_NONE",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2 [, reset]",
+    "u8x8_byte_ks0108"
+  },
   
 
   
@@ -708,14 +728,16 @@ void do_u8x8_header(int controller_idx, int display_idx, int interface_idx)
   FILE *fp = u8x8_cpp_header_fp;
   fprintf(fp, "class U8X8_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
-  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+  fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  if ( interface_list[interface_idx].interface_name[0] != '\0' )
+    fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));
   fprintf(fp, " : public U8X8 {\n");
   fprintf(fp, "  public: ");
   fprintf(fp, "U8X8_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
-  fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+  fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+  if ( interface_list[interface_idx].interface_name[0] != '\0' )
+    fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));
   fprintf(fp, "(%s) : U8X8() {\n", interface_list[interface_idx].pins_with_type);
   fprintf(fp, "    ");
   fprintf(fp, "u8x8_Setup(getU8x8(), u8x8_d_");
@@ -755,15 +777,17 @@ void do_display_interface(int controller_idx, int display_idx, const char *postf
   fprintf(fp, "class U8G2_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-  fprintf(fp, "%s_", struppercase(postfix));
-  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));  
+  fprintf(fp, "%s", struppercase(postfix));
+  if ( interface_list[interface_idx].interface_name[0] != '\0' )
+    fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));  
   fprintf(fp, " : public U8G2 {\n");
   fprintf(fp, "  public: ");
   fprintf(fp, "U8G2_");
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
   fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-  fprintf(fp, "%s_", struppercase(postfix));
-  fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));  
+  fprintf(fp, "%s", struppercase(postfix));
+  if ( interface_list[interface_idx].interface_name[0] != '\0' )
+    fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));  
   fprintf(fp, "(const u8g2_cb_t *rotation, ");
   fprintf(fp, "%s) : U8G2() {\n", interface_list[interface_idx].pins_with_type);
   fprintf(fp, "    ");
@@ -847,6 +871,10 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   if ( controller_list[controller_idx].com & COM_UART )
   {
     /* currently there is no Arduino C++ interface, instead the interface is created manually in the example */
+  }
+  if ( controller_list[controller_idx].com & COM_KS0108 )
+  {
+    do_display_interface(controller_idx, display_idx, postfix, 11);	/* KS0108 6800 parallel mode */
   }
   
 }
@@ -957,8 +985,9 @@ void do_md_display_interface_buffer(int controller_idx, int display_idx, int int
       fprintf(fp, "| U8G2_");
       fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
       fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-      fprintf(fp, "%s_", struppercase(postfix));
-      fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+      fprintf(fp, "%s", struppercase(postfix));
+      if ( interface_list[interface_idx].interface_name[0] != '\0' )
+	fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));
       fprintf(fp, "(rotation, %s)", interface_list[interface_idx].pins_md_plain);
       if ( postfix[0] == 'f' )
       {
@@ -1008,8 +1037,9 @@ void do_md_display_interface(int controller_idx, int display_idx, int interface_
 	    {
 	      fprintf(fp, "| U8X8_");
 	      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
-	      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
-	      fprintf(fp, "%s", struppercase(interface_list[interface_idx].interface_name));
+	      fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+	      if ( interface_list[interface_idx].interface_name[0] != '\0' )
+		fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));
 	      fprintf(fp, "(%s) |\n", interface_list[interface_idx].pins_md_plain);
 	    }
 	    else
@@ -1072,6 +1102,10 @@ void do_md_controller_list(void)
       {
 	do_md_display_interface(controller_idx, display_idx, 8);		/* ST7920 SW SPI */
 	do_md_display_interface(controller_idx, display_idx, 9);		/* HW SPI (not yet implemented) */
+      }
+      if ( controller_list[controller_idx].com & COM_KS0108 )
+      {
+	do_md_display_interface(controller_idx, display_idx, 11);		/* KS0108 */
       }
       
       display_idx++;
