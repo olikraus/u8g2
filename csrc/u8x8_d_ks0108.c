@@ -132,11 +132,12 @@ uint8_t u8x8_d_ks0108_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 //    case U8X8_MSG_DISPLAY_SET_CONTRAST:
 //      break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
+      
       u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 1, NULL);
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
-      u8x8_cad_SendCmd(u8x8, 0x040 | (4) );
+      u8x8_cad_SendCmd(u8x8, 0x040 | (x) );
       u8x8_cad_SendCmd(u8x8, 0x0b8 | (((u8x8_tile_t *)arg_ptr)->y_pos));
     
       c = ((u8x8_tile_t *)arg_ptr)->cnt;
