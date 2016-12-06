@@ -63,7 +63,6 @@ static void u8x8_ks0108_out(u8x8_t *u8x8, uint8_t *x, uint8_t *c, uint8_t **ptr,
   
   while( *arg_int > 0 )
   {
-    
       u8x8_cad_SendData(u8x8, 8, *ptr);	/* note: SendData can not handle more than 255 bytes */
       (*ptr) += 8;
       (*x)+= 8;
