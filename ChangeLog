@@ -61,3 +61,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Direct buffer API (issue 93)
 2016-xx-xx	v2.8.x	 olikraus@gmail.com
   * Increased contrast range for SSD1306 (issue 98)
+  * Support for KS0108 (issue 88)
