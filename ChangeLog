@@ -62,3 +62,4 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-xx-xx	v2.8.x	 olikraus@gmail.com
   * Increased contrast range for SSD1306 (issue 98)
   * Support for KS0108 (issue 88)
+  * Support for UC1608 240x128 (issue 101)

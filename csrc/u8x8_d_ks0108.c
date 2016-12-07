@@ -56,28 +56,50 @@ static const uint8_t u8x8_d_ks0108_powersave1_seq[] = {
 };
 
 
-static void u8x8_ks0108_out(u8x8_t *u8x8, uint8_t *x, uint8_t *c, uint8_t **ptr, uint8_t *arg_int, void *arg_ptr)
+struct u8x8_ks0108_vars
 {
-  u8x8_cad_SendCmd(u8x8, 0x040 | ((*x) & 63) );
+  uint8_t *ptr;
+  uint8_t x;
+  uint8_t c;
+  uint8_t arg_int;
+};
+
+static void u8x8_ks0108_out(u8x8_t *u8x8, struct u8x8_ks0108_vars *v, void *arg_ptr)
+{
+  uint8_t cnt;
+  u8x8_cad_SendCmd(u8x8, 0x040 | ((v->x << 3) & 63) );
   u8x8_cad_SendCmd(u8x8, 0x0b8 | (((u8x8_tile_t *)arg_ptr)->y_pos));
   
-  while( *arg_int > 0 )
+  while( v->arg_int > 0 )
   {
-      u8x8_cad_SendData(u8x8, 8, *ptr);	/* note: SendData can not handle more than 255 bytes */
-      (*ptr) += 8;
-      (*x)+= 8;
-      (*c)--;
-      if ( *c == 0 )
+      /* calculate tiles to next boundary (end or chip limit) */
+      cnt = v->x;
+      cnt += 8;
+      cnt &= 0x0f8;
+      cnt -= v->x;
+            
+      if ( cnt > v->c )
+	cnt = v->c;
+    
+      /* of cours we still could use cnt=1 here... */
+      /* but setting cnt to 1 is not very efficient */
+      //cnt = 1;
+    
+      v->x +=cnt;
+      v->c-=cnt;
+      cnt<<=3;
+      u8x8_cad_SendData(u8x8, cnt, v->ptr);	/* note: SendData can not handle more than 255 bytes */    
+      v->ptr += cnt;
+    
+      if ( v->c == 0 )
       {
-	*ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	*c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	(*arg_int)--;
+	v->ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	v->c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	v->arg_int--;
       }
-      if ( ((*x) & 63) == 0 )
-	break; 
-      
+      if ( ((v->x) & 7) == 0 )
+	break;       
   } 
-  
 }
 
 
@@ -107,8 +129,7 @@ static const u8x8_display_info_t u8x8_ks0108_128x64_display_info =
 
 uint8_t u8x8_d_ks0108_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c;
-  uint8_t *ptr;
+  struct u8x8_ks0108_vars v;
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
@@ -158,49 +179,30 @@ uint8_t u8x8_d_ks0108_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 //      break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
 
-      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
-      x *= 8;
-      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-      c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      v.ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+      v.x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      v.c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      v.arg_int = arg_int;    
       
-      if ( x < 64 )
+      
+      if ( v.x < 8 )
       {
 	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 1, NULL);
-	u8x8_ks0108_out(u8x8, &x, &c, &ptr, &arg_int, arg_ptr);
+	u8x8_ks0108_out(u8x8, &v, arg_ptr);
 	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
       }
-      if ( x < 128 )
+      if ( v.x < 16 )
       {
 	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 2, NULL);
-	u8x8_ks0108_out(u8x8, &x, &c, &ptr, &arg_int, arg_ptr);
+	u8x8_ks0108_out(u8x8, &v, arg_ptr);
 	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
       }
-      //if ( x < 192 )
+      //if ( v.x < 24 )
       //{
 	//u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 4, NULL);
-	//u8x8_ks0108_out(u8x8, &x, &c, &ptr, &arg_int, arg_ptr);
+	//u8x8_ks0108_out(u8x8, &v, arg_ptr);
 	//u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
-      //}
-    
-#ifdef old
-      u8x8_cad_SendCmd(u8x8, 0x040 | (x) );
-      u8x8_cad_SendCmd(u8x8, 0x0b8 | (((u8x8_tile_t *)arg_ptr)->y_pos));
-      do
-      {
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	while( c > 0 )
-	{
-	  u8x8_cad_SendData(u8x8, 8, ptr);	/* note: SendData can not handle more than 255 bytes */
-	  ptr += 8;
-	  x+= 8;
-	  c--;
-	}
-	arg_int--;
-      } while( arg_int > 0 );
-      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
-#endif
-      
+      //}    
       break;
     default:
       return 0;
