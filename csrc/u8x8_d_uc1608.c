@@ -256,10 +256,11 @@ static const uint8_t u8x8_d_uc1608_240x128_init_seq[] = {
   U8X8_DLY(200),
 
   //U8X8_C(0x023),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
-  U8X8_C(0x027),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
+  U8X8_C(0x026),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
 
   U8X8_C(0x0c8),            			/* Map control, Bit 3: MY=1, Bit 2: MX=0, Bit 0: MSF =0 */
-  U8X8_C(0x0e8),            			/* LCD bias Bits 0/1: 00=10.7 01=10.3, 10=12.0, 11=12.7 */
+  U8X8_C(0x0ea),            			/* LCD bias Bits 0/1: 00=10.7 01=10.3, 10=12.0, 11=12.7 */
+							/* maybe 0x0eb??? */
   
   U8X8_C(0x02f),            			/* power on, Bit 2 PC2=1 (internal charge pump), Bits 0/1: cap of panel */
   U8X8_DLY(50),
@@ -268,7 +269,7 @@ static const uint8_t u8x8_d_uc1608_240x128_init_seq[] = {
   U8X8_C(0x090),            			/* no fixed lines */
   U8X8_C(0x089),            			/* RAM access control */
   
-  U8X8_CA(0x081, 0x014),		/* set contrast, ERC24064-1 default: 0x040 */
+  U8X8_CA(0x081, 0x072),		/* set contrast  */
   
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  

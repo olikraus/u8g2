@@ -210,4 +210,100 @@ uint8_t u8x8_d_ks0108_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   return 1;
 }
 
+/* east rising (buydisplay.com) ERM19264 */
+/* left: 011, middle: 101, right: 110, no chip select: 111 */
+uint8_t u8x8_d_ks0108_erm19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  struct u8x8_ks0108_vars v;
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ks0108_128x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+    
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 3, NULL);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_init_seq);
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+    
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 5, NULL);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_init_seq);
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+    
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 6, NULL);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_init_seq);
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      
+      if ( arg_int == 0 )
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 3, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_powersave0_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 5, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_powersave0_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 6, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_powersave0_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+	
+      }
+      else
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 3, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_powersave1_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 5, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_powersave1_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 6, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ks0108_powersave1_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+	
+      }
+      break;
+// The KS0108 can not mirror the cols and rows, use U8g2 for rotation
+//    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+//      break;
+// The KS0108 has no internal contrast command
+//    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+//      break;
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+
+      v.ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+      v.x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      v.c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      v.arg_int = arg_int;    
+      
+      
+      if ( v.x < 8 )
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 3, NULL);
+	u8x8_ks0108_out(u8x8, &v, arg_ptr);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+      }
+      if ( v.x < 16 )
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 5, NULL);
+	u8x8_ks0108_out(u8x8, &v, arg_ptr);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+      }
+      if ( v.x < 24 )
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 6, NULL);
+	u8x8_ks0108_out(u8x8, &v, arg_ptr);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
+      }    
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
 

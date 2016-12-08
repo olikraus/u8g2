@@ -338,6 +338,14 @@ struct controller controller_list[] =
     },
   },
   {
+    "ks0108", 		24, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "erm19264" },
+      { NULL }
+    },
+  },
+  {
     "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
