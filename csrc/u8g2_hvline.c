@@ -196,7 +196,22 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-  /* Make a call to the callback function. The callback may rotate the hv line */
+  /* additional optimization for one pixel draw */
+  /* requires about 60 bytes on the ATMega flash memory */
+  /* 20% improvement for single pixel draw test in FPS.ino */
+#ifdef U8G2_WITH_ONE_PIXEL_OPTIMIZATION
+  if ( len == 1 )
+  {
+    y -= u8g2->tile_curr_row*8;
+    if ( x < u8g2->pixel_buf_width && y < u8g2->pixel_buf_height )
+      u8g2->ll_hvline(u8g2, x, y, len, dir);
+    return;
+  }
+#endif
+  
+  
+  /* Make a call to the callback function (e.g. u8g2_draw_l90_r0). */
+  /* The callback may rotate the hv line */
   /* after rotation this will call u8g2_draw_hv_line_4dir() */
   if ( len != 0 )
     u8g2->cb->draw_l90(u8g2, x, y, len, dir);

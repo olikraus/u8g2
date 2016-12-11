@@ -71,6 +71,16 @@
 */
 //#define U8G2_16BIT
 
+
+/*
+  The following macro enables a special check and optimization
+  in the HVLine procedure for lines with one pixel length.
+  It enabled, it will consume about 60 bytes in flash memory of the AVR and
+  there will be a speed improvement of about 20% for any single pixel draw.
+*/
+#define U8G2_WITH_ONE_PIXEL_OPTIMIZATION
+
+
 /*
   The following macro enables the HVLine speed optimization.
   It will consume about 40 bytes more in flash memory of the AVR.

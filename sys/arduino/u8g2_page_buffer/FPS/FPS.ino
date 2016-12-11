@@ -175,6 +175,12 @@
   
   7 Dec 2016
   U8G2_KS0108_128X64_1 					Uno			Clip=6.7 Box=8.2  @=2.9 Pix=4.3
+  
+  11 Dec 2016
+  U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno			Clip=25.8 Box=84.2  @=4.2 Pix=7.8		Old: no pixel optimization
+  U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno			Clip=26.3 Box=83.3  @=4.4 Pix=9.1		Pixel (len=1) optimization
+  
+  
 */
 
 
@@ -194,7 +200,7 @@
 // Please update the pin numbers according to your setup. Use U8X8_PIN_NONE if the reset pin is not connected
 //U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
-//U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // All Boards without Reset of the Display
