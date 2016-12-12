@@ -170,6 +170,19 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 #ifdef U8G2_WITH_HVLINE_COUNT
   u8g2->hv_cnt++;
 #endif /* U8G2_WITH_HVLINE_COUNT */   
+
+  /* additional optimization for one pixel draw */
+  /* requires about 60 bytes on the ATMega flash memory */
+  /* 20% improvement for single pixel draw test in FPS.ino */
+#ifdef U8G2_WITH_ONE_PIXEL_OPTIMIZATION
+  if ( len == 1 )
+  {
+    y -= u8g2->tile_curr_row*8;
+    if ( x < u8g2->pixel_buf_width && y < u8g2->pixel_buf_height )
+      u8g2->ll_hvline(u8g2, x, y, len, dir);
+    return;
+  }
+#endif
   
   if ( dir == 2 )
   {
@@ -196,18 +209,6 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-  /* additional optimization for one pixel draw */
-  /* requires about 60 bytes on the ATMega flash memory */
-  /* 20% improvement for single pixel draw test in FPS.ino */
-#ifdef U8G2_WITH_ONE_PIXEL_OPTIMIZATION
-  if ( len == 1 )
-  {
-    y -= u8g2->tile_curr_row*8;
-    if ( x < u8g2->pixel_buf_width && y < u8g2->pixel_buf_height )
-      u8g2->ll_hvline(u8g2, x, y, len, dir);
-    return;
-  }
-#endif
   
   
   /* Make a call to the callback function (e.g. u8g2_draw_l90_r0). */
