@@ -64,3 +64,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for KS0108 (issue 88)
   * Support for UC1608 240x128 (issue 101)
   * Speed improvement (issue 96)
+2016-12-12	v2.8.5	 olikraus@gmail.com
+  * Bugfix for issue 96 (issue 106)
