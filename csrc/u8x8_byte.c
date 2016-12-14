@@ -349,7 +349,7 @@ uint8_t u8x8_byte_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
     case U8X8_MSG_BYTE_INIT:
       /* disable chipselect */
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);    
-      /* ensure that the enable signal is high */
+      /* ensure that the enable signal is low */
       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
       break;
     case U8X8_MSG_BYTE_SET_DC:

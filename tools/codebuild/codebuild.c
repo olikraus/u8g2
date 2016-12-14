@@ -538,7 +538,7 @@ struct interface interface_list[] =
   {
     "",
     "u8x8_SetPin_KS0108",
-    "u8x8_byte_ks0108",
+    "u8x8_byte_arduino_ks0108",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t dc, uint8_t cs0, uint8_t cs1, uint8_t cs2, uint8_t reset = U8X8_PIN_NONE",
     "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2, reset",
