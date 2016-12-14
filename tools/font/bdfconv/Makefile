@@ -31,6 +31,10 @@ helvb18: bdfconv
 helvb18n: bdfconv
 	./bdfconv -v -f 1 -m '32,48-57' ../bdf/helvB18.bdf -o helvb18_tn.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 
+logisoso: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 110 -o tmp.bdf ../ttf/Logisoso.ttf
+	./bdfconv -v -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
+
 tga: bdfconv
 	./bdfconv -v -f 1 -m '32-255' ../bdf/helvB18.bdf -o helvb18_tn.c -n u8g2_font_helvB18_tn -d ../bdf/7x13.bdf
 
