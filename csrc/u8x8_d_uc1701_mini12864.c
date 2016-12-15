@@ -177,6 +177,8 @@ uint8_t u8x8_d_uc1701_mini12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 	The following if condition checks the hardware limits of the uc1701 
 	controller: It is not allowed to write beyond the display limits.
 	This is in fact an issue within flip mode.
+    
+	bug: this check should be inside the while loop, see u8x8_d_pcd8544_84x48.c 
       */
       if ( c + x > 132u )
       {
