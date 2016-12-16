@@ -326,6 +326,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogm128" },
+      { "zolen_128x64" },
       { NULL }
     },
   },
