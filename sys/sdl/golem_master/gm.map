@@ -1,4 +1,14 @@
-# comment
+#
+# gm.map
+#
+# Syntax:
+# 	'hash' introduces a comment
+#	tile <ascii> <mapto> <top> <right> <bottom> <left>
+#		map the <ascii> code to the specified <mapto> code, if the other for tiles match
+#		If one of the other four tiles is 0, then ignore this tile (wildcard)
+#	map <name> <width> <height>
+'		Create a map with the given name and size
+#
 tile 32 32	# map space to space
 tile '+ $80 0 '- '| 0
 tile '+ $80 0 '- '+ 0
