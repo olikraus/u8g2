@@ -166,6 +166,27 @@ int main(void)
   tga_is_transparent = 0;
   
   tga_save_png("u8x8_umlaut.png");
+
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetInverseFont(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_f);
+  {
+    uint8_t tiles[16] = { 0x0f,0x0f,0x0f,0x0f,0xf0,0xf0,0xf0,0xf0, 1, 3, 7, 15, 31, 63, 127, 255};
+    u8x8_DrawTile(&u8x8, 1, 3, 2, tiles);
+
+    tga_is_transparent = 1;
+    u8g2_FirstPage(&desc);
+    do
+    {
+      u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+      ra(1,3, "x=1, y=3");
+    } while( u8g2_NextPage(&desc) );
+    tga_is_transparent = 0;
+  }
+  tga_save_png("u8x8_draw_tile.png");
   
   return 0;
 }
