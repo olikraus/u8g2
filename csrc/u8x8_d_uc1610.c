@@ -135,6 +135,12 @@ static const uint8_t u8x8_d_uc1610_dogxl160_flip1_seq[] = {
 };
 
 
+/* 
+  UC1610 has two chip select inputs (CS0 and CS1).
+  CS0 is low active, CS1 is high active. It will depend on the display
+  module whether the display has a is low or high active chip select.
+*/
+
 static const u8x8_display_info_t u8x8_uc1610_display_info =
 {
   /* chip_enable_level = */ 0,

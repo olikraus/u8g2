@@ -145,6 +145,13 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 /*================================================*/
 /* EA DOGM240 */
 
+
+/*
+  UC1611 has two chip select inputs (CS0 and CS1).
+  CS0 is low active, CS1 is high active. It will depend on the display
+  module whether the display has a is low or high active chip select.
+*/
+
 static const u8x8_display_info_t u8x8_uc1611_240x64_display_info =
 {
   /* chip_enable_level = */ 0,

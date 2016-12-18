@@ -147,7 +147,14 @@ uint8_t u8x8_d_uc1604_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 /*================================================*/
 /* JLX19264 */
 
-/* timing is from uc1608 */
+/* 
+  timings from uc1608 
+
+  UC1604 has two chip select inputs (CS0 and CS1).
+  CS0 is low active, CS1 is high active. It will depend on the display
+  module whether the display has a is low or high active chip select.
+
+*/
 static const u8x8_display_info_t u8x8_uc1604_192x64_display_info =
 {
   /* chip_enable_level = */ 0,	/* JLX19264G uses CS0, which is low active CS*/
