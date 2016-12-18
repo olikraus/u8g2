@@ -66,7 +66,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Speed improvement (issue 96)
 2016-12-12	v2.8.5	 olikraus@gmail.com
   * Bugfix for issue 96 (issue 106)
-2016-12-xx	v2.9.x	 olikraus@gmail.com
+2016-12-18	v2.9.0	 olikraus@gmail.com
   * Speed improvement for AVR/KS0108 (issue 104)
   * Support for UC1604 (issue 111)
   * Support for PCD8544/Nokia Display (issue 107)

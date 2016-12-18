@@ -187,6 +187,27 @@ int main(void)
     tga_is_transparent = 0;
   }
   tga_save_png("u8x8_draw_tile.png");
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetInverseFont(&u8x8, 0);
+  //u8x8_SetFont(&u8x8, u8x8_font_pressstart2p_f);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_f);
+  u8x8_DrawString(&u8x8, 1, 1, "U8x8");
+  u8x8_Draw2x2String(&u8x8, 1, 3, "U8x8");
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(1,1, "x=1, y=1");
+    ra(1,3, "x=1, y=3");
+  } while( u8g2_NextPage(&desc) );
+  tga_is_transparent = 0;
+  
+  tga_save_png("u8x8_2x2.png");
   
   return 0;
 }
