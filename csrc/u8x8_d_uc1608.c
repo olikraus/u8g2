@@ -143,6 +143,11 @@ uint8_t u8x8_d_uc1608_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 /*================================================*/
 /* ERC24064-1 */
 
+/*
+  The UC1608 has only one high active chip select input.
+  UC1604, UC1610 and UC1611 have two chip select inputs.
+*/
+
 static const u8x8_display_info_t u8x8_uc1608_240x64_display_info =
 {
   /* chip_enable_level = */ 1,	/* uc1608 has high active CS */
