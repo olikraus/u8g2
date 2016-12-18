@@ -191,7 +191,7 @@ void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const cha
 
 /*
   title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\n'
-  start_pos: 	default position for the cursor
+  start_pos: 	default position for the cursor, first line is 1.
   sl:			string list (list of strings separated by \n)
   returns start_pos if user has pressed the home key
   returns the selected line if user has pressed the select key
@@ -211,6 +211,10 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
 
   uint8_t title_lines = u8x8_GetStringLineCnt(title);
   uint8_t display_lines;
+
+  
+  if ( start_pos > 0 )	/* issue 112 */
+    start_pos--;		/* issue 112 */
 
 
   if ( title_lines > 0 )
@@ -262,9 +266,9 @@ uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t
       {
         event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
         if ( event == U8X8_MSG_GPIO_MENU_SELECT )
-          return u8sl.current_pos;
+          return u8sl.current_pos+1;		/* +1, issue 112 */
         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
-          return start_pos;
+          return 0;				/* issue 112: return 0 instead of start_pos */
         else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
         {
           u8sl_Next(&u8sl);

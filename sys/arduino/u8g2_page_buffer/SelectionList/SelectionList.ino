@@ -135,7 +135,7 @@ const char *string_list =
   "Stratocumulus\n"
   "Stratus";
 
-uint8_t current_selection = 0;
+uint8_t current_selection = 1;
 
 
 void loop(void) {
@@ -145,11 +145,19 @@ void loop(void) {
     current_selection, 
     string_list);
 
-  u8g2.userInterfaceMessage(
-      "Selection:", 
-      u8x8_GetStringLineStart(current_selection, string_list ),
-      "",
-      " ok \n cancel ");
+  if ( current_selection == 0 ) {
+    u8g2.userInterfaceMessage(
+	"Nothing selected.", 
+	"",
+	"",
+	" ok ");
+  } else {
+    u8g2.userInterfaceMessage(
+	"Selection:", 
+	u8x8_GetStringLineStart(current_selection-1, string_list ),
+	"",
+	" ok \n cancel ");
+  }
 }
 
 
