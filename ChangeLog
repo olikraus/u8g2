@@ -70,4 +70,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Speed improvement for AVR/KS0108 (issue 104)
   * Support for UC1604 (issue 111)
   * Support for PCD8544/Nokia Display (issue 107)
-  
+  * Change/fixed behavior of userInterfaceSelectionList (issue 112)

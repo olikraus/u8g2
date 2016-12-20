@@ -193,7 +193,7 @@ void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const cha
   title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\n'
   start_pos: 	default position for the cursor, first line is 1.
   sl:			string list (list of strings separated by \n)
-  returns start_pos if user has pressed the home key
+  returns 0 if user has pressed the home key
   returns the selected line if user has pressed the select key
   side effects:
     u8g2_SetFontDirection(u8g2, 0);
