@@ -1,2 +1,2 @@
 # without 'v' prefix
-echo -n "2.9.2"
+echo -n "2.10.0"
