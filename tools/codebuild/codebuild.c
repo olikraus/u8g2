@@ -73,6 +73,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
+      { "128x64_vcomh0" },
       { NULL }
     }
   },
@@ -81,6 +82,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
+      { "128x64_vcomh0" },
       { NULL }
     }
   },
@@ -90,6 +92,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
+      { "128x64_vcomh0" },
       { NULL }
     }
   },
@@ -98,6 +101,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
+      { "128x64_vcomh0" },
       { NULL }
     }
   },
@@ -343,6 +347,7 @@ struct controller controller_list[] =
     {
       { "ea_dogm128" },
       { "zolen_128x64" },
+      { "lm6059" },
       { NULL }
     },
   },
