@@ -402,8 +402,10 @@ static const uint8_t u8x8_d_st7565_lm6059_init_seq[] = {
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x060),		                /* set display start line to 0 */
   
-  U8X8_C(0x0a1),		                /* ADC set to reverse */
-  U8X8_C(0x0c0),		                /* common output mode */
+  U8X8_C(0x0a0),		                /* ADC set to reverse */
+  U8X8_C(0x0c8),		                /* common output mode */
+  //U8X8_C(0x0a1),		                /* ADC set to reverse */
+  //U8X8_C(0x0c0),		                /* common output mode */
   // Flipmode
   // U8X8_C(0x0a0),		                /* ADC set to reverse */
   // U8X8_C(0x0c8),		                /* common output mode */
@@ -438,8 +440,8 @@ static const u8x8_display_info_t u8x8_st7565_lm6059_display_info =
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 2,	/* not sure... */
-  /* flipmode_x_offset = */ 2,
+  /* default_x_offset = */ 1,	/* not sure... */
+  /* flipmode_x_offset = */ 3,
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };
@@ -462,12 +464,12 @@ uint8_t u8x8_d_st7565_lm6059(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->default_x_offset;
 	}
 	else
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	}	
 	break;
