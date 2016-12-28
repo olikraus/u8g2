@@ -532,6 +532,9 @@ uint8_t u8x8_cad_EndTransfer(u8x8_t *u8x8) U8X8_NOINLINE;
 #define U8X8_AAC(a0,a1,c0)		(U8X8_MSG_CAD_SEND_ARG), (a0), (U8X8_MSG_CAD_SEND_ARG), (a1), (U8X8_MSG_CAD_SEND_CMD), (c0)
 #define U8X8_D1(d0)			(U8X8_MSG_CAD_SEND_DATA), (d0)
 
+#define U8X8_A4(a0,a1,a2,a3)		U8X8_A(a0), U8X8_A(a1), U8X8_A(a2), U8X8_A(a3)
+#define U8X8_A8(a0,a1,a2,a3,a4,a5,a6,a7)	U8X8_A4((a0), (a1), (a2), (a3)), U8X8_A4((a4), (a5), (a6), (a7))
+
 
 #define U8X8_START_TRANSFER()	(U8X8_MSG_CAD_START_TRANSFER)
 #define U8X8_END_TRANSFER()	(U8X8_MSG_CAD_END_TRANSFER)
@@ -727,6 +730,7 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 uint8_t u8x8_d_ks0108_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ks0108_erm19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_pcd8544_84x48(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_d_ssd1606_172x72(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 
