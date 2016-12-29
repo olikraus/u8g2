@@ -57,18 +57,30 @@ static const uint8_t u8x8_d_ssd1606_172x72_gde021a1_init_seq[] = {
   U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
   
   U8X8_C(0x32),	/* write LUT register*/
+
+  /* wavefrom part of the LUT */
+  U8X8_A4(0x00,0x00,0x00,0x55),  /* step 0 */
+  U8X8_A4(0x00,0x00,0x55,0x55),	/* step 1 */
+  U8X8_A4(0x00,0x55,0x55,0x55),
+  U8X8_A4(0xAA,0xAA,0xAA,0xAA),
+  U8X8_A4(0x15,0x15,0x15,0x15),
+  U8X8_A4(0x05,0x05,0x05,0x05),
+  U8X8_A4(0x01,0x01,0x01,0x01),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),	/* step 19 */
   
-  U8X8_A8(0x00,0x00,0x00,0x55,0x00,0x00,0x55,0x55),
-  U8X8_A8(0x00,0x55,0x55,0x55,0xAA,0xAA,0xAA,0xAA),
-  U8X8_A8(0x15,0x15,0x15,0x15,0x05,0x05,0x05,0x05),
-  U8X8_A8(0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00),
-  U8X8_A8(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00),
-  U8X8_A8(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00),
-  U8X8_A8(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00),
-  U8X8_A8(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00),
-  U8X8_A8(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00),
-  U8X8_A8(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00),
-  
+  /* timing part of the LUT */
   U8X8_A8(0x22,0xFB,0x22,0x1B,0x00,0x00,0x00,0x00),
   U8X8_A(0x00),U8X8_A(0x00),
   
@@ -77,6 +89,21 @@ static const uint8_t u8x8_d_ssd1606_172x72_gde021a1_init_seq[] = {
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
     /* 0x0c4 is mentioned in chapter 9.2 of the GDE021A1 data sheet */
   
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1606_to_display_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  U8X8_DLY(250),	/* the sequence above requires about 970ms */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
+  U8X8_DLY(200),		/* this requres about 370ms */
+  U8X8_DLY(200),  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -112,9 +139,27 @@ static const uint8_t u8x8_d_ssd1606_172x72_flip1_seq[] = {
 };
 
 
+static uint8_t *u8x8_convert_tile_for_ssd1606(uint8_t *t)
+{
+  uint8_t i;
+  uint16_t r;
+  static uint8_t buf[16];
+  uint8_t *pbuf = buf;
+
+  for( i = 0; i < 8; i++ )
+  {
+    r = u8x8_upscale_byte(*t++);
+    *pbuf++ = r & 255;
+    r >>= 8;
+    *pbuf++ = r;
+  }
+  return buf;
+}
+
+
 static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c;
+  uint8_t x, c, page;
   uint8_t *ptr;
   switch(msg)
   {
@@ -151,23 +196,7 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       u8x8_cad_SendArg(u8x8, 0xf0);    
       u8x8_cad_SendArg(u8x8, 0xf0);
     
-      u8x8_cad_SendCmd(u8x8, 0x022 );	/* set display update sequence */
-      u8x8_cad_SendArg(u8x8, 0x0c4 );	/* clk -> CP -> LUT -> initial display -> pattern display */
-      u8x8_cad_SendCmd(u8x8, 0x020 );	/* activate display update sequence */
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-    
-      u8x8_cad_SendCmd(u8x8, 0x022 );	/* set display update sequence */
-      u8x8_cad_SendArg(u8x8, 0x03 );	/* disable CP and clk */
-      u8x8_cad_SendCmd(u8x8, 0x020 );	/* activate display update sequence */
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
-      u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 200);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
 
     
       break;
@@ -199,23 +228,51 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_cad_StartTransfer(u8x8);
-      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
-      // TODO Y Pos
-      //u8x8_cad_SendCmd(u8x8, 0x044 );
-      //u8x8_cad_SendArg(u8x8, y );
-      u8x8_cad_SendCmd(u8x8, 0x045 );
-      u8x8_cad_SendArg(u8x8, x );
     
-      
+      page = u8x8->display_info->tile_height;
+      page --;
+      page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
+      page *= 2;
+    
+
+
+      u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
+      u8x8_cad_SendArg(u8x8, 7);
+
+      u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
+      u8x8_cad_SendArg(u8x8, 0);
+      u8x8_cad_SendArg(u8x8, 171);		/* end of display */
+    
+      u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
+      u8x8_cad_SendArg(u8x8, page);
+      u8x8_cad_SendArg(u8x8, page+1);
+
+      u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
+      u8x8_cad_SendArg(u8x8, x);
+
+      u8x8_cad_SendCmd(u8x8, 0x04e );	/* window column */
+      u8x8_cad_SendArg(u8x8, page);
+
       do
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	u8x8_cad_SendData(u8x8, c*8, ptr); 	/* note: SendData can not handle more than 255 bytes */
+	do
+	{
+	  u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_ssd1606(ptr));
+	  ptr += 8;
+	  x += 8;
+	  c--;
+	} while( c > 0 );
+	
 	arg_int--;
       } while( arg_int > 0 );
+
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
       
       u8x8_cad_EndTransfer(u8x8);
       break;
