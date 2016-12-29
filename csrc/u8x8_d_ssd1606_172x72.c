@@ -48,7 +48,12 @@
     
     Disable Charge Pump and Clock require about 267ms
     Enable Charge Pump and Clock require about 10ms
-    
+
+  Notes:
+    - Introduced a refresh display message, which copies RAM to display
+    - Charge pump and clock are only enabled for the transfer RAM to display
+    - U8x8 will not really work because of the two buffers in the SSD1606, however U8g2 should be ok.
+
 */
 
 
@@ -147,9 +152,11 @@ static const uint8_t u8x8_d_ssd1606_172x72_gde021a1_init_seq[] = {
 static const uint8_t u8x8_d_ssd1606_to_display_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  U8X8_CA(0x22, 0xc0),	/* display update seq. option: Enable clock and charge pump */
-  U8X8_C(0x20),	/* execute sequence */
-  U8X8_DLY(10),
+  
+  //U8X8_CA(0x22, 0xc0),	/* display update seq. option: Enable clock and charge pump */
+  //U8X8_C(0x20),	/* execute sequence */
+  //U8X8_DLY(10),
+  /* strange, splitting 0x0c0 does not work reliable */
   
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
@@ -168,30 +175,24 @@ static const uint8_t u8x8_d_ssd1606_to_display_seq[] = {
 
 static const uint8_t u8x8_d_ssd1606_172x72_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  //U8X8_C(0x0af),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1606_172x72_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  //U8X8_C(0x0ae),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1606_172x72_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  //U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  //U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1606_172x72_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  //U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  //U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -208,14 +209,8 @@ static uint8_t *u8x8_convert_tile_for_ssd1606(uint8_t *t)
   {
     r = u8x8_upscale_byte(~(*t++));
     *pbuf++ = (r>>8) & 255;
-    //r >>= 8;
     *pbuf++ = r & 255;
   }
-  //buf[0] = 0x0f0;
-  
-  //buf[1] = 0x0f0;
-  //buf[2] = 0x0f0;
-  //buf[3] = 0x0f0;
   return buf;
 }
 
@@ -299,18 +294,29 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       /* write content to the display */
       u8x8_RefreshDisplay(u8x8);
       /* now make everything clear */
+      u8x8_FillDisplay(u8x8);		
+      /* write content to the display */
+      u8x8_RefreshDisplay(u8x8);
+      /* now make everything clear */
+      u8x8_ClearDisplay(u8x8);		
+      /* write content to the display */
+      u8x8_RefreshDisplay(u8x8);
+
       u8x8_ClearDisplay(u8x8);		
       /* write content to the display */
       u8x8_RefreshDisplay(u8x8);
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+/*
       if ( arg_int == 0 )
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_172x72_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_172x72_powersave1_seq);
+*/
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+/*
       if ( arg_int == 0 )
       {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_172x72_flip0_seq);
@@ -321,6 +327,7 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_172x72_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
+*/
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:

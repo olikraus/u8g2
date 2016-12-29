@@ -127,7 +127,7 @@ void u8x8_ClearDisplayWithTile(u8x8_t *u8x8, const uint8_t *buf)
 
   tile.x_pos = 0;
   tile.cnt = 1;
-  tile.tile_ptr = buf;
+  tile.tile_ptr = (uint8_t *)buf;		/* tile_ptr should be const, but isn't */
   
   h = u8x8->display_info->tile_height;
   tile.y_pos = 0;
