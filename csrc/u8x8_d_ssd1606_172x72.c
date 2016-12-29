@@ -148,18 +148,81 @@ static uint8_t *u8x8_convert_tile_for_ssd1606(uint8_t *t)
 
   for( i = 0; i < 8; i++ )
   {
-    r = u8x8_upscale_byte(*t++);
+    r = u8x8_upscale_byte(~(*t++));
+    *pbuf++ = (r>>8) & 255;
+    //r >>= 8;
     *pbuf++ = r & 255;
-    r >>= 8;
-    *pbuf++ = r;
   }
+  //buf[0] = 0x0f0;
+  
+  //buf[1] = 0x0f0;
+  //buf[2] = 0x0f0;
+  //buf[3] = 0x0f0;
   return buf;
+}
+
+static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t x, c, page;
+  uint8_t *ptr;
+  u8x8_cad_StartTransfer(u8x8);
+
+  page = u8x8->display_info->tile_height;
+  page --;
+  page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
+  page *= 2;
+
+
+  x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+  x *= 8;
+  x += u8x8->x_offset;
+
+  u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
+  u8x8_cad_SendArg(u8x8, 0);
+
+  u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
+  u8x8_cad_SendArg(u8x8, 3);
+
+  u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
+  u8x8_cad_SendArg(u8x8, 0);
+  u8x8_cad_SendArg(u8x8, 179);		/* end of display */
+
+  u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
+  u8x8_cad_SendArg(u8x8, page);
+  u8x8_cad_SendArg(u8x8, page+1);
+  //u8x8_cad_SendArg(u8x8, page);
+  //u8x8_cad_SendArg(u8x8, page+1);
+
+  u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
+  u8x8_cad_SendArg(u8x8, x);
+
+  u8x8_cad_SendCmd(u8x8, 0x04e );	/* window row */
+  u8x8_cad_SendArg(u8x8, page);
+
+  u8x8_cad_SendCmd(u8x8, 0x024 );
+  
+  do
+  {
+    c = ((u8x8_tile_t *)arg_ptr)->cnt;
+    ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+    do
+    {
+      u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_ssd1606(ptr));
+      ptr += 8;
+      x += 8;
+      c--;
+    } while( c > 0 );
+    
+    arg_int--;
+  } while( arg_int > 0 );
+  
+  u8x8_cad_EndTransfer(u8x8);
 }
 
 
 static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c, page;
+  uint8_t x, c, page, a;
   uint8_t *ptr;
   switch(msg)
   {
@@ -169,6 +232,7 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       break;
     */
     case U8X8_MSG_DISPLAY_INIT:
+
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_172x72_gde021a1_init_seq);    
 
@@ -227,54 +291,15 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-      u8x8_cad_StartTransfer(u8x8);
-
-      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
-      x *= 8;
-      x += u8x8->x_offset;
-    
-      page = u8x8->display_info->tile_height;
-      page --;
-      page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
-      page *= 2;
-    
-
-
-      u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
-      u8x8_cad_SendArg(u8x8, 7);
-
-      u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
-      u8x8_cad_SendArg(u8x8, 0);
-      u8x8_cad_SendArg(u8x8, 171);		/* end of display */
-    
-      u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
-      u8x8_cad_SendArg(u8x8, page);
-      u8x8_cad_SendArg(u8x8, page+1);
-
-      u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
-      u8x8_cad_SendArg(u8x8, x);
-
-      u8x8_cad_SendCmd(u8x8, 0x04e );	/* window column */
-      u8x8_cad_SendArg(u8x8, page);
-
-      do
-      {
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	do
-	{
-	  u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_ssd1606(ptr));
-	  ptr += 8;
-	  x += 8;
-	  c--;
-	} while( c > 0 );
-	
-	arg_int--;
-      } while( arg_int > 0 );
+      u8x8_d_ssd1606_draw_tile(u8x8, arg_int, arg_ptr);
 
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
+
+      u8x8_d_ssd1606_draw_tile(u8x8, arg_int, arg_ptr);
+
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
+
       
-      u8x8_cad_EndTransfer(u8x8);
       break;
     default:
       return 0;
