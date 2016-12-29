@@ -63,7 +63,13 @@ static void u8g2_send_tile_row(u8g2_t *u8g2, uint8_t src_tile_row, uint8_t dest_
   u8x8_DrawTile(u8g2_GetU8x8(u8g2), 0, dest_tile_row, w, ptr);
 }
 
-void u8g2_SendBuffer(u8g2_t *u8g2)
+/* 
+  write the buffer to the display RAM. 
+  For most displays, this will make the content visible to the user.
+  Some displays (like the SSD1606) require a u8x8_RefreshDisplay()
+*/
+static void u8g2_send_buffer(u8g2_t *u8g2) U8X8_NOINLINE;
+static void u8g2_send_buffer(u8g2_t *u8g2)
 {
   uint8_t src_row;
   uint8_t src_max;
@@ -83,6 +89,13 @@ void u8g2_SendBuffer(u8g2_t *u8g2)
   } while( src_row < src_max && dest_row < dest_max );
 }
 
+/* same as u8g2_send_buffer but also send the DISPLAY_REFRESH message (used by SSD1606) */
+void u8g2_SendBuffer(u8g2_t *u8g2)
+{
+  u8g2_send_buffer(u8g2);
+  u8x8_RefreshDisplay( u8g2_GetU8x8(u8g2) );  
+}
+
 /*============================================*/
 void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row)
 {
@@ -93,20 +106,27 @@ void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row)
 void u8g2_FirstPage(u8g2_t *u8g2)
 {
   if ( u8g2->is_auto_page_clear )
+  {
     u8g2_ClearBuffer(u8g2);
+  }
   u8g2_SetBufferCurrTileRow(u8g2, 0);
 }
 
 uint8_t u8g2_NextPage(u8g2_t *u8g2)
 {
   uint8_t row;
-  u8g2_SendBuffer(u8g2);
+  u8g2_send_buffer(u8g2);
   row = u8g2->tile_curr_row;
   row += u8g2->tile_buf_height;
   if ( row >= u8g2_GetU8x8(u8g2)->display_info->tile_height )
+  {
+    u8x8_RefreshDisplay( u8g2_GetU8x8(u8g2) );
     return 0;
+  }
   if ( u8g2->is_auto_page_clear )
+  {
     u8g2_ClearBuffer(u8g2);
+  }
   u8g2_SetBufferCurrTileRow(u8g2, row);
   return 1;
 }

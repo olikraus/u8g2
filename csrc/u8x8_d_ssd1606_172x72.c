@@ -32,12 +32,30 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
   
   SSD1606: 128x180x2
+  command 
+    0x22: assign actions
+    0x20: execute actions
   
+  action for command 0x022 are (more or less guessed)
+    bit 7:	Enable Clock
+    bit 6:	Enable Charge Pump
+    bit 5:	Load Temparture Value (???)
+    bit 4:	Load LUT (???)
+    bit 3:	Initial Display (???)
+    bit 2:	Pattern Display --> Requires about 945ms with the LUT from below
+    bit 1:	Disable Charge Pump
+    bit 0:	Disable Clock
+    
+    Disable Charge Pump and Clock require about 267ms
+    Enable Charge Pump and Clock require about 10ms
+    
 */
 
 
 #include "u8x8.h"
 
+
+#define L(a,b,c,d) (((a)<<6)|((b)<<4)|((c)<<2)|(d))
 
 
 /* GDE021A1, 2.1" EPD */
@@ -58,7 +76,9 @@ static const uint8_t u8x8_d_ssd1606_172x72_gde021a1_init_seq[] = {
   
   U8X8_C(0x32),	/* write LUT register*/
 
-  /* wavefrom part of the LUT */
+#ifdef ORIGINAL_LUT
+  
+  /* wavefrom part of the LUT: absolute LUT... this will always force the destination color */
   U8X8_A4(0x00,0x00,0x00,0x55),  /* step 0 */
   U8X8_A4(0x00,0x00,0x55,0x55),	/* step 1 */
   U8X8_A4(0x00,0x55,0x55,0x55),
@@ -83,6 +103,37 @@ static const uint8_t u8x8_d_ssd1606_172x72_gde021a1_init_seq[] = {
   /* timing part of the LUT */
   U8X8_A8(0x22,0xFB,0x22,0x1B,0x00,0x00,0x00,0x00),
   U8X8_A(0x00),U8X8_A(0x00),
+
+#else
+
+  /* the following LUT will not change anything if the old and the new values are the same */
+  /* 03 02 01 00	13 12 11 10 	23 22 21 20	33 32 31 30 				original */
+  U8X8_A4(L(0, 0, 0, 0), 	L(0, 0, 0, 0), 	L(0, 0, 0, 0), 	L(0, 1, 1, 1)),		// 0x00,0x00,0x00,0x55,	step 0
+  U8X8_A4(L(0, 0, 0, 0), 	L(0, 0, 0, 0), 	L(1, 0, 1, 1), 	L(0, 1, 1, 1)),		// 0x00,0x00,0x55,0x55,	step 1
+  U8X8_A4(L(0, 0, 0, 0), 	L(1, 1, 0, 1), 	L(1, 0, 1, 1), 	L(0, 1, 1, 1)),		// 0x00,0x55,0x55,0x55,	step 2
+  U8X8_A4(L(2, 2, 2, 0), 	L(2, 2, 0, 2), 	L(2, 0, 2, 2), 	L(0, 2, 2, 2)),		// 0xAA,0xAA,0xAA,0xAA,	step 3
+  U8X8_A4(L(0, 1, 1, 0), 	L(0, 1, 0, 1), 	L(0, 0, 1, 1), 	L(0, 1, 1, 1)),		// 0x15,0x15,0x15,0x15,	step 4
+  U8X8_A4(L(0, 0, 1, 0), 	L(0, 0, 0, 1), 	L(0, 0, 1, 1), 	L(0, 0, 1, 1)),		// 0x05,0x05,0x05,0x05,	step 5
+  U8X8_A4(L(0, 0, 0, 0), 	L(0, 0, 0, 1), 	L(0, 0, 0, 1), 	L(0, 0, 0, 1)),		// 0x01,0x01,0x01,0x01,	step 6
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),
+  U8X8_A4(0x00,0x00,0x00,0x00),	/* step 19 */
+  
+  /* timing part of the LUT */
+  U8X8_A8(0x22,0xFB,0x22,0x1B,0x00,0x00,0x00,0x00),
+  U8X8_A(0x00),U8X8_A(0x00),
+
+#endif
   
   U8X8_CA(0x2c, 0xa0),	/* write vcom value*/
   U8X8_CA(0x3c, 0x63),	/* select boarder waveform */
@@ -95,15 +146,22 @@ static const uint8_t u8x8_d_ssd1606_172x72_gde021a1_init_seq[] = {
 
 static const uint8_t u8x8_d_ssd1606_to_display_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_CA(0x22, 0xc0),	/* display update seq. option: Enable clock and charge pump */
+  U8X8_C(0x20),	/* execute sequence */
+  U8X8_DLY(10),
+  
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
   U8X8_DLY(250),	/* the sequence above requires about 970ms */
   U8X8_DLY(250),
   U8X8_DLY(250),
-  U8X8_DLY(250),
+  U8X8_DLY(230),
+  
   U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
-  U8X8_DLY(200),		/* this requres about 370ms */
-  U8X8_DLY(200),  
+  U8X8_DLY(200),		/* this requres about 270ms */
+  U8X8_DLY(90),  
+  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -161,6 +219,7 @@ static uint8_t *u8x8_convert_tile_for_ssd1606(uint8_t *t)
   return buf;
 }
 
+static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr) U8X8_NOINLINE;
 static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c, page;
@@ -190,8 +249,6 @@ static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
   u8x8_cad_SendArg(u8x8, page);
   u8x8_cad_SendArg(u8x8, page+1);
-  //u8x8_cad_SendArg(u8x8, page);
-  //u8x8_cad_SendArg(u8x8, page+1);
 
   u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
   u8x8_cad_SendArg(u8x8, x);
@@ -222,8 +279,6 @@ static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
 
 static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c, page, a;
-  uint8_t *ptr;
   switch(msg)
   {
     /* handled by the calling function
@@ -235,33 +290,18 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_172x72_gde021a1_init_seq);    
-
-
-      u8x8_cad_SendCmd(u8x8, 0x044 );
-      u8x8_cad_SendArg(u8x8, 0 );
-      u8x8_cad_SendArg(u8x8, 31 );
-      u8x8_cad_SendCmd(u8x8, 0x045 );
-      u8x8_cad_SendArg(u8x8, 0 );
-      u8x8_cad_SendArg(u8x8, 179 );
-
-      u8x8_cad_SendCmd(u8x8, 0x04e );
-      u8x8_cad_SendArg(u8x8, 4 );
-      u8x8_cad_SendCmd(u8x8, 0x04f );
-      u8x8_cad_SendArg(u8x8, 4 );
     
-      u8x8_cad_SendCmd(u8x8, 0x024 );
-      u8x8_cad_SendArg(u8x8, 0xff );    
-      u8x8_cad_SendArg(u8x8, 0xff );
-      u8x8_cad_SendArg(u8x8, 0xff );    
-      u8x8_cad_SendArg(u8x8, 0xff );
-    
-      u8x8_cad_SendArg(u8x8, 0xf0 );    
-      u8x8_cad_SendArg(u8x8, 0xf0 );
-      u8x8_cad_SendArg(u8x8, 0xf0);    
-      u8x8_cad_SendArg(u8x8, 0xf0);
-    
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
-
+      /* special code for the SSD1606... */
+      /* ensure that the initial buffer is clear and all eInk is set to white */
+      /* this is done here, because the LUT will be of that kind, that it uses the previous color */
+      /* make everything black */
+      u8x8_FillDisplay(u8x8);		
+      /* write content to the display */
+      u8x8_RefreshDisplay(u8x8);
+      /* now make everything clear */
+      u8x8_ClearDisplay(u8x8);		
+      /* write content to the display */
+      u8x8_RefreshDisplay(u8x8);
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
@@ -292,14 +332,9 @@ static uint8_t u8x8_d_ssd1606_172x72_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_d_ssd1606_draw_tile(u8x8, arg_int, arg_ptr);
-
+      break;
+    case U8X8_MSG_DISPLAY_REFRESH:
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
-
-      u8x8_d_ssd1606_draw_tile(u8x8, arg_int, arg_ptr);
-
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
-
-      
       break;
     default:
       return 0;

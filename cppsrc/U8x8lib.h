@@ -164,6 +164,9 @@ class U8X8 : public Print
     void setFlipMode(uint8_t mode) {
       u8x8_SetFlipMode(&u8x8, mode); }
 
+    void refreshDisplay(void) {			// Dec 16: Only required for SSD1606
+      u8x8_RefreshDisplay(&u8x8); }
+
     void setContrast(uint8_t value) {
       u8x8_SetContrast(&u8x8, value); }
 

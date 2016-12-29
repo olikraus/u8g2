@@ -93,11 +93,16 @@
 //U8X8_UC1611_EA_DOGM240_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  // SW SPI, Due DOGXL240 Test Board
 //U8X8_UC1611_EA_DOGXL240_2ND_HW_I2C u8x8(/* reset=*/ 8);	// Due, 2nd I2C, DOGXL240 Test Board
 //U8X8_UC1611_EA_DOGXL240_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  // SW SPI, Due DOGXL240 Test Board
-//U8X8_SSD1606_172X72_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
+U8X8_SSD1606_172X72_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
 
 
 // End of constructor list
 
+
+/*
+  This example will probably not work with the SSD1606, because of the
+  internal buffer swapping
+*/
 
 void setup(void)
 {
@@ -152,6 +157,7 @@ void loop(void)
   u8x8.print("github.com/");
   u8x8.setCursor(0,2);
   u8x8.print("olikraus/u8g2");
+  u8x8.refreshDisplay();		// for SSD1606
   delay(2000);
   u8x8.setCursor(0,3);
   u8x8.print("Tile size:");
@@ -159,14 +165,16 @@ void loop(void)
   u8x8.print("x");
   u8x8.print((int)u8x8.getRows());
   
+  u8x8.refreshDisplay();		// for SSD1606
   delay(2000);
-  pre();
    
   for( i = 19; i > 0; i-- )
   {
+    pre();
     u8x8.setCursor(3,2);
     u8x8.print(i);
     u8x8.print("  ");
+    u8x8.refreshDisplay();		// for SSD1606
     delay(200);
   }
   
@@ -175,6 +183,7 @@ void loop(void)
   {
     draw_bar(c, 1);
     draw_bar(c-1, 0);
+    u8x8.refreshDisplay();		// for SSD1606
     delay(50);
   }
   draw_bar(u8x8.getCols()-1, 0);
@@ -187,7 +196,8 @@ void loop(void)
     {
       draw_ascii_row(r, (r-1+d)*u8x8.getCols() + 32);
     }
-    delay(1000);
+    u8x8.refreshDisplay();		// for SSD1606
+    delay(800);
   }
 
   draw_bar(u8x8.getCols()-1, 1);
@@ -195,6 +205,7 @@ void loop(void)
   {
     draw_bar(c-1, 1);
     draw_bar(c, 0);
+    u8x8.refreshDisplay();		// for SSD1606
     delay(50);
   }
   draw_bar(0, 0);
@@ -202,6 +213,7 @@ void loop(void)
   pre();
   u8x8.drawString(0, 2, "Small");
   u8x8.draw2x2String(0, 5, "Big");
+  u8x8.refreshDisplay();		// for SSD1606
   delay(3000);
   
   pre();
@@ -210,6 +222,7 @@ void loop(void)
   u8x8.println("println");
   delay(500);
   u8x8.println("done");
+  u8x8.refreshDisplay();		// for SSD1606
   delay(1500);
 
 }

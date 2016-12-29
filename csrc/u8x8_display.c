@@ -115,10 +115,13 @@ void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value)
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_CONTRAST, value, NULL);  
 }
 
-
-void u8x8_ClearDisplay(u8x8_t *u8x8)
+void u8x8_RefreshDisplay(u8x8_t *u8x8)
 {
-  uint8_t buf[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_REFRESH, 0, NULL);  
+}
+
+void u8x8_ClearDisplayWithTile(u8x8_t *u8x8, const uint8_t *buf)
+{
   u8x8_tile_t tile;
   uint8_t h;
 
@@ -135,3 +138,14 @@ void u8x8_ClearDisplay(u8x8_t *u8x8)
   } while( tile.y_pos < h );
 }
 
+void u8x8_ClearDisplay(u8x8_t *u8x8)
+{
+  uint8_t buf[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+  u8x8_ClearDisplayWithTile(u8x8, buf);
+}
+
+void u8x8_FillDisplay(u8x8_t *u8x8)
+{
+  uint8_t buf[8] = { 255, 255, 255, 255, 255, 255, 255, 255 };
+  u8x8_ClearDisplayWithTile(u8x8, buf);
+}
