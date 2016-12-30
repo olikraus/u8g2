@@ -1159,6 +1159,7 @@ void do_md_controller_list(void)
       {
 	do_md_display_interface(controller_idx, display_idx, 6);		/* SW I2C */
 	do_md_display_interface(controller_idx, display_idx, 7);		/* HW I2C  */
+	do_md_display_interface(controller_idx, display_idx, 10);		/* 2nd HW I2C  */
       }
       if ( controller_list[controller_idx].com & COM_ST7920SPI )
       {
