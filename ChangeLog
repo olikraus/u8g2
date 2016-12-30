@@ -76,3 +76,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Introduced SSD1306_VCOMH0 for the max range setup (issue 116)
 2016-12-xx	v2.10.x	 olikraus@gmail.com
   * ST7565 LM6059 Display (issue 123)
+  * SSD1606 eInk/ePaper Display (issue 100)
