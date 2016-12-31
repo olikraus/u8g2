@@ -66,9 +66,22 @@ static const uint8_t u8x8_d_lc7981_flip1_seq[] = {
 };
 
 
+/* http://graphics.stanford.edu/~seander/bithacks.html */
+static uint8_t reverse_byte(uint8_t v)
+{
+  // swap odd and even bits
+  v = ((v >> 1) & 0x055) | ((v & 0x055) << 1);
+  // swap consecutive pairs
+  v = ((v >> 2) & 0x033) | ((v & 0x033) << 2);
+  // swap nibbles ... 
+  v = ((v >> 4) & 0x00F) | ((v & 0x00F) << 4);
+  return v;
+}
+
 static uint8_t u8x8_d_lc7981_common(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t y, c, i;
+  uint8_t c, i, j;
+  uint16_t y;
   uint8_t *ptr;
   switch(msg)
   {
@@ -98,9 +111,20 @@ static uint8_t u8x8_d_lc7981_common(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8
 	u8x8_cad_SendArg(u8x8, y>>8);
 	
 	u8x8_cad_SendCmd(u8x8, 0x0c );	/* write start */
-	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
+	/*
+	  The LC7981 has the MSB at the right position, which is exactly the opposite to the T6963.
+	  Instead of writing a third hvline procedure for this device, we just revert the bytes before 
+	  transmit. This is slow because:
+	    - the bit reverse itself
+	    - the single byte transfer 
+	   The one byte is transmitted via SendArg, which is ok, because CAD = 100
+	*/
+	for( j = 0; j < c; j++ )
+	  u8x8_cad_SendArg(u8x8, reverse_byte(*ptr++));
 	
-	ptr += u8x8->display_info->tile_width;
+	//u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
+	//ptr += u8x8->display_info->tile_width;
+	
 	y += u8x8->display_info->tile_width;
       }
 

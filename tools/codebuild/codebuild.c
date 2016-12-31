@@ -376,6 +376,15 @@ struct controller controller_list[] =
     },
   },
   {
+    "lc7981", 	20, 	10, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800,
+    "U8x8 not supported, no powerdown, no HW flip, no constrast", /* is_generate_u8g2_class= */ 1,
+    {
+      { "160x80" },
+      { NULL }
+    }
+  },
+  
+  {
     "t6963", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
