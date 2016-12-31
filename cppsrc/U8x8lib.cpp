@@ -341,6 +341,12 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
   switch(msg)
   {
     case U8X8_MSG_BYTE_SEND:
+      
+      // 1.6.5 offers a block transfer, but the problem is, that the
+      // buffer is overwritten with the incoming data
+      // so it can not be used...
+      // SPI.transfer((uint8_t *)arg_ptr, arg_int);
+      
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
       {
@@ -348,6 +354,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 	data++;
 	arg_int--;
       }
+  
       break;
     case U8X8_MSG_BYTE_INIT:
       /* disable chipselect */
