@@ -1,0 +1,15 @@
+
+
+Q: Why does my xxx_SW_I2C() device not work with my other I2C devices
+A: SW_I2C emulates I2C with digitalWrite(), which will have a conflict with other
+I2C devices at the same pins. There are two options: (A) use xxx_HW_I2C() or 
+(B) use different pins with xxx_SW_I2C()
+
+Q: The pin names on my display do not fit to the pin names of U8g2.
+A: Yes, each datasheet/product/controller has different names. There 
+is a mapping table on the wiki for this:
+https://github.com/olikraus/u8g2/wiki/u8g2setupcpp#wiring
+
+Q: My controller/interface combination is not listed in the examples.
+A: Yes, the complete list is here:
+https://github.com/olikraus/u8g2/wiki/u8g2setupcpp

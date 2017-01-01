@@ -69,12 +69,15 @@ static const uint8_t u8x8_d_lc7981_flip1_seq[] = {
 /* http://graphics.stanford.edu/~seander/bithacks.html */
 static uint8_t reverse_byte(uint8_t v)
 {
-  // swap odd and even bits
-  v = ((v >> 1) & 0x055) | ((v & 0x055) << 1);
-  // swap consecutive pairs
-  v = ((v >> 2) & 0x033) | ((v & 0x033) << 2);
-  // swap nibbles ... 
-  v = ((v >> 4) & 0x00F) | ((v & 0x00F) << 4);
+  // if ( v != 0 && v != 255 )  does not help much
+  {
+    // swap odd and even bits
+    v = ((v >> 1) & 0x055) | ((v & 0x055) << 1);
+    // swap consecutive pairs
+    v = ((v >> 2) & 0x033) | ((v & 0x033) << 2);
+    // swap nibbles ... 
+    v = ((v >> 4) & 0x00F) | ((v & 0x00F) << 4);
+  }
   return v;
 }
 

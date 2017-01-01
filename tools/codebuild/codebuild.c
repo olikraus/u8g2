@@ -245,6 +245,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "pcf8812", 		12, 	9, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI,
+    "No HW flip", /* is_generate_u8g2_class= */ 1,
+    {
+      { "96x65" },
+      { NULL }
+    }
+  },
+  {
     "uc1604", 	24, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
