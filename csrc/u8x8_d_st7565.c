@@ -400,7 +400,7 @@ static const uint8_t u8x8_d_st7565_lm6059_init_seq[] = {
   
   U8X8_C(0x0e2),            			/* soft reset */
   U8X8_C(0x0ae),		                /* display off */
-  U8X8_C(0x060),		                /* set display start line to 0 */
+  U8X8_C(0x060),		                /* set display start line to ... */
   
   U8X8_C(0x0a0),		                /* ADC set to reverse */
   U8X8_C(0x0c8),		                /* common output mode */
