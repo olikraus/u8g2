@@ -118,20 +118,34 @@
   This is a page buffer example.    
 */
 
-// Only Arduboy Constructor is here, however other displays are also possible, see here: https://github.com/olikraus/u8g2/wiki/u8g2setupcpp
-U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
-
-
 void chess_Init(u8g2_t *u8g, uint8_t body_color);
 
-/* This is the main setup. Please provide the pin numbers for the buttons */
-/* Up/Down pins are not used in little rook chess */
+//#define ARDUBOY
+#define PI_SHIELD
+
+#ifdef ARDUBOY
+/*=== ARDUBOY Production, Kickstarter Edition ===*/
+U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
 void setup(void) {
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
   u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
-  
   chess_Init(u8g2.getU8g2(), 1);  /* assuming Arduboy OLED here, so make the body_color be 1 for the white OLED pixel */
 }
+#endif
+
+#ifdef PI_SHIELD
+/*=== Pax Instruments Shield ===*/
+U8G2_ST7567_PI_132X64_1_4W_HW_SPI u8g2(U8G2_R2, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  // Pax Instruments Shield, LCD_BL=6
+void setup(void) {
+  u8g2.begin(/*Select=*/ 4, /*Right/Next=*/ 5, /*Left/Prev=*/ A1, /*Up=*/ U8X8_PIN_NONE, /*Down=*/ U8X8_PIN_NONE, /*Home/Cancel=*/ A2); // Pax Instrument Shield
+
+  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
+  pinMode(6, OUTPUT);
+  digitalWrite(6, 0);	
+
+  chess_Init(u8g2.getU8g2(), 0);  /* assuming Arduboy OLED here, so make the body_color be 1 for the white OLED pixel */
+}
+#endif
 
 /* Ignore PROGMEM for now */
 #define CHESS_PROGMEM
@@ -860,11 +874,11 @@ static void cu_add_pos(char *s, uint8_t pos) U8G2_NOINLINE;
 static void cu_add_pos(char *s, uint8_t pos)
 {
   *s = pos;
-  *s >>= 4;
+  *s &= 15;
   *s += 'a';
   s++;
   *s = pos;
-  *s &= 15;
+  *s >>= 4;
   *s += '1';
 }
 
@@ -1150,10 +1164,10 @@ uint8_t ce_LoopRecur(uint8_t pos)
     d: a list of potential directions
     is_multi_step: if the piece can only do one step (zero for KING and KNIGHT)
 */
-static const uint8_t ce_dir_offset_rook[] CHESS_PROGMEM = { 1, 16, -16, -1, 0 };
-static const uint8_t ce_dir_offset_bishop[] CHESS_PROGMEM = { 15, 17, -17, -15, 0 };
-static const uint8_t ce_dir_offset_queen[] CHESS_PROGMEM = { 1, 16, -16, -1, 15, 17, -17, -15, 0 };
-static const uint8_t ce_dir_offset_knight[] CHESS_PROGMEM = {14, -14, 18, -18, 31, -31, 33, -33, 0};
+static const uint8_t ce_dir_offset_rook[] CHESS_PROGMEM = { 1, 16, (uint8_t)-16, (uint8_t)-1, 0 };
+static const uint8_t ce_dir_offset_bishop[] CHESS_PROGMEM = { 15, 17, (uint8_t)-17, (uint8_t)-15, 0 };
+static const uint8_t ce_dir_offset_queen[] CHESS_PROGMEM = { 1, 16, (uint8_t)-16, (uint8_t)-1, 15, 17, (uint8_t)-17, (uint8_t)-15, 0 };
+static const uint8_t ce_dir_offset_knight[] CHESS_PROGMEM = {14, (uint8_t)-14, 18, (uint8_t)-18, 31, (uint8_t)-31, 33, (uint8_t)-33, 0};
 
 void ce_LoopDirsSingleMultiStep(const uint8_t *d, uint8_t is_multi_step)
 {

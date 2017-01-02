@@ -118,7 +118,7 @@ static const uint8_t u8x8_d_st7567_132x64_init_seq[] = {
   U8X8_DLY(50),
   
   U8X8_C(0x026),		                /* v0 voltage resistor ratio */
-  U8X8_CA(0x081, 0x00e),		/* set contrast, contrast value*/
+  U8X8_CA(0x081, 0x027),		/* set contrast, contrast value*/
   U8X8_C(0x0a4),		                /* normal display  */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
