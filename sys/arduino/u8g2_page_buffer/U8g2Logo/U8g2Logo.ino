@@ -148,6 +148,11 @@ void setup(void) {
   //pinMode(17, OUTPUT);
   //digitalWrite(17, 0);	
 
+  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
+  //pinMode(6, OUTPUT);
+  //digitalWrite(6, 0);	
+
+
   u8g2.begin();
   u8g2.setFlipMode(0);
 }

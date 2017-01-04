@@ -120,8 +120,8 @@
 
 void chess_Init(u8g2_t *u8g, uint8_t body_color);
 
-//#define ARDUBOY
-#define PI_SHIELD
+#define ARDUBOY
+//#define PI_SHIELD
 
 #ifdef ARDUBOY
 /*=== ARDUBOY Production, Kickstarter Edition ===*/
@@ -2305,6 +2305,7 @@ void chess_Step(uint8_t keycode)
 	chess_state = CHESS_STATE_GAME_END;
       else
 	chess_state = CHESS_STATE_SELECT_START;
+	//chess_state = CHESS_STATE_THINKING
       break;
     case CHESS_STATE_GAME_END:
       if ( chess_key_cmd != CHESS_KEY_NONE )

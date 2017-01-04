@@ -81,4 +81,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2016-1-xx	v2.11.x	 olikraus@gmail.com
   * Support for LC7981 (issue 134)
   * Support for PCF8812 (issue 135)
+  * Support for ST7567, Pax Instruments GLCD Shield (issue 138)
+  * Fixed wrong half-move notation in Little Rook Chess (issue 137)
+  
   

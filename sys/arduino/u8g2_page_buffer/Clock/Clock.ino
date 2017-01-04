@@ -1,6 +1,6 @@
 /*
 
-  GraphicsTest.ino
+  HelloWorld.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -75,7 +75,7 @@
 //U8G2_SSD1322_NHD_256X64_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Enable U8G2_16BIT in u8g2.h
 //U8G2_SSD1322_NHD_256X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Enable U8G2_16BIT in u8g2.h
 //U8G2_SSD1325_NHD_128X64_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_SSD1325_NHD_128X64_1_4W_HW_SPI u8g2(U8G2_R2, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_SSD1325_NHD_128X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_LD7032_60X32_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 9, /* dc=*/ 10, /* reset=*/ 8);	// SW SPI Nano Board
 //U8G2_LD7032_60X32_1_4W_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
 //U8G2_UC1701_EA_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
@@ -95,7 +95,7 @@
 //U8G2_ST7565_EA_DOGM128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_ZOLEN_128X64_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_ST7565_ZOLEN_128X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_ST7565_ZOLEN_128X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_LM6059_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_LM6059_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_NHD_C12832_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
@@ -128,132 +128,6 @@
 
 // End of constructor list
 
-
-void u8g2_prepare(void) {
-  u8g2.setFont(u8g2_font_6x10_tf);
-  u8g2.setFontRefHeightExtendedText();
-  u8g2.setDrawColor(1);
-  u8g2.setFontPosTop();
-  u8g2.setFontDirection(0);
-}
-
-void u8g2_box_frame(uint8_t a) {
-  u8g2.drawStr( 0, 0, "drawBox");
-  u8g2.drawBox(5,10,20,10);
-  u8g2.drawBox(10+a,15,30,7);
-  u8g2.drawStr( 0, 30, "drawFrame");
-  u8g2.drawFrame(5,10+30,20,10);
-  u8g2.drawFrame(10+a,15+30,30,7);
-}
-
-void u8g2_disc_circle(uint8_t a) {
-  u8g2.drawStr( 0, 0, "drawDisc");
-  u8g2.drawDisc(10,18,9);
-  u8g2.drawDisc(24+a,16,7);
-  u8g2.drawStr( 0, 30, "drawCircle");
-  u8g2.drawCircle(10,18+30,9);
-  u8g2.drawCircle(24+a,16+30,7);
-}
-
-void u8g2_r_frame(uint8_t a) {
-  u8g2.drawStr( 0, 0, "drawRFrame/Box");
-  u8g2.drawRFrame(5, 10,40,30, a+1);
-  u8g2.drawRBox(50, 10,25,40, a+1);
-}
-
-void u8g2_string(uint8_t a) {
-  u8g2.setFontDirection(0);
-  u8g2.drawStr(30+a,31, " 0");
-  u8g2.setFontDirection(1);
-  u8g2.drawStr(30,31+a, " 90");
-  u8g2.setFontDirection(2);
-  u8g2.drawStr(30-a,31, " 180");
-  u8g2.setFontDirection(3);
-  u8g2.drawStr(30,31-a, " 270");
-}
-
-void u8g2_line(uint8_t a) {
-  u8g2.drawStr( 0, 0, "drawLine");
-  u8g2.drawLine(7+a, 10, 40, 55);
-  u8g2.drawLine(7+a*2, 10, 60, 55);
-  u8g2.drawLine(7+a*3, 10, 80, 55);
-  u8g2.drawLine(7+a*4, 10, 100, 55);
-}
-
-void u8g2_triangle(uint8_t a) {
-  uint16_t offset = a;
-  u8g2.drawStr( 0, 0, "drawTriangle");
-  u8g2.drawTriangle(14,7, 45,30, 10,40);
-  u8g2.drawTriangle(14+offset,7-offset, 45+offset,30-offset, 57+offset,10-offset);
-  u8g2.drawTriangle(57+offset*2,10, 45+offset*2,30, 86+offset*2,53);
-  u8g2.drawTriangle(10+offset,40+offset, 45+offset,30+offset, 86+offset,53+offset);
-}
-
-void u8g2_ascii_1() {
-  char s[2] = " ";
-  uint8_t x, y;
-  u8g2.drawStr( 0, 0, "ASCII page 1");
-  for( y = 0; y < 6; y++ ) {
-    for( x = 0; x < 16; x++ ) {
-      s[0] = y*16 + x + 32;
-      u8g2.drawStr(x*7, y*10+10, s);
-    }
-  }
-}
-
-void u8g2_ascii_2() {
-  char s[2] = " ";
-  uint8_t x, y;
-  u8g2.drawStr( 0, 0, "ASCII page 2");
-  for( y = 0; y < 6; y++ ) {
-    for( x = 0; x < 16; x++ ) {
-      s[0] = y*16 + x + 160;
-      u8g2.drawStr(x*7, y*10+10, s);
-    }
-  }
-}
-
-void u8g2_extra_page(uint8_t a)
-{
-  u8g2.drawStr( 0, 0, "Unicode");
-  u8g2.setFont(u8g2_font_unifont_t_symbols);
-  u8g2.setFontPosTop();
-  u8g2.drawUTF8(0, 24, "☀ ☁");
-  switch(a) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      u8g2.drawUTF8(a*3, 36, "☂");
-      break;
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-      u8g2.drawUTF8(a*3, 36, "☔");
-      break;
-  }
-}
-
-
-uint8_t draw_state = 0;
-
-void draw(void) {
-  u8g2_prepare();
-  switch(draw_state >> 3) {
-    case 0: u8g2_box_frame(draw_state&7); break;
-    case 1: u8g2_disc_circle(draw_state&7); break;
-    case 2: u8g2_r_frame(draw_state&7); break;
-    case 3: u8g2_string(draw_state&7); break;
-    case 4: u8g2_line(draw_state&7); break;
-    case 5: u8g2_triangle(draw_state&7); break;
-    case 6: u8g2_ascii_1(); break;
-    case 7: u8g2_ascii_2(); break;
-    case 8: u8g2_extra_page(draw_state&7); break;
-  }
-}
-
-
 void setup(void) {
 
   /* U8g2 Project: SSD1306 Test Board */
@@ -270,23 +144,32 @@ void setup(void) {
   //pinMode(16, OUTPUT);
   //digitalWrite(16, 0);	
 
-  u8g2.begin();
-  u8g2.setFlipMode(0);
+  /* U8g2 Project: LC7981 Test Board, connect RW to GND */
+  //pinMode(17, OUTPUT);
+  //digitalWrite(17, 0);	
+
+  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
+  //pinMode(6, OUTPUT);
+  //digitalWrite(6, 0);	
+
+  u8g2.begin();  
 }
+
+uint8_t m = 24;
 
 void loop(void) {
-  // picture loop  
-  u8g2.firstPage();  
+  char m_str[3];
+  strcpy(m_str, u8x8_u8toa(m, 2));
+  u8g2.firstPage();
   do {
-    draw();
-  } while( u8g2.nextPage() );
-  
-  // increase the state
-  draw_state++;
-  if ( draw_state >= 9*8 )
-    draw_state = 0;
-
-  // delay between each page
-  delay(100);
-
+    u8g2.setFont(u8g2_font_logisoso62_tn);
+    u8g2.drawStr(0,63,"9");
+    u8g2.drawStr(33,63,":");
+    u8g2.drawStr(50,63,m_str);
+  } while ( u8g2.nextPage() );
+  delay(1000);
+  m++;
+  if ( m == 60 )
+    m = 0;
 }
+

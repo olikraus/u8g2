@@ -111,10 +111,15 @@
 void setup(void)
 {
   /* U8g2 Project: KS0108 Test Board */
-  pinMode(16, OUTPUT);
-  digitalWrite(16, 0);	
-  
+  //pinMode(16, OUTPUT);
+  //digitalWrite(16, 0);	
+
+  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
+  //pinMode(6, OUTPUT);
+  //digitalWrite(6, 0);	
+
   u8x8.begin();
+  //u8x8.setFlipMode(1);
 }
 
 void pre(void)
