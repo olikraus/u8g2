@@ -1,6 +1,6 @@
 /*
 
-  u8x8_d_ssd1325_128x64.c
+  u8x8_d_ssd1325.c
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -209,7 +209,7 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 	{
 	  if ( ptr[0] | ptr[1] | ptr[2] | ptr[3] | ptr[4] | ptr[5] | ptr[6] | ptr[7] )
 	  {
-	    /* draw the tile of pattern is not fully clear */
+	    /* draw the tile if pattern is not zero for all bytes */
 	    u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
 	    u8x8_cad_SendArg(u8x8, x );	/* start */
 	    u8x8_cad_SendArg(u8x8, x+3 );	/* end */

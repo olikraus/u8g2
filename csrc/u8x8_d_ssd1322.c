@@ -106,6 +106,8 @@ static const uint8_t u8x8_d_ssd1322_256x64_flip1_seq[] = {
 /* interpret b as a monochrome bit pattern, write value 15 for high bit and value 0 for a low bit */
 /* topbit (msb) is sent last */
 /* example: b = 0x083 will send 0xff, 0x00, 0x00, 0xf0 */
+
+/* 4 Jan 2017: I think this procedure not required any more. Delete? */
 uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
 {
   static uint8_t buf[4];
