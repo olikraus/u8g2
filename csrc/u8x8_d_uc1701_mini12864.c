@@ -60,7 +60,8 @@ static const uint8_t u8x8_d_uc1701_mini12864_init_seq[] = {
   U8X8_C(0x0ac),		/* indicator */
   //  0x000,		/* disable */
   
-  U8X8_C(0x0a4),		                /* normal display  */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -68,6 +69,7 @@ static const uint8_t u8x8_d_uc1701_mini12864_init_seq[] = {
 
 static const uint8_t u8x8_d_uc1701_mini12864_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a4),		                /* all pixel off, issue 142 */
   U8X8_C(0x0af),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -76,6 +78,7 @@ static const uint8_t u8x8_d_uc1701_mini12864_powersave0_seq[] = {
 static const uint8_t u8x8_d_uc1701_mini12864_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };

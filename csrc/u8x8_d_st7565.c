@@ -41,6 +41,7 @@
 
 static const uint8_t u8x8_d_st7565_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a4),		                /* all pixel off, issue 142 */
   U8X8_C(0x0af),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -49,6 +50,7 @@ static const uint8_t u8x8_d_st7565_powersave0_seq[] = {
 static const uint8_t u8x8_d_st7565_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -223,7 +225,9 @@ static const uint8_t u8x8_d_st7565_dogm128_init_seq[] = {
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
   U8X8_C(0x027),		                /* regulator, booster and follower */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
-  U8X8_C(0x0a4),		                /* normal display  */
+  
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -286,7 +290,9 @@ static const uint8_t u8x8_d_st7565_zolen_128x64_init_seq[] = {
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
   U8X8_C(0x027),		                /* regulator, booster and follower */
   U8X8_CA(0x081, 0x007),		/* set contrast, contrast value, EA default: 0x016 */
-  U8X8_C(0x0a4),		                /* normal display  */
+  
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -351,7 +357,9 @@ static const uint8_t u8x8_d_st7565_nhd_c12832_init_seq[] = {
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
   U8X8_C(0x023),		                /* set V0 voltage resistor ratio to large*/
   U8X8_CA(0x081, 0x00a),		/* set contrast, contrast value NHD C12832 */
-  U8X8_C(0x0a4),		                /* normal display  */
+  
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -416,7 +424,9 @@ static const uint8_t u8x8_d_st7565_lm6059_init_seq[] = {
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
   U8X8_C(0x027),		                /* regulator, booster and follower */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
-  U8X8_C(0x0a4),		                /* normal display  */
+  
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
