@@ -37,78 +37,6 @@
 #include "u8x8.h"
 
 
-
-/*  https://github.com/SeeedDocument/Grove_OLED_1.12/raw/master/resources/LY120-096096.pdf */
-/*  http://www.seeedstudio.com/wiki/index.php?title=Twig_-_OLED_96x96 */
-/* values from u8glib */
-/*
-  Re-map setting in Graphic Display Data RAM, command 0x0a0
-    Bit 0: Column Address Re-map
-    Bit 1: Nibble Re-map
-    Bit 2: Horizontal/Vertical Address Increment
-    Bit 3: Not used, must be 0
-    
-    Bit 4: COM Re-map
-    Bit 5: Not used, must be 0
-    Bit 6: COM Split Odd Even
-    Bit 7: Not used, must be 0
-*/
-
-
-static const uint8_t u8x8_d_ssd1327_96x96_init_seq[] = {
-    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
-  U8X8_CA(0x0fd, 0x012),		/* unlock display, usually not required because the display is unlocked after reset */
-  U8X8_C(0x0ae),		                /* display off */
-  //U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio: 0x03f * 1/64 duty */
-  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x05f * 1/64 duty */
-  U8X8_CA(0x0a1, 0x000),		/* display start line */
-  //U8X8_CA(0x0a2, 0x04c),		/* display offset, shift mapping ram counter */
-  U8X8_CA(0x0a2, 0x060),		/* display offset, shift mapping ram counter */
-  U8X8_CA(0x0a0, 0x042),		/* remap configuration */
-  
-  U8X8_CA(0x0ab, 0x001),		/* Enable internal VDD regulator (RESET) */
-  //U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..128 */
-  U8X8_CA(0x081, 0x053),		/* contrast, brightness, 0..128 */
-  //U8X8_CA(0x0b1, 0x055),                    /* phase length */
-  U8X8_CA(0x0b1, 0x051),                    /* phase length */  
-  //U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
-  U8X8_CA(0x0b3, 0x001),		/* set display clock divide ratio/oscillator frequency  */			
-  
-  //? U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
-  //? U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
-  
-  U8X8_C(0x0b9),				/* use linear lookup table */
-#ifdef NOT_USED
-  U8X8_C(0x0b8),				/* set gray scale table */
-    U8X8_A(0x001),				/* */
-    U8X8_A(0x011),				/* */
-    U8X8_A(0x022),				/* */
-    U8X8_A(0x032),				/* */
-    U8X8_A(0x043),				/* */
-    U8X8_A(0x054),				/* */
-    U8X8_A(0x065),				/* */
-    U8X8_A(0x076),				/* */
-#endif
-
-  //U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
-  U8X8_CA(0x0bc, 0x008),                    /* pre-charge voltage level */
-  //U8X8_CA(0x0be, 0x01c),                     /* VCOMH voltage */
-  U8X8_CA(0x0be, 0x007),                     /* VCOMH voltage */
-  U8X8_CA(0x0b6, 0x001),		/* second precharge */
-  U8X8_CA(0x0d5, 0x062),		/* enable second precharge, internal vsl (bit0 = 0) */
-
-
-  
-  U8X8_C(0x0a4),				/* normal display mode */
-    
-  // U8X8_CA(0x023, 0x003),		/* graphics accelleration: fill pixel */
-    
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
 static const uint8_t u8x8_d_ssd1327_96x96_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0af),		                /* display on */
@@ -123,19 +51,7 @@ static const uint8_t u8x8_d_ssd1327_96x96_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1327_96x96_flip0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a0, 0x052),		/* remap */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
 
-static const uint8_t u8x8_d_ssd1327_96x96_flip1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a0, 0x041),		/* remap */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
 
 
 /*
@@ -203,18 +119,6 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_powersave1_seq);
       break;
-    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
-      if ( arg_int == 0 )
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_flip0_seq);
-	u8x8->x_offset = u8x8->display_info->default_x_offset;
-      }
-      else
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_flip1_seq);
-	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
-      }
-      break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
@@ -240,31 +144,16 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 
 	do
 	{
-	  //if ( ptr[0] | ptr[1] | ptr[2] | ptr[3] | ptr[4] | ptr[5] | ptr[6] | ptr[7] )
-	  if ( 1 )
-	  {
-	    /* draw the tile if pattern is not zero for all bytes */
-	    u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
-	    u8x8_cad_SendArg(u8x8, x );	/* start */
-	    u8x8_cad_SendArg(u8x8, x+3 );	/* end */
+	  u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
+	  u8x8_cad_SendArg(u8x8, x );	/* start */
+	  u8x8_cad_SendArg(u8x8, x+3 );	/* end */
 
-	    u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
-	    u8x8_cad_SendArg(u8x8, y);
-	    u8x8_cad_SendArg(u8x8, y+7);
-	    
-	    
-	    u8x8_cad_SendData(u8x8, 32, u8x8_ssd1327_8to32(u8x8, ptr));
-	  }
-	  else
-	  {
-	    /* tile is empty, use the graphics acceleration command */
-	    u8x8_cad_SendCmd(u8x8, 0x024 );	// draw rectangle
-	    u8x8_cad_SendArg(u8x8, x );	
-	    u8x8_cad_SendArg(u8x8, y );	
-	    u8x8_cad_SendArg(u8x8, x+3 );	
-	    u8x8_cad_SendArg(u8x8, y+7 );	
-	    u8x8_cad_SendArg(u8x8, 0 );	// clear	    
-	  }
+	  u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
+	  u8x8_cad_SendArg(u8x8, y);
+	  u8x8_cad_SendArg(u8x8, y+7);
+	  
+	  
+	  u8x8_cad_SendData(u8x8, 32, u8x8_ssd1327_8to32(u8x8, ptr));
 	  ptr += 8;
 	  x += 4;
 	  c--;
@@ -282,6 +171,8 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
   return 1;
 }
 
+/*=============================================*/
+/*  Seeedstudio Grove OLED 96x96 */
 
 static const u8x8_display_info_t u8x8_ssd1327_96x96_display_info =
 {
@@ -296,7 +187,7 @@ static const u8x8_display_info_t u8x8_ssd1327_96x96_display_info =
   /* sck_pulse_width_ns = */ 100,	/*  */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
+  /* i2c_bus_clock_100kHz = */ 1,	/* use 1 instead of 4, because the SSD1327 seems to be very slow */
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 60,	
   /* tile_width = */ 12,
@@ -307,7 +198,83 @@ static const u8x8_display_info_t u8x8_ssd1327_96x96_display_info =
   /* pixel_height = */ 96
 };
 
-/*  Seeedstudio Grove OLED 96x96 */
+/*  https://github.com/SeeedDocument/Grove_OLED_1.12/raw/master/resources/LY120-096096.pdf */
+/*  http://www.seeedstudio.com/wiki/index.php?title=Twig_-_OLED_96x96 */
+/* values from u8glib */
+/*
+  Re-map setting in Graphic Display Data RAM, command 0x0a0
+    Bit 0: Column Address Re-map
+    Bit 1: Nibble Re-map
+    Bit 2: Horizontal/Vertical Address Increment
+    Bit 3: Not used, must be 0
+    
+    Bit 4: COM Re-map
+    Bit 5: Not used, must be 0
+    Bit 6: COM Split Odd Even
+    Bit 7: Not used, must be 0
+*/
+
+
+static const uint8_t u8x8_d_ssd1327_96x96_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_CA(0x0fd, 0x012),		/* unlock display, usually not required because the display is unlocked after reset */
+  U8X8_C(0x0ae),		                /* display off */
+  //U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio: 0x03f * 1/64 duty */
+  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x05f * 1/64 duty */
+  U8X8_CA(0x0a1, 0x000),		/* display start line */
+  //U8X8_CA(0x0a2, 0x04c),		/* display offset, shift mapping ram counter */
+  
+  U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a0, 0x051),		/* remap configuration */
+  
+  
+  U8X8_CA(0x0ab, 0x001),		/* Enable internal VDD regulator (RESET) */
+  //U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..128 */
+  U8X8_CA(0x081, 0x053),		/* contrast, brightness, 0..128 */
+  //U8X8_CA(0x0b1, 0x055),                    /* phase length */
+  U8X8_CA(0x0b1, 0x051),                    /* phase length */  
+  //U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
+  U8X8_CA(0x0b3, 0x001),		/* set display clock divide ratio/oscillator frequency  */			
+  
+  //? U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
+  //? U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
+  
+  U8X8_C(0x0b9),				/* use linear lookup table */
+
+  //U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
+  U8X8_CA(0x0bc, 0x008),                    /* pre-charge voltage level */
+  //U8X8_CA(0x0be, 0x01c),                     /* VCOMH voltage */
+  U8X8_CA(0x0be, 0x007),                     /* VCOMH voltage */
+  U8X8_CA(0x0b6, 0x001),		/* second precharge */
+  U8X8_CA(0x0d5, 0x062),		/* enable second precharge, internal vsl (bit0 = 0) */
+
+
+  
+  U8X8_C(0x0a4),				/* normal display mode */
+    
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+static const uint8_t u8x8_d_ssd1327_seeed_96x96_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a0, 0x051),		/* remap configuration */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1327_seeed_96x96_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x0a2, 0x060),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a0, 0x042),		/* remap configuration */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 
 uint8_t u8x8_d_ssd1327_seeed_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -323,6 +290,19 @@ uint8_t u8x8_d_ssd1327_seeed_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
     u8x8_d_helper_display_init(u8x8);
     u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_init_seq);    
     return 1;
+  }
+  else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
+  {
+    if ( arg_int == 0 )
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_seeed_96x96_flip0_seq);
+      u8x8->x_offset = u8x8->display_info->default_x_offset;
+    }
+    else
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_seeed_96x96_flip1_seq);
+      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+    }
   }
   return 0;
 }
