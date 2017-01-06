@@ -14,6 +14,9 @@ Q: My controller/interface combination is not listed in the examples.
 A: Yes, the complete list is here:
 https://github.com/olikraus/u8g2/wiki/u8g2setupcpp
 
+Q: There is an x-offset on my SSD1306 128x64 OLED. 
+A: This is not a SSD1306 OLED, instead use the SH1106 constructor.
+
 Q: A T6963 misses columns on the display/has garbled output.
 A: Ensure that the T6963 operates in 8x8 mode: 
 If the display module has two font select (FSx) pins, connect both to GND
@@ -28,7 +31,7 @@ controller:
 Supported: ST7565, Compatible: NT7534, UC1701, SED1565, S1D15605, S6B0723
 Supported: SED1330, Compatible:  SED1335, RA8835, S1D3305 
 Supported: LC7981, Compatible:  NT7086, (maybe also: HD61830)
-This table just reflects my current knowleds. It is not tested and my not be true at all.
+This table just reflects my current knowledge. It is not tested and my not be true at all.
 If your controller for a monochrome display is not listed, 
 you could raise an issue in the u8g2 issue tracker.
 A more detailed discussion of some controllers is listed in "controller_cmds.txt"
