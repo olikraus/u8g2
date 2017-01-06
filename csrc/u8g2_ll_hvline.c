@@ -122,7 +122,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 
       if ( bit_pos == 0 )
       {
-	ptr+=u8g2->width;
+	ptr+=u8g2->pixel_buf_width;	/* 6 Jan 17: Changed u8g2->width to u8g2->pixel_buf_width, issue #148 */
 	
 	/* another speed optimization, but requires about 60 bytes on AVR */
 	/*

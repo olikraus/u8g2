@@ -80,7 +80,7 @@
 //U8G2_LD7032_60X32_F_4W_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
 //U8G2_UC1701_EA_DOGS102_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_UC1701_EA_DOGS102_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_PCD8544_84X48_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  // Nokia 5110 Display
+U8G2_PCD8544_84X48_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  // Nokia 5110 Display
 //U8G2_PCD8544_84X48_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8); 		// Nokia 5110 Display
 //U8G2_PCF8812_96X65_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Could be also PCF8814
 //U8G2_PCF8812_96X65_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);						// Could be also PCF8814
@@ -136,5 +136,19 @@ void loop(void) {
   u8g2.drawStr(0,20,"Hello World!");	// write something to the internal memory
   u8g2.sendBuffer();					// transfer internal memory to the display
   delay(1000);
+  
+u8g2.clearBuffer(); // clear the internal memory
+u8g2.setFont(u8g2_font_5x7_tr); // choose a suitable font
+u8g2.drawStr(0,20,"Hello World!"); // write something to the internal memory
+u8g2.sendBuffer(); // transfer internal memory to the display
+//delay(1000);
+u8g2.drawFrame(80,0,4,48);
+u8g2.drawPixel(78,0);
+u8g2.drawPixel(78,10);
+u8g2.drawPixel(78,20);
+u8g2.drawPixel(78,30);
+
+u8g2.sendBuffer();
+delay(2000);  
 }
 
