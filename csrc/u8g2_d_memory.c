@@ -3,6 +3,24 @@
 
 #include "u8g2.h"
 
+uint8_t *u8g2_m_ssd1305_16_1(uint8_t *page_cnt)
+{
+  static uint8_t buf[128];
+  *page_cnt = 1;
+  return buf;
+}
+uint8_t *u8g2_m_ssd1305_16_2(uint8_t *page_cnt)
+{
+  static uint8_t buf[256];
+  *page_cnt = 2;
+  return buf;
+}
+uint8_t *u8g2_m_ssd1305_16_f(uint8_t *page_cnt)
+{
+  static uint8_t buf[512];
+  *page_cnt = 4;
+  return buf;
+}
 uint8_t *u8g2_m_ssd1306_16_1(uint8_t *page_cnt)
 {
   static uint8_t buf[128];
