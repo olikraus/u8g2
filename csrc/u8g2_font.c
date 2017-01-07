@@ -463,8 +463,7 @@ static void u8g2_font_setup_decode(u8g2_t *u8g2, const uint8_t *glyph_data)
   decode->glyph_height = u8g2_font_decode_get_unsigned_bits(decode,u8g2->font_info.bits_per_char_height);
   
   decode->fg_color = u8g2->draw_color;
-  decode->bg_color = decode->fg_color;
-  decode->bg_color ^= 1;
+  decode->bg_color = (decode->fg_color == 0 ? 1 : 0);
 }
 
 
