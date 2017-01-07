@@ -86,7 +86,7 @@
   It will consume about 40 bytes more in flash memory of the AVR.
   HVLine procedures are also used by the text drawing functions.
 */
-#define U8G2_HVLINE_SPEED_OPTIMIZATION
+//#define U8G2_HVLINE_SPEED_OPTIMIZATION
 
 /*
   The following macro enables all four drawing directions for glyphs and strings.

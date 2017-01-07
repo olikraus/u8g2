@@ -74,6 +74,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   uint16_t offset;
   uint8_t *ptr;
   uint8_t bit_pos, mask;
+  uint8_t or_mask, xor_mask;
 
   //assert(x >= u8g2->buf_x0);
   //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
@@ -86,6 +87,14 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   mask = 1;
   mask <<= bit_pos;
 
+  or_mask = 0;
+  xor_mask = 0;
+  if ( u8g2->draw_color <= 1 )
+    or_mask  = mask;
+  if ( u8g2->draw_color != 1 )
+    xor_mask = mask;
+
+
   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
   offset &= ~7;
   offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
@@ -95,14 +104,19 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   
   if ( dir == 0 )
   {
+  /*
     if ( u8g2->draw_color != 0 )
     {
+    */
       do
       {
-	*ptr |= mask;
+	//*ptr |= mask;
+	*ptr |= or_mask;
+	*ptr ^= xor_mask;
 	ptr++;
 	len--;
       } while( len != 0 );
+      /*
     }
     else
     {
@@ -114,11 +128,15 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 	len--;
       } while( len != 0 );
     }  
+    */
   }
   else
   {    
     do
     {
+      *ptr |= or_mask;
+      *ptr ^= xor_mask;
+      /*
       if ( u8g2->draw_color != 0 )
       {
 	*ptr |= mask;
@@ -127,6 +145,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
       {
 	*ptr &= ~mask;
       }
+      */
       
       bit_pos++;
       bit_pos &= 7;
@@ -154,11 +173,18 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 	}
 	*/
 	
-	mask = 1;
+	//mask = 1;
+	
+	if ( u8g2->draw_color <= 1 )
+	  or_mask  = 1;
+	if ( u8g2->draw_color != 1 )
+	  xor_mask = 1;
       }
       else
       {
-	mask <<= 1;
+	//mask <<= 1;
+	or_mask <<= 1;
+	xor_mask <<= 1;
       }
     } while( len != 0 );
   }
@@ -176,7 +202,7 @@ static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_u
   uint16_t offset;
   uint8_t *ptr;
   uint8_t bit_pos, mask;
-
+  
   //assert(x >= u8g2->buf_x0);
   //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
   //assert(y >= u8g2->buf_y0);
@@ -194,8 +220,14 @@ static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_u
   ptr = u8g2->tile_buf_ptr;
   ptr += offset;
   ptr += x;
-  
-  
+
+
+  if ( u8g2->draw_color <= 1 )
+    *ptr |= mask;
+  if ( u8g2->draw_color != 1 )
+    *ptr ^= mask;
+
+/*  
   if ( u8g2->draw_color != 0 )
   {
     *ptr |= mask;
@@ -204,7 +236,8 @@ static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_u
   {
     mask ^= 255;
     *ptr &= mask;
-  }  
+  }
+*/  
 }
 
 /*
@@ -273,7 +306,13 @@ static void u8g2_draw_pixel_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8
   ptr = u8g2->tile_buf_ptr;
   ptr += offset;
   
+
+  if ( u8g2->draw_color <= 1 )
+    *ptr |= mask;
+  if ( u8g2->draw_color != 1 )
+    *ptr ^= mask;
   
+  /*
   if ( u8g2->draw_color != 0 )
   {
     *ptr |= mask;
@@ -282,7 +321,8 @@ static void u8g2_draw_pixel_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8
   {
     mask ^= 255;
     *ptr &= mask;
-  }  
+  } 
+    */
 }
 
 /*

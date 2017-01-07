@@ -142,17 +142,26 @@ void testXOR(uint8_t x)
   
   u8g2.firstPage();
   do {
+    /* Solid mode with XOR drawing: Does not make much sense */
     u8g2.setFontMode(0);
+    u8g2.setDrawColor(1);
     u8g2.drawBox(10, 8, 10, 10);
-    u8g2.drawBox(40, 20, 30, 10);
-    u8g2.drawBox(100, 8, 4, 20);
-    u8g2.drawStr(x,26, "XOR Test");
+    u8g2.drawBox(40, 20, 30, 12);
+    u8g2.drawBox(100, 8, 4, 22);
     
+    u8g2.setDrawColor(2);
+    u8g2.drawStr(x,26, "XOR Test");
+    u8g2.drawHLine(0, 29, 128);
+    
+    /* Transparent mdoe with XOR drawing: looks good */
     u8g2.setFontMode(1);
+    u8g2.setDrawColor(1);
     u8g2.drawBox(10, 8+32, 10, 10);
-    u8g2.drawBox(40, 20+32, 30, 10);
-    u8g2.drawBox(100, 8+32, 4, 20);
+    u8g2.drawBox(40, 20+32, 30, 12);
+    u8g2.drawBox(100, 8+32, 4, 22);
+    u8g2.setDrawColor(2);
     u8g2.drawStr(x,26+32, "XOR Test");
+    u8g2.drawHLine(0, 29+32, 128);
 
 
   } while ( u8g2.nextPage() );
