@@ -259,11 +259,15 @@ void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
   at the pixel is turned on.
   On an LCD it usually means that the LCD segment of the pixel is enabled, 
   which absorbs the light.
+  For eInk/ePaper it means black ink.
+
+  7 Jan 2017: Allow color value 2 for XOR operation.
+  
 */
 void u8g2_SetDrawColor(u8g2_t *u8g2, uint8_t color)
 {
-  u8g2->draw_color = 0;
-  if ( color )
-    u8g2->draw_color = 1;
+  u8g2->draw_color = color;	/* u8g2_SetDrawColor: just assign the argument */ 
+  if ( color >= 3 )
+    u8g2->draw_color = 1;	/* u8g2_SetDrawColor: make color as one if arg is invalid */
 }
 
