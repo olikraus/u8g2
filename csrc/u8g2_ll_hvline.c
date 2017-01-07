@@ -33,6 +33,19 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+
+  *ptr |= or_mask
+  *ptr ^= xor_mask
+  
+  color = 0:   or_mask = 1, xor_mask = 1
+  color = 1:   or_mask = 1, xor_mask = 0
+  color = 2:   or_mask = 0, xor_mask = 1
+
+  if ( color <= 1 )
+    or_mask  = mask;
+  if ( color != 1 )
+    xor_mask = mask;
+    
 */
 
 #include "u8g2.h"
