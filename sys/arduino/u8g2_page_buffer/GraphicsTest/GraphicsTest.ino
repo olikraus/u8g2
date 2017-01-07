@@ -92,7 +92,7 @@
 //U8G2_KS0108_ERM19264_1 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*dc=*/ 17, /*cs0=*/ 14, /*cs1=*/ 15, /*cs2=*/ 16, /* reset=*/  U8X8_PIN_NONE); 	// Set R/W to low!
 //U8G2_ST7920_192X32_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18, /*cs=*/ U8X8_PIN_NONE, /*dc=*/ 17, /*reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_192X32_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
-//U8G2_ST7920_128X64_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18 /* A4 */, /*cs=*/ U8X8_PIN_NONE, /*dc/rs=*/ 17 /* A3 */, /*reset=*/ 15 /* A1 */);	// Remember to set R/W to 0 
+U8G2_ST7920_128X64_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18 /* A4 */, /*cs=*/ U8X8_PIN_NONE, /*dc/rs=*/ 17 /* A3 */, /*reset=*/ 15 /* A1 */);	// Remember to set R/W to 0 
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7920_128X64_1_HW_SPI u8g2(U8G2_R0, /* CS=*/ 10, /* reset=*/ 8);
@@ -248,6 +248,20 @@ void u8g2_extra_page(uint8_t a)
   }
 }
 
+void u8g2_xor(uint8_t a) {
+  uint8_t i;
+  u8g2.drawStr( 0, 0, "XOR");
+  u8g2.setFontMode(1);
+  u8g2.setDrawColor(2);
+  for( i = 0; i < 5; i++)
+  {
+    u8g2.drawBox(10+i*16, 18 + (i&1)*4, 21,21);
+  }
+  u8g2.drawStr( 5+a, 19, "XOR XOR XOR XOR");
+  u8g2.setDrawColor(1);
+  u8g2.setFontMode(0);
+    
+}
 
 uint8_t draw_state = 0;
 
@@ -264,6 +278,7 @@ void draw(void) {
     case 7: u8g2_ascii_1(); break;
     case 8: u8g2_ascii_2(); break;
     case 9: u8g2_extra_page(draw_state&7); break;
+    case 10: u8g2_xor(draw_state&7); break;
   }
 }
 
@@ -297,7 +312,7 @@ void loop(void) {
   
   // increase the state
   draw_state++;
-  if ( draw_state >= 10*8 )
+  if ( draw_state >= 11*8 )
     draw_state = 0;
 
   // delay between each page
