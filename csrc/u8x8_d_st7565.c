@@ -112,30 +112,6 @@ static const u8x8_display_info_t u8x8_st7565_128x64_display_info =
   /* pixel_height = */ 64
 };
 
-static const u8x8_display_info_t u8x8_st7565_128x32_display_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 150,	/* st7565 datasheet, table 26, tcsh */
-  /* pre_chip_disable_wait_ns = */ 50,	/* st7565 datasheet, table 26, tcss */
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 1, 
-  /* sda_setup_time_ns = */ 50,		/* st7565 datasheet, table 26, tsds */
-  /* sck_pulse_width_ns = */ 120,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
-  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
-  /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
-  /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 4,
-  /* default_x_offset = */ 4,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 32
-};
-
 uint8_t u8x8_d_st7565_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c;
@@ -148,7 +124,6 @@ uint8_t u8x8_d_st7565_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
-      //x += 4;
       u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
       u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
       u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
@@ -337,6 +312,31 @@ uint8_t u8x8_d_st7565_zolen_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
 
 /*================================================*/
 /* NHD-C12832 */
+
+static const u8x8_display_info_t u8x8_st7565_128x32_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 150,	/* st7565 datasheet, table 26, tcsh */
+  /* pre_chip_disable_wait_ns = */ 50,	/* st7565 datasheet, table 26, tcss */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 1, 
+  /* sda_setup_time_ns = */ 50,		/* st7565 datasheet, table 26, tsds */
+  /* sck_pulse_width_ns = */ 120,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
+  /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
+  /* tile_width = */ 16,		/* width of 16*8=128 pixel */
+  /* tile_hight = */ 4,
+  /* default_x_offset = */ 4,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 32
+};
+
 
 static const uint8_t u8x8_d_st7565_nhd_c12832_init_seq[] = {
     
@@ -552,6 +552,97 @@ uint8_t u8x8_d_nt7534_tg12864r(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 	else
 	{
 	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+	}	
+	break;
+      default:
+	return 0;		/* msg unknown */
+    }
+  }
+  return 1;
+}
+
+
+/*================================================*/
+/* EA DOGM132 */
+
+static const u8x8_display_info_t u8x8_st7565_dogm132_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 150,	/* st7565 datasheet, table 26, tcsh */
+  /* pre_chip_disable_wait_ns = */ 50,	/* st7565 datasheet, table 26, tcss */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 1, 
+  /* sda_setup_time_ns = */ 50,		/* st7565 datasheet, table 26, tsds */
+  /* sck_pulse_width_ns = */ 120,	/* half of cycle time (100ns according to datasheet), AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
+  /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
+  /* tile_width = */ 17,		/* width of 16*8=136 pixel */
+  /* tile_hight = */ 4,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 132,
+  /* pixel_height = */ 32
+};
+
+
+static const uint8_t u8x8_d_st7565_dogm132_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_C(0x0e2),            			/* soft reset */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x040),		                /* set display start line to 0 */
+  
+  U8X8_C(0x0a1),		                /* ADC set to reverse */
+  U8X8_C(0x0c0),		                /* common output mode */
+  // Flipmode
+  //U8X8_C(0x0a0),		                /* ADC set to reverse */
+  //U8X8_C(0x0c8),		                /* common output mode */
+  
+  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
+  U8X8_C(0x0a2),		                /* LCD bias 1/9 */
+  U8X8_C(0x02f),		                /* all power  control circuits on */
+  U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
+  U8X8_C(0x023),		                /* set V0 voltage resistor ratio to large*/
+  U8X8_CA(0x081, 0x01f),		/* set contrast, contrast value EA DOGM132 */
+  
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_st7565_ea_dogm132(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call common procedure first and handle messages there */
+  if ( u8x8_d_st7565_common(u8x8, msg, arg_int, arg_ptr) == 0 )
+  {
+    /* msg not handled, then try here */
+    switch(msg)
+    {
+      case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7565_dogm132_display_info);
+	break;
+      case U8X8_MSG_DISPLAY_INIT:
+	u8x8_d_helper_display_init(u8x8);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_dogm132_init_seq);
+	break;
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+	if ( arg_int == 0 )
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->default_x_offset;
+	}
+	else
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	}	
 	break;

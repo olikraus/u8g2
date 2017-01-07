@@ -85,5 +85,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for ST7567, Pax Instruments GLCD Shield (issue 138)
   * Support for NT7534 (issue 143)
   * Support for SSD1327, Seeedstudio OLED (issue 145)
+  * Support for SSD1305 (issue 146)
+  * Support for DOGM132 (issue 147)
   
   
