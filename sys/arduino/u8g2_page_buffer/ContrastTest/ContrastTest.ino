@@ -1,6 +1,6 @@
 /*
 
-  HelloWorld.ino
+  ContrastTest.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
