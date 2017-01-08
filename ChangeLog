@@ -78,7 +78,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7565 LM6059 Display (issue 123)
   * SSD1606 eInk/ePaper Display (issue 100)
   * Documentation updates
-2017-01-xx	v2.11.x	 olikraus@gmail.com
+2017-01-08	v2.11.3	 olikraus@gmail.com
   * Support for LC7981 (issue 134)
   * Support for PCF8812 (issue 135)
   * Fixed wrong half-move notation in Little Rook Chess (issue 137)
