@@ -611,6 +611,49 @@ int main(void)
 
   tga_save_png("u8g2_font_direction.png");
 
+  
+  /*=========================================*/
+  /* u8g2_xor.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontMode(&u8g2, 1);
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontDirection(&u8g2, 0);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetDrawColor(&u8g2, 1);
+    u8g2_DrawBox(&u8g2, 22, 2, 35, 50);
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB14_tf);
+    u8g2_SetDrawColor(&u8g2, 0);
+    u8g2_DrawStr(&u8g2, 5, 18, "abcd");
+    u8g2_SetDrawColor(&u8g2, 1);
+    u8g2_DrawStr(&u8g2, 5, 33, "abcd");
+    u8g2_SetDrawColor(&u8g2, 2);
+    u8g2_DrawStr(&u8g2, 5, 48, "abcd");
+  } while( u8g2_NextPage(&u8g2) );
+  u8g2_SetDrawColor(&u8g2, 1);
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(5,15, "color 0");
+    ra(5,30, "color 1");
+    ra(5,45, "color 2");
+
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontDirection(&u8g2, 0);
+
+  tga_save_png("u8g2_xor.png");
+
 
   /*=========================================*/
   /* u8g2_color.png */

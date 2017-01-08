@@ -255,10 +255,13 @@ void u8g2_xor(uint8_t a) {
   u8g2.setDrawColor(2);
   for( i = 0; i < 5; i++)
   {
-    u8g2.drawBox(10+i*16, 18 + (i&1)*4, 21,21);
+    u8g2.drawBox(10+i*16, 18 + (i&1)*4, 21,31);
   }
   u8g2.drawStr( 5+a, 19, "XOR XOR XOR XOR");
+  u8g2.setDrawColor(0);
+  u8g2.drawStr( 5+a, 29, "CLR CLR CLR CLR");
   u8g2.setDrawColor(1);
+  u8g2.drawStr( 5+a, 39, "SET SET SET SET");
   u8g2.setFontMode(0);
     
 }
