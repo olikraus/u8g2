@@ -113,7 +113,7 @@ static long get_mul(const char **s)
 {
   long v;
   v = get_num(s);
-  if ( (**s) == '*' )
+  while ( (**s) == '*' )
   {
     (*s)++;
     skip_space(s);
@@ -126,11 +126,29 @@ static long get_add(const char **s)
 {
   long v;
   v = get_mul(s);
-  if ( (**s) == '+' )
+  while ( (**s) == '+' )
   {
     (*s)++;
     skip_space(s);
     v += get_mul(s);
+  }
+  return v;
+}
+
+static long get_addsub(const char **s)
+{
+  long v;
+  int op;
+  v = get_mul(s);
+  while ( (**s) == '+' || (**s) == '-' )
+  {
+    op = **s;
+    (*s)++;
+    skip_space(s);
+    if ( op == '+' )
+      v += get_mul(s);
+    else
+      v -= get_mul(s);      
   }
   return v;
 }
@@ -191,7 +209,7 @@ static void map_cmd(const char **s)
     {
       (*s)++;
       skip_space(s);
-      map_to = get_add(s);
+      map_to = get_addsub(s);
     }
   }
 }
@@ -207,7 +225,7 @@ void bf_map_cmd(bf_t *bf, const char **s)
   map_cmd(s);
 
   
-  bf_Log(bf, "Map: exclude=%d from=%ld to=%ld map=%ld", is_exclude, range_from, range_to, map_to);
+  bf_Log(bf, "Map: exclude=%d from=%ld/$%lx to=%ld/$%lx map=%ld/$%lx", is_exclude, range_from, range_from, range_to, range_to, map_to, map_to);
   
   for( i = 0; i < bf->glyph_cnt; i++ )
   {
