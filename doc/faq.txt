@@ -36,4 +36,21 @@ If your controller for a monochrome display is not listed,
 you could raise an issue in the u8g2 issue tracker.
 A more detailed discussion of some controllers is listed in "controller_cmds.txt"
 
+Q: What is wrong with connecting Reset (RES) of my display with the  Reset of my 
+Arduino Board?
+A:
+- Both are inputs. It does not make sense to connect two inputs
+- Both pins have completly different functions: The reset of your input will reset
+the Arduino board, the reset of the display will reset the display. 
+Please connect the reset input of the display with a normal GPIO pin of your board.
+
+Q: Shell I connect CS (chip select) with the SS output of the Arduino board?
+AIn general this is required neither for hardware or software SPI.
+
+Q: My board has a MOSI and a SCK output. Do i need to connect this to the
+clock and data pins of my display?
+A: "Yes" if you want to use hardware SPI (u8g2 constructors ending in _HW_SPI).
+You can use any pins with the software emulated SPI of u8g2 (constructors ending
+in _SW_SPI). Howver in general it is better to use hardware SPI to get a better
+performance of your display.
 
