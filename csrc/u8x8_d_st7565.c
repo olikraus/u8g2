@@ -1,7 +1,7 @@
 /*
 
   u8x8_d_st7565.c
-  also includes support for nt7534
+  also includes support for nt7534 
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
