@@ -122,7 +122,7 @@ static const uint8_t u8x8_d_ist3020_erc19264_init_seq[] = {
   U8X8_DLY(50),
   
   U8X8_C(0x020),		                /* v0 voltage resistor ratio */
-  U8X8_CA(0x081, 45),		/* set contrast, contrast value (from ER code) */
+  U8X8_CA(0x081, 0x019),		/* set contrast, contrast value (from ER code: 45) */
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
