@@ -5,26 +5,26 @@ Note: For multi-byte sequences, only the first byte is considered.
 
 use monospaced font for this txt file
 
-               ST7565      NT7534      	UC1701		ST7567		IST3020
+               ST7565      NT7534      	UC1701		ST7567		IST3020		ST7588
 	       
-0x000 00000000 Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col
+0x000 00000000 Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col		
 ...
 0x00f 00001111 Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col
 0x010 00010000 Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col
 ...
 0x01f 00011111 Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col
-0x020 00100000 Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio
+0x020 00100000 Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Fn Set
 ...
-0x027 00100111 Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio
-0x028 00101000 Pwr Ctrl    Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl
+0x027 00100111 Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Fn Set
+0x028 00101000 Pwr Ctrl    Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Fn Set
 ...
-0x02f 00101111 Pwr Ctrl    Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl
-0x030 00110000 -           PM Duty					Rev. Line
+0x02f 00101111 Pwr Ctrl    Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Fn Set
+0x030 00110000 -           PM Duty					Rev. Line	Fn Set
 ...									...
-0x037 00110111 -           PM Duty					Rev. Line
-0x038 00111000 -           PM Bias					Rev. Line
+0x037 00110111 -           PM Duty					Rev. Line	Fn Set
+0x038 00111000 -           PM Bias					Rev. Line	Fn Set
 ...									...
-0x03f 00111111 -           PM Bias					Rev. Line
+0x03f 00111111 -           PM Bias					Rev. Line	Fn Set
 0x040 01000000 Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line
 ...
 0x07f 01111111 Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line
@@ -80,12 +80,12 @@ use monospaced font for this txt file
 0x0e2 11100010 Reset	   Reset	Reset		Reset		Reset
 0x0e3 11100011 NOP	   NOP		NOP		NOP		NOP
 0x0e4 11100100 -           OSC Freq	-		-		Rev Line Reset
-0x0e5 11100101 -           OSC Freq	-		-
-0x0e6 11100110 -           DC/DC Freq	-		-
-0x0e7 11100111 -           -		-		-
+0x0e5 11100101 -           OSC Freq	-		-		-
+0x0e6 11100110 -           DC/DC Freq	-		-		-
+0x0e7 11100111 -           -		-		-		-
 ...
-0x0ef 11101111 -           -		-		-
-0x0ee 11101110 Stop R-M-W  Stop R-M-W	Stop R-M-W	Stop R-M-W
+0x0ef 11101111 -           -		-		-		-
+0x0ee 11101110 Stop R-M-W  Stop R-M-W	Stop R-M-W	Stop R-M-W	-
 0x0f0 11110000 Test Mode   Test Mode	-		-		Test Mode	
 0x0f1 11110001 Test Mode   Test Mode	-		-		Test Mode	
 0x0f2 11110010 Test Mode   Test Mode	-		-		Test Mode	

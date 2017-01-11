@@ -56,16 +56,16 @@ static const uint8_t u8x8_d_ist3020_erc19264_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_ist3020_erc19264_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_C(0x0a0),				/* segment remap a0/a1*/
+  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ist3020_erc19264_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  U8X8_C(0x0a1),				/* segment remap a0/a1*/
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -87,11 +87,11 @@ static const u8x8_display_info_t u8x8_ist3020_erc19264_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,	/* */
   /* write_pulse_width_ns = */ 80,	/* */
-  /* tile_width = */ 17,		/* width of 17*8=136 pixel */
+  /* tile_width = */ 24,		/* width of 24*8=192 pixel */
   /* tile_hight = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 132,
+  /* pixel_width = */ 192,
   /* pixel_height = */ 64
 };
 
@@ -100,18 +100,20 @@ static const uint8_t u8x8_d_ist3020_erc19264_init_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
   U8X8_C(0x0e2),            			/* soft reset */
+  U8X8_C(0x0ab),            			/* build in osc on, used in ER code, but not mentioned in data sheet */
   U8X8_C(0x0ae),		                /* display off */
+  
   U8X8_C(0x040),		                /* set display start line to 0 */
   
-  U8X8_C(0x0a1),		                /* ADC set to reverse */
-  U8X8_C(0x0c0),		                /* common output mode */
+  U8X8_C(0x0a0),		                /* ADC set to reverse */
+  U8X8_C(0x0c8),		                /* common output mode */
   // Flipmode
   //U8X8_C(0x0a0),		                /* ADC set to reverse */
   //U8X8_C(0x0c8),		                /* common output mode */
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
-  U8X8_C(0x0a3),		                /* LCD bias 1/7 */
-  /* power on sequence from paxinstruments */
+  U8X8_C(0x0a2),		                /* LCD bias 1/9 */
+  
   U8X8_C(0x028|4),		                /* all power  control circuits on */
   U8X8_DLY(50),
   U8X8_C(0x028|6),		                /* all power  control circuits on */
@@ -119,8 +121,8 @@ static const uint8_t u8x8_d_ist3020_erc19264_init_seq[] = {
   U8X8_C(0x028|7),		                /* all power  control circuits on */
   U8X8_DLY(50),
   
-  U8X8_C(0x026),		                /* v0 voltage resistor ratio */
-  U8X8_CA(0x081, 0x027),		/* set contrast, contrast value*/
+  U8X8_C(0x020),		                /* v0 voltage resistor ratio */
+  U8X8_CA(0x081, 45),		/* set contrast, contrast value (from ER code) */
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
@@ -129,7 +131,6 @@ static const uint8_t u8x8_d_ist3020_erc19264_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-/* pax instruments 132x64 display */
 uint8_t u8x8_d_ist3020_erc19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c;
