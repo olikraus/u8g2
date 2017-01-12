@@ -164,7 +164,7 @@
 
 /* the macro U8G2_USE_LARGE_FONTS disables large fonts (>32K) */
 /* it can be enabled for those uC supporting larger arrays */
-#ifdef __arm__
+#if (defined __arm__) || (defined __arc__) 
 #define U8G2_USE_LARGE_FONTS
 #endif
 
