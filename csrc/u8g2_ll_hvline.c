@@ -279,7 +279,16 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
     ST7920
 */
 
+#ifdef U8G2_HVLINE_SPEED_OPTIMIZATION
 
+/*
+  x,y		Upper left position of the line within the local buffer (not the display!)
+  len		length of the line in pixel, len must not be 0
+  dir		0: horizontal line (left to right)
+		1: vertical line (top to bottom)
+  asumption: 
+    all clipping done
+*/
 
 void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
@@ -288,44 +297,42 @@ void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_
   uint8_t bit_pos;
   uint8_t mask;
   uint8_t tile_width = u8g2_GetU8x8(u8g2)->display_info->tile_width;
+
+  bit_pos = x;		/* overflow truncate is ok here... */
+  bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
+  mask = 128;
+  mask >>= bit_pos;
+
+  offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
+  offset *= tile_width;
+  offset += x>>3;
+  ptr = u8g2->tile_buf_ptr;
+  ptr += offset;
   
   if ( dir == 0 )
   {
+      
     do
     {
-      bit_pos = x;		/* overflow truncate is ok here... */
-      bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
-      mask = 128;
-      mask >>= bit_pos;
-
-      offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
-      offset *= tile_width;
-      offset += x>>3;
-      ptr = u8g2->tile_buf_ptr;
-      ptr += offset;
-      
 
       if ( u8g2->draw_color <= 1 )
 	*ptr |= mask;
       if ( u8g2->draw_color != 1 )
 	*ptr ^= mask;
       
-      x++;
+      mask >>= 1;
+      if ( mask == 0 )
+      {
+	mask = 128;
+        ptr++;
+      }
+      
+      //x++;
       len--;
     } while( len != 0 );
   }
   else
   {
-    bit_pos = x;		/* overflow truncate is ok here... */
-    bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
-    mask = 128;
-    mask >>= bit_pos;
-    
-    offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
-    offset *= tile_width;
-    offset += x>>3;
-    ptr = u8g2->tile_buf_ptr;
-    ptr += offset;
     do
     {
       if ( u8g2->draw_color <= 1 )
@@ -340,6 +347,7 @@ void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_
   }
 }
 
+#else /* U8G2_HVLINE_SPEED_OPTIMIZATION */
 
 
 /*
@@ -385,7 +393,7 @@ static void u8g2_draw_pixel_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8
   asumption: 
     all clipping done
 */
-void x_u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   if ( dir == 0 )
   {
@@ -407,3 +415,4 @@ void x_u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uin
   }
 }
 
+#endif /* U8G2_HVLINE_SPEED_OPTIMIZATION */

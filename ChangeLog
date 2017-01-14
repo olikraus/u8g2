@@ -92,4 +92,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added XOR mode (setDrawColor 2, issue 56)
 2017-01-xx	v2.12.x	  olikraus@gmail.com
   * Support for SSD1309 (issue 113)
-  
+  * Enabled U8G2_HVLINE_SPEED_OPTIMIZATION (not sure why this was disabled)
+  * Improved speed for ST7920 (up to 40%, issue 151)
+  * Support for IST3020 (issue 153)
