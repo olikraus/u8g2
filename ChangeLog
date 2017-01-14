@@ -87,7 +87,9 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for SSD1327, Seeedstudio OLED (issue 145)
   * Support for SSD1305 (issue 146)
   * Support for DOGM132 (issue 147)
-  * Fixed a bug in the draw pixel procedure which appears of the full buffer,
+  * Fixed a bug in the draw pixel procedure which appears in full buffer mode,
     if the display width is not a multiple of 8 (issue 148)
   * Added XOR mode (setDrawColor 2, issue 56)
 2017-01-xx	v2.12.x	  olikraus@gmail.com
+  * Support for SSD1309 (issue 113)
+  
