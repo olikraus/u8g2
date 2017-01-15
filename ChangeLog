@@ -90,8 +90,9 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed a bug in the draw pixel procedure which appears in full buffer mode,
     if the display width is not a multiple of 8 (issue 148)
   * Added XOR mode (setDrawColor 2, issue 56)
-2017-01-15	v2.12.x	  olikraus@gmail.com
+2017-01-15	v2.12.6	  olikraus@gmail.com
   * Support for SSD1309 (issue 113)
   * Enabled U8G2_HVLINE_SPEED_OPTIMIZATION (not sure why this was disabled)
   * Improved speed for ST7920 (up to 40%, issue 151)
   * Support for IST3020 (issue 153)
+2017-xx-xx	v2.13.x	  olikraus@gmail.com
