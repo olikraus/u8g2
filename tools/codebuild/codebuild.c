@@ -446,6 +446,24 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
+  {
+    "st7588", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jlx12864" },
+      { NULL }
+    },
+  },
+  {  /* the ST7588 has the same I2C protocol as the SSD13xx */
+    "st7588", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jlx12864" },
+      { NULL }
+    }
+  },  
+  
   {
     "nt7534", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
