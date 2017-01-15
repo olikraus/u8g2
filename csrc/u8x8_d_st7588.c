@@ -1,10 +1,10 @@
 /*
 
-  u8x8_d_ssd1327.c
+  u8x8_d_st7588.c
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2017, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -37,14 +37,14 @@
 #include "u8x8.h"
 
 
-static const uint8_t u8x8_d_ssd1327_96x96_powersave0_seq[] = {
+static const uint8_t u8x8_d_st7588_128x64_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0af),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1327_96x96_powersave1_seq[] = {
+static const uint8_t u8x8_d_st7588_128x64_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0ae),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -96,7 +96,7 @@ static uint8_t *u8x8_ssd1327_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 
 
 
-static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
   uint8_t *ptr;
@@ -104,20 +104,20 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
   {
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1327_96x96_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7588_128x64_display_info);
       break;
     */
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_init_seq);    
       break;
     */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_powersave1_seq);
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
@@ -174,7 +174,7 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 /*=============================================*/
 /*  Seeedstudio Grove OLED 96x96 */
 
-static const u8x8_display_info_t u8x8_ssd1327_96x96_display_info =
+static const u8x8_display_info_t u8x8_st7588_128x64_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -215,7 +215,7 @@ static const u8x8_display_info_t u8x8_ssd1327_96x96_display_info =
 */
 
 
-static const uint8_t u8x8_d_ssd1327_96x96_init_seq[] = {
+static const uint8_t u8x8_d_st7588_128x64_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -259,7 +259,7 @@ static const uint8_t u8x8_d_ssd1327_96x96_init_seq[] = {
 };
 
 
-static const uint8_t u8x8_d_ssd1327_seeed_96x96_flip0_seq[] = {
+static const uint8_t u8x8_d_st7588_jlx12864_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a0, 0x051),		/* remap configuration */
@@ -267,7 +267,7 @@ static const uint8_t u8x8_d_ssd1327_seeed_96x96_flip0_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1327_seeed_96x96_flip1_seq[] = {
+static const uint8_t u8x8_d_st7588_jlx12864_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x0a2, 0x060),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a0, 0x042),		/* remap configuration */
@@ -276,31 +276,31 @@ static const uint8_t u8x8_d_ssd1327_seeed_96x96_flip1_seq[] = {
 };
 
 
-uint8_t u8x8_d_ssd1327_seeed_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_st7588_jlx12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  if ( u8x8_d_ssd1327_96x96_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+  if ( u8x8_d_st7588_128x64_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
     return 1;
   if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
   {
-    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1327_96x96_display_info);
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7588_128x64_display_info);
     return 1;
   }
   else if ( msg == U8X8_MSG_DISPLAY_INIT )
   {
     u8x8_d_helper_display_init(u8x8);
-    u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_96x96_init_seq);    
+    u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_init_seq);    
     return 1;
   }
   else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
   {
     if ( arg_int == 0 )
     {
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_seeed_96x96_flip0_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_jlx12864_flip0_seq);
       u8x8->x_offset = u8x8->display_info->default_x_offset;
     }
     else
     {
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_seeed_96x96_flip1_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_jlx12864_flip1_seq);
       u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
     }
     return 1;
