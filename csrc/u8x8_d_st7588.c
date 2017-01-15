@@ -54,48 +54,6 @@ static const uint8_t u8x8_d_st7588_128x64_powersave1_seq[] = {
 
 
 
-/*
-  input:
-    one tile (8 Bytes)
-  output:
-    Tile for ssd1327 (32 Bytes)
-*/
-
-static uint8_t u8x8_ssd1327_8to32_dest_buf[32];
-
-static uint8_t *u8x8_ssd1327_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
-{
-  uint8_t v;
-  uint8_t a,b;
-  uint8_t i, j;
-  uint8_t *dest;
-  
-  for( j = 0; j < 4; j++ )
-  {
-    dest = u8x8_ssd1327_8to32_dest_buf;
-    dest += j;
-    a =*ptr;
-    ptr++;
-    b = *ptr;
-    ptr++;
-    for( i = 0; i < 8; i++ )
-    {
-      v = 0;
-      if ( a&1 ) v |= 0xf0;
-      if ( b&1 ) v |= 0x0f;
-      *dest = v;
-      dest+=4;
-      a >>= 1;
-      b >>= 1;
-    }
-  }
-  
-  return u8x8_ssd1327_8to32_dest_buf;
-}
-
-
-
-
 static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
@@ -130,36 +88,20 @@ static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_cad_StartTransfer(u8x8);
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
-      x *= 4;
-      x+=u8x8->x_offset/2;
+      x *= 8;
+      x += u8x8->x_offset;
     
-      y = (((u8x8_tile_t *)arg_ptr)->y_pos);
-      y *= 8;
+    
+      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+      u8x8_cad_SendArg(u8x8, 0x000 | ((x&15)));
+      u8x8_cad_SendArg(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
     
       
       do
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-
-	do
-	{
-	  u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
-	  u8x8_cad_SendArg(u8x8, x );	/* start */
-	  u8x8_cad_SendArg(u8x8, x+3 );	/* end */
-
-	  u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
-	  u8x8_cad_SendArg(u8x8, y);
-	  u8x8_cad_SendArg(u8x8, y+7);
-	  
-	  
-	  u8x8_cad_SendData(u8x8, 32, u8x8_ssd1327_8to32(u8x8, ptr));
-	  ptr += 8;
-	  x += 4;
-	  c--;
-	} while( c > 0 );
-	
-	//x += 4;
+	u8x8_cad_SendData(u8x8, c*8, ptr); 	/* note: SendData can not handle more than 255 bytes */
 	arg_int--;
       } while( arg_int > 0 );
       
@@ -172,30 +114,29 @@ static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 }
 
 /*=============================================*/
-/*  Seeedstudio Grove OLED 96x96 */
 
 static const u8x8_display_info_t u8x8_st7588_128x64_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
   
-  /* post_chip_enable_wait_ns = */ 20,
-  /* pre_chip_disable_wait_ns = */ 10,
-  /* reset_pulse_width_ms = */ 100, 	
-  /* post_reset_wait_ms = */ 100, 		/**/
-  /* sda_setup_time_ns = */ 100,		/* */
-  /* sck_pulse_width_ns = */ 100,	/*  */
+  /* post_chip_enable_wait_ns = */ 150,
+  /* pre_chip_disable_wait_ns = */ 30,
+  /* reset_pulse_width_ms = */ 5, 	
+  /* post_reset_wait_ms = */ 5, 		/**/
+  /* sda_setup_time_ns = */ 60,		/* */
+  /* sck_pulse_width_ns = */ 60,	/*  */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 1,	/* use 1 instead of 4, because the SSD1327 seems to be very slow */
-  /* data_setup_time_ns = */ 40,
-  /* write_pulse_width_ns = */ 60,	
-  /* tile_width = */ 12,
-  /* tile_hight = */ 12,
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
+  /* data_setup_time_ns = */ 80,
+  /* write_pulse_width_ns = */ 50,	
+  /* tile_width = */ 16,
+  /* tile_hight = */ 8,
   /* default_x_offset = */ 16,
   /* flipmode_x_offset = */ 16,		
-  /* pixel_width = */ 96,
-  /* pixel_height = */ 96
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 64
 };
 
 /*  https://github.com/SeeedDocument/Grove_OLED_1.12/raw/master/resources/LY120-096096.pdf */
