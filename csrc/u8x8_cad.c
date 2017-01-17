@@ -383,6 +383,7 @@ uint8_t u8x8_cad_st7920_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 
 
 /* cad procedure for the SSD13xx family in I2C mode */
+/* this procedure is also used by the ST7588 */
 /* u8x8_byte_SetDC is not used */
 /* U8X8_MSG_BYTE_START_TRANSFER starts i2c transfer, U8X8_MSG_BYTE_END_TRANSFER stops transfer */
 /* After transfer start, a full byte indicates command or data mode */

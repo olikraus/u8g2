@@ -96,3 +96,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Improved speed for ST7920 (up to 40%, issue 151)
   * Support for IST3020 (issue 153)
 2017-xx-xx	v2.13.x	  olikraus@gmail.com
+  * Support for ST7588 (issue 154)
+  

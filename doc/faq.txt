@@ -54,3 +54,5 @@ You can use any pins with the software emulated SPI of u8g2 (constructors ending
 in _SW_SPI). Howver in general it is better to use hardware SPI to get a better
 performance of your display.
 
+Q: How to activate 16 Bit mode?
+A:

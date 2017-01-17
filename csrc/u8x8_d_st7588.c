@@ -31,22 +31,33 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
   
+  ST7588
+    - has 4 different I2C addresses 
+    - I2C protocol is identical to SSD13xx
+  
 */
 
 
 #include "u8x8.h"
 
+/* function set, bit 2: power down, bit 3: MY, bit 4: MX, bit 5: must be 1 */
+#define FS (0x020)
 
+/* not a real power down for the ST7588... just a display off */
 static const uint8_t u8x8_d_st7588_128x64_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0af),		                /* display on */
+  U8X8_C( FS | 0x00 ),			/* select 00 commands */
+  //U8X8_C( 0x08 ),				/* display off */
+  U8X8_C( 0x0c ),				/* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_st7588_128x64_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C( FS | 0x00 ),			/* select 00 commands */
+  U8X8_C( 0x08 ),				/* display off */
+  //U8X8_C( 0x0c ),				/* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -56,7 +67,7 @@ static const uint8_t u8x8_d_st7588_128x64_powersave1_seq[] = {
 
 static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, y, c;
+  uint8_t x, c;
   uint8_t *ptr;
   switch(msg)
   {
@@ -76,25 +87,48 @@ static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 	u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_powersave1_seq);
+
+      /* restore orientation */
+      if ( u8x8->x_offset == 0 )
+	u8x8_cad_SendCmd(u8x8, FS );	/* select 00 commands */
+      else
+	u8x8_cad_SendCmd(u8x8, FS ^ 0x018 );	/* select 00 commands */
+      
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
+
       u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int );	/* ssd1327 has range from 0 to 255 */
+      
+      u8x8_cad_SendCmd(u8x8, FS );
+      u8x8_cad_SendCmd(u8x8, 4 | (arg_int>>7) );
+      u8x8_cad_SendCmd(u8x8, FS | 1);
+      u8x8_cad_SendCmd(u8x8, 0x080 | arg_int );
+      
+      /* restore orientation */
+      if ( u8x8->x_offset == 0 )
+	u8x8_cad_SendCmd(u8x8, FS );	/* select 00 commands */
+      else
+	u8x8_cad_SendCmd(u8x8, FS ^ 0x018 );	/* select 00 commands */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
+      
       u8x8_cad_StartTransfer(u8x8);
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
       x *= 8;
+      
       x += u8x8->x_offset;
     
-    
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-      u8x8_cad_SendArg(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendArg(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+      if ( u8x8->x_offset == 0 )
+	u8x8_cad_SendCmd(u8x8, FS );	/* select 00 commands */
+      else
+	u8x8_cad_SendCmd(u8x8, FS ^ 0x018 );	/* select 00 commands */
+	
+      u8x8_cad_SendCmd(u8x8, 0x040 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendCmd(u8x8, 0x0e0 | ((x&15)));
+      u8x8_cad_SendCmd(u8x8, 0x0f0 | (x>>4) );
     
       
       do
@@ -133,67 +167,38 @@ static const u8x8_display_info_t u8x8_st7588_128x64_display_info =
   /* write_pulse_width_ns = */ 50,	
   /* tile_width = */ 16,
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 16,
-  /* flipmode_x_offset = */ 16,		
+  /* default_x_offset = */ 0,	/* must be 0, because this is checked also for normal mode */
+  /* flipmode_x_offset = */ 4,		
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };
 
-/*  https://github.com/SeeedDocument/Grove_OLED_1.12/raw/master/resources/LY120-096096.pdf */
-/*  http://www.seeedstudio.com/wiki/index.php?title=Twig_-_OLED_96x96 */
-/* values from u8glib */
-/*
-  Re-map setting in Graphic Display Data RAM, command 0x0a0
-    Bit 0: Column Address Re-map
-    Bit 1: Nibble Re-map
-    Bit 2: Horizontal/Vertical Address Increment
-    Bit 3: Not used, must be 0
-    
-    Bit 4: COM Re-map
-    Bit 5: Not used, must be 0
-    Bit 6: COM Split Odd Even
-    Bit 7: Not used, must be 0
-*/
 
 
 static const uint8_t u8x8_d_st7588_128x64_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
-  U8X8_CA(0x0fd, 0x012),		/* unlock display, usually not required because the display is unlocked after reset */
-  U8X8_C(0x0ae),		                /* display off */
-  //U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio: 0x03f * 1/64 duty */
-  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x05f * 1/64 duty */
-  U8X8_CA(0x0a1, 0x000),		/* display start line */
-  //U8X8_CA(0x0a2, 0x04c),		/* display offset, shift mapping ram counter */
-  
-  U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
-  U8X8_CA(0x0a0, 0x051),		/* remap configuration */
-  
-  
-  U8X8_CA(0x0ab, 0x001),		/* Enable internal VDD regulator (RESET) */
-  //U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..128 */
-  U8X8_CA(0x081, 0x053),		/* contrast, brightness, 0..128 */
-  //U8X8_CA(0x0b1, 0x055),                    /* phase length */
-  U8X8_CA(0x0b1, 0x051),                    /* phase length */  
-  //U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
-  U8X8_CA(0x0b3, 0x001),		/* set display clock divide ratio/oscillator frequency  */			
-  
-  //? U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
-  //? U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
-  
-  U8X8_C(0x0b9),				/* use linear lookup table */
 
-  //U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
-  U8X8_CA(0x0bc, 0x008),                    /* pre-charge voltage level */
-  //U8X8_CA(0x0be, 0x01c),                     /* VCOMH voltage */
-  U8X8_CA(0x0be, 0x007),                     /* VCOMH voltage */
-  U8X8_CA(0x0b6, 0x001),		/* second precharge */
-  U8X8_CA(0x0d5, 0x062),		/* enable second precharge, internal vsl (bit0 = 0) */
+  U8X8_C( FS | 0x03 ),			/* select 11 commands */
+  U8X8_C( 0x03 ),				/* software reset */
 
-
+  U8X8_C( FS | 0x00 ),			/* select 00 commands */
+  U8X8_C( 0x08 ),				/* display off */
+  //U8X8_C( 0x0c ),				/* display on */
   
-  U8X8_C(0x0a4),				/* normal display mode */
+  U8X8_C( FS | 0x01 ),			/* select 01 commands */
+  U8X8_C( 0x08 ),				/* display confguration */
+  U8X8_C( 0x12 ),				/* bias 1/9 */
+  U8X8_C( 0x8f ),				/* Vop, lower 7 bits */
+  
+  U8X8_C( FS | 0x00 ),			/* select 00 commands */
+  U8X8_C( 0x05),				/* Bit 0 contains high/low range for Vop */
+  
+  
+  U8X8_C( FS | 0x03 ),			/* select 11 commands */
+  U8X8_C( 0x0b),				/* Frame Rate: 73 Hz */
+  
+  
     
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -202,16 +207,14 @@ static const uint8_t u8x8_d_st7588_128x64_init_seq[] = {
 
 static const uint8_t u8x8_d_st7588_jlx12864_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
-  U8X8_CA(0x0a0, 0x051),		/* remap configuration */
+  U8X8_C( FS ),					/* normal mode */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_st7588_jlx12864_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a2, 0x060),		/* display offset, shift mapping ram counter */
-  U8X8_CA(0x0a0, 0x042),		/* remap configuration */
+  U8X8_C( FS ^ 0x018 ),					/* normal mode */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -223,6 +226,7 @@ uint8_t u8x8_d_st7588_jlx12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
     return 1;
   if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
   {
+    u8x8_SetI2CAddress(u8x8, 0x07e);		/* the JLX12864 has 0x07e as a default address for I2C */
     u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7588_128x64_display_info);
     return 1;
   }
