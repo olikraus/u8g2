@@ -37,7 +37,14 @@
 
 #include "u8x8.h"
 
-
+#if defined(ESP8266)
+uint8_t u8x8_pgm_read_esp(const uint8_t * addr) 
+{
+    uint32_t bytes;
+    bytes = *(uint32_t*)((uint32_t)addr & ~3);
+    return ((uint8_t*)&bytes)[(uint32_t)addr & 3];
+}
+#endif
 
 
 void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)

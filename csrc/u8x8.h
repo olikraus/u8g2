@@ -149,6 +149,15 @@ extern "C" {
 #  define U8X8_PROGMEM PROGMEM
 #endif
 
+#if defined(ESP8266)
+uint8_t u8x8_pgm_read_esp(const uint8_t * addr);   /* u8x8_8x8.c */
+#  define U8X8_FONT_SECTION(name) __attribute__((section(".text." name)))
+#  define u8x8_pgm_read(adr) u8x8_pgm_read_esp(adr)
+#  define U8X8_PROGMEM
+#endif
+
+
+
 #ifndef U8X8_FONT_SECTION
 #  define U8X8_FONT_SECTION(name) 
 #endif
