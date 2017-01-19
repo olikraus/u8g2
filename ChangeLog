@@ -97,4 +97,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for IST3020 (issue 153)
 2017-xx-xx	v2.13.x	  olikraus@gmail.com
   * Support for ST7588 (issue 154)
+  * ESP8266: Avoid RAM copy of the fonts (issue 159)
   
