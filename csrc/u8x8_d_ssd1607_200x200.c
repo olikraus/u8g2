@@ -31,7 +31,8 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
   
-  SSD1606: 128x180x2
+  SSD1607: 200x300x1
+  
   command 
     0x22: assign actions
     0x20: execute actions
@@ -63,8 +64,8 @@
 #define L(a,b,c,d) (((a)<<6)|((b)<<4)|((c)<<2)|(d))
 
 
-/* GDE021A1, 2.1" EPD */
-static const uint8_t u8x8_d_ssd1607_200x200_gde021a1_init_seq[] = {
+/* https://github.com/embeddedadventures/SSD1607/blob/master/SSD1607.cpp */
+static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -77,18 +78,17 @@ static const uint8_t u8x8_d_ssd1607_200x200_gde021a1_init_seq[] = {
   U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
   
   U8X8_CA(0x11, 0x01),	/* Define data entry mode, x&y inc, x first */
-  U8X8_CAA(0x44, 0, 31),	/* RAM x start & end, each byte has 4 pixel, 32*4=128 */
-  U8X8_CAA(0x45, 0, 179),	/* RAM y start & end, 179 MAX */
+  U8X8_CAA(0x44, 0, 24),	/* RAM x start & end, each byte has 8 pixel, 25*4=200 */
+  U8X8_CAAAA(0x45, 0, 0, 299&255, 299>>8),	/* RAM y start & end, 0..299 */
   
-  U8X8_CA(0x4e, 0),	/* set x pos, 0..31 */
-  U8X8_CA(0x4f, 0),	/* set y pos, 0...179 */
+  U8X8_CA(0x4e, 0),	/* set x pos, 0..24 */
+  U8X8_CA(0x4f, 0&255, 0>>8),	/* set y pos, 0...299 */
 
   U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
   U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
   
   U8X8_C(0x32),	/* write LUT register*/
 
-  /* https://github.com/embeddedadventures/SSD1607/blob/master/SSD1607.cpp */
   
   /* according to the command table, the lut has 240 bits (=30 bytes * 8 bits) */
   
@@ -192,18 +192,15 @@ static const uint8_t u8x8_d_ssd1607_200x200_flip1_seq[] = {
 };
 
 
-static uint8_t *u8x8_convert_tile_for_ssd1606(uint8_t *t)
+static uint8_t *u8x8_convert_tile_for_ssd1607(uint8_t *t)
 {
   uint8_t i;
-  uint16_t r;
-  static uint8_t buf[16];
+  static uint8_t buf[8];
   uint8_t *pbuf = buf;
 
   for( i = 0; i < 8; i++ )
   {
-    r = u8x8_upscale_byte(~(*t++));
-    *pbuf++ = (r>>8) & 255;
-    *pbuf++ = r & 255;
+    *pbuf++ = ~(*t++);
   }
   return buf;
 }
@@ -220,7 +217,6 @@ static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
   page *= 2;
 
-
   x = ((u8x8_tile_t *)arg_ptr)->x_pos;
   x *= 8;
   x += u8x8->x_offset;
@@ -233,14 +229,17 @@ static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
 
   u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
   u8x8_cad_SendArg(u8x8, 0);
-  u8x8_cad_SendArg(u8x8, 179);		/* end of display */
+  u8x8_cad_SendArg(u8x8, 0);
+  u8x8_cad_SendArg(u8x8, 199);		/* end of display */
+  u8x8_cad_SendArg(u8x8, 0);
 
   u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
   u8x8_cad_SendArg(u8x8, page);
   u8x8_cad_SendArg(u8x8, page+1);
 
   u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
-  u8x8_cad_SendArg(u8x8, x);
+  u8x8_cad_SendArg(u8x8, x&255);
+  u8x8_cad_SendArg(u8x8, x>>8);
 
   u8x8_cad_SendCmd(u8x8, 0x04e );	/* window row */
   u8x8_cad_SendArg(u8x8, page);
@@ -253,7 +252,7 @@ static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
     ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
     do
     {
-      u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_ssd1606(ptr));
+      u8x8_cad_SendData(u8x8, 8, u8x8_convert_tile_for_ssd1607(ptr));
       ptr += 8;
       x += 8;
       c--;
@@ -278,7 +277,7 @@ static uint8_t u8x8_d_ssd1607_200x200_generic(u8x8_t *u8x8, uint8_t msg, uint8_t
     case U8X8_MSG_DISPLAY_INIT:
 
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_gde021a1_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_init_seq);    
     
       /* special code for the SSD1606... */
       /* ensure that the initial buffer is clear and all eInk is set to white */
@@ -324,11 +323,11 @@ static uint8_t u8x8_d_ssd1607_200x200_generic(u8x8_t *u8x8, uint8_t msg, uint8_t
 */
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
+/*
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int );	/* ssd1306 has range from 0 to 255 */
       u8x8_cad_EndTransfer(u8x8);
+*/
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
