@@ -76,7 +76,7 @@ static const uint8_t u8x8_d_ssd1607_200x200_gde021a1_init_seq[] = {
   U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
   U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
   
-  U8X8_CA(0x11, 0x03),	/* Define data entry mode, x&y inc, x first */
+  U8X8_CA(0x11, 0x01),	/* Define data entry mode, x&y inc, x first */
   U8X8_CAA(0x44, 0, 31),	/* RAM x start & end, each byte has 4 pixel, 32*4=128 */
   U8X8_CAA(0x45, 0, 179),	/* RAM y start & end, 179 MAX */
   
@@ -140,7 +140,7 @@ static const uint8_t u8x8_d_ssd1607_200x200_gde021a1_init_seq[] = {
   U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
   U8X8_CA(0x3a, 0x1a),	/* dummy lines */
   U8X8_CA(0x3b, 0x08),	/* gate time */
-  U8X8_CA(0x3c, 0x63),	/* select boarder waveform */
+  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
