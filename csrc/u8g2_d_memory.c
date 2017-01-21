@@ -597,6 +597,24 @@ uint8_t *u8g2_m_ssd1606_22_f(uint8_t *page_cnt)
   *page_cnt = 9;
   return buf;
 }
+uint8_t *u8g2_m_ssd1607_25_1(uint8_t *page_cnt)
+{
+  static uint8_t buf[200];
+  *page_cnt = 1;
+  return buf;
+}
+uint8_t *u8g2_m_ssd1607_25_2(uint8_t *page_cnt)
+{
+  static uint8_t buf[400];
+  *page_cnt = 2;
+  return buf;
+}
+uint8_t *u8g2_m_ssd1607_25_f(uint8_t *page_cnt)
+{
+  static uint8_t buf[5000];
+  *page_cnt = 25;
+  return buf;
+}
 uint8_t *u8g2_m_sed1330_30_1(uint8_t *page_cnt)
 {
   static uint8_t buf[240];

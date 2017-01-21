@@ -348,6 +348,7 @@ static const u8x8_display_info_t u8x8_ssd1607_200x200_display_info =
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
   
+  /* values from SSD1606 */
   /* post_chip_enable_wait_ns = */ 120,
   /* pre_chip_disable_wait_ns = */ 60,
   /* reset_pulse_width_ms = */ 100, 	
@@ -359,12 +360,12 @@ static const u8x8_display_info_t u8x8_ssd1607_200x200_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	
-  /* tile_width = */ 22,		/* 22*8 = 176 */
-  /* tile_hight = */ 9,		/* 9*8 = 72 */
+  /* tile_width = */ 25,		/* 25*8 = 200 */
+  /* tile_hight = */ 25,		
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 172,
-  /* pixel_height = */ 72		
+  /* pixel_width = */ 200,
+  /* pixel_height = */ 200		
 };
 
 uint8_t u8x8_d_ssd1607_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
