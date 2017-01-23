@@ -5,6 +5,11 @@ A: SW_I2C emulates I2C with digitalWrite(), which will have a conflict with othe
 I2C devices at the same pins. There are two options: (A) use xxx_HW_I2C() or 
 (B) use different pins with xxx_SW_I2C()
 
+Q: My display has a pin labled as "A0" (or "RS"). How to connect this pin?
+A: There are different names for the "data/command" pin. In U8g2 only the nae
+"dc" is used. On the display side it might be also called "A0", "RS", "CD".
+See also the next question.
+
 Q: The pin names on my display do not fit to the pin names of U8g2.
 A: Yes, each datasheet/product/controller has different names. There 
 is a mapping table on the wiki for this:
@@ -25,10 +30,6 @@ If the display module has one font select (FS) pin, connect it to GND
 Q: My T6963 has a RD input. How shell this be connected?
 A: The RD input for any 8080 interface has to be connected to power supply (5V or 3.3V, 
 depending on the display)
-
-Q: My display has a pin labled as "A0" (or "RS"). How to connect this pin?
-A: There are different names for the "data/command" pin. In U8g2 only the nae
-"dc" is used. On the display side it might be also called "A0", "RS", "CD".
 
 Q: My display controller is listed, but the display dimension is not supported.
 A: Raise an issue in the u8g2 tracker "https://github.com/olikraus/u8g2/issues"
