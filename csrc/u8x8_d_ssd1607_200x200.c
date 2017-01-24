@@ -82,7 +82,7 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_CAAAA(0x45, 0, 0, 299&255, 299>>8),	/* RAM y start & end, 0..299 */
   
   U8X8_CA(0x4e, 0),	/* set x pos, 0..24 */
-  U8X8_CA(0x4f, 0&255, 0>>8),	/* set y pos, 0...299 */
+  U8X8_CAA(0x4f, 0&255, 0>>8),	/* set y pos, 0...299 */
 
   U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
   U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */

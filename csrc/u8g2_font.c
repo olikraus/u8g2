@@ -1051,6 +1051,15 @@ static void u8g2_GetGlyphHorizontalProperties(u8g2_t *u8g2, uint16_t requested_e
   *dx = u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_delta_x);
 }
 
+/* u8g compatible GetStrX function */
+int8_t u8g2_GetStrX(u8g2_t *u8g2, const char *s)
+{
+  uint8_t w;
+  int8_t ox, dx;
+  u8g2_GetGlyphHorizontalProperties(u8g2, *s, &w, &ox, &dx);
+  return ox;
+}
+
 
 
 static u8g2_uint_t u8g2_calculate_exact_string_width(u8g2_t *u8g2, const char *str)

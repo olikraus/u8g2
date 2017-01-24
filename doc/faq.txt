@@ -1,4 +1,5 @@
 
+Wiring
 
 Q: Why does my xxx_SW_I2C() device not work with my other I2C devices
 A: SW_I2C emulates I2C with digitalWrite(), which will have a conflict with other
@@ -10,9 +11,26 @@ A: Yes, each datasheet/product/controller has different names. There
 is a mapping table on the wiki for this:
 https://github.com/olikraus/u8g2/wiki/u8g2setupcpp#wiring
 
-Q: My controller/interface combination is not listed in the examples.
-A: Yes, the complete list is here:
-https://github.com/olikraus/u8g2/wiki/u8g2setupcpp
+Q: What is wrong with connecting Reset (RES) of my display with the  Reset of my 
+Arduino Board?
+A:
+- Both are inputs. It does not make sense to connect two inputs
+- Both pins have completly different functions: The reset of your input will reset
+the Arduino board, the reset of the display will reset the display. 
+Please connect the reset input of the display with a normal GPIO pin of your board.
+
+Q: Shell I connect CS (chip select) with the SS output of the Arduino board?
+A: In general this is required neither for hardware or software SPI.
+
+Q: My board has a MOSI and a SCK output. Do i need to connect this to the
+clock and data pins of my display?
+A: "Yes" if you want to use hardware SPI (u8g2 constructors ending in _HW_SPI).
+You can use any pins with the software emulated SPI of u8g2 (constructors ending
+in _SW_SPI). Howver in general it is better to use hardware SPI to get a better
+performance of your display.
+
+
+Displays
 
 Q: There is an x-offset on my SSD1306 128x64 OLED. 
 A: This is not a SSD1306 OLED, instead use the SH1106 constructor.
@@ -21,6 +39,10 @@ Q: A T6963 misses columns on the display/has garbled output.
 A: Ensure that the T6963 operates in 8x8 mode: 
 If the display module has two font select (FSx) pins, connect both to GND
 If the display module has one font select (FS) pin, connect it to GND
+
+Q: My controller/interface combination is not listed in the examples.
+A: Yes, the complete list is here:
+https://github.com/olikraus/u8g2/wiki/u8g2setupcpp
 
 Q: My display controller is listed, but the display dimension is not supported.
 A: Raise an issue in the u8g2 tracker "https://github.com/olikraus/u8g2/issues"
@@ -36,23 +58,25 @@ If your controller for a monochrome display is not listed,
 you could raise an issue in the u8g2 issue tracker.
 A more detailed discussion of some controllers is listed in "controller_cmds.txt"
 
-Q: What is wrong with connecting Reset (RES) of my display with the  Reset of my 
-Arduino Board?
-A:
-- Both are inputs. It does not make sense to connect two inputs
-- Both pins have completly different functions: The reset of your input will reset
-the Arduino board, the reset of the display will reset the display. 
-Please connect the reset input of the display with a normal GPIO pin of your board.
 
-Q: Shell I connect CS (chip select) with the SS output of the Arduino board?
-AIn general this is required neither for hardware or software SPI.
-
-Q: My board has a MOSI and a SCK output. Do i need to connect this to the
-clock and data pins of my display?
-A: "Yes" if you want to use hardware SPI (u8g2 constructors ending in _HW_SPI).
-You can use any pins with the software emulated SPI of u8g2 (constructors ending
-in _SW_SPI). Howver in general it is better to use hardware SPI to get a better
-performance of your display.
+U8g2
 
 Q: How to activate 16 Bit mode?
 A:
+
+Q: How can I generate my own font.
+A: The font must be available in bdf file format. Then use bdfconv to generate
+the font data. The font data can be pasted into an existing file of your project.
+
+Q: Which commandline options are required for bdfconv?
+A: "bdfconv -f 1 -m '32-255' -n fontname -o myfont.c myfont.bdf"
+"-f 1" generates a u8g2 font.
+"-m '32-255'" selects unicode 32 to 255.
+"-n fontname": This is the name of the font in C/C++/Ino files.
+"-o myfont.c": The font array will be stored in this file.
+"myfont.bdf": The input file with the font data (bdf format).
+
+Q: Where do I find bdfconv?
+A: At the moment there is no executable. Just compile the sources from
+this directory:
+https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv
