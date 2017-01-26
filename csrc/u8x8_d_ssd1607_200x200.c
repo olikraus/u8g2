@@ -147,7 +147,7 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1606_to_display_seq[] = {
+static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
   
@@ -205,10 +205,11 @@ static uint8_t *u8x8_convert_tile_for_ssd1607(uint8_t *t)
   return buf;
 }
 
-static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr) U8X8_NOINLINE;
-static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
+static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr) U8X8_NOINLINE;
+static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c, page;
+  uint16_t x;
+  uint8_t c, page;
   uint8_t *ptr;
   u8x8_cad_StartTransfer(u8x8);
 
@@ -228,14 +229,16 @@ static void u8x8_d_ssd1606_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   u8x8_cad_SendArg(u8x8, 3);
 
   u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
-  u8x8_cad_SendArg(u8x8, 0);
-  u8x8_cad_SendArg(u8x8, 0);
   u8x8_cad_SendArg(u8x8, 199);		/* end of display */
+  u8x8_cad_SendArg(u8x8, 0);
+  u8x8_cad_SendArg(u8x8, 0);
   u8x8_cad_SendArg(u8x8, 0);
 
   u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
-  u8x8_cad_SendArg(u8x8, page);
-  u8x8_cad_SendArg(u8x8, page+1);
+  //u8x8_cad_SendArg(u8x8, page);
+  //u8x8_cad_SendArg(u8x8, page+1);
+  u8x8_cad_SendArg(u8x8, 0);
+  u8x8_cad_SendArg(u8x8, 199/8);
 
   u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
   u8x8_cad_SendArg(u8x8, x&255);
@@ -331,10 +334,10 @@ static uint8_t u8x8_d_ssd1607_200x200_generic(u8x8_t *u8x8, uint8_t msg, uint8_t
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-      u8x8_d_ssd1606_draw_tile(u8x8, arg_int, arg_ptr);
+      u8x8_d_ssd1607_draw_tile(u8x8, arg_int, arg_ptr);
       break;
     case U8X8_MSG_DISPLAY_REFRESH:
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1606_to_display_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_to_display_seq);    
       break;
     default:
       return 0;
@@ -356,7 +359,7 @@ static const u8x8_display_info_t u8x8_ssd1607_200x200_display_info =
   /* sda_setup_time_ns = */ 50,		/* SSD1606: */
   /* sck_pulse_width_ns = */ 100,	/* SSD1606: 100ns */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* spi_mode = */ 2,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	
