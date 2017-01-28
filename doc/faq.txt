@@ -59,12 +59,11 @@ A: Raise an issue in the u8g2 tracker "https://github.com/olikraus/u8g2/issues"
 Q: My controller is not listed, What can I do?
 A: First check whether this controller is compatible to one of the supported 
 controller:
-Supported: ST7565, Compatible: NT7534, UC1701, SED1565, S1D15605, S6B0723
+Supported: ST7565, Compatible: NT7534, UC1701, SED1565, S1D15605, S6B0723, SPLC502
 Supported: SED1330, Compatible:  SED1335, RA8835, S1D3305 
 Supported: LC7981, Compatible:  NT7086, (maybe also: HD61830)
-This table just reflects my current knowledge. It is not tested and my not be true at all.
-If your controller for a monochrome display is not listed, 
-you could raise an issue in the u8g2 issue tracker.
+This table just reflects my current knowledge. It is not tested and may not be true at all.
+Raise an issue in the u8g2 issue tracker, If your controller for a monochrome display is not listed.
 A more detailed discussion of some controllers is listed in "controller_cmds.txt"
 
 

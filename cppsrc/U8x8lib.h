@@ -54,15 +54,23 @@
 /* Undefine U8X8_HAVE_HW_SPI for those Boards without SPI.h */
 
 #ifdef ARDUINO_AVR_DIGISPARK
+
 #ifdef U8X8_HAVE_HW_SPI
 #undef U8X8_HAVE_HW_SPI
+#endif 
+
+#ifdef U8X8_HAVE_HW_I2C
 #undef U8X8_HAVE_HW_I2C
 #endif 
+
 #endif
 
 #ifdef __AVR_ATtiny85__
 #ifdef U8X8_HAVE_HW_SPI
 #undef U8X8_HAVE_HW_SPI
+#endif 
+
+#ifdef U8X8_HAVE_HW_I2C
 #undef U8X8_HAVE_HW_I2C
 #endif 
 #endif

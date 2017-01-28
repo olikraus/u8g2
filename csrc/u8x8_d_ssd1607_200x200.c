@@ -229,9 +229,9 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   u8x8_cad_SendArg(u8x8, 3);
 
   u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
+  u8x8_cad_SendArg(u8x8, 0);
+  u8x8_cad_SendArg(u8x8, 0);
   u8x8_cad_SendArg(u8x8, 199);		/* end of display */
-  u8x8_cad_SendArg(u8x8, 0);
-  u8x8_cad_SendArg(u8x8, 0);
   u8x8_cad_SendArg(u8x8, 0);
 
   u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
