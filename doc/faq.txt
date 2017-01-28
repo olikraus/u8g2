@@ -72,6 +72,11 @@ U8g2
 Q: How to activate 16 Bit mode?
 A:
 
+Q: U8g2 requires a lot of memory. How to reduce this?
+- Limit the font size. If possible avoid "f" fonts, instead use "r" fonts
+- If the I2C interface is not required, then uncomment #define U8X8_HAVE_HW_I2C in U8x8lib.h
+  (Background: Due to a problem in Wire.h, the I2C Arduino lib is always included)
+
 Q: How can I generate my own font.
 A: The font must be available in bdf file format. Then use bdfconv to generate
 the font data. The font data can be pasted into an existing file of your project.
@@ -88,3 +93,4 @@ Q: Where do I find bdfconv?
 A: At the moment there is no executable. Just compile the sources from
 this directory:
 https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv
+
