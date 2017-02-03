@@ -73,6 +73,9 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   
 
   U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
+  //U8X8_C(0x01),
+  //U8X8_A(199),U8X8_A(0),U8X8_A(0),
+  
   
   U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
   U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
@@ -154,10 +157,11 @@ static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
-  U8X8_DLY(250),	/* the sequence above requires about 970ms */
+  U8X8_DLY(250),	/* the sequence above requires about 1200ms */
   U8X8_DLY(250),
   U8X8_DLY(250),
-  U8X8_DLY(230),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
   
   U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
   U8X8_DLY(200),		/* this requres about 270ms */
@@ -216,7 +220,8 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   page = u8x8->display_info->tile_height;
   page --;
   page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
-  page *= 2;
+  
+  page = (((u8x8_tile_t *)arg_ptr)->y_pos);
 
   x = ((u8x8_tile_t *)arg_ptr)->x_pos;
   x *= 8;
@@ -235,10 +240,10 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   u8x8_cad_SendArg(u8x8, 0);
 
   u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
-  //u8x8_cad_SendArg(u8x8, page);
-  //u8x8_cad_SendArg(u8x8, page+1);
-  u8x8_cad_SendArg(u8x8, 0);
-  u8x8_cad_SendArg(u8x8, 199/8);
+  u8x8_cad_SendArg(u8x8, page);
+  u8x8_cad_SendArg(u8x8, page+1);
+  //u8x8_cad_SendArg(u8x8, 0);
+  //u8x8_cad_SendArg(u8x8, 199/8);
 
   u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
   u8x8_cad_SendArg(u8x8, x&255);

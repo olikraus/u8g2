@@ -419,6 +419,7 @@ struct controller controller_list[] =
       { "ea_dogm128" },
       { "zolen_128x64" },
       { "lm6059" },
+      { "erc12864" },
       { NULL }
     },
   },
