@@ -1,13 +1,13 @@
 
 Wiring
 
-Q: Why does my xxx_SW_I2C() device not work with my other I2C devices
+Q: Why does my xxx_SW_I2C() device not work with my other I2C devices?
 A: SW_I2C emulates I2C with digitalWrite(), which will have a conflict with other
 I2C devices at the same pins. There are two options: (A) use xxx_HW_I2C() or 
 (B) use different pins with xxx_SW_I2C()
 
 Q: My display has a pin labled as "A0" (or "RS"). How to connect this pin?
-A: There are different names for the "data/command" pin. In U8g2 only the nae
+A: There are different names for the "data/command" pin. In U8g2 only the name
 "dc" is used. On the display side it might be also called "A0", "RS", "CD".
 See also the next question.
 
@@ -20,7 +20,7 @@ Q: What is wrong with connecting Reset (RES) of my display with the  Reset of my
 Arduino Board?
 A:
 - Both are inputs. It does not make sense to connect two inputs
-- Both pins have completly different functions: The reset of your input will reset
+- Both pins have completly different functions: The reset of your board will reset
 the Arduino board, the reset of the display will reset the display. 
 Please connect the reset input of the display with a normal GPIO pin of your board.
 
