@@ -105,6 +105,8 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   /* 	10 – VSL */
   /* 	11 – NA */
   
+  /* original values */
+  /*
   U8X8_A(0x02),
   U8X8_A(0x02),
   U8X8_A(0x01),
@@ -125,6 +127,31 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_A(0x00),
   U8X8_A(0x00),
   U8X8_A(0x00),
+  */
+  
+  /* original values, L-macro */
+  U8X8_A(L(0,0,0,2)), // 0x02
+  U8X8_A(L(0,0,0,2)), // 0x02
+  U8X8_A(L(0,0,0,1)), // 0x01
+  U8X8_A(L(0,1,0,1)), // 0x11
+  U8X8_A(L(0,1,0,2)), // 0x12
+  U8X8_A(L(0,1,0,2)), // 0x12
+  U8X8_A(L(0,2,0,2)), // 0x22
+  U8X8_A(L(0,2,0,2)), // 0x22
+  U8X8_A(L(1,2,1,2)), // 0x66
+  U8X8_A(L(1,2,2,1)), // 0x69
+  U8X8_A(L(1,2,2,1)), // 0x69
+  U8X8_A(L(1,1,2,1)), // 0x59
+  U8X8_A(L(1,1,2,0)), // 0x58
+  U8X8_A(L(2,1,2,1)), // 0x99
+  U8X8_A(L(2,1,2,1)), // 0x99
+  U8X8_A(L(2,0,2,0)), // 0x88
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  
+  
   
   /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
   U8X8_A(0xF8),
@@ -153,11 +180,9 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
 static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  
-  
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
-  U8X8_DLY(250),	/* the sequence above requires about 1200ms */
+  U8X8_DLY(250),	/* the sequence above requires about 1200ms for the 200x200 display*/
   U8X8_DLY(250),
   U8X8_DLY(250),
   U8X8_DLY(250),
@@ -221,7 +246,7 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   page --;
   page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
   
-  page = (((u8x8_tile_t *)arg_ptr)->y_pos);
+  //page = (((u8x8_tile_t *)arg_ptr)->y_pos);
 
   x = ((u8x8_tile_t *)arg_ptr)->x_pos;
   x *= 8;

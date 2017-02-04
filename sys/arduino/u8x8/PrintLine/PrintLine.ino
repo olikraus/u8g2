@@ -1,9 +1,8 @@
 /*
 
-  FlipMode.ino
+  HelloWorld.ino
   
-  Test flip functionality (180 degree roation)
-  Note: Not supported with all displays
+  "Hello World" version for U8x8 API
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -119,31 +118,35 @@ U8X8_SSD1607_200X200_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, 
 
 void setup(void)
 {
-  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
-  //pinMode(6, OUTPUT);
-  //digitalWrite(6, 0);	
+  /* U8g2 Project: SSD1306 Test Board */
+  //pinMode(10, OUTPUT);
+  //pinMode(9, OUTPUT);
+  //digitalWrite(10, 0);
+  //digitalWrite(9, 0);		
   
+  /* U8g2 Project: KS0108 Test Board */
+  //pinMode(16, OUTPUT);
+  //digitalWrite(16, 0);	
+  
+  u8x8.setI2CAddress(0x07e);
   u8x8.begin();
+  u8x8.setPowerSave(0);
+  
+  
 }
+
+uint16_t y = 0;
 
 void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  
   u8x8.clear();
-  u8x8.setFlipMode(0);
-  u8x8.setInverseFont(1);
-  u8x8.drawString(0,0,"FlipMode 0");
-  u8x8.setInverseFont(0);
-  u8x8.drawString(0,2,"FlipMode 0");
-  delay(1500);
-
-  u8x8.clear();
-  u8x8.setFlipMode(1);
-  u8x8.setInverseFont(1);
-  u8x8.drawString(0,0,"FlipMode 1");
-  u8x8.setInverseFont(0);
-  u8x8.drawString(0,3,"FlipMode 1");
-  delay(1500);
-
+  u8x8.setCursor(0, y);
+  u8x8.print("Line ");
+  u8x8.print(y);
+  y++;
+  if ( y >= u8x8.getRows() )
+    y = 0;
+  u8x8.refreshDisplay();		// for SSD1606/7  
+  delay(1000);  
 }
