@@ -150,7 +150,31 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_A(L(0,0,0,0)), // 0x00
   U8X8_A(L(0,0,0,0)), // 0x00
   U8X8_A(L(0,0,0,0)), // 0x00
-  
+
+  /* orginal values without 0-0 and 1-1 transition */
+  /*
+  U8X8_A(L(0,0,0,0)), // 0x02
+  U8X8_A(L(0,0,0,0)), // 0x02
+  U8X8_A(L(0,0,0,0)), // 0x01
+  U8X8_A(L(0,1,0,0)), // 0x11
+  U8X8_A(L(0,1,0,0)), // 0x12
+  U8X8_A(L(0,1,0,0)), // 0x12
+  U8X8_A(L(0,2,0,0)), // 0x22
+  U8X8_A(L(0,2,0,0)), // 0x22
+  U8X8_A(L(0,2,1,0)), // 0x66
+  U8X8_A(L(0,2,2,0)), // 0x69
+  U8X8_A(L(0,2,2,0)), // 0x69
+  U8X8_A(L(0,1,2,0)), // 0x59
+  U8X8_A(L(0,1,2,0)), // 0x58
+  U8X8_A(L(0,1,2,0)), // 0x99
+  U8X8_A(L(0,1,2,0)), // 0x99
+  U8X8_A(L(0,0,2,0)), // 0x88
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  */
+
   
   
   /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
@@ -189,8 +213,8 @@ static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   U8X8_DLY(250),
   
   U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
-  U8X8_DLY(200),		/* this requres about 270ms */
-  U8X8_DLY(90),  
+  U8X8_DLY(200),		/*  */
+  U8X8_DLY(100),  
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
