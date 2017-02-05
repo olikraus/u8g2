@@ -99,7 +99,7 @@ void u8x8_SetPin_3Wire_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t
 void u8x8_SetPin_4Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t reset);
 void u8x8_SetPin_ST7920_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset);
 void u8x8_SetPin_SW_I2C(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t reset);
-void u8x8_SetPin_HW_I2C(u8x8_t *u8x8, uint8_t reset);
+void u8x8_SetPin_HW_I2C(u8x8_t *u8x8, uint8_t reset, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE);
 void u8x8_SetPin_8Bit_6800(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset);
 void u8x8_SetPin_8Bit_8080(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t wr, uint8_t cs, uint8_t dc, uint8_t reset);
 void u8x8_SetPin_KS0108(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t dc, uint8_t cs0, uint8_t cs1, uint8_t cs2, uint8_t reset);
@@ -281,9 +281,9 @@ class U8X8_SSD1305_128X32_NONAME_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1305_128X32_NONAME_HW_I2C : public U8X8 {
-  public: U8X8_SSD1305_128X32_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1305_128X32_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1305_128x32_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1305_128X32_NONAME_2ND_HW_I2C : public U8X8 {
@@ -359,9 +359,9 @@ class U8X8_SSD1306_128X64_NONAME_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1306_128X64_NONAME_HW_I2C : public U8X8 {
-  public: U8X8_SSD1306_128X64_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1306_128X64_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1306_128x64_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1306_128X64_NONAME_2ND_HW_I2C : public U8X8 {
@@ -377,9 +377,9 @@ class U8X8_SSD1306_128X64_VCOMH0_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1306_128X64_VCOMH0_HW_I2C : public U8X8 {
-  public: U8X8_SSD1306_128X64_VCOMH0_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1306_128X64_VCOMH0_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1306_128x64_vcomh0, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1306_128X64_VCOMH0_2ND_HW_I2C : public U8X8 {
@@ -455,9 +455,9 @@ class U8X8_SH1106_128X64_NONAME_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SH1106_128X64_NONAME_HW_I2C : public U8X8 {
-  public: U8X8_SH1106_128X64_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SH1106_128X64_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_sh1106_128x64_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SH1106_128X64_NONAME_2ND_HW_I2C : public U8X8 {
@@ -473,9 +473,9 @@ class U8X8_SH1106_128X64_VCOMH0_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SH1106_128X64_VCOMH0_HW_I2C : public U8X8 {
-  public: U8X8_SH1106_128X64_VCOMH0_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SH1106_128X64_VCOMH0_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_sh1106_128x64_vcomh0, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SH1106_128X64_VCOMH0_2ND_HW_I2C : public U8X8 {
@@ -521,9 +521,9 @@ class U8X8_SSD1306_128X32_UNIVISION_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1306_128X32_UNIVISION_HW_I2C : public U8X8 {
-  public: U8X8_SSD1306_128X32_UNIVISION_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1306_128X32_UNIVISION_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1306_128x32_univision, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1306_128X32_UNIVISION_2ND_HW_I2C : public U8X8 {
@@ -569,9 +569,9 @@ class U8X8_SSD1306_64X48_ER_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1306_64X48_ER_HW_I2C : public U8X8 {
-  public: U8X8_SSD1306_64X48_ER_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1306_64X48_ER_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1306_64x48_er, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1306_64X48_ER_2ND_HW_I2C : public U8X8 {
@@ -611,9 +611,9 @@ class U8X8_SSD1309_128X64_NONAME_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1309_128X64_NONAME_HW_I2C : public U8X8 {
-  public: U8X8_SSD1309_128X64_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1309_128X64_NONAME_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1309_128x64_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1309_128X64_NONAME_2ND_HW_I2C : public U8X8 {
@@ -659,9 +659,9 @@ class U8X8_SSD1325_NHD_128X64_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1325_NHD_128X64_HW_I2C : public U8X8 {
-  public: U8X8_SSD1325_NHD_128X64_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1325_NHD_128X64_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1325_nhd_128x64, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1325_NHD_128X64_2ND_HW_I2C : public U8X8 {
@@ -707,9 +707,9 @@ class U8X8_SSD1327_SEEED_96X96_SW_I2C : public U8X8 {
   }
 };
 class U8X8_SSD1327_SEEED_96X96_HW_I2C : public U8X8 {
-  public: U8X8_SSD1327_SEEED_96X96_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_SSD1327_SEEED_96X96_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1327_seeed_96x96, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_SSD1327_SEEED_96X96_2ND_HW_I2C : public U8X8 {
@@ -737,9 +737,9 @@ class U8X8_LD7032_60X32_SW_I2C : public U8X8 {
   }
 };
 class U8X8_LD7032_60X32_HW_I2C : public U8X8 {
-  public: U8X8_LD7032_60X32_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_LD7032_60X32_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ld7032_60x32, u8x8_cad_ld7032_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_LD7032_60X32_2ND_HW_I2C : public U8X8 {
@@ -929,9 +929,9 @@ class U8X8_UC1604_JLX19264_SW_I2C : public U8X8 {
   }
 };
 class U8X8_UC1604_JLX19264_HW_I2C : public U8X8 {
-  public: U8X8_UC1604_JLX19264_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_UC1604_JLX19264_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_uc1604_jlx19264, u8x8_cad_uc16xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_UC1604_JLX19264_2ND_HW_I2C : public U8X8 {
@@ -965,9 +965,9 @@ class U8X8_UC1608_ERC24064_SW_I2C : public U8X8 {
   }
 };
 class U8X8_UC1608_ERC24064_HW_I2C : public U8X8 {
-  public: U8X8_UC1608_ERC24064_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_UC1608_ERC24064_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_uc1608_erc24064, u8x8_cad_uc16xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_UC1608_ERC24064_2ND_HW_I2C : public U8X8 {
@@ -1001,9 +1001,9 @@ class U8X8_UC1608_240X128_SW_I2C : public U8X8 {
   }
 };
 class U8X8_UC1608_240X128_HW_I2C : public U8X8 {
-  public: U8X8_UC1608_240X128_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_UC1608_240X128_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_uc1608_240x128, u8x8_cad_uc16xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_UC1608_240X128_2ND_HW_I2C : public U8X8 {
@@ -1037,9 +1037,9 @@ class U8X8_UC1610_EA_DOGXL160_SW_I2C : public U8X8 {
   }
 };
 class U8X8_UC1610_EA_DOGXL160_HW_I2C : public U8X8 {
-  public: U8X8_UC1610_EA_DOGXL160_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_UC1610_EA_DOGXL160_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_uc1610_ea_dogxl160, u8x8_cad_uc16xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_UC1610_EA_DOGXL160_2ND_HW_I2C : public U8X8 {
@@ -1073,9 +1073,9 @@ class U8X8_UC1611_EA_DOGM240_SW_I2C : public U8X8 {
   }
 };
 class U8X8_UC1611_EA_DOGM240_HW_I2C : public U8X8 {
-  public: U8X8_UC1611_EA_DOGM240_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_UC1611_EA_DOGM240_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_uc1611_ea_dogm240, u8x8_cad_uc16xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_UC1611_EA_DOGM240_2ND_HW_I2C : public U8X8 {
@@ -1109,9 +1109,9 @@ class U8X8_UC1611_EA_DOGXL240_SW_I2C : public U8X8 {
   }
 };
 class U8X8_UC1611_EA_DOGXL240_HW_I2C : public U8X8 {
-  public: U8X8_UC1611_EA_DOGXL240_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_UC1611_EA_DOGXL240_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_uc1611_ea_dogxl240, u8x8_cad_uc16xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_UC1611_EA_DOGXL240_2ND_HW_I2C : public U8X8 {
@@ -1361,9 +1361,9 @@ class U8X8_ST7588_JLX12864_SW_I2C : public U8X8 {
   }
 };
 class U8X8_ST7588_JLX12864_HW_I2C : public U8X8 {
-  public: U8X8_ST7588_JLX12864_HW_I2C(uint8_t reset = U8X8_PIN_NONE) : U8X8() {
+  public: U8X8_ST7588_JLX12864_HW_I2C(uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_st7588_jlx12864, u8x8_cad_ssd13xx_i2c, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
-    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
   }
 };
 class U8X8_ST7588_JLX12864_2ND_HW_I2C : public U8X8 {

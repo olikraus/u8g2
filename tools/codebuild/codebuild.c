@@ -673,9 +673,9 @@ struct interface interface_list[] =
     "u8x8_SetPin_HW_I2C",
     "u8x8_byte_arduino_hw_i2c",
     "u8x8_gpio_and_delay_arduino",
-    "uint8_t reset = U8X8_PIN_NONE",
-    "reset",
-    "[reset]",
+    "uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE",
+    "reset, clock, data",
+    "[reset [, clock, data]]",
     "uC specific"
   },  
   /* 8 */

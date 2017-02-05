@@ -313,7 +313,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
       arduino_data_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_DATA]));
       arduino_data_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_DATA]);
       arduino_data_n_mask = ~arduino_data_mask;
-    
+      
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
@@ -443,7 +443,20 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
       Wire.write((uint8_t *)arg_ptr, (int)arg_int);
       break;
     case U8X8_MSG_BYTE_INIT:
+#ifdef ESP8266
+      /* for ESP8266, Wire.begin has two more arguments: clock and data */          
+      if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
+      {
+	// second argument for the wire lib is the clock pin. In u8g2, the first argument of the  clock pin in the clock/data pair
+	Wire.begin(u8x8->pins[U8X8_PIN_I2C_DATA] , u8x8->pins[U8X8_PIN_I2C_CLOCK]);
+      }
+      else
+      {
+	Wire.begin();
+      }
+#else
       Wire.begin();
+#endif
       break;
     case U8X8_MSG_BYTE_SET_DC:
       break;
@@ -866,9 +879,11 @@ void u8x8_Setup_SSD13xx_SW_I2C(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clo
 }
 #endif /* obsolete com specific setup */
 
-void u8x8_SetPin_HW_I2C(u8x8_t *u8x8, uint8_t reset)
+void u8x8_SetPin_HW_I2C(u8x8_t *u8x8, uint8_t reset, uint8_t clock, uint8_t data)
 {
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+  u8x8_SetPin(u8x8, U8X8_PIN_I2C_CLOCK, clock);
+  u8x8_SetPin(u8x8, U8X8_PIN_I2C_DATA, data);
 }
 
 void u8x8_SetPin_8Bit_6800(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset)

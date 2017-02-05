@@ -242,6 +242,6 @@ void loop(void) {
     drawLogo();
     drawURL();
   } while ( u8g2.nextPage() );
-  //delay(1000);
+  delay(4000);
 }
 
