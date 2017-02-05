@@ -98,4 +98,6 @@ https://github.com/olikraus/u8g2 ChangeLog
 2017-xx-xx	v2.13.x	  olikraus@gmail.com
   * Support for ST7588 (issue 154)
   * ESP8266: Avoid RAM copy of the fonts (issue 159)
-  
+  * Support for SSD1607 (issue 133)
+  * Support for hardware pin remapping on the ESP8266 (issue 158)
+  * Bugfix for the KS0108 support (issue 168)
