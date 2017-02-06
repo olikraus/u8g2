@@ -171,6 +171,7 @@ struct groupinfo gi[] = {
   { "crox", 		"fntgrpcrox", 		"../../../../u8g2.wiki/fntgrpcrox.md", 		"fntgrpcrox.pre" }, 		/* 15 */
   { "efont", 		"fntgrpefont", 		"../../../../u8g2.wiki/fntgrpefont.md", 		"fntgrpefont.pre" }, 		/* 16 */
   { "Tlwg (Thai-Fonts)","fntgrptlwg", 		"../../../../u8g2.wiki/fntgrptlwg.md", 		"fntgrptlwg.pre" }, 		/* 17 */
+  { "NBP", 		"fntgrpnbp", 		"../../../../u8g2.wiki/fntgrpnbp.md", 		"fntgrpnbp.pre" }, 		/* 18 */
   
 };
 
@@ -240,6 +241,37 @@ struct fontinfo fi[] = {
   { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+
+  { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "RENT_0.ttf",	"roentgen_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "RENT_0.ttf",	"roentgen_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "CALIBRATE1.ttf",	"calibration_gothic_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "CALIBRATE1.ttf",	"calibration_gothic_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "smart_patrol_nbp.ttf",	"smart_patrol_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "prospero_bold_nbp.ttf", "prospero_bold_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "prospero_nbp.ttf",	"prospero_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "BALRG_0.ttf",	"balthasar_regular_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 32", "BALTT_0.ttf",	"balthasar_titling_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 8", "synchronizer_nbp.ttf",	"synchronizer_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "mercutio_basic.ttf", "mercutio_basic_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "mercutio_basic.ttf", "mercutio_basic_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "mercutio_sc.ttf", "mercutio_sc_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "mercutio_sc.ttf", "mercutio_sc_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "MIRANDA.ttf",	"miranda_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "nine0.ttf", "nine_by_five_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "nine0.ttf", "nine_by_five_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "ROSEN_0.ttf", "rosencrantz_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "ROSEN_0.ttf", "rosencrantz_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { "-r 72 -p 16", "astra0.ttf",	"astragal_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  
+
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
   { 0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
@@ -295,6 +327,8 @@ struct fontinfo fi[] = {
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
+  
+  
   { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
   { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
   { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
@@ -417,7 +451,8 @@ struct fontinfo fi[] = {
   { 0, "timR24.bdf", 		"timR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   
   /* Adobe symb skipped... */
-  
+
+
   
   { "-r 72 -p 8", "baby.ttf",			"baby",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 8", "blipfest_07.ttf",		"blipfest_07",		2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
