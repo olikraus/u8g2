@@ -102,3 +102,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for hardware pin remapping on the ESP8266 (issue 158)
   * Bugfix for the KS0108 support (issue 168)
   * More fonts: https://github.com/olikraus/u8g2/wiki/fntgrpnbp (issue 174)
+2017-xx-xx	v2.14.x	  olikraus@gmail.com
