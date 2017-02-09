@@ -420,6 +420,7 @@ struct controller controller_list[] =
       { "zolen_128x64" },
       { "lm6059" },
       { "erc12864" },
+      { "nhd_c12864" },
       { NULL }
     },
   },
