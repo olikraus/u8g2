@@ -73,6 +73,13 @@ void __attribute__ ((interrupt)) __attribute__ ((noreturn)) Reset_Handler(void)
   register unsigned long *start;
   register unsigned long *end;
 
+  /*
+    The following two operations are not required in normal mode reset mode,
+    however it is usefull if the reset handler is started via ISP "Go" command
+  */
+  __set_MSP((uint32_t)__StackTop);
+  Chip_SYSCTL_Map(2);
+  
   /*     
   Loop to copy data from read only memory to RAM. The ranges
   of copy from/to are specified by following symbols evaluated in 
