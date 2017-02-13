@@ -87,7 +87,7 @@ COMMON_FLAGS += -Wall -I. -I$(SYSINC) -I$(U8G2INC)
 # define constant for lpcopen library
 COMMON_FLAGS += -DCORE_M0PLUS
 # instruct LPC8xx lib procedures to use the ROM API
-# COMMON_FLAGS += -DUSE_ROM_API
+COMMON_FLAGS += -DUSE_ROM_API
 # do not make a call to SystemInit()
 # COMMON_FLAGS += -Os -flto
 COMMON_FLAGS += -Os 

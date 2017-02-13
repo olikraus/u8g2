@@ -69,6 +69,20 @@ A more detailed discussion of some controllers is listed in "controller_cmds.txt
 
 U8g2
 
+Q: What is the meaning of the F/1/2 in the U8g2 constructor name?
+A: "F" means full buffer mode. The entire display is rendered in RAM. Use
+"sendBuffer" to transfer this RAM buffer to the display. "1"  and "2" constructors
+will store one or two pages of the display in RAM only. Use the firstPage/nextPage 
+loop to create the image for the display.
+
+Q: What is the meaning of "SW"/"HW" in the U8g2 constructor name?
+A: "SW" means, that the protocol is emulated by software. For example 
+the SW_I2C will not use the I2C subsystem of your board. The "HW" constructor
+will use the hardware subsystem on your uC. For an Arduino board, HW_I2C will
+call the Wire library for hardware accelerated I2C communication. "HW"
+constructors are much faster, but maybe debugging and setup is more 
+easier with a "SW" constructor.
+
 Q: How to activate 16 Bit mode?
 A:
 
