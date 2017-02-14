@@ -60,6 +60,8 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
   u8g2->cb = u8g2_cb;
   u8g2->cb->update(u8g2);
 
+  u8g2_SetFontPosBaseline(u8g2);  /* issue 195 */
+  
 #ifdef U8G2_WITH_FONT_ROTATION  
   u8g2->font_decode.dir = 0;
 #endif
