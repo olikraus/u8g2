@@ -119,6 +119,9 @@
 
 // End of constructor list
 
+
+U8X8_ST75256_JLX256128_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	
+
 void setup(void)
 {
   /* U8g2 Project: SSD1306 Test Board */

@@ -1,6 +1,6 @@
 /*
 
-  u8x8_d_st7588.c
+  u8x8_d_st75256.c
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -30,11 +30,13 @@
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+
+  0x030	ext 00
+  0x031	ext 01
+  0x038	ext 10
+  0x039	ext 11
   
-  ST7588
-    - has 4 different I2C addresses 
-    - I2C protocol is identical to SSD13xx
-  
+  cad 011
 */
 
 
@@ -43,21 +45,22 @@
 /* function set, bit 2: power down, bit 3: MY, bit 4: MX, bit 5: must be 1 */
 #define FS (0x020)
 
-/* not a real power down for the ST7588... just a display off */
-static const uint8_t u8x8_d_st7588_128x64_powersave0_seq[] = {
+/* not a real power down for the st75256... just a display off */
+static const uint8_t u8x8_d_st75256_256x128_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C( FS | 0x00 ),			/* select 00 commands */
-  //U8X8_C( 0x08 ),				/* display off */
-  U8X8_C( 0x0c ),				/* display on */
+  U8X8_C( 0x030 ),				/* select 00 commands */  
+  U8X8_C( 0x94 ),				/* sleep out */
+  U8X8_DLY(10),
+  U8X8_C( 0xaf ),				/* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7588_128x64_powersave1_seq[] = {
+static const uint8_t u8x8_d_st75256_256x128_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C( FS | 0x00 ),			/* select 00 commands */
-  U8X8_C( 0x08 ),				/* display off */
-  //U8X8_C( 0x0c ),				/* display on */
+  U8X8_C( 0x030 ),				/* select 00 commands */
+  U8X8_C( 0xae ),				/* display off */
+  U8X8_C( 0x95 ),				/* sleep in */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -65,7 +68,7 @@ static const uint8_t u8x8_d_st7588_128x64_powersave1_seq[] = {
 
 
 
-static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+static uint8_t u8x8_d_st75256_256x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c;
   uint8_t *ptr;
@@ -73,43 +76,32 @@ static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
   {
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7588_128x64_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st75256_256x128_display_info);
       break;
     */
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_256x128_init_seq);    
       break;
     */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_256x128_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_256x128_powersave1_seq);
 
-      /* restore orientation */
-      if ( u8x8->x_offset == 0 )
-	u8x8_cad_SendCmd(u8x8, FS );	/* select 00 commands */
-      else
-	u8x8_cad_SendCmd(u8x8, FS ^ 0x018 );	/* select 00 commands */
-      
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
 
       u8x8_cad_StartTransfer(u8x8);
       
-      u8x8_cad_SendCmd(u8x8, FS );
-      u8x8_cad_SendArg(u8x8, 4 | (arg_int>>7) );
-      u8x8_cad_SendCmd(u8x8, FS | 1);
-      u8x8_cad_SendArg(u8x8, 0x080 | arg_int );
+      u8x8_cad_SendCmd(u8x8, 0x030 );
+      u8x8_cad_SendCmd(u8x8, 0x081 );  /* there are 9 bit for the volume control */
+      u8x8_cad_SendArg(u8x8, (arg_int & 0x1f)<<1 );	/* lower 6 bit */
+      u8x8_cad_SendArg(u8x8, (arg_int>>5));		/* upper 3 bit */
       
-      /* restore orientation */
-      if ( u8x8->x_offset == 0 )
-	u8x8_cad_SendCmd(u8x8, FS );	/* select 00 commands */
-      else
-	u8x8_cad_SendCmd(u8x8, FS ^ 0x018 );	/* select 00 commands */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
@@ -120,22 +112,28 @@ static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
       x *= 8;
       
       x += u8x8->x_offset;
-    
-      if ( u8x8->x_offset == 0 )
-	u8x8_cad_SendCmd(u8x8, FS );	/* select 00 commands */
-      else
-	u8x8_cad_SendCmd(u8x8, FS ^ 0x018 );	/* select 00 commands */
 	
-      u8x8_cad_SendCmd(u8x8, 0x040 | (((u8x8_tile_t *)arg_ptr)->y_pos));
-      u8x8_cad_SendCmd(u8x8, 0x0e0 | ((x&15)));
-      u8x8_cad_SendCmd(u8x8, 0x0f0 | (x>>4) );
+      u8x8_cad_SendCmd(u8x8, 0x030 );	/* select command set */
+      u8x8_cad_SendCmd(u8x8, 0x075 );	/* row */
+      u8x8_cad_SendCmd(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendCmd(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendCmd(u8x8, 0x015 );	/* col */
+      u8x8_cad_SendCmd(u8x8, x);
+      u8x8_cad_SendCmd(u8x8, 255);
     
       
       do
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	u8x8_cad_SendData(u8x8, c*8, ptr); 	/* note: SendData can not handle more than 255 bytes */
+	/* SendData can not handle more than 255 bytes, treat c > 31 correctly  */
+	if ( c > 31 )
+	{
+	  u8x8_cad_SendData(u8x8, 248, ptr); 	
+	  ptr+=248;
+	  c -= 31;
+	}
+	u8x8_cad_SendData(u8x8, c*8, ptr); 	
 	arg_int--;
       } while( arg_int > 0 );
       
@@ -149,54 +147,74 @@ static uint8_t u8x8_d_st7588_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 
 /*=============================================*/
 
-static const u8x8_display_info_t u8x8_st7588_128x64_display_info =
+static const u8x8_display_info_t u8x8_st75256_256x128_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
   
-  /* post_chip_enable_wait_ns = */ 150,
-  /* pre_chip_disable_wait_ns = */ 30,
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 20,
   /* reset_pulse_width_ms = */ 5, 	
   /* post_reset_wait_ms = */ 5, 		/**/
-  /* sda_setup_time_ns = */ 60,		/* */
-  /* sck_pulse_width_ns = */ 60,	/*  */
+  /* sda_setup_time_ns = */ 20,		/* */
+  /* sck_pulse_width_ns = */ 40,	/*  */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
-  /* data_setup_time_ns = */ 80,
-  /* write_pulse_width_ns = */ 50,	
-  /* tile_width = */ 16,
-  /* tile_hight = */ 8,
+  /* data_setup_time_ns = */ 15,
+  /* write_pulse_width_ns = */ 70,	
+  /* tile_width = */ 32,
+  /* tile_hight = */ 16,
   /* default_x_offset = */ 0,	/* must be 0, because this is checked also for normal mode */
-  /* flipmode_x_offset = */ 4,		
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 64
+  /* flipmode_x_offset = */ 0,		
+  /* pixel_width = */ 256,
+  /* pixel_height = */ 128
 };
 
 
 
-static const uint8_t u8x8_d_st7588_128x64_init_seq[] = {
+static const uint8_t u8x8_d_st75256_256x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-  U8X8_C( FS | 0x03 ),			/* select 11 commands */
-  U8X8_C( 0x03 ),				/* software reset */
+  U8X8_C( 0x030 ),				/* select 00 commands */
 
-  U8X8_C( FS | 0x00 ),			/* select 00 commands */
-  U8X8_C( 0x08 ),				/* display off */
-  //U8X8_C( 0x0c ),				/* display on */
+  U8X8_C( 0x094 ),				/* sleep out */
+  U8X8_C( 0xae ),				/* display off */
+ 
+  U8X8_C( 0x031 ),				/* select 01 commands */
   
-  U8X8_C( FS | 0x01 ),			/* select 01 commands */
-  U8X8_C( 0x08 ),				/* display confguration */
-  U8X8_C( 0x12 ),				/* bias 1/9 */
-  U8X8_C( 0x8f ),				/* Vop, lower 7 bits */
+  U8X8_C( 0x0d7 ),				/* OTP Auto Read */
+  U8X8_A( 0x09f ),				/* ... disable */
+  U8X8_C( 0x032 ),				/* analog circuit set */
+  U8X8_A( 0x000 ),				/* code example: OSC Frequency adjustment */
+  U8X8_A( 0x001 ),				/* Frequency on booster capacitors 1 = 6KHz? */
+  U8X8_A( 0x003 ),				/* Bias: 2: 1/12, 3: 1/11, 4:1/10, 5:1/9 */
+     
+  U8X8_C( 0x030 ),				/* select 00 commands */
+ 
+  U8X8_C( 0xca ),				/* display control, 3 args follow  */
+  U8X8_A( 0x00 ),				/* no clock division */
+  //U8X8_A( 0x7f ),				/* 1/128 duty value from the DS overview page*/
+  U8X8_A( 0x9f ),				/* 1/160 duty value from the DS example code */
+  U8X8_A( 0x20 ),				/* nline off */  
+  U8X8_CA( 0x0f0, 0x010 ),		/* monochrome mode */
+  U8X8_CAA( 0x81, 0x36, 0x04 ),	/* Volume control */
+  U8X8_CA( 0x020, 0x00b ),		/* Power control: Regulator, follower & booster on */
+  U8X8_DLY(10),
+  U8X8_CA( 0xbc, 0x00 ),			/* data scan dir */
   
-  U8X8_C( FS | 0x00 ),			/* select 00 commands */
-  U8X8_C( 0x05),				/* Bit 0 contains high/low range for Vop */
+  U8X8_C( 0xa6 ),				/* normal display  */
+  U8X8_C( 0x22 ),				/* all pixel off mode  */
   
-  
-  U8X8_C( FS | 0x03 ),			/* select 11 commands */
-  U8X8_C( 0x0b),				/* Frame Rate: 73 Hz */
+  U8X8_C( 0xaf ),				/* display on  */
+  U8X8_CAA(0x75, 0, 15),		/* row range */
+  U8X8_CAA(0x15, 0, 255),		/* col range */
+  U8X8_C( 0x5c ),				/* write data to RAM  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
   
   
     
@@ -205,47 +223,47 @@ static const uint8_t u8x8_d_st7588_128x64_init_seq[] = {
 };
 
 
-static const uint8_t u8x8_d_st7588_jlx12864_flip0_seq[] = {
+static const uint8_t u8x8_d_st75256_jlx12864_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C( FS ),					/* normal mode */
+  U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7588_jlx12864_flip1_seq[] = {
+static const uint8_t u8x8_d_st75256_jlx12864_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C( FS ^ 0x018 ),					/* normal mode */
+  U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 
-uint8_t u8x8_d_st7588_jlx12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_st75256_jlx256128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  if ( u8x8_d_st7588_128x64_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+  if ( u8x8_d_st75256_256x128_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
     return 1;
   if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
   {
-    u8x8_SetI2CAddress(u8x8, 0x07e);		/* the JLX12864 has 0x07e as a default address for I2C */
-    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7588_128x64_display_info);
+    u8x8_SetI2CAddress(u8x8, 0x078);		/* lowest I2C adr of the ST75256 */
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st75256_256x128_display_info);
     return 1;
   }
   else if ( msg == U8X8_MSG_DISPLAY_INIT )
   {
     u8x8_d_helper_display_init(u8x8);
-    u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_128x64_init_seq);    
+    u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_256x128_init_seq);    
     return 1;
   }
   else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
   {
     if ( arg_int == 0 )
     {
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_jlx12864_flip0_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx12864_flip0_seq);
       u8x8->x_offset = u8x8->display_info->default_x_offset;
     }
     else
     {
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7588_jlx12864_flip1_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx12864_flip1_seq);
       u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
     }
     return 1;

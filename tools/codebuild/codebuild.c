@@ -465,6 +465,28 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
+
+  {
+    "st75256", 		32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jlx256128" },
+      { NULL }
+    },
+  },
+  /* the ST75256 has the same I2C protocol as the SSD13xx, BUT: for arguments have the data bit set!!!! */
+  /* this means, we need to implement a u8x8_cad_ssd13xx_i2c procedure with cad 011 functionality */
+
+#ifdef NOT_YET_IMPLEMENTED  
+  {  
+    "st75256", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jlx256128" },
+      { NULL }
+    }
+  },  
+#endif
   
   {
     "nt7534", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
