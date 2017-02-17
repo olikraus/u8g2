@@ -121,6 +121,7 @@
 
 
 U8X8_ST75256_JLX256128_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	
+//U8X8_ST75256_JLX256128_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	
 
 void setup(void)
 {
@@ -134,7 +135,6 @@ void setup(void)
   //pinMode(16, OUTPUT);
   //digitalWrite(16, 0);	
   
-  u8x8.setI2CAddress(0x07e);
   u8x8.begin();
   u8x8.setPowerSave(0);
   
@@ -144,9 +144,13 @@ void setup(void)
 void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  u8x8.drawString(0,1,"Hello World!");
+  //u8x8_FillDisplay(u8x8.getU8x8());
+  u8x8.drawString(0,0,"Hello World!");
+  u8x8.draw2x2String(0,10,"Hello World!");
+  u8x8.drawString(0,15,"Hello World!");
+  for(;;);
   u8x8.refreshDisplay();		// for SSD1606/7  
-  delay(2000);
+  //delay(2000);
   
   /*
   delay(1000);

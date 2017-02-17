@@ -115,11 +115,12 @@ static uint8_t u8x8_d_st75256_256x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t
 	
       u8x8_cad_SendCmd(u8x8, 0x030 );	/* select command set */
       u8x8_cad_SendCmd(u8x8, 0x075 );	/* row */
-      u8x8_cad_SendCmd(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
-      u8x8_cad_SendCmd(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
       u8x8_cad_SendCmd(u8x8, 0x015 );	/* col */
-      u8x8_cad_SendCmd(u8x8, x);
-      u8x8_cad_SendCmd(u8x8, 255);
+      u8x8_cad_SendArg(u8x8, x);
+      u8x8_cad_SendArg(u8x8, 255);
+      u8x8_cad_SendCmd(u8x8, 0x05c );	
     
       
       do
@@ -180,7 +181,8 @@ static const uint8_t u8x8_d_st75256_256x128_init_seq[] = {
   U8X8_C( 0x030 ),				/* select 00 commands */
 
   U8X8_C( 0x094 ),				/* sleep out */
-  U8X8_C( 0xae ),				/* display off */
+  U8X8_DLY(10),
+  //U8X8_C( 0xae ),				/* display off */
  
   U8X8_C( 0x031 ),				/* select 01 commands */
   
@@ -189,33 +191,110 @@ static const uint8_t u8x8_d_st75256_256x128_init_seq[] = {
   U8X8_C( 0x032 ),				/* analog circuit set */
   U8X8_A( 0x000 ),				/* code example: OSC Frequency adjustment */
   U8X8_A( 0x001 ),				/* Frequency on booster capacitors 1 = 6KHz? */
-  U8X8_A( 0x003 ),				/* Bias: 2: 1/12, 3: 1/11, 4:1/10, 5:1/9 */
-     
+  U8X8_A( 0x000 ),				/* Bias: 1: 1/13, 2: 1/12, 3: 1/11, 4:1/10, 5:1/9 */
+  U8X8_CA( 0x051, 0x0fb ),		/* booster level x10 */
+
+  U8X8_C( 0x020 ),				/* gray levels */
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x1f ),
+  U8X8_A( 0x00 ),
+  U8X8_A( 0x00 ),
+/*
+  U8X8_A( 0x01 ),
+  U8X8_A( 0x03 ),
+  U8X8_A( 0x05 ),
+  U8X8_A( 0x07 ),
+  U8X8_A( 0x09 ),
+  U8X8_A( 0x0b ),
+  U8X8_A( 0x0d ),
+  U8X8_A( 0x10 ),
+  U8X8_A( 0x11 ),
+  U8X8_A( 0x13 ),
+  U8X8_A( 0x15 ),
+  U8X8_A( 0x17 ),
+  U8X8_A( 0x19 ),
+  U8X8_A( 0x1b ),
+  U8X8_A( 0x1d ),
+  U8X8_A( 0x1f ),
+*/
   U8X8_C( 0x030 ),				/* select 00 commands */
  
   U8X8_C( 0xca ),				/* display control, 3 args follow  */
   U8X8_A( 0x00 ),				/* no clock division */
-  //U8X8_A( 0x7f ),				/* 1/128 duty value from the DS overview page*/
-  U8X8_A( 0x9f ),				/* 1/160 duty value from the DS example code */
-  U8X8_A( 0x20 ),				/* nline off */  
-  U8X8_CA( 0x0f0, 0x010 ),		/* monochrome mode */
-  U8X8_CAA( 0x81, 0x36, 0x04 ),	/* Volume control */
+  U8X8_A( 0x7f ),				/* 1/128 duty value from the DS overview page*/
+  //U8X8_A( 0x9f ),				/* 1/160 duty value from the DS example code */
+  U8X8_A( 0x00 ),				/* nline off */  
+  U8X8_CA( 0x0f0, 0x011 ),		/* monochrome mode */
+  //U8X8_C( 0x76 ),				/* ICON  */
+
+  //U8X8_C( 0xd1 ),				/* OSC on  */
+
+  U8X8_CAA( 0x81, 0x36, 0x05 ),	/* Volume control */
   U8X8_CA( 0x020, 0x00b ),		/* Power control: Regulator, follower & booster on */
   U8X8_DLY(10),
   U8X8_CA( 0xbc, 0x00 ),			/* data scan dir */
   
+  U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_C( 0xa6 ),				/* normal display  */
   U8X8_C( 0x22 ),				/* all pixel off mode  */
   
+  U8X8_C( 0x031 ),				/* select 01 commands */
+  U8X8_C( 0x040 ),				/* internal power */
+  
+  U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_C( 0xaf ),				/* display on  */
-  U8X8_CAA(0x75, 0, 15),		/* row range */
-  U8X8_CAA(0x15, 0, 255),		/* col range */
+  
+
+
+  U8X8_C( 0x030 ),				/* select 00 commands */
+  U8X8_CAA(0x75, 1, 2),		/* row range */
+  U8X8_CAA(0x15, 0, 7),		/* col range */
+  U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_C( 0x5c ),				/* write data to RAM  */
   U8X8_A( 0xff ),				/*  */
   U8X8_A( 0xff ),				/*  */
   U8X8_A( 0xff ),				/*  */
   U8X8_A( 0xff ),				/*  */
-  
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
+  U8X8_A( 0xff ),				/*  */
   
     
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -252,6 +331,8 @@ uint8_t u8x8_d_st75256_jlx256128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
   {
     u8x8_d_helper_display_init(u8x8);
     u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_256x128_init_seq);    
+    for(;;)
+      ;
     return 1;
   }
   else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
