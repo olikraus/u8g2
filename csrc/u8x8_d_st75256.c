@@ -37,13 +37,12 @@
   0x039	ext 11
   
   cad 011
+  
 */
 
 
 #include "u8x8.h"
 
-/* function set, bit 2: power down, bit 3: MY, bit 4: MX, bit 5: must be 1 */
-#define FS (0x020)
 
 /* not a real power down for the st75256... just a display off */
 static const uint8_t u8x8_d_st75256_256x128_powersave0_seq[] = {
