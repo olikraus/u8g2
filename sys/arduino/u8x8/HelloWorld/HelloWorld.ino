@@ -119,6 +119,8 @@
 
 // End of constructor list
 
+U8X8_UC1617_JLX128128_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
+//U8X8_UC1617_JLX128128_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
 
 
 void setup(void)
