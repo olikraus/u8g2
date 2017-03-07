@@ -69,6 +69,14 @@ A more detailed discussion of some controllers is listed in "controller_cmds.txt
 
 U8g2
 
+Q: How to install u8g2 for Arduino?
+A: The latest stable version of U8g2 is available as Arduino Library in the 
+"Manage Libraries..." browser. See also here: https://github.com/olikraus/u8g2/wiki/u8g2install
+The latest development version is available for download here:
+https://github.com/olikraus/U8g2_Arduino/archive/master.zip
+In the Arduino IDE use the Sketch>Include Library>Add .ZIP Library... menu to 
+import the u8g2 zip library.
+
 Q: What is the meaning of the F/1/2 in the U8g2 constructor name?
 A: "F" means full buffer mode. The entire display is rendered in RAM. Use
 "sendBuffer" to transfer this RAM buffer to the display. "1"  and "2" constructors
@@ -83,8 +91,24 @@ call the Wire library for hardware accelerated I2C communication. "HW"
 constructors are much faster, but maybe debugging and setup is more 
 easier with a "SW" constructor.
 
+Q: Why does the hardware I2C accept clock and data pins?
+The  I2C constructor looks like this:
+U8G2_<display>_HW_I2C(rotation, [reset [, clock, data]])
+This means there are three options to use this constructor:
+1. U8G2_<display>_HW_I2C(rotation)
+2. U8G2_<display>_HW_I2C(rotation, reset)
+3. U8G2_<display>_HW_I2C(rotation, reset, clock, data)
+Hardware I2C usually is possible only with fixed pins. This means, the first or 
+second form of the constructor must be used. As of today only the ESP8266 
+support pin remapping. In such a case, also the third form can be used.
+
 Q: How to activate 16 Bit mode?
-A:
+A: Search for the line
+//#define U8G2_16BIT
+in "u8g2.h". Uncomment this line:
+#define U8G2_16BIT
+The file "u8g2.h" is located in "/libraries/U8g2_Arduino/src/clib" inside your default
+sketch folder.
 
 Q: U8g2 requires a lot of memory. How to reduce this?
 - Limit the font size. If possible avoid "f" fonts, instead use "r" fonts
