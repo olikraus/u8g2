@@ -92,7 +92,7 @@ constructors are much faster, but maybe debugging and setup is more
 easier with a "SW" constructor.
 
 Q: Why does the hardware I2C accept clock and data pins?
-The  I2C constructor looks like this:
+The hardware I2C constructor looks like this:
 U8G2_<display>_HW_I2C(rotation, [reset [, clock, data]])
 This means there are three options to use this constructor:
 1. U8G2_<display>_HW_I2C(rotation)
