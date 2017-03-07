@@ -149,3 +149,18 @@ void u8x8_FillDisplay(u8x8_t *u8x8)
   uint8_t buf[8] = { 255, 255, 255, 255, 255, 255, 255, 255 };
   u8x8_ClearDisplayWithTile(u8x8, buf);
 }
+
+void u8x8_ClearLine(u8x8_t *u8x8, uint8_t line)
+{
+  uint8_t buf[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+  u8x8_tile_t tile;
+  uint8_t h;
+  if ( line < u8x8->display_info->tile_height )
+  {
+    tile.x_pos = 0;
+    tile.y_pos = line;
+    tile.cnt = 1;
+    tile.tile_ptr = (uint8_t *)buf;		/* tile_ptr should be const, but isn't */
+    u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_DRAW_TILE, u8x8->display_info->tile_width, (void *)&tile);
+  }  
+}

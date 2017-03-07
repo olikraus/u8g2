@@ -502,6 +502,7 @@ void u8x8_ClearDisplayWithTile(u8x8_t *u8x8, const uint8_t *buf)  U8X8_NOINLINE;
 void u8x8_ClearDisplay(u8x8_t *u8x8);	// this does not work for u8g2 in some cases
 void u8x8_FillDisplay(u8x8_t *u8x8);
 void u8x8_RefreshDisplay(u8x8_t *u8x8);	// make RAM content visible on the display (Dec 16: SSD1606 only)
+void u8x8_ClearLine(u8x8_t *u8x8, uint8_t line);
 
 
 

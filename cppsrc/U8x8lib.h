@@ -174,6 +174,9 @@ class U8X8 : public Print
 
     void refreshDisplay(void) {			// Dec 16: Only required for SSD1606
       u8x8_RefreshDisplay(&u8x8); }
+      
+    void clearLine(uint8_t line) {
+      u8x8_ClearLine(&u8x8, line); }
 
     void setContrast(uint8_t value) {
       u8x8_SetContrast(&u8x8, value); }
