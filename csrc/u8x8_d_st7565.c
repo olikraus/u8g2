@@ -447,7 +447,7 @@ static const uint8_t u8x8_d_st7565_nhd_c12864_init_seq[] = {
   U8X8_C(0x02f),		                /* all power  control circuits on */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
   U8X8_C(0x023),		                /* set V0 voltage resistor ratio to large*/
-  U8X8_CA(0x081, 0x00a),		/* set contrast, contrast value NHD C12832 */
+  U8X8_CA(0x081, 150),			/* set contrast, contrast value NHD C12864, see issue 186 */
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
