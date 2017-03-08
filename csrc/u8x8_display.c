@@ -154,7 +154,6 @@ void u8x8_ClearLine(u8x8_t *u8x8, uint8_t line)
 {
   uint8_t buf[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
   u8x8_tile_t tile;
-  uint8_t h;
   if ( line < u8x8->display_info->tile_height )
   {
     tile.x_pos = 0;

@@ -46,7 +46,7 @@ static const uint8_t u8x8_d_ssd1329_128x96_nhd_init_seq[] = {
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
   U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio: 0x03f * 1/64 duty */
-  U8X8_CA(0x0a2, 0x04c),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
   U8X8_CA(0x0a0, 0x052),		/* remap configuration, horizontal address increment (bit 2 = 0), enable nibble remap (upper nibble is left, bit 1 = 1) */

@@ -150,6 +150,9 @@ class U8X8 : public Print
       
     void clearDisplay(void) {
       u8x8_ClearDisplay(&u8x8); }
+
+    void fillDisplay(void) {
+      u8x8_FillDisplay(&u8x8); }
       
     void setPowerSave(uint8_t is_enable) {
       u8x8_SetPowerSave(&u8x8, is_enable); }
