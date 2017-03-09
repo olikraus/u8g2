@@ -314,6 +314,84 @@ static const uint8_t u8x8_d_st75256_256x128_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };    
 
+static const uint8_t u8x8_d_st75256_240x160_init_seq_c[] = {
+		U8X8_END_TRANSFER(),	/* disable chip */
+//		U8G_ESC_RST(1),			/* hardware reset. Min 1 ms */
+		U8X8_DLY(1),			/* Delay max 1 ms */
+		U8X8_START_TRANSFER(),	/* enable chip, delay is part of the transfer start */
+
+		U8X8_C(0x030),	// EXT=0
+
+		U8X8_C(0x094),	// Sleep Out
+
+		U8X8_C(0x031),	// EXT=1
+
+//		U8X8_CA(0x0D7,0x09F), // Autoread disable
+
+		U8X8_C(0x032),	// Analog set
+		U8X8_A(0x000),	/* OSC Frequency adjustment */
+		U8X8_A(0x001),	/* Booster Efficiency =Level 1 */
+		U8X8_A(0x003),	/* Bias = 1/11 */
+
+		U8X8_CA(0x051,0x0FB), /* Booster Level x10 */
+		
+//		U8X8_C(0x020),	// Gray levels tune for 4-gray mode
+//		U8X8_A(0x001),	//
+//		U8X8_A(0x002),	//
+//		U8X8_A(0x005),	//
+//		U8X8_A(0x007),	//
+//		U8X8_A(0x009),	//
+//		U8X8_A(0x00b),	//
+//		U8X8_A(0x00d),	//
+//		U8X8_A(0x010),	//
+//		U8X8_A(0x011),	//
+//		U8X8_A(0x013),	//
+//		U8X8_A(0x015),	//
+//		U8X8_A(0x017),	//
+//		U8X8_A(0x019),	//
+//		U8X8_A(0x01B),	//
+//		U8X8_A(0x01D),	//
+//		U8X8_A(0x01F),	//
+
+		U8X8_C(0x030),	// EXT1 = 0, EXT0 = 0 "Расширенные инструкции"
+		U8X8_C(0x075),	// Установить адрес страницы
+		U8X8_A(0x001),	// Start page
+		U8X8_A(0x015),	// End page
+
+		U8X8_C(0x015),	// Установить адрес столбца
+		U8X8_A(0x000),	// Начальный адрес столбца: XS = 0
+		U8X8_A(0x0EF),	// Адрес последнего столбца: XE = 240 (0xF0)
+
+		U8X8_C(0x0BC),	// Направление сканирования
+		U8X8_A(0x001),	// MX.MY=Normal
+		U8X8_A(0x0A6),	//
+
+		U8X8_C(0x008),	// Выбор формата данных, 0x0C младший - старший D0-D7, 0x08 старший - младший D7-D0
+
+		U8X8_C(0x0CA),	// Настройка отображения
+		U8X8_A(0x000),	// Установить частоту привода CL: CLD = 0
+		U8X8_A(0x09F),	// Рабочий цикл: Duty=160
+		U8X8_A(0x020),	// N линия по борьбе значительным: Nline=off
+
+		U8X8_C(0x0F0),	// Режим отображения
+		U8X8_A(0x010),	// 0x11: 4-lever.  0x10: 2-level
+
+		U8X8_C(0x081),	// Установить контраст, "0x81" негибкой, а затем двух данных может быть изменен, но "после первого тримминга грубой" Этот порядок Замерзание
+		U8X8_A(0x03F),	// Точный контраст, регулируемый диапазон 0x00 ~ 0x3f в общей сложности 64
+		U8X8_A(0x003),	// Грубый контраст, регулируемый диапазон 0x00 0x07 ~, в общей сложности восемь
+
+		U8X8_C(0x020),	// Управление питанием
+		U8X8_A(0x00B),	// D0=regulator ; D1=follower ; D3=booste, on:1 off:0
+
+		U8X8_DLY(1),	// Delay 0,1 ms
+
+		U8X8_C(0x0AF),	// Открыть Показать
+
+		U8X8_END_TRANSFER(),	/* disable chip */
+		U8X8_END()	/* end of sequence */
+};
+
+
 static const uint8_t u8x8_d_st75256_256x128_init_seq_x[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -486,6 +564,8 @@ uint8_t u8x8_d_st75256_jlx256128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
   {
     u8x8_d_helper_display_init(u8x8);
     u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_256x128_init_seq);    
+    //u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_240x160_init_seq_c);    
+    
     for(;;)
       ;
     return 1;
