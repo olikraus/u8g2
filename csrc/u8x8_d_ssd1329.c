@@ -45,7 +45,7 @@ static const uint8_t u8x8_d_ssd1329_128x96_noname_init_seq[] = {
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
-  U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio: 0x03f * 1/64 duty */
+  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x03f * 1/64 duty - changed by CREESOO, acc. to datasheet, 100317*/ 
   U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
@@ -204,11 +204,9 @@ static uint8_t u8x8_d_ssd1329_128x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       u8x8_cad_StartTransfer(u8x8);
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 4;
-    
+      
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       
-      y += 4;		/* JUST FOR TESTING */
-    
       y *= 8;
       y += u8x8->x_offset;		/* x_offset is used as y offset for the ssd1329 */
     
