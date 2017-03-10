@@ -202,10 +202,13 @@ static uint8_t u8x8_d_ssd1329_128x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_cad_StartTransfer(u8x8);
-      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 4;
     
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+      
+      y += 4;		/* JUST FOR TESTING */
+    
       y *= 8;
       y += u8x8->x_offset;		/* x_offset is used as y offset for the ssd1329 */
     
