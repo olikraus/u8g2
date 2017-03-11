@@ -190,6 +190,15 @@
   U8G2_ST7920_128X64_1_HW_SPI 				Uno			Clip=16.3 Box=20.2  @=4.1 Pix=7.2			
   U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno			Clip=31.7 Box=77.2  @=4.7 Pix=8.9			
 
+  11 Mar 2017
+  before 
+  U8G2_ST7920_128X64_1_SW_SPI 				Uno			Clip=16.0 Box=18.5  @=4.0 Pix=6.8		issue 200
+  U8G2_ST7920_128X64_1_HW_SPI 				Uno			Clip=16.3 Box=20.2  @=4.1 Pix=7.2		issue 200
+
+  after
+  U8G2_ST7920_128X64_1_SW_SPI 				Uno			Clip=17.2 Box=20.2  @=4.1 Pix=7.0		issue 200
+  U8G2_ST7920_128X64_1_HW_SPI 				Uno			Clip=17.4 Box=21.8  @=4.2 Pix=7.4		issue 200
+
 */
 
 
@@ -249,7 +258,7 @@
 //U8G2_ST7920_192X32_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_ST7920_128X64_1_8080 u8g2(U8G2_R0, 8, 9, 10, 11, 4, 5, 6, 7, /*enable=*/ 18 /* A4 */, /*cs=*/ U8X8_PIN_NONE, /*dc/rs=*/ 17 /* A3 */, /*reset=*/ 15 /* A1 */);	// Remember to set R/W to 0 
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18 /* A4 */ , /* data=*/ 16 /* A2 */, /* CS=*/ 17 /* A3 */, /* reset=*/ U8X8_PIN_NONE);
-//U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* CS=*/ 10, /* reset=*/ 8);
+U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7920_128X64_1_HW_SPI u8g2(U8G2_R0, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);

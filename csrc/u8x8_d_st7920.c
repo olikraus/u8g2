@@ -128,7 +128,7 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
       for( i = 0; i < 8; i++ )
       {
-	u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
+	//u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
 	u8x8_cad_SendCmd(u8x8, 0x080 | (y+i) );      /* y pos  */
 	u8x8_cad_SendCmd(u8x8, 0x080 | x );      /* set x pos */
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
