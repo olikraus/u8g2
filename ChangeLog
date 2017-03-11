@@ -102,6 +102,10 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for hardware pin remapping on the ESP8266 (issue 158)
   * Bugfix for the KS0108 support (issue 168)
   * More fonts: https://github.com/olikraus/u8g2/wiki/fntgrpnbp (issue 174)
-2017-xx-xx	v2.14.x	  olikraus@gmail.com
+2017-03-11	v2.14.7	  olikraus@gmail.com
   * Bugfix: setFont does no longer reset the reference position (issue 195)
+  * Support for ST7565 NHD C12864 (issue 186)
+  * Support for SSD1329 128x96 OLED (issue 208)
+  * Support for LC7981 240x128 (issue 193)
+  * Performance improvement for the ST7920 (issue 200)
   

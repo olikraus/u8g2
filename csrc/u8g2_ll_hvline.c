@@ -104,31 +104,13 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   
   if ( dir == 0 )
   {
-  /*
-    if ( u8g2->draw_color != 0 )
-    {
-    */
       do
       {
-	//*ptr |= mask;
 	*ptr |= or_mask;
 	*ptr ^= xor_mask;
 	ptr++;
 	len--;
       } while( len != 0 );
-      /*
-    }
-    else
-    {
-      mask = ~mask;
-      do
-      {
-	*ptr &= mask;
-	ptr++;
-	len--;
-      } while( len != 0 );
-    }  
-    */
   }
   else
   {    
@@ -136,16 +118,6 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
     {
       *ptr |= or_mask;
       *ptr ^= xor_mask;
-      /*
-      if ( u8g2->draw_color != 0 )
-      {
-	*ptr |= mask;
-      }
-      else
-      {
-	*ptr &= ~mask;
-      }
-      */
       
       bit_pos++;
       bit_pos &= 7;
@@ -155,26 +127,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
       if ( bit_pos == 0 )
       {
 	ptr+=u8g2->pixel_buf_width;	/* 6 Jan 17: Changed u8g2->width to u8g2->pixel_buf_width, issue #148 */
-	
-	/* another speed optimization, but requires about 60 bytes on AVR */
-	/*
-	while( len >= 8 )
-	{
-	  if ( u8g2->draw_color != 0 )
-	  {
-	    *ptr = 255;
-	  }
-	  else
-	  {
-	    *ptr = 0;
-	  }
-	  len -= 8;
-	  ptr+=u8g2->width;
-	}
-	*/
-	
-	//mask = 1;
-	
+		
 	if ( u8g2->draw_color <= 1 )
 	  or_mask  = 1;
 	if ( u8g2->draw_color != 1 )
@@ -182,7 +135,6 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
       }
       else
       {
-	//mask <<= 1;
 	or_mask <<= 1;
 	xor_mask <<= 1;
       }
@@ -227,17 +179,6 @@ static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_u
   if ( u8g2->draw_color != 1 )
     *ptr ^= mask;
 
-/*  
-  if ( u8g2->draw_color != 0 )
-  {
-    *ptr |= mask;
-  }
-  else
-  {
-    mask ^= 255;
-    *ptr &= mask;
-  }
-*/  
 }
 
 /*
