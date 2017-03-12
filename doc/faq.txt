@@ -11,6 +11,17 @@ A: There are different names for the "data/command" pin. In U8g2 only the name
 "dc" is used. On the display side it might be also called "A0", "RS", "CD".
 See also the next question.
 
+Q: My display has pins labled as "D0" and "D1". What is the interface and how 
+to connect these pins?
+A: This is probably a SSD1306 OLED. The meaning of the D0 and D1 pin depends
+on the configuration of the SSD1306. D0 is the clock line and D1 is the data line.
+
+Q: For HW SPI no pin numbers are required in the constructor. But which are
+the pin numbers for wiring?
+A: This depends on your board. For some official boards, this is listed here:
+https://www.arduino.cc/en/Reference/SPI
+You need to connect MOSI (data) and SCK (clock) pins.
+
 Q: The pin names on my display do not fit to the pin names of U8g2.
 A: Yes, each datasheet/product/controller has different names. There 
 is a mapping table on the wiki for this:
