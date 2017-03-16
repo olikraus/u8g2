@@ -108,4 +108,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for SSD1329 128x96 OLED (issue 208)
   * Support for LC7981 240x128 (issue 193)
   * Performance improvement for the ST7920 (issue 200)
-  
+ 2017-xx-xx	v2.15.x	  olikraus@gmail.com
+  * Added setBitmapMode (pull request 220)
+     Warning: Default behavior of drawXBM has changed in this release.

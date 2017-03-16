@@ -12,7 +12,7 @@
 #define I2C_DATA_PIN  11
 #define I2C_DATA_PORT 0
 
-uint8_t u8x8_gpio_and_delay_lpc11u3x(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_gpio_and_delay_lpc824(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   switch(msg)
   {

@@ -97,7 +97,7 @@ COMMON_FLAGS += -Os
 # memcpy still works, but might be required for __aeabi_uidiv
 # COMMON_FLAGS +=  -nostdlib
 # remove unused data and function
-COMMON_FLAGS += -ffunction-sections -fdata-sections
+COMMON_FLAGS += -ffunction-sections -fdata-sections -fshort-wchar
 # C flags
 CFLAGS:=$(COMMON_FLAGS) -std=gnu99 
 # LD flags
