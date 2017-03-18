@@ -35,8 +35,8 @@ N: 4=16KB, 6=32KB
 y: T=LQFP? 
 M: temperature range
 
-STM32L031F6P6	TSSOP20 mit 32K Flash --> available
-
+STM32L031F6P6	TSSOP20, 32K Flash --> available
+STM32L052K8T6	LQFP32, 64K Flash, USB --> available
 
 
 
