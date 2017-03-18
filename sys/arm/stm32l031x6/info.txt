@@ -1,0 +1,28 @@
+
+
+http://www.st.com/en/embedded-software/stm32cube-embedded-software.html
+
+zip file: ~/Downloads/en.stm32cubel0.zip
+
+this contains the lib, 
+STM32Cube_FW_L0_V1.8.0/Drivers/STM32L0xx_HAL_Driver
+
+however the lib requires a config file.
+example is here:
+STM32Cube_FW_L0_V1.8.0/Projects/STM32L011K4-Nucleo/Examples/GPIO/GPIO_IOToggle/Inc
+
+startup code (.s files)
+STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates/gcc
+
+register definitions:
+STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Include
+
+STM32L031xNyM
+x: K=32 pins, F=20 pins
+N: 4=16KB, 6=32KB
+y: T=LQFP? 
+M: temperature range
+
+--> ld file for example here:
+./Projects/STM32L031K6-Nucleo/Examples/SPI/SPI_FullDuplex_ComDMA/SW4STM32/STM32L031K6_NUCLEO/STM32L031K6Tx_FLASH.ld
+
