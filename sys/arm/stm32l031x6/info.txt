@@ -1,6 +1,8 @@
 
 STM32L0	Cortex-M0/M0+
   STM32L0x1	access line
+    STM32L0x1K	access line, 32 Pins (LQFP)
+    STM32L0x1F	access line, 20 Pins (TSSOP20)
   STM32L0x2	USB+DAC
 STM32L1	Cortex-M3
 STM32L4	Cortex-M4
@@ -27,10 +29,17 @@ register definitions:
 STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Include
 
 STM32L031xNyM
+3: RAM size? 8KB
 x: K=32 pins, F=20 pins
 N: 4=16KB, 6=32KB
 y: T=LQFP? 
 M: temperature range
+
+STM32L031F6P6	TSSOP20 mit 32K Flash --> available
+
+
+
+
 
 --> ld file for example here:
 ./Projects/STM32L031K6-Nucleo/Examples/SPI/SPI_FullDuplex_ComDMA/SW4STM32/STM32L031K6_NUCLEO/STM32L031K6Tx_FLASH.ld
