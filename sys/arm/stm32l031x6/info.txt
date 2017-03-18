@@ -1,4 +1,13 @@
 
+STM32L0	Cortex-M0/M0+
+  STM32L0x1	access line
+  STM32L0x2	USB+DAC
+STM32L1	Cortex-M3
+STM32L4	Cortex-M4
+
+
+
+=========
 
 http://www.st.com/en/embedded-software/stm32cube-embedded-software.html
 
