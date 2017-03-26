@@ -1,0 +1,8 @@
+
+void SystemInit()
+{
+}
+
+int main()
+{
+}
