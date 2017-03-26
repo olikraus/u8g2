@@ -24,7 +24,10 @@ test:	bdfconv
 
 greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/unifont.bdf -n unifont_greek -o unifont_greek.c -d ../bdf/7x13.bdf
-	
+
+polish: bdfconv
+	./bdfconv -f 1 -v -m '32-127,$$104-$$107,$$118-$$119,$$141-$$144,$$15a-$$15b,$$179-$$17c,$$d3,$$f3' ../bdf/unifont.bdf -n unifont_polish -o unifont_polish.c -d ../bdf/7x13.bdf
+
 helvb18: bdfconv
 	./bdfconv -f 1 -m '32-127,x32-64,x91-96,x123-191,x247,x697-879' -p 10 ../bdf/helvB18.bdf -o helvb18_tr.c -n u8g2_font_helvB18_tr -k helvb18_tr_k.c
 
