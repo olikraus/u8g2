@@ -97,7 +97,8 @@ COMMON_FLAGS += -Os
 # memcpy still works, but might be required for __aeabi_uidiv
 # COMMON_FLAGS +=  -nostdlib
 # remove unused data and function
-COMMON_FLAGS += -ffunction-sections -fdata-sections -fshort-wchar
+COMMON_FLAGS += -ffunction-sections -fdata-sections
+# COMMON_FLAGS += -ffunction-sections -fdata-sections -fshort-wchar
 # C flags
 CFLAGS:=$(COMMON_FLAGS) -std=gnu99 
 # LD flags
@@ -105,7 +106,8 @@ CFLAGS:=$(COMMON_FLAGS) -std=gnu99
 GC:=-Wl,--gc-sections  -Wl,--undefined=arm_stack_area -Wl,--undefined=__isr_vector
 MAP:=-Wl,-Map=$(MAPNAME)
 LFLAGS:=$(COMMON_FLAGS) $(GC) $(MAP)
-LDLIBS:=--specs=nano.specs -lc -lc -lnosys -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
+#LDLIBS:=--specs=nano.specs -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
+LDLIBS:=--specs=nosys.specs -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
 
 # Additional Suffixes
 .SUFFIXES: .elf .hex .bin .dis
