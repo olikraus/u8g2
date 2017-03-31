@@ -7,9 +7,9 @@
 #include "u8x8.h"
 
 /* although we use SW I2C, use the HW pins for later upgrade */
-#define I2C_CLOCK_PIN 10
+#define I2C_CLOCK_PIN 13
 #define I2C_CLOCK_PORT 0
-#define I2C_DATA_PIN  11
+#define I2C_DATA_PIN  17
 #define I2C_DATA_PORT 0
 
 uint8_t u8x8_gpio_and_delay_lpc824(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -19,8 +19,8 @@ uint8_t u8x8_gpio_and_delay_lpc824(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
     case U8X8_MSG_GPIO_AND_DELAY_INIT:
       /* only support for software I2C*/
     
-      Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO10, PIN_I2CMODE_GPIO);	/* clk */
-      Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO11, PIN_I2CMODE_GPIO);	/* data */
+      Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO13, PIN_MODE_PULLUP);	/* clk */
+      Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO17, PIN_MODE_PULLUP);	/* data */
       Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, I2C_CLOCK_PORT, I2C_CLOCK_PIN);
       Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, I2C_DATA_PORT, I2C_DATA_PIN);    
 

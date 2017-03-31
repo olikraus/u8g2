@@ -41,7 +41,8 @@ SRC:=$(wildcard *.c)
 
 # The CPU architecture (will be used for -mcpu)
 # for the LPC824, can we use "cortex-m0plus"?
-MCPU:=cortex-m0
+#MCPU:=cortex-m0
+MCPU:=cortex-m0plus
 
 # Include directory for the system include files
 SYSINC:=../lpc_chip_82x/inc
@@ -120,6 +121,7 @@ all: $(DISNAME) $(HEXNAME) $(BINNAME)
 .PHONY: upload
 upload: $(DISNAME) $(HEXNAME) $(ELFNAME) $(BINNAME)
 	#dd bs=1024 conv=nocreat,notrunc if=$(BINNAME) of="/media/$(shell echo $$USER)/CRP DISABLD/firmware.bin"
+	../hex2lpc/hex2lpc -s 2 -f  $(HEXNAME) -x 
 	$(SIZE) $(ELFNAME)
 
 .PHONY: clean

@@ -91,8 +91,8 @@ int __attribute__ ((noinline)) main(void)
   
   for(;;)
   {
-    Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, 0, 15);
-    delay_micro_seconds(1000000);
+    //Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, 0, 15);
+    //delay_micro_seconds(1000000);
 
     u8g2_FirstPage(&u8g2);
     do
@@ -100,7 +100,7 @@ int __attribute__ ((noinline)) main(void)
       draw(&u8g2);
     } while( u8g2_NextPage(&u8g2) );
     
-    Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, 0, 15);
+    //Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, 0, 15);
     delay_micro_seconds(1000000);
   }
 }
