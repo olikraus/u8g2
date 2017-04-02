@@ -334,6 +334,7 @@ struct u8x8_struct
   uint8_t debounce_result_msg;	/* result msg or event after debounce */
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
+  uint8_t btn_type;		/* defines button type so active high can be used */
 #endif
 };
 
@@ -356,6 +357,7 @@ struct u8x8_struct
 #define u8x8_SetMenuHomePin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_HOME,(val))
 #define u8x8_SetMenuUpPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_UP,(val))
 #define u8x8_SetMenuDownPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_DOWN,(val))
+#define u8x8_SetMenuBtnType(u8x8, val) (u8x8)->btn_type = (val)
 #endif
 
 
