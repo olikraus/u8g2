@@ -146,7 +146,8 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 	  }
 	  else
 	  {
-	    u8x8_SetGPIOResult(u8x8, digitalRead(i) == 0 ? 0 : 1);
+	    if(u8x8->btn_type) u8x8_SetGPIOResult(u8x8, (!digitalRead(i)) == 0 ? 0 : 1); 
+	    else u8x8_SetGPIOResult(u8x8, digitalRead(i) == 0 ? 0 : 1); 
 	  }
 	}
 	break;
