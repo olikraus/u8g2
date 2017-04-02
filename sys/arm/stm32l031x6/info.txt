@@ -45,3 +45,23 @@ STM32L052K8T6	LQFP32, 64K Flash, USB --> available
 
 ./STM32Cube_FW_L0_V1.8.0/Projects/STM32L031K6-Nucleo/Templates_LL/SW4STM32/STM32L031K6_NUCLEO/STM32L031K6Tx_FLASH.ld
 --> stm32l031x6.ld
+
+
+library/hal/CMSIS
+  kchmviewer STM32Cube_FW_L0_V1.8.0/Drivers/STM32L0xx_HAL_Driver/STM32L073xx_User_Manual.chm
+    doxygen seiten der hal treiber.... leider wie üblich nicht besonders übersichtlich
+
+
+Code					Source
+startup_stm32l031xx.s		STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates/gcc
+	startup code, which will also call SystemInit and main()
+system_stm32l0xx.c			STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates
+	Contains the SystemInit() and SystemCoreClockUpdate() function.
+	
+system_stm32l0xx.h			STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Include
+	Contains the global defs for system_stm32l0xx.c. It is placed in the common/inc
+	
+stm32l0xx/inc				various include files copied from
+      STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Include/
+      STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Include/
+	

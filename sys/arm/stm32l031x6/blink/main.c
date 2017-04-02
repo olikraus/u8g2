@@ -1,8 +1,4 @@
 
-void SystemInit()
-{
-}
-
 int main()
 {
 }

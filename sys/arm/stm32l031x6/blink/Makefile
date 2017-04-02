@@ -42,11 +42,11 @@ SSRC:=$(wildcard *.s)
 
 # The CPU architecture (will be used for -mcpu)
 # for the LPC824, can we use "cortex-m0plus"?
-MCPU:=cortex-m0
+MCPU:=cortex-m0plus
 
 # Include directory for the system include files
-#SYSINC:=../lpc_chip_82x/inc
-#SYSSRC:=$(wildcard ../lpc_chip_82x/src/*.c)
+SYSINC:=../stm32l0xx/inc
+SYSSRC:=$(wildcard ../stm32l0xx/src/*.c)
 
 # Include directory for the u8g2 include files
 #U8G2INC:=../../../../csrc/
@@ -71,7 +71,7 @@ HEXNAME:=$(TARGETNAME).hex
 BINNAME:=$(TARGETNAME).bin
 DISNAME:=$(TARGETNAME).dis
 MAPNAME:=$(TARGETNAME).map
-OBJ:=$(CSRC:.c=.o) $(SSRC:.s=.o)
+OBJ:=$(CSRC:.c=.o) $(SSRC:.s=.o) $(SYSSRC:.c=.o)
 # $(SYSSRC:.c=.o) $(U8G2SRC:.c=.o) $(FFSRC:.c=.o)
 
 # Replace standard build tools by arm tools
@@ -84,14 +84,10 @@ SIZE:=$(GCCBINPATH)arm-none-eabi-size
 
 # Common flags
 COMMON_FLAGS = -mthumb -mcpu=$(MCPU)
+COMMON_FLAGS += -DSTM32L031xx
 COMMON_FLAGS += -Wall -I. -I$(SYSINC) -I$(U8G2INC) 
 # define stack size (defaults to 0x0100)  
 # COMMON_FLAGS += -D__STACK_SIZE=0x0100
-# define constant for lpcopen library
-COMMON_FLAGS += -DCORE_M0PLUS
-# instruct LPC8xx lib procedures to use the ROM API
-COMMON_FLAGS += -DUSE_ROM_API
-# do not make a call to SystemInit()
 # COMMON_FLAGS += -Os -flto
 COMMON_FLAGS += -Os 
 # COMMON_FLAGS += -fstack-protector 
@@ -100,7 +96,8 @@ COMMON_FLAGS += -Os
 # memcpy still works, but might be required for __aeabi_uidiv
 # COMMON_FLAGS +=  -nostdlib
 # remove unused data and function
-COMMON_FLAGS += -ffunction-sections -fdata-sections -fshort-wchar
+#COMMON_FLAGS += -ffunction-sections -fdata-sections -fshort-wchar
+COMMON_FLAGS += -ffunction-sections -fdata-sections
 # C flags
 CFLAGS:=$(COMMON_FLAGS) -std=gnu99 
 # LD flags
@@ -108,7 +105,8 @@ CFLAGS:=$(COMMON_FLAGS) -std=gnu99
 GC:=-Wl,--gc-sections  -Wl,--undefined=arm_stack_area -Wl,--undefined=__isr_vector
 MAP:=-Wl,-Map=$(MAPNAME)
 LFLAGS:=$(COMMON_FLAGS) $(GC) $(MAP)
-LDLIBS:=--specs=nano.specs -lc -lc -lnosys -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
+#LDLIBS:=--specs=nosys.specs -lc -lc -lnosys -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
+LDLIBS:=--specs=nosys.specs -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
 
 # Additional Suffixes
 .SUFFIXES: .elf .hex .bin .dis
