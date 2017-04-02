@@ -90,6 +90,8 @@ class U8G2 : public Print
       u8g2_SetMenuDownPin(&u8g2, val); }
     void setMenuHomePin(uint8_t val) {
       u8g2_SetMenuHomePin(&u8g2, val); }
+    void setMenuBtnType(uint8_t val) {
+      u8g2_SetMenuBtnType(&u8g2, val); }
 #endif
 
     /* return 0 for no event or U8X8_MSG_GPIO_MENU_SELECT, */
@@ -127,13 +129,14 @@ class U8G2 : public Print
       
 #ifdef U8X8_USE_PINS 
     /* use U8X8_PIN_NONE if a pin is not required */
-    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
+    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_btn_type = 0, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
       setMenuSelectPin(menu_select_pin);
       setMenuNextPin(menu_next_pin);
       setMenuPrevPin(menu_prev_pin);
       setMenuUpPin(menu_up_pin);
       setMenuDownPin(menu_down_pin);
       setMenuHomePin(menu_home_pin);
+      setMenuBtnType(menu_btn_type);
       begin(); }
 #endif
 
