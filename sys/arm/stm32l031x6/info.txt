@@ -7,7 +7,7 @@ STM32L0	Cortex-M0/M0+
 STM32L1	Cortex-M3
 STM32L4	Cortex-M4
 
-
+http://www.st.com/en/microcontrollers/stm32l031f6.html
 
 =========
 
@@ -65,3 +65,34 @@ stm32l0xx/inc				various include files copied from
       STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Device/ST/STM32L0xx/Include/
       STM32Cube_FW_L0_V1.8.0/Drivers/CMSIS/Include/
 	
+Documentation
+PM0223	STM32L0 Series Cortex ® -M0+ programming manual 	DM01004451.pdf	110 pages
+RM0377	STM32L0x1 Reference manual						DM01008282.pdf	882 pages
+  - Section 3.3.2: BOOT0 Pin (0=user, 1=bootloader)	
+STM32L031x4 STM32L031x6 Datasheet						DM00140359.pdf	118 pages
+AN2606	Bootloader description							CD00167594.pdf
+  USART2 configuration is: 8-bits, even parity and 1 Stop bit, RX/TX on PA9/PA10 or PA2/PA3
+  Die doku ist da nicht ganz eindeutig. PA10 und PA3 sind die UART2_RX pins, PA9  und PA2 die TX
+AN3155	USART protocol used in the STM32™ bootloader
+
+External tools (Ubuntu Linux)
+arm-none-eabi-gcc	sudo apt install gcc-arm-none-eabi
+stm32flash		sudo apt install stm32flash
+  
+
+stm32flash: There seems to be a problem with ch340/ch341 devices
+  https://sourceforge.net/p/stm32flash/tickets/81/?limit=25&page=1#7106
+  also mentioned here:
+    https://sourceforge.net/p/stm32flash/wiki/Hints/
+  I think this got solved in the kernel by a commit on Oct 24, 2016:
+    https://github.com/torvalds/linux/commit/ba781bdf86621b71aa79a1ac0ad584f1e8aac307#diff-27cbcff3aa65aa3cda4aef10b416dd24
+    
+  modinfo ch341  -->  4.4.0-62-generic
+  https://github.com/torvalds/linux/blob/v4.4/drivers/usb/serial/ch341.c --> Tag 4.4
+  looks like this moved to the kernel with the 4.10 tag
+  Ubuntu kernel version ermitteln: cat /proc/version
+  Ubuntu 17.04 may use 4.10 and might be there at 13 Apr 2017
+  ok, i will be using a cp21xx driver here...
+  Conclution: Support of CH340 usb-serial converter for ubuntu linux will be there with Ubunutz 17.04
+
+  
