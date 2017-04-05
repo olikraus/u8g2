@@ -59,7 +59,7 @@ SYSSRC:=$(wildcard ../stm32l0xx/src/*.c)
 # Directory for the linker script
 LDSCRIPTDIR:=.
 # Name of the linker script (must be the "keep" script, because the other script is not always working)
-LDSCRIPT:=stm32l031x6.ld
+LDSCRIPT:=nokeep.ld
 
 #================================================
 # Main part of the Makefile starts here. Usually no changes are needed.
