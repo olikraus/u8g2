@@ -44,7 +44,8 @@ STM32L052K8T6	LQFP32, 64K Flash, USB --> available
 --> ld file for example here:
 
 ./STM32Cube_FW_L0_V1.8.0/Projects/STM32L031K6-Nucleo/Templates_LL/SW4STM32/STM32L031K6_NUCLEO/STM32L031K6Tx_FLASH.ld
---> stm32l031x6.ld
+however newly created and derived from nokeep.ld script
+
 
 
 library/hal/CMSIS

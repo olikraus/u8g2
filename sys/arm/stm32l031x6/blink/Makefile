@@ -59,7 +59,7 @@ SYSSRC:=$(wildcard ../stm32l0xx/src/*.c)
 # Directory for the linker script
 LDSCRIPTDIR:=.
 # Name of the linker script (must be the "keep" script, because the other script is not always working)
-LDSCRIPT:=nokeep.ld
+LDSCRIPT:=stm32l031x6.ld
 
 #================================================
 # Main part of the Makefile starts here. Usually no changes are needed.
@@ -68,7 +68,6 @@ LDSCRIPT:=nokeep.ld
 LIBNAME:=$(TARGETNAME).a
 ELFNAME:=$(TARGETNAME).elf
 HEXNAME:=$(TARGETNAME).hex
-BINNAME:=$(TARGETNAME).bin
 DISNAME:=$(TARGETNAME).dis
 MAPNAME:=$(TARGETNAME).map
 OBJ:=$(CSRC:.c=.o) $(SSRC:.s=.o) $(SYSSRC:.c=.o)
@@ -101,8 +100,8 @@ COMMON_FLAGS += -ffunction-sections -fdata-sections
 # C flags
 CFLAGS:=$(COMMON_FLAGS) -std=gnu99 
 # LD flags
-# remove unreferenced procedures and variables, but keep "arm_stack_area" and __isr_vector
-GC:=-Wl,--gc-sections  -Wl,--undefined=arm_stack_area -Wl,--undefined=__isr_vector
+# remove unreferenced procedures and variables, but __isr_vector
+GC:=-Wl,--gc-sections  -Wl,--undefined=__isr_vector
 MAP:=-Wl,-Map=$(MAPNAME)
 LFLAGS:=$(COMMON_FLAGS) $(GC) $(MAP)
 #LDLIBS:=--specs=nosys.specs -lc -lc -lnosys -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
@@ -113,17 +112,17 @@ LDLIBS:=--specs=nosys.specs -L$(LDSCRIPTDIR) -T $(LDSCRIPT)
 
 # Targets
 .PHONY: all
-all: $(DISNAME) $(HEXNAME) $(BINNAME)
+all: $(DISNAME) $(HEXNAME)
 	$(SIZE) $(ELFNAME)
 
 .PHONY: upload
-upload: $(DISNAME) $(HEXNAME) $(ELFNAME) $(BINNAME)
-	#dd bs=1024 conv=nocreat,notrunc if=$(BINNAME) of="/media/$(shell echo $$USER)/CRP DISABLD/firmware.bin"
+upload: $(DISNAME) $(HEXNAME) $(ELFNAME)
+	stm32flash -e 255 -w $(HEXNAME) -v /dev/ttyUSB0
 	$(SIZE) $(ELFNAME)
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJ) $(HEXNAME) $(ELFNAME) $(LIBNAME) $(DISNAME) $(MAPNAME) $(BINNAME) libssp.a libssp_nonshared.a
+	$(RM) $(OBJ) $(HEXNAME) $(ELFNAME) $(LIBNAME) $(DISNAME) $(MAPNAME) libssp.a libssp_nonshared.a
 
 # implicit rules
 .elf.hex:
@@ -138,12 +137,6 @@ $(ELFNAME): $(LIBNAME)($(OBJ)) libssp.a libssp_nonshared.a
 
 $(DISNAME): $(ELFNAME)
 	$(OBJDUMP) -D -S $< > $@
-
-# not required for this project
-$(BINNAME): $(ELFNAME)
-	$(OBJCOPY) -O binary  $< $@
-
-#	$(OBJCOPY) -O binary --gap-fill 255 --pad-to 32768 $< $@
 
 # create empty ssp libs for -fstack-protector-all -fstack-protector
 libssp.a:
