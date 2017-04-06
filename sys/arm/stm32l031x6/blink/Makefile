@@ -38,7 +38,7 @@ TARGETNAME:=blink
 
 # The source files of the project
 CSRC:=$(wildcard *.c) 
-SSRC:=$(wildcard *.s)
+SSRC:=$(wildcard ../stm32l0xx/src/*.s)
 
 # The CPU architecture (will be used for -mcpu)
 # for the LPC824, can we use "cortex-m0plus"?
