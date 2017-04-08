@@ -224,13 +224,13 @@ void SystemCoreClockUpdate (void)
   uint32_t tmp = 0U, pllmul = 0U, plldiv = 0U, pllsource = 0U, msirange = 0U;
   uint32_t hsi_value;
 
-  /* Get SYSCLK source -------------------------------------------------------*/
-  tmp = RCC->CFGR & RCC_CFGR_SWS;
-  
   /* added by olikraus@gmail.com: The HSIDIV flag was not considered in the original code */
   hsi_value = 16000000UL;
   if ( (RCC->CR & RCC_CR_HSIDIVF) != 0 )
     hsi_value /= 4;
+  
+  /* Get SYSCLK source -------------------------------------------------------*/
+  tmp = RCC->CFGR & RCC_CFGR_SWS;
   
   switch (tmp)
   {
@@ -266,6 +266,7 @@ void SystemCoreClockUpdate (void)
       SystemCoreClock = (32768U * (1U << (msirange + 1U)));
       break;
   }
+
   /* Compute HCLK clock frequency --------------------------------------------*/
   /* Get HCLK prescaler */
   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4U)];

@@ -32,6 +32,8 @@
   Additionall KEEPs added for .init and .fini. Without this KEEP the 
   generated code will not work, because of the missing _init function.
   
+  4. Bugfix: Allign the end of the flash area
+  
 */
 
 _Stack_Size = 0x400; /* stm32l0: estimated amount of stack */
@@ -112,6 +114,9 @@ SECTIONS
 		*(.rodata*)
 
 		*(.eh_frame*)
+		
+		/* allign the end of the flash area */
+		. = ALIGN(4);
 	} > FLASH
 
 	.ARM.extab : 
