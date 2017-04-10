@@ -16,7 +16,6 @@
 
 uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-      return 1;
   switch(msg)
   {
     case U8X8_MSG_GPIO_AND_DELAY_INIT:
@@ -28,14 +27,14 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
       
       GPIOA->MODER &= ~GPIO_MODER_MODE10;	/* clear mode for PA10 */
       //GPIOA->MODER |= GPIO_MODER_MODE10_0;	/* Output mode for PA10 */
-      GPIOA->OTYPER |= GPIO_OTYPER_OT_10;	/* open drain for PA10 */
+      GPIOA->OTYPER &= ~GPIO_OTYPER_OT_10;	/* no open drain for PA10 */
       GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED10;	/* low speed for PA10 */
       GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD10;	/* no pullup/pulldown for PA10 */
       //GPIOA->BSRR = GPIO_BSRR_BS_10;		/* atomic set PA10 */
     
       GPIOA->MODER &= ~GPIO_MODER_MODE9;	/* clear mode for PA9 */
       //GPIOA->MODER |= GPIO_MODER_MODE9_0;	/* Output mode for PA9 */
-      GPIOA->OTYPER |= GPIO_OTYPER_OT_9;	/* open drain for PA9 */
+      GPIOA->OTYPER &= ~GPIO_OTYPER_OT_9;	/* no open drain for PA9 */
       GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED9;	/* low speed for PA9 */
       GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD9;	/* no pullup/pulldown for PA9 */
       //GPIOA->BSRR = GPIO_BSRR_BS_9;		/* atomic set PA9 */

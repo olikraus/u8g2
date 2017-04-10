@@ -94,6 +94,7 @@ int main()
   GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED13;	/* low speed for PA13 */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD13;	/* no pullup/pulldown for PA13 */
   GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
+    GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
 
   SysTick->LOAD = (SystemCoreClock/1000)*50 - 1;   /* 50ms task */
   SysTick->VAL = 0;
@@ -104,7 +105,7 @@ int main()
   //u8g2_Setup_ssd1306_i2c_128x64_noname_2(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
   //u8g2_InitDisplay(&u8g2);
   //u8g2_SetPowerSave(&u8g2, 0);
-  
+
   u8x8_Setup(&u8x8, u8x8_d_ssd1306_128x64_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
   u8x8_InitDisplay(&u8x8);
   u8x8_ClearDisplay(&u8x8);
