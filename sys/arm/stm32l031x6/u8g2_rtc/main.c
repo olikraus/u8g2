@@ -95,7 +95,8 @@ int main()
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
   __NOP();
   __NOP();
-  
+
+  /* LED output line */
   GPIOA->MODER &= ~GPIO_MODER_MODE13;	/* clear mode for PA13 */
   GPIOA->MODER |= GPIO_MODER_MODE13_0;	/* Output mode for PA13 */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_13;	/* Push/Pull for PA13 */
@@ -104,7 +105,18 @@ int main()
   GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
   GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
 
-    /* setup display */
+  /* PA0, button input */
+  GPIOA->MODER &= ~GPIO_MODER_MODE0;	/* clear mode for PA0 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD0;	/* no pullup/pulldown for PA0 */
+  GPIOA->PUPDR |= GPIO_PUPDR_PUPD0_0;	/* pullup for PA0 */
+
+  /* PA2, button input */
+  GPIOA->MODER &= ~GPIO_MODER_MODE2;	/* clear mode for PA2 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD2;	/* no pullup/pulldown for PA2 */
+  GPIOA->PUPDR |= GPIO_PUPDR_PUPD2_0;	/* pullup for PA2 */
+
+
+  /* setup display */
   u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
   u8g2_InitDisplay(&u8g2);
   u8g2_SetPowerSave(&u8g2, 0);
@@ -166,12 +178,20 @@ int main()
     rtc_register_to_bcd(&rtc);
     rtc_bcd_to_ymd_hms(&rtc);
     rtc_draw_time(&rtc, &u8g2);
+    if ( GPIOA->IDR & GPIO_IDR_ID0 )
+      u8g2_DrawStr(&u8g2, 20, 50, "+");
+    else
+      u8g2_DrawStr(&u8g2, 20, 50, "-");
+    if ( GPIOA->IDR & GPIO_IDR_ID2 )
+      u8g2_DrawStr(&u8g2, 0, 50, "+");
+    else
+      u8g2_DrawStr(&u8g2, 0, 50, "-");
     u8g2_SendBuffer(&u8g2);
     
-    delay_micro_seconds(500000);
-    GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
-    delay_micro_seconds(500000);
-    GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
+    delay_micro_seconds(50000);
+    GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
+    delay_micro_seconds(50000);
+    GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
 
 
     //display_WriteUnsigned(RTC->TR);
