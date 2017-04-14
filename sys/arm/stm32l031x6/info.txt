@@ -96,4 +96,9 @@ stm32flash: There seems to be a problem with ch340/ch341 devices
   ok, i will be using a cp21xx driver here...
   Conclution: Support of CH340 usb-serial converter for ubuntu linux will be there with Ubunutz 17.04
 
-  
+===========
+
+steampunk
+
+http://www.rattlebrained.org/articles/diy-pvc-train-whistle
+

@@ -117,7 +117,7 @@ all: $(DISNAME) $(HEXNAME)
 
 .PHONY: upload
 upload: $(DISNAME) $(HEXNAME) $(ELFNAME)
-	stm32flash -e 255 -g 0 -w $(HEXNAME) -v /dev/ttyUSB0
+	stm32flash -b 115200 -e 255 -g 0 -w $(HEXNAME) -v /dev/ttyUSB0
 	$(SIZE) $(ELFNAME)
 
 .PHONY: clean

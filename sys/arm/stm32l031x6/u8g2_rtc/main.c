@@ -1,4 +1,13 @@
-/* LED blink project for the STM32L031 */
+/* 
+
+  RTC for the STM32L031 
+  
+  EXTI line
+  17			RTC alarm
+  19			RTC tamper & timestamp & CSS_LSE
+  20			RTC wakeup timer
+  
+*/
 
 #include "stm32l031xx.h"
 #include "delay.h"
@@ -14,6 +23,7 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 /* global variables */
 
 volatile unsigned long SysTickCount = 0;
+volatile unsigned long RTCIRQCount = 0;
 rtc_t rtc;
 u8g2_t u8g2;
 
@@ -24,6 +34,11 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
   SysTickCount++;  
 }
 
+void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
+{
+  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
+  RTCIRQCount++;
+}
 
 
 void setHSIClock()
@@ -157,6 +172,7 @@ int main()
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
   
+  /* RTC Start */
   RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
   while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
       ;
@@ -164,10 +180,26 @@ int main()
   RTC->TR = 0; 
   RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
   
+  /* wake up time setup & start */
+  RTC->CR &=~ RTC_CR_WUTE; 			/* disable wakeup timer for reprogramming */
+  while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
+    ;
+  
+  RTC->WUTR = 0x010;						/* reload is 1: 1Hz with the 1Hz clock */
+  RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
+  RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
+  RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE ; 
+  
+  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
+  
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
   
+  EXTI->IMR |= EXTI_IMR_IM20;
+  EXTI->RTSR |= EXTI_RTSR_RT20;
   
+  NVIC_EnableIRQ(RTC_IRQn);
+  NVIC_SetPriority(RTC_IRQn, 0);
   
   //PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR */
 
@@ -186,6 +218,10 @@ int main()
       u8g2_DrawStr(&u8g2, 0, 50, "+");
     else
       u8g2_DrawStr(&u8g2, 0, 50, "-");
+    
+    u8g2_DrawStr(&u8g2, 40,50, u8x8_u8toa(RTCIRQCount, 3));
+
+    
     u8g2_SendBuffer(&u8g2);
     
     delay_micro_seconds(50000);
