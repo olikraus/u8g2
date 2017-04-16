@@ -44,8 +44,14 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
   /* the wake up time flag must be cleared, otherwise no further IRQ will happen */
   /* in principle, this should happen only when a IRQ line 20 IRQ happens, but */
   /* it will be more safe to clear this flag for any interrupt */
+  
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  
   RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag */
   
+  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
   
   RTCIRQCount++;
 }
@@ -58,7 +64,7 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
 
   This must be executed after each reset.
 */
-void setHSIClock()
+void startHSIClock()
 {
   /* test if the current clock source is something else than HSI */
   if ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI) 
@@ -145,10 +151,97 @@ void initDisplay(void)
   u8g2_SendBuffer(&u8g2);
 }
 
+
+/*=======================================================================*/
+/*
+  configure and start RTC
+
+  This must be executed only after POR reset.
+*/
+void initRTC(void)
+{
+  /* real time clock enable */  
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  RTC->WPR = 0x0ca;					/* disable RTC write protection */
+  RTC->WPR = 0x053;
+    
+  /* externel 32K clock source */
+  RCC->CSR |= RCC_CSR_LSEBYP;			/* bypass oscillator */
+  
+  /* externel 32K oscillator */
+  //RCC->CSR &= ~RCC_CSR_LSEBYP;		/* no bypass oscillator */
+  //RCC->CSR &= ~RCC_CSR_LSEDRV_Msk	/* lowest drive */
+  //RCC->CSR  |= RCC_CSR_LSEDRV_0;		/* medium low drive */
+  
+  RCC->CSR |= RCC_CSR_LSEON;			/* enable low speed external clock */
+  delay_micro_seconds(100000*5);			/* LSE requires between 100ms to 200ms */
+  /*
+  if ( RCC->CSR & RCC_CSR_LSERDY )
+    display_Write("32K Clock Ready\n");
+  else
+    display_Write("32K Clock Error\n");
+    */
+  RCC->CSR &= ~RCC_CSR_RTCSEL_Msk;		/* no clock selection for RTC */
+  RCC->CSR |= RCC_CSR_RTCSEL_LSE;		/* select LSE */
+  RCC->CSR |= RCC_CSR_RTCEN;			/* enable RTC */
+     
+  /* RTC Start */
+  RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
+  while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
+      ;
+  RTC->PRER = 0x07f00ff;
+  RTC->TR = 0; 
+  RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
+  
+  RTC->WPR = 0;						/* enable RTC write protection */
+  RTC->WPR = 0;
+  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
+}
+
+/*=======================================================================*/
+/*
+  enable RTC wakeup and interrupt
+
+  This must be executed after any reset.
+*/
+void startRTCWakeUp(void)
+{
+  /* wake up time setup & start */
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  RTC->WPR = 0x0ca;					/* disable RTC write protection */
+  RTC->WPR = 0x053;
+  
+  RTC->CR &=~ RTC_CR_WUTE; 			/* disable wakeup timer for reprogramming */
+  while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
+    ;
+  
+  RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
+  RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
+  RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
+  RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE ; 
+  
+  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
+  
+  
+  /* wake up IRQ is connected to line 20 */
+  EXTI->RTSR |= EXTI_RTSR_RT20;			/* rising edge for wake up line */
+  EXTI->IMR |= EXTI_IMR_IM20;			/* interrupt enable */
+  
+  RTC->WPR = 0;						/* enable RTC write protection */
+  RTC->WPR = 0;
+  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */  
+}
+
+
+
 /*=======================================================================*/
 int main()
 {
-  setHSIClock();
+  startHSIClock();
   SystemCoreClockUpdate();				/* Update SystemCoreClock() */
   //SystemCoreClock = 32000000UL;
   startSysTick();
@@ -178,76 +271,13 @@ int main()
 
 
   initDisplay();
+  initRTC();
+  startRTCWakeUp();
+  
 
-  
-  /* real time clock enable */
-  
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
-  
-  /* externel 32K clock source */
-  RCC->CSR |= RCC_CSR_LSEBYP;			/* bypass oscillator */
-  
-  /* externel 32K oscillator */
-  //RCC->CSR &= ~RCC_CSR_LSEBYP;		/* no bypass oscillator */
-  //RCC->CSR &= ~RCC_CSR_LSEDRV_Msk	/* lowest drive */
-  //RCC->CSR  |= RCC_CSR_LSEDRV_0;		/* medium low drive */
-  
-  RCC->CSR |= RCC_CSR_LSEON;			/* enable low speed external clock */
-  delay_micro_seconds(100000*5);			/* LSE requires between 100ms to 200ms */
-  /*
-  if ( RCC->CSR & RCC_CSR_LSERDY )
-    display_Write("32K Clock Ready\n");
-  else
-    display_Write("32K Clock Error\n");
-    */
-  RCC->CSR &= ~RCC_CSR_RTCSEL_Msk;		/* no clock selection for RTC */
-  RCC->CSR |= RCC_CSR_RTCSEL_LSE;		/* select LSE */
-  RCC->CSR |= RCC_CSR_RTCEN;			/* enable RTC */
-     
-  RTC->WPR = 0x0ca;					/* disable RTC write protection */
-  RTC->WPR = 0x053;
-  
-  /* RTC Start */
-  RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
-  while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
-      ;
-  RTC->PRER = 0x07f00ff;
-  RTC->TR = 0; 
-  RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
-  
-  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
-  
-  
-  /* wake up time setup & start */
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
-  
-  RTC->CR &=~ RTC_CR_WUTE; 			/* disable wakeup timer for reprogramming */
-  while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
-    ;
-  
-  RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
-  RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
-  RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
-  RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE ; 
-  
-  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
-  
-  RTC->WPR = 0;						/* enable RTC write protection */
-  RTC->WPR = 0;
-  
-  /* wake up IRQ is connected to line 20 */
-  EXTI->RTSR |= EXTI_RTSR_RT20;			/* rising edge for wake up line */
-  EXTI->IMR |= EXTI_IMR_IM20;			/* interrupt enable */
-  
-  NVIC_EnableIRQ(RTC_IRQn);
   NVIC_SetPriority(RTC_IRQn, 0);
+  NVIC_EnableIRQ(RTC_IRQn);
   
-  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
-
   
   for(;;)
   {
