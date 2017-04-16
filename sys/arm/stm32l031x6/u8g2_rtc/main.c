@@ -183,7 +183,7 @@ int main()
   /* real time clock enable */
   
   RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
   
   /* externel 32K clock source */
   RCC->CSR |= RCC_CSR_LSEBYP;			/* bypass oscillator */
@@ -216,7 +216,14 @@ int main()
   RTC->TR = 0; 
   RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
   
+  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
+  
+  
   /* wake up time setup & start */
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  
   RTC->CR &=~ RTC_CR_WUTE; 			/* disable wakeup timer for reprogramming */
   while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
     ;
@@ -238,7 +245,8 @@ int main()
   NVIC_EnableIRQ(RTC_IRQn);
   NVIC_SetPriority(RTC_IRQn, 0);
   
-  //PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR */
+  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
 
   
   for(;;)
