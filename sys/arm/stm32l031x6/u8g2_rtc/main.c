@@ -36,15 +36,30 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 
 void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
 {
-  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
+  if ( (EXTI->PR & EXTI_PR_PIF20) != 0 )
+  {
+    EXTI->PR = EXTI_PR_PIF20;		/* wake up is connected to line 20, clear this IRQ */
+  }
+  
+  /* the wake up time flag must be cleared, otherwise no further IRQ will happen */
+  /* in principle, this should happen only when a IRQ line 20 IRQ happens, but */
+  /* it will be more safe to clear this flag for any interrupt */
+  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag */
+  
+  
   RTCIRQCount++;
 }
 
 
+/*=======================================================================*/
+/*
+  Set internal high speed clock as clock for the system
+  Also call SystemCoreClockUpdate()
+
+  This must be executed after each reset.
+*/
 void setHSIClock()
 {
-  
-  
   /* test if the current clock source is something else than HSI */
   if ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI) 
   {
@@ -96,16 +111,47 @@ void setHSIClock()
     ;
 }
 
+/*=======================================================================*/
+/*
+  Setup systick interrupt.
+  A call to SystemCoreClockUpdate() is required before calling this function.
+
+  This must be executed after each reset.
+*/
+void startSysTick(void)
+{
+  SysTick->LOAD = (SystemCoreClock/1000)*50 - 1;   /* 50ms task */
+  SysTick->VAL = 0;
+  SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */
+}
+
+/*=======================================================================*/
+/*
+  Setup u8g2
+
+  This must be executed only after POR reset.
+*/
+void initDisplay(void)
+{
+  /* setup display */
+  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
+  u8g2_InitDisplay(&u8g2);
+  u8g2_SetPowerSave(&u8g2, 0);
+  u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
+  u8g2_ClearBuffer(&u8g2);
+  u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
+  u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
+  u8g2_DrawStr(&u8g2, 20,24, "MHz");
+  u8g2_SendBuffer(&u8g2);
+}
+
+/*=======================================================================*/
 int main()
 {
   setHSIClock();
   SystemCoreClockUpdate();				/* Update SystemCoreClock() */
   //SystemCoreClock = 32000000UL;
-  
-  SysTick->LOAD = (SystemCoreClock/1000)*50 - 1;   /* 50ms task */
-  SysTick->VAL = 0;
-  SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */
-  
+  startSysTick();
   
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
   __NOP();
@@ -131,17 +177,7 @@ int main()
   GPIOA->PUPDR |= GPIO_PUPDR_PUPD2_0;	/* pullup for PA2 */
 
 
-  /* setup display */
-  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
-  u8g2_InitDisplay(&u8g2);
-  u8g2_SetPowerSave(&u8g2, 0);
-  u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-  u8g2_ClearBuffer(&u8g2);
-  u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
-  u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
-  u8g2_DrawStr(&u8g2, 20,24, "MHz");
-  u8g2_SendBuffer(&u8g2);
-  
+  initDisplay();
 
   
   /* real time clock enable */
@@ -185,7 +221,7 @@ int main()
   while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
     ;
   
-  RTC->WUTR = 0x010;						/* reload is 1: 1Hz with the 1Hz clock */
+  RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
   RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
   RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
   RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE ; 
@@ -195,8 +231,9 @@ int main()
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
   
-  EXTI->IMR |= EXTI_IMR_IM20;
-  EXTI->RTSR |= EXTI_RTSR_RT20;
+  /* wake up IRQ is connected to line 20 */
+  EXTI->RTSR |= EXTI_RTSR_RT20;			/* rising edge for wake up line */
+  EXTI->IMR |= EXTI_IMR_IM20;			/* interrupt enable */
   
   NVIC_EnableIRQ(RTC_IRQn);
   NVIC_SetPriority(RTC_IRQn, 0);
