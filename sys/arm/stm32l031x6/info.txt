@@ -102,3 +102,10 @@ steampunk
 
 http://www.rattlebrained.org/articles/diy-pvc-train-whistle
 
+===========
+
+TODO, 17 Apr 2017
+- Pullups an die buttons und die tamper pullups deaktivieren. 
+  Grund: Ansonsten kann man nicht mehr per reset booten und flashen
+- Es wird ja ständig das power interface sowie RTC activiert und deaktiviert.
+  Das sollte man vermutlich dauerhaft aktiviert lassen.

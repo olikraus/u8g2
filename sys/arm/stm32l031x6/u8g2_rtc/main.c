@@ -22,21 +22,66 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 /*=======================================================================*/
 /* global variables */
 
+#define TAMPER_SYSTICK_DELAY 20
+
 volatile unsigned long SysTickCount = 0;
 volatile unsigned long RTCIRQCount = 0;
+volatile unsigned long Tamper2Count = 0;
+volatile unsigned long Tamper3Count = 0;
 rtc_t rtc;
 u8g2_t u8g2;
+
+/*=======================================================================*/
+/* utility function */
+void enableRCCRTCWrite(void) U8G2_NOINLINE;
+void enableRCCRTCWrite(void)
+{
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+}
+
+void disableRCCRTCWrite(void) U8G2_NOINLINE;
+void disableRCCRTCWrite(void)
+{
+    PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+    RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
+}
 
 /*=======================================================================*/
 
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
   SysTickCount++;  
+  
+  if ( Tamper3Count > 0 )
+  {
+    Tamper3Count--;
+    if ( Tamper3Count == 0 )
+    {
+      enableRCCRTCWrite();
+      RTC->ISR &= ~RTC_ISR_TAMP3F;		/* clear tamper flag, allow new tamper event */
+      disableRCCRTCWrite();
+    }
+  }
+
+  if ( Tamper2Count > 0 )
+  {
+    Tamper2Count--;
+    if ( Tamper2Count == 0 )
+    {
+      enableRCCRTCWrite();
+      RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
+      disableRCCRTCWrite();
+    }
+  }
+  
 }
 
 void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
 {
-  if ( (EXTI->PR & EXTI_PR_PIF20) != 0 )
+  enableRCCRTCWrite();
+    
+  if ( (EXTI->PR & EXTI_PR_PIF20) != 0 )	/* interrupt caused by wake up */
   {
     EXTI->PR = EXTI_PR_PIF20;		/* wake up is connected to line 20, clear this IRQ */
   }
@@ -45,14 +90,25 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
   /* in principle, this should happen only when a IRQ line 20 IRQ happens, but */
   /* it will be more safe to clear this flag for any interrupt */
   
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
-  
   RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag */
+
   
-  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
-  
+  if ( (EXTI->PR & EXTI_PR_PIF19) != 0 )	/* interrupt caused by tamper event */
+  {
+    EXTI->PR = EXTI_PR_PIF19;		/* clear tamper IRQ */
+    
+    /* The TAMPxF flag has to be cleared, but this is done in the systick handler after some delay */
+    //RTC->ISR &= ~RTC_ISR_TAMP3F;
+    //RTC->ISR &= ~RTC_ISR_TAMP2F;
+    
+    if ( RTC->ISR & RTC_ISR_TAMP3F )
+      Tamper3Count = TAMPER_SYSTICK_DELAY;
+    if ( RTC->ISR & RTC_ISR_TAMP2F )
+      Tamper2Count = TAMPER_SYSTICK_DELAY;
+    
+    
+  }
+  disableRCCRTCWrite();   
   RTCIRQCount++;
 }
 
@@ -161,8 +217,8 @@ void initDisplay(void)
 void initRTC(void)
 {
   /* real time clock enable */  
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  enableRCCRTCWrite();
+  
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
     
@@ -196,8 +252,7 @@ void initRTC(void)
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
-  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
+  disableRCCRTCWrite();
 }
 
 /*=======================================================================*/
@@ -209,8 +264,8 @@ void initRTC(void)
 void startRTCWakeUp(void)
 {
   /* wake up time setup & start */
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  enableRCCRTCWrite();
+  
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
   
@@ -226,14 +281,24 @@ void startRTCWakeUp(void)
   RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
   
   
+  /* tamper (button) detection */
+  /* low level, filtered, pullup enabled, IRQ enabled, Sample Freq is 128Hz */
+  RTC->TAMPCR = 
+    RTC_TAMPCR_TAMP3NOERASE | RTC_TAMPCR_TAMP3IE | RTC_TAMPCR_TAMP3E | 
+    RTC_TAMPCR_TAMP2NOERASE | RTC_TAMPCR_TAMP2IE | RTC_TAMPCR_TAMP2E | 
+    RTC_TAMPCR_TAMPPRCH_0 | RTC_TAMPCR_TAMPFLT_1 | RTC_TAMPCR_TAMPFREQ;
+  
   /* wake up IRQ is connected to line 20 */
   EXTI->RTSR |= EXTI_RTSR_RT20;			/* rising edge for wake up line */
   EXTI->IMR |= EXTI_IMR_IM20;			/* interrupt enable */
+
+  /* tamper IRQ is connected to line 19 */
+  EXTI->RTSR |= EXTI_RTSR_RT19;			/* rising edge for wake up line */
+  EXTI->IMR |= EXTI_IMR_IM19;			/* interrupt enable */
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
-  PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-  RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */  
+  disableRCCRTCWrite();
 }
 
 
