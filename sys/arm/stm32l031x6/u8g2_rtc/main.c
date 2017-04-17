@@ -36,15 +36,15 @@ u8g2_t u8g2;
 void enableRCCRTCWrite(void) U8G2_NOINLINE;
 void enableRCCRTCWrite(void)
 {
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  //RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  //PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
 }
 
 void disableRCCRTCWrite(void) U8G2_NOINLINE;
 void disableRCCRTCWrite(void)
 {
-    PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-    RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
+    //PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
+    //RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
 }
 
 /*=======================================================================*/
@@ -58,9 +58,9 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
     Tamper3Count--;
     if ( Tamper3Count == 0 )
     {
-      enableRCCRTCWrite();
+      //enableRCCRTCWrite();
       RTC->ISR &= ~RTC_ISR_TAMP3F;		/* clear tamper flag, allow new tamper event */
-      disableRCCRTCWrite();
+      //disableRCCRTCWrite();
     }
   }
 
@@ -69,9 +69,9 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
     Tamper2Count--;
     if ( Tamper2Count == 0 )
     {
-      enableRCCRTCWrite();
+      //enableRCCRTCWrite();
       RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
-      disableRCCRTCWrite();
+      //disableRCCRTCWrite();
     }
   }
   
@@ -79,7 +79,7 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 
 void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
 {
-  enableRCCRTCWrite();
+  //enableRCCRTCWrite();
     
   if ( (EXTI->PR & EXTI_PR_PIF20) != 0 )	/* interrupt caused by wake up */
   {
@@ -108,10 +108,23 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
     
     
   }
-  disableRCCRTCWrite();   
+  //disableRCCRTCWrite();   
   RTCIRQCount++;
 }
 
+/*=======================================================================*/
+/*
+  Enable several power regions: PWR, GPIOA
+  Enable write access to RTC
+
+  This must be executed after each reset.
+*/
+void startUp(void)
+{
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+}
 
 /*=======================================================================*/
 /*
@@ -217,7 +230,7 @@ void initDisplay(void)
 void initRTC(void)
 {
   /* real time clock enable */  
-  enableRCCRTCWrite();
+  //enableRCCRTCWrite();
   
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
@@ -252,7 +265,7 @@ void initRTC(void)
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
-  disableRCCRTCWrite();
+  //disableRCCRTCWrite();
 }
 
 /*=======================================================================*/
@@ -264,7 +277,7 @@ void initRTC(void)
 void startRTCWakeUp(void)
 {
   /* wake up time setup & start */
-  enableRCCRTCWrite();
+  //enableRCCRTCWrite();
   
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
@@ -298,7 +311,7 @@ void startRTCWakeUp(void)
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
-  disableRCCRTCWrite();
+  //disableRCCRTCWrite();
 }
 
 
@@ -308,6 +321,7 @@ int main()
 {
   startHSIClock();
   SystemCoreClockUpdate();				/* Update SystemCoreClock() */
+  startUp();
   //SystemCoreClock = 32000000UL;
   startSysTick();
   
