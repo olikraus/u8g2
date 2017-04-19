@@ -7,12 +7,17 @@
   19			RTC tamper & timestamp & CSS_LSE
   20			RTC wakeup timer
   
+
+  __enable_irq()
+  __disable_irq()
+  
 */
 
 #include "stm32l031xx.h"
 #include "delay.h"
 #include "u8g2.h"
 #include "rtc.h"
+#include "key.h"
 
 /*=======================================================================*/
 /* external functions */
@@ -22,7 +27,7 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 /*=======================================================================*/
 /* global variables */
 
-#define TAMPER_SYSTICK_DELAY 20
+#define TAMPER_SYSTICK_DELAY 5
 
 volatile unsigned long SysTickCount = 0;
 volatile unsigned long RTCIRQCount = 0;
@@ -47,6 +52,7 @@ void disableRCCRTCWrite(void)
     //RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
 }
 
+
 /*=======================================================================*/
 
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
@@ -63,6 +69,10 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
       //disableRCCRTCWrite();
     }
   }
+  else
+  {
+      RTC->ISR &= ~RTC_ISR_TAMP3F;		/* clear tamper flag, allow new tamper event */
+  }
 
   if ( Tamper2Count > 0 )
   {
@@ -73,6 +83,10 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
       RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
       //disableRCCRTCWrite();
     }
+  }
+  else
+  {
+      RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
   }
   
 }
@@ -102,10 +116,15 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
     //RTC->ISR &= ~RTC_ISR_TAMP2F;
     
     if ( RTC->ISR & RTC_ISR_TAMP3F )
+    {
+      key_add(KEY_NEXT);
       Tamper3Count = TAMPER_SYSTICK_DELAY;
+    }
     if ( RTC->ISR & RTC_ISR_TAMP2F )
+    {
+      key_add(KEY_SELECT);
       Tamper2Count = TAMPER_SYSTICK_DELAY;
-    
+    }
     
   }
   //disableRCCRTCWrite();   
@@ -315,10 +334,13 @@ void startRTCWakeUp(void)
 }
 
 
+int cursor_pos = 0;
+int select_pos = 0;
 
 /*=======================================================================*/
 int main()
 {
+  int i;
   startHSIClock();
   SystemCoreClockUpdate();				/* Update SystemCoreClock() */
   startUp();
@@ -365,16 +387,26 @@ int main()
     rtc_bcd_to_ymd_hms(&rtc);
     rtc_draw_time(&rtc, &u8g2);
     if ( GPIOA->IDR & GPIO_IDR_ID0 )
-      u8g2_DrawStr(&u8g2, 20, 50, "+");
+      u8g2_DrawStr(&u8g2, 15, 45, "+");
     else
-      u8g2_DrawStr(&u8g2, 20, 50, "-");
+      u8g2_DrawStr(&u8g2, 15, 45, "-");
     if ( GPIOA->IDR & GPIO_IDR_ID2 )
-      u8g2_DrawStr(&u8g2, 0, 50, "+");
+      u8g2_DrawStr(&u8g2, 0, 45, "+");
     else
-      u8g2_DrawStr(&u8g2, 0, 50, "-");
+      u8g2_DrawStr(&u8g2, 0, 45, "-");
     
-    u8g2_DrawStr(&u8g2, 40,50, u8x8_u8toa(RTCIRQCount, 3));
+    u8g2_DrawStr(&u8g2, 30,45, u8x8_u8toa(RTCIRQCount, 3));
+    u8g2_DrawStr(&u8g2, 90,45, u8x8_u8toa(key_queue_start, 2));
 
+    for( i = 0; i < 4; i++ )
+    {
+      if ( i == select_pos )
+	u8g2_DrawBox(&u8g2, i*20+10, 50, 10, 10);
+      else
+	u8g2_DrawFrame(&u8g2, i*20+10, 50, 10, 10);
+      if ( i == cursor_pos )
+	u8g2_DrawFrame(&u8g2, i*20+10-1, 50-1, 10+2, 10+2);	
+    }
     
     u8g2_SendBuffer(&u8g2);
     
@@ -383,6 +415,17 @@ int main()
     delay_micro_seconds(50000);
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
 
+    for(;;)
+    {
+      i = key_get();
+      if ( i == KEY_NONE )
+	break;
+      if ( i == KEY_SELECT )
+	select_pos = cursor_pos;
+      if ( i == KEY_NEXT )
+	cursor_pos = ( cursor_pos + 1 ) & 3;
+      
+    }
 
     //display_WriteUnsigned(RTC->TR);
     //display_Write("\n");

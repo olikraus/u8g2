@@ -102,10 +102,17 @@ steampunk
 
 http://www.rattlebrained.org/articles/diy-pvc-train-whistle
 
+
+Kupferrohre:
+https://www.bengs-modellbau.de/zubehoerteile/flasche-und-fittings/
+90 grad fitting
+Auch nicht schlecht:
+https://knupfer.info/shop/index.php/deutsch/profile-rohre/kupferrohr.html
+
 ===========
 
 TODO, 17 Apr 2017
 - Pullups an die buttons und die tamper pullups deaktivieren. 
   Grund: Ansonsten kann man nicht mehr per reset booten und flashen
 - Es wird ja ständig das power interface sowie RTC activiert und deaktiviert.
-  Das sollte man vermutlich dauerhaft aktiviert lassen.
+  Das sollte man vermutlich dauerhaft aktiviert lassen.  --> DONE
