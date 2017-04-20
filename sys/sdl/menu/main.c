@@ -56,16 +56,15 @@ int main(void)
     
     if ( k == 'n' )
       menu_NextFocus(&menu);
+
+    if ( k == 's' )
+      menu_Select(&menu);
     
     if ( k == 273 ) y -= 7;
     if ( k == 274 ) y += 7;
     if ( k == 276 ) x -= 7;
     if ( k == 275 ) x += 7;
     
-    if ( k == 'e' ) y -= 1;
-    if ( k == 'x' ) y += 1;
-    if ( k == 's' ) x -= 1;
-    if ( k == 'd' ) x += 1;
     if ( k == 'q' ) break;
     
   }

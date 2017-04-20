@@ -57,6 +57,7 @@ void menu_Init(menu_t *menu, u8g2_t *u8g2);
 void menu_SetMEList(menu_t *menu, const me_t *me_list, uint16_t initial_focus);
 void menu_Draw(menu_t *menu);
 void menu_NextFocus(menu_t *menu);
+void menu_Select(menu_t *menu);
 
 
 int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg);

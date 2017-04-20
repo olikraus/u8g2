@@ -62,6 +62,7 @@ static void menu_CalcNextValidFocus(menu_t *menu)
   }
 }
 
+/* advance current focus to the next element */
 void menu_NextFocus(menu_t *menu)
 {
   menu->focus_index++;
@@ -69,6 +70,14 @@ void menu_NextFocus(menu_t *menu)
     menu->focus_index = 0;
   menu_CalcNextValidFocus(menu);
 }
+
+/* send select message to the element which has the current focus */
+void menu_Select(menu_t *menu)
+{
+  menu->current_index = menu->focus_index;
+  menu_CallME(menu, ME_MSG_SELECT);
+}
+
 
 
 void menu_SetMEList(menu_t *menu, const me_t *me_list, uint16_t initial_focus)
