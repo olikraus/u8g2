@@ -7,12 +7,14 @@ u8g2_t u8g2;
 
 uint8_t a, b;
 
-me_t mymenu[] = 
+me_t melist_nums[] = 
 {
   { me_cb_0_9, &a, 2,20 },
-  { me_cb_0_9, &b, 12,20 },
+  { me_cb_0_9, &b, 16,20 },
   { me_cb_null, NULL, 0, 0 },
 };
+
+menu_t menu;
 
 
 int main(void)
@@ -27,6 +29,9 @@ int main(void)
   
   u8g2_SetFont(&u8g2, u8g2_font_helvB18_tf);
   
+  menu_Init(&menu, &u8g2);
+  menu_SetMEList(&menu, melist_nums, 0);
+  
   x = 50;
   y = 30;
 
@@ -39,7 +44,7 @@ int main(void)
     {
       u8g2_SetFontDirection(&u8g2, 0);
       u8g2_DrawStr(&u8g2, x, y, "123");
-      u8g2_DrawStr(&u8g2, 0, 20, "Hello");
+      menu_Draw(&menu);
       i++;
       
     } while( u8g2_NextPage(&u8g2) );
@@ -48,6 +53,9 @@ int main(void)
     {
       k = u8g_sdl_get_key();
     } while( k < 0 );
+    
+    if ( k == 'n' )
+      menu_NextFocus(&menu);
     
     if ( k == 273 ) y -= 7;
     if ( k == 274 ) y += 7;

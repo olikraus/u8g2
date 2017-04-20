@@ -37,7 +37,7 @@ struct _menu_struct
 {
   u8g2_t *u8g2;
   
-  uint16_t current_index;	/* element which is processed right now */
+  volatile uint16_t current_index;	/* element which is processed right now */
   uint16_t focus_index;	/* element which has the focus at the moment */
   uint16_t radio_index;	/* if elements for a radio selection, then this is set by the cb */
   uint16_t me_count;	/* total number of elements in the list */
@@ -53,7 +53,10 @@ struct _menu_struct
   
 };
 
-void menu_Init(menu_t *menu, const me_t *me_list, uint16_t initial_focus);
+void menu_Init(menu_t *menu, u8g2_t *u8g2);
+void menu_SetMEList(menu_t *menu, const me_t *me_list, uint16_t initial_focus);
+void menu_Draw(menu_t *menu);
+void menu_NextFocus(menu_t *menu);
 
 
 int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg);
