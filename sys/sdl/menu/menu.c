@@ -2,6 +2,8 @@
 
 #include "menu.h"
 
+/*================================================*/
+
 
 /* this function must be the last function in the list. it also marks the end of a list */
 int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg)
@@ -9,8 +11,10 @@ int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
-
-
+/*
+  Name: 	me_cb_0_9
+  Arg:	uint8_t *
+*/
 int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
 {  
   switch(msg)
@@ -38,6 +42,33 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
   }
   return 0;
 }
+
+/*
+  Name: 	me_cb_text_line
+  Arg:	char *
+*/
+int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_GET_BBX:
+      menu->x = 0;
+      menu->y = me->y - u8g2_GetAscent(menu->u8g2) -1;
+      menu->w = u8g2_GetDisplayWidth(menu->u8g2) ;
+      menu->h = u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1;
+      return 1;
+    case ME_MSG_SELECT:
+      return 0;
+    case ME_MSG_DRAW:
+      u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (char *)(me->arg) );
+      return 1;
+  }
+  return 0;
+}
+
+/*================================================*/
 
 /* call menu element from menu->current_index */
 int menu_CallME(menu_t *menu, uint8_t msg)
@@ -109,12 +140,25 @@ void menu_Init(menu_t *menu, u8g2_t *u8g2)
 /* draw focus for menu->current_index */
 void menu_DrawFocus(menu_t *menu)
 {
+  uint8_t color;
   menu_CallME(menu, ME_MSG_GET_BBX);
+  /*
   menu->x--;
   menu->y--;
   menu->h+=2;
   menu->w+=2;
-  u8g2_DrawRFrame(menu->u8g2, menu->x, menu->y, menu->w, menu->h, 3);
+  */
+  color = u8g2_GetDrawColor(menu->u8g2);
+  u8g2_SetDrawColor(menu->u8g2, 2);
+  u8g2_DrawBox(menu->u8g2, menu->x, menu->y, menu->w, menu->h);
+  u8g2_SetDrawColor(menu->u8g2, 0);
+  menu->w--;
+  menu->h--;
+  u8g2_DrawPixel(menu->u8g2, menu->x,menu->y);
+  u8g2_DrawPixel(menu->u8g2, menu->x+menu->w,menu->y);
+  u8g2_DrawPixel(menu->u8g2, menu->x,menu->y+menu->h);
+  u8g2_DrawPixel(menu->u8g2, menu->x+menu->w,menu->y+menu->h);
+  u8g2_SetDrawColor(menu->u8g2, color);
 }
 
 

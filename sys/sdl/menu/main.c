@@ -14,6 +14,16 @@ me_t melist_nums[] =
   { me_cb_null, NULL, 0, 0 },
 };
 
+me_t melist_menu[] = 
+{
+  { me_cb_text_line, "Zurück", 3,10 },
+  { me_cb_text_line, "Alarm", 3,20 },
+  { me_cb_text_line, "Einstellungen", 3,30 },
+  { me_cb_null, NULL, 0, 0 },
+};
+
+
+
 menu_t menu;
 
 
@@ -27,10 +37,11 @@ int main(void)
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
-  u8g2_SetFont(&u8g2, u8g2_font_helvB18_tf);
+  //u8g2_SetFont(&u8g2, u8g2_font_helvB18_tf);
+  u8g2_SetFont(&u8g2, u8g2_font_ncenR08_tf);
   
   menu_Init(&menu, &u8g2);
-  menu_SetMEList(&menu, melist_nums, 0);
+  menu_SetMEList(&menu, melist_menu, 0);
   
   x = 50;
   y = 30;
