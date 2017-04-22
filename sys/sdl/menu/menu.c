@@ -4,6 +4,9 @@
 
 /*================================================*/
 
+#define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
+#define MENU_BIG_NUM u8g2_font_ncenR18_tf
+
 
 /* this function must be the last function in the list. it also marks the end of a list */
 int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg)
@@ -11,9 +14,51 @@ int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+
+/*
+  Name: 	me_cb_0_9  
+  Val:	uint8_t *
+  Arg:	char *
+*/
+int me_cb_str_toggle(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  uint8_t val = *(uint8_t *)(me->val);
+  u8g2_uint_t x, y, w, h;
+  w = 10;
+  h = 10;
+  x = me->x;
+  y = me->y - u8g2_GetAscent(menu->u8g2)-1;
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_GET_BBX:
+      menu->x = x-1;
+      menu->y = y-1;
+      menu->w = w+2;
+      menu->h = h+2;
+      return 1;
+    case ME_MSG_SELECT:
+      {
+	val++;
+	if ( val > 1 )
+	  val = 0;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+      u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (const char *)(me->arg));
+      if ( val > 0 )
+	u8g2_DrawRFrame(menu->u8g2, x, y, w, h, 1);
+      return 1;
+  }
+  return 0;
+}
+
 /*
   Name: 	me_cb_0_9
-  Arg:	uint8_t *
+  Val:	uint8_t *
 */
 int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
 {  
@@ -23,21 +68,127 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
       return 1;
     case ME_MSG_GET_BBX:
       menu->x = me->x;
-      menu->y = me->y - u8g2_GetAscent(menu->u8g2);
-      menu->w = u8g2_GetGlyphWidth(menu->u8g2, '0')-1;
-      menu->h = u8g2_GetAscent(menu->u8g2) ;
+      menu->y = me->y - u8g2_GetAscent(menu->u8g2)-1;
+      menu->w = u8g2_GetGlyphWidth(menu->u8g2, '0');
+      menu->h = u8g2_GetAscent(menu->u8g2) + 2;
       return 1;
     case ME_MSG_SELECT:
       {
-	uint8_t val = *(uint8_t *)(me->arg);
+	uint8_t val = *(uint8_t *)(me->val);
 	val++;
 	if ( val > 9 )
 	  val = 0;
-	*(uint8_t *)(me->arg) = val;
+	*(uint8_t *)(me->val) = val;
       }
       return 1;
     case ME_MSG_DRAW:
-      u8g2_DrawGlyph(menu->u8g2, me->x, me->y, *(uint8_t *)(me->arg) + '0');
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
+      u8g2_DrawGlyph(menu->u8g2, me->x, me->y, *(uint8_t *)(me->val) + '0');
+      return 1;
+  }
+  return 0;
+}
+
+
+/*
+  Name: 	me_cb_0_5
+  Val:	uint8_t *
+*/
+int me_cb_0_5(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_SELECT:
+      {
+	uint8_t val = *(uint8_t *)(me->val);
+	val++;
+	if ( val > 5 )
+	  val = 0;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+  }
+  return me_cb_0_9(menu, me, msg);
+}
+
+/*
+  Name: 	me_cb_0_23
+  Val:	uint8_t *
+*/
+int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  char s[4];
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_GET_BBX:
+      menu->x = me->x;
+      menu->y = me->y - u8g2_GetAscent(menu->u8g2)-1;
+      menu->w = u8g2_GetGlyphWidth(menu->u8g2, '0')*2;
+      menu->h = u8g2_GetAscent(menu->u8g2) + 2;
+      return 1;
+    case ME_MSG_SELECT:
+      {
+	uint8_t val = *(uint8_t *)(me->val);
+	val++;
+	if ( val > 23 )
+	  val = 0;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
+      s[0] = *(uint8_t *)(me->val);
+      s[1] = s[0];
+      s[1] %= 10;
+      s[1] += '0';
+      s[0] /= 10;
+      s[0] += '0';
+      s[2] = '\0';
+	u8g2_DrawUTF8(menu->u8g2, me->x, me->y, s);
+      return 1;
+  }
+  return 0;
+}
+
+/*
+  Name: 	me_cb_0_55
+  Val:	uint8_t *
+*/
+int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_SELECT:
+      {
+	uint8_t val = *(uint8_t *)(me->val);
+	val+=5;
+	if ( val > 55 )
+	  val = 0;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+  }
+  return me_cb_0_23(menu, me, msg);
+}
+
+/*
+  Name: 	me_cb_label
+  can not get focus
+  Arg:	char *
+*/
+int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+    case ME_MSG_GET_BBX:
+    case ME_MSG_SELECT:
+      break;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
+      u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (char *)(me->arg) );
       return 1;
   }
   return 0;
@@ -45,6 +196,7 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
 
 /*
   Name: 	me_cb_text_line
+  Val:	me_t *
   Arg:	char *
 */
 int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg)
@@ -60,8 +212,32 @@ int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg)
       menu->h = u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1;
       return 1;
     case ME_MSG_SELECT:
-      return 0;
+      if ( me->val != NULL )
+	menu_SetMEList(menu, (const me_t *)(me->val), 0);
+      return 1;
     case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+      u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (char *)(me->arg) );
+      return 1;
+  }
+  return 0;
+}
+
+/*
+  Name: 	me_cb_label
+  can not get focus
+  Arg:	char *
+*/
+int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+    case ME_MSG_GET_BBX:
+    case ME_MSG_SELECT:
+      break;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
       u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (char *)(me->arg) );
       return 1;
   }

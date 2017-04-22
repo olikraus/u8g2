@@ -14,6 +14,7 @@ typedef int (*me_cb)(menu_t *menu, const me_t *me, uint8_t msg);
 struct _me_struct
 {
   me_cb cb;
+  void *val;
   void *arg;
   u8g2_uint_t x;
   u8g2_uint_t y;  
@@ -61,7 +62,13 @@ void menu_Select(menu_t *menu);
 
 
 int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_str_toggle(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_5(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg);
 
 #endif
