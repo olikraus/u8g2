@@ -5,8 +5,9 @@
   
 u8g2_t u8g2;
 
-uint8_t h, mt, mo, st, so;
-uint8_t d1, d2;
+uint8_t h, m, mt, mo, st, so;
+uint8_t d1, d2, d3, d4, d5, d6, d7;
+uint8_t enable;
 
 extern const me_t melist_top_menu[];
 
@@ -26,10 +27,27 @@ const me_t melist_setup_time[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+
+#define ME_ALARM_TIME_XO 21
+#define ME_ALARM_TIME_Y 20
+#define ME_ALARM_WD_Y 29
+
 const me_t melist_setup_alarm[] = 
 {
-  { me_cb_str_toggle, &d1, "M", 10, 15},
-  { me_cb_str_toggle, &d2, "D", 30, 15},
+  { me_cb_big_toggle, &enable, NULL, 		2	, 6},
+  
+  { me_cb_0_23, &h, NULL, 		ME_ALARM_TIME_XO+2,ME_ALARM_TIME_Y },
+  { me_cb_num_label, NULL, ":", 	ME_ALARM_TIME_XO+30,ME_ALARM_TIME_Y-3 },
+  { me_cb_0_55, &m, NULL, 		ME_ALARM_TIME_XO+39,ME_ALARM_TIME_Y },
+  
+  
+  { me_cb_wd_toggle, &d1, "Mo", 5, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &d2, "Di", 20, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &d3, "Mi", 35, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &d4, "Do", 50, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &d5, "Fr", 65, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &d6, "Sa", 80, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &d7, "So", 95, ME_ALARM_WD_Y},
   
   { me_cb_null, NULL, NULL, 0, 0 },
 };

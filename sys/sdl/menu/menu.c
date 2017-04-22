@@ -2,8 +2,48 @@
 
 #include "menu.h"
 
+
 /*================================================*/
 
+void menu_DrawEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
+{
+  w--;
+  h--;
+  u8g2_DrawPixel(menu->u8g2, x,y);
+  u8g2_DrawPixel(menu->u8g2, x+w,y);
+  u8g2_DrawPixel(menu->u8g2, x,y+h);
+  u8g2_DrawPixel(menu->u8g2, x+w,y+h);
+}
+
+void menu_ClearEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
+{
+  u8g2_SetDrawColor(menu->u8g2, 0);
+  menu_DrawEdgePixel(menu, x, y, w, h);
+  u8g2_SetDrawColor(menu->u8g2, 1);
+}
+
+void menu_DrawBoxFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
+{
+  u8g2_SetDrawColor(menu->u8g2, 2);
+  u8g2_DrawBox(menu->u8g2, x, y, w, h);
+  menu_ClearEdgePixel(menu, x, y, w, h);
+}
+
+void menu_DrawFrameFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
+{
+  menu_DrawEdgePixel(menu, x, y, w, h);
+  x--;
+  y--;
+  w+=2;
+  h+=2;
+  u8g2_DrawFrame(menu->u8g2, x, y, w, h);
+  menu_ClearEdgePixel(menu, x, y, w, h);
+}
+
+
+/*================================================*/
+
+#define MENU_SMALL_FONT u8g2_font_baby_tr
 #define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
 #define MENU_BIG_NUM u8g2_font_ncenR18_tf
 
@@ -16,27 +56,27 @@ int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg)
 
 
 /*
-  Name: 	me_cb_0_9  
+  Name: 	me_cb_wd_toggle
   Val:	uint8_t *
-  Arg:	char *
+  Arg:	Not used
 */
-int me_cb_str_toggle(menu_t *menu, const me_t *me, uint8_t msg)
-{  
+int me_cb_big_toggle(menu_t *menu, const me_t *me, uint8_t msg)
+{
   uint8_t val = *(uint8_t *)(me->val);
-  u8g2_uint_t x, y, w, h;
-  w = 10;
+  u8g2_uint_t x, y, w, h, w2;
+
+  w = 16;
+  w2 = 6;
   h = 10;
   x = me->x;
-  y = me->y - u8g2_GetAscent(menu->u8g2)-1;
+  y = me->y;
+  
   switch(msg)
   {
     case ME_MSG_IS_FOCUS:
       return 1;
-    case ME_MSG_GET_BBX:
-      menu->x = x-1;
-      menu->y = y-1;
-      menu->w = w+2;
-      menu->h = h+2;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawFrameFocus(menu, x, y, w, h);
       return 1;
     case ME_MSG_SELECT:
       {
@@ -47,10 +87,60 @@ int me_cb_str_toggle(menu_t *menu, const me_t *me, uint8_t msg)
       }
       return 1;
     case ME_MSG_DRAW:
-      u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+      menu_DrawFrameFocus(menu, x+1,y+1,w-2,h-2);
+      if ( val == 0 )
+      {
+	menu_DrawFrameFocus(menu, x+3,y+3,w2-2,h-6);
+      }
+      else
+      {
+	menu_DrawBoxFocus(menu, x+w/2,y+2,w2,h-4);
+      }
+      return 1;
+    }  
+    return 0;
+}
+
+
+/*
+  Name: 	me_cb_wd_toggle
+  Val:	uint8_t *
+  Arg:	char *
+*/
+int me_cb_wd_toggle(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  uint8_t val = *(uint8_t *)(me->val);
+  u8g2_uint_t x, y, w, h;
+
+  u8g2_SetFont(menu->u8g2, MENU_SMALL_FONT);
+  
+  w = 13;
+  h = u8g2_GetAscent(menu->u8g2)+2;
+  x = me->x-2;
+  y = me->y - u8g2_GetAscent(menu->u8g2)-1;
+  
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawFrameFocus(menu, x, y, w, h);
+      return 1;
+    case ME_MSG_SELECT:
+      {
+	val++;
+	if ( val > 1 )
+	  val = 0;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+    case ME_MSG_DRAW:
       u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (const char *)(me->arg));
       if ( val > 0 )
-	u8g2_DrawRFrame(menu->u8g2, x, y, w, h, 1);
+      {
+	menu_DrawBoxFocus(menu, x,y,w,h);
+      }
+	//u8g2_DrawRFrame(menu->u8g2, x, y, w, h, 1);
       return 1;
   }
   return 0;
@@ -66,11 +156,12 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
   {
     case ME_MSG_IS_FOCUS:
       return 1;
-    case ME_MSG_GET_BBX:
-      menu->x = me->x;
-      menu->y = me->y - u8g2_GetAscent(menu->u8g2)-1;
-      menu->w = u8g2_GetGlyphWidth(menu->u8g2, '0');
-      menu->h = u8g2_GetAscent(menu->u8g2) + 2;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawBoxFocus(menu, 
+	  me->x, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetGlyphWidth(menu->u8g2, '0'), 
+	  u8g2_GetAscent(menu->u8g2) + 2);
       return 1;
     case ME_MSG_SELECT:
       {
@@ -122,11 +213,12 @@ int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg)
   {
     case ME_MSG_IS_FOCUS:
       return 1;
-    case ME_MSG_GET_BBX:
-      menu->x = me->x;
-      menu->y = me->y - u8g2_GetAscent(menu->u8g2)-1;
-      menu->w = u8g2_GetGlyphWidth(menu->u8g2, '0')*2;
-      menu->h = u8g2_GetAscent(menu->u8g2) + 2;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawBoxFocus(menu, 
+	  me->x, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetGlyphWidth(menu->u8g2, '0')*2, 
+	  u8g2_GetAscent(menu->u8g2) + 2);
       return 1;
     case ME_MSG_SELECT:
       {
@@ -183,7 +275,7 @@ int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg)
   switch(msg)
   {
     case ME_MSG_IS_FOCUS:
-    case ME_MSG_GET_BBX:
+    case ME_MSG_DRAW_FOCUS:
     case ME_MSG_SELECT:
       break;
     case ME_MSG_DRAW:
@@ -205,11 +297,12 @@ int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg)
   {
     case ME_MSG_IS_FOCUS:
       return 1;
-    case ME_MSG_GET_BBX:
-      menu->x = 0;
-      menu->y = me->y - u8g2_GetAscent(menu->u8g2) -1;
-      menu->w = u8g2_GetDisplayWidth(menu->u8g2) ;
-      menu->h = u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawBoxFocus(menu, 
+	  0, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetDisplayWidth(menu->u8g2) , 
+	  u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1);
       return 1;
     case ME_MSG_SELECT:
       if ( me->val != NULL )
@@ -233,7 +326,7 @@ int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg)
   switch(msg)
   {
     case ME_MSG_IS_FOCUS:
-    case ME_MSG_GET_BBX:
+    case ME_MSG_DRAW_FOCUS:
     case ME_MSG_SELECT:
       break;
     case ME_MSG_DRAW:
@@ -313,29 +406,6 @@ void menu_Init(menu_t *menu, u8g2_t *u8g2)
   menu_SetMEList(menu, melist_emty, 0);
 }
 
-/* draw focus for menu->current_index */
-void menu_DrawFocus(menu_t *menu)
-{
-  uint8_t color;
-  menu_CallME(menu, ME_MSG_GET_BBX);
-  /*
-  menu->x--;
-  menu->y--;
-  menu->h+=2;
-  menu->w+=2;
-  */
-  color = u8g2_GetDrawColor(menu->u8g2);
-  u8g2_SetDrawColor(menu->u8g2, 2);
-  u8g2_DrawBox(menu->u8g2, menu->x, menu->y, menu->w, menu->h);
-  u8g2_SetDrawColor(menu->u8g2, 0);
-  menu->w--;
-  menu->h--;
-  u8g2_DrawPixel(menu->u8g2, menu->x,menu->y);
-  u8g2_DrawPixel(menu->u8g2, menu->x+menu->w,menu->y);
-  u8g2_DrawPixel(menu->u8g2, menu->x,menu->y+menu->h);
-  u8g2_DrawPixel(menu->u8g2, menu->x+menu->w,menu->y+menu->h);
-  u8g2_SetDrawColor(menu->u8g2, color);
-}
 
 
 void menu_Draw(menu_t *menu)
@@ -345,7 +415,7 @@ void menu_Draw(menu_t *menu)
     menu_CallME(menu, ME_MSG_DRAW);
     if ( menu->current_index == menu->focus_index )
     {
-      menu_DrawFocus(menu);
+      menu_CallME(menu, ME_MSG_DRAW_FOCUS);
     }
   }
 }
