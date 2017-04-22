@@ -76,7 +76,7 @@ int me_cb_big_toggle(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_IS_FOCUS:
       return 1;
     case ME_MSG_DRAW_FOCUS:
-      menu_DrawFrameFocus(menu, x, y, w, h);
+      menu_DrawFrameFocus(menu, x-1, y-1, w+2, h+2);
       return 1;
     case ME_MSG_SELECT:
       {
@@ -332,6 +332,35 @@ int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_DRAW:
       u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
       u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (char *)(me->arg) );
+      return 1;
+  }
+  return 0;
+}
+
+/*
+  Name: 	me_cb_text_line
+  Val:	me_t *
+  Arg:	bitmap
+*/
+int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawBoxFocus(menu, 
+	  me->x-1, 
+	  me->y-1, 
+	  16+2, 
+	  16+2);
+      return 1;
+    case ME_MSG_SELECT:
+      if ( me->val != NULL )
+	menu_SetMEList(menu, (const me_t *)(me->val), 0);
+      return 1;
+    case ME_MSG_DRAW:
+      u8g2_DrawXBM(menu->u8g2, me->x, me->y, 16, 16, (const uint8_t *)(me->arg));
       return 1;
   }
   return 0;

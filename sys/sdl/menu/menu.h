@@ -70,5 +70,6 @@ int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg);
 
 #endif
