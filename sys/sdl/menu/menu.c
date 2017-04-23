@@ -266,6 +266,48 @@ int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 /*
+  Name: 	me_cb_1_12
+  Val:	uint8_t *
+*/
+int me_cb_1_12(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_SELECT:
+      {
+	uint8_t val = *(uint8_t *)(me->val);
+	val++;
+	if ( val > 12 )
+	  val = 1;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+  }
+  return me_cb_0_23(menu, me, msg);
+}
+
+/*
+  Name: 	me_cb_1_31
+  Val:	uint8_t *
+*/
+int me_cb_1_31(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_SELECT:
+      {
+	uint8_t val = *(uint8_t *)(me->val);
+	val++;
+	if ( val > 31 )
+	  val = 1;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+  }
+  return me_cb_0_23(menu, me, msg);
+}
+
+/*
   Name: 	me_cb_label
   can not get focus
   Arg:	char *
@@ -287,11 +329,11 @@ int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 /*
-  Name: 	me_cb_text_line
+  Name: 	me_cb_button_full_line
   Val:	me_t *
   Arg:	char *
 */
-int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg)
+int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg)
 {  
   switch(msg)
   {
@@ -317,6 +359,38 @@ int me_cb_text_line(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 /*
+  Name: 	me_cb_button_full_line
+  Val:	me_t *
+  Arg:	char *
+*/
+int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  int r = 0;
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawBoxFocus(menu, 
+	  me->x, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetDisplayWidth(menu->u8g2)/2, 
+	  u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1);
+      r = 1;
+      break;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+      u8g2_DrawUTF8(menu->u8g2, me->x+4, me->y, (char *)(me->arg) );
+      r = 1;
+      break;    
+  }
+  /* pass all messages except for the IS_FOCUS also to the callback function */
+  if ( me->val != NULL )
+    return ((me_cb)(me->val))(menu, me, msg);
+  return r;
+}
+
+/*
   Name: 	me_cb_label
   can not get focus
   Arg:	char *
@@ -338,7 +412,7 @@ int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 /*
-  Name: 	me_cb_text_line
+  Name: 	me_cb_button_full_line
   Val:	me_t *
   Arg:	bitmap
 */
@@ -349,7 +423,7 @@ int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_IS_FOCUS:
       return 1;
     case ME_MSG_DRAW_FOCUS:
-      menu_DrawBoxFocus(menu, 
+      menu_DrawFrameFocus(menu, 
 	  me->x-1, 
 	  me->y-1, 
 	  16+2, 
