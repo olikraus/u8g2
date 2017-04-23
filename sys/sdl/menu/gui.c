@@ -5,6 +5,7 @@
 */
 
 #include "gui.h"
+#include "datecalc.h"
 #include <string.h>
 
 /*============================================*/
@@ -13,10 +14,17 @@ extern const me_t melist_alarm_menu[];
 
 /*============================================*/
 
-uint8_t h, m, mt, mo, st, so;
-uint8_t d1, d2, d3, d4, d5, d6, d7;
-uint8_t day, month, year_t, year_o;
-uint8_t enable;
+struct _gui_data
+{
+  uint8_t h, mt, mo, st, so;
+  uint8_t day; 		/* 1 .. 31 */
+  uint8_t month;	/* 1..12 */
+  uint8_t year_t, year_o;
+  uint8_t weekday; 	/* 0 = Sunday */
+};
+typedef struct _gui_data gui_data_t;
+
+
 
 struct _gui_alarm_struct
 {
@@ -34,11 +42,14 @@ gui_alarm_t gui_alarm_current;
 gui_alarm_t gui_alarm_list[GUI_ALARM_CNT];
 char gui_alarm_str[GUI_ALARM_CNT][8];
 
+gui_data_t gui_data;
+
 menu_t gui_menu;
 
 
 /*============================================*/
 
+void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
 void gui_alarm_calc_str_time(uint8_t idx)
 {
   gui_alarm_str[idx][0] = ' ';
@@ -53,11 +64,30 @@ void gui_alarm_calc_str_time(uint8_t idx)
   }    
 }
 
+/* adjust day/month and calculates the weekday */
+void gui_date_adjust(void) U8G2_NOINLINE;
+void gui_date_adjust(void)
+{
+    uint16_t ydn;
+    uint16_t year;
+    if ( gui_data.month == 0 )
+      gui_data.month++;
+    if ( gui_data.day == 0 )
+      gui_data.day++;
+    year = 2000+gui_data.year_t*10 + gui_data.year_o;
+    ydn = get_year_day_number(year, gui_data.month, gui_data.day);
+  
+    gui_data.month = get_month_by_year_day_number(year, ydn);
+    gui_data.day = get_day_by_year_day_number(year, ydn);
+    gui_data.weekday = get_weekday_by_year_day_number(year, ydn);
+}
+
 void gui_Init(u8g2_t *u8g2)
 {
   int i;
   menu_Init(&gui_menu, u8g2);
   menu_SetMEList(&gui_menu, melist_top_menu, 0);
+  gui_date_adjust();
   for ( i = 0; i < GUI_ALARM_CNT; i++ )
   {
     gui_alarm_calc_str_time(i);
@@ -111,13 +141,13 @@ int me_action_save_time(menu_t *menu, const me_t *me, uint8_t msg)
 #define ME_TIME_XO 11
 const me_t melist_setup_time[] = 
 {
-  { me_cb_0_23, &h, NULL, 		ME_TIME_XO+2,ME_TIME_Y },
+  { me_cb_0_23, &gui_data.h, NULL, 		ME_TIME_XO+2,ME_TIME_Y },
   { me_cb_num_label, NULL, ":", 	ME_TIME_XO+30,ME_TIME_Y-3 },
-  { me_cb_0_5, &mt, NULL, 		ME_TIME_XO+39,ME_TIME_Y },
-  { me_cb_0_9, &mo, NULL, 		ME_TIME_XO+52,ME_TIME_Y },
+  { me_cb_0_5, &gui_data.mt, NULL, 		ME_TIME_XO+39,ME_TIME_Y },
+  { me_cb_0_9, &gui_data.mo, NULL, 		ME_TIME_XO+52,ME_TIME_Y },
   { me_cb_num_label, NULL, ":", 	ME_TIME_XO+67,ME_TIME_Y-3 },
-  { me_cb_0_5, &st, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
-  { me_cb_0_9, &so, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
+  { me_cb_0_5, &gui_data.st, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
+  { me_cb_0_9, &gui_data.so, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
   { me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
@@ -127,6 +157,7 @@ int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
+    gui_date_adjust();
     menu_SetMEList(menu, melist_top_menu, 0);
     return 1;
   }
@@ -135,12 +166,12 @@ int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
 
 const me_t melist_setup_date[] = 
 {
-  { me_cb_1_31, &day, NULL, 		ME_TIME_XO+2,ME_TIME_Y },
+  { me_cb_1_31, &gui_data.day, NULL, 		ME_TIME_XO+2,ME_TIME_Y },
   { me_cb_num_label, NULL, ".", 	ME_TIME_XO+30,ME_TIME_Y },
-  { me_cb_1_12, &month, NULL, 		ME_TIME_XO+39,ME_TIME_Y },
+  { me_cb_1_12, &gui_data.month, NULL, 		ME_TIME_XO+39,ME_TIME_Y },
   { me_cb_num_label, NULL, ".", 	ME_TIME_XO+67,ME_TIME_Y },
-  { me_cb_0_9, &year_t, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
-  { me_cb_0_9, &year_o, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
+  { me_cb_0_9, &gui_data.year_t, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
+  { me_cb_0_9, &gui_data.year_o, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
   { me_cb_button_full_line, (void *)me_action_save_date, "Speichern", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
