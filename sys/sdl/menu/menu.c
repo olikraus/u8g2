@@ -1,3 +1,8 @@
+/*
+
+  menu.c
+  
+*/
 
 
 #include "menu.h"
@@ -330,7 +335,7 @@ int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg)
 
 /*
   Name: 	me_cb_button_full_line
-  Val:	me_t *
+  Val:	callback function
   Arg:	char *
 */
 int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg)
@@ -362,7 +367,7 @@ int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg)
 
 /*
   Name: 	me_cb_button_full_line
-  Val:	me_t *
+  Val:	callback function
   Arg:	char *
 */
 int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg)
@@ -415,11 +420,12 @@ int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg)
 
 /*
   Name: 	me_cb_button_full_line
-  Val:	me_t *
+  Val:	callback function
   Arg:	bitmap
 */
 int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg)
 {  
+  int r = 0;
   switch(msg)
   {
     case ME_MSG_IS_FOCUS:
@@ -430,16 +436,17 @@ int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg)
 	  me->y-1, 
 	  16+2, 
 	  16+2);
-      return 1;
-    case ME_MSG_SELECT:
-      if ( me->val != NULL )
-	menu_SetMEList(menu, (const me_t *)(me->val), 0);
-      return 1;
+      r = 1;
+      break;
     case ME_MSG_DRAW:
       u8g2_DrawXBM(menu->u8g2, me->x, me->y, 16, 16, (const uint8_t *)(me->arg));
-      return 1;
+      r = 1;
+      break;
   }
-  return 0;
+  /* pass all messages except for the IS_FOCUS also to the callback function */
+  if ( me->val != NULL )
+    return ((me_cb)(me->val))(menu, me, msg) | r;
+  return r;
 }
 
 /*================================================*/
@@ -495,6 +502,12 @@ void menu_SetMEList(menu_t *menu, const me_t *me_list, uint16_t initial_focus)
   
   menu->focus_index = 0;
   menu_CalcNextValidFocus(menu);
+  
+  while( initial_focus > 0 )
+  {
+    menu_NextFocus(menu);
+    initial_focus--;
+  }
   
   menu->radio_index = menu->me_count;
 }
