@@ -1,3 +1,8 @@
+/*
+
+  main.c
+  
+*/
 
 #include "gui.h"
 #include <stdio.h>
