@@ -335,6 +335,7 @@ int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg)
 */
 int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg)
 {  
+  int r = 0;
   switch(msg)
   {
     case ME_MSG_IS_FOCUS:
@@ -345,17 +346,18 @@ int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg)
 	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
 	  u8g2_GetDisplayWidth(menu->u8g2) , 
 	  u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1);
-      return 1;
-    case ME_MSG_SELECT:
-      if ( me->val != NULL )
-	menu_SetMEList(menu, (const me_t *)(me->val), 0);
-      return 1;
+      r = 1;
+      break;
     case ME_MSG_DRAW:
       u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
       u8g2_DrawUTF8(menu->u8g2, me->x, me->y, (char *)(me->arg) );
-      return 1;
+      r = 1;
+      break;
   }
-  return 0;
+  /* pass all messages except for the IS_FOCUS also to the callback function */
+  if ( me->val != NULL )
+    return ((me_cb)(me->val))(menu, me, msg) | r;
+  return r;
 }
 
 /*
@@ -386,7 +388,7 @@ int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg)
   }
   /* pass all messages except for the IS_FOCUS also to the callback function */
   if ( me->val != NULL )
-    return ((me_cb)(me->val))(menu, me, msg);
+    return ((me_cb)(me->val))(menu, me, msg) | r;
   return r;
 }
 

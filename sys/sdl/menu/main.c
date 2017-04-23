@@ -18,6 +18,26 @@ const static uint8_t ok_xbm[] = {
    0x01, 0x87, 0x01, 0x87, 0x9d, 0x83, 0xb9, 0x83, 0xf1, 0x81, 0xe1, 0x81,
    0xc1, 0x80, 0x01, 0x80, 0x03, 0xc0, 0xfe, 0x7f };
 
+int me_action_to_top_menu(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_top_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
+
+int me_action_save_time(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_top_menu, 0);
+    return 1;
+  }
+  return 0;
+}
 
 #define ME_TIME_Y 20
 #define ME_TIME_XO 11
@@ -30,10 +50,20 @@ const me_t melist_setup_time[] =
   { me_cb_num_label, NULL, ":", 	ME_TIME_XO+67,ME_TIME_Y-3 },
   { me_cb_0_5, &st, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
   { me_cb_0_9, &so, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
-  { me_cb_button_full_line, (void *)melist_top_menu, "Speichern", 40,30 },
+  { me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+
+int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_top_menu, 0);
+    return 1;
+  }
+  return 0;
+}
 
 const me_t melist_setup_date[] = 
 {
@@ -43,7 +73,7 @@ const me_t melist_setup_date[] =
   { me_cb_num_label, NULL, ".", 	ME_TIME_XO+67,ME_TIME_Y },
   { me_cb_0_9, &year_t, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
   { me_cb_0_9, &year_o, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
-  { me_cb_button_full_line, (void *)melist_top_menu, "Speichern", 40,30 },
+  { me_cb_button_full_line, (void *)me_action_save_date, "Speichern", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
@@ -91,7 +121,7 @@ const me_t melist_alarm_menu[] =
   { me_cb_button_half_line, (void *)me_action_alarm1, "Alarm 2", 64,10 },
   { me_cb_button_half_line, (void *)me_action_alarm1, "Alarm 3", 0,20 },
   { me_cb_button_half_line, (void *)me_action_alarm1, "Alarm 4", 64,20 },
-  { me_cb_button_full_line, (void *)melist_top_menu, "Zurück", 40,30 },
+  { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
@@ -121,16 +151,36 @@ const me_t melist_setup_menu[] =
   { me_cb_button_half_line, (void *)me_action_setup_date, "Datum", 64,10 },
   { me_cb_button_half_line, (void *)NULL, "Power", 0,20 },
   { me_cb_button_half_line, (void *)NULL, "Test", 64,20 },
-  { me_cb_button_full_line, (void *)melist_top_menu, "Zurück", 40,30 },
+  { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
 
+int me_action_to_alarm_menu(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_alarm_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
+int me_action_to_setup_menu(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_setup_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
 const me_t melist_top_menu[] = 
 {
   { me_cb_button_full_line, NULL, "Zurück", 3,10 },
-  { me_cb_button_full_line, (void *)melist_alarm_menu, "Alarm", 3,20 },
-  { me_cb_button_full_line, (void *)melist_setup_menu, "Einstellungen", 3,30 },
+  { me_cb_button_full_line, (void *)me_action_to_alarm_menu, "Alarm", 3,20 },
+  { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Einstellungen", 3,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
