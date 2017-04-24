@@ -5,6 +5,10 @@
 
 #include "u8g2.h"
 
+#define MENU_SMALL_FONT u8g2_font_baby_tr
+#define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
+#define MENU_BIG_NUM u8g2_font_ncenR18_tf
+
 
 typedef struct _menu_struct menu_t;
 typedef struct _me_struct me_t;
@@ -74,6 +78,7 @@ int me_cb_1_31(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg);
 

@@ -47,9 +47,6 @@ void menu_DrawFrameFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t
 
 /*================================================*/
 
-#define MENU_SMALL_FONT u8g2_font_baby_tr
-#define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
-#define MENU_BIG_NUM u8g2_font_ncenR18_tf
 
 
 /* this function must be the last function in the list. it also marks the end of a list */
@@ -394,6 +391,20 @@ int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg)
   if ( me->val != NULL )
     return ((me_cb)(me->val))(menu, me, msg) | r;
   return r;
+}
+
+/*
+  Name: 	me_cb_button_empty
+  Val:	callback function
+  Arg:	not used
+*/
+int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_IS_FOCUS )
+    return 1;
+  if ( me->val != NULL )
+    return ((me_cb)(me->val))(menu, me, msg);
+  return 0;
 }
 
 /*

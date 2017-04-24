@@ -11,6 +11,7 @@
 /*============================================*/
 extern const me_t melist_top_menu[];
 extern const me_t melist_alarm_menu[];
+extern const me_t melist_setup_menu[];
 
 /*============================================*/
 
@@ -29,6 +30,8 @@ typedef struct _gui_data gui_data_t;
 struct _gui_alarm_struct
 {
   uint8_t enable;
+  uint8_t snooze_count;
+  uint8_t skip;
   uint8_t h;
   uint8_t m;
   uint8_t wd[7];
@@ -194,6 +197,10 @@ int me_action_alarm_done(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+const char weekdaystr[7][4] = {
+  "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"
+};
+
 const me_t melist_setup_alarm[] = 
 {
   { me_cb_big_toggle, &(gui_alarm_current.enable), NULL, 		4	, 6},
@@ -205,13 +212,13 @@ const me_t melist_setup_alarm[] =
   { me_cb_16x16_bitmap_button, (void *)me_action_alarm_done, (void *)ok_xbm, ME_ALARM_TIME_XO+80,ME_ALARM_TIME_Y-17 },
 
   
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[0]), "Mo", 	ME_ALARM_WD_XO+17*0, ME_ALARM_WD_Y},
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[1]), "Di", 	ME_ALARM_WD_XO+17*1, ME_ALARM_WD_Y},
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[2]), "Mi", 	ME_ALARM_WD_XO+17*2, ME_ALARM_WD_Y},
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[3]), "Do", 	ME_ALARM_WD_XO+17*3, ME_ALARM_WD_Y},
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[4]), "Fr", 	ME_ALARM_WD_XO+17*4, ME_ALARM_WD_Y},
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[5]), "Sa", 	ME_ALARM_WD_XO+17*5, ME_ALARM_WD_Y},
-  { me_cb_wd_toggle, &(gui_alarm_current.wd[6]), "So", 	ME_ALARM_WD_XO+17*6, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[0]), (void *)weekdaystr[0], 	ME_ALARM_WD_XO+17*0, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[1]), (void *)weekdaystr[1], 	ME_ALARM_WD_XO+17*1, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[2]), (void *)weekdaystr[2], 	ME_ALARM_WD_XO+17*2, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[3]), (void *)weekdaystr[3], 	ME_ALARM_WD_XO+17*3, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[4]), (void *)weekdaystr[4], 	ME_ALARM_WD_XO+17*4, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[5]), (void *)weekdaystr[5], 	ME_ALARM_WD_XO+17*5, ME_ALARM_WD_Y},
+  { me_cb_wd_toggle, &(gui_alarm_current.wd[6]), (void *)weekdaystr[6], 	ME_ALARM_WD_XO+17*6, ME_ALARM_WD_Y},
   
   { me_cb_null, NULL, NULL, 0, 0 },
 };
@@ -280,12 +287,59 @@ int me_action_setup_date(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+
+int me_action_handle_alarm_list(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_DRAW )
+  {
+    uint8_t y, x;
+    uint8_t ym;
+    u8g2_SetFont(menu->u8g2, MENU_SMALL_FONT);
+    for( y = 0; y < 4; y++ )
+    {
+      ym = y*8+7;
+      for( x = 0; x < 7; x++ )
+      {
+	u8g2_DrawGlyph(menu->u8g2, 0, ym, y+'1');
+	u8g2_DrawGlyph(menu->u8g2, 5, ym, ':');
+	u8g2_DrawStr(menu->u8g2, 9, ym, gui_alarm_str[y]);
+	if ( gui_alarm_list[y].wd[x] )
+	{
+	  u8g2_DrawStr(menu->u8g2, 40+x*12, ym, weekdaystr[x]);
+	}
+      }
+    }
+  }
+  else if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_setup_menu, 3);
+    return 1;
+  }
+  return 0;
+}
+
+const me_t melist_alarm_list_menu[] = 
+{
+  { me_cb_button_empty, (void *)me_action_handle_alarm_list, NULL, 0, 0 },
+  { me_cb_null, NULL, NULL, 0, 0 },
+};
+
+int me_action_goto_alarm_list(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_alarm_list_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
 const me_t melist_setup_menu[] = 
 {
   { me_cb_button_half_line, (void *)me_action_setup_time, "Uhrzeit", 0,10 },
   { me_cb_button_half_line, (void *)me_action_setup_date, "Datum", 64,10 },
   { me_cb_button_half_line, (void *)NULL, "Power", 0,20 },
-  { me_cb_button_half_line, (void *)NULL, "Test", 64,20 },
+  { me_cb_button_half_line, (void *)me_action_goto_alarm_list, "Alarme", 64,20 },
   { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
