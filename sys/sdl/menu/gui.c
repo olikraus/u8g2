@@ -46,15 +46,16 @@ void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_min
   gui_alarm_list[idx].na_minutes_diff = 0x0ffff;				/* not found */
   gui_alarm_list[idx].na_wd = 7;						/* not found */
   
-  printf("gui_alarm_calc_next_wd_alarm: %d\n", idx);
+  //printf("gui_alarm_calc_next_wd_alarm: %d\n", idx);
   
   if ( gui_alarm_list[idx].enable != 0 )
   {
-    printf("gui_alarm_calc_next_wd_alarm: %d enabled\n", idx);
+    //printf("gui_alarm_calc_next_wd_alarm: %d enabled\n", idx);
     for( i = 0; i < 7; i++ )
     {
       if ( gui_alarm_list[idx].wd[i] != 0 )
       {
+	printf("gui_alarm_calc_next_wd_alarm: %d i=%d gui_alarm_list[idx].skip_wd=%d \n", idx, i, gui_alarm_list[idx].skip_wd);
 	if ( gui_alarm_list[idx].skip_wd != i+1 )
 	{
 	  week_time_abs = i; 
@@ -85,8 +86,8 @@ void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_min
       }
     }
   }
-  printf("gui_alarm_calc_next_wd_alarm: %d na_minutes_diff=%d\n", idx, gui_alarm_list[idx].na_minutes_diff);
-  printf("gui_alarm_calc_next_wd_alarm: %d na_wd=%d\n", idx, gui_alarm_list[idx].na_wd);
+  //printf("gui_alarm_calc_next_wd_alarm: %d na_minutes_diff=%d\n", idx, gui_alarm_list[idx].na_minutes_diff);
+  //printf("gui_alarm_calc_next_wd_alarm: %d na_wd=%d\n", idx, gui_alarm_list[idx].na_wd);
 }
 
 
@@ -173,12 +174,12 @@ void gui_calc_next_alarm(void)
   
   /* step 3: store the result */
   gui_data.next_alarm_index = lowest_i;  /* this can be GUI_ALARM_CNT */
-  printf("gui_calc_next_alarm gui_data.next_alarm_index=%d\n", gui_data.next_alarm_index);
+  //printf("gui_calc_next_alarm gui_data.next_alarm_index=%d\n", gui_data.next_alarm_index);
   
   gui_data.is_skip_possible = 0;
   if ( lowest_i < GUI_ALARM_CNT )
   {
-    if ( gui_alarm_list[i].skip_wd == 0 )
+    if ( gui_alarm_list[lowest_i].skip_wd == 0 )
     {
       gui_data.is_skip_possible = 1;
     }
@@ -271,6 +272,17 @@ const me_t melist_setup_time[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+void gui_alarm_to_str(uint8_t idx)
+{
+      strcpy(gui_data.s, weekdaystr[gui_alarm_list[gui_data.next_alarm_index].na_wd]);
+      gui_data.s[2] = ',';
+      gui_data.s[3] = ' ';
+      strcpy(gui_data.s+4, u8x8_u8toa(gui_alarm_list[gui_data.next_alarm_index].na_h, 2));
+      gui_data.s[6] = ':';
+      strcpy(gui_data.s+7, u8x8_u8toa(gui_alarm_list[gui_data.next_alarm_index].na_m, 2));
+      gui_data.s[9] = '\0';      
+}
+
 int me_action_handle_display_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_DRAW )
@@ -282,15 +294,8 @@ int me_action_handle_display_time(menu_t *menu, const me_t *me, uint8_t msg)
     if ( gui_data.next_alarm_index < GUI_ALARM_CNT )
     {
       u8g2_DrawXBM(menu->u8g2, 67, 20, 12, 12, (const uint8_t *)(alarm_xbm));
-      strcpy(s, weekdaystr[gui_alarm_list[gui_data.next_alarm_index].na_wd]);
-      s[2] = ',';
-      s[3] = ' ';
-      strcpy(s+4, u8x8_u8toa(gui_alarm_list[gui_data.next_alarm_index].na_h, 2));
-      s[6] = ':';
-      strcpy(s+7, u8x8_u8toa(gui_alarm_list[gui_data.next_alarm_index].na_m, 2));
-      s[9] = '\0';
-      
-      u8g2_DrawUTF8(menu->u8g2, 81, 30, s);
+      gui_alarm_to_str(gui_data.next_alarm_index);
+      u8g2_DrawUTF8(menu->u8g2, 81, 30, gui_data.s);
       
     }
     else
@@ -368,6 +373,7 @@ int me_action_alarm_done(menu_t *menu, const me_t *me, uint8_t msg)
   if ( msg == ME_MSG_SELECT )
   {
     gui_alarm_list[gui_alarm_index] = gui_alarm_current;
+    gui_alarm_list[gui_alarm_index].skip_wd = 0;		/* clear the skip alarm (if any) */
     gui_Recalculate();
     //gui_alarm_calc_str_time(gui_alarm_index);
     menu_SetMEList(menu, melist_alarm_menu, gui_alarm_index);
@@ -552,10 +558,50 @@ int me_action_to_setup_menu(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+int me_cb_button_skip_alarm(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  int r = 0;
+  u8g2_uint_t x;
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return gui_data.is_skip_possible;
+    case ME_MSG_DRAW_FOCUS:
+      menu_DrawBoxFocus(menu, 
+	  0, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetDisplayWidth(menu->u8g2) , 
+	  u8g2_GetAscent(menu->u8g2) - u8g2_GetDescent(menu->u8g2) +1);
+      r = 1;
+      break;
+    case ME_MSG_DRAW:
+      if ( gui_data.is_skip_possible )
+      {
+	u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+	gui_alarm_to_str(gui_data.next_alarm_index);
+      	x = u8g2_DrawUTF8(menu->u8g2, me->x, me->y, gui_data.s );
+      	u8g2_DrawUTF8(menu->u8g2, me->x+x, me->y, " deaktvieren" );
+      }
+      r = 1;
+      break;
+    case ME_MSG_SELECT:
+      printf("me_cb_button_skip_alarm ME_MSG_SELECT\n");
+      gui_alarm_list[gui_data.next_alarm_index].skip_wd = 
+	gui_alarm_list[gui_data.next_alarm_index].na_wd + 1;       
+      gui_Recalculate();
+      menu_SetMEList(menu, melist_display_time, 0);
+      r = 1;
+      break;
+  }
+  return r;
+}
+
+
 const me_t melist_top_menu[] = 
 {
-  { me_cb_button_full_line, (void *)me_action_to_display_time, "Zeit anzeigen", 3,10 },
-  { me_cb_button_full_line, (void *)me_action_to_alarm_menu, "Alarm einstellen", 3,20 },
+  { me_cb_button_half_line, (void *)me_action_to_display_time, "Zurück", 0,10 },
+  { me_cb_button_half_line, (void *)me_action_to_alarm_menu, "Alarm", 64,10 },
+  { me_cb_button_skip_alarm, NULL, NULL, 3,20 },
   { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Weitere Funktionen", 3,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };

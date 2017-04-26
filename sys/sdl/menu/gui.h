@@ -19,6 +19,8 @@ struct _gui_data
   
   uint8_t next_alarm_index;	/* calculated: index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
   uint8_t is_skip_possible;		/* calculated: whether the next alarm (next_alarm_index) can be skipped */
+  
+  char s[16];				/* string buffer */
 };
 typedef struct _gui_data gui_data_t;
 
