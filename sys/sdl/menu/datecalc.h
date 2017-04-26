@@ -73,6 +73,10 @@ void from_time(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m, uint8_t *s);
 
 uint32_t to_sec_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi, uint8_t s);
 
+uint32_t to_minutes(uint16_t cdn, uint8_t h, uint8_t m);
+void from_minutes(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m);
+uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi);
+
 
 #endif
 

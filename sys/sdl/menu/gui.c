@@ -29,16 +29,26 @@ typedef struct _gui_data gui_data_t;
 
 struct _gui_alarm_struct
 {
+  /* next alarm, all na_ fields are derived from the alarm information */
+  uint16_t na_week_time_in_minutes;
+  uint8_t na_h;
+  uint8_t na_m;
+  uint8_t na_wd;	/* 0...6, 0=monday */
+  
+  /* alarm information */
   uint8_t enable;
   uint8_t snooze_count;
-  uint8_t skip;
+  uint8_t skip_wd;
   uint8_t h;
   uint8_t m;
-  uint8_t wd[7];
+  uint8_t wd[7];	/* 0 or 1, 0=weekday not selected */
+  
+  
 };
 typedef struct _gui_alarm_struct gui_alarm_t;
 
 #define GUI_ALARM_CNT 4
+#define SNOOZE_MINUTES 10
 
 uint8_t gui_alarm_index = 0;
 gui_alarm_t gui_alarm_current;
@@ -51,6 +61,32 @@ menu_t gui_menu;
 
 
 /*============================================*/
+
+void gui_alarm_calc_next_alarm(uint8_t idx, uint16_t current_week_time_in_minutes)
+{
+  uint8_t i;
+  uint16_t week_time;
+  for( i = 0; i < 7; i++ )
+  {
+    if ( gui_alarm_list[idx].wd[i] != 0 )
+    {
+      if ( gui_alarm_list[idx].skip_wd != i )
+      {
+	week_time = 24*i + gui_alarm_list[idx].h*60 + gui_alarm_list[idx].m;
+	week_time += gui_alarm_list[idx].snooze_count*SNOOZE_MINUTES;
+	if ( current_week_time_in_minutes <= week_time )
+	{
+	  /* found for this alarm */
+	  gui_alarm_list[idx].na_week_time_in_minutes = week_time;
+	  gui_alarm_list[idx].na_h = gui_alarm_list[idx].h;
+	  gui_alarm_list[idx].na_m = gui_alarm_list[idx].m;
+	  gui_alarm_list[idx].na_wd = i;
+	}
+      }
+    }
+  }
+  gui_alarm_list[idx].na_week_time_in_minutes = 0x0ffff;		/* not used */
+}
 
 void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
 void gui_alarm_calc_str_time(uint8_t idx)
@@ -72,6 +108,7 @@ void gui_date_adjust(void) U8G2_NOINLINE;
 void gui_date_adjust(void)
 {
     uint16_t ydn;
+    //uint16_t cdn;
     uint16_t year;
     if ( gui_data.month == 0 )
       gui_data.month++;
@@ -83,6 +120,9 @@ void gui_date_adjust(void)
     gui_data.month = get_month_by_year_day_number(year, ydn);
     gui_data.day = get_day_by_year_day_number(year, ydn);
     gui_data.weekday = get_weekday_by_year_day_number(year, ydn);
+    
+    //cdn = to_century_day_number(y, ydn);
+    //to_minutes(cdn, h, m);
 }
 
 void gui_Init(u8g2_t *u8g2)

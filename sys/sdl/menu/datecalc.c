@@ -297,3 +297,34 @@ uint32_t to_sec_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t
   uint16_t cdn = to_century_day_number(y, ydn);
   return to_time(cdn, h, mi, s);
 }
+
+/*
+  Calculate the minutes after 2000-01-01 00:00. 
+*/
+uint32_t to_minutes(uint16_t cdn, uint8_t h, uint8_t m)
+{
+  uint32_t t;
+  t = cdn;
+  t *= 24;
+  t += h;
+  t *= 60;
+  t += m;
+  return t;
+}
+
+
+void from_minutes(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m)
+{
+  *m = t % 60;
+  t /= 60;
+  *h = t % 24;
+  t /= 24;
+  *cdn = t;
+}
+
+uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi)
+{
+  uint16_t ydn = get_year_day_number(y, mo, d);
+  uint16_t cdn = to_century_day_number(y, ydn);
+  return to_minutes(cdn, h, mi);
+}
