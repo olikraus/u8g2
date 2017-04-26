@@ -74,9 +74,11 @@ void gui_alarm_calc_next_alarm(uint8_t idx, uint16_t current_week_time_in_minute
   uint16_t week_time_diff;	/* difference to current_week_time_in_minutes */
   uint16_t best_diff = 0x0ffff;
   gui_alarm_list[idx].na_week_time_in_minutes = 0x0ffff;		/* not found */
-  for( i = 0; i < 7; i++ )
+  gui_alarm_list[idx].na_minutes_diff = 0x0ffff;				/* not found */
+  gui_alarm_list[idx].na_wd = 7;						/* not found */
+  if ( gui_alarm_list[idx].enable != 0 )
   {
-    if ( gui_alarm_list[idx].enable != 0 )
+    for( i = 0; i < 7; i++ )
     {
       if ( gui_alarm_list[idx].wd[i] != 0 )
       {
