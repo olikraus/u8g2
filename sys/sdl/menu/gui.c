@@ -65,17 +65,27 @@ menu_t gui_menu;
 void gui_alarm_calc_next_alarm(uint8_t idx, uint16_t current_week_time_in_minutes)
 {
   uint8_t i;
-  uint16_t week_time;
+  uint16_t week_time_abs;
+  uint16_t week_time_diff;	/* difference to current_week_time_in_minutes */
+  uint16_t best_diff = 0x0ffff;
+  gui_alarm_list[idx].na_week_time_in_minutes = 0x0ffff;		/* not found */
   for( i = 0; i < 7; i++ )
   {
     if ( gui_alarm_list[idx].wd[i] != 0 )
     {
       if ( gui_alarm_list[idx].skip_wd != i )
       {
-	week_time = 24*i + gui_alarm_list[idx].h*60 + gui_alarm_list[idx].m;
-	week_time += gui_alarm_list[idx].snooze_count*SNOOZE_MINUTES;
-	if ( current_week_time_in_minutes <= week_time )
+	week_time_abs = 24*i + gui_alarm_list[idx].h*60 + gui_alarm_list[idx].m;
+	week_time_abs += gui_alarm_list[idx].snooze_count*SNOOZE_MINUTES;
+	
+	if ( current_week_time_in_minutes <= week_time_abs )
+	  week_time_diff = week_time_abs - current_week_time_in_minutes;
+	else
+	  week_time_diff = week_time_abs + 7*24*60 - current_week_time_in_minutes;
+	  
+	if (  best_diff > week_time_diff )
 	{
+	  best_diff = week_time_diff;
 	  /* found for this alarm */
 	  gui_alarm_list[idx].na_week_time_in_minutes = week_time;
 	  gui_alarm_list[idx].na_h = gui_alarm_list[idx].h;
@@ -85,7 +95,6 @@ void gui_alarm_calc_next_alarm(uint8_t idx, uint16_t current_week_time_in_minute
       }
     }
   }
-  gui_alarm_list[idx].na_week_time_in_minutes = 0x0ffff;		/* not used */
 }
 
 void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
