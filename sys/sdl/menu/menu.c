@@ -181,6 +181,13 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+int me_cb_0_9_ro(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_IS_FOCUS )
+    return 0;
+  return me_cb_0_9(menu, me, msg);
+}
+
 
 /*
   Name: 	me_cb_0_5
@@ -244,6 +251,14 @@ int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg)
   }
   return 0;
 }
+
+int me_cb_0_23_ro(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_IS_FOCUS )
+    return 0;
+  return me_cb_0_23(menu, me, msg);
+}
+
 
 /*
   Name: 	me_cb_0_55
@@ -546,5 +561,6 @@ void menu_Draw(menu_t *menu)
       menu_CallME(menu, ME_MSG_DRAW_FOCUS);
     }
   }
+    u8g2_DrawHLine(menu->u8g2, 0, 32, 128);
 }
 

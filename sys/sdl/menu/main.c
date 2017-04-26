@@ -56,6 +56,37 @@ int main(void)
     if ( k == 's' )
       gui_Select();
     
+    if ( k == 'm' )
+    {
+      gui_data.mo++;
+      if ( gui_data.mo >= 10 )
+      {
+	gui_data.mo = 0;
+	gui_data.mt++;
+	if ( gui_data.mt >= 60 )
+	{
+	  gui_data.h++;
+	  if ( gui_data.h >= 24 )
+	  {
+	    gui_data.h = 0;
+	    gui_data.day++;
+	  }
+	}
+      }
+      gui_Recalculate();
+    }
+
+    if ( k == 'h' )
+    {
+      gui_data.h++;
+      if ( gui_data.h >= 24 )
+      {
+	gui_data.h = 0;
+	gui_data.day++;
+      }
+      gui_Recalculate();
+    }
+    
     if ( k == 273 ) y -= 1;
     if ( k == 274 ) y += 1;
     if ( k == 276 ) x -= 1;

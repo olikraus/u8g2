@@ -9,56 +9,25 @@
 #include <string.h>
 
 /*============================================*/
+extern const me_t melist_display_time[];
 extern const me_t melist_top_menu[];
 extern const me_t melist_alarm_menu[];
 extern const me_t melist_setup_menu[];
 
 /*============================================*/
 
-#define GUI_ALARM_CNT 4
-#define SNOOZE_MINUTES 10
-
-struct _gui_data
-{
-  uint16_t week_time;			/* calculated: derived from h, mt, mo and weekday */
-  uint8_t h, mt, mo, st, so;		/* input: current time */
-  uint8_t day; 					/* input: 1 .. 31 current day in month */
-  uint8_t month;				/* input: 1..12 */
-  uint8_t year_t, year_o;			/* input: current year */
-  uint8_t weekday; 				/* calculated: 0 = Monday */
-  
-  uint8_t next_alarm_index;	/* index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
-};
-typedef struct _gui_data gui_data_t;
-
-
-
-struct _gui_alarm_struct
-{
-  /* next alarm, all na_ fields are derived from the alarm information */
-  uint16_t na_week_time_in_minutes;
-  uint16_t na_minutes_diff;		/* calculated: time in minutes until next alarm, 0x0ffff = no alarm */
-  uint8_t na_h;
-  uint8_t na_m;		
-  uint8_t na_wd;				/* calculated: 0...7, 0=monday, 7=no alarm */
-  
-  /* alarm information */
-  uint8_t enable;		/* input */
-  uint8_t snooze_count;	/* input */
-  uint8_t skip_wd;		/* input */
-  uint8_t h;			/* input */
-  uint8_t m;			/* input */
-  uint8_t wd[7];		/* input: 0 or 1, 0=weekday not selected */
-  
-  
-};
-typedef struct _gui_alarm_struct gui_alarm_t;
 
 
 uint8_t gui_alarm_index = 0;
 gui_alarm_t gui_alarm_current;
 gui_alarm_t gui_alarm_list[GUI_ALARM_CNT];
 char gui_alarm_str[GUI_ALARM_CNT][8];
+
+
+const char weekdaystr[7][4] = {
+  "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"
+};
+
 
 gui_data_t gui_data;
 
@@ -82,7 +51,7 @@ void gui_alarm_calc_next_alarm(uint8_t idx, uint16_t current_week_time_in_minute
     {
       if ( gui_alarm_list[idx].wd[i] != 0 )
       {
-	if ( gui_alarm_list[idx].skip_wd != i )
+	if ( gui_alarm_list[idx].skip_wd != i+1 )
 	{
 	  week_time_abs = 24*i + gui_alarm_list[idx].h*60 + gui_alarm_list[idx].m;
 	  week_time_abs += gui_alarm_list[idx].snooze_count*SNOOZE_MINUTES;
@@ -162,7 +131,7 @@ void gui_calc_week_time(void)
   calculate the next alarm.
   this must be called after gui_calc_week_time() because, we need week_time
 */
-void gui_calc_next_alarm()
+void gui_calc_next_alarm(void)
 {
   uint8_t i;
   uint8_t lowest_i;
@@ -186,21 +155,37 @@ void gui_calc_next_alarm()
   
   /* step 3: store the result */
   gui_data.next_alarm_index = lowest_i;  /* this can be GUI_ALARM_CNT */
+  gui_data.is_skip_possible = 0;
+  if ( lowest_i < GUI_ALARM_CNT )
+  {
+    if ( gui_alarm_list[i].skip_wd == 0 )
+    {
+      gui_data.is_skip_possible = 1;
+    }
+  }
 }
 
-
-void gui_Init(u8g2_t *u8g2)
+/* recalculate all internal data */
+void gui_Recalculate(void)
 {
   int i;
-  menu_Init(&gui_menu, u8g2);
-  menu_SetMEList(&gui_menu, melist_top_menu, 0);
+  
   gui_date_adjust();
   gui_calc_week_time();
+  gui_calc_next_alarm();
   for ( i = 0; i < GUI_ALARM_CNT; i++ )
   {
     gui_alarm_calc_str_time(i);
   }
 }
+
+void gui_Init(u8g2_t *u8g2)
+{
+  menu_Init(&gui_menu, u8g2);
+  menu_SetMEList(&gui_menu, melist_display_time, 0);
+  gui_Recalculate();
+}
+
 
 void gui_Draw(void)
 {
@@ -219,11 +204,16 @@ void gui_Select(void)
 
 /*============================================*/
 
-const static uint8_t ok_xbm[] = {
+const static uint8_t ok_xbm[] = {	/* 16x16 */
    0xfe, 0x7f, 0x03, 0xc0, 0x01, 0x80, 0x01, 0xb8, 0x01, 0x9c, 0x01, 0x8e,
    0x01, 0x87, 0x01, 0x87, 0x9d, 0x83, 0xb9, 0x83, 0xf1, 0x81, 0xe1, 0x81,
    0xc1, 0x80, 0x01, 0x80, 0x03, 0xc0, 0xfe, 0x7f };
 
+const static uint8_t alarm_xbm[] = {  /* 12x12 */
+0x00, 0x00, 0x0c, 0x06, 0xf6, 0x0d, 0x1a, 0x0b, 0x4c, 0x06, 0x44, 0x04,
+0xc4, 0x05, 0x04, 0x04, 0x0c, 0x06, 0x18, 0x03, 0xf0, 0x01, 0x00, 0x00 };
+
+   
 int me_action_to_top_menu(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
@@ -239,13 +229,14 @@ int me_action_save_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
+    gui_Recalculate();
     menu_SetMEList(menu, melist_top_menu, 0);
     return 1;
   }
   return 0;
 }
 
-#define ME_TIME_Y 20
+#define ME_TIME_Y 19
 #define ME_TIME_XO 11
 const me_t melist_setup_time[] = 
 {
@@ -260,12 +251,60 @@ const me_t melist_setup_time[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+int me_action_handle_display_time(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_DRAW )
+  {
+    char s[14];
+    u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+    
+    strcpy(s, weekdaystr[gui_data.weekday]);
+    s[2] = ',';
+    s[3] = ' ';
+    strcpy(s+4, u8x8_u8toa(gui_data.day, 2));
+    s[6] = '.';
+    strcpy(s+7, u8x8_u8toa(gui_data.month, 2));
+    s[9] = '.';
+    s[10] = gui_data.year_t+'0';
+    s[11] = gui_data.year_o+'0';
+    s[12] = '\0';
+    u8g2_DrawUTF8(menu->u8g2, 10, 30, s);
+    
+    gui_data.next_alarm_index = 0;
+    if ( gui_data.next_alarm_index < GUI_ALARM_CNT )
+    {
+      u8g2_DrawXBM(menu->u8g2, 70, 20, 12, 12, (const uint8_t *)(alarm_xbm));
+      u8g2_DrawUTF8(menu->u8g2, 85, 30, gui_alarm_str[gui_data.next_alarm_index]);
+    }
+    
+    return 1;
+  }
+  else if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_top_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
+
+#define ME_TIME_DXO 30
+const me_t melist_display_time[] = 
+{
+  { me_cb_0_23_ro, &gui_data.h, NULL, 		ME_TIME_DXO+2,ME_TIME_Y },
+  { me_cb_num_label, NULL, ":", 			ME_TIME_DXO+30,ME_TIME_Y-3 },
+  { me_cb_0_9_ro, &gui_data.mt, NULL, 		ME_TIME_DXO+39,ME_TIME_Y },
+  { me_cb_0_9_ro, &gui_data.mo, NULL, 		ME_TIME_DXO+52,ME_TIME_Y },
+  
+  { me_cb_button_empty, (void *)me_action_handle_display_time, NULL, 0, 0 },
+  { me_cb_null, NULL, NULL, 0, 0 },
+};
 
 int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
-    gui_date_adjust();
+    gui_Recalculate();
     menu_SetMEList(menu, melist_top_menu, 0);
     return 1;
   }
@@ -295,16 +334,13 @@ int me_action_alarm_done(menu_t *menu, const me_t *me, uint8_t msg)
   if ( msg == ME_MSG_SELECT )
   {
     gui_alarm_list[gui_alarm_index] = gui_alarm_current;
-    gui_alarm_calc_str_time(gui_alarm_index);
+    gui_Recalculate();
+    //gui_alarm_calc_str_time(gui_alarm_index);
     menu_SetMEList(menu, melist_alarm_menu, gui_alarm_index);
     return 1;
   }
   return 0;
 }
-
-const char weekdaystr[7][4] = {
-  "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"
-};
 
 const me_t melist_setup_alarm[] = 
 {
@@ -449,6 +485,16 @@ const me_t melist_setup_menu[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+int me_action_to_display_time(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_display_time, 0);
+    return 1;
+  }
+  return 0;
+}
+
 
 int me_action_to_alarm_menu(menu_t *menu, const me_t *me, uint8_t msg)
 {
@@ -472,8 +518,8 @@ int me_action_to_setup_menu(menu_t *menu, const me_t *me, uint8_t msg)
 
 const me_t melist_top_menu[] = 
 {
-  { me_cb_button_full_line, NULL, "Zurück", 3,10 },
-  { me_cb_button_full_line, (void *)me_action_to_alarm_menu, "Alarm", 3,20 },
-  { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Einstellungen", 3,30 },
+  { me_cb_button_full_line, (void *)me_action_to_display_time, "Zeit anzeigen", 3,10 },
+  { me_cb_button_full_line, (void *)me_action_to_alarm_menu, "Alarm einstellen", 3,20 },
+  { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Weitere Funktionen", 3,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
