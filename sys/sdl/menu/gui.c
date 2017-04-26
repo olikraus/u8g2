@@ -15,13 +15,19 @@ extern const me_t melist_setup_menu[];
 
 /*============================================*/
 
+#define GUI_ALARM_CNT 4
+#define SNOOZE_MINUTES 10
+
 struct _gui_data
 {
+  uint16_t week_time;	/* derived from h, mt, mo and weekday */
   uint8_t h, mt, mo, st, so;
   uint8_t day; 		/* 1 .. 31 */
   uint8_t month;	/* 1..12 */
   uint8_t year_t, year_o;
   uint8_t weekday; 	/* 0 = Sunday */
+  
+  uint8_t next_alarm_index;	/* index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
 };
 typedef struct _gui_data gui_data_t;
 
@@ -31,6 +37,7 @@ struct _gui_alarm_struct
 {
   /* next alarm, all na_ fields are derived from the alarm information */
   uint16_t na_week_time_in_minutes;
+  uint16_t na_minutes_diff;	/* time in minutes until next alarm */
   uint8_t na_h;
   uint8_t na_m;
   uint8_t na_wd;	/* 0...6, 0=monday */
@@ -47,8 +54,6 @@ struct _gui_alarm_struct
 };
 typedef struct _gui_alarm_struct gui_alarm_t;
 
-#define GUI_ALARM_CNT 4
-#define SNOOZE_MINUTES 10
 
 uint8_t gui_alarm_index = 0;
 gui_alarm_t gui_alarm_current;
@@ -71,31 +76,36 @@ void gui_alarm_calc_next_alarm(uint8_t idx, uint16_t current_week_time_in_minute
   gui_alarm_list[idx].na_week_time_in_minutes = 0x0ffff;		/* not found */
   for( i = 0; i < 7; i++ )
   {
-    if ( gui_alarm_list[idx].wd[i] != 0 )
+    if ( gui_alarm_list[idx].enable != 0 )
     {
-      if ( gui_alarm_list[idx].skip_wd != i )
+      if ( gui_alarm_list[idx].wd[i] != 0 )
       {
-	week_time_abs = 24*i + gui_alarm_list[idx].h*60 + gui_alarm_list[idx].m;
-	week_time_abs += gui_alarm_list[idx].snooze_count*SNOOZE_MINUTES;
-	
-	if ( current_week_time_in_minutes <= week_time_abs )
-	  week_time_diff = week_time_abs - current_week_time_in_minutes;
-	else
-	  week_time_diff = week_time_abs + 7*24*60 - current_week_time_in_minutes;
-	  
-	if (  best_diff > week_time_diff )
+	if ( gui_alarm_list[idx].skip_wd != i )
 	{
-	  best_diff = week_time_diff;
-	  /* found for this alarm */
-	  gui_alarm_list[idx].na_week_time_in_minutes = week_time;
-	  gui_alarm_list[idx].na_h = gui_alarm_list[idx].h;
-	  gui_alarm_list[idx].na_m = gui_alarm_list[idx].m;
-	  gui_alarm_list[idx].na_wd = i;
+	  week_time_abs = 24*i + gui_alarm_list[idx].h*60 + gui_alarm_list[idx].m;
+	  week_time_abs += gui_alarm_list[idx].snooze_count*SNOOZE_MINUTES;
+	  
+	  if ( current_week_time_in_minutes <= week_time_abs )
+	    week_time_diff = week_time_abs - current_week_time_in_minutes;
+	  else
+	    week_time_diff = week_time_abs + 7*24*60 - current_week_time_in_minutes;
+	    
+	  if (  best_diff > week_time_diff )
+	  {
+	    best_diff = week_time_diff;
+	    /* found for this alarm */
+	    gui_alarm_list[idx].na_minutes_diff = week_time_diff;
+	    gui_alarm_list[idx].na_week_time_in_minutes = week_time_abs;
+	    gui_alarm_list[idx].na_h = gui_alarm_list[idx].h;
+	    gui_alarm_list[idx].na_m = gui_alarm_list[idx].m;
+	    gui_alarm_list[idx].na_wd = i;
+	  }
 	}
       }
     }
   }
 }
+
 
 void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
 void gui_alarm_calc_str_time(uint8_t idx)
@@ -134,12 +144,53 @@ void gui_date_adjust(void)
     //to_minutes(cdn, h, m);
 }
 
+/*
+  calculate the minute within the week.
+  this must be called after gui_date_adjust(), because the weekday is used here
+*/
+void gui_calc_week_time(void)
+{
+  gui_data.week_time = gui_data.weekday*24 + gui_data.h * 60 + gui_data.mt * 10 + gui_data.mo;
+}
+
+/*
+  calculate the next alarm.
+  this must be called after gui_calc_week_time() because, we need week_time
+*/
+void gui_calc_next_alarm()
+{
+  uint8_t i;
+  uint8_t lowest_i;
+  uint16_t lowest_diff;
+  /* step 1: Calculate the difference to current weektime for each alarm */
+  /* result is stored in gui_alarm_list[i].na_minutes_diff */
+  for( i = 0; i < GUI_ALARM_CNT; i++ )
+    gui_alarm_calc_next_alarm(i, gui_data.week_time);
+  
+  /* step 2: find the index with the lowest difference */
+  lowest_diff = 0x0ffff;
+  lowest_i = GUI_ALARM_CNT;
+  for( i = 0; i < GUI_ALARM_CNT; i++ )
+  {
+    if ( lowest_diff < gui_alarm_list[i].na_minutes_diff )
+    {
+      lowest_diff = gui_alarm_list[i].na_minutes_diff;
+      lowest_i = i;
+    }
+  }
+  
+  /* step 3: store the result */
+  gui_data.next_alarm_index = lowest_i;  /* this can be GUI_ALARM_CNT */
+}
+
+
 void gui_Init(u8g2_t *u8g2)
 {
   int i;
   menu_Init(&gui_menu, u8g2);
   menu_SetMEList(&gui_menu, melist_top_menu, 0);
   gui_date_adjust();
+  gui_calc_week_time();
   for ( i = 0; i < GUI_ALARM_CNT; i++ )
   {
     gui_alarm_calc_str_time(i);
