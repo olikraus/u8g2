@@ -20,12 +20,12 @@ extern const me_t melist_setup_menu[];
 
 struct _gui_data
 {
-  uint16_t week_time;	/* derived from h, mt, mo and weekday */
-  uint8_t h, mt, mo, st, so;
-  uint8_t day; 		/* 1 .. 31 */
-  uint8_t month;	/* 1..12 */
-  uint8_t year_t, year_o;
-  uint8_t weekday; 	/* 0 = Sunday */
+  uint16_t week_time;			/* calculated: derived from h, mt, mo and weekday */
+  uint8_t h, mt, mo, st, so;		/* input: current time */
+  uint8_t day; 					/* input: 1 .. 31 current day in month */
+  uint8_t month;				/* input: 1..12 */
+  uint8_t year_t, year_o;			/* input: current year */
+  uint8_t weekday; 				/* calculated: 0 = Monday */
   
   uint8_t next_alarm_index;	/* index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
 };
@@ -37,18 +37,18 @@ struct _gui_alarm_struct
 {
   /* next alarm, all na_ fields are derived from the alarm information */
   uint16_t na_week_time_in_minutes;
-  uint16_t na_minutes_diff;	/* time in minutes until next alarm */
+  uint16_t na_minutes_diff;		/* calculated: time in minutes until next alarm, 0x0ffff = no alarm */
   uint8_t na_h;
-  uint8_t na_m;
-  uint8_t na_wd;	/* 0...6, 0=monday */
+  uint8_t na_m;		
+  uint8_t na_wd;				/* calculated: 0...7, 0=monday, 7=no alarm */
   
   /* alarm information */
-  uint8_t enable;
-  uint8_t snooze_count;
-  uint8_t skip_wd;
-  uint8_t h;
-  uint8_t m;
-  uint8_t wd[7];	/* 0 or 1, 0=weekday not selected */
+  uint8_t enable;		/* input */
+  uint8_t snooze_count;	/* input */
+  uint8_t skip_wd;		/* input */
+  uint8_t h;			/* input */
+  uint8_t m;			/* input */
+  uint8_t wd[7];		/* input: 0 or 1, 0=weekday not selected */
   
   
 };
@@ -140,8 +140,11 @@ void gui_date_adjust(void)
   
     gui_data.month = get_month_by_year_day_number(year, ydn);
     gui_data.day = get_day_by_year_day_number(year, ydn);
-    gui_data.weekday = get_weekday_by_year_day_number(year, ydn);
-    
+    gui_data.weekday = get_weekday_by_year_day_number(year, ydn);	/* 0 = Sunday */
+    /* adjust the weekday so that 0 will be Monday */
+    gui_data.weekday += 6;
+    if ( gui_data.weekday >= 7 ) 
+      gui_data.weekday -= 6;
     //cdn = to_century_day_number(y, ydn);
     //to_minutes(cdn, h, m);
 }
