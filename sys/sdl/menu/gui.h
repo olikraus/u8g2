@@ -1,4 +1,8 @@
+/*
 
+  gui.h
+  
+*/
 
 #ifndef _GUI_H
 #define _GUI_H
@@ -7,6 +11,7 @@
 
 #define GUI_ALARM_CNT 4
 #define SNOOZE_MINUTES 10
+#define ALLOW_SKIP_HOURS 4
 
 struct _gui_data
 {
@@ -20,10 +25,11 @@ struct _gui_data
   uint8_t next_alarm_index;	/* calculated: index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
   uint8_t is_skip_possible;		/* calculated: whether the next alarm (next_alarm_index) can be skipped */
   
+  uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
+  uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
   char s[16];				/* string buffer */
 };
 typedef struct _gui_data gui_data_t;
-
 
 
 struct _gui_alarm_struct

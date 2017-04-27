@@ -55,7 +55,7 @@ void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_min
     {
       if ( gui_alarm_list[idx].wd[i] != 0 )
       {
-	printf("gui_alarm_calc_next_wd_alarm: %d i=%d gui_alarm_list[idx].skip_wd=%d \n", idx, i, gui_alarm_list[idx].skip_wd);
+	//printf("gui_alarm_calc_next_wd_alarm: %d i=%d gui_alarm_list[idx].skip_wd=%d \n", idx, i, gui_alarm_list[idx].skip_wd);
 	if ( gui_alarm_list[idx].skip_wd != i+1 )
 	{
 	  week_time_abs = i; 
@@ -70,7 +70,7 @@ void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_min
 	  else
 	    week_time_diff = week_time_abs + 7*24*60 - current_week_time_in_minutes;
 
-	  printf("gui_alarm_calc_next_wd_alarm: %d week_time_abs=%d current_week_time_in_minutes=%d week_time_diff=%d\n", idx, week_time_abs, current_week_time_in_minutes,week_time_diff);
+	  //printf("gui_alarm_calc_next_wd_alarm: %d week_time_abs=%d current_week_time_in_minutes=%d week_time_diff=%d\n", idx, week_time_abs, current_week_time_in_minutes,week_time_diff);
 	  
 	  if (  best_diff > week_time_diff )
 	  {
@@ -176,12 +176,31 @@ void gui_calc_next_alarm(void)
   gui_data.next_alarm_index = lowest_i;  /* this can be GUI_ALARM_CNT */
   //printf("gui_calc_next_alarm gui_data.next_alarm_index=%d\n", gui_data.next_alarm_index);
   
+  /* calculate the is_skip_possible and the is_alarm flag */
   gui_data.is_skip_possible = 0;
   if ( lowest_i < GUI_ALARM_CNT )
   {
-    if ( gui_alarm_list[lowest_i].skip_wd == 0 )
+    
+    if ( gui_alarm_list[lowest_i].na_minutes_diff <= 1 )
     {
-      gui_data.is_skip_possible = 1;
+      if ( gui_data.is_alarm == 0 )
+      {
+	gui_data.is_alarm = 1;
+	gui_data.active_alarm_idx = lowest_i;
+      }
+    }
+    else
+    {
+      /* valid next alarm time */
+      if ( gui_alarm_list[lowest_i].skip_wd == 0 )
+      {
+	/* skip flag not yet set */
+	if ( gui_alarm_list[lowest_i].na_minutes_diff <= (uint16_t)60*(uint16_t)ALLOW_SKIP_HOURS )
+	{
+	  /* within the limit before alarm */
+	  gui_data.is_skip_possible = 1;
+	}
+      }
     }
   }
 }
@@ -374,6 +393,7 @@ int me_action_alarm_done(menu_t *menu, const me_t *me, uint8_t msg)
   {
     gui_alarm_list[gui_alarm_index] = gui_alarm_current;
     gui_alarm_list[gui_alarm_index].skip_wd = 0;		/* clear the skip alarm (if any) */
+    gui_alarm_list[gui_alarm_index].snooze_count = 0;		/* clear snooze (if any) */
     gui_Recalculate();
     //gui_alarm_calc_str_time(gui_alarm_index);
     menu_SetMEList(menu, melist_alarm_menu, gui_alarm_index);
@@ -585,9 +605,10 @@ int me_cb_button_skip_alarm(menu_t *menu, const me_t *me, uint8_t msg)
       r = 1;
       break;
     case ME_MSG_SELECT:
-      printf("me_cb_button_skip_alarm ME_MSG_SELECT\n");
+      //printf("me_cb_button_skip_alarm ME_MSG_SELECT\n");
       gui_alarm_list[gui_data.next_alarm_index].skip_wd = 
 	gui_alarm_list[gui_data.next_alarm_index].na_wd + 1;       
+      gui_alarm_list[gui_data.next_alarm_index].snooze_count = 0;		/* clear snooze (if any) */
       gui_Recalculate();
       menu_SetMEList(menu, melist_display_time, 0);
       r = 1;
