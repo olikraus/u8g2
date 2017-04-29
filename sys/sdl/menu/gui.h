@@ -37,8 +37,8 @@ struct _gui_alarm_struct
   /* next alarm, all na_ fields are derived from the alarm information */
   uint16_t na_week_time_in_minutes;
   uint16_t na_minutes_diff;		/* calculated: time in minutes until next alarm, 0x0ffff = no alarm */
-  uint8_t na_h;
-  uint8_t na_m;		
+  uint8_t na_h;					/* calculated */
+  uint8_t na_m;					/* calculated */
   uint8_t na_wd;				/* calculated: 0...7, 0=monday, 7=no alarm */
   
   /* alarm information */
@@ -53,6 +53,10 @@ typedef struct _gui_alarm_struct gui_alarm_t;
 
 
 extern const me_t melist_display_time[];
+extern const me_t melist_top_menu[];
+extern const me_t melist_active_alarm_menu[];
+extern const me_t melist_setup_menu[];
+extern const me_t melist_alarm_menu[];
 
 extern gui_data_t gui_data;
 

@@ -30,7 +30,6 @@ int main(void)
   x = 50;
   y = 50;
 
-  
   for(;;)
   {
     u8g2_FirstPage(&u8g2);

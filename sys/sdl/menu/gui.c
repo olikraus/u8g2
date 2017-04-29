@@ -11,8 +11,9 @@
 /*============================================*/
 extern const me_t melist_display_time[];
 extern const me_t melist_top_menu[];
-extern const me_t melist_alarm_menu[];
+extern const me_t melist_active_alarm_menu[];
 extern const me_t melist_setup_menu[];
+extern const me_t melist_alarm_menu[];
 
 /*============================================*/
 
@@ -187,6 +188,8 @@ void gui_calc_next_alarm(void)
       {
 	gui_data.is_alarm = 1;
 	gui_data.active_alarm_idx = lowest_i;
+	menu_SetMEList(&gui_menu, melist_active_alarm_menu, 0);
+
       }
     }
     else
@@ -206,6 +209,7 @@ void gui_calc_next_alarm(void)
 }
 
 /* recalculate all internal data */
+/* additionally the active alarm menu might be set by this function */
 void gui_Recalculate(void)
 {
   int i;
@@ -269,8 +273,8 @@ int me_action_save_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
-    gui_Recalculate();
-    menu_SetMEList(menu, melist_top_menu, 0);
+    menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
+    gui_Recalculate();							/* because it might be overwritten with the alarm menu */
     return 1;
   }
   return 0;
@@ -290,6 +294,9 @@ const me_t melist_setup_time[] =
   { me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
+
+/*============================================*/
+/* Display Time */
 
 void gui_alarm_to_str(uint8_t idx)
 {
@@ -358,12 +365,15 @@ const me_t melist_display_time[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+/*============================================*/
+/* Date Edit Dialog */
+
 int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
-    gui_Recalculate();
-    menu_SetMEList(menu, melist_top_menu, 0);
+    menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
+    gui_Recalculate();							/* because it might be overwritten with the alarm menu */
     return 1;
   }
   return 0;
@@ -381,6 +391,9 @@ const me_t melist_setup_date[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+/*============================================*/
+/* Alarm Edit Dialog */
+
 
 #define ME_ALARM_TIME_XO 28
 #define ME_ALARM_TIME_Y 20
@@ -394,10 +407,10 @@ int me_action_alarm_done(menu_t *menu, const me_t *me, uint8_t msg)
     gui_alarm_list[gui_alarm_index] = gui_alarm_current;
     gui_alarm_list[gui_alarm_index].skip_wd = 0;		/* clear the skip alarm (if any) */
     gui_alarm_list[gui_alarm_index].snooze_count = 0;		/* clear snooze (if any) */
-    gui_Recalculate();
     //gui_alarm_calc_str_time(gui_alarm_index);
-    menu_SetMEList(menu, melist_alarm_menu, gui_alarm_index);
-    return 1;
+    menu_SetMEList(menu, melist_alarm_menu, gui_alarm_index);	/* first set the normal menu */
+    gui_Recalculate();							/* because it might be overwritten with the alarm menu */
+   return 1;
   }
   return 0;
 }
@@ -424,6 +437,10 @@ const me_t melist_setup_alarm[] =
   
   { me_cb_null, NULL, NULL, 0, 0 },
 };
+
+/*============================================*/
+/* Alarm Setup Menu */
+
 
 static int me_action_alarm_common(menu_t *menu, const me_t *me, uint8_t msg) U8G2_NOINLINE;
 static int me_action_alarm_common(menu_t *menu, const me_t *me, uint8_t msg)
@@ -516,6 +533,9 @@ const me_t melist_alarm_menu[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+/*============================================*/
+/* Setup Menu */
+
 int me_action_setup_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
@@ -546,6 +566,42 @@ const me_t melist_setup_menu[] =
   { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
+
+/*============================================*/
+/* Alarm Menu */
+
+
+int me_action_deactivate_alarm(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_display_time, 0);
+    return 1;
+  }
+  return 0;
+}
+
+int me_action_do_snooze(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_display_time, 0);
+    return 1;
+  }
+  return 0;
+}
+
+const me_t melist_active_alarm_menu[] = 
+{
+  { me_cb_button_full_line, (void *)0, "", 3,10 },
+  { me_cb_button_full_line, (void *)me_action_deactivate_alarm, "Alarm abschalten", 3,20 },
+  { me_cb_button_full_line, (void *)me_action_do_snooze, "5 Min schlummern", 3,30 },
+  { me_cb_null, NULL, NULL, 0, 0 },
+};
+
+/*============================================*/
+/* toplevel menu */
+
 
 int me_action_to_display_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
@@ -609,8 +665,8 @@ int me_cb_button_skip_alarm(menu_t *menu, const me_t *me, uint8_t msg)
       gui_alarm_list[gui_data.next_alarm_index].skip_wd = 
 	gui_alarm_list[gui_data.next_alarm_index].na_wd + 1;       
       gui_alarm_list[gui_data.next_alarm_index].snooze_count = 0;		/* clear snooze (if any) */
-      gui_Recalculate();
-      menu_SetMEList(menu, melist_display_time, 0);
+      menu_SetMEList(menu, melist_display_time, 0);		/* first set the normal menu */
+      gui_Recalculate();							/* it might be changed here to the alarm menu */
       r = 1;
       break;
   }
