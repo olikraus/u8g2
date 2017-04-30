@@ -64,7 +64,13 @@
 	"Alarm Signal Off"
 	Goto DISPLAY TIME STATE
 	
-    
-
+  DISPLAY TIME STATE
+    Description:
+      The default screen visible to the user. It may include time, date and alarm.
+      Menu is started from here.
+      
+  
+  
 */
 
+#include "gui.h"

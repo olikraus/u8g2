@@ -9,6 +9,11 @@
 
 #include "menu.h"
 
+#define GUI_STATE_STOP 0
+#define GUI_STATE_SIGNAL_ALARM 1
+#define GUI_STATE_DISPLAY_TIME 2
+#define GUI_STATE_MENU 3
+
 #define GUI_ALARM_CNT 4
 #define SNOOZE_MINUTES 10
 #define ALLOW_SKIP_HOURS 4
@@ -16,6 +21,7 @@
 struct _gui_data
 {
   uint16_t week_time;			/* calculated: derived from h, mt, mo and weekday */
+  uint8_t gui_state;				/* global running state, see guistate.c, defaults to 0 (GUI_STATE_STOP) */
   uint8_t h, mt, mo, st, so;		/* input: current time */
   uint8_t day; 					/* input: 1 .. 31 current day in month */
   uint8_t month;				/* input: 1..12 */
@@ -70,11 +76,6 @@ extern char gui_alarm_str[GUI_ALARM_CNT][8];
 extern gui_data_t gui_data;
 extern menu_t gui_menu;
 
-void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_minutes);
-void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
-void gui_date_adjust(void) U8G2_NOINLINE;
-void gui_calc_week_time(void);
-void gui_calc_next_alarm(void);
 
 
 void gui_Recalculate(void);

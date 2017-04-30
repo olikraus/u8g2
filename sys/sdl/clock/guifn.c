@@ -20,6 +20,15 @@ gui_data_t gui_data;
 
 menu_t gui_menu;
 
+/*============================================*/
+/* local functions */
+
+void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_minutes);
+void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
+void gui_date_adjust(void) U8G2_NOINLINE;
+void gui_calc_week_time(void);
+void gui_calc_next_alarm(void);
+
 
 /*============================================*/
 
@@ -172,8 +181,6 @@ void gui_calc_next_alarm(void)
       {
 	gui_data.is_alarm = 1;
 	gui_data.active_alarm_idx = lowest_i;
-	menu_SetMEList(&gui_menu, melist_active_alarm_menu, 0);
-
       }
     }
     else
