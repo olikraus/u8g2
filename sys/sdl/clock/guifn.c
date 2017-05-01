@@ -59,7 +59,6 @@ uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm)
 void set_alarm_data_by_u32(gui_alarm_t *alarm, uint32_t u)
 {
   int i;
-  u = 0;
   for( i = 0; i < 7; i++ )
   {
     if ( (u & (1<<i)) != 0 )
@@ -257,6 +256,8 @@ void gui_LoadData(void)
   uint32_t data[5];
   int i;
   
+  printf("Load Data\n");
+  
   load_gui_data(data);
   for( i = 0; i < GUI_ALARM_CNT; i++ )
   {
@@ -272,6 +273,7 @@ void gui_StoreData(void)
   for( i = 0; i < GUI_ALARM_CNT; i++ )
   {
     data[i] = get_u32_by_alarm_data(gui_alarm_list+i);
+    printf("%d: %08lx\n", i, data[i]);
   }
   data[4] = 0;
   store_gui_data(data);
@@ -299,6 +301,7 @@ void gui_Init(u8g2_t *u8g2)
 {
   menu_Init(&gui_menu, u8g2);
   menu_SetMEList(&gui_menu, melist_display_time, 0);
+  gui_LoadData();
   gui_Recalculate();
 }
 
