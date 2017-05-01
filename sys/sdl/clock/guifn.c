@@ -24,6 +24,8 @@ menu_t gui_menu;
 /*============================================*/
 /* local functions */
 
+uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm);
+void set_alarm_data_by_u32(gui_alarm_t *alarm, uint32_t u);
 void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_minutes);
 void gui_alarm_calc_str_time(uint8_t idx) U8G2_NOINLINE;
 void gui_date_adjust(void) U8G2_NOINLINE;
@@ -40,15 +42,43 @@ uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm)
   int i;
   u = 0;
   for( i = 0; i < 7; i++ )
-    if ( alarm.wd[i] )
+  {
+    if ( alarm->wd[i] )
+    {
       u |= 1<<i;
-  u |= (alarm.m&63) << (7);
-  u |= (alarm.h&31) << (7+6);
-  u |= (alarm.skip_wd&7) << (7+6+5);
-  u |= (alarm.enable&1) << (7+6+5+3);
-  u |= (alarm.snooze_count&1) << (7+6+5+3+1);
+    }
+  }
+  u |= (alarm->m&63) << (7);
+  u |= (alarm->h&31) << (7+6);
+  u |= (alarm->skip_wd&7) << (7+6+5);
+  u |= (alarm->enable&1) << (7+6+5+3);
+  u |= (alarm->snooze_count&1) << (7+6+5+3+1);
   return u;
 }
+
+void set_alarm_data_by_u32(gui_alarm_t *alarm, uint32_t u)
+{
+  int i;
+  u = 0;
+  for( i = 0; i < 7; i++ )
+  {
+    if ( (u & (1<<i)) != 0 )
+      alarm->wd[i] = 1;
+    else
+      alarm->wd[i] = 0;
+  }
+  u>>=7;
+  alarm->m = u & 63;
+  u>>=6;
+  alarm->h = u & 31;
+  u>>=5;
+  alarm->skip_wd =  u & 7;
+  u>>=3;
+  alarm->enable =  u & 1;
+  u>>=1;
+  alarm->snooze_count =  u & 1;  
+}
+
 
 /*============================================*/
 
@@ -224,10 +254,27 @@ void gui_calc_next_alarm(void)
 
 void gui_LoadData(void)
 {
+  uint32_t data[5];
+  int i;
+  
+  load_gui_data(data);
+  for( i = 0; i < GUI_ALARM_CNT; i++ )
+  {
+    set_alarm_data_by_u32(gui_alarm_list+i, data[i]);
+  }
+
 }
 
 void gui_StoreData(void)
 {
+  uint32_t data[5];
+  int i;
+  for( i = 0; i < GUI_ALARM_CNT; i++ )
+  {
+    data[i] = get_u32_by_alarm_data(gui_alarm_list+i);
+  }
+  data[4] = 0;
+  store_gui_data(data);
 }
 
 
@@ -245,6 +292,7 @@ void gui_Recalculate(void)
   {
     gui_alarm_calc_str_time(i);
   }
+  gui_StoreData();
 }
 
 void gui_Init(u8g2_t *u8g2)

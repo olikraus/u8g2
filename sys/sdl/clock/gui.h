@@ -76,12 +76,16 @@ extern char gui_alarm_str[GUI_ALARM_CNT][8];
 extern gui_data_t gui_data;
 extern menu_t gui_menu;
 
-
-
 void gui_Recalculate(void);
 void gui_Init(u8g2_t *u8g2);
 void gui_Draw(void);
 void gui_Next(void);
 void gui_Select(void);
+
+/* guihal.c */
+
+void store_gui_data(uint32_t *data);
+void load_gui_data(uint32_t *data);
+
 
 #endif
