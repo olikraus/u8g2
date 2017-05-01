@@ -14,6 +14,7 @@
 
 gui_alarm_t gui_alarm_list[GUI_ALARM_CNT];
 char gui_alarm_str[GUI_ALARM_CNT][8];
+uint32_t gui_backup_array[5];
 
 
 gui_data_t gui_data;
@@ -29,6 +30,25 @@ void gui_date_adjust(void) U8G2_NOINLINE;
 void gui_calc_week_time(void);
 void gui_calc_next_alarm(void);
 
+
+/*============================================*/
+
+
+uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm)
+{
+  uint32_t u;
+  int i;
+  u = 0;
+  for( i = 0; i < 7; i++ )
+    if ( alarm.wd[i] )
+      u |= 1<<i;
+  u |= (alarm.m&63) << (7);
+  u |= (alarm.h&31) << (7+6);
+  u |= (alarm.skip_wd&7) << (7+6+5);
+  u |= (alarm.enable&1) << (7+6+5+3);
+  u |= (alarm.snooze_count&1) << (7+6+5+3+1);
+  return u;
+}
 
 /*============================================*/
 
@@ -198,6 +218,19 @@ void gui_calc_next_alarm(void)
     }
   }
 }
+
+
+/*============================================*/
+
+void gui_LoadData(void)
+{
+}
+
+void gui_StoreData(void)
+{
+}
+
+
 
 /* recalculate all internal data */
 /* additionally the active alarm menu might be set by this function */
