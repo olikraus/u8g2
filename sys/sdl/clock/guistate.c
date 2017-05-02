@@ -75,34 +75,13 @@
 
 #include "gui.h"
 
-/*============================================*/
-/* input */
-
-int is_por_reset(void)
-{
-  return 1;
-}
 
 int is_current_time_equal_to_alarm_time(void)
 {
   return gui_data.is_alarm;
 }
 
-int is_button_reset(void)
-{
-  return 0;
-}
 
-/*============================================*/
-/* output */
-
-void enable_alarm(void)
-{
-}
-
-void disable_alarm(void)
-{
-}
 
 /*============================================*/
 /* next state function */
@@ -111,30 +90,26 @@ void gui_state_next(void)
 {
   switch(gui_data.gui_state)
   {
-    case GUI_STATE_STOP:
+    case GUI_STATE_STOP:		/* this is also the default value after each reset */
       if ( is_por_reset() )
       {
 	/* no alarm is possible, just display the time */
-	gui_Recalculate();
-	gui_data.gui_state = GUI_STATE_DISPLAY_TIME;
-	menu_SetMEList(&gui_menu, melist_display_time, 0);
+	gui_Init(&u8g2, 1);
       }
       else
       {
 	/* user has pressed a button or the 1 minute wakeup happend */
-	gui_LoadData();
-	gui_Recalculate();
+	gui_Init(&u8g2, 0);
 	
 	if ( is_current_time_equal_to_alarm_time() )
 	{
 	  enable_alarm();	
 	  gui_data.gui_state = GUI_STATE_SIGNAL_ALARM;
-	  /* no menu in use */
+	  menu_SetMEList(&gui_menu, melist_active_alarm_menu, 0);
 	}
 	else
 	{
-	  gui_data.gui_state = GUI_STATE_DISPLAY_TIME;
-	  menu_SetMEList(&gui_menu, melist_display_time, 0);
+	  /* display time: this is default of gui_Init() */
 	}
       }
       break;

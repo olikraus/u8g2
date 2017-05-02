@@ -82,6 +82,7 @@ int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_inv_label(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg);
 
 #endif

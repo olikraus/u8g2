@@ -261,10 +261,10 @@ uint8_t u8x8_d_sdl(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8g2, &u8x8_sdl_128x64_info);
+      u8g_sdl_init();
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8g2);
-      u8g_sdl_init();
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       break;

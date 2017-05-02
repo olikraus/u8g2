@@ -9,6 +9,9 @@
 
 #include "menu.h"
 
+
+extern u8g2_t u8g2;
+
 #define GUI_STATE_STOP 0
 #define GUI_STATE_SIGNAL_ALARM 1
 #define GUI_STATE_DISPLAY_TIME 2
@@ -78,7 +81,8 @@ extern menu_t gui_menu;
 
 void gui_LoadData(void);
 void gui_Recalculate(void);
-void gui_Init(u8g2_t *u8g2);
+void gui_SignalTimeChange(void);
+void gui_Init(u8g2_t *u8g2, uint8_t is_por);
 void gui_Draw(void);
 void gui_Next(void);
 void gui_Select(void);
@@ -87,6 +91,10 @@ void gui_Select(void);
 
 void store_gui_data(uint32_t *data);
 void load_gui_data(uint32_t *data);
+int is_por_reset(void);
+int is_button_reset(void);
+void enable_alarm(void);
+void disable_alarm(void);
 
 
 #endif

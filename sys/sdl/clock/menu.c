@@ -324,7 +324,7 @@ int me_cb_1_31(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 /*
-  Name: 	me_cb_label
+  Name: 	me_cb_num_label
   can not get focus
   Arg:	char *
 */
@@ -441,6 +441,20 @@ int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg)
       return 1;
   }
   return 0;
+}
+
+int me_cb_inv_label(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  int r = me_cb_label(menu, me, msg);
+  if ( msg == ME_MSG_DRAW )
+  {
+      menu_DrawBoxFocus(menu, 
+	  me->x-1, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetUTF8Width(menu->u8g2, (char *)(me->arg))+2, 
+	  u8g2_GetAscent(menu->u8g2) + 2);
+  }
+  return r;
 }
 
 /*

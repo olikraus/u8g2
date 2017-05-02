@@ -297,12 +297,45 @@ void gui_Recalculate(void)
   gui_StoreData();
 }
 
-void gui_Init(u8g2_t *u8g2)
+/* minute and/or hour has changed */
+void gui_SignalTimeChange(void)
 {
-  menu_Init(&gui_menu, u8g2);
-  menu_SetMEList(&gui_menu, melist_display_time, 0);
-  gui_LoadData();
+  /* recalculate dependent values */
   gui_Recalculate();
+  
+  /* setup menu */
+  menu_SetMEList(&gui_menu, melist_display_time, 0);
+  
+  /* enable alarm */
+  if ( gui_data.is_alarm != 0 )
+  {
+    menu_SetMEList(&gui_menu, melist_active_alarm_menu, 0);
+    enable_alarm();
+  }
+}
+
+void gui_Init(u8g2_t *u8g2, uint8_t is_por)
+{
+  if ( is_por == 0 )
+  {
+    /* not a POR reset, so load current values */
+    gui_LoadData();
+    /* do NOT init the display, otherwise there will be some flicker visible */
+  }
+  else
+  {
+    /* POR reset, so do NOT load any values (they will be 0 in the best case) */
+    /* instead do a proper reset of the display */
+    // u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
+    u8g2_InitDisplay(u8g2);
+    
+    // u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
+    u8g2_SetPowerSave(u8g2, 0);
+  }
+  
+  menu_Init(&gui_menu, u8g2);
+  
+  gui_SignalTimeChange();
 }
 
 
@@ -313,10 +346,26 @@ void gui_Draw(void)
 
 void gui_Next(void)
 {
-  menu_NextFocus(&gui_menu);
+  if ( gui_menu.me_list == melist_active_alarm_menu )
+  {
+    disable_alarm();
+    menu_SetMEList(&gui_menu, melist_display_time, 0);
+  }
+  else
+  {
+    menu_NextFocus(&gui_menu);
+  }
 }
 
 void gui_Select(void)
 {
-  menu_Select(&gui_menu);
+  if ( gui_menu.me_list == melist_active_alarm_menu )
+  {
+    disable_alarm();
+    menu_SetMEList(&gui_menu, melist_display_time, 0);
+  }
+  else
+  {
+    menu_Select(&gui_menu);
+  }
 }

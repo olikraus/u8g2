@@ -369,9 +369,20 @@ int me_action_do_snooze(menu_t *menu, const me_t *me, uint8_t msg)
 
 const me_t melist_active_alarm_menu[] = 
 {
-  { me_cb_button_full_line, (void *)0, "", 3,10 },
-  { me_cb_button_full_line, (void *)me_action_deactivate_alarm, "Alarm abschalten", 3,20 },
-  { me_cb_button_full_line, (void *)me_action_do_snooze, "5 Min schlummern", 3,30 },
+  { me_cb_label, NULL, "Alarm",			2, 13},
+  
+  { me_cb_0_23_ro, &gui_data.h, NULL, 		ME_TIME_DXO+2+20,ME_TIME_Y },
+  { me_cb_num_label, NULL, ":", 			ME_TIME_DXO+30+20,ME_TIME_Y-3 },
+  { me_cb_0_9_ro, &gui_data.mt, NULL, 		ME_TIME_DXO+39+20,ME_TIME_Y },
+  { me_cb_0_9_ro, &gui_data.mo, NULL, 		ME_TIME_DXO+52+20,ME_TIME_Y },
+  
+  { me_cb_button_empty, (void *)me_action_deactivate_alarm, NULL, 0,0 },
+  //{ me_cb_button_half_line, (void *)me_action_deactivate_alarm, "Alarm aus", 0,30 },
+  //{ me_cb_button_half_line, (void *)me_action_do_snooze, "+5 Min ", 64,30 },
+
+  { me_cb_inv_label, NULL, "Alarm aus", 4,30 },
+  { me_cb_inv_label, NULL, "+5 Min", 76,30 },
+
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
