@@ -110,6 +110,7 @@ void gui_alarm_calc_next_wd_alarm(uint8_t idx, uint16_t current_week_time_in_min
 	  week_time_abs += gui_alarm_list[idx].m;
 	  week_time_abs += gui_alarm_list[idx].snooze_count*(uint16_t)SNOOZE_MINUTES;
 	  
+	  
 	  if ( current_week_time_in_minutes <= week_time_abs )
 	    week_time_diff = week_time_abs - current_week_time_in_minutes;
 	  else
@@ -197,53 +198,80 @@ void gui_calc_next_alarm(void)
   uint8_t i;
   uint8_t lowest_i;
   uint16_t lowest_diff;
-  /* step 1: Calculate the difference to current weektime for each alarm */
-  /* result is stored in gui_alarm_list[i].na_minutes_diff */
-  for( i = 0; i < GUI_ALARM_CNT; i++ )
-    gui_alarm_calc_next_wd_alarm(i, gui_data.week_time);
+  uint8_t redo;
   
-  /* step 2: find the index with the lowest difference */
-  lowest_diff = 0x0ffff;
-  lowest_i = GUI_ALARM_CNT;
-  for( i = 0; i < GUI_ALARM_CNT; i++ )
+  do
   {
-    if ( lowest_diff > gui_alarm_list[i].na_minutes_diff )
-    {
-      lowest_diff = gui_alarm_list[i].na_minutes_diff;
-      lowest_i = i;
-    }
-  }
-  
-  
-  /* step 3: store the result */
-  gui_data.next_alarm_index = lowest_i;  /* this can be GUI_ALARM_CNT */
-  //printf("gui_calc_next_alarm gui_data.next_alarm_index=%d\n", gui_data.next_alarm_index);
-  
-  /* calculate the is_skip_possible and the is_alarm flag */
-  gui_data.is_skip_possible = 0;
-  if ( lowest_i < GUI_ALARM_CNT )
-  {
+    redo = 0;
     
-    if ( gui_alarm_list[lowest_i].na_minutes_diff == 0 )
+    /* step 1: Calculate the difference to current weektime for each alarm */
+    /* result is stored in gui_alarm_list[i].na_minutes_diff */
+    for( i = 0; i < GUI_ALARM_CNT; i++ )
+      gui_alarm_calc_next_wd_alarm(i, gui_data.week_time+(uint16_t)gui_data.is_equal);	/* is_equal flag is used as a offset */
+    
+    /* step 2: find the index with the lowest difference */
+    lowest_diff = 0x0ffff;
+    lowest_i = GUI_ALARM_CNT;
+    for( i = 0; i < GUI_ALARM_CNT; i++ )
     {
-      if ( gui_data.is_alarm == 0 )
+      if ( lowest_diff > gui_alarm_list[i].na_minutes_diff )
       {
-	gui_data.is_alarm = 1;
-	gui_data.active_alarm_idx = lowest_i;
+	lowest_diff = gui_alarm_list[i].na_minutes_diff;
+	lowest_i = i;
       }
     }
-    else
+    
+    
+    /* step 3: store the result */
+    gui_data.next_alarm_index = lowest_i;  /* this can be GUI_ALARM_CNT */
+    //printf("gui_calc_next_alarm gui_data.next_alarm_index=%d\n", gui_data.next_alarm_index);
+    
+    /* calculate the is_skip_possible and the is_alarm flag */
+    gui_data.is_skip_possible = 0;
+    if ( lowest_i < GUI_ALARM_CNT )
     {
-      /* valid next alarm time */
-      if ( gui_alarm_list[lowest_i].skip_wd == 0 )
+      
+      if ( gui_alarm_list[lowest_i].na_minutes_diff == 0 )
       {
-	/* skip flag not yet set */
-	if ( gui_alarm_list[lowest_i].na_minutes_diff <= (uint16_t)60*(uint16_t)ALLOW_SKIP_HOURS )
+	if ( gui_data.is_equal == 0 )
 	{
-	  /* within the limit before alarm */
-	  gui_data.is_skip_possible = 1;
+	  gui_data.is_alarm = 1;
+	  gui_data.is_equal = 1;
+	  gui_data.active_alarm_idx = lowest_i;
+	  //gui_data.active_equal_idx = lowest_i;
+	  
+	  gui_data.equal_h = gui_data.h;
+	  gui_data.equal_mt = gui_data.mt;
+	  gui_data.equal_mo = gui_data.mo;
+	  
+	  redo = 1;
 	}
       }
+      else
+      {
+	
+	/* valid next alarm time */
+	if ( gui_alarm_list[lowest_i].skip_wd == 0 )
+	{
+	  /* skip flag not yet set */
+	  if ( gui_alarm_list[lowest_i].na_minutes_diff <= (uint16_t)60*(uint16_t)ALLOW_SKIP_HOURS )
+	  {
+	    /* within the limit before alarm */
+	    gui_data.is_skip_possible = 1;
+	  }
+	}
+      }
+    }
+  } while( redo );
+  
+  /* reset the equal flag */
+  if ( gui_data.is_equal != 0 )
+  {
+    if ( gui_data.equal_h != gui_data.h ||
+	  gui_data.equal_mt != gui_data.mt ||
+	  gui_data.equal_mo != gui_data.mo )
+    {
+      gui_data.is_equal = 0;
     }
   }
 }

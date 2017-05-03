@@ -34,8 +34,15 @@ struct _gui_data
   uint8_t next_alarm_index;	/* calculated: index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
   uint8_t is_skip_possible;		/* calculated: whether the next alarm (next_alarm_index) can be skipped */
   
+  uint8_t is_equal;			/* calculated: whether the current time matches any alarm, will be set to 0 automatically */
+  uint8_t equal_h;
+  uint8_t equal_mt;
+  uint8_t equal_mo;
+  
   uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
   uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
+  
+  
   char s[16];				/* string buffer */
 };
 typedef struct _gui_data gui_data_t;
