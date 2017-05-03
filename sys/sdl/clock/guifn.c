@@ -224,7 +224,7 @@ void gui_calc_next_alarm(void)
   if ( lowest_i < GUI_ALARM_CNT )
   {
     
-    if ( gui_alarm_list[lowest_i].na_minutes_diff <= 1 )
+    if ( gui_alarm_list[lowest_i].na_minutes_diff == 0 )
     {
       if ( gui_data.is_alarm == 0 )
       {
@@ -349,6 +349,7 @@ void gui_Next(void)
   if ( gui_menu.me_list == melist_active_alarm_menu )
   {
     disable_alarm();
+    gui_data.is_alarm = 0;
     menu_SetMEList(&gui_menu, melist_display_time, 0);
   }
   else
@@ -362,6 +363,7 @@ void gui_Select(void)
   if ( gui_menu.me_list == melist_active_alarm_menu )
   {
     disable_alarm();
+    gui_data.is_alarm = 0;
     menu_SetMEList(&gui_menu, melist_display_time, 0);
   }
   else
