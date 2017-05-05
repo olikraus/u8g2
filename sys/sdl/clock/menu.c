@@ -575,6 +575,6 @@ void menu_Draw(menu_t *menu)
       menu_CallME(menu, ME_MSG_DRAW_FOCUS);
     }
   }
-    u8g2_DrawHLine(menu->u8g2, 0, 32, 128);
+   // u8g2_DrawHLine(menu->u8g2, 0, 32, 128);
 }
 

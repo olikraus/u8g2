@@ -310,6 +310,38 @@ const me_t melist_alarm_menu[] =
 };
 
 /*============================================*/
+/* Reset Menu */
+
+int me_action_reset_no(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_setup_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
+int me_action_reset_yes(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    do_reset();
+    return 1;
+  }
+  return 0;
+}
+
+const me_t melist_reset_menu[] = 
+{
+  { me_cb_label, NULL, "Reset?",			44, 13},
+  { me_cb_button_half_line, (void *)me_action_reset_no, "Nein", 0,30 },
+  { me_cb_button_half_line, (void *)me_action_reset_yes, "Ja", 64,30 },
+  { me_cb_null, NULL, NULL, 0, 0 },
+};
+
+
+/*============================================*/
 /* Setup Menu */
 
 int me_action_setup_time(menu_t *menu, const me_t *me, uint8_t msg)
@@ -333,12 +365,23 @@ int me_action_setup_date(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 
+int me_action_goto_reset(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_reset_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
+
 const me_t melist_setup_menu[] = 
 {
   { me_cb_button_half_line, (void *)me_action_setup_time, "Uhrzeit", 0,10 },
   { me_cb_button_half_line, (void *)me_action_setup_date, "Datum", 64,10 },
   { me_cb_button_half_line, (void *)NULL, "Power", 0,20 },
-  { me_cb_button_half_line, (void *)me_action_goto_alarm_list, "Alarme", 64,20 },
+  { me_cb_button_half_line, (void *)me_action_goto_reset, "Reset", 64,20 },
   { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };

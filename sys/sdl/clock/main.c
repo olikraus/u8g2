@@ -38,9 +38,9 @@ int main(void)
     do
     {
       gui_Draw();
-      u8g2_SetFontDirection(&u8g2, 0);
-      u8g2_SetFont(&u8g2, u8g2_font_ncenR08_tf);
-      u8g2_DrawStr(&u8g2, x, y, "-- 123");
+      //u8g2_SetFontDirection(&u8g2, 0);
+      //u8g2_SetFont(&u8g2, u8g2_font_ncenR08_tf);
+      //u8g2_DrawStr(&u8g2, x, y, "-- 123");
       i++;
       
     } while( u8g2_NextPage(&u8g2) );

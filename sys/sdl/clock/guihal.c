@@ -9,6 +9,12 @@
 #include <stdio.h>
 
 /*============================================*/
+/* reset */
+void do_reset(void)
+{
+}
+
+/*============================================*/
 /* load & store from/to permanent memory */
 
 

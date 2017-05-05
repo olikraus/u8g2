@@ -96,6 +96,7 @@ void gui_Select(void);
 
 /* guihal.c */
 
+void do_reset(void);
 void store_gui_data(uint32_t *data);
 void load_gui_data(uint32_t *data);
 int is_por_reset(void);

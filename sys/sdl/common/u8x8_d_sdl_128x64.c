@@ -11,10 +11,10 @@
 #define WIDTH 128
 
 SDL_Surface *u8g_sdl_screen;
-int u8g_sdl_multiple = 2;
+int u8g_sdl_multiple = 3;
 Uint32 u8g_sdl_color[256];
 
-void u8g_sdl_set_pixel(int x, int y, int idx)
+static void u8g_sdl_set_pixel(int x, int y, int idx)
 {
   Uint32  *ptr;
   Uint32 offset;
@@ -41,14 +41,17 @@ void u8g_sdl_set_pixel(int x, int y, int idx)
     }
 }
 
-void u8g_sdl_set_8pixel(int x, int y, uint8_t pixel)
+static void u8g_sdl_set_8pixel(int x, int y, uint8_t pixel)
 {
   int cnt = 8;
+  int bg = 0;
+  if ( (x/8 + y/8)  & 1 )
+    bg = 4;
   while( cnt > 0 )
   {
     if ( (pixel & 1) == 0 )
     {
-      u8g_sdl_set_pixel(x,y,0);
+      u8g_sdl_set_pixel(x,y,bg);
     }
     else
     {
@@ -60,7 +63,7 @@ void u8g_sdl_set_8pixel(int x, int y, uint8_t pixel)
   }
 }
 
-void u8g_sdl_set_multiple_8pixel(int x, int y, int cnt, uint8_t *pixel)
+static void u8g_sdl_set_multiple_8pixel(int x, int y, int cnt, uint8_t *pixel)
 {
   uint8_t b;
   while( cnt > 0 )
@@ -76,7 +79,7 @@ void u8g_sdl_set_multiple_8pixel(int x, int y, int cnt, uint8_t *pixel)
 
 #define W(x,w) (((x)*(w))/100)
 
-void u8g_sdl_init(void)
+static void u8g_sdl_init(void)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) 
   {
@@ -99,6 +102,8 @@ void u8g_sdl_init(void)
   u8g_sdl_color[2] = SDL_MapRGB( u8g_sdl_screen->format, W(100, 80), W(255,80), 0 );
   u8g_sdl_color[3] = SDL_MapRGB( u8g_sdl_screen->format, 100, 255, 0 );
 
+  u8g_sdl_color[4] = SDL_MapRGB( u8g_sdl_screen->format, 30, 30, 30 );
+
   /*
   u8g_sdl_set_pixel(0,0);
   u8g_sdl_set_pixel(1,1);
@@ -113,60 +118,6 @@ void u8g_sdl_init(void)
   return;
 }
 
-/* return ascii key value or -1 */
-int u8g_sdl_get_key(void)
-{
-  SDL_Event event;
-	/* http://www.libsdl.org/cgi/docwiki.cgi/SDL_PollEvent */
-  if ( SDL_PollEvent(&event) != 0 )
-  {
-    switch (event.type) 
-    {
-        case SDL_QUIT:
-            exit(0);
-            break;
-        case SDL_KEYDOWN:
-          switch( event.key.keysym.sym )
-          {
-            /*     /usr/include/SDL/SDL_keysym.h */
-            case SDLK_a: return 'a';
-            case SDLK_b: return 'b';
-            case SDLK_c: return 'c';
-            case SDLK_d: return 'd';
-            case SDLK_e: return 'e';
-            case SDLK_f: return 'f';
-            case SDLK_g: return 'g';
-            case SDLK_h: return 'h';
-            case SDLK_i: return 'i';
-            case SDLK_j: return 'j';
-            case SDLK_k: return 'k';
-            case SDLK_l: return 'l';
-            case SDLK_m: return 'm';
-            case SDLK_n: return 'n';
-            case SDLK_o: return 'o';
-            case SDLK_p: return 'p';
-            case SDLK_q: return 'q';
-            case SDLK_r: return 'r';
-            case SDLK_s: return 's';
-            case SDLK_t: return 't';
-            case SDLK_u: return 'u';
-            case SDLK_v: return 'v';
-            case SDLK_w: return 'w';
-            case SDLK_x: return 'x';
-            case SDLK_y: return 'y';
-            case SDLK_z: return 'z';
-            case SDLK_SPACE: return ' ';
-            case SDLK_UP: return 273;
-            case SDLK_DOWN: return 274;
-            case SDLK_RIGHT: return 275;
-            case SDLK_LEFT: return 276;
-            
-            default: return 0;
-          }
-    }
-  }
-  return -1;
-}
 
 
 /*
@@ -208,7 +159,7 @@ static const u8x8_display_info_t u8x8_sdl_128x64_info =
 };
 
 
-uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+static uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
 	static int debounce_cnt = 0;
 	static int curr_msg = 0;
@@ -253,7 +204,7 @@ uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_pt
 	return 1;
 }
 
-uint8_t u8x8_d_sdl(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_sdl_128x64(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
   uint8_t *ptr;
@@ -306,7 +257,7 @@ void u8x8_Setup_SDL_128x64(u8x8_t *u8x8)
   u8x8_SetupDefaults(u8x8);
   
   /* setup specific callbacks */
-  u8x8->display_cb = u8x8_d_sdl;
+  u8x8->display_cb = u8x8_d_sdl_128x64;
 	
   u8x8->gpio_and_delay_cb = u8x8_d_sdl_gpio;
 
