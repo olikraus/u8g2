@@ -73,6 +73,8 @@
   
 */
 
+#ifdef OBSOLETE
+
 #include "gui.h"
 
 
@@ -121,3 +123,6 @@ void gui_state_next(void)
       break;
   }
 }
+
+
+#endif
