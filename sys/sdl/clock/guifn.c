@@ -284,7 +284,7 @@ void gui_LoadData(void)
   uint32_t data[5];
   int i;
   
-  printf("Load Data\n");
+  //printf("Load Data\n");
   
   load_gui_data(data);
   for( i = 0; i < GUI_ALARM_CNT; i++ )
@@ -301,7 +301,7 @@ void gui_StoreData(void)
   for( i = 0; i < GUI_ALARM_CNT; i++ )
   {
     data[i] = get_u32_by_alarm_data(gui_alarm_list+i);
-    printf("%d: %08lx\n", i, data[i]);
+    //printf("%d: %08lx\n", i, data[i]);
   }
   data[4] = 0;
   store_gui_data(data);
