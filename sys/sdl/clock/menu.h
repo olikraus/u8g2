@@ -7,7 +7,7 @@
 
 #define MENU_SMALL_FONT u8g2_font_baby_tr
 #define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
-#define MENU_BIG_NUM u8g2_font_ncenR18_tf
+#define MENU_BIG_NUM u8g2_font_ncenR18_tn
 
 
 typedef struct _menu_struct menu_t;

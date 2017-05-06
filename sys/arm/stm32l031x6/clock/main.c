@@ -331,14 +331,63 @@ void startRTCWakeUp(void)
   EXTI->IMR |= EXTI_IMR_IM20;			/* interrupt enable */
 
   /* tamper IRQ is connected to line 19 */
-  EXTI->RTSR |= EXTI_RTSR_RT19;			/* rising edge for wake up line */
+  EXTI->RTSR |= EXTI_RTSR_RT19;			/* rising edge for tamper*/
   EXTI->IMR |= EXTI_IMR_IM19;			/* interrupt enable */
   
-  RTC->WPR = 0;						/* enable RTC write protection */
+  RTC->WPR = 0;						/* disable RTC write protection */
   RTC->WPR = 0;
   //disableRCCRTCWrite();
 }
 
+/* read values from RTC and store the values into the gui_data struct */
+void readRTC(void)
+{
+  uint32_t r;
+  int i;
+  uint8_t bcd[12];
+  
+  r = RTC->TR;
+
+  i = 0;
+  do
+  {
+    bcd[i] = r & 15;
+    r >>= 4;
+    i++;
+  } while( i < 6 );
+  
+  bcd[1] &= 7;	/* seconds */
+  bcd[3] &= 7;	/* minutes */
+  bcd[5] &= 3; /* hours */
+
+  gui_data.h = bcd[4]  + bcd[5]*10;;
+  gui_data.mt = bcd[3];
+  gui_data.mo = bcd[2];
+  gui_data.st = bcd[1];
+  gui_data.so = bcd[0];
+
+
+  r = RTC->DR;
+  i = 0;
+  do
+  {
+    bcd[i] = r & 15;
+    r >>= 4;
+    i++;
+  } while( i < 6 );
+
+  bcd[1] &= 3;	/* days */
+  bcd[3] &= 1;	/* months */  
+
+  gui_data.day = bcd[0] + bcd[1]*10;
+  gui_data.month = bcd[2] + bcd[3]*10;
+  gui_data.year_o = bcd[4];
+  gui_data.year_t = bcd[5];
+  
+  
+  gui_date_adjust();	/* calculate weekday */
+  //gui_Recalculate();  /* this will also store the values back in the backup registers */
+}
 
 /*=======================================================================*/
 int main()
@@ -385,6 +434,8 @@ int main()
   
   for(;;)
   {
+    readRTC();
+    
     u8g2_ClearBuffer(&u8g2);
     GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
     gui_Draw();

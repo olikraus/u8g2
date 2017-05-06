@@ -86,6 +86,9 @@ extern char gui_alarm_str[GUI_ALARM_CNT][8];
 extern gui_data_t gui_data;
 extern menu_t gui_menu;
 
+void gui_date_adjust(void);
+
+
 void gui_LoadData(void);
 void gui_Recalculate(void);
 void gui_SignalTimeChange(void);

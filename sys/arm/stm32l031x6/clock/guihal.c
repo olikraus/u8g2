@@ -11,7 +11,24 @@
 /* reset */
 void do_reset(void)
 {
-  // deactivate temper and reactivate button pullups
+  /* clear the display first, to provide some visual feedback to the user */
+  u8g2_ClearDisplay(gui_menu.u8g2);
+  
+  /* Deactivate tamper so that the uC can be programmed via UART */
+  /* This is required, because RX pin is shared with Tamp2 */
+  
+  RTC->WPR = 0x0ca;					/* disable RTC write protection */
+  RTC->WPR = 0x053;
+  
+  EXTI->IMR &= ~EXTI_IMR_IM19;			/* disable tamper irq */
+
+  RTC->TAMPCR = 0;						/* clear tamper detection */
+
+  RTC->WPR = 0;						/* disable RTC write protection */
+  RTC->WPR = 0;
+
+  /* execute reset */
+  
   NVIC_SystemReset();
 }
 
