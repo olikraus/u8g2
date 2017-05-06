@@ -57,7 +57,7 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
       break;
     case U8X8_MSG_DELAY_I2C:
       /* arg_int is 1 or 4: 100KHz (5us) or 400KHz (1.25us) */
-      delay_micro_seconds(arg_int<=2?5:1);
+      //delay_micro_seconds(arg_int<=2?5:1);
       break;
     
     case U8X8_MSG_GPIO_I2C_CLOCK:
