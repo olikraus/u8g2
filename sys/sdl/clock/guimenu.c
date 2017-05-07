@@ -137,6 +137,11 @@ const me_t melist_display_time[] =
   { me_cb_num_label, NULL, ":", 			ME_TIME_DXO+30,ME_TIME_Y-3 },
   { me_cb_0_9_ro, &gui_data.mt, NULL, 		ME_TIME_DXO+39,ME_TIME_Y },
   { me_cb_0_9_ro, &gui_data.mo, NULL, 		ME_TIME_DXO+52,ME_TIME_Y },
+
+  { me_cb_0_9_small_ro, &gui_data.st, NULL, 		118,ME_TIME_Y },
+  { me_cb_0_9_small_ro, &gui_data.so, NULL, 		123,ME_TIME_Y },
+
+  
   
   { me_cb_button_empty, (void *)me_action_handle_display_time, NULL, 0, 0 },
   { me_cb_null, NULL, NULL, 0, 0 },

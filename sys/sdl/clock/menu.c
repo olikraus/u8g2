@@ -260,6 +260,25 @@ int me_cb_0_23_ro(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 
+int me_cb_0_9_small_ro(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 0;
+    case ME_MSG_DRAW_FOCUS:
+      return 1;
+    case ME_MSG_SELECT:
+      return 1;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_SMALL_FONT);
+      u8g2_DrawGlyph(menu->u8g2, me->x, me->y, *(uint8_t *)(me->val) + '0');
+      return 1;
+  }
+  return 0;
+}
+
+
 /*
   Name: 	me_cb_0_55
   Val:	uint8_t *

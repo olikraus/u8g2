@@ -74,6 +74,7 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_0_9_ro(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_0_23_ro(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_9_small_ro(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_1_12(menu_t *menu, const me_t *me, uint8_t msg);
 int me_cb_1_31(menu_t *menu, const me_t *me, uint8_t msg);

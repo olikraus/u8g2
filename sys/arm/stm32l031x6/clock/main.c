@@ -434,7 +434,10 @@ int main()
   for(;;)
   {
     if ( gui_menu.me_list == melist_display_time )
+    {
       readRTC();
+      gui_SignalTimeChange();
+    }
     
     u8g2_ClearBuffer(&u8g2);
     GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
