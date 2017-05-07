@@ -76,3 +76,75 @@ void enable_alarm(void)
 void disable_alarm(void)
 {
 }
+
+void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so)
+{
+  uint32_t v;
+  
+  v = ht;
+  v <<= 4,
+  v |= ho;
+  v <<= 4;
+  v |= mt;
+  v <<= 4;
+  v |= mo;
+  v <<= 4;
+  v |= st;
+  v <<= 4;
+  v |= so;
+  
+  RTC->WPR = 0x0ca;					/* disable RTC write protection */
+  RTC->WPR = 0x053;
+
+  RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
+  while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
+      ;
+  RTC->PRER = 0x07f00ff;					/* 1 Hz clock */
+  RTC->TR = v; 
+  RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
+  
+  RTC->WPR = 0;						/* enable RTC write protection */
+  RTC->WPR = 0;
+}
+
+
+/*
+  weekday: 0 = monday
+*/
+void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint8_t dayo, uint8_t weekday)
+{
+  uint32_t v;
+  
+  v = yt;
+  
+  v <<= 4,
+  v |= yo;
+  
+  v <<= 3;
+  v |= weekday+1;	/* monday starts with 1 on the STM32L0 */
+  v <<= 1;  
+  v |= mt;
+  
+  v <<= 4;
+  v |= mo;
+  
+  v <<= 4;
+  v |= dayt;
+  
+  v <<= 4;
+  v |= dayo;
+  
+  RTC->WPR = 0x0ca;					/* disable RTC write protection */
+  RTC->WPR = 0x053;
+
+  RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
+  while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
+      ;
+  RTC->PRER = 0x07f00ff;					/* 1 Hz clock */
+  RTC->DR = v; 
+  RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
+  
+  RTC->WPR = 0;						/* enable RTC write protection */
+  RTC->WPR = 0;
+}
+

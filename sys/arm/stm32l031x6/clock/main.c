@@ -280,11 +280,10 @@ void initRTC(void)
   RCC->CSR |= RCC_CSR_RTCSEL_LSE;		/* select LSE */
   RCC->CSR |= RCC_CSR_RTCEN;			/* enable RTC */
      
-  /* RTC Start */
   RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
   while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
       ;
-  RTC->PRER = 0x07f00ff;
+  RTC->PRER = 0x07f00ff;					/* 1 Hz clock */
   RTC->TR = 0; 
   RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
   
@@ -434,7 +433,8 @@ int main()
   
   for(;;)
   {
-    readRTC();
+    if ( gui_menu.me_list == melist_display_time )
+      readRTC();
     
     u8g2_ClearBuffer(&u8g2);
     GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
@@ -451,7 +451,7 @@ int main()
       if ( i == KEY_NONE )
 	break;
       if ( i == KEY_SELECT )
-      gui_Select();
+	gui_Select();
       if ( i == KEY_NEXT )
 	gui_Next();      
     }

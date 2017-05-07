@@ -49,6 +49,7 @@ int me_action_save_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
+    set_time(gui_data.h / 10, gui_data.h % 10, gui_data.mt, gui_data.mo, gui_data.st, gui_data.so);
     menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
     gui_Recalculate();							/* because it might be overwritten with the alarm menu */
     return 1;
@@ -148,6 +149,10 @@ int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
+    gui_date_adjust();	/* calculate the weekday */
+    
+    set_date(gui_data.year_t, gui_data.year_o, gui_data.month / 10, gui_data.month % 10, gui_data.day / 10 , gui_data.day % 10, gui_data.weekday);
+    
     menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
     gui_Recalculate();							/* because it might be overwritten with the alarm menu */
     return 1;
