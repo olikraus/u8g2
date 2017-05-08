@@ -66,6 +66,51 @@ int is_button_reset(void)
   return 0;
 }
 
+uint32_t get_boot_status_register(void)
+{
+  /* POR: 			00001100 (POR=1, PIN=1), reset pin has RC network connected */
+  /* Boot via NVIC: 	00011100, compared to POR, the SW Reset flag is also set */
+  
+  return RCC->CSR >> 24;
+}
+
+extern volatile unsigned long PWR_CSR_Backup;
+
+uint32_t get_pwr_status_register(void)
+{
+
+/*
+  Bit 1 SBF: Standby flag
+    This bit is set by hardware and cleared only by a POR/PDR (power-on reset/power-down
+    reset) or by setting the CSBF bit in the PWR power control register (PWR_CR)
+      0: Device has not been in Standby mode
+      1: Device has been in Standby mode
+  
+  Bit 0 WUF: Wakeup flag
+    This bit is set by hardware and cleared by a system reset or by setting the CWUF bit in the
+    PWR power control register (PWR_CR)
+      0: No wakeup event occurred
+      1: A wakeup event was received from the WKUP pin or from the RTC
+  
+  
+  POR (voltage off-on):  	00
+  Reset Button: 		00
+  WUF Reset:			11
+  
+  
+*/
+  
+  return PWR_CSR_Backup & 255;
+}
+
+extern volatile unsigned long RTCWUCount;
+
+uint32_t get_wakeup_count(void)
+{
+  return RTCWUCount;
+}
+
+
 /*============================================*/
 /* output */
 

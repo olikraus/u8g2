@@ -104,6 +104,10 @@ void store_gui_data(uint32_t *data);
 void load_gui_data(uint32_t *data);
 int is_por_reset(void);
 int is_button_reset(void);
+uint32_t get_boot_status_register(void);
+uint32_t get_pwr_status_register(void);
+uint32_t get_wakeup_count(void);
+
 void enable_alarm(void);
 void disable_alarm(void);
 void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so);

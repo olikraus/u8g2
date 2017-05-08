@@ -27,13 +27,19 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 
 /*=======================================================================*/
 /* global variables */
-
+/* 50ms systick */
 #define TAMPER_SYSTICK_DELAY 5
+#define MENU_IDLE_SYSTICK_TIMEOUT (20*10)
 
 volatile unsigned long SysTickCount = 0;
+volatile unsigned long RTCWUCount = 0;
 volatile unsigned long RTCIRQCount = 0;
 volatile unsigned long Tamper2Count = 0;
 volatile unsigned long Tamper3Count = 0;
+volatile unsigned long MenuIdleTimer = 0;
+volatile unsigned long PWR_CSR_Backup;
+
+
 rtc_t rtc;
 u8g2_t u8g2;
 
@@ -62,6 +68,7 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
   
   if ( Tamper3Count > 0 )
   {
+    MenuIdleTimer = 0;
     Tamper3Count--;
     if ( Tamper3Count == 0 )
     {
@@ -77,6 +84,7 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 
   if ( Tamper2Count > 0 )
   {
+    MenuIdleTimer = 0;
     Tamper2Count--;
     if ( Tamper2Count == 0 )
     {
@@ -89,6 +97,8 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
   {
       RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
   }
+
+  MenuIdleTimer++;
   
 }
 
@@ -99,6 +109,7 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
   if ( (EXTI->PR & EXTI_PR_PIF20) != 0 )	/* interrupt caused by wake up */
   {
     EXTI->PR = EXTI_PR_PIF20;		/* wake up is connected to line 20, clear this IRQ */
+    RTCWUCount++;
   }
   
   /* the wake up time flag must be cleared, otherwise no further IRQ will happen */
@@ -119,11 +130,13 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
     if ( RTC->ISR & RTC_ISR_TAMP3F )
     {
       key_add(KEY_NEXT);
+      MenuIdleTimer = 0;
       Tamper3Count = TAMPER_SYSTICK_DELAY;
     }
     if ( RTC->ISR & RTC_ISR_TAMP2F )
     {
       key_add(KEY_SELECT);
+      MenuIdleTimer = 0;
       Tamper2Count = TAMPER_SYSTICK_DELAY;
     }
     
@@ -144,6 +157,10 @@ void startUp(void)
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
   RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
   PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
+  
+  PWR_CSR_Backup = PWR->CSR;			/* create a backup of the original PWR_CSR register for later analysis */
+  PWR->CR |= PWR_CR_CSBF;				/* clear the standby flag in the PWR_CSR register, but luckily we have a copy */
+  PWR->CR |= PWR_CR_CWUF;				/* also clear the WUF flag in PWR_CSR */
 }
 
 /*=======================================================================*/
@@ -388,6 +405,15 @@ void readRTC(void)
   //gui_Recalculate();  /* this will also store the values back in the backup registers */
 }
 
+void enterStandByMode(void)
+{
+  PWR->CR |= PWR_CR_PDDS;				/* Power Down Deepsleep */
+  SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;	/* set the cortex M0+ deep sleep flag */  
+  __DSB();  							/* finish memory access */
+  __WFI();							/* enter deep sleep */
+  __NOP();
+}
+
 /*=======================================================================*/
 int main()
 {
@@ -457,6 +483,12 @@ int main()
 	gui_Select();
       if ( i == KEY_NEXT )
 	gui_Next();      
+    }
+    
+    if ( MenuIdleTimer > MENU_IDLE_SYSTICK_TIMEOUT )
+    {
+      MenuIdleTimer = 0;
+      enterStandByMode();
     }
 
   }

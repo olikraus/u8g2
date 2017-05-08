@@ -62,6 +62,22 @@ int is_button_reset(void)
   return 0;
 }
 
+uint32_t get_boot_status_register(void)
+{
+  return 0;
+}
+
+uint32_t get_pwr_status_register(void)
+{
+  return 0;
+}
+
+
+uint32_t get_wakeup_count(void)
+{
+  return 0;
+}
+
 /*============================================*/
 /* output */
 

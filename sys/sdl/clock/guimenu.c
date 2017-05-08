@@ -350,9 +350,70 @@ const me_t melist_reset_menu[] =
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
+/*============================================*/
+/* Boot Info */
+
+const char *bitstr(uint32_t v, int bitcnt)
+{
+  static char s[34];
+  char *t = s;
+  uint32_t mask;
+  
+  mask = 1<<(bitcnt-1);
+  while( mask > 0 )
+  {
+    *t = ((v & mask) == 0 ? '0' : '1');
+    t++;
+    mask >>= 1;
+  }
+  *t = '\0';
+  return s;
+}
+
+int me_action_handle_boot_info(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_DRAW )
+  {
+    u8g2_SetFont(menu->u8g2, MENU_SMALL_FONT);
+    u8g2_DrawStr(menu->u8g2, 0, 8, "RCC_CSR 31..24");
+    u8g2_DrawStr(menu->u8g2, 64, 8, bitstr(get_boot_status_register(), 8));
+
+    u8g2_DrawStr(menu->u8g2, 0, 16, "PWR_CSR 7..0");
+    u8g2_DrawStr(menu->u8g2, 64, 16, bitstr(get_pwr_status_register(), 8));
+
+    u8g2_DrawStr(menu->u8g2, 0, 24, "Wakeups");
+    u8g2_DrawStr(menu->u8g2, 64, 24, u8x8_u16toa(get_wakeup_count(), 5));
+        
+    
+  }
+  else if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_display_time, 4);
+    return 1;
+  }
+  return 0;
+}
+
+
+const me_t melist_boot_info_menu[] = 
+{
+  { me_cb_button_empty, (void *)me_action_handle_boot_info, NULL, 0, 0 },
+  { me_cb_null, NULL, NULL, 0, 0 },
+};
+
 
 /*============================================*/
 /* System Menu */
+
+int me_action_goto_boot_info(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_boot_info_menu, 0);
+    return 1;
+  }
+  return 0;
+}
 
 int me_action_goto_reset(menu_t *menu, const me_t *me, uint8_t msg)
 {
@@ -368,7 +429,7 @@ const me_t melist_system_menu[] =
 {
   //{ me_cb_button_half_line, (void *)me_action_setup_time, "Uhrzeit", 0,10 },
   //{ me_cb_button_half_line, (void *)me_action_setup_date, "Datum", 64,10 },
-  { me_cb_button_half_line, (void *)NULL, "b", 0,20 },
+  { me_cb_button_half_line, (void *)me_action_goto_boot_info, "Info", 0,20 },
   { me_cb_button_half_line, (void *)me_action_goto_reset, "Reset", 64,20 },
   { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
