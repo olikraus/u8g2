@@ -116,3 +116,13 @@ TODO, 17 Apr 2017
   Grund: Ansonsten kann man nicht mehr per reset booten und flashen
 - Es wird ja ständig das power interface sowie RTC activiert und deaktiviert.
   Das sollte man vermutlich dauerhaft aktiviert lassen.  --> DONE
+
+9. Mai 17
+Irgendwie funktioniert das warm startup nicht. Der uC stürzt ab, wenn man
+das u8x8_InitDisplay() nicht ausführt, aber warum? Was habe ich vergessen?
+--> pointer fehler
+
+todo
+- load/save values to backup register
+- configuration of the standby delay value
+- display off option for standby

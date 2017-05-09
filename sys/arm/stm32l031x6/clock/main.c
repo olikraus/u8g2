@@ -31,6 +31,12 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 #define TAMPER_SYSTICK_DELAY 5
 #define MENU_IDLE_SYSTICK_TIMEOUT (20*10)
 
+#define RESET_REASON_POR 0
+#define RESET_REASON_NVIC_RESET 1
+#define RESET_REASON_TAMP2 2
+#define RESET_REASON_TAMP3 3
+#define RESET_REASON_WUF 4
+
 volatile unsigned long SysTickCount = 0;
 volatile unsigned long RTCWUCount = 0;
 volatile unsigned long RTCIRQCount = 0;
@@ -38,7 +44,7 @@ volatile unsigned long Tamper2Count = 0;
 volatile unsigned long Tamper3Count = 0;
 volatile unsigned long MenuIdleTimer = 0;
 volatile unsigned long PWR_CSR_Backup;
-
+volatile unsigned long ResetReason = RESET_REASON_POR;
 
 rtc_t rtc;
 u8g2_t u8g2;
@@ -317,13 +323,16 @@ void startRTCWakeUp(void)
   while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
     ;
   
-  //RTC->WUTR = 9;						/* reload is 10: 0.1Hz with the 1Hz clock */
-  RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
+  RTC->WUTR = 15;						/* reload is 10: 0.1Hz with the 1Hz clock */
+  //RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
   RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
   RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
   RTC->CR |= RTC_CR_WUTE | RTC_CR_WUTIE ; 
   
-  RTC->ISR &= ~RTC_ISR_WUTF;	/* clear the wake up flag... is this required? */
+  /* clear all the detection flags, not 100% sure whether this is required */
+  RTC->ISR &= ~RTC_ISR_WUTF;	
+  RTC->ISR &= ~RTC_ISR_TAMP2F;
+  RTC->ISR &= ~RTC_ISR_TAMP3F;
   
   
   /* tamper (button) detection */
@@ -398,6 +407,7 @@ void readRTC(void)
 
 void enterStandByMode(void)
 {
+  MenuIdleTimer = 0;
   PWR->CR |= PWR_CR_PDDS;				/* Power Down Deepsleep */
   SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;	/* set the cortex M0+ deep sleep flag */  
   __DSB();  							/* finish memory access */
@@ -440,17 +450,52 @@ int main()
 
   /* the lowest two bits of the PWR_CSR reg indicate wake up from standby (bit 1) and WUF als source (bit 0) */
   /* both bits are 0 for POR and button reset, both bits are 1 for a wakeup reset */
-  /* however, we check bit 1 only */
-  if ( (PWR_CSR_Backup & 1) == 0 )
+  /* bits	|	root cause */
+  /* 00	|	POR or NVIC		--> perform full setup */
+  /* 11	|	Standby + WUF 	--> continue with main screen */
+  /* 01	|	NVIC-Reset 		--> perform full setup */
+  /* we check bit 1 only */
+  
+  switch(PWR_CSR_Backup & 3)
+  {
+    case 0: 	/* Power on reset */
+      ResetReason = RESET_REASON_POR; 
+      break;
+    case 1: 	/* reset by NVIC_SystemReset() */
+      ResetReason = RESET_REASON_NVIC_RESET; 
+      break;
+    default:	/* probably a reset caused by RTC */
+      /* analyse RTC_ISR register */
+      if ( RTC->ISR & RTC_ISR_TAMP2F )
+	ResetReason = RESET_REASON_TAMP2; 
+      else if ( RTC->ISR & RTC_ISR_TAMP3F )
+	ResetReason = RESET_REASON_TAMP3; 
+      else 
+	ResetReason = RESET_REASON_WUF;	
+      break;
+  }
+
+  
+  
+  if ( ResetReason == RESET_REASON_POR || ResetReason == RESET_REASON_NVIC_RESET )
   {
     /* Power on reset */
-    initDisplay(1);
     initRTC();
+    readRTC();
+    initDisplay(1);	/* init display assumes proper values in gui_data */
   }
   else
   {
     /* Reset caused by wakeup */
-    initDisplay(0);
+    
+    /* we probably have to clear the RTC detection flags for WUF and TAMPER */
+    /* this is done later in startRTCWakeUp() */
+ 
+    
+    readRTC();		
+    
+    /* do a warm start of the display, this means that the display reset is skipped and the init sequence is not sent */
+    initDisplay(0);	/* init display assumes proper values in gui_data, additionally the alarm flag might be set here */
   }
   
   startRTCWakeUp();						/* setup wakeup and temper, probably required after each reset */
@@ -458,6 +503,18 @@ int main()
   NVIC_SetPriority(RTC_IRQn, 0);
   NVIC_EnableIRQ(RTC_IRQn);
   
+
+  if ( ResetReason == RESET_REASON_WUF && gui_data.is_alarm == 0 )
+  {
+    /* update current time */
+    u8g2_ClearBuffer(&u8g2);
+    GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
+    gui_Draw();
+    GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
+    u8g2_SendBuffer(&u8g2);
+    /* go back to sleep mode */
+    enterStandByMode();
+  }
   
   for(;;)
   {
@@ -489,7 +546,6 @@ int main()
     
     if ( MenuIdleTimer > MENU_IDLE_SYSTICK_TIMEOUT )
     {
-      MenuIdleTimer = 0;
       enterStandByMode();
     }
 

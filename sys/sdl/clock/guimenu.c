@@ -370,19 +370,24 @@ const char *bitstr(uint32_t v, int bitcnt)
   return s;
 }
 
+static const char *reset_reason_str[] = { "POR", "NVIC", "T2", "T3", "WUF" };
+
 int me_action_handle_boot_info(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_DRAW )
   {
     u8g2_SetFont(menu->u8g2, MENU_SMALL_FONT);
-    u8g2_DrawStr(menu->u8g2, 0, 8, "RCC_CSR 31..24");
-    u8g2_DrawStr(menu->u8g2, 64, 8, bitstr(get_boot_status_register(), 8));
+    u8g2_DrawStr(menu->u8g2, 0, 8-1, "RCC_CSR 31..24");
+    u8g2_DrawStr(menu->u8g2, 64, 8-1, bitstr(get_boot_status_register(), 8));
 
-    u8g2_DrawStr(menu->u8g2, 0, 16, "PWR_CSR 7..0");
-    u8g2_DrawStr(menu->u8g2, 64, 16, bitstr(get_pwr_status_register(), 8));
+    u8g2_DrawStr(menu->u8g2, 0, 16-1, "PWR_CSR 7..0");
+    u8g2_DrawStr(menu->u8g2, 64, 16-1, bitstr(get_pwr_status_register(), 8));
 
-    u8g2_DrawStr(menu->u8g2, 0, 24, "Wakeups");
-    u8g2_DrawStr(menu->u8g2, 64, 24, u8x8_u16toa(get_wakeup_count(), 5));
+    u8g2_DrawStr(menu->u8g2, 0, 24-1, "ResetReason");
+    u8g2_DrawStr(menu->u8g2, 64, 24-1, reset_reason_str[get_reset_reason()]);
+
+    u8g2_DrawStr(menu->u8g2, 0, 32-1, "Wakeups");
+    u8g2_DrawStr(menu->u8g2, 64, 32-1, u8x8_u16toa(get_wakeup_count(), 5));
         
     
   }

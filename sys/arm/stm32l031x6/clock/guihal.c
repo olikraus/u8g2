@@ -103,6 +103,13 @@ uint32_t get_pwr_status_register(void)
   return PWR_CSR_Backup & 255;
 }
 
+
+extern volatile unsigned long ResetReason;
+uint32_t get_reset_reason(void)
+{
+    return ResetReason;
+}
+
 extern volatile unsigned long RTCWUCount;
 
 uint32_t get_wakeup_count(void)

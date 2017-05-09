@@ -72,6 +72,10 @@ uint32_t get_pwr_status_register(void)
   return 0;
 }
 
+uint32_t get_reset_reason(void)
+{
+  return 0;
+}
 
 uint32_t get_wakeup_count(void)
 {

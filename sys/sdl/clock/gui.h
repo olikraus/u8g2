@@ -106,6 +106,7 @@ int is_por_reset(void);
 int is_button_reset(void);
 uint32_t get_boot_status_register(void);
 uint32_t get_pwr_status_register(void);
+uint32_t get_reset_reason(void);
 uint32_t get_wakeup_count(void);
 
 void enable_alarm(void);
