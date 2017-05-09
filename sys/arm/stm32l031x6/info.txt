@@ -123,6 +123,7 @@ das u8x8_InitDisplay() nicht ausführt, aber warum? Was habe ich vergessen?
 --> pointer fehler
 
 todo
-- load/save values to backup register
+- load/save values to backup register --> DONE
 - configuration of the standby delay value
 - display off option for standby
+- if the alarm is confirmed within the same minute, then the alarm will apear again.

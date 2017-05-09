@@ -40,7 +40,13 @@ void do_reset(void)
 
 void store_gui_data(uint32_t *data)
 {
+  RTC->BKP0R = data[0];
+  RTC->BKP1R = data[1];
+  RTC->BKP2R = data[2];
+  RTC->BKP3R = data[3];
+  RTC->BKP4R = data[4];
 }
+
 
 void load_gui_data(uint32_t *data)
 {
@@ -50,6 +56,11 @@ void load_gui_data(uint32_t *data)
   for( i = 0; i < GUI_ALARM_CNT; i++ )
     data[i] = 0;
   
+  data[0] = RTC->BKP0R;
+  data[1] = RTC->BKP1R;
+  data[2] = RTC->BKP2R;
+  data[3] = RTC->BKP3R;
+  data[4] = RTC->BKP4R;
 }
 
 
