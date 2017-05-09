@@ -243,23 +243,13 @@ void startSysTick(void)
 
   This must be executed only after POR reset.
 */
-void initDisplay(void)
+void initDisplay(uint8_t is_por)
 {
   /* setup display */
   u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
   
-  gui_Init(&u8g2, 1);
+  gui_Init(&u8g2, is_por);
   
-  /*
-  u8g2_InitDisplay(&u8g2);
-  u8g2_SetPowerSave(&u8g2, 0);
-  u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-  u8g2_ClearBuffer(&u8g2);
-  u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
-  u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
-  u8g2_DrawStr(&u8g2, 20,24, "MHz");
-  u8g2_SendBuffer(&u8g2);
-  */
 }
 
 
@@ -327,6 +317,7 @@ void startRTCWakeUp(void)
   while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
     ;
   
+  //RTC->WUTR = 9;						/* reload is 10: 0.1Hz with the 1Hz clock */
   RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
   RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
   RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
@@ -410,7 +401,7 @@ void enterStandByMode(void)
   PWR->CR |= PWR_CR_PDDS;				/* Power Down Deepsleep */
   SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;	/* set the cortex M0+ deep sleep flag */  
   __DSB();  							/* finish memory access */
-  __WFI();							/* enter deep sleep */
+  __WFI();								/* enter deep sleep */
   __NOP();
 }
 
@@ -418,11 +409,10 @@ void enterStandByMode(void)
 int main()
 {
   int i;
-  startHSIClock();
-  SystemCoreClockUpdate();				/* Update SystemCoreClock() */
-  startUp();
-  //SystemCoreClock = 32000000UL;
-  startSysTick();
+  startHSIClock();						/* Increase system clock, must be executed after each reset */
+  SystemCoreClockUpdate();				/* Update variable SystemCoreClock, must be executed after each reset */
+  startUp();							/* basic system setup + make a backup of PWR_CSR (PWR_CSR_Backup), must be executed after each reset */
+  startSysTick();						/* start the sys tick interrupt, must be executed after each reset */
   
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
   __NOP();
@@ -448,10 +438,22 @@ int main()
   GPIOA->PUPDR |= GPIO_PUPDR_PUPD2_0;	/* pullup for PA2 */
 
 
-  initDisplay();
-  initRTC();
-  startRTCWakeUp();
+  /* the lowest two bits of the PWR_CSR reg indicate wake up from standby (bit 1) and WUF als source (bit 0) */
+  /* both bits are 0 for POR and button reset, both bits are 1 for a wakeup reset */
+  /* however, we check bit 1 only */
+  if ( (PWR_CSR_Backup & 1) == 0 )
+  {
+    /* Power on reset */
+    initDisplay(1);
+    initRTC();
+  }
+  else
+  {
+    /* Reset caused by wakeup */
+    initDisplay(0);
+  }
   
+  startRTCWakeUp();						/* setup wakeup and temper, probably required after each reset */
 
   NVIC_SetPriority(RTC_IRQn, 0);
   NVIC_EnableIRQ(RTC_IRQn);

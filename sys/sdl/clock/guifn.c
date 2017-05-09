@@ -347,8 +347,15 @@ void gui_Init(u8g2_t *u8g2, uint8_t is_por)
   if ( is_por == 0 )
   {
     /* not a POR reset, so load current values */
-    gui_LoadData();
+    //gui_LoadData();
     /* do NOT init the display, otherwise there will be some flicker visible */
+    /* however, the GPIO subsystem still has to be setup, so call the other init procedures */
+    //u8x8_gpio_Init(u8g2_GetU8x8(&u8g2));
+    //u8x8_cad_Init(u8g2_GetU8x8(&u8g2));
+
+    u8g2_InitDisplay(u8g2);
+
+    u8g2_SetPowerSave(u8g2, 0);
   }
   else
   {
