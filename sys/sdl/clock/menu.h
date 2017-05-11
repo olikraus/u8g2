@@ -5,9 +5,29 @@
 
 #include "u8g2.h"
 
+
+//#define D12832
+#define D12864
+
+
+#ifdef D12832
 #define MENU_SMALL_FONT u8g2_font_baby_tr
 #define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
+#define MENU_LARGE_FONT u8g2_font_ncenR08_tf
 #define MENU_BIG_NUM u8g2_font_ncenR18_tn
+#define MENU_BIG_NUM_FOCUS_XO 0
+#define MENU_BIG_NUM_FOCUS_EXTRAX 0
+#endif
+
+#ifdef D12864
+#define MENU_SMALL_FONT u8g2_font_baby_tr
+#define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
+#define MENU_LARGE_FONT u8g2_font_ncenR10_tf
+#define MENU_BIG_NUM u8g2_font_ncenR24_tn
+#define MENU_BIG_NUM_FOCUS_XO 0
+#define MENU_BIG_NUM_FOCUS_EXTRAX 1
+#endif
+
 
 
 typedef struct _menu_struct menu_t;

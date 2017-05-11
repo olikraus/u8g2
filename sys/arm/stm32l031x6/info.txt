@@ -109,6 +109,9 @@ https://www.bengs-modellbau.de/zubehoerteile/flasche-und-fittings/
 Auch nicht schlecht:
 https://knupfer.info/shop/index.php/deutsch/profile-rohre/kupferrohr.html
 
+kupferrohrflöte
+http://www.spiritsoundart.de/shop/obertonfloeten-aus-kupfer/
+
 ===========
 
 TODO, 17 Apr 2017
@@ -127,3 +130,5 @@ todo
 - configuration of the standby delay value
 - display off option for standby
 - if the alarm is confirmed within the same minute, then the alarm will apear again.
+    --> Fixed (checked for the is_equal flag)
+    

@@ -158,10 +158,11 @@ int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_IS_FOCUS:
       return 1;
     case ME_MSG_DRAW_FOCUS:
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
       menu_DrawBoxFocus(menu, 
-	  me->x, 
+	  me->x+MENU_BIG_NUM_FOCUS_XO, 
 	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
-	  u8g2_GetGlyphWidth(menu->u8g2, '0'), 
+	  u8g2_GetGlyphWidth(menu->u8g2, '0')+MENU_BIG_NUM_FOCUS_EXTRAX, 
 	  u8g2_GetAscent(menu->u8g2) + 2);
       return 1;
     case ME_MSG_SELECT:
@@ -222,10 +223,11 @@ int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_IS_FOCUS:
       return 1;
     case ME_MSG_DRAW_FOCUS:
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
       menu_DrawBoxFocus(menu, 
-	  me->x, 
+	  me->x+MENU_BIG_NUM_FOCUS_XO, 
 	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
-	  u8g2_GetGlyphWidth(menu->u8g2, '0')*2, 
+	  u8g2_GetGlyphWidth(menu->u8g2, '0')*2+MENU_BIG_NUM_FOCUS_EXTRAX, 
 	  u8g2_GetAscent(menu->u8g2) + 2);
       return 1;
     case ME_MSG_SELECT:

@@ -21,15 +21,37 @@
 #include "gui.h"
 
 /*=======================================================================*/
+/* Configuration */
+/* Note: 50ms systick */
+
+/* delay until other another button press is accepted */
+/* time is in systicks (50ms) */
+#define TAMPER_SYSTICK_DELAY 6
+
+/* delay until the menu goes back time display and standby mode */
+/* delay in systicks (50ms) */
+/* 50ms*20 = 1 second */
+/* 50ms*20*10 = 10 second */
+/* 50ms*20*18 = 18 second */
+#define MENU_IDLE_SYSTICK_TIMEOUT (20*18)
+
+/* wakeup period: The uC will wake up after the specified number of seconds */
+/* the value is one less the intended number of seconds: 
+/* 0: wakeup every 1 second */
+/* 14: wakeup every 15 seconds */
+/* 29: wakeup every 30 seconds */
+/* After wakeup the uC will refresh the display and check for the alarms. This means the wakeup time should not be */
+/* more than 1 minute. There might be also a delay of up to WAKEUP_PERIOD+1 seconds until the alarm is detected. */
+/* Large values reduce power consumtion, but displayed time and alarm might be later than the actual RTC time. */
+#define WAKEUP_PERIOD 14
+
+/*=======================================================================*/
 /* external functions */
 uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 /*=======================================================================*/
 /* global variables */
-/* 50ms systick */
-#define TAMPER_SYSTICK_DELAY 5
-#define MENU_IDLE_SYSTICK_TIMEOUT (20*10)
 
 #define RESET_REASON_POR 0
 #define RESET_REASON_NVIC_RESET 1
@@ -48,22 +70,6 @@ volatile unsigned long ResetReason = RESET_REASON_POR;
 
 rtc_t rtc;
 u8g2_t u8g2;
-
-/*=======================================================================*/
-/* utility function */
-void enableRCCRTCWrite(void) U8G2_NOINLINE;
-void enableRCCRTCWrite(void)
-{
-  //RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
-  //PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
-}
-
-void disableRCCRTCWrite(void) U8G2_NOINLINE;
-void disableRCCRTCWrite(void)
-{
-    //PWR->CR &= ~PWR_CR_DBP;				/* disable write access to RCC->CSR and RTC */
-    //RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;	/* disable power interface */
-}
 
 
 /*=======================================================================*/
@@ -302,7 +308,6 @@ void initRTC(void)
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
-  //disableRCCRTCWrite();
 }
 
 /*=======================================================================*/
@@ -314,7 +319,6 @@ void initRTC(void)
 void startRTCWakeUp(void)
 {
   /* wake up time setup & start */
-  //enableRCCRTCWrite();
   
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
@@ -323,7 +327,7 @@ void startRTCWakeUp(void)
   while((RTC->ISR & RTC_ISR_WUTWF) != RTC_ISR_WUTWF)
     ;
   
-  RTC->WUTR = 15;						/* reload is 10: 0.1Hz with the 1Hz clock */
+  RTC->WUTR = WAKEUP_PERIOD;			/* wakeup time */
   //RTC->WUTR = 0;						/* reload is 1: 1Hz with the 1Hz clock */
   RTC->CR &= ~RTC_CR_WUCKSEL;			/* clear selection register */
   RTC->CR |= RTC_CR_WUCKSEL_2;			/* select the 1Hz clock */
@@ -352,7 +356,6 @@ void startRTCWakeUp(void)
   
   RTC->WPR = 0;						/* disable RTC write protection */
   RTC->WPR = 0;
-  //disableRCCRTCWrite();
 }
 
 /* read values from RTC and store the values into the gui_data struct */
@@ -530,9 +533,6 @@ int main()
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
     u8g2_SendBuffer(&u8g2);
     
-    //delay_micro_seconds(50000);
-    //delay_micro_seconds(50000);
-
     for(;;)
     {
       i = key_get();
@@ -544,8 +544,21 @@ int main()
 	gui_Next();      
     }
     
-    if ( MenuIdleTimer > MENU_IDLE_SYSTICK_TIMEOUT )
+    if ( MenuIdleTimer > MENU_IDLE_SYSTICK_TIMEOUT && gui_data.is_equal == 0 )
     {
+      
+      if ( gui_menu.me_list != melist_display_time )
+      {
+	/* jump back to the display menu and redraw the time. not sure if this is required */
+	menu_SetMEList(&gui_menu, melist_display_time, 0);
+	readRTC();
+	gui_SignalTimeChange();
+	u8g2_ClearBuffer(&u8g2);
+	gui_Draw();
+	u8g2_SendBuffer(&u8g2);
+      }
+      
+      /* stop everything except RTC */
       enterStandByMode();
     }
 
