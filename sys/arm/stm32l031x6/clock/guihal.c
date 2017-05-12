@@ -13,6 +13,8 @@ void do_reset(void)
 {
   /* clear the display first, to provide some visual feedback to the user */
   u8g2_ClearDisplay(gui_menu.u8g2);
+
+  __disable_irq();
   
   /* Deactivate tamper so that the uC can be programmed via UART */
   /* This is required, because RX pin is shared with Tamp2 */
@@ -155,7 +157,8 @@ void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_
   v |= st;
   v <<= 4;
   v |= so;
-  
+ 
+  __disable_irq();
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
 
@@ -168,6 +171,7 @@ void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
+  __enable_irq();
 }
 
 
@@ -197,6 +201,7 @@ void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint
   v <<= 4;
   v |= dayo;
   
+  __disable_irq();
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
 
@@ -209,5 +214,6 @@ void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
+  __enable_irq();
 }
 

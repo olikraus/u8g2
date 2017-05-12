@@ -386,6 +386,15 @@ int main()
     rtc_register_to_bcd(&rtc);
     rtc_bcd_to_ymd_hms(&rtc);
     rtc_draw_time(&rtc, &u8g2);
+    
+    
+    RTC->WPR = 0x0ca;					/* disable RTC write protection */
+    RTC->WPR = 0x053;
+    RTC->TAMPCR &= ~RTC_TAMPCR_TAMP3E;
+    RTC->TAMPCR &= ~RTC_TAMPCR_TAMP2E;
+    __NOP();							/* add delay after disable tamper so that GPO can read the value */
+    __NOP();
+    
     if ( GPIOA->IDR & GPIO_IDR_ID0 )
       u8g2_DrawStr(&u8g2, 15, 45, "+");
     else
@@ -394,6 +403,12 @@ int main()
       u8g2_DrawStr(&u8g2, 0, 45, "+");
     else
       u8g2_DrawStr(&u8g2, 0, 45, "-");
+
+    RTC->TAMPCR |= RTC_TAMPCR_TAMP3E;
+    RTC->TAMPCR |= RTC_TAMPCR_TAMP2E;
+    
+    RTC->WPR = 0;						/* enable RTC write protection */
+    RTC->WPR = 0;
     
     u8g2_DrawStr(&u8g2, 30,45, u8x8_u8toa(RTCIRQCount, 3));
     u8g2_DrawStr(&u8g2, 90,45, u8x8_u8toa(key_queue_start, 2));

@@ -1,15 +1,18 @@
 /* 
 
-  RTC for the STM32L031 
+  Clock for the STM32L031 
   
   EXTI line
   17			RTC alarm
   19			RTC tamper & timestamp & CSS_LSE
   20			RTC wakeup timer
   
+  PA0 TAMP2	Button
+  PA2 TAMP3	Button
 
-  __enable_irq()
-  __disable_irq()
+
+  __enable_irq();
+  __disable_irq();
   
 */
 
@@ -26,7 +29,7 @@
 
 /* delay until other another button press is accepted */
 /* time is in systicks (50ms) */
-#define TAMPER_SYSTICK_DELAY 6
+#define TAMPER_SYSTICK_DELAY 20
 
 /* delay until the menu goes back time display and standby mode */
 /* delay in systicks (50ms) */
@@ -36,7 +39,7 @@
 #define MENU_IDLE_SYSTICK_TIMEOUT (20*18)
 
 /* wakeup period: The uC will wake up after the specified number of seconds */
-/* the value is one less the intended number of seconds: 
+/* the value is one less the intended number of seconds: */
 /* 0: wakeup every 1 second */
 /* 14: wakeup every 15 seconds */
 /* 29: wakeup every 30 seconds */
@@ -62,11 +65,13 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 volatile unsigned long SysTickCount = 0;
 volatile unsigned long RTCWUCount = 0;
 volatile unsigned long RTCIRQCount = 0;
+volatile unsigned long isIgnoreNextKey = 0;
 volatile unsigned long Tamper2Count = 0;
 volatile unsigned long Tamper3Count = 0;
 volatile unsigned long MenuIdleTimer = 0;
 volatile unsigned long PWR_CSR_Backup;
 volatile unsigned long ResetReason = RESET_REASON_POR;
+
 
 rtc_t rtc;
 u8g2_t u8g2;
@@ -76,33 +81,60 @@ u8g2_t u8g2;
 
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
+  int is_t2 = 0;
+  int is_t3 = 0;
+
   SysTickCount++;  
+  
+  /* read the tamper/button state */
+  /* this is more complicated, because there are no external pull ups for the buttons */
+  /* pull ups can be activated via GPIO, but are disabled if the pin is configured as tamper input */
+  /* As a consequence, we have to disable tamper (so that the internal pullups are active), then */
+  /* after some delay, get the GPIO value of the tamper input and restore tamper status */
+
+  if ( Tamper2Count > 0 || Tamper3Count > 0 )
+  {
+    RTC->WPR = 0x0ca;					/* disable RTC write protection */
+    RTC->WPR = 0x053;
+
+    RTC->TAMPCR &= ~RTC_TAMPCR_TAMP2E;	/* disable tamper  so that we can do normal GPIO access */
+    RTC->TAMPCR &= ~RTC_TAMPCR_TAMP3E;	/* disable tamper  so that we can do normal GPIO access */
+    __NOP();							/* add delay after disable tamper so that GPIO can read the value */
+    __NOP();
+
+    is_t2 = (GPIOA->IDR & GPIO_IDR_ID0) != 0 ? 1 : 0;
+    is_t3 = (GPIOA->IDR & GPIO_IDR_ID2) != 0 ? 1 : 0;
+
+    RTC->TAMPCR |= RTC_TAMPCR_TAMP2E;	/* enable tamper */
+    RTC->TAMPCR |= RTC_TAMPCR_TAMP3E;	/* enable tamper */
+
+    RTC->WPR = 0;						/* enable RTC write protection */
+    RTC->WPR = 0;
+  }
   
   if ( Tamper3Count > 0 )
   {
-    MenuIdleTimer = 0;
     Tamper3Count--;
-    if ( Tamper3Count == 0 )
+    /* check for timeout or whether the user has released the button */
+    if ( Tamper3Count == 0 || is_t3 )
     {
-      //enableRCCRTCWrite();
+      Tamper3Count = 0;
       RTC->ISR &= ~RTC_ISR_TAMP3F;		/* clear tamper flag, allow new tamper event */
-      //disableRCCRTCWrite();
     }
   }
   else
   {
-      RTC->ISR &= ~RTC_ISR_TAMP3F;		/* clear tamper flag, allow new tamper event */
+     RTC->ISR &= ~RTC_ISR_TAMP3F;		/* clear tamper flag, allow new tamper event */
   }
 
   if ( Tamper2Count > 0 )
   {
-    MenuIdleTimer = 0;
     Tamper2Count--;
-    if ( Tamper2Count == 0 )
+    /* check for timeout or whether the user has released the button */
+    if ( Tamper2Count == 0 || is_t2)
     {
-      //enableRCCRTCWrite();
+      Tamper2Count = 0;
       RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
-      //disableRCCRTCWrite();
     }
   }
   else
@@ -141,13 +173,21 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
     
     if ( RTC->ISR & RTC_ISR_TAMP3F )
     {
-      key_add(KEY_NEXT);
+      if ( isIgnoreNextKey == 0 )
+      {
+	key_add(KEY_NEXT);
+      }
+      isIgnoreNextKey = 0;
       MenuIdleTimer = 0;
       Tamper3Count = TAMPER_SYSTICK_DELAY;
     }
     if ( RTC->ISR & RTC_ISR_TAMP2F )
     {
-      key_add(KEY_SELECT);
+      if ( isIgnoreNextKey == 0 )
+      {
+	key_add(KEY_SELECT);
+      }
+      isIgnoreNextKey = 0;
       MenuIdleTimer = 0;
       Tamper2Count = TAMPER_SYSTICK_DELAY;
     }
@@ -166,6 +206,7 @@ void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
 */
 void startUp(void)
 {
+  
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
   RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface */
   PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */
@@ -173,6 +214,18 @@ void startUp(void)
   PWR_CSR_Backup = PWR->CSR;			/* create a backup of the original PWR_CSR register for later analysis */
   PWR->CR |= PWR_CR_CSBF;				/* clear the standby flag in the PWR_CSR register, but luckily we have a copy */
   PWR->CR |= PWR_CR_CWUF;				/* also clear the WUF flag in PWR_CSR */
+  
+  /* PA0, TAMP2, button input */
+  GPIOA->MODER &= ~GPIO_MODER_MODE0;	/* clear mode for PA0 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD0;	/* no pullup/pulldown for PA0 */
+  GPIOA->PUPDR |= GPIO_PUPDR_PUPD0_0;	/* pullup for PA0 */
+
+  /* PA2, TAMP3, button input */
+  GPIOA->MODER &= ~GPIO_MODER_MODE2;	/* clear mode for PA2 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD2;	/* no pullup/pulldown for PA2 */
+  GPIOA->PUPDR |= GPIO_PUPDR_PUPD2_0;	/* pullup for PA2 */
+
+  
 }
 
 /*=======================================================================*/
@@ -275,6 +328,8 @@ void initRTC(void)
 {
   /* real time clock enable */  
   //enableRCCRTCWrite();
+
+  __disable_irq();
   
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
@@ -308,6 +363,7 @@ void initRTC(void)
   
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
+  __enable_irq();
 }
 
 /*=======================================================================*/
@@ -320,6 +376,7 @@ void startRTCWakeUp(void)
 {
   /* wake up time setup & start */
   
+  __disable_irq();
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
   
@@ -356,6 +413,7 @@ void startRTCWakeUp(void)
   
   RTC->WPR = 0;						/* disable RTC write protection */
   RTC->WPR = 0;
+  __enable_irq();
 }
 
 /* read values from RTC and store the values into the gui_data struct */
@@ -427,9 +485,6 @@ int main()
   startUp();							/* basic system setup + make a backup of PWR_CSR (PWR_CSR_Backup), must be executed after each reset */
   startSysTick();						/* start the sys tick interrupt, must be executed after each reset */
   
-  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
-  __NOP();
-  __NOP();
 
   /* LED output line */
   GPIOA->MODER &= ~GPIO_MODER_MODE13;	/* clear mode for PA13 */
@@ -439,16 +494,6 @@ int main()
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD13;	/* no pullup/pulldown for PA13 */
   GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
   GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
-
-  /* PA0, button input */
-  GPIOA->MODER &= ~GPIO_MODER_MODE0;	/* clear mode for PA0 */
-  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD0;	/* no pullup/pulldown for PA0 */
-  GPIOA->PUPDR |= GPIO_PUPDR_PUPD0_0;	/* pullup for PA0 */
-
-  /* PA2, button input */
-  GPIOA->MODER &= ~GPIO_MODER_MODE2;	/* clear mode for PA2 */
-  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD2;	/* no pullup/pulldown for PA2 */
-  GPIOA->PUPDR |= GPIO_PUPDR_PUPD2_0;	/* pullup for PA2 */
 
 
   /* the lowest two bits of the PWR_CSR reg indicate wake up from standby (bit 1) and WUF als source (bit 0) */
@@ -478,8 +523,6 @@ int main()
       break;
   }
 
-  
-  
   if ( ResetReason == RESET_REASON_POR || ResetReason == RESET_REASON_NVIC_RESET )
   {
     /* Power on reset */
@@ -493,15 +536,21 @@ int main()
     
     /* we probably have to clear the RTC detection flags for WUF and TAMPER */
     /* this is done later in startRTCWakeUp() */
- 
-    
+     
     readRTC();		
     
     /* do a warm start of the display, this means that the display reset is skipped and the init sequence is not sent */
     initDisplay(0);	/* init display assumes proper values in gui_data, additionally the alarm flag might be set here */
   }
   
-  startRTCWakeUp();						/* setup wakeup and temper, probably required after each reset */
+
+  /* before the RTC is enabled via startRTCWakeUp(), avoid key detection if required */
+  /*
+  if ( ResetReason == RESET_REASON_TAMP2 || ResetReason == RESET_REASON_TAMP3 )
+    isIgnoreNextKey = 1;
+  */
+  
+  startRTCWakeUp();						/* setup wakeup and temper, enable RTC IRQ, probably required after each reset */
 
   NVIC_SetPriority(RTC_IRQn, 0);
   NVIC_EnableIRQ(RTC_IRQn);
