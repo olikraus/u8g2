@@ -137,9 +137,10 @@ A: "bdfconv -f 1 -m '32-255' -n fontname -o myfont.c myfont.bdf"
 "-n fontname": This is the name of the font in C/C++/Ino files.
 "-o myfont.c": The font array will be stored in this file.
 "myfont.bdf": The input file with the font data (bdf format).
+Note: Use double quotes for the -m argument on Windows.
 
 Q: Where do I find bdfconv?
-A: At the moment there is no executable. Just compile the sources from
-this directory:
+A: A Windows executable is available at here:
 https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv
+Use the Makefile in this directory to create a Linux binary.
 
