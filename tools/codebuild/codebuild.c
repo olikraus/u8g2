@@ -161,7 +161,7 @@ struct controller controller_list[] =
     "ssd1309", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
-      { "128x64_noname" },
+      { "128x64_noname2" },
       { NULL }
     }
   },
@@ -169,11 +169,28 @@ struct controller controller_list[] =
     "ssd1309", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
-      { "128x64_noname" },
+      { "128x64_noname2" },
       { NULL }
     }
   },
   
+
+  {
+    "ssd1309", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64_noname0" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1309", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64_noname0" },
+      { NULL }
+    }
+  },
   
   {
     "ssd1325", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,

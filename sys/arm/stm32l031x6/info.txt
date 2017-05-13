@@ -96,4 +96,45 @@ stm32flash: There seems to be a problem with ch340/ch341 devices
   ok, i will be using a cp21xx driver here...
   Conclution: Support of CH340 usb-serial converter for ubuntu linux will be there with Ubunutz 17.04
 
-  
+===========
+
+steampunk
+
+http://www.rattlebrained.org/articles/diy-pvc-train-whistle
+
+
+Kupferrohre:
+https://www.bengs-modellbau.de/zubehoerteile/flasche-und-fittings/
+90 grad fitting
+Auch nicht schlecht:
+https://knupfer.info/shop/index.php/deutsch/profile-rohre/kupferrohr.html
+
+kupferrohrflöte, obertonflöte
+http://www.spiritsoundart.de/shop/obertonfloeten-aus-kupfer/
+http://www.maxbrumbergflutes.eu/floeten/obertonfloeten/
+
+englisch
+https://en.wikipedia.org/wiki/Overtone_flute
+
+Didgeridoo
+
+===========
+
+TODO, 17 Apr 2017
+- Pullups an die buttons und die tamper pullups deaktivieren. 
+  Grund: Ansonsten kann man nicht mehr per reset booten und flashen
+- Es wird ja ständig das power interface sowie RTC activiert und deaktiviert.
+  Das sollte man vermutlich dauerhaft aktiviert lassen.  --> DONE
+
+9. Mai 17
+Irgendwie funktioniert das warm startup nicht. Der uC stürzt ab, wenn man
+das u8x8_InitDisplay() nicht ausführt, aber warum? Was habe ich vergessen?
+--> pointer fehler
+
+todo
+- load/save values to backup register --> DONE
+- configuration of the standby delay value
+- display off option for standby
+- if the alarm is confirmed within the same minute, then the alarm will apear again.
+    --> Fixed (checked for the is_equal flag)
+    

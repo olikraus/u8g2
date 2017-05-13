@@ -222,18 +222,20 @@ void SystemInit (void)
 void SystemCoreClockUpdate (void)
 {
   uint32_t tmp = 0U, pllmul = 0U, plldiv = 0U, pllsource = 0U, msirange = 0U;
+  uint32_t hsi_value;
 
+  /* added by olikraus@gmail.com: The HSIDIV flag was not considered in the original code */
+  hsi_value = 16000000UL;
+  if ( (RCC->CR & RCC_CR_HSIDIVF) != 0 )
+    hsi_value /= 4;
+  
   /* Get SYSCLK source -------------------------------------------------------*/
   tmp = RCC->CFGR & RCC_CFGR_SWS;
   
   switch (tmp)
   {
-    case 0x00U:  /* MSI used as system clock */
-      msirange = (RCC->ICSCR & RCC_ICSCR_MSIRANGE) >> 13U;
-      SystemCoreClock = (32768U * (1U << (msirange + 1U)));
-      break;
     case 0x04U:  /* HSI used as system clock */
-      SystemCoreClock = HSI_VALUE;
+      SystemCoreClock = hsi_value;
       break;
     case 0x08U:  /* HSE used as system clock */
       SystemCoreClock = HSE_VALUE;
@@ -250,7 +252,7 @@ void SystemCoreClockUpdate (void)
       if (pllsource == 0x00U)
       {
         /* HSI oscillator clock selected as PLL clock entry */
-        SystemCoreClock = (((HSI_VALUE) * pllmul) / plldiv);
+        SystemCoreClock = (((hsi_value) * pllmul) / plldiv);
       }
       else
       {
@@ -258,11 +260,13 @@ void SystemCoreClockUpdate (void)
         SystemCoreClock = (((HSE_VALUE) * pllmul) / plldiv);
       }
       break;
+    case 0x00U:  /* MSI used as system clock */
     default: /* MSI used as system clock */
       msirange = (RCC->ICSCR & RCC_ICSCR_MSIRANGE) >> 13U;
       SystemCoreClock = (32768U * (1U << (msirange + 1U)));
       break;
   }
+
   /* Compute HCLK clock frequency --------------------------------------------*/
   /* Get HCLK prescaler */
   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4U)];
