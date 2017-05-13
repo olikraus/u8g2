@@ -48,6 +48,23 @@
 /* Large values reduce power consumtion, but displayed time and alarm might be later than the actual RTC time. */
 #define WAKEUP_PERIOD 14
 
+
+/* Contrast value for the display in normal mode (u8g2_SetContrast). */
+/* 208: default value for the SSD1306 */
+#define DISPLAY_CONTRAST_NORMAL 210 
+
+/* Contrast value for the display in standby mode, if the display mode DISPLAY_STANDBY_MODE_REDUCED is aktive. */
+/* 208: default value for the SSD1306, value 0 still shows something on the display */
+#define DISPLAY_CONTRAST_REDUCED 5 
+
+
+/* the following variable defines the behavior of the display during standby of the uC */
+#define DISPLAY_STANDYB_MODE_ALWAYS_ON 0
+#define DISPLAY_STANDBY_MODE_REDUCED 1
+#define DISPLAY_STANDBY_MODE_OFF 2
+volatile unsigned long DisplayStandbyMode = DISPLAY_STANDBY_MODE_OFF;
+
+
 /*=======================================================================*/
 /* external functions */
 uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
@@ -61,6 +78,8 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 #define RESET_REASON_TAMP2 2
 #define RESET_REASON_TAMP3 3
 #define RESET_REASON_WUF 4
+
+
 
 volatile unsigned long SysTickCount = 0;
 volatile unsigned long RTCWUCount = 0;
@@ -306,7 +325,7 @@ void startSysTick(void)
 /*
   Setup u8g2
 
-  This must be executed only after POR reset.
+  This must be executed after every reset
 */
 void initDisplay(uint8_t is_por)
 {
@@ -469,6 +488,14 @@ void readRTC(void)
 void enterStandByMode(void)
 {
   MenuIdleTimer = 0;
+  
+  if ( DisplayStandbyMode == DISPLAY_STANDBY_MODE_REDUCED )
+    u8g2_SetContrast(&u8g2, DISPLAY_CONTRAST_REDUCED);
+
+  if ( DisplayStandbyMode == DISPLAY_STANDBY_MODE_OFF )
+    u8g2_SetPowerSave(&u8g2, 1);
+
+  
   PWR->CR |= PWR_CR_PDDS;				/* Power Down Deepsleep */
   SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;	/* set the cortex M0+ deep sleep flag */  
   __DSB();  							/* finish memory access */
@@ -544,11 +571,12 @@ int main()
   }
   
 
-  /* before the RTC is enabled via startRTCWakeUp(), avoid key detection if required */
-  /*
-  if ( ResetReason == RESET_REASON_TAMP2 || ResetReason == RESET_REASON_TAMP3 )
-    isIgnoreNextKey = 1;
-  */
+  if ( DisplayStandbyMode != DISPLAY_STANDYB_MODE_ALWAYS_ON )
+  {
+    /* before the RTC is enabled via startRTCWakeUp(), avoid key detection if we are in any other mode than ALWAYS_ON  */
+    if ( ResetReason == RESET_REASON_TAMP2 || ResetReason == RESET_REASON_TAMP3 )
+      isIgnoreNextKey = 1;
+  }
   
   startRTCWakeUp();						/* setup wakeup and temper, enable RTC IRQ, probably required after each reset */
 
@@ -567,6 +595,11 @@ int main()
     /* go back to sleep mode */
     enterStandByMode();
   }
+  
+  /* turn on display now */
+  u8g2_SetPowerSave(&u8g2, 0);	/* not required for the ALWAYS_ON mode, but does not matter in the other modes */
+  u8g2_SetContrast(&u8g2, DISPLAY_CONTRAST_NORMAL);
+  
   
   for(;;)
   {

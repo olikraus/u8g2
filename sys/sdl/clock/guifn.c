@@ -359,7 +359,7 @@ void gui_Init(u8g2_t *u8g2, uint8_t is_por)
     //u8g2_InitDisplay(u8g2);
     //u8x8_d_helper_display_init(u8g2_GetU8x8(u8g2));
 
-    u8g2_SetPowerSave(u8g2, 0);
+    // u8g2_SetPowerSave(u8g2, 0);   // this will be done later
   }
   else
   {
@@ -388,7 +388,9 @@ void gui_Next(void)
   if ( gui_menu.me_list == melist_active_alarm_menu )
   {
     disable_alarm();
+    gui_alarm_list[gui_data.active_alarm_idx].snooze_count = 1;
     gui_data.is_alarm = 0;
+    gui_Recalculate();
     menu_SetMEList(&gui_menu, melist_display_time, 0);
   }
   else
@@ -401,8 +403,12 @@ void gui_Select(void)
 {
   if ( gui_menu.me_list == melist_active_alarm_menu )
   {
+    int i;
+    for( i = 0; i < GUI_ALARM_CNT; i++ )
+      gui_alarm_list[i].snooze_count = 0;
     disable_alarm();
     gui_data.is_alarm = 0;
+    gui_Recalculate();
     menu_SetMEList(&gui_menu, melist_display_time, 0);
   }
   else

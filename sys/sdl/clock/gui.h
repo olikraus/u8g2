@@ -18,7 +18,7 @@ extern u8g2_t u8g2;
 #define GUI_STATE_MENU 3
 
 #define GUI_ALARM_CNT 4
-#define SNOOZE_MINUTES 10
+#define SNOOZE_MINUTES 5
 #define ALLOW_SKIP_HOURS 4
 
 struct _gui_data

@@ -108,7 +108,15 @@ void gui_alarm_to_str(uint8_t idx)
       strcpy(gui_data.s+4, u8x8_u8toa(gui_alarm_list[gui_data.next_alarm_index].na_h, 2));
       gui_data.s[6] = ':';
       strcpy(gui_data.s+7, u8x8_u8toa(gui_alarm_list[gui_data.next_alarm_index].na_m, 2));
-      gui_data.s[9] = '\0';      
+      if ( gui_alarm_list[gui_data.next_alarm_index].snooze_count != 0 )
+      {
+	gui_data.s[9] = '+';
+	gui_data.s[10] = '\0';
+      }
+      else
+      {
+	gui_data.s[9] = '\0';      
+      }
 }
 
 int me_action_handle_display_time(menu_t *menu, const me_t *me, uint8_t msg)
@@ -651,6 +659,18 @@ int me_action_do_snooze(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+int me_cb_cond_inv_label(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( gui_data.is_alarm == 0 )
+    return me_cb_inv_label(menu, me, msg);
+  if ( gui_alarm_list[gui_data.active_alarm_idx].snooze_count == 0 )
+    return me_cb_inv_label(menu, me, msg);
+  return 0;    
+  
+}
+
+#ifdef D12832
+
 const me_t melist_active_alarm_menu[] = 
 {
   { me_cb_label, NULL, "Alarm",			2, 13},
@@ -665,10 +685,34 @@ const me_t melist_active_alarm_menu[] =
   //{ me_cb_button_half_line, (void *)me_action_do_snooze, "+5 Min ", 64,30 },
 
   { me_cb_inv_label, NULL, "Alarm aus", 4,30 },
-  { me_cb_inv_label, NULL, "+5 Min", 76,30 },
+  { me_cb_cond_inv_label, NULL, "+5 Min", 76,30 },
 
   { me_cb_null, NULL, NULL, 0, 0 },
 };
+#endif
+
+#ifdef D12864
+const me_t melist_active_alarm_menu[] = 
+{
+  { me_cb_label, NULL, "Alarm",			2, 13},
+  
+  { me_cb_0_23_ro, &gui_data.h, NULL, 		ME_TIME_DXO+2+12,ME_TIME_Y },
+  { me_cb_num_label, NULL, ":", 			ME_TIME_DXO+30+20,ME_TIME_Y-3 },
+  { me_cb_0_9_ro, &gui_data.mt, NULL, 		ME_TIME_DXO+39+19,ME_TIME_Y },
+  { me_cb_0_9_ro, &gui_data.mo, NULL, 		ME_TIME_DXO+52+24,ME_TIME_Y },
+  
+  { me_cb_button_empty, (void *)me_action_deactivate_alarm, NULL, 0,0 },
+  //{ me_cb_button_half_line, (void *)me_action_deactivate_alarm, "Alarm aus", 0,30 },
+  //{ me_cb_button_half_line, (void *)me_action_do_snooze, "+5 Min ", 64,30 },
+
+  { me_cb_inv_label, NULL, "Alarm aus", 4,40 },
+  { me_cb_cond_inv_label, NULL, "+5 Min", 76,40 },
+
+  { me_cb_null, NULL, NULL, 0, 0 },
+};
+
+#endif
+
 
 /*============================================*/
 /* toplevel menu */
