@@ -1,6 +1,10 @@
 /*
 
   XORTest.ino
+  
+  Shows solid and transparent font modes with XOR draw.
+  Conclusion: Only use transparent font modes with XOR draw.
+  This example also demonstrates scrolling.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -159,7 +163,7 @@ void testXOR(uint8_t x)
   
   u8g2.firstPage();
   do {
-    /* Solid mode with XOR drawing: Does not make much sense */
+    /* Solid font mode with XOR drawing: Does not make much sense */
     u8g2.setFontMode(0);
     u8g2.setDrawColor(1);
     u8g2.drawBox(10, 8, 10, 10);
@@ -170,7 +174,7 @@ void testXOR(uint8_t x)
     u8g2.drawStr(x,26, "XOR Test");
     u8g2.drawHLine(0, 29, 128);
     
-    /* Transparent mdoe with XOR drawing: looks good */
+    /* Transparent font mode with XOR drawing: looks good */
     u8g2.setFontMode(1);
     u8g2.setDrawColor(1);
     u8g2.drawBox(10, 8+32, 10, 10);

@@ -1,6 +1,9 @@
 /*
 
-  HelloWorld.ino
+  Clock.ino
+  
+  Demonstrates a clock-like display with a very huge font.
+  Also shows usage of u8x8_u8toa().
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -182,7 +185,7 @@ uint8_t m = 24;
 
 void loop(void) {
   char m_str[3];
-  strcpy(m_str, u8x8_u8toa(m, 2));
+  strcpy(m_str, u8x8_u8toa(m, 2));		/* convert m to a string with two digits */
   u8g2.firstPage();
   do {
     u8g2.setFont(u8g2_font_logisoso62_tn);

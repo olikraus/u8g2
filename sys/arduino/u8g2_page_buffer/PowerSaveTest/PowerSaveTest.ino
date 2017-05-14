@@ -2,6 +2,10 @@
 
   PowerSaveTest.ino
 
+  This test will turn on and off your display for two seconds.
+  If the text "power off" is visible on your display, then power save mode
+  does not work with your display.
+  
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
   Copyright (c) 2016, olikraus@gmail.com
@@ -42,11 +46,6 @@
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
-
-/*
-  Preconditions:
-  Uno with DOGS102 Shield
-*/
 
 // Please UNCOMMENT one of the contructor lines below
 // U8g2 Contructor List (Picture Loop Page Buffer)
@@ -164,14 +163,10 @@ void draw(const char *s)
   delay(2000);
 }
 
-
 void loop(void) {
-
-
   u8g2.setPowerSave(0);
   draw("power on");
   u8g2.setPowerSave(1);
   draw("power off");
-
 }
 

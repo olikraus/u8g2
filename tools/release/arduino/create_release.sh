@@ -55,6 +55,20 @@ cp ../../../sys/arduino/u8g2_page_buffer/SelectionList/*.ino ../../../../U8g2_Ar
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest
 cp ../../../sys/arduino/u8g2_page_buffer/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Clock
+cp ../../../sys/arduino/u8g2_page_buffer/Clock/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Clock/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/XORTest
+cp ../../../sys/arduino/u8g2_page_buffer/XORTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/XORTest/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/XBM
+cp ../../../sys/arduino/u8g2_page_buffer/XBM/*.ino ../../../../U8g2_Arduino/examples/page_buffer/XBM/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest
+cp ../../../sys/arduino/u8g2_page_buffer/PowerSaveTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest/.
+
+
+
 # games
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
@@ -129,6 +143,7 @@ sed -i -e "s/version=.*/version=${ver}/" library.properties
 cd ..
 
 echo "== create local zip file =="
+pwd
 rm u8g2_arduino_${ver}.zip
 zip -q -r --exclude="*.git*" u8g2_arduino_${ver}.zip ./U8g2_Arduino
 cp u8g2_arduino_${ver}.zip ~/Arduino/libraries/.
