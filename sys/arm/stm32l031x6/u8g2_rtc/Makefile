@@ -34,7 +34,7 @@ GCCBINPATH:=/usr/bin/
 # Project Information
 
 # The name for the project
-TARGETNAME:=u8x8_test
+TARGETNAME:=u8g2_rtc
 
 # The source files of the project
 CSRC:=$(wildcard *.c) 

@@ -45,12 +45,12 @@ void u8g2_DrawBox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g
   if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
     return;
 #endif /* U8G2_WITH_INTERSECTION */
-  do
+  while( h != 0 )
   { 
     u8g2_DrawHVLine(u8g2, x, y, w, 0);
     y++;    
     h--;
-  } while( h != 0 );
+  }
 }
 
 
