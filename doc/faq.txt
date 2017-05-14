@@ -126,6 +126,13 @@ Q: U8g2 requires a lot of memory. How to reduce this?
 - If the I2C interface is not required, then uncomment #define U8X8_HAVE_HW_I2C in U8x8lib.h
   (Background: Due to a problem in Wire.h, the I2C Arduino lib is always included)
 
+Q: U8g2 output is corrupted. What are possible causes?
+- Do not change the output inside the firstPage/nextPage loop: 
+Do *not* call digitalRead/analogRead inside the firstPage/nextPage loop.
+Read any sensor values into a variable *before* firstPage() and use the 
+variable value inside the loop.
+- If the output includes unicode chars, use the UTF8 procedures.
+
 Q: How can I generate my own font.
 A: The font must be available in bdf file format. Then use bdfconv to generate
 the font data. The font data can be pasted into an existing file of your project.
