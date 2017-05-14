@@ -111,3 +111,6 @@ https://github.com/olikraus/u8g2 ChangeLog
  2017-xx-xx	v2.15.x	  olikraus@gmail.com
   * Added setBitmapMode (pull request 220)
      Warning: Default behavior of drawXBM has changed in this release.
+  * Increased SPI speed to 8MHz for SSD1306, SH1106 and SSD1322 (issue 215)
+  
+  
