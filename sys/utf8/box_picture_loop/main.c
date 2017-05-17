@@ -9,7 +9,7 @@ u8g2_t u8g2;
 int main(void)
 {
 
-  u8g2_SetupBuffer_Utf8(&u8g2, U8G2_R2);
+  u8g2_SetupBuffer_Utf8(&u8g2, U8G2_R0);
   
   
   u8g2_InitDisplay(&u8g2);

@@ -326,7 +326,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "pcd8544", 		11, 	6, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI,
+    "pcd8544", 		11, 	6, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
     "No HW flip", /* is_generate_u8g2_class= */ 1,
     {
       { "84x48" },
@@ -334,7 +334,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "pcf8812", 		12, 	9, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI,
+    "pcf8812", 		12, 	9, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
     "No HW flip", /* is_generate_u8g2_class= */ 1,
     {
       { "96x65" },
