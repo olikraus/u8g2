@@ -76,20 +76,27 @@
 #endif
 
 /* define U8X8_HAVE_2ND_HW_I2C if the board has a second wire interface*/
-
-
 #ifdef WIRE_INTERFACES_COUNT
 #if WIRE_INTERFACES_COUNT > 1
 #define U8X8_HAVE_2ND_HW_I2C
 #endif
 #endif
 
+/* define U8X8_HAVE_2ND_HW_SPI if the board has a second wire interface*/
+/* As of writing this, I did not found any official board which supports this */
+/* so this is not tested (May 2017), issue #224 */
+#ifdef WIRE_INTERFACES_COUNT
+#if SPI_INTERFACES_COUNT > 1
+#define U8X8_HAVE_2ND_HW_SPI
+#endif
+#endif
 
 
 extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr); /* #244 */
 extern "C" uint8_t u8x8_byte_arduino_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);

@@ -432,6 +432,101 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 }
 
 
+/* issue #244 */
+extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+#ifdef U8X8_HAVE_2ND_HW_SPI
+  uint8_t *data;
+  uint8_t internal_spi_mode;
+ 
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+      
+      // 1.6.5 offers a block transfer, but the problem is, that the
+      // buffer is overwritten with the incoming data
+      // so it can not be used...
+      // SPI.transfer((uint8_t *)arg_ptr, arg_int);
+      
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 )
+      {
+	SPI1.transfer((uint8_t)*data);
+	data++;
+	arg_int--;
+      }
+  
+      break;
+    case U8X8_MSG_BYTE_INIT:
+      /* disable chipselect */
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+      /* no wait required here */
+      
+      /* for SPI1: setup correct level of the clock signal */
+      // removed, use SPI.begin() instead: pinMode(11, OUTPUT);
+      // removed, use SPI.begin() instead: pinMode(13, OUTPUT);
+      // removed, use SPI.begin() instead: digitalWrite(13, u8x8_GetSPIClockPhase(u8x8));
+      
+      /* setup hardware with SPI.begin() instead of previous digitalWrite() and pinMode() calls */
+      SPI1.begin();	
+
+      break;
+      
+    case U8X8_MSG_BYTE_SET_DC:
+      u8x8_gpio_SetDC(u8x8, arg_int);
+      break;
+      
+    case U8X8_MSG_BYTE_START_TRANSFER:
+      /* SPI1 mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
+      internal_spi_mode =  0;
+      switch(u8x8->display_info->spi_mode)
+      {
+	case 0: internal_spi_mode = SPI_MODE0; break;
+	case 1: internal_spi_mode = SPI_MODE1; break;
+	case 2: internal_spi_mode = SPI_MODE2; break;
+	case 3: internal_spi_mode = SPI_MODE3; break;
+      }
+      
+#if ARDUINO >= 10600
+      SPI1.beginTransaction(SPISettings(u8x8->display_info->sck_clock_hz, MSBFIRST, internal_spi_mode));
+#else
+      SPI1.begin();
+      
+      if ( u8x8->display_info->sck_pulse_width_ns < 70 )
+	SPI1.setClockDivider( SPI_CLOCK_DIV2 );
+      else if ( u8x8->display_info->sck_pulse_width_ns < 140 )
+	SPI1.setClockDivider( SPI_CLOCK_DIV4 );
+      else
+	SPI1.setClockDivider( SPI_CLOCK_DIV8 );
+      SPI1.setDataMode(internal_spi_mode);
+      SPI1.setBitOrder(MSBFIRST);
+#endif
+      
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
+      break;
+      
+    case U8X8_MSG_BYTE_END_TRANSFER:      
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+
+#if ARDUINO >= 10600
+      SPI1.endTransaction();
+#else
+      SPI1.end();
+#endif
+
+      break;
+    default:
+      return 0;
+  }
+  
+#else
+#endif
+  return 1;
+}
+
+
 /*=============================================*/
 
 extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
