@@ -687,6 +687,24 @@ uint8_t *u8g2_m_ra8835_30_f(uint8_t *page_cnt)
   *page_cnt = 16;
   return buf;
 }
+uint8_t *u8g2_m_ra8835_40_1(uint8_t *page_cnt)
+{
+  static uint8_t buf[320];
+  *page_cnt = 1;
+  return buf;
+}
+uint8_t *u8g2_m_ra8835_40_2(uint8_t *page_cnt)
+{
+  static uint8_t buf[640];
+  *page_cnt = 2;
+  return buf;
+}
+uint8_t *u8g2_m_ra8835_40_f(uint8_t *page_cnt)
+{
+  static uint8_t buf[9600];
+  *page_cnt = 30;
+  return buf;
+}
 uint8_t *u8g2_m_a2printer_48_1(uint8_t *page_cnt)
 {
   static uint8_t buf[384];
