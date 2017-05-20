@@ -123,6 +123,7 @@ Didgeridoo
 TODO, 17 Apr 2017
 - Pullups an die buttons und die tamper pullups deaktivieren. 
   Grund: Ansonsten kann man nicht mehr per reset booten und flashen
+  --> DONE (es gibt einen menü eintrag)
 - Es wird ja ständig das power interface sowie RTC activiert und deaktiviert.
   Das sollte man vermutlich dauerhaft aktiviert lassen.  --> DONE
 
@@ -133,8 +134,33 @@ das u8x8_InitDisplay() nicht ausführt, aber warum? Was habe ich vergessen?
 
 todo
 - load/save values to backup register --> DONE
-- configuration of the standby delay value
-- display off option for standby
+- configuration of the standby delay value --> DONE
+- display off option for standby --> DONE
 - if the alarm is confirmed within the same minute, then the alarm will apear again.
     --> Fixed (checked for the is_equal flag)
-    
+- Auto detect für den externen oszillator oder quarz
+
+============
+Holzbearbeitung
+
+redwood 15x60x60 (dictum.com)
+Linse 35,5mm (astromedia.de, OM7a)
+32mm Holzbohrer
+
+Fach für 2xAAA Halterung:
+Von unten mit 32mm Holzbohrer aufbohren: Achtung nicht durchbohren
+Dann mit 4x 14mm Holzbohrer weiterbohren (an den Rändern des vorherigen Lochs).
+Achtung nicht durchbohren
+
+Bedienknöpfe:
+Löcher mit dem Durchmesser der Knöpfe bohren (Rote Buttons hatten 12mm)
+
+Display und uC Gehäuse:
+Von unten mit 32mm Holzbohrer aufbohren: Achtung nicht durchbohren
+Dann mit einem kleineren Bohrer (6mm?) entlang der Front mehrere Löcher Bohren
+Auch hier: Nicht durchbohren
+Mit der Stichsäge Die Bohrungen weiter aufsägen.
+
+Display Front:
+Löcher bohren, mit der Stichsäge aufbohren, dann mit der Feile quadratisch machen.
+

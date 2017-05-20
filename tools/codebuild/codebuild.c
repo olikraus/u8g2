@@ -804,6 +804,17 @@ struct interface interface_list[] =
     "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2 [, reset]",
     "u8x8_byte_ks0108"
   },
+  /* 12 */
+  {
+    "2ND_4W_HW_SPI",
+    "u8x8_SetPin_4Wire_HW_SPI",
+    "u8x8_byte_arduino_2nd_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
+    "cs, dc, reset",
+    "cs, dc [, reset]",
+    "uC specific"
+  },  
   
 
   
@@ -1126,6 +1137,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   {
     do_display_interface(controller_idx, display_idx, postfix, 0);		/* SW SPI */
     do_display_interface(controller_idx, display_idx, postfix, 1);		/* HW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, 12);	/* 2nd HW SPI */
   }
   if ( controller_list[controller_idx].com & COM_3WSPI )
   {
