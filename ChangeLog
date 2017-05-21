@@ -113,4 +113,5 @@ https://github.com/olikraus/u8g2 ChangeLog
      Warning: Default behavior of drawXBM has changed in this release.
   * Increased SPI speed to 8MHz for SSD1306, SH1106 and SSD1322 (issue 215)
   * Added some more examples (issue 216)
+  * Added Urdu, Bengali, Hebrew and Polish language fonts (issues 221, 246 and 266)
   

@@ -62,6 +62,12 @@ bengali: bdfconv
 urdu: bdfconv
 	./bdfconv -v -f 1 -m '32-128,$$600-$$6ff,$$750-$$77f,$$fb50-$$fdff,$$fe70-$$feff' ../bdf/unifont.bdf -o u8g2_urdu.c  -n u8g2_urdu -d ../bdf/helvB12.bdf 
 
+lubr24: bdfconv
+	./bdfconv -f 1 -m '32-255' -p 10 lubR24.bdf -o lubR24.c -n u8g2_font_lubR24 -d ../bdf/helvB12.bdf 
+
+lurs24: bdfconv
+	./bdfconv -f 1 -m '32-255' -p 10 luRS24.bdf -o luRS24.c -n u8g2_font_luRS24 -d ../bdf/helvB12.bdf 
+
 	
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support
 
