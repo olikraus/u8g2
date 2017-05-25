@@ -343,9 +343,12 @@ void initDisplay(uint8_t is_por)
 
   This must be executed only after POR reset.
 */
-void initRTC(void)
+/* write access must be activated before calling this function: PWR->CR |= PWR_CR_DBP; */
+unsigned int initRTC(void)
 {
+  unsigned int r = 0;
   /* real time clock enable */  
+  
   //enableRCCRTCWrite();
 
   __disable_irq();
@@ -353,36 +356,57 @@ void initRTC(void)
   RTC->WPR = 0x0ca;					/* disable RTC write protection */
   RTC->WPR = 0x053;
     
-  /* externel 32K clock source */
+  /* try externel 32K clock source */
   RCC->CSR |= RCC_CSR_LSEBYP;			/* bypass oscillator */
   
-  /* externel 32K oscillator */
-  //RCC->CSR &= ~RCC_CSR_LSEBYP;		/* no bypass oscillator */
-  //RCC->CSR &= ~RCC_CSR_LSEDRV_Msk	/* lowest drive */
-  //RCC->CSR  |= RCC_CSR_LSEDRV_0;		/* medium low drive */
   
   RCC->CSR |= RCC_CSR_LSEON;			/* enable low speed external clock */
   delay_micro_seconds(100000*5);			/* LSE requires between 100ms to 200ms */
-  /*
-  if ( RCC->CSR & RCC_CSR_LSERDY )
-    display_Write("32K Clock Ready\n");
-  else
-    display_Write("32K Clock Error\n");
-    */
-  RCC->CSR &= ~RCC_CSR_RTCSEL_Msk;		/* no clock selection for RTC */
-  RCC->CSR |= RCC_CSR_RTCSEL_LSE;		/* select LSE */
-  RCC->CSR |= RCC_CSR_RTCEN;			/* enable RTC */
-     
-  RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
-  while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
-      ;
-  RTC->PRER = 0x07f00ff;					/* 1 Hz clock */
-  RTC->TR = 0; 
-  RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
   
+  if ( RCC->CSR & RCC_CSR_LSERDY )
+  {
+    r = 1;
+  }
+  else
+  {
+    RCC->CSR &= ~RCC_CSR_LSEON;			/* disable external clock */
+    
+    /* try externel 32K oscillator */
+    RCC->CSR &= ~RCC_CSR_LSEBYP;		/* no bypass oscillator */
+    RCC->CSR &= ~RCC_CSR_LSEDRV_Msk;	/* lowest drive */
+    RCC->CSR  |= RCC_CSR_LSEDRV_0;		/* medium low drive */
+
+    RCC->CSR |= RCC_CSR_LSEON;			/* enable low speed external clock */
+    delay_micro_seconds(100000*6);			/* LSE requires between 200ms and 400ms */
+    
+    if ( RCC->CSR & RCC_CSR_LSERDY )
+    {
+      r = 2;
+    }
+  }
+  
+  if ( r > 0 )
+  {
+    
+    RCC->CSR &= ~RCC_CSR_RTCSEL_Msk;		/* no clock selection for RTC */
+    RCC->CSR |= RCC_CSR_RTCSEL_LSE;		/* select LSE */
+    RCC->CSR |= RCC_CSR_RTCEN;			/* enable RTC */
+       
+    RTC->ISR = RTC_ISR_INIT;				/* request RTC stop */
+    while((RTC->ISR & RTC_ISR_INITF)!=RTC_ISR_INITF) /* wait for stop */
+	;
+    RTC->PRER = 0x07f00ff;					/* 1 Hz clock */
+    RTC->TR = 0; 
+    RTC->ISR =~ RTC_ISR_INIT; 				/* start RTC */
+    
+  }
   RTC->WPR = 0;						/* enable RTC write protection */
   RTC->WPR = 0;
+  
+  
   __enable_irq();
+  
+  return r;
 }
 
 /*=======================================================================*/
