@@ -91,7 +91,7 @@ STANDARD
   9
 $CLAYER
   8
-measure
+invisible
   9
 $CELTYPE
   6
@@ -1115,9 +1115,9 @@ AcDbViewportTableRecord
  21
 1
  12
-292.9687500000573
+170.1562500000336
  22
-152.3437500000298
+155.3125000000307
  13
 0
  23
@@ -1143,7 +1143,7 @@ AcDbViewportTableRecord
  37
 0
  40
-402.3437500000787
+257.5000000000508
  41
 1.811893203883495
  42
@@ -11764,6 +11764,30 @@ AcDbDiametricDimension
 0
  40
 0
+  0
+LINE
+  5
+18B
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+77.75
+ 20
+226
+ 11
+91.77124344467761
+ 21
+226
   0
 ENDSEC
   0
