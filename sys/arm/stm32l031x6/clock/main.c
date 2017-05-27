@@ -669,6 +669,32 @@ uint16_t getTemperature(void)
   return y;
 }
 
+uint8_t getBatteryLevels(uint16_t adc, uint16_t cnt)
+{
+  uint16_t levels;
+  if ( adc < 1233 )
+    return 0;
+  adc -= 1233;
+  
+  levels = (adc*cnt)/(4096-1223);
+  return levels;  
+}
+
+void drawBatSymbol(uint16_t adc)
+{
+  u8g2_uint_t w, levels;
+  w = u8g2_GetDisplayWidth(&u8g2);
+  u8g2_DrawHLine(&u8g2, w-5, 0, 2);
+  u8g2_DrawFrame(&u8g2, w-7, 1, 6, 9);
+  levels = getBatteryLevels(adc, 8);
+  while( levels > 0 )
+  {
+    
+    u8g2_DrawHLine(&u8g2, w-6, 9-levels, 4);
+    levels--;
+  }
+}
+
 
 /*=======================================================================*/
 int main()
@@ -781,7 +807,6 @@ int main()
   
   /* get current voltage level of the battery */
   adc = readADC(5);	
-  
   for(;;)
   {
     if ( gui_menu.me_list == melist_display_time )
@@ -797,6 +822,7 @@ int main()
     {
       u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
       u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
+      drawBatSymbol(adc);
     }
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
     u8g2_SendBuffer(&u8g2);
@@ -825,6 +851,7 @@ int main()
 	gui_Draw();
 	u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
 	u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
+	drawBatSymbol(adc);
 	u8g2_SendBuffer(&u8g2);
       }
       
