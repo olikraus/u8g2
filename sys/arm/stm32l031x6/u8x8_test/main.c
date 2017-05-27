@@ -194,7 +194,8 @@ void printBits(uint8_t y, uint16_t val)
 */
 uint16_t readADC(uint8_t ch)
 {
-  uint16_t data;
+  uint32_t data;
+  uint32_t i;
   
   __disable_irq();
   
@@ -262,15 +263,21 @@ uint16_t readADC(uint8_t ch)
 
   /* DO CONVERSION */
   
-  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
-  while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+  data = 0;
+  for( i = 0; i < 8; i++ )
   {
+    
+    ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+    while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+    {
+    }
+    data += ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
   }
-  data = ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
-
+  data >>= 3;
+  
   /* DISABLE ADC */
   
-  /* at this point the end of sampling and end of sequence bits are also set in ISR registr */
+  /* at this point the end of sampling and end of sequence bits are also set in ISR registr */  
   if ( (ADC1->CR & ADC_CR_ADEN) != 0 )
   {
     ADC1->CR |= ADC_CR_ADDIS; 			/* disable ADC... maybe better execute a reset */
@@ -298,11 +305,13 @@ uint16_t getTemperature(void)
   
   y1 = 30;
   x1 = *(uint16_t *)(0x1FF8007A);	// 30 degree with 3.0V
-  y2 = 130;
+  x1 *=30;
+  x1 /=33;
+  y2 = 110;		// AN3964: 110 degree, Datasheet: 130 degree
   x2 = *(uint16_t *)(0x1FF8007E);	// 130 degree with 3.0V
+  x2 *=30;
+  x2 /=33;
   t = readADC(18);
-  //t = x1+1;
-  //t = 620;
   
   y = ( (y2 - y1) * ( t - x1) ) / (x2 - x1) + y1;
   

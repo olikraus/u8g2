@@ -545,7 +545,8 @@ void enterStandByMode(void)
 */
 uint16_t readADC(uint8_t ch)
 {
-  uint16_t data;
+  uint32_t data;
+  uint32_t i;
   
   __disable_irq();
   
@@ -613,15 +614,21 @@ uint16_t readADC(uint8_t ch)
 
   /* DO CONVERSION */
   
-  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
-  while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+  data = 0;
+  for( i = 0; i < 8; i++ )
   {
+    
+    ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+    while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+    {
+    }
+    data += ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
   }
-  data = ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
-
+  data >>= 3;
+  
   /* DISABLE ADC */
   
-  /* at this point the end of sampling and end of sequence bits are also set in ISR registr */
+  /* at this point the end of sampling and end of sequence bits are also set in ISR registr */  
   if ( (ADC1->CR & ADC_CR_ADEN) != 0 )
   {
     ADC1->CR |= ADC_CR_ADDIS; 			/* disable ADC... maybe better execute a reset */
@@ -641,11 +648,33 @@ uint16_t readADC(uint8_t ch)
   return data;
 }
 
+uint16_t getTemperature(void)
+{
+  int16_t y1, y2,x1, x2, t;
+  int16_t y;
+  
+  
+  y1 = 30;
+  x1 = *(uint16_t *)(0x1FF8007A);	// 30 degree with 3.0V
+  x1 *=30;
+  x1 /=33;
+  y2 = 110;		// AN3964: 110 degree, Datasheet: 130 degree
+  x2 = *(uint16_t *)(0x1FF8007E);	// 130 degree with 3.0V
+  x2 *=30;
+  x2 /=33;
+  t = readADC(18);
+  
+  y = ( (y2 - y1) * ( t - x1) ) / (x2 - x1) + y1;
+  
+  return y;
+}
+
 
 /*=======================================================================*/
 int main()
 {
   int i;
+  uint16_t adc;
   startHSIClock();						/* Increase system clock, must be executed after each reset */
   SystemCoreClockUpdate();				/* Update variable SystemCoreClock, must be executed after each reset */
   startUp();							/* basic system setup + make a backup of PWR_CSR (PWR_CSR_Backup), must be executed after each reset */
@@ -739,6 +768,7 @@ int main()
     u8g2_ClearBuffer(&u8g2);
     GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
     gui_Draw();
+    
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
     u8g2_SendBuffer(&u8g2);
     /* go back to sleep mode */
@@ -749,6 +779,8 @@ int main()
   u8g2_SetPowerSave(&u8g2, 0);	/* not required for the ALWAYS_ON mode, but does not matter in the other modes */
   u8g2_SetContrast(&u8g2, DISPLAY_CONTRAST_NORMAL);
   
+  /* get current voltage level of the battery */
+  adc = readADC(5);	
   
   for(;;)
   {
@@ -761,6 +793,11 @@ int main()
     u8g2_ClearBuffer(&u8g2);
     GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
     gui_Draw();
+    if ( gui_menu.me_list == melist_display_time )
+    {
+      u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
+      u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
+    }
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
     u8g2_SendBuffer(&u8g2);
     
@@ -786,6 +823,8 @@ int main()
 	gui_SignalTimeChange();
 	u8g2_ClearBuffer(&u8g2);
 	gui_Draw();
+	u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
+	u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
 	u8g2_SendBuffer(&u8g2);
       }
       
