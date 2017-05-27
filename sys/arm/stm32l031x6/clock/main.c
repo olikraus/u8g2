@@ -535,6 +535,77 @@ void enterStandByMode(void)
   __NOP();
 }
 
+/*
+  ch 0..15: 	GPIO
+  ch 16:		???
+  ch 17:		vref (bandgap)
+  ch18:		temperature sensor
+
+  returns 12 bit result, right aligned 
+*/
+uint16_t readADC(uint8_t ch)
+{
+  uint16_t data;
+  
+  RCC->APB2ENR |= RCC_APB2ENR_ADCEN;	/* enable ADC clock */
+  __NOP();								/* let us wait for some time */
+  
+  ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
+  
+  if ( (ADC1->CR & ADC_CR_ADEN) != 0 )
+  {
+    ADC1->CR |= ADC_CR_ADDIS; 			/* disable ADC... maybe better execute a reset */
+    while ((ADC1->CR & ADC_CR_ADEN) != 0) 	/* wait for ADC disable, ADEN is also cleared */
+    {
+    }
+  }
+  
+  ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
+  ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
+  ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
+
+  ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
+  while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
+  {
+  }
+  ADC1->ISR |= ADC_ISR_EOCAL; 			/* clear the status flag, by writing 1 to it */
+  
+  //ADC1->CFGR1 |= ADC_CFGR1_AUTOFF;	/* not required, ADC is anyway disabled */
+  
+  ADC1->ISR |= ADC_ISR_ADRDY; /* clear ready flag */
+  ADC1->CR |= ADC_CR_ADEN; /* enable ADC */
+  //while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
+  {
+  }
+  
+  ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
+  ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
+  ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
+  ADC1->CHSELR = 1<<ch; 				/* Select channel */
+  ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+  
+  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+  while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+  {
+  }
+  data = ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
+  
+  if ( (ADC1->CR & ADC_CR_ADEN) != 0 )
+  {
+    ADC1->CR |= ADC_CR_ADDIS; 			/* disable ADC... maybe better execute a reset */
+    while ((ADC1->CR & ADC_CR_ADEN) != 0) 	/* wait for ADC disable, ADEN is also cleared */
+    {
+    }
+  }
+  
+  ADC->CCR &= ~ADC_CCR_VREFEN; 			/* disable VREFINT */  
+  ADC->CCR &= ~ADC_CCR_TSEN; 			/* disable temperature sensor */  
+  ADC1->CR &= ~ADC_CR_ADVREGEN;				/* disable ADC voltage regulator */
+  RCC->APB2ENR &= ~RCC_APB2ENR_ADCEN;	/* disable ADC clock */
+  return data;
+}
+
+
 /*=======================================================================*/
 int main()
 {
