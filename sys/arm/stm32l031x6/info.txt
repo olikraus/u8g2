@@ -164,3 +164,23 @@ Mit der Stichsäge Die Bohrungen weiter aufsägen.
 Display Front:
 Löcher bohren, mit der Stichsäge aufbohren, dann mit der Feile quadratisch machen.
 
+Display Abdeckung
+M30: Aussendurchmesser 56mm, Innen31
+
+Derzeit: Aussen 52, Innen 32
+https://www.befestigungsfuchs.de/Befestigungstechnik/Unterlegscheiben/DIN-125/Form-A/50-Unterlegscheiben-DIN-125-Form-A-Kunststoff-Polyamid-fuer-M30?action_ms=1
+50 Stück, 13€ + 5€ Versand
+
+Buchescheiben 50mm, aber ca. 15€ Versand und Mindermengenzuschlag
+http://www.rundstab.de/product_info.php?info=p2934_buchenscheiben-50-mm.html&no_boost=1
+10 Stück 5€ + 15€ Versand
+
+Buchescheiben 50mm, aber sortiert im set mit 35 anderen
+http://www.rakuten.de/produkt/holzscheiben-35-stueck-15-5-cm-349163036.html
+2 Stück für 2,60 +5€ Versand
+
+Im Englischen heisst das wohl "flat washer"
+--> Bei E-Bay bestellt Innen 33mm aussen 42mm... naja mal sehen wie das mit der Linse wird.
+
+
+

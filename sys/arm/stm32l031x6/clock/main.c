@@ -19,7 +19,7 @@
 #include "stm32l031xx.h"
 #include "delay.h"
 #include "u8g2.h"
-#include "rtc.h"
+//#include "rtc.h"
 #include "key.h"
 #include "gui.h"
 
@@ -92,7 +92,7 @@ volatile unsigned long PWR_CSR_Backup;
 volatile unsigned long ResetReason = RESET_REASON_POR;
 
 
-rtc_t rtc;
+//rtc_t rtc;
 u8g2_t u8g2;
 
 
@@ -334,6 +334,7 @@ void initDisplay(uint8_t is_por)
   
   gui_Init(&u8g2, is_por);
   
+  u8g2_SetFlipMode(&u8g2, 1);
 }
 
 
@@ -342,8 +343,15 @@ void initDisplay(uint8_t is_por)
   configure and start RTC
 
   This must be executed only after POR reset.
+
+  write access must be activated before calling this function: PWR->CR |= PWR_CR_DBP;
+
+  return values:
+    0: 	no clock avilable
+    1:		external clock
+    2:		external oszillator
+
 */
-/* write access must be activated before calling this function: PWR->CR |= PWR_CR_DBP; */
 unsigned int initRTC(void)
 {
   unsigned int r = 0;
@@ -576,10 +584,20 @@ int main()
 
   if ( ResetReason == RESET_REASON_POR || ResetReason == RESET_REASON_NVIC_RESET )
   {
+    unsigned int r;
     /* Power on reset */
-    initRTC();
+    r = initRTC();
     readRTC();
     initDisplay(1);	/* init display assumes proper values in gui_data */
+    if ( r == 0 )
+    {
+	u8g2_ClearBuffer(&u8g2);
+	u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
+	u8g2_DrawStr(&u8g2, 0, 15, "No RTC Clock");
+	u8g2_SendBuffer(&u8g2);      
+	delay_micro_seconds(3000000);      
+	do_reset();
+    }
   }
   else
   {
