@@ -175,6 +175,15 @@ unsigned int initRTC(void)
   return r;
 }
 
+void printBits(uint8_t y, uint16_t val)
+{
+  int i;
+  for( i = 0; i < 16; i++ )
+  {
+    u8x8_DrawGlyph(&u8x8, i, y, val & (1<<(15-i)) ? '1' : '0' );
+  }
+}
+
 /*
   ch 0..15: 	GPIO
   ch 16:		???
@@ -187,49 +196,81 @@ uint16_t readADC(uint8_t ch)
 {
   uint16_t data;
   
+  __disable_irq();
+  
+  /* ADC RESET */
+  
   RCC->APB2ENR |= RCC_APB2ENR_ADCEN;	/* enable ADC clock */
   __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */  
+  RCC->APB2RSTR |= RCC_APB2RSTR_ADCRST;
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+  RCC->APB2RSTR &= ~RCC_APB2RSTR_ADCRST;
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
   
+
+  /* Enable some basic parts */
+  
+  ADC1->IER = 0;						/* do not allow any interrupts */
   ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
-  
-  if ( (ADC1->CR & ADC_CR_ADEN) != 0 )
-  {
-    ADC1->CR |= ADC_CR_ADDIS; 			/* disable ADC... maybe better execute a reset */
-    while ((ADC1->CR & ADC_CR_ADEN) != 0) 	/* wait for ADC disable, ADEN is also cleared */
-    {
-    }
-  }
   
   ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
   ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
   ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
 
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+
+  /* CALIBRATION */
+  
+  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
+  {
+    ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
+  }
   ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
   while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
   {
   }
   ADC1->ISR |= ADC_ISR_EOCAL; 			/* clear the status flag, by writing 1 to it */
+  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+
+  /* ENABLE ADC */
   
-  //ADC1->CFGR1 |= ADC_CFGR1_AUTOFF;	/* not required, ADC is anyway disabled */
-  
-  ADC1->ISR |= ADC_ISR_ADRDY; /* clear ready flag */
-  ADC1->CR |= ADC_CR_ADEN; /* enable ADC */
-  //while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
+  ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
+  ADC1->CR |= ADC_CR_ADEN; 			/* enable ADC */
+  while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
   {
   }
   
+  //printBits(5, ADC1->ISR );
+  //printBits(6, ADC1->CR );
+
+  /* CONFIGURE ADC */
+
   ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
   ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
   ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
   ADC1->CHSELR = 1<<ch; 				/* Select channel */
   ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+
+  /* DO CONVERSION */
   
   ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
   while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
   {
   }
   data = ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
+
+  /* DISABLE ADC */
   
+  /* at this point the end of sampling and end of sequence bits are also set in ISR registr */
   if ( (ADC1->CR & ADC_CR_ADEN) != 0 )
   {
     ADC1->CR |= ADC_CR_ADDIS; 			/* disable ADC... maybe better execute a reset */
@@ -237,26 +278,39 @@ uint16_t readADC(uint8_t ch)
     {
     }
   }
+
+  /* DISABLE OTHER PARTS, INCLUDING CLOCK */
   
-  ADC->CCR &= ~ADC_CCR_VREFEN; 			/* disable VREFINT */  
+  ADC->CCR &= ~ADC_CCR_VREFEN; 		/* disable VREFINT */  
   ADC->CCR &= ~ADC_CCR_TSEN; 			/* disable temperature sensor */  
-  ADC1->CR &= ~ADC_CR_ADVREGEN;				/* disable ADC voltage regulator */
+  ADC1->CR &= ~ADC_CR_ADVREGEN;		/* disable ADC voltage regulator */
   RCC->APB2ENR &= ~RCC_APB2ENR_ADCEN;	/* disable ADC clock */
+  
+  __enable_irq();
   return data;
 }
 
-uint8_t getTemperature(void)
+uint16_t getTemperature(void)
 {
-  uint32_t c1, c2, t, a, m;
+  int16_t y1, y2,x1, x2, t;
+  int16_t y;
   
   
-  c1 = *(uint16_t *)(0x1FF8007A);	// 30 degree
-  c2 = *(uint16_t *)(0x1FF8007E);	// 130 degree
-  
-  a = 130UL*c1 - 30UL*c2;
-  m= c2-c1;
+  y1 = 30;
+  x1 = *(uint16_t *)(0x1FF8007A);	// 30 degree with 3.0V
+  y2 = 130;
+  x2 = *(uint16_t *)(0x1FF8007E);	// 130 degree with 3.0V
   t = readADC(18);
-  return (m*t+a)/100UL;
+  //t = x1+1;
+  //t = 620;
+  
+  y = ( (y2 - y1) * ( t - x1) ) / (x2 - x1) + y1;
+  
+  u8x8_DrawString(&u8x8, 0,6, u8x8_u16toa((y2 - y1)/(x2 - x1), 5));
+  u8x8_DrawString(&u8x8, 7,6, u8x8_u16toa(t, 5));
+  u8x8_DrawString(&u8x8, 13,6, u8x8_u16toa(y, 3));
+  
+  return y;
 }
 
 
@@ -300,13 +354,27 @@ int main()
   u8x8_DrawString(&u8x8, 0,0, "Hello World!");
   u8x8_DrawGlyph(&u8x8, 0,1, rtcState+'0');
   u8x8_DrawString(&u8x8, 0,2, "Vref:");
-  u8x8_DrawString(&u8x8, 7,2, u8x8_u16toa(readADC(17), 4));
+  u8x8_DrawString(&u8x8, 7,2, u8x8_u16toa(readADC(17), 4));  
   u8x8_DrawString(&u8x8, 0,3, "Temp:");
   u8x8_DrawString(&u8x8, 7,3, u8x8_u16toa(readADC(18), 4));
-  u8x8_DrawString(&u8x8, 13,3, u8x8_u16toa(getTemperature(), 2));
-  
+  u8x8_DrawString(&u8x8, 13,3, u8x8_u16toa(getTemperature(), 3));
+  u8x8_DrawString(&u8x8, 0,4, "c30:");
+  u8x8_DrawString(&u8x8, 7,4, u8x8_u16toa(*(uint16_t *)(0x1FF8007A), 4));
+  u8x8_DrawString(&u8x8, 0,5, "c130:");
+  u8x8_DrawString(&u8x8, 7,5, u8x8_u16toa(*(uint16_t *)(0x1FF8007E), 4));
+
+
   for(;;)
   {
+  u8x8_DrawString(&u8x8, 0,2, "Vref:");
+  u8x8_DrawString(&u8x8, 7,2, u8x8_u16toa(readADC(17), 4));  
+  u8x8_DrawString(&u8x8, 0,3, "Temp:");
+  u8x8_DrawString(&u8x8, 7,3, u8x8_u16toa(readADC(18), 4));
+  u8x8_DrawString(&u8x8, 13,3, u8x8_u16toa(getTemperature(), 3));
+  u8x8_DrawString(&u8x8, 0,4, "c30:");
+  u8x8_DrawString(&u8x8, 7,4, u8x8_u16toa(*(uint16_t *)(0x1FF8007A), 4));
+  u8x8_DrawString(&u8x8, 0,5, "c130:");
+  u8x8_DrawString(&u8x8, 7,5, u8x8_u16toa(*(uint16_t *)(0x1FF8007E), 4));
     delay_micro_seconds(500000);
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
     delay_micro_seconds(500000);
