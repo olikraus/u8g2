@@ -59,13 +59,14 @@ struct _gui_alarm_struct
   
   /* alarm information */
   uint8_t snooze_count;	/* input, 1 bit*/
-  uint8_t enable;		/* input, 1 bit */
+  volatile uint8_t enable;		/* input, 1 bit */
   uint8_t skip_wd;		/* input 0 = no skip, 1 = Monday, ... 3 bits*/
   uint8_t h;			/* input 5 bits */
   uint8_t m;			/* input 6 bits */
   uint8_t wd[7];		/* input: 0 or 1, 0=weekday not selected, 7 bits */
 };
 typedef struct _gui_alarm_struct gui_alarm_t;
+
 
 
 /* guimenu.c */

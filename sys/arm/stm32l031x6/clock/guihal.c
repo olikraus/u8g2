@@ -134,12 +134,19 @@ uint32_t get_wakeup_count(void)
 /*============================================*/
 /* output */
 
+void SetAlarmSequence(const uint8_t *alarm_sequence);
+extern const uint8_t ASeqTrippleBeep[];
+
+
 void enable_alarm(void)
 {
+  SetAlarmSequence(ASeqTrippleBeep);
 }
 
 void disable_alarm(void)
 {
+  SetAlarmSequence(NULL);
+  
 }
 
 void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so)

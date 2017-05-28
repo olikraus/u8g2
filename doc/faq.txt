@@ -1,6 +1,8 @@
 
 Wiring
 
+
+
 Q: Why does my xxx_SW_I2C() device not work with my other I2C devices?
 A: SW_I2C emulates I2C with digitalWrite(), which will have a conflict with other
 I2C devices at the same pins. There are two options: (A) use xxx_HW_I2C() or 
@@ -20,7 +22,23 @@ Q: For HW SPI no pin numbers are required in the constructor. But which are
 the pin numbers for wiring?
 A: This depends on your board. For some official boards, this is listed here:
 https://www.arduino.cc/en/Reference/SPI
-You need to connect MOSI (data) and SCK (clock) pins.
+You need to connect MOSI (data) and SCK (clock) pins of your board with the
+corresponding pins with your display.
+All U8g2 software emulated SPI constructors look like this:
+U8G2_..._4W_SW_SPI u8g2(U8G2_R0, clock, data, cs, dc, reset);
+All U8g2 hardware SPI constructors look like this:
+U8G2_..._4W_SW_SPI u8g2(U8G2_R0, cs, dc, reset);
+
+Q: For HW I2C no pin numbers are required in the constructor. But which are
+the pin numbers for wiring?
+A: See same question for SPI. For some boards, the pins are listed here:
+https://www.arduino.cc/en/Reference/Wire
+All U8g2 software emulated I2C constructors look like this:
+U8G2_..._SW_I2C u8g2(U8G2_R0, clock, data, reset);
+All U8g2 hardware I2C constructors look like this:
+U8G2_..._HW_I2C u8g2(U8G2_R0, reset);
+Note: The HW_I2C allows to more arguments for hardware pin number remapping.
+However, this is only supported on the ESP8266.
 
 Q: The pin names on my display do not fit to the pin names of U8g2.
 A: Yes, each datasheet/product/controller has different names. There 

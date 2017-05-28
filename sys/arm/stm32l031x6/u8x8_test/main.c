@@ -340,7 +340,7 @@ int main()
   GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED13;	/* low speed for PA13 */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD13;	/* no pullup/pulldown for PA13 */
   GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
-    GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
+  GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
 
   SysTick->LOAD = (SystemCoreClock/1000)*50 - 1;   /* 50ms task */
   SysTick->VAL = 0;

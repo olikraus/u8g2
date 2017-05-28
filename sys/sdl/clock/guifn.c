@@ -310,7 +310,6 @@ void gui_StoreData(void)
 
 
 /* recalculate all internal data */
-/* additionally the active alarm menu might be set by this function */
 void gui_Recalculate(void)
 {
   int i;
@@ -326,6 +325,7 @@ void gui_Recalculate(void)
 }
 
 /* minute and/or hour has changed */
+/* additionally the active alarm menu might be set by this function */
 void gui_SignalTimeChange(void)
 {
   /* recalculate dependent values */
@@ -388,7 +388,18 @@ void gui_Next(void)
   if ( gui_menu.me_list == melist_active_alarm_menu )
   {
     disable_alarm();
-    gui_alarm_list[gui_data.active_alarm_idx].snooze_count = 1;
+    if ( gui_alarm_list[gui_data.active_alarm_idx].snooze_count != 0 )
+    {
+      int i;
+      /* this is already the snooze alarm, so clear all and behave like the normal alarm off */
+      for( i = 0; i < GUI_ALARM_CNT; i++ )
+	gui_alarm_list[i].snooze_count = 0;
+    }
+    else
+    {
+      /* enable snooze */
+      gui_alarm_list[gui_data.active_alarm_idx].snooze_count = 1;
+    }
     gui_data.is_alarm = 0;
     gui_Recalculate();
     menu_SetMEList(&gui_menu, melist_display_time, 0);
@@ -404,9 +415,9 @@ void gui_Select(void)
   if ( gui_menu.me_list == melist_active_alarm_menu )
   {
     int i;
+    disable_alarm();
     for( i = 0; i < GUI_ALARM_CNT; i++ )
       gui_alarm_list[i].snooze_count = 0;
-    disable_alarm();
     gui_data.is_alarm = 0;
     gui_Recalculate();
     menu_SetMEList(&gui_menu, melist_display_time, 0);

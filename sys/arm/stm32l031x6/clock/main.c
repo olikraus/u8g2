@@ -16,6 +16,8 @@
   
 */
 
+#include <stdint.h>
+#include <stddef.h>
 #include "stm32l031xx.h"
 #include "delay.h"
 #include "u8g2.h"
@@ -37,6 +39,15 @@
 /* 50ms*20*10 = 10 second */
 /* 50ms*20*18 = 18 second */
 #define MENU_IDLE_SYSTICK_TIMEOUT (20*18)
+
+/* max alarm duration */
+/* time in systicks (50ms) */
+/* 50ms*20 = 1 second */
+/* 50ms*20*10 = 10 second */
+/* 50ms*20*18 = 18 second */
+/* 50ms*20*120 = 120 seconds */
+#define ALARM_MAX_SYSTICK_TIME (20*30)
+
 
 /* wakeup period: The uC will wake up after the specified number of seconds */
 /* the value is one less the intended number of seconds: */
@@ -90,10 +101,85 @@ volatile unsigned long Tamper3Count = 0;
 volatile unsigned long MenuIdleTimer = 0;
 volatile unsigned long PWR_CSR_Backup;
 volatile unsigned long ResetReason = RESET_REASON_POR;
+volatile unsigned long AlarmSeqPos = 0;
+volatile unsigned long AlarmSeqDly = 0;
+const uint8_t *AlarmSeqPtr = NULL;
+const uint8_t *AlarmSeqStart = NULL;
+volatile unsigned long AlarmSeqTime = 0;
+volatile unsigned long RTCUpdateCount = 0;		// decremented in SysTick IRQ if not 0
 
 
 //rtc_t rtc;
 u8g2_t u8g2;
+
+
+/*=======================================================================*/
+#define AOff(dly) 		(0<<5)|((dly)&0x01f)
+#define ABeep(dly)		(1<<5)|((dly)&0x01f)
+#define ARepeat()		(0xfe)
+#define AEnd()		(0xff)
+
+
+/*=======================================================================*/
+
+const uint8_t ASeqTrippleBeep[] = 
+{ ABeep(1),AOff(2), ABeep(1),AOff(2),ABeep(1),AOff(22), ARepeat() };
+
+
+/*=======================================================================*/
+
+void set_alarm_sequence(const uint8_t *alarm_sequence)
+{
+  GPIOA->BSRR = GPIO_BSRR_BR_6;		/* atomic clr PA6 */
+  AlarmSeqDly = 0;
+  AlarmSeqPtr = alarm_sequence;
+  AlarmSeqStart = alarm_sequence;
+  AlarmSeqTime = 0;
+}
+
+void ExecuteAlarmSequenceStep(void)
+{
+  if ( AlarmSeqPtr == NULL )
+    return;
+  //AlarmSeqTime++;
+  //if ( AlarmSeqTime > ALARM_MAX_SYSTICK_TIME )
+  //{
+  //  set_alarm_sequence(NULL);
+  //  gui_data.is_alarm = 0;			// disable alarm
+  //  return;
+  //}
+    
+  if ( AlarmSeqDly > 0 )
+  {
+    AlarmSeqDly--;
+    return ;
+  }
+  switch( (*AlarmSeqPtr)>>5 )
+  {
+    case 0:
+      GPIOA->BSRR = GPIO_BSRR_BR_6;		/* atomic clr PA6 */
+      AlarmSeqDly = ((*AlarmSeqPtr) & 0x01f);
+      break;
+    case 1:
+      GPIOA->BSRR = GPIO_BSRR_BS_6;		/* atomic set PA13 */
+      AlarmSeqDly = ((*AlarmSeqPtr) & 0x01f);
+      break;
+    default:
+      if ( *AlarmSeqPtr == 0x0fe )
+	AlarmSeqPtr = AlarmSeqStart;
+      return;
+  }
+  AlarmSeqPtr++;  
+}
+
+
+void SetAlarmSequence(const uint8_t *alarm_sequence)
+{
+  __disable_irq();
+  set_alarm_sequence(alarm_sequence);
+  __enable_irq();
+}
+
 
 
 /*=======================================================================*/
@@ -161,8 +247,11 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
       RTC->ISR &= ~RTC_ISR_TAMP2F;		/* clear tamper flag, allow new tamper event */
   }
 
-  MenuIdleTimer++;
+  ExecuteAlarmSequenceStep();
   
+  MenuIdleTimer++;
+  if ( RTCUpdateCount > 0 )
+    RTCUpdateCount--;
 }
 
 void __attribute__ ((interrupt, used)) RTC_IRQHandler(void)
@@ -244,6 +333,14 @@ void startUp(void)
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD2;	/* no pullup/pulldown for PA2 */
   GPIOA->PUPDR |= GPIO_PUPDR_PUPD2_0;	/* pullup for PA2 */
 
+
+  /* buzzer output */
+  GPIOA->MODER &= ~GPIO_MODER_MODE6;	/* clear mode for PA6 */
+  GPIOA->MODER |= GPIO_MODER_MODE6_0;	/* Output mode for PA6 */
+  GPIOA->OTYPER &= ~GPIO_OTYPER_OT_6;	/* Push/Pull for PA6 */
+  GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED6;	/* low speed for PA6 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD6;	/* no pullup/pulldown for PA6 */
+  GPIOA->BSRR = GPIO_BSRR_BR_6;		/* atomic clr PA6 */
   
 }
 
@@ -453,7 +550,10 @@ void startRTCWakeUp(void)
     RTC_TAMPCR_TAMP3NOERASE | RTC_TAMPCR_TAMP3IE | RTC_TAMPCR_TAMP3E | 
     RTC_TAMPCR_TAMP2NOERASE | RTC_TAMPCR_TAMP2IE | RTC_TAMPCR_TAMP2E | 
     RTC_TAMPCR_TAMPPRCH_0 | RTC_TAMPCR_TAMPFLT_1 | RTC_TAMPCR_TAMPFREQ;
-  
+
+
+    // RTC_TAMPCR_TAMPPUDIS 
+
   /* wake up IRQ is connected to line 20 */
   EXTI->RTSR |= EXTI_RTSR_RT20;			/* rising edge for wake up line */
   EXTI->IMR |= EXTI_IMR_IM20;			/* interrupt enable */
@@ -527,6 +627,9 @@ void enterStandByMode(void)
   if ( DisplayStandbyMode == DISPLAY_STANDBY_MODE_OFF )
     u8g2_SetPowerSave(&u8g2, 1);
 
+  
+  SetAlarmSequence(NULL);
+  GPIOA->MODER &= ~GPIO_MODER_MODE6;	/* clear mode for PA6 --> input */
   
   PWR->CR |= PWR_CR_PDDS;				/* Power Down Deepsleep */
   SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;	/* set the cortex M0+ deep sleep flag */  
@@ -760,6 +863,13 @@ int main()
 	delay_micro_seconds(3000000);      
 	do_reset();
     }
+    
+    /*set a alarm time for testing */
+    gui_alarm_list[0].enable = 1;
+    gui_alarm_list[0].m = 1;
+    gui_alarm_list[0].wd[5] = 1;
+    gui_Recalculate();
+    
   }
   else
   {
@@ -807,14 +917,40 @@ int main()
   
   /* get current voltage level of the battery */
   adc = readADC(5);	
+  
+
+  /* start user loop */
   for(;;)
   {
-    if ( gui_menu.me_list == melist_display_time )
+    if ( RTCUpdateCount == 0 )
     {
-      readRTC();
-      gui_SignalTimeChange();
+      if ( gui_menu.me_list == melist_display_time )
+      {
+	readRTC();
+	gui_SignalTimeChange();
+      }
+      else
+      {
+	//readRTC();
+	//gui_Recalculate();
+      }
+
+      
+      RTCUpdateCount = 10;  // update every 10 systicks (half second)
     }
     
+    
+    for(;;)
+    {
+      i = key_get();
+      if ( i == KEY_NONE )
+	break;
+      if ( i == KEY_SELECT )
+	gui_Select();
+      if ( i == KEY_NEXT )
+	gui_Next();      
+    }
+
     u8g2_ClearBuffer(&u8g2);
     GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic set PA13 */
     gui_Draw();
@@ -827,37 +963,44 @@ int main()
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */
     u8g2_SendBuffer(&u8g2);
     
-    for(;;)
+    
+    
+    if ( MenuIdleTimer > MENU_IDLE_SYSTICK_TIMEOUT )
     {
-      i = key_get();
-      if ( i == KEY_NONE )
-	break;
-      if ( i == KEY_SELECT )
-	gui_Select();
-      if ( i == KEY_NEXT )
-	gui_Next();      
+      if ( gui_data.is_equal  == 0 )	// idea is, that the alarm does not go off during the alarm to avoid another alarm in the same minute
+      {
+	if ( gui_menu.me_list != melist_display_time )
+	{
+	  /* jump back to the display menu and redraw the time. not sure if this is required */
+	  menu_SetMEList(&gui_menu, melist_display_time, 0);
+	  readRTC();
+	  gui_SignalTimeChange();
+	  u8g2_ClearBuffer(&u8g2);
+	  gui_Draw();
+	  u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
+	  u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
+	  drawBatSymbol(adc);
+	  u8g2_SendBuffer(&u8g2);
+	}
+	
+	/* stop everything except RTC */
+	enterStandByMode();
+      }
+      else
+      {
+	/* read and recalculate so that the gui_data.is_equal is updated */ 
+	readRTC();
+	gui_Recalculate();
+      }
     }
     
-    if ( MenuIdleTimer > MENU_IDLE_SYSTICK_TIMEOUT && gui_data.is_equal == 0 )
-    {
-      
-      if ( gui_menu.me_list != melist_display_time )
-      {
-	/* jump back to the display menu and redraw the time. not sure if this is required */
-	menu_SetMEList(&gui_menu, melist_display_time, 0);
-	readRTC();
-	gui_SignalTimeChange();
-	u8g2_ClearBuffer(&u8g2);
-	gui_Draw();
-	u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
-	u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
-	drawBatSymbol(adc);
-	u8g2_SendBuffer(&u8g2);
-      }
-      
-      /* stop everything except RTC */
-      enterStandByMode();
-    }
+    __DSB();  							/* finish memory access */
+    __WFI();								/* enter sleep */
+    __NOP();
 
+    
   }
+  
+  
+  
 }
