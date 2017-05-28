@@ -146,7 +146,6 @@
 //U8G2_UC1611_EA_DOGXL240_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);   // Due, SW SPI, DOGXL240 Test Board
 //U8G2_SSD1606_172X72_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// eInk/ePaper Display
 //U8G2_SSD1607_200X200_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
-
 // End of constructor list
 
 
@@ -156,8 +155,8 @@ void setup(void) {
 
 void loop(void) {
   u8g2.clearBuffer();					// clear the internal memory
-  u8g2.setFont(u8g2_font_ncenB14_tr);	// choose a suitable font
-  u8g2.drawStr(0,20,"Hello World!");	// write something to the internal memory
+  u8g2.setFont(u8g2_font_ncenB08_tr);	// choose a suitable font
+  u8g2.drawStr(0,10,"Hello World!");	// write something to the internal memory
   u8g2.sendBuffer();					// transfer internal memory to the display
   delay(1000);  
 }
