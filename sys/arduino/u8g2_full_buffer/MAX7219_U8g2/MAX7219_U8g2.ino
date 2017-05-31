@@ -50,6 +50,7 @@ U8G2_MAX7219_32X8_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs
 
 void setup(void) {
   u8g2.begin();
+  u8g2.setContrast(10*16);
 }
 
 void loop(void) {

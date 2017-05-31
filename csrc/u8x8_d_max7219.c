@@ -132,7 +132,13 @@ static uint8_t u8x8_d_max7219_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 10 );    /* brightness */
-      u8x8_cad_SendArg(u8x8, (arg_int>>16) );	/* 0..15 for contrast */
+      u8x8_cad_SendArg(u8x8, (arg_int>>4) );	/* 0..15 for contrast */
+      u8x8_cad_SendCmd(u8x8, 10 );    /* brightness */
+      u8x8_cad_SendArg(u8x8, (arg_int>>4) );	/* 0..15 for contrast */
+      u8x8_cad_SendCmd(u8x8, 10 );    /* brightness */
+      u8x8_cad_SendArg(u8x8, (arg_int>>4) );	/* 0..15 for contrast */
+      u8x8_cad_SendCmd(u8x8, 10 );    /* brightness */
+      u8x8_cad_SendArg(u8x8, (arg_int>>4) );	/* 0..15 for contrast */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
