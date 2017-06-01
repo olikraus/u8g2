@@ -187,7 +187,7 @@ struct groupinfo gi[] = {
 #define MM_N	8	/* numbers */
 #define MM_C	16	/* custom */
 #define MM_M	32	/* map file */
-
+#define MM_E	64	/* extended */
 
 struct fontinfo fi[] = {
   { 0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
@@ -209,29 +209,29 @@ struct fontinfo fi[] = {
   { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x10.bdf", 			"6x10", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
   { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
   { 0, "6x13O.bdf", 			"6x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "7x13B.bdf", 			"7x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13O.bdf", 			"7x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14.bdf", 			"7x14", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14B.bdf", 			"7x14B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "9x15B.bdf", 			"9x15B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x18.bdf", 			"9x18", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x18B.bdf", 			"9x18B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
@@ -319,6 +319,7 @@ struct fontinfo fi[] = {
   { 0, "cu12.bdf", 			"cu12", 			3, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
   
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-701", "_extended" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
@@ -421,31 +422,31 @@ struct fontinfo fi[] = {
   { 0, "courR18.bdf", 		"courR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "courR24.bdf", 		"courR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 
-  { 0, "helvB08.bdf", 		"helvB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB10.bdf", 		"helvB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB12.bdf", 		"helvB12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB14.bdf", 		"helvB14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB18.bdf", 		"helvB18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB24.bdf", 		"helvB24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR08.bdf", 		"helvR08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR10.bdf", 		"helvR10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR12.bdf", 		"helvR12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR14.bdf", 		"helvR14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR18.bdf", 		"helvR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR24.bdf", 		"helvR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvB08.bdf", 		"helvB08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvB10.bdf", 		"helvB10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvB12.bdf", 		"helvB12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvB14.bdf", 		"helvB14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvB18.bdf", 		"helvB18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvB24.bdf", 		"helvB24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvR08.bdf", 		"helvR08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvR10.bdf", 		"helvR10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvR12.bdf", 		"helvR12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvR14.bdf", 		"helvR14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvR18.bdf", 		"helvR18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "helvR24.bdf", 		"helvR24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
-  { 0, "ncenB08.bdf", 		"ncenB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB10.bdf", 		"ncenB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB12.bdf", 		"ncenB12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB14.bdf", 		"ncenB14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB18.bdf", 		"ncenB18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB24.bdf", 		"ncenB24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR08.bdf", 		"ncenR08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR10.bdf", 		"ncenR10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR12.bdf", 		"ncenR12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR14.bdf", 		"ncenR14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR18.bdf", 		"ncenR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR24.bdf", 		"ncenR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenB08.bdf", 		"ncenB08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenB10.bdf", 		"ncenB10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenB12.bdf", 		"ncenB12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenB14.bdf", 		"ncenB14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenB18.bdf", 		"ncenB18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenB24.bdf", 		"ncenB24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenR08.bdf", 		"ncenR08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenR10.bdf", 		"ncenR10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenR12.bdf", 		"ncenR12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenR14.bdf", 		"ncenR14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenR18.bdf", 		"ncenR18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "ncenR24.bdf", 		"ncenR24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
   { 0, "timB08.bdf", 		"timB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "timB10.bdf", 		"timB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -1079,6 +1080,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   if ( mm == MM_R ) strcat(bdf_cmd, " -m '32-127>32'");
   if ( mm == MM_N ) strcat(bdf_cmd, " -m '32,42-58>42'");
   if ( mm == MM_U ) strcat(bdf_cmd, " -m '32-95>32'");
+  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32'");
   if ( mm == MM_C ) 
   {
     strcat(bdf_cmd, " -m '");
@@ -1257,6 +1259,8 @@ void map_font(int i, int fm, char *fms, int bm, char *bms, cbfn_t cb)
     gen_font(i, fm, fms, bm, bms, MM_C, fi[i].map_custom_postfix, cb);
   if ( (fi[i].map_mode & MM_M) != 0 )
     gen_font(i, fm, fms, bm, bms, MM_M, fi[i].map_custom_postfix, cb);
+  if ( (fi[i].map_mode & MM_E) != 0 )
+    gen_font(i, fm, fms, bm, bms, MM_E, "e", cb);
 }
 
 void build_font(int i, int fm, char *fms, cbfn_t cb)
