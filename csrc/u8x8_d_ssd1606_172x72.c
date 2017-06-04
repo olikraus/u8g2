@@ -169,6 +169,7 @@ static const uint8_t u8x8_d_ssd1606_to_display_seq[] = {
   U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
   U8X8_DLY(200),		/* this requres about 270ms */
   U8X8_DLY(90),  
+ // U8X8_CA(0x10, 0x01),	/* deep sleep mode */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */

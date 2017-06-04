@@ -43,6 +43,7 @@
 
 static uint16_t tga_width;
 static uint16_t tga_height;
+static uint16_t tga_used_height;
 static uint8_t *tga_data = NULL;
 
 static uint8_t *tga_font;
@@ -75,6 +76,7 @@ int tga_init(uint16_t w, uint16_t h)
 {
   tga_width = 0;
   tga_height = 0;
+  tga_used_height = 0;
   tga_pixel_intersection = 0;
   if ( tga_data != NULL )
     free(tga_data);
@@ -99,6 +101,9 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b)
     return;
   if ( x>= tga_width)
     return;
+  if ( tga_used_height < y )
+    tga_used_height = y;
+  
   p = tga_data + (tga_height-y-1)*(size_t)tga_width*3 + (size_t)x*3;
   
   if ( p[0] != 255 || p[1] != 255 || p[2] != 255 )
@@ -145,10 +150,10 @@ void tga_save(const char *name)
     tga_write_word(fp, 0);		/* x origin */
     tga_write_word(fp, 0);		/* y origin */
     tga_write_word(fp, tga_width);		/* width */
-    tga_write_word(fp, tga_height);		/* height */
+    tga_write_word(fp, tga_used_height+1);		/* height */
     tga_write_byte(fp, 24);		/* color depth */
     tga_write_byte(fp, 0);		
-    fwrite(tga_data, tga_width*tga_height*3, 1, fp);
+    fwrite(tga_data, tga_width*3, tga_used_height+1, fp);
     tga_write_word(fp, 0);
     tga_write_word(fp, 0);
     tga_write_word(fp, 0);
