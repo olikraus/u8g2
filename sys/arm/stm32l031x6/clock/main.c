@@ -957,7 +957,8 @@ int main()
     if ( gui_menu.me_list == melist_display_time )
     {
       u8g2_SetFont(&u8g2, MENU_NORMAL_FONT);
-      u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
+      if ( gui_data.display_voltage )
+	u8g2_DrawStr(&u8g2, 0, 8, u8x8_u16toa((adc*330UL)>>12, 3));
       drawBatSymbol(adc);
     }
     GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic clr PA13 */

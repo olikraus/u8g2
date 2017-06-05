@@ -44,13 +44,25 @@ int me_action_to_top_menu(menu_t *menu, const me_t *me, uint8_t msg)
   return 0;
 }
 
+int me_action_to_setup_menu(menu_t *menu, const me_t *me, uint8_t msg)
+{
+  if ( msg == ME_MSG_SELECT )
+  {
+    menu_SetMEList(menu, melist_setup_menu, 0);
+    return 1;
+  }
+  return 0;
+}
+
+
 
 int me_action_save_time(menu_t *menu, const me_t *me, uint8_t msg)
 {
   if ( msg == ME_MSG_SELECT )
   {
     set_time(gui_data.h / 10, gui_data.h % 10, gui_data.mt, gui_data.mo, gui_data.st, gui_data.so);
-    menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
+    //menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
+    menu_SetMEList(menu, melist_setup_menu, 0);
     gui_Recalculate();							/* because it might be overwritten with the alarm menu */
     return 1;
   }
@@ -75,7 +87,11 @@ const me_t melist_setup_time[] =
   { me_cb_num_label, NULL, ":", 	ME_TIME_XO+67,ME_TIME_Y-3 },
   { me_cb_0_5, &gui_data.st, NULL, 		ME_TIME_XO+67+9,ME_TIME_Y },
   { me_cb_0_9, &gui_data.so, NULL, 		ME_TIME_XO+80+9,ME_TIME_Y },
-  { me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,30 },
+
+  { me_cb_button_half_line, (void *)me_action_to_setup_menu, "Abbrechen", 0,30 },
+  { me_cb_button_half_line, (void *)me_action_save_time, "Speichern", 64,30 },
+  
+  //{ me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 #endif
@@ -91,7 +107,10 @@ const me_t melist_setup_time[] =
   { me_cb_num_label, NULL, ":", 			81,ME_TIME_Y-3 },
   { me_cb_0_5, &gui_data.st, NULL, 		89,ME_TIME_Y },
   { me_cb_0_9, &gui_data.so, NULL, 		107,ME_TIME_Y },
-  { me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,42 },
+  { me_cb_button_half_line, (void *)me_action_to_setup_menu, "Abbrechen", 0,42 },
+  { me_cb_button_half_line, (void *)me_action_save_time, "Speichern", 64,42 },
+  
+  //{ me_cb_button_full_line, (void *)me_action_save_time, "Speichern", 40,42 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 #endif
@@ -247,7 +266,7 @@ int me_action_save_date(menu_t *menu, const me_t *me, uint8_t msg)
     
     set_date(gui_data.year_t, gui_data.year_o, gui_data.month / 10, gui_data.month % 10, gui_data.day / 10 , gui_data.day % 10, gui_data.weekday);
     
-    menu_SetMEList(menu, melist_top_menu, 0);	/* first set the normal menu */
+    menu_SetMEList(menu, melist_setup_menu, 0);	/* first set the normal menu */
     gui_Recalculate();							/* because it might be overwritten with the alarm menu */
     return 1;
   }
@@ -278,7 +297,11 @@ const me_t melist_setup_date[] =
   { me_cb_num_label, NULL, ".", 			81,ME_TIME_Y },
   { me_cb_0_9, &gui_data.year_t, NULL, 		89,ME_TIME_Y },
   { me_cb_0_9, &gui_data.year_o, NULL, 	107,ME_TIME_Y },
-  { me_cb_button_full_line, (void *)me_action_save_date, "Speichern", 40,42 },
+  //{ me_cb_button_full_line, (void *)me_action_save_date, "Speichern", 40,42 },
+
+  { me_cb_button_half_line, (void *)me_action_to_setup_menu, "Abbrechen", 0,42 },
+  { me_cb_button_half_line, (void *)me_action_save_date, "Speichern", 64,42 },
+
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 #endif
@@ -569,9 +592,12 @@ const me_t melist_boot_info_menu[] =
 
 const me_t melist_system_menu[] = 
 {
-  { me_cb_label, NULL, "Helligkeit:",	 0, 11},
-  { me_cb_scale_1_7, &(gui_data.contrast), NULL, 64, 8},
-  { me_cb_button_full_line, (void *)me_action_to_top_menu, "Speichern", 40,30 },
+  { me_cb_label, NULL, "Helligkeit:",	 0, 10},  
+  { me_cb_scale_1_7, &(gui_data.contrast), NULL, 103-10, 8},
+  { me_cb_label, NULL, "Batteriespannung:",	 0, 10+12},  
+  { me_cb_big_toggle, &(gui_data.display_voltage), NULL, 100-7, 10+12-8},
+
+  { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Speichern", 40,10+2*12 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
@@ -604,7 +630,7 @@ const me_t melist_system_2_menu[] =
   //{ me_cb_button_half_line, (void *)me_action_setup_date, "Datum", 64,10 },
   { me_cb_button_half_line, (void *)me_action_goto_boot_info, "Info", 0,20 },
   { me_cb_button_half_line, (void *)me_action_goto_reset, "Reset", 64,20 },
-  { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
+  { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Zurück", 40,30 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
@@ -661,7 +687,7 @@ const me_t melist_setup_menu[] =
   { me_cb_button_half_line, (void *)me_action_setup_date, "Datum", 64,10 },
   { me_cb_button_half_line, (void *)me_action_goto_system, "Anzeige", 0,20 },
   { me_cb_button_half_line, (void *)me_action_goto_system_2, "System", 64,20 },
-  { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,30 },
+  { me_cb_button_full_line, (void *)me_action_to_top_menu, "Zurück", 40,31 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
@@ -764,16 +790,6 @@ int me_action_to_alarm_menu(menu_t *menu, const me_t *me, uint8_t msg)
   if ( msg == ME_MSG_SELECT )
   {
     menu_SetMEList(menu, melist_alarm_menu, 0);
-    return 1;
-  }
-  return 0;
-}
-
-int me_action_to_setup_menu(menu_t *menu, const me_t *me, uint8_t msg)
-{
-  if ( msg == ME_MSG_SELECT )
-  {
-    menu_SetMEList(menu, melist_setup_menu, 0);
     return 1;
   }
   return 0;

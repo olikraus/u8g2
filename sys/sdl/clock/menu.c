@@ -57,7 +57,7 @@ int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg)
 
 
 /*
-  Name: 	me_cb_wd_toggle
+  Name: 	me_cb_big_toggle
   Val:	uint8_t *
   Arg:	Not used
 */
@@ -77,7 +77,8 @@ int me_cb_big_toggle(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_IS_FOCUS:
       return 1;
     case ME_MSG_DRAW_FOCUS:
-      menu_DrawFrameFocus(menu, x-1, y-1, w+2, h+2);
+      //menu_DrawFrameFocus(menu, x-1, y-1, w+2, h+2);
+      menu_DrawFrameFocus(menu, x, y, w, h);
       return 1;
     case ME_MSG_SELECT:
       {
@@ -449,9 +450,12 @@ int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg)
 */
 int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg)
 {  
+  u8g2_uint_t x;
   uint8_t val = *(uint8_t *)(me->val);
+  
   if ( val <= 0 )
     val = 1;
+  x = me->x+(val-1)*5;
   switch(msg)
   {
     case ME_MSG_IS_FOCUS:
@@ -465,7 +469,7 @@ int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg)
 	  u8g2_GetGlyphWidth(menu->u8g2, '0')+MENU_BIG_NUM_FOCUS_EXTRAX, 
 	  u8g2_GetAscent(menu->u8g2) + 2);
     */
-      u8g2_DrawBox(menu->u8g2,  me->x-2 + (val-1)*5 , me->y-2, 5, 5);
+      u8g2_DrawBox(menu->u8g2,  x-2 , me->y-2, 5, 5);
       return 1;
     case ME_MSG_SELECT:
       {
@@ -488,11 +492,12 @@ int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg)
       //u8g2_DrawVLine(menu->u8g2,  me->x+5*5, me->y-1, 3);
       u8g2_DrawVLine(menu->u8g2,  me->x+6*5, me->y-2, 5);
     
-      u8g2_DrawFrame(menu->u8g2,  me->x-3 + (val-1)*5 , me->y-3, 7, 7);
+      u8g2_DrawFrame(menu->u8g2,  x-3 , me->y-3, 7, 7);
       u8g2_SetDrawColor(menu->u8g2, 0);
-      u8g2_DrawBox(menu->u8g2,  me->x-2 + (val-1)*5 , me->y-2, 5, 5);
+      u8g2_DrawBox(menu->u8g2,  x-2 , me->y-2, 5, 5);
       /* draw color is set to 1 in the following function */
-      menu_ClearEdgePixel(menu,  me->x-3 + (val-1)*5 , me->y-3, 7, 7);
+      menu_ClearEdgePixel(menu,  x-3 , me->y-3, 7, 7);
+      menu_DrawEdgePixel(menu,  x-2 , me->y-3+1, 5, 5);
       return 1;
   }
   return 0;
@@ -547,11 +552,19 @@ int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg)
     case ME_MSG_IS_FOCUS:
       return 1;
     case ME_MSG_DRAW_FOCUS:
+      /*
       menu_DrawFrameFocus(menu, 
 	  me->x-1, 
 	  me->y-1, 
 	  16+2, 
 	  16+2);
+    */
+      menu_DrawFrameFocus(menu, 
+	  me->x, 
+	  me->y, 
+	  16, 
+	  16);
+    
       r = 1;
       break;
     case ME_MSG_DRAW:

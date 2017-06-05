@@ -156,14 +156,20 @@ void gui_alarm_calc_str_time(uint8_t idx)
 void gui_date_adjust(void)
 {
     uint16_t ydn;
-    //uint16_t cdn;
     uint16_t year;
+    //uint16_t cdn;
+    //uint32_t minutes_since_2000;
+  
     if ( gui_data.month == 0 )
       gui_data.month++;
     if ( gui_data.day == 0 )
       gui_data.day++;
     year = 2000+gui_data.year_t*10 + gui_data.year_o;
     ydn = get_year_day_number(year, gui_data.month, gui_data.day);
+    //cdn = to_century_day_number(year, ydn);
+    //minutes_since_2000 = to_minutes(cdn, gui_data.h, gui_data.mt*10+gui_data.mo);
+  
+    // maybe adjust time by +/- 1h based on argument given to gui_date_adjust... but then it should be renamed also
   
     gui_data.month = get_month_by_year_day_number(year, ydn);
     gui_data.day = get_day_by_year_day_number(year, ydn);
@@ -172,8 +178,6 @@ void gui_date_adjust(void)
     gui_data.weekday += 6;
     if ( gui_data.weekday >= 7 ) 
       gui_data.weekday -= 7;
-    //cdn = to_century_day_number(y, ydn);
-    //to_minutes(cdn, h, m);
     
     if ( gui_data.day != gui_data.last_day )
     {

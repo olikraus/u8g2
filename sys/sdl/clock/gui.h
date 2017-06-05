@@ -46,6 +46,7 @@ struct _gui_data
   uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
   uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
   uint8_t contrast;
+  uint8_t display_voltage;		
   
   char s[16];				/* string buffer */
 };
