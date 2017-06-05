@@ -194,8 +194,9 @@ FITTI20
 
 ---------------
 todo
-- uptime counter
-- bessere voltanzeige
+- uptime counter	--> done
+- bessere voltanzeige --> nicht umgesetzt, aber optional
 - winterzeit
+
 
 
