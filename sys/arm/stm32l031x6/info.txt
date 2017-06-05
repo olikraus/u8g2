@@ -191,4 +191,10 @@ https://www.redbubble.com/people/amadeus-ch/works/11341440-mechanical-heart-stea
 https://www.redbubble.com/people/interarte/works/7300455-steampunk?p=t-shirt&style=mens&body_color=black&print_location=front
 https://www.redbubble.com/people/reubsaet/works/23847501-steampunk-art?grid_pos=384&p=mens-graphic-t-shirt&rbs=d5842963-a112-4003-a60e-06ecd20a4e42&ref=products_grid
 
+---------------
+todo
+- uptime counter
+- bessere voltanzeige
+- winterzeit
+
 
