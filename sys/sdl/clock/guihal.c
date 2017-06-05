@@ -100,3 +100,9 @@ void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_
 void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint8_t dayo, uint8_t weekday)
 {
 }
+
+/* value 1..7, 0 is default (do not set) */
+void set_contrast(uint8_t v)
+{
+}
+

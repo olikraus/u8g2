@@ -23,10 +23,14 @@ extern u8g2_t u8g2;
 
 struct _gui_data
 {
+  uint16_t uptime;				/* uptime in days, 10 bits, counts from 0 to 999, this value will be stored in the backup register */
+  
+  
   uint16_t week_time;			/* calculated: derived from h, mt, mo and weekday */
   uint8_t gui_state;				/* global running state, see guistate.c, defaults to 0 (GUI_STATE_STOP) */
   uint8_t h, mt, mo, st, so;		/* input: current time */
   uint8_t day; 					/* input: 1 .. 31 current day in month */
+  uint8_t last_day;				/* last day. This is used to check, whether the day has changed. Required for uptime calc. This is also stored in the backup register. */
   uint8_t month;				/* input: 1..12 */
   uint8_t year_t, year_o;			/* input: current year */
   uint8_t weekday; 				/* calculated: 0 = Monday */
@@ -41,7 +45,7 @@ struct _gui_data
   
   uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
   uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
-  
+  uint8_t contrast;
   
   char s[16];				/* string buffer */
 };
@@ -114,6 +118,7 @@ void enable_alarm(void);
 void disable_alarm(void);
 void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so);
 void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint8_t dayo, uint8_t weekday);
+void set_contrast(uint8_t v);
 
 
 #endif

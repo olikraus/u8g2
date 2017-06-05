@@ -224,3 +224,12 @@ void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint
   __enable_irq();
 }
 
+/* value 1..7, 0 is default (do not set) */
+void set_contrast(uint8_t v)
+{
+  if ( v > 0 )
+  {
+    v = v * 7*32;
+    u8g2_SetContrast(gui_menu.u8g2, v);
+  }
+}

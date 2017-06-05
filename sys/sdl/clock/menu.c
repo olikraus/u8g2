@@ -444,6 +444,62 @@ int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg)
 }
 
 /*
+  Name: 	me_cb_scale_1_7
+  Val:	uint8_t *
+*/
+int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg)
+{  
+  uint8_t val = *(uint8_t *)(me->val);
+  if ( val <= 0 )
+    val = 1;
+  switch(msg)
+  {
+    case ME_MSG_IS_FOCUS:
+      return 1;
+    case ME_MSG_DRAW_FOCUS:
+      /*
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
+      menu_DrawBoxFocus(menu, 
+	  me->x+MENU_BIG_NUM_FOCUS_XO, 
+	  me->y - u8g2_GetAscent(menu->u8g2)-1, 
+	  u8g2_GetGlyphWidth(menu->u8g2, '0')+MENU_BIG_NUM_FOCUS_EXTRAX, 
+	  u8g2_GetAscent(menu->u8g2) + 2);
+    */
+      u8g2_DrawBox(menu->u8g2,  me->x-2 + (val-1)*5 , me->y-2, 5, 5);
+      return 1;
+    case ME_MSG_SELECT:
+      {
+	val++;
+	if ( val > 7 )
+	  val = 0;
+	*(uint8_t *)(me->val) = val;
+      }
+      return 1;
+    case ME_MSG_DRAW:
+      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
+      //u8g2_DrawGlyph(menu->u8g2, me->x, me->y, *(uint8_t *)(me->val) + '0');
+      u8g2_DrawHLine(menu->u8g2,  me->x, me->y, 6*5+1);
+    
+      u8g2_DrawVLine(menu->u8g2,  me->x, me->y-2, 5);
+      //u8g2_DrawVLine(menu->u8g2,  me->x+1*5, me->y-1, 3);
+      //u8g2_DrawVLine(menu->u8g2,  me->x+2*5, me->y-1, 3);
+      u8g2_DrawVLine(menu->u8g2,  me->x+3*5, me->y-2, 5);
+      //u8g2_DrawVLine(menu->u8g2,  me->x+4*5, me->y-1, 3);
+      //u8g2_DrawVLine(menu->u8g2,  me->x+5*5, me->y-1, 3);
+      u8g2_DrawVLine(menu->u8g2,  me->x+6*5, me->y-2, 5);
+    
+      u8g2_DrawFrame(menu->u8g2,  me->x-3 + (val-1)*5 , me->y-3, 7, 7);
+      u8g2_SetDrawColor(menu->u8g2, 0);
+      u8g2_DrawBox(menu->u8g2,  me->x-2 + (val-1)*5 , me->y-2, 5, 5);
+      /* draw color is set to 1 in the following function */
+      menu_ClearEdgePixel(menu,  me->x-3 + (val-1)*5 , me->y-3, 7, 7);
+      return 1;
+  }
+  return 0;
+}
+
+
+/*
   Name: 	me_cb_label
   can not get focus
   Arg:	char *

@@ -152,6 +152,7 @@ void gui_alarm_calc_str_time(uint8_t idx)
 }
 
 /* adjust day/month and calculates the weekday */
+/* this function must be called after reading from RTC or after setting the input vars by the user */
 void gui_date_adjust(void)
 {
     uint16_t ydn;
@@ -173,6 +174,12 @@ void gui_date_adjust(void)
       gui_data.weekday -= 7;
     //cdn = to_century_day_number(y, ydn);
     //to_minutes(cdn, h, m);
+    
+    if ( gui_data.day != gui_data.last_day )
+    {
+      gui_data.uptime++;
+      gui_data.last_day = gui_data.day;
+    }
 }
 
 /*
@@ -291,7 +298,9 @@ void gui_LoadData(void)
   {
     set_alarm_data_by_u32(gui_alarm_list+i, data[i]);
   }
-
+  gui_data.uptime = data[4] & (uint32_t)0x03ff;
+  gui_data.last_day =  (data[4]>>10) & (uint32_t)31;
+  gui_data.contrast = (data[4]>>15) & (uint32_t)7;
 }
 
 void gui_StoreData(void)
@@ -304,6 +313,10 @@ void gui_StoreData(void)
     //printf("%d: %08lx\n", i, data[i]);
   }
   data[4] = 0;
+  data[4] |= gui_data.uptime & (uint32_t)0x03ff;	/* 0...1023 */
+  data[4] |= (gui_data.last_day & (uint32_t)31)<<10;
+  data[4] |= (gui_data.contrast & (uint32_t)7)<<15;
+  
   store_gui_data(data);
 }
 

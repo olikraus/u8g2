@@ -14,6 +14,8 @@
 #include "u8g2.h"
 #include "rtc.h"
 
+#ifdef NOT_USED
+
 /* read RTC register into bcd array */
 void rtc_register_to_bcd(rtc_t *rtc)
 {
@@ -76,3 +78,5 @@ void rtc_draw_time(rtc_t *rtc, u8g2_t *u8g2)
   u8g2_DrawStr(u8g2, 0,23, s);
   
 }
+
+#endif 
