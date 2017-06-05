@@ -149,15 +149,6 @@ void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.drawString(0,1,"Hello World!");
-  for(;;);
-  u8x8.refreshDisplay();		// for SSD1606/7  
-  //delay(2000);
-  
-  /*
-  delay(1000);
-  u8x8.setPowerSave(1);
-  delay(1000);
-  u8x8.setPowerSave(0);
-  delay(1000);
-  */
+  u8x8.refreshDisplay();		// only required for SSD1606/7  
+  delay(2000);
 }
