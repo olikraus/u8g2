@@ -184,7 +184,49 @@ void gui_date_adjust(void)
       gui_data.uptime++;
       gui_data.last_day = gui_data.day;
     }
+    
+    
 }
+
+/*
+  this function does not require gui_date_adjust() to be called
+  0: Summertime
+  1: Wintertime
+  -1: unknown (last sunday in oct, between 2am and 3am 
+*/
+int is_summer_time(void)
+{
+  uint16_t ydn;
+  uint16_t year;
+  uint16_t ydn_change_to_wintertime;
+  uint16_t ydn_change_to_summertime;
+  
+  year = 2000+gui_data.year_t*10 + gui_data.year_o;
+  ydn = get_year_day_number(year, gui_data.month, gui_data.day);
+  ydn_change_to_wintertime = get_year_day_number(year, 10, 31);
+  ydn_change_to_wintertime -= get_weekday_by_year_day_number(year, ydn_change_to_wintertime);
+  ydn_change_to_summertime = get_year_day_number(year, 3, 31);
+  ydn_change_to_summertime -= get_weekday_by_year_day_number(year, ydn_change_to_summertime);
+  
+  if ( ydn == ydn_change_to_summertime )
+    if ( gui_data.h >= 2 )
+      return 1;	/* vorstellen */
+
+  if ( ydn == ydn_change_to_wintertime )
+  {
+    if ( gui_data.h < 2 )
+      return 1; /* vorstellen, immer noch sommerzeit */
+    if ( gui_data.h > 3 )
+      return 0; /* jetzt ist wieder Winterzeit */
+    return -1; /* zwischen 2 und 3 wissen wir nichts... */
+  }
+
+  if ( ydn > ydn_change_to_summertime && ydn < ydn_change_to_wintertime )
+    return 1;
+    
+  return 0;
+}
+
 
 /*
   calculate the minute within the week.
@@ -197,8 +239,9 @@ void gui_calc_week_time(void)
   gui_data.week_time += gui_data.h;
   gui_data.week_time  *= 60;
   gui_data.week_time  += gui_data.mt * 10 + gui_data.mo;
-  
 }
+
+
 
 /*
   calculate the next alarm.

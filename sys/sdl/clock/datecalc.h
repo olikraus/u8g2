@@ -65,7 +65,7 @@
 uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d);
 uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn);
 uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn);
-uint8_t get_weekday_by_year_day_number(uint16_t y, uint16_t ydn);
+uint8_t get_weekday_by_year_day_number(uint16_t y, uint16_t ydn); /* returns day within a week: 0..6 with 0 = Sunday, 1 = Monday, ... */
 uint16_t to_century_day_number(uint16_t y, uint16_t ydn);
 void from_century_day_number(uint16_t cdn, uint16_t *year, uint16_t *ydn);
 uint32_t to_time(uint16_t cdn, uint8_t h, uint8_t m, uint8_t s);

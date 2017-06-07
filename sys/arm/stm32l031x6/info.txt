@@ -196,7 +196,15 @@ FITTI20
 todo
 - uptime counter	--> done
 - bessere voltanzeige --> nicht umgesetzt, aber optional
-- winterzeit
+- winterzeit: Muss direkt auf der hardware gemacht werden, alles andere ist zu kompliziert
 
+---------------
 
+extras
+obertonflöte: schwierig, vor allem wegen der luft
 
+fliehkraftregler (governor): kann man wohl praktisch nicht kaufen
+http://www.hilltop-cottage.info/blogs/adam/model-watt-governor-cad-plans-and-construction-notes/
+http://www.stuartmodels.com/products/fittings--tools---accessories/governor---spring-belt  ... teuer
+Alles zu teuer.
+Glocke mit servo dran...

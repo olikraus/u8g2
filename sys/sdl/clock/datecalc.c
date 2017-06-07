@@ -328,3 +328,38 @@ uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uin
   uint16_t cdn = to_century_day_number(y, ydn);
   return to_minutes(cdn, h, mi);
 }
+
+
+
+
+/*
+   Eingabe: Jahr
+   Ausgabe: Tagesnummer des Ostersonntag, 
+            rel. zum Jahresanfang.
+   Algorithmus "Computus ecclesiasticus"
+
+   325 n.Chr. wurde Ostern auf den Sonntag nach 
+   dem ersten Fruehlingsvollmond festgelegt. Damit 
+   liegt Ostern zwischen dem 22. Maerz und
+   dem 25. April.
+*/
+/*
+int ostersonntag(int jahr)
+{
+   int gz, jhd, ksj, korr, so, epakte, n;
+   gz = (jahr%19)+1;
+   jhd = jahr/100+1;
+   ksj = (3*jhd)/4-12;
+   korr = (8*jhd+5)/25-5;
+   so = (5*jahr)/4-ksj-10;
+   epakte = (11*gz+20+korr-ksj) % 30;
+   if ( (epakte == 25 && gz > 11) || epakte == 24 )
+      epakte++;
+   n = 44-epakte;
+   if ( n < 21 )
+      n = n + 30;
+   n = n + 7 - (so+n) % 7;
+   n += schaltjahr(jahr);
+   return n+59;
+}
+*/
