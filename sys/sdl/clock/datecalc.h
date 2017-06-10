@@ -62,6 +62,7 @@
 
 #include <stdint.h>
 
+uint8_t is_leap_year(uint16_t y);
 uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d);
 uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn);
 uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn);

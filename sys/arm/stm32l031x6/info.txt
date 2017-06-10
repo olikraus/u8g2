@@ -208,3 +208,21 @@ http://www.hilltop-cottage.info/blogs/adam/model-watt-governor-cad-plans-and-con
 http://www.stuartmodels.com/products/fittings--tools---accessories/governor---spring-belt  ... teuer
 Alles zu teuer.
 Glocke mit servo dran...
+
+
+---------------
+
+A) short description of the STM32L0 RTC
+- date/time register
+- CR register with special DST features (BKP, SUB1H and ADD1H flags)
+- two step write protection:
+    PWR->CR |= PWR_CR_DBP;
+    
+    RTC->WPR = 0x0ca;					/* disable RTC write protection */
+    RTC->WPR = 0x053;
+  B) algorithm
+     - basic idea
+    - special case for winter time change (double hour)
+  C) Date calculation
+  D) Code
+  

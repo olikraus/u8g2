@@ -70,7 +70,7 @@
     0           not a leap year
     1           leap year
 */
-static uint8_t is_leap_year(uint16_t y)
+uint8_t is_leap_year(uint16_t y)
 {
    if ( 
           ((y % 4 == 0) && (y % 100 != 0)) || 
@@ -85,7 +85,7 @@ static uint8_t is_leap_year(uint16_t y)
     uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d)
   Description:
     Calculate the day number within a year. 1st of Jan has the number 1.
-    "Robertson" Algorithm
+    "Robertson" Algorithm IDAY (CACM Vol 15/#10/Oct 1972)
   Arguments:
     y           year, e.g. 2011 for year 2011
     m           month with 1 = january to 12 = december
@@ -121,7 +121,7 @@ uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d)
     uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn)
   Description:
     Get the month from year and day number within a year.
-    "R. A. Stone" Algorithm
+    "R. A. Stone" Algorithm (CACM Vol 13/#10/Oct 1970)
   Arguments:
     y           year, e.g. 2011 for year 2011
     ydn	year day number (1st of Jan has the number 1)
@@ -160,7 +160,7 @@ uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn)
     uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn)
   Description:
     Get the day within month from year and day number within a year.
-    "R. A. Stone" Algorithm
+    "R. A. Stone" Algorithm (CACM Vol 13/#10/Oct 1970)
   Arguments:
     y           year, e.g. 2011 for year 2011
     ydn	year day number (1st of Jan has the number 1)
@@ -189,6 +189,8 @@ uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn)
   Description:
     Get the day within week from year and day number within a year.
     "Zeller" Algorithm
+    https://de.wikisource.org/wiki/Index:Acta_Mathematica_vol._009_(1886)
+    https://ia801407.us.archive.org/8/items/actamathematica09upps/actamathematica09upps.pdf
   Arguments:
     y           year, e.g. 2011 for year 2011
     ydn	year day number (1st of Jan has the number 1)

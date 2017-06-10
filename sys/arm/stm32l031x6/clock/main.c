@@ -59,6 +59,12 @@
 /* Large values reduce power consumtion, but displayed time and alarm might be later than the actual RTC time. */
 #define WAKEUP_PERIOD 14
 
+/* DST (daylight savings time) rules */
+/* 0: DST not applied */
+/* 1: EU */
+/* 2: US */
+#define DST_RULE 1
+
 
 /* Contrast value for the display in normal mode (u8g2_SetContrast). */
 /* 208: default value for the SSD1306 */
@@ -79,6 +85,8 @@ volatile unsigned long DisplayStandbyMode = DISPLAY_STANDBY_MODE_OFF;
 /*=======================================================================*/
 /* external functions */
 uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+int is_dst_by_date(uint8_t region);
+void adjustDST(uint8_t region);
 
 
 /*=======================================================================*/
@@ -107,6 +115,8 @@ const uint8_t *AlarmSeqPtr = NULL;
 const uint8_t *AlarmSeqStart = NULL;
 volatile unsigned long AlarmSeqTime = 0;
 volatile unsigned long RTCUpdateCount = 0;		// decremented in SysTick IRQ if not 0
+volatile unsigned long NextDSTAdjustment = 0;
+
 
 
 //rtc_t rtc;
@@ -808,6 +818,7 @@ int main()
   SystemCoreClockUpdate();				/* Update variable SystemCoreClock, must be executed after each reset */
   startUp();							/* basic system setup + make a backup of PWR_CSR (PWR_CSR_Backup), must be executed after each reset */
   startSysTick();						/* start the sys tick interrupt, must be executed after each reset */
+  adjustDST(DST_RULE);					/* adjust DST... ok,this is only done after reset, hopefully this is often enough. This must be called before readRTC() */
   
 
   /* LED output line */
@@ -917,7 +928,8 @@ int main()
   
   /* get current voltage level of the battery */
   adc = readADC(5);	
-  
+
+
 
   /* start user loop */
   for(;;)
