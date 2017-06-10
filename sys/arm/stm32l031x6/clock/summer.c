@@ -2,8 +2,18 @@
 
   summer.c 
   
-  stm32l0 daylight saving time calculation
+  stm32l0 daylight savings time calculation
+ 
+  US:
+  Der Energy Policy Act of 2005 (Public Law 109-58) bestimmt in Sec. 110 mit dem Titel Daylight Savings, dass ab 2007 die Sommerzeit am zweiten Sonntag im März beginnt und am ersten Sonntag im November endet.  
   
+
+  Central European Summer Time (CEST, britisch) oder Central European Daylight Saving Time
+  (applies to almost all european countries)
+  
+  Die mitteleuropäische Sommerzeit beginnt jeweils am letzten Sonntag im März um 2:00 Uhr MEZ, 
+  indem die Stundenzählung um eine Stunde von 2:00 Uhr auf 3:00 Uhr vorgestellt wird. Sie endet jeweils am letzten Sonntag im Oktober um 
+  3:00 Uhr MESZ, indem die Stundenzählung um eine Stunde von 3:00 Uhr auf 2:00 Uhr zurückgestellt wird. Die Stunde von 2:00 Uhr bis 3:00 Uhr erscheint im Herbst also zweimal. 
 */
 
 #include "datecalc.h"
