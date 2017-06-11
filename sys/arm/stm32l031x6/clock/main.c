@@ -876,9 +876,10 @@ int main()
     }
     
     /*set a alarm time for testing */
-    gui_alarm_list[0].enable = 1;
-    gui_alarm_list[0].m = 1;
-    gui_alarm_list[0].wd[5] = 1;
+    //gui_alarm_list[0].enable = 1;
+    //gui_alarm_list[0].m = 1;
+    //gui_alarm_list[0].wd[5] = 1;
+    
     gui_Recalculate();
     
   }
@@ -924,7 +925,8 @@ int main()
   
   /* turn on display now */
   u8g2_SetPowerSave(&u8g2, 0);	/* not required for the ALWAYS_ON mode, but does not matter in the other modes */
-  u8g2_SetContrast(&u8g2, DISPLAY_CONTRAST_NORMAL);
+  //u8g2_SetContrast(&u8g2, DISPLAY_CONTRAST_NORMAL);
+  set_contrast();
   
   /* get current voltage level of the battery */
   adc = readADC(5);	

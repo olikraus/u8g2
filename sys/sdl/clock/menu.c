@@ -448,6 +448,10 @@ int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg)
   Name: 	me_cb_scale_1_7
   Val:	uint8_t *
 */
+
+void set_contrast(void);	
+
+
 int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg)
 {  
   u8g2_uint_t x;
@@ -475,13 +479,16 @@ int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg)
       {
 	val++;
 	if ( val > 7 )
-	  val = 0;
+	  val = 1;
 	*(uint8_t *)(me->val) = val;
       }
       return 1;
     case ME_MSG_DRAW:
-      u8g2_SetFont(menu->u8g2, MENU_BIG_NUM);
-      //u8g2_DrawGlyph(menu->u8g2, me->x, me->y, *(uint8_t *)(me->val) + '0');
+      set_contrast();		/* give user feedback... not so nice: We assume *(uint8_t *)(me->val) points to gui_data.contrast */
+
+      //u8g2_SetFont(menu->u8g2, MENU_NORMAL_FONT);
+      //u8g2_DrawGlyph(menu->u8g2, me->x, me->y-2, *(uint8_t *)(me->val) + '0');
+    
       u8g2_DrawHLine(menu->u8g2,  me->x, me->y, 6*5+1);
     
       u8g2_DrawVLine(menu->u8g2,  me->x, me->y-2, 5);

@@ -45,7 +45,7 @@ struct _gui_data
   
   uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
   uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
-  uint8_t contrast;
+  uint8_t contrast;			/* value 1..7, 0 is default (do not set) */
   uint8_t display_voltage;		
   
   char s[16];				/* string buffer */
@@ -119,7 +119,7 @@ void enable_alarm(void);
 void disable_alarm(void);
 void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so);
 void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint8_t dayo, uint8_t weekday);
-void set_contrast(uint8_t v);
+void set_contrast(void);  /* set contrast to gui_data.contrast, value 1..7, 0 is default (do not set) */
 
 
 #endif
