@@ -568,6 +568,11 @@ int me_action_handle_boot_info(menu_t *menu, const me_t *me, uint8_t msg)
     u8g2_DrawStr(menu->u8g2, 0, 40-1, "Wakeups");
     u8g2_DrawStr(menu->u8g2, 64, 40-1, u8x8_u16toa(get_wakeup_count(), 5));
 
+    u8g2_DrawStr(menu->u8g2, 0, 48-1, "DST by Date:");
+    u8g2_DrawStr(menu->u8g2, 50, 48-1, u8x8_u16toa(get_dst_by_date(), 2));
+    u8g2_DrawStr(menu->u8g2, 64, 48-1, "by RTC:");
+    u8g2_DrawStr(menu->u8g2, 95, 48-1, u8x8_u16toa(get_dst_by_RTC(), 1));
+
     
     
   }

@@ -114,6 +114,8 @@ uint32_t get_boot_status_register(void);
 uint32_t get_pwr_status_register(void);
 uint32_t get_reset_reason(void);
 uint32_t get_wakeup_count(void);
+uint32_t get_dst_by_date(void);
+uint32_t get_dst_by_RTC(void);
 
 void enable_alarm(void);
 void disable_alarm(void);

@@ -82,6 +82,16 @@ uint32_t get_wakeup_count(void)
   return 0;
 }
 
+uint32_t get_dst_by_date(void)
+{
+  return -1;
+}
+
+uint32_t get_dst_by_RTC(void)
+{
+  return 0;
+}
+
 /*============================================*/
 /* output */
 

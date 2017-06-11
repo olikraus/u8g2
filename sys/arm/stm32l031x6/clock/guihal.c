@@ -130,6 +130,21 @@ uint32_t get_wakeup_count(void)
   return RTCWUCount;
 }
 
+int is_dst_by_date(uint8_t region);
+
+uint32_t get_dst_by_date(void)
+{
+  return is_dst_by_date(1);
+}
+
+uint32_t get_dst_by_RTC(void)
+{
+  uint32_t dst_state = 0;
+  if ( RTC->CR & RTC_CR_BCK )	/* BKP flag in the CR register */
+    dst_state = 1;
+  return dst_state;
+}
+
 
 /*============================================*/
 /* output */
