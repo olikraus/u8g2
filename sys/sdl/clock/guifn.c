@@ -309,6 +309,7 @@ void gui_LoadData(void)
   gui_data.uptime = data[4] & (uint32_t)0x03ff;
   gui_data.last_day =  (data[4]>>10) & (uint32_t)31;
   gui_data.contrast = (data[4]>>15) & (uint32_t)7;
+  gui_data.display_voltage = (data[4]>>16) & (uint32_t)1;
 }
 
 void gui_StoreData(void)
@@ -324,6 +325,7 @@ void gui_StoreData(void)
   data[4] |= gui_data.uptime & (uint32_t)0x03ff;	/* 0...1023 */
   data[4] |= (gui_data.last_day & (uint32_t)31)<<10;
   data[4] |= (gui_data.contrast & (uint32_t)7)<<15;
+  data[4] |= (gui_data.display_voltage & (uint32_t)1)<<16;
   
   store_gui_data(data);
 }

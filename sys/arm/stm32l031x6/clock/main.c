@@ -31,7 +31,7 @@
 
 /* delay until other another button press is accepted */
 /* time is in systicks (50ms) */
-#define TAMPER_SYSTICK_DELAY 20
+#define TAMPER_SYSTICK_DELAY 22
 
 /* delay until the menu goes back time display and standby mode */
 /* delay in systicks (50ms) */
