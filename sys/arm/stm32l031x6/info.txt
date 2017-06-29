@@ -226,3 +226,11 @@ A) short description of the STM32L0 RTC
   C) Date calculation
   D) Code
   
+  
+---------------
+
+Man scheint die zeit nicht immer vorzeitig ausschalten zu können. Warum?
+Erneutes eingeben der alarmzeit behebt das problem.
+
+
+  

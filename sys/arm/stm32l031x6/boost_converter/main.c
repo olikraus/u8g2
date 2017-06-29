@@ -80,7 +80,12 @@ void boost_converter(void)
   TIM22->CR1 &= ~(uint32_t)TIM_CR1_UDIS;
   
   /* update event can be caused by UG bit and overflow (this is default) */ 
-  TIM22->CR1 &= ~(uint32_t)TIM_CR1_URS
+  TIM22->CR1 &= ~(uint32_t)TIM_CR1_URS;
+  
+  /* enable the counter */
+  TIM22->CR1 |= TIM_CR1_CEN;
+  
+  
   
 
 TIMx->CR1 |= TIM_CR1_CEN; /* (6) */
