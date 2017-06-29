@@ -479,6 +479,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogm128" },
+      { "64128n" },       
       { "zolen_128x64" },
       { "lm6059" },
       { "erc12864" },

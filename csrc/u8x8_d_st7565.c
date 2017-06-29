@@ -244,6 +244,75 @@ uint8_t u8x8_d_st7565_ea_dogm128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 }
 
 /*================================================*/
+/* Displaytech 64128n */
+
+static const uint8_t u8x8_d_st7565_64128n_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_C(0x0e2),            			/* soft reset */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x040),		                /* set display start line to 0 */
+  
+  U8X8_C(0x0a1),		                /* ADC set to reverse */
+  U8X8_C(0x0c0),		                /* common output mode */
+  // Flipmode
+  // U8X8_C(0x0a0),		                /* ADC set to reverse */
+  // U8X8_C(0x0c8),		                /* common output mode */
+  
+  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
+  U8X8_C(0x0a2),		                /* LCD bias 1/9 */
+  U8X8_C(0x02f),		                /* all power  control circuits on */
+  //U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
+  //U8X8_C(0x027),		                /* regulator, booster and follower */
+
+  U8X8_C(0x010),                   		/* Set V0 voltage resistor ratio. Setting for controlling brightness of Displaytech 64128N */
+  
+  
+  U8X8_CA(0x081, 0x01e),		/* set contrast, contrast value */
+  
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_st7565_64128n(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call common procedure first and handle messages there */
+  if ( u8x8_d_st7565_common(u8x8, msg, arg_int, arg_ptr) == 0 )
+  {
+    /* msg not handled, then try here */
+    switch(msg)
+    {
+      case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7565_128x64_display_info);
+	break;
+      case U8X8_MSG_DISPLAY_INIT:
+	u8x8_d_helper_display_init(u8x8);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_64128n_init_seq);
+	break;
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+	if ( arg_int == 0 )
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->default_x_offset;
+	}
+	else
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
+	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+	}	
+	break;
+      default:
+	return 0;		/* msg unknown */
+    }
+  }
+  return 1;
+}
+
+/*================================================*/
 /* ZOLEN 128x64  */
 
 static const uint8_t u8x8_d_st7565_zolen_128x64_init_seq[] = {
