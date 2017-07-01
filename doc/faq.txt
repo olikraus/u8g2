@@ -1,7 +1,10 @@
+Sections
+- Wiring... Interconnect, pin/label names
+- Displays... Display support, display problems
+- U8g2... Setup, compilation, usage, fonts
+
 
 Wiring
-
-
 
 Q: Why does my xxx_SW_I2C() device not work with my other I2C devices?
 A: SW_I2C emulates I2C with digitalWrite(), which will have a conflict with other
@@ -105,6 +108,15 @@ The latest development version is available for download here:
 https://github.com/olikraus/U8g2_Arduino/archive/master.zip
 In the Arduino IDE use the Sketch>Include Library>Add .ZIP Library... menu to 
 import the u8g2 zip library.
+
+Q: There is a compilation error with I2C/SPI library used by U8g2.
+A: U8g2 expects standard Arduino lWire and SPI libraries. However some
+none-Arduino Boards did not implement the full set of library functions.
+Examples are the missing setClock() or missing beginTransaction() functions.
+This is an issue with your board support library and not an issue of U8g2.
+Workaround:
+1. Disable (comment) U8X8_HAVE_HW_SPI and/or U8X8_HAVE_HW_I2C in u8x8.h
+2. Use SW SPI/SW I2C U8g2 constructors
 
 Q: What is the meaning of the F/1/2 in the U8g2 constructor name?
 A: "F" means full buffer mode. The entire display is rendered in RAM. Use
