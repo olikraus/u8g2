@@ -47,8 +47,8 @@ uint8_t map[MAP_SIZE_Y][MAP_SIZE_X];
 uint8_t map2[MAP_SIZE_Y][MAP_SIZE_X];
 int map_curr_line = 0;
 char map_name[MAP_LINE_MAX];
-long map_width;
-long map_height;
+long map_width = 0;
+long map_height = 0;
 
 
 FILE *map_fp;
@@ -185,6 +185,7 @@ int get_tile_idx_by_ascii(int ascii)
 }
 
 /* map a tile from map[][] to map2[][] */
+/* called by map_all_tile */
 int map_tile(int x, int y)
 {
   int ascii, i, j;
@@ -339,10 +340,11 @@ int map_read_row(const char **s)
   return 1;
 }
 
+
 int map_read_map_cmd(const char **s)
 {
   
-  
+  /* get new map */
   strcpy(map_name, get_identifier(s));
   map_width = get_num(s);
   map_height = get_num(s);
@@ -378,9 +380,19 @@ int map_read_line(const char **s)
   {
      return map_read_map_cmd(s);
   }
+  else if ( strcmp(id, "endmap") == 0 )
+  {
+    /* write existing map */
+    if ( map_width > 0 && map_height > 0 )
+    {
+      if ( map_all_tiles() )
+	write_map("gm.c");
+    }
+    return 1;
+  }
   else
   {
-    printf("unkown command '%s'\n", id);
+    printf("line %d: unkown command '%s'\n", map_curr_line, id);
   }
   
   return 1;
@@ -416,6 +428,4 @@ int main(void)
 {
   clear_map();
   map_read_filename("gm.map");
-  if ( map_all_tiles() )
-    write_map("gm.c");
 }

@@ -92,8 +92,37 @@ tile '| $7e 0 0 '+ 0
 tile '| $7f 0 0 0 0
 tile '- $7d 0 0 0 0 
 
-tile 'S $54
-tile 'k $a0
+tile '. $6a		# stone 2
+tile ': $6b		# stone 3
+
+thing 'f $74 		# fire
+thing 'x $72 		# door closed
+thing '^ $73 		# door open
+thing 'C $79		# cupboard
+thing 'S $7a		# bookshelf
+thing 'c $78		# chair
+thing 't $7b		# table
+thing 'T $7c		# throne
+thing 'h $9c		# chest
+
+thing 'H $92		# hut
+thing 'K $93		# kingdom
+
+map test 20 9
+:   K         H
+:   .         .
+:   ...........
+:      .  .
+:+-----^--x--C--S---+
+:| T               f|
+:|ctc      h        |
+:| c                |
+:+-----^-----x------+
+
+endmap
+
+thing 'S $54		# Spider
+thing 'k $a0		# key
 map first 12 12
 :+---+  +---+
 :|   |  |   |
