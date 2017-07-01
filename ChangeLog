@@ -120,4 +120,6 @@ https://github.com/olikraus/u8g2 ChangeLog
 2017-xx-xx	v2.16.x	
   * Fonts u8g2_font_unifont_t_korean1, u8g2_font_unifont_t_korean2 (issue 266)
   * Added support for 64128N ST7565 based display (issue 292)
+  * Added extended fonts (_te, unicodes 32-701, issue 284)
+  * Added support for MAX7219 (issue 280)
   
