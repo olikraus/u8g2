@@ -338,6 +338,8 @@ struct fontinfo fi[] = {
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
+  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
   
   
   { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
