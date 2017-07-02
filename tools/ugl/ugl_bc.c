@@ -146,11 +146,20 @@ void bc_fn_print(bc_t *bc)
   printf("%u\n", bc_pop_from_stack(bc));
 }
 
+void bc_fn_add(bc_t *bc)
+{
+  uint16_t v;
+  v = bc_pop_from_stack(bc);
+  v += bc_pop_from_stack(bc);
+  bc_push_on_stack(bc, v);
+}
+
 /*======================================================*/
 bc_buildin_fn bc_buildin_list[] = 
 {
   /* 0 */ bc_fn_nop,
-  /* 1 */ bc_fn_print
+  /* 1 */ bc_fn_print,
+  /* 2 */ bc_fn_add
 };
 
 

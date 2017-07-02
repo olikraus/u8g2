@@ -47,7 +47,8 @@ struct ugl_buildin_cmd_struct
 
 struct ugl_buildin_cmd_struct ugl_buildin_cmd_list[] = {
   { /* code=*/ 0, 	/* name=*/ "nop", 		/* args=*/ 0},
-  { /* code=*/ 1, 	/* name=*/ "print", 		/* args=*/ 1 }
+  { /* code=*/ 1, 	/* name=*/ "print", 		/* args=*/ 1 },
+  { /* code=*/ 2, 	/* name=*/ "add", 		/* args=*/ 2 }
 };
 
 
@@ -281,7 +282,7 @@ void ugl_bytecode_jmp_zero(const char *s)
 
 /*======================================================*/
 
-void ugl_call_proc(const char *name, int is_toplevel)
+void ugl_call_proc(const char *name, int is_toplevel, int arg_cnt)
 {
   int i, cnt;
   cnt = sizeof(ugl_buildin_cmd_list)/sizeof(*ugl_buildin_cmd_list);
@@ -292,6 +293,11 @@ void ugl_call_proc(const char *name, int is_toplevel)
   }
   if ( i < cnt )
   {
+    if ( arg_cnt != ugl_buildin_cmd_list[i].args )
+    {
+      ugl_err("Buildin procedure '%s' expects %d arg(s) but %d arg(s) found", name, ugl_buildin_cmd_list[i].args, arg_cnt);
+    }
+    
     ugl_bytecode_buildin_procedure(name, i, is_toplevel);
   }
   else
@@ -303,6 +309,7 @@ void ugl_call_proc(const char *name, int is_toplevel)
 void ugl_parse_proc(const char **s, const char *id, int is_toplevel)
 {
   char procname[UGL_MAX_IDENTIFIER_LEN];
+  int arg_cnt = 0;
   ugl_plog("parse procedure '%s'", id);
   strcpy(procname, id);
   if ( **s == '(' )
@@ -322,6 +329,7 @@ void ugl_parse_proc(const char **s, const char *id, int is_toplevel)
 	name = get_identifier(s);
 	ugl_parse_proc(s, name, 0);
       }
+      arg_cnt++;
       if ( **s != ',' )
 	break;
     }
@@ -329,11 +337,11 @@ void ugl_parse_proc(const char **s, const char *id, int is_toplevel)
       ugl_err("missing ')'");    
     (*s)++;
     skip_space(s);
-    ugl_call_proc(procname, is_toplevel);
+    ugl_call_proc(procname, is_toplevel, arg_cnt);
   }
   else
   {
-    ugl_call_proc(procname, is_toplevel);
+    ugl_call_proc(procname, is_toplevel, 0);
   }
 }
 
