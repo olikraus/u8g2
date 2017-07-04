@@ -261,6 +261,7 @@ int tile_cnt = 0;
 #define MAP_LINE_MAX 4096
 
 
+int map_phase;
 uint8_t map[MAP_SIZE_Y][MAP_SIZE_X];
 uint8_t map2[MAP_SIZE_Y][MAP_SIZE_X];
 int map_curr_line = 0;
@@ -272,6 +273,7 @@ long map_height = 0;
 FILE *map_fp;
 char map_line[MAP_LINE_MAX];
 
+FILE *out_fp;
 
 static void skip_space(const char **s)
 {
@@ -491,24 +493,30 @@ void clear_map(void)
   map_curr_line = 0;
 }
 
-void write_map(const char *filename)
+void write_map()
 {
   int x, y;
-  FILE *fp;
-  fp = fopen(filename, "w");
-  for( y = 0; y < map_height; y++ )
+  
+  if ( map_phase == 0 )
   {
-    fprintf(fp, "    \"");
-    for( x = 0; x < map_width; x++ )
-    {
-      fprintf(fp, "\\x%02x", map2[y][x]);
+    if ( out_fp != NULL )
+    {      
+      fprintf(out_fp, "unsigned char map_%s[%ld] = ", map_name, map_height*map_width);
+      for( y = 0; y < map_height; y++ )
+      {
+	fprintf(out_fp, "    \"");
+	for( x = 0; x < map_width; x++ )
+	{
+	  fprintf(out_fp, "\\x%02x", map2[y][x]);
+	}
+	fprintf(out_fp, "\"");
+	if ( y+1 < map_height )
+	  fprintf(out_fp, ",\n");
+	else
+	  fprintf(out_fp, ";\n");
+      }
     }
-    fprintf(fp, "\"");
-    if ( y+1 < map_height )
-      fprintf(fp, ",");
-    fprintf(fp, "\n");
   }
-  fclose(fp);
 }
 
 void write_tga_map(const char *filename)
@@ -526,7 +534,6 @@ void write_tga_map(const char *filename)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   u8g2_SetFont(&u8g2, scrollosprites);
   
-
   
   u8g2_FirstPage(&u8g2);
   do
@@ -700,8 +707,9 @@ int map_read_fp(void)
   return 1;
 }
 
-int map_read_filename(const char *name)
+int map_read_filename(const char *name, int phase)
 {
+  map_phase = phase;
   map_fp = fopen(name, "r");
   if ( map_fp == NULL )
     return 0;
@@ -712,8 +720,53 @@ int map_read_filename(const char *name)
   return 1;
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
+  const char *filename = NULL;
+  const char *outfile = NULL;
+  if ( argc <= 1 )
+  {
+    printf("%s [options] mapfile\n", argv[0]);
+    printf("  -o c-file-name\n");
+    exit(1);
+  }
+  argv++;
+  argc--;
+  
+  while( argc > 0 )
+  {
+    if ( strcmp(*argv, "-o" ) == 0 )
+    {
+      argv++;
+      argc--;
+      if ( argc <= 0 )
+      {
+	printf("output file missing\n");
+	exit(1);
+      }
+      outfile = argv[0];
+    }
+    else
+    {
+      filename = argv[0];
+    }
+    argv++;
+    argc--;
+  }
+  
   clear_map();
-  map_read_filename("gm.map");
+  
+  if ( filename != NULL  )
+  {
+    out_fp= NULL;
+    if ( outfile != NULL )
+    {
+      out_fp = fopen(outfile, "w");
+      printf("output file %s\n", outfile);
+    }
+    map_read_filename(filename, 0);
+      
+    if ( out_fp != NULL )
+      fclose(out_fp);
+  }
 }
