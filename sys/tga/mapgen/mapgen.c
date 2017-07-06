@@ -514,7 +514,7 @@ void write_map(void)
 	}
 	fprintf(out_fp, "\"");
 	if ( y+1 < map_height )
-	  fprintf(out_fp, ",\n");
+	  fprintf(out_fp, "\n");
 	else
 	  fprintf(out_fp, ";\n");
       }
