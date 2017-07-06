@@ -36,6 +36,17 @@ void ugl_ExecBytecode(void)
 }
 
 
+void ugl_CheckForAllLabelsDefined(void)
+{
+  int i;
+  for( i = 0; i < ugl_label_cnt; i++ )
+  {
+      if ( ugl_label_bytecode_pos[ugl_label_cnt] == 0x0ffff )
+      {
+	ugl_err("undefined label '%s'", ugl_label_name[i] );
+      }
+  }
+}
 
 void ugl_ResolveSymbols(void)
 {
@@ -43,6 +54,8 @@ void ugl_ResolveSymbols(void)
   uint8_t *dest = ugl_bytecode_array+ugl_bytecode_len;
   uint16_t val;
   uint8_t cmd;
+  
+  ugl_CheckForAllLabelsDefined();
   
   ugl_plog("Resolve start=%p, end=%p", code, dest);
   ugl_plog("Resolve bytecode len=%d", ugl_bytecode_len);
@@ -107,6 +120,21 @@ void ugl_ResolveSymbols(void)
 	    code++;
 	
 	    break;
+	  case BC_CMD_CALL_PROCEDURE:	    
+	    val = code[0];
+	    val <<= 8;
+	    val |= code[1];
+	  
+	    ugl_plog("Resolve CALL Procedre '%s'", ugl_label_name[val]);
+
+	    val = ugl_GetLabelBytecodePos(val);
+
+	    *code = val>>8;
+	    code++;
+	    *code = val&255;
+	    code++;
+	    
+	    break;
 	  default:
 	    ugl_err("Resolve: Unexpected command");
 	    break;
@@ -117,18 +145,6 @@ void ugl_ResolveSymbols(void)
 }
 
  
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

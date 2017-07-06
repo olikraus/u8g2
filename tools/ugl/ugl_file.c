@@ -207,7 +207,14 @@ void ugl_bytecode_buildin_procedure(const char *name, int idx, int is_toplevel)
 
 void ugl_bytecode_call_procedure(const char *name, int is_toplevel)
 {
+  uint16_t idx;
+  
   ugl_plog("BC call %sbytecode '%s'", is_toplevel?"toplevel ":"", name);  
+  idx = ugl_GetLabel(name);
+  
+  ugl_AddBytecode(BC_CMD_CALL_PROCEDURE );
+  ugl_AddBytecode(idx>>8);    
+  ugl_AddBytecode(idx&0x0ff);
 }
 
 void ugl_bytecode_constant_value(long num)
@@ -320,6 +327,9 @@ void ugl_parse_proc(const char **s, const char *id, int is_toplevel)
       (*s)++;
       skip_space(s);
       
+      if ( **s == ')' )
+	break;
+      
       if ( (**s >= '0' && **s <= '9') || **s == '$' || **s == '\'' )
       {
 	ugl_bytecode_constant_value(get_num(s));
@@ -362,7 +372,8 @@ int ugl_read_line(const char **s)
     ugl_plog("start procedure '%s'", name);
     if ( ugl_indent_level != 0 )
       ugl_err("nested procedures not allowed");
-    ugl_GetLabel(name);	/* just create a label for the procedure name */
+    ugl_GetLabel(name);	/* create a label for the procedure name */
+    ugl_SetLabelBytecodePos(name, ugl_bytecode_len); /* and set the label for it */
     ugl_IncIndent(UGL_INDENT_TYPE_PROC);
   }
   else if ( strcmp(id, "endproc") == 0 )
