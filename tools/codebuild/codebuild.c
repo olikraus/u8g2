@@ -492,6 +492,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "nhd_c12832" },
+      { "rcxr01"},
       { NULL }
     }
   },
