@@ -122,4 +122,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for 64128N ST7565 based display (issue 292)
   * Added extended fonts (_te, unicodes 32-701, issue 284)
   * Added support for MAX7219 (issue 280)
+  * Performance optimization for SSD1322/25/27  (issue 302)
   

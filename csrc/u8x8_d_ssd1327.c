@@ -136,6 +136,10 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       y *= 8;
     
+      u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address, moved out of the loop (issue 302) */
+      u8x8_cad_SendArg(u8x8, y);
+      u8x8_cad_SendArg(u8x8, y+7);
+	  
       
       do
       {
@@ -148,10 +152,6 @@ static uint8_t u8x8_d_ssd1327_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 	  u8x8_cad_SendArg(u8x8, x );	/* start */
 	  u8x8_cad_SendArg(u8x8, x+3 );	/* end */
 
-	  u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
-	  u8x8_cad_SendArg(u8x8, y);
-	  u8x8_cad_SendArg(u8x8, y+7);
-	  
 	  
 	  u8x8_cad_SendData(u8x8, 32, u8x8_ssd1327_8to32(u8x8, ptr));
 	  ptr += 8;

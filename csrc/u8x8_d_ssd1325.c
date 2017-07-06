@@ -199,7 +199,11 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       y *= 8;
       y += u8x8->x_offset;		/* x_offset is used as y offset for the SSD1325 */
     
-      
+
+      u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
+      u8x8_cad_SendArg(u8x8, y);
+      u8x8_cad_SendArg(u8x8, y+7);
+    
       do
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
@@ -214,9 +218,6 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 	    u8x8_cad_SendArg(u8x8, x );	/* start */
 	    u8x8_cad_SendArg(u8x8, x+3 );	/* end */
 
-	    u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
-	    u8x8_cad_SendArg(u8x8, y);
-	    u8x8_cad_SendArg(u8x8, y+7);
 	    
 	    
 	    u8x8_cad_SendData(u8x8, 32, u8x8_ssd1325_8to32(u8x8, ptr));
