@@ -15,4 +15,6 @@ struct _map_struct
 };
 typedef struct _map_struct map_t;
 
+extern map_t map_list[];
+
 #endif
