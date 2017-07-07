@@ -55,6 +55,8 @@ extern bc_buildin_fn bc_buildin_list[];
 #define BC_CMD_JUMP_ZERO (0x05f)
 /* lower 4 bit: 15, upper 4 bit: 6  --> adr are next 16 bit */
 #define BC_CMD_CALL_PROCEDURE (0x06f)
+/* lower 4 bit: 15, upper 4 bit: 7  --> adr are next 16 bit */
+#define BC_CMD_CALL_PROCEDURE_POP_STACK (0x07f)
 
 
 

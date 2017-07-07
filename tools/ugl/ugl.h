@@ -18,6 +18,7 @@
 /* ugl_error.c */
 void ugl_err(const char *fmt, ...)  __attribute__ ((noreturn));
 void ugl_plog(const char *fmt, ...);
+void ugl_glog(const char *fmt, ...);
 
 
 

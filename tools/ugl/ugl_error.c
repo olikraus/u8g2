@@ -23,3 +23,13 @@ void ugl_plog(const char *fmt, ...)
   printf("\n");
   va_end(va);
 }
+
+/* generic log */
+void ugl_glog(const char *fmt, ...)
+{
+  va_list va;
+  va_start(va, fmt);
+  vprintf(fmt, va);
+  printf("\n");
+  va_end(va);
+}

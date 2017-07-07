@@ -6,6 +6,7 @@
 
 #include "ugl_bc.h"
 #include <stdio.h>
+#include <assert.h>
 
 void bc_push_on_stack(bc_t *bc, uint16_t val)
 {
@@ -15,6 +16,7 @@ void bc_push_on_stack(bc_t *bc, uint16_t val)
 
 uint16_t bc_pop_from_stack(bc_t *bc)
 {
+  assert( bc->stack_pointer > 0 );
   bc->stack_pointer--;
   return bc->stack[bc->stack_pointer] ;
 }
@@ -23,6 +25,17 @@ void bc_duplicate_stack_top_value(bc_t *bc)
 {
   bc->stack[bc->stack_pointer] = bc->stack[bc->stack_pointer-1]; 
   bc->stack_pointer++;
+}
+
+uint16_t bc_get_value(uint8_t *code)
+{
+  uint16_t val;
+  val = *code;
+  code++;
+  val <<= 8;
+  val |= *code;
+  code++;
+  return val;
 }
 
 void bc_exec(bc_t *bc, uint8_t *code)
@@ -114,7 +127,11 @@ void bc_exec(bc_t *bc, uint8_t *code)
 	    if ( bc_pop_from_stack(bc) == 0 )
 	      code = bc->code+val;
 	    break;
-	    
+	  case  BC_CMD_CALL_PROCEDURE:
+	    val = bc_get_value(code);
+	    break;
+	  case  BC_CMD_CALL_PROCEDURE_POP_STACK:
+	    break;
 	  default:
 	    break;
 	}
