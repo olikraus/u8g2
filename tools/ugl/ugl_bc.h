@@ -15,13 +15,16 @@
 #define BC_STACK_SIZE 64
 #define BC_RETURN_STACK_SIZE 6
 
+
 struct bc_struct
 {
   uint8_t *code;
-  uint8_t stack_pointer;		/* starts at 0 and grows */
-  uint8_t return_stack_pointer; /* starts at 0 and grows */
-  uint16_t stack[BC_STACK_SIZE];		/* parameter and return value stack */
+  uint16_t code_pos;
   
+  uint8_t arg_stack_pointer;		/* starts at 0 and grows */
+  uint8_t return_stack_pointer; /* starts at 0 and grows */
+  
+  uint16_t arg_stack[BC_STACK_SIZE];		/* parameter and return value stack */  
   uint16_t return_stack[BC_RETURN_STACK_SIZE]; /* return from procedure stack */
 };
 typedef struct bc_struct bc_t;

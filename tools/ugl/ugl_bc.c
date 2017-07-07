@@ -8,23 +8,36 @@
 #include <stdio.h>
 #include <assert.h>
 
-void bc_push_on_stack(bc_t *bc, uint16_t val)
+void bc_push_on_arg_stack(bc_t *bc, uint16_t val)
 {
-  bc->stack[bc->stack_pointer]  = val;
-  bc->stack_pointer++;
+  bc->arg_stack[bc->arg_stack_pointer]  = val;
+  bc->arg_stack_pointer++;
 }
 
-uint16_t bc_pop_from_stack(bc_t *bc)
+uint16_t bc_pop_from_arg_stack(bc_t *bc)
 {
-  assert( bc->stack_pointer > 0 );
-  bc->stack_pointer--;
-  return bc->stack[bc->stack_pointer] ;
+  assert( bc->arg_stack_pointer > 0 );
+  bc->arg_stack_pointer--;
+  return bc->arg_stack[bc->arg_stack_pointer] ;
 }
 
-void bc_duplicate_stack_top_value(bc_t *bc)
+void bc_duplicate_arg_stack_top_value(bc_t *bc)
 {
-  bc->stack[bc->stack_pointer] = bc->stack[bc->stack_pointer-1]; 
-  bc->stack_pointer++;
+  bc->arg_stack[bc->arg_stack_pointer] = bc->arg_stack[bc->arg_stack_pointer-1]; 
+  bc->arg_stack_pointer++;
+}
+
+void bc_push_on_return_stack(bc_t *bc, uint16_t val)
+{
+  bc->return_stack[bc->return_stack_pointer]  = val;
+  bc->return_stack_pointer++;
+}
+
+uint16_t bc_pop_from_return_stack(bc_t *bc)
+{
+  assert( bc->return_stack_pointer > 0 );
+  bc->return_stack_pointer--;
+  return bc->return_stack[bc->return_stack_pointer] ;
 }
 
 uint16_t bc_get_value(uint8_t *code)
@@ -38,97 +51,107 @@ uint16_t bc_get_value(uint8_t *code)
   return val;
 }
 
+void bc_init(bc_t *bc)
+{
+  bc->arg_stack_pointer = 0;
+  bc->return_stack_pointer = 0;
+}
+
 void bc_exec(bc_t *bc, uint8_t *code)
 {
   uint16_t val;
   uint8_t cmd;
-  bc->stack_pointer = 0;
+  
+  bc_init(bc);
   bc->code = code;
+  bc->code_pos = 0;
   
   for(;;)
   {
-    cmd = *code;
-    code++;
+    cmd = bc->code[bc->code_pos];
+    bc->code_pos++;
     val = cmd;
     val &=0x0f0;	/* put upper four bit as upper 4bit of the 12bit value into val */
     val <<= 4;
     switch(cmd&15)
     {
       case BC_CMD_LOAD_12BIT:
-	val |= *code;
-	code++;
-	bc_push_on_stack(bc, val);
+	val |= bc->code[bc->code_pos];
+	bc->code_pos++;
+	bc_push_on_arg_stack(bc, val);
 	break;
       case BC_CMD_CALL_BUILDIN:
-	val |= *code;
-	code++;
+	val |= bc->code[bc->code_pos];
+	bc->code_pos++;
 	bc_buildin_list[val](bc);
 	break;
       case BC_CMD_CALL_BUILDIN_POP_STACK:
-	val |= *code;
-	code++;
+	val |= bc->code[bc->code_pos];
+	bc->code_pos++;
 	bc_buildin_list[val](bc);
-	bc_pop_from_stack(bc);
+	bc_pop_from_arg_stack(bc);
 	break;
       case BC_CMD_BRANCH:
-	val |= *code;
-	code++;
+	val |= bc->code[bc->code_pos];
+	bc->code_pos++;
 	if ( val < 0x0800 )
 	{
-	  code += val;
+	  bc->code_pos += val;
 	}
 	else
 	{
 	  val = 0x1000 - val;
-	  code -= val;
+	  bc->code_pos -= val;
 	}
 	
       default: /* assume 0x0f, extended command */
 	switch( cmd )
 	{
 	  case BC_CMD_LOAD_0:
-	    bc_push_on_stack(bc, 0);
+	    bc_push_on_arg_stack(bc, 0);
 	    break;
 	  case BC_CMD_LOAD_1:
-	    bc_push_on_stack(bc, 1);
+	    bc_push_on_arg_stack(bc, 1);
 	    break;
 	  case BC_CMD_LOAD_16BIT:
-	    val = *code;
-	    code++;
+	    val = bc->code[bc->code_pos];
+	    bc->code_pos++;
 	    val <<= 8;
-	    val |= *code;
-	    code++;
-	    bc_push_on_stack(bc, val);
+	    val |= bc->code[bc->code_pos];
+	    bc->code_pos++;
+	    bc_push_on_arg_stack(bc, val);
 	    break;
 	  case BC_CMD_RETURN_FROM_PROCEDURE:
-	    if ( bc->stack_pointer == 0 )
+	    if ( bc->return_stack_pointer == 0 )
 	      return;	/* stop execution */
-	    code = bc->code+bc_pop_from_stack(bc);
+	    bc->code_pos = bc_pop_from_arg_stack(bc);
 	    break;
 	  case BC_CMD_JUMP_NOT_ZERO:
-	    val = *code;
-	    code++;
+	    val = bc->code[bc->code_pos];
+	    bc->code_pos++;
 	    val <<= 8;
-	    val |= *code;
-	    code++;
+	    val |= bc->code[bc->code_pos];
+	    bc->code_pos++;
 	  
-	    if ( bc_pop_from_stack(bc) != 0 )
-	      code = bc->code+val;
+	    if ( bc_pop_from_arg_stack(bc) != 0 )
+	      bc->code_pos = val;
 	    break;
 	
 
 	  case BC_CMD_JUMP_ZERO:
-	    val = *code;
-	    code++;
+	    val = bc->code[bc->code_pos];
+	    bc->code_pos++;
 	    val <<= 8;
-	    val |= *code;
-	    code++;
+	    val |= bc->code[bc->code_pos];
+	    bc->code_pos++;
 	  
-	    if ( bc_pop_from_stack(bc) == 0 )
-	      code = bc->code+val;
+	    if ( bc_pop_from_arg_stack(bc) == 0 )
+	      bc->code_pos = val;
 	    break;
 	  case  BC_CMD_CALL_PROCEDURE:
 	    val = bc_get_value(code);
+	    //bc_push_on_return_stack(bc, 0);
+	    //bc_push_on_return_stack(bc, 0);
 	    break;
 	  case  BC_CMD_CALL_PROCEDURE_POP_STACK:
 	    break;
@@ -154,21 +177,21 @@ void bc_exec(bc_t *bc, uint8_t *code)
 
 void bc_fn_nop(bc_t *bc)
 {
-  bc_push_on_stack(bc, 0);
+  bc_push_on_arg_stack(bc, 0);
 }
 
 void bc_fn_print(bc_t *bc)
 {
-  bc_duplicate_stack_top_value(bc);			/* goal is to leave a value on the stack */
-  printf("%u\n", bc_pop_from_stack(bc));
+  bc_duplicate_arg_stack_top_value(bc);			/* goal is to leave a value on the stack */
+  printf("%u\n", bc_pop_from_arg_stack(bc));
 }
 
 void bc_fn_add(bc_t *bc)
 {
   uint16_t v;
-  v = bc_pop_from_stack(bc);
-  v += bc_pop_from_stack(bc);
-  bc_push_on_stack(bc, v);
+  v = bc_pop_from_arg_stack(bc);
+  v += bc_pop_from_arg_stack(bc);
+  bc_push_on_arg_stack(bc, v);
 }
 
 /*======================================================*/
