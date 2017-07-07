@@ -212,16 +212,15 @@ void ugl_bytecode_call_procedure(const char *name, int is_toplevel)
   ugl_plog("BC call %sbytecode '%s'", is_toplevel?"toplevel ":"", name);  
   idx = ugl_GetLabel(name);
 
-  if ( is_toplevel == 0 )
-  {
-    ugl_AddBytecode(BC_CMD_CALL_PROCEDURE );
-  }
-  else
-  {
-    ugl_AddBytecode(BC_CMD_CALL_PROCEDURE_POP_STACK );
-  }
+  ugl_AddBytecode(BC_CMD_CALL_PROCEDURE );
+  
   ugl_AddBytecode(idx>>8);    
   ugl_AddBytecode(idx&0x0ff);
+  
+  if ( is_toplevel != 0 )
+  {
+    ugl_AddBytecode(BC_CMD_POP_ARG_STACK );
+  }
 }
 
 void ugl_bytecode_constant_value(long num)

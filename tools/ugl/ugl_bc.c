@@ -124,7 +124,8 @@ void bc_exec(bc_t *bc, uint8_t *code)
 	  case BC_CMD_RETURN_FROM_PROCEDURE:
 	    if ( bc->return_stack_pointer == 0 )
 	      return;	/* stop execution */
-	    bc->code_pos = bc_pop_from_arg_stack(bc);
+	    bc_push_on_arg_stack(bc, bc_pop_from_return_stack(bc));	/* copy return value on arg stack */
+	    bc->code_pos = bc_pop_from_return_stack(bc);
 	    break;
 	  case BC_CMD_JUMP_NOT_ZERO:
 	    val = bc->code[bc->code_pos];
@@ -149,11 +150,16 @@ void bc_exec(bc_t *bc, uint8_t *code)
 	      bc->code_pos = val;
 	    break;
 	  case  BC_CMD_CALL_PROCEDURE:
-	    val = bc_get_value(code);
-	    //bc_push_on_return_stack(bc, 0);
-	    //bc_push_on_return_stack(bc, 0);
-	    break;
-	  case  BC_CMD_CALL_PROCEDURE_POP_STACK:
+	    val = bc->code[bc->code_pos];
+	    bc->code_pos++;
+	    val <<= 8;
+	    val |= bc->code[bc->code_pos];
+	    bc->code_pos++;
+	  
+	    bc_push_on_return_stack(bc, bc->code_pos);	/* return position */
+	    bc_push_on_return_stack(bc, 0);				/* return value */
+	    bc->code_pos = val;
+	    
 	    break;
 	  default:
 	    break;
