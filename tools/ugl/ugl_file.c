@@ -15,6 +15,12 @@
       call toplevel bytecode procedure
       push constant 16 bit value on stack
       pop constant value from stack
+      
+      
+      
+  proc <name>		Starts a new procedure. Procedures must be terminated with "endproc"
+  endproc			End a procedure
+  locals <num>	Define the specified number of local variables, acces with arg(n), where n is between no_of_args+1 and no_of_args+<num>
 */
 #include <stdio.h>
 #include <string.h>
@@ -25,6 +31,8 @@
 #define UGL_MAX_INPUT_LINE_LEN 1024
 FILE *ugl_input_fp;
 int ugl_current_input_line;
+long ugl_current_local_variables = 0;
+long ugl_current_args = 0;
 char ugl_input_line[UGL_MAX_INPUT_LINE_LEN];
 
 
@@ -47,8 +55,11 @@ struct ugl_buildin_cmd_struct
 
 struct ugl_buildin_cmd_struct ugl_buildin_cmd_list[] = {
   { /* code=*/ 0, 	/* name=*/ "nop", 		/* args=*/ 0},
-  { /* code=*/ 1, 	/* name=*/ "print", 		/* args=*/ 1 },
-  { /* code=*/ 2, 	/* name=*/ "add", 		/* args=*/ 2 }
+  { /* code=*/ 1, 	/* name=*/ "return", 	/* args=*/ 1 },	/* assign the return value of a user defined function */
+  { /* code=*/ 2, 	/* name=*/ "a", 		/* args=*/ 1 },	/* return the value of the n-th argument of a user defined function */
+  { /* code=*/ 3, 	/* name=*/ "a", 		/* args=*/ 2 }, /* reassign the value of the n-th argument of a user defined function */
+  { /* code=*/ 4, 	/* name=*/ "add", 		/* args=*/ 2 },
+  { /* code=*/ 5, 	/* name=*/ "print", 		/* args=*/ 1 },
 };
 
 
@@ -188,6 +199,7 @@ static const char *get_identifier(const char **s)
 }
 
 /*======================================================*/
+/* code generator sub procedures */
 
 void ugl_bytecode_buildin_procedure(const char *name, int idx, int is_toplevel)
 {
@@ -205,21 +217,67 @@ void ugl_bytecode_buildin_procedure(const char *name, int idx, int is_toplevel)
   }
 }
 
-void ugl_bytecode_call_procedure(const char *name, int is_toplevel)
+void ugl_bytecode_call_procedure(const char *name, int is_toplevel, int arg_cnt)
 {
   uint16_t idx;
   
-  ugl_plog("BC call %sbytecode '%s'", is_toplevel?"toplevel ":"", name);  
+  ugl_plog("BC call %sbytecode '%s' with %d arg(s)", is_toplevel?"toplevel ":"", name, arg_cnt);  
   idx = ugl_GetLabel(name);
 
-  ugl_AddBytecode(BC_CMD_CALL_PROCEDURE );
+  ugl_AddBytecode(BC_CMD_CALL_PROCEDURE | (arg_cnt<<4));
   
   ugl_AddBytecode(idx>>8);    
   ugl_AddBytecode(idx&0x0ff);
-  
+
   if ( is_toplevel != 0 )
   {
-    ugl_AddBytecode(BC_CMD_POP_ARG_STACK );
+    ugl_AddBytecode(BC_CMD_POP_ARG_STACK );		// remove the return value from the stack
+  }
+  
+#ifdef NOTUSED
+  if ( is_toplevel != 0 )
+  {
+    arg_cnt++;		// one more element on the stack (return value) has to be removed, if this is called from top level
+  }
+  
+  while( arg_cnt > 16 )
+  {
+    ugl_AddBytecode(BC_CMD_POP_ARG_STACK | 0x0f0);
+    arg_cnt -= 16;
+  }
+  if ( arg_cnt > 0 )
+  {
+    arg_cnt--;
+    ugl_AddBytecode(BC_CMD_POP_ARG_STACK | (arg_cnt<<4));    
+  }
+#endif
+}
+
+void ugl_bytecode_reserve_arg_stack(int arg_cnt)
+{
+  while( arg_cnt > 16 )
+  {
+    ugl_AddBytecode(BC_CMD_PUSH_ARG_STACK | 0x0f0);
+    arg_cnt -= 16;
+  }
+  if ( arg_cnt > 0 )
+  {
+    arg_cnt--;
+    ugl_AddBytecode(BC_CMD_PUSH_ARG_STACK | (arg_cnt<<4));    
+  }
+}
+
+void ugl_bytecode_remove_arg_stack(int arg_cnt)
+{
+  while( arg_cnt > 16 )
+  {
+    ugl_AddBytecode(BC_CMD_POP_ARG_STACK | 0x0f0);
+    arg_cnt -= 16;
+  }
+  if ( arg_cnt > 0 )
+  {
+    arg_cnt--;
+    ugl_AddBytecode(BC_CMD_POP_ARG_STACK | (arg_cnt<<4));    
   }
 }
 
@@ -275,8 +333,6 @@ void ugl_bytecode_jmp_no_zero(const char *s)
   ugl_AddBytecode(BC_CMD_JUMP_NOT_ZERO );
   ugl_AddBytecode(idx>>8);    
   ugl_AddBytecode(idx&0x0ff);
-
-  
 }
 
 void ugl_bytecode_jmp_zero(const char *s)
@@ -288,34 +344,50 @@ void ugl_bytecode_jmp_zero(const char *s)
   ugl_AddBytecode(BC_CMD_JUMP_ZERO );
   ugl_AddBytecode(idx>>8);    
   ugl_AddBytecode(idx&0x0ff);
-
-  
 }
 
 
 /*======================================================*/
 
-void ugl_call_proc(const char *name, int is_toplevel, int arg_cnt)
+int ugl_is_buildin_cmd(const char *name)
 {
   int i, cnt;
   cnt = sizeof(ugl_buildin_cmd_list)/sizeof(*ugl_buildin_cmd_list);
   for( i = 0; i < cnt; i++ )
   {
     if ( strcmp(ugl_buildin_cmd_list[i].name, name) == 0 )
+      return 1;
+  }
+  return 0;
+}
+
+void ugl_call_proc(const char *name, int is_toplevel, int arg_cnt)
+{
+  int i, cnt;
+  int ii;
+  cnt = sizeof(ugl_buildin_cmd_list)/sizeof(*ugl_buildin_cmd_list);
+  ii = cnt;
+  for( i = 0; i < cnt; i++ )
+  {
+    if ( strcmp(ugl_buildin_cmd_list[i].name, name) == 0 )
+      ii = i;
+    if ( strcmp(ugl_buildin_cmd_list[i].name, name) == 0 && ugl_buildin_cmd_list[i].args == arg_cnt)
       break;
   }
   if ( i < cnt )
   {
-    if ( arg_cnt != ugl_buildin_cmd_list[i].args )
-    {
-      ugl_err("Buildin procedure '%s' expects %d arg(s) but %d arg(s) found", name, ugl_buildin_cmd_list[i].args, arg_cnt);
-    }
-    
     ugl_bytecode_buildin_procedure(name, i, is_toplevel);
   }
   else
   {
-    ugl_bytecode_call_procedure(name, is_toplevel);
+    if ( ii != cnt )
+    {
+      ugl_err("Buildin procedure '%s' expects differnt number of args", name);
+    }
+    else
+    {
+      ugl_bytecode_call_procedure(name, is_toplevel, arg_cnt);
+    }
   }
 }
 
@@ -325,6 +397,13 @@ void ugl_parse_proc(const char **s, const char *id, int is_toplevel)
   int arg_cnt = 0;
   ugl_plog("parse procedure '%s'", id);
   strcpy(procname, id);
+  if ( ugl_is_buildin_cmd(id) == 0 )
+  {
+    /* if this is a buildin cmd, then do nothing: buildin code takes care on the return value */
+    /* for custom procedures push a value on the arg stack for the return value, but do this only if this is not a toplevel procedure */
+    ugl_bytecode_constant_value(0);		/* return value will be 0 by default */
+  }
+  
   if ( **s == '(' )
   {
     const char *name;
@@ -375,17 +454,34 @@ int ugl_read_line(const char **s)
   if ( strcmp(id, "proc") == 0 )
   {
     const char *name = get_identifier(s);
-    ugl_plog("start procedure '%s'", name);
+    long args = get_num(s);
+    ugl_current_local_variables = 0;
+    ugl_current_args = args;
+    ugl_plog("start procedure '%s' (args=%ld)", name, args);
     if ( ugl_indent_level != 0 )
       ugl_err("nested procedures not allowed");
     ugl_GetLabel(name);	/* create a label for the procedure name */
     ugl_SetLabelBytecodePos(name, ugl_bytecode_len); /* and set the label for it */
+    
     ugl_IncIndent(UGL_INDENT_TYPE_PROC);
   }
   else if ( strcmp(id, "endproc") == 0 )
   {
+    //ugl_bytecode_remove_arg_stack(ugl_current_local_variables);
     ugl_DecIndent(UGL_INDENT_TYPE_PROC);        
     ugl_bytecode_return_from_procedure();
+    ugl_current_local_variables = 0;
+    ugl_current_args = 0;
+  }
+  else if ( strcmp(id, "locals") == 0 )
+  {
+    long n = get_num(s);
+    if ( ugl_current_local_variables != 0 )
+      ugl_err("only one 'locals' command allowed");
+    if ( ugl_indent_level != 1 )
+      ugl_err("'locals': only toplevel call allowed");	/* it must not be inside loops or ifs */
+    ugl_current_local_variables = n;
+    ugl_bytecode_reserve_arg_stack(ugl_current_local_variables);
   }
   else if ( strcmp(id, "if" ) == 0 )
   {

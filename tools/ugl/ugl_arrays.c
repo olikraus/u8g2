@@ -90,6 +90,25 @@ void ugl_ResolveSymbols(void)
 	*(code-2) |= (val >> 4) & 0x0f0;
 	*(code-1) = val & 255;
 	break;
+      case BC_CMD_POP_ARG_STACK:
+	break;
+      case BC_CMD_PUSH_ARG_STACK:
+	break;
+      case BC_CMD_CALL_PROCEDURE:
+	    val = code[0];
+	    val <<= 8;
+	    val |= code[1];
+	  
+	    ugl_glog("Resolve CALL Procedre '%s'  pos=%u", ugl_label_name[val], ugl_GetLabelBytecodePos(val));
+
+	    val = ugl_GetLabelBytecodePos(val);
+
+	    *code = val>>8;
+	    code++;
+	    *code = val&255;
+	    code++;
+	    break;
+      
       default: /* assume 0x0f, extended command */
 	switch( cmd )
 	{	  
@@ -120,6 +139,7 @@ void ugl_ResolveSymbols(void)
 	    code++;
 	
 	    break;
+#ifdef NOT_USED
 	  case BC_CMD_CALL_PROCEDURE:	    
 	    val = code[0];
 	    val <<= 8;
@@ -135,8 +155,11 @@ void ugl_ResolveSymbols(void)
 	    code++;
 	    
 	    break;
+#endif
+/*
 	  case BC_CMD_POP_ARG_STACK:
 	    break;
+*/
 	  default:
 	    ugl_err("Resolve: Unexpected command");
 	    break;
