@@ -28,12 +28,8 @@
 #include "ugl_bc.h"
 
 
-#define UGL_MAX_INPUT_LINE_LEN 1024
-FILE *ugl_input_fp;
-int ugl_current_input_line;
 long ugl_current_local_variables = 0;
 long ugl_current_args = 0;
-char ugl_input_line[UGL_MAX_INPUT_LINE_LEN];
 
 
 #define UGL_MAX_INDENT 64
@@ -440,6 +436,16 @@ void ugl_parse_proc(const char **s, const char *id, int is_toplevel)
   }
 }
 
+uint16_t  uglStartNamelessProc(int args)
+{
+    ugl_current_local_variables = 0;
+    ugl_current_args = args;
+    if ( ugl_indent_level != 0 )
+      ugl_err("nested procedures not allowed");
+    ugl_IncIndent(UGL_INDENT_TYPE_PROC);
+    return ugl_bytecode_len;
+}
+
 int ugl_read_line(const char **s)
 {
   const char *id;
@@ -455,15 +461,13 @@ int ugl_read_line(const char **s)
   {
     const char *name = get_identifier(s);
     long args = get_num(s);
-    ugl_current_local_variables = 0;
-    ugl_current_args = args;
-    ugl_plog("start procedure '%s' (args=%ld)", name, args);
-    if ( ugl_indent_level != 0 )
-      ugl_err("nested procedures not allowed");
-    ugl_GetLabel(name);	/* create a label for the procedure name */
-    ugl_SetLabelBytecodePos(name, ugl_bytecode_len); /* and set the label for it */
     
-    ugl_IncIndent(UGL_INDENT_TYPE_PROC);
+    ugl_plog("start procedure '%s' (args=%ld)", name, args);
+    
+    ugl_GetLabel(name);	/* create a label for the procedure name */
+    ugl_SetLabelBytecodePos(name, uglStartNamelessProc(args)); /* and set the label for it */
+
+    
   }
   else if ( strcmp(id, "endproc") == 0 )
   {
@@ -512,30 +516,11 @@ int ugl_read_line(const char **s)
   return 1;
 }
 
-int ugl_read_fp(void)
+/* returns 0 if "endproc" is found */
+int uglReadLine(const char **s)
 {
-  const char *s;
-  ugl_current_input_line = 0;
-  for(;;)
-  {
-    if ( fgets(ugl_input_line, UGL_MAX_INPUT_LINE_LEN, ugl_input_fp) == NULL )
-      break;
-    ugl_current_input_line++;
-    s = &(ugl_input_line[0]);
-    if ( ugl_read_line(&s) == 0 )
-      return 0;
-  }
-  return 1;
-}
-
-int ugl_read_filename(const char *name)
-{
-  ugl_input_fp = fopen(name, "r");
-  if ( ugl_input_fp == NULL )
+  ugl_read_line(s);
+  if ( ugl_indent_level == 0 )
     return 0;
-  printf("file '%s'\n", name);
-  if ( ugl_read_fp() == 0 )
-    return fclose(ugl_input_fp), 0;
-  fclose(ugl_input_fp);
-  return 1;
+  return 1;  
 }

@@ -86,14 +86,14 @@ void bc_init(bc_t *bc)
 #define BC_DBG_OUT_NUM3(n) printf("%03d ", (int)(n))
 #define BC_DBG_OUT_CR() printf("\n")
 
-void bc_exec(bc_t *bc, uint8_t *code)
+void bc_exec(bc_t *bc, uint8_t *code, uint16_t pos)
 {
   uint16_t val;
   uint8_t cmd;
   
   bc_init(bc);
   bc->code = code;
-  bc->code_pos = 0;
+  bc->code_pos = pos;
   
   for(;;)
   {

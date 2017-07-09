@@ -26,6 +26,7 @@
 #include <unistd.h>
 
 #include "u8g2.h"
+#include "ugl.h"
 
 extern void u8g2_SetupBuffer_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 extern void tga_save(const char *name);
@@ -662,9 +663,22 @@ int map_read_map_cmd(const char **s)
   return 1;
 }
 
+
+int is_inside_proc;
+int is_inside_map;
+
 int map_read_line(const char **s)
 {
   const char *id;
+  
+  if ( is_inside_proc != 0 )
+  {
+    if ( uglReadLine(s) == 0 )
+      is_inside_proc = 0;
+    return 1;
+  }
+  
+  
   skip_space(s);
   
   if ( **s == '#' )		/* comment (hmm handled by skip_space) */
@@ -688,9 +702,19 @@ int map_read_line(const char **s)
   {
      return map_read_tile(s, 1);
   }
+  else if ( strcmp(id, "iteminit") == 0 )
+  {
+    const char *id;
+    uint16_t code_pos;
+    id = get_identifier(s);
+    code_pos = uglStartNamelessProc(0);
+    is_inside_proc = 1;
+    return 1;
+  }
   else if ( strcmp(id, "map") == 0 )
   {
-     return map_read_map_cmd(s);
+    is_inside_map = 1;
+    return map_read_map_cmd(s);
   }
   else if ( strcmp(id, "endmap") == 0 )
   {
@@ -706,11 +730,12 @@ int map_read_line(const char **s)
 	write_map_struct();
       }
     }
+    is_inside_map = 0;
     return 1;
   }
   else
   {
-    printf("line %d: unkown command '%s'\n", map_curr_line, id);
+    printf("code line %d, map line %d: unkown command '%s'\n", ugl_current_input_line, map_curr_line, id);
   }
   
   return 1;
@@ -719,20 +744,35 @@ int map_read_line(const char **s)
 int map_read_fp(void)
 {
   const char *s;
+  ugl_InitBytecode();
+  if ( map_phase == PHASE_MAPDATA )
+    ugl_is_suppress_log = 0;
+  if ( map_phase == PHASE_MAPSTRUCT )
+    ugl_is_suppress_log = 1;
+  
+  ugl_current_input_line = 1;
   for(;;)
   {
     if ( fgets(map_line, MAP_LINE_MAX, map_fp) == NULL )
       break;
     s = &(map_line[0]);
     if ( map_read_line(&s) == 0 )
+    {
+      if ( is_inside_proc )
+	printf("endproc missing\n");
+      if ( is_inside_map )
+	printf("endmap missing\n");
       return 0;
+    }
+    ugl_current_input_line++;
   }
+  ugl_ResolveSymbols();
   return 1;
 }
 
 int map_read_filename(const char *name, int phase)
 {
-  map_phase = phase;
+  map_phase = phase;  
   map_fp = fopen(name, "r");
   if ( map_fp == NULL )
     return 0;
@@ -792,6 +832,10 @@ int main(int argc, char **argv)
       fprintf(out_fp, "\n");
     }
     map_read_filename(filename, PHASE_MAPDATA);
+
+    ugl_WriteBytecodeCArray(out_fp, "map_code");
+    
+    
     if ( out_fp != NULL )
     {
       fprintf(out_fp, "map_t map_list[] = {\n");

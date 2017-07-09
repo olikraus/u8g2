@@ -144,6 +144,12 @@ thing 'h $9c		# chest
 thing 'H $92		# hut
 thing 'K $93		# kingdom
 
+iteminit normal_door
+  print(add(1,2))
+  print(add(3,4))
+  print(add(1234,5678))
+endproc
+
 map test 20 9
 :   K         H
 :   .         .

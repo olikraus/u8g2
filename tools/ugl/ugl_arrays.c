@@ -3,6 +3,7 @@
 #include "ugl.h"
 #include "ugl_bc.h"
 #include <string.h>
+#include <stdio.h>
 
 /* arrays & variables */
 
@@ -32,7 +33,7 @@ void ugl_AddBytecode(uint8_t x)
 void ugl_ExecBytecode(void)
 {
   bc_t bc;
-  bc_exec(&bc, ugl_bytecode_array);
+  bc_exec(&bc, ugl_bytecode_array, 0);
 }
 
 
@@ -219,3 +220,24 @@ uint16_t ugl_GetLabelBytecodePos(int idx)
   return ugl_label_bytecode_pos[idx];
 }
 
+void ugl_WriteBytecodeCArray(FILE *fp, const char *name)
+{
+  uint16_t i;
+  fprintf(fp, "unsigned char %s[] =\n  \"", name);
+
+  i = 0;
+  while ( i < ugl_bytecode_len )
+  {
+    fprintf(fp, "\\x%02x", ugl_bytecode_array[i]);
+    if ( i+1 == ugl_bytecode_len )
+    {
+      break;
+    }
+    if ( (i & 0x0f) == 0x0f )
+    {
+      fprintf(fp, "\"\n  \"");
+    }
+    i++;
+  }
+  fprintf(fp, "\";\n\n"); 
+}
