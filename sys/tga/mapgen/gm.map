@@ -6,6 +6,42 @@
 #	tile <ascii> <mapto> <top> <right> <bottom> <left>
 #		map the <ascii> code to the specified <mapto> code, if the other for tiles match
 #		If one of the other four tiles is 0, then ignore this tile (wildcard)
+#	thing ... same as tile, but can be redefined at any time, should redefine to char
+#	
+#	item <iname> <backgroundmapto> <foregroundmapto>
+#		defines a global template for an object.
+#		anyting on the map, which might disappear, move or change has to be an item
+#	itemuse <iname> <ascii>
+#		only within active map. <mapto> will be the background tile for the char
+#		the current foreground tile might still be differrent and is set during iteminit
+#		connects the ascii char with the given ascii char on the map to get the xy pos.
+#	iteminit <iname>
+#		<procedure>
+#	endproc
+#		procedure, which is called, when the item is created,
+#		receives position, where it should be created on the map
+#	itemhit <iname>
+#		procedure, which is called, when the item is hit by something
+#		- returns 0 if the item hitting item has to be stopped
+#		- may move itself
+#		- may change its own shape (tile)
+#		- may modify its status
+#	endproc
+#		
+#		example "normal door, status=closed"
+#		1. hit: status=open, change tile to open door, return 0
+#		2. hit: return 1 (hero can pass)
+#		example "creature, status=5 life"
+#		1. hit: get hitting obj attac damage, reduce life --> status=2, apply attack damage hitting object, return 0
+#		2. hit: get hitting obj attac damage, reduce life --> status=0, remove object from map, return 0
+#		3. hero can continue
+#
+#	itemstep <iname>
+#		executed every step
+#		- moving items can move towards hero or others
+#	enditemstep
+#
+#
 #	map <name> <width> <height>
 #		Create a map with the given name and size. this must be followed by :
 #	endmap

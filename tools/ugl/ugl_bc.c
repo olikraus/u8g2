@@ -1,7 +1,28 @@
 /*
 
   ugl_bc.c
+  
+  items can be at three places
+    1) map
+    2) inventory
+    3) hero
+    
+  map --> inventory 	take
+  inventory --> map	drop
+  inventory --> hero	equip
+  hero --> inventory	unequip
+  hero --> map		drop
 
+
+  inputs:
+    hDir()			// direction into which the hero wants to walk, had waked or looks
+    iDir()			// direction into which the item/creatue/missel wants to go, went or looks
+    hX()			// hero X position
+    hY()			// hero Y position
+    posByH		// set current position to the position of the hero
+    posByI			// set current position to the position of the current item
+    posAppyDir(dir)	// change the possition going one step into the specified direction 
+    
 */
 
 #include "ugl_bc.h"
@@ -269,6 +290,8 @@ void bc_exec(bc_t *bc, uint8_t *code)
   } /* for(;;) */
   
 }
+
+
 
 /*======================================================*/
 

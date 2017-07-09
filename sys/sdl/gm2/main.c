@@ -228,6 +228,12 @@ const uint8_t scrollosprites[6642] U8G2_FONT_SECTION("scrollosprites") =
 #define MAP_DISPLAY_WIDTH 8
 #define MAP_DISPLAY_HEIGHT 4
 
+/*===============================================*/
+
+
+
+/*===============================================*/
+
 u8g2_t u8g2;
 
 void map_draw(uint8_t map_idx, uint8_t x0, uint8_t y0)

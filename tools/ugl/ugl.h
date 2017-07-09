@@ -35,9 +35,11 @@ void ugl_SetLabelBytecodePos(const char *name, uint16_t bytecode_pos);
 uint16_t ugl_GetLabelBytecodePos(int idx);
 
 
-/* ugl_file.c */
+/* ugl_parse.c */
 extern int ugl_current_input_line;
 
+int ugl_read_line(const char **s);
+int ugl_read_fp(void);
 int ugl_read_filename(const char *name);
 
 
