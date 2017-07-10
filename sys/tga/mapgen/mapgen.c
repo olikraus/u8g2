@@ -257,6 +257,20 @@ struct tile_struct tile_list[TILE_MAX];
 
 int tile_cnt = 0;
 
+#define ITEM_IDENTIFIER_MAX 256
+
+/* global item templates */
+struct item_struct
+{
+  char name[ITEM_IDENTIFIER_MAX];
+  uint16_t init_proc;
+  uint16_t hit_proc;
+  uint16_t step_proc;
+};
+
+struct item_struct item_list[256];
+int item_cnt;
+
 #define MAP_SIZE_X 1024
 #define MAP_SIZE_Y 1024
 #define MAP_LINE_MAX 4096
@@ -278,6 +292,50 @@ FILE *map_fp;
 char map_line[MAP_LINE_MAX];
 
 FILE *out_fp;
+
+
+/*============================================*/
+int item_get_idx_by_name(const char *name)
+{
+  int i;
+  for( i = 0; i < item_cnt; i++ )
+  {
+    if ( strcmp(item_list[i].name, name) == 0 )
+      return i;
+  }
+  return -1;
+}
+
+int item_add(const char *name)
+{
+  if ( item_cnt < 256 )
+  {
+    strcpy(item_list[item_cnt].name, name);
+    item_cnt++;
+    return item_cnt-1;
+  }
+  return -1;
+}
+
+void item_write(FILE *fp)
+{
+  int i;
+  fprintf(fp, "item_template_t item_template_list[] = {\n");
+  for( i = 0; i < item_cnt;i++ )
+  {
+    fprintf(fp, "  { %u, %u, %u}", item_list[i].init_proc, item_list[i].hit_proc, item_list[i].step_proc);    
+    if ( i != item_cnt-1 )
+	fprintf(fp, ",\n");
+    else
+ 	fprintf(fp, "\n");
+      
+  }
+  
+  fprintf(fp, "};\n\n");
+}
+
+
+/*============================================*/
 
 static void skip_space(const char **s)
 {
@@ -397,6 +455,9 @@ static const char *get_identifier(const char **s)
 }
 
 /*============================================*/
+
+
+
 int get_tile_idx_by_ascii(int ascii)
 {
   int i;
@@ -702,12 +763,42 @@ int map_read_line(const char **s)
   {
      return map_read_tile(s, 1);
   }
+  else if ( strcmp(id, "item") == 0 )
+  {
+    const char *id;
+    int idx;
+    id = get_identifier(s);
+    idx = item_get_idx_by_name(id);
+    if ( idx >= 0 )
+    {
+      printf("code line %d, item '%s' already exists.\n", ugl_current_input_line, id);
+    }
+    else
+    {
+      if ( item_add(id) < 0 )
+      {
+	printf("code line %d, item '%s': Too many items.\n", ugl_current_input_line, id);
+      }
+    }      
+    return 1;
+  }
   else if ( strcmp(id, "iteminit") == 0 )
   {
     const char *id;
+    int idx;
     uint16_t code_pos;
+    
     id = get_identifier(s);
+    idx = item_get_idx_by_name(id);
     code_pos = uglStartNamelessProc(0);
+    if ( idx < 0 )
+    {
+	printf("code line %d, item '%s' not found.\n", ugl_current_input_line, id);
+    }
+    else
+    {
+      item_list[idx].init_proc= code_pos;
+    }    
     is_inside_proc = 1;
     return 1;
   }
@@ -751,6 +842,9 @@ int map_read_fp(void)
     ugl_is_suppress_log = 1;
   
   ugl_current_input_line = 1;
+  tile_cnt = 0;
+  item_cnt = 0;
+  
   for(;;)
   {
     if ( fgets(map_line, MAP_LINE_MAX, map_fp) == NULL )
@@ -835,6 +929,7 @@ int main(int argc, char **argv)
 
     ugl_WriteBytecodeCArray(out_fp, "map_code");
     
+    item_write(out_fp);
     
     if ( out_fp != NULL )
     {

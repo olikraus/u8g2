@@ -144,6 +144,8 @@ thing 'h $9c		# chest
 thing 'H $92		# hut
 thing 'K $93		# kingdom
 
+item normal_door
+
 iteminit normal_door
   print(add(1,2))
   print(add(3,4))
