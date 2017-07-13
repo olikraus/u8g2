@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <assert.h>
 
 #include "u8g2.h"
 #include "ugl.h"
@@ -251,6 +252,8 @@ struct tile_struct
   int ascii;
   int map_to;
   int condition[4];  
+  int item_index;		/* reference into item_list */
+  
 };
 #define TILE_MAX 4096
 struct tile_struct tile_list[TILE_MAX];
@@ -263,6 +266,7 @@ int tile_cnt = 0;
 struct item_struct
 {
   char name[ITEM_IDENTIFIER_MAX];
+  uint8_t fg_tile;	/* for tga output and inital tile, bg-tile is set via tile_list */
   uint16_t init_proc;
   uint16_t hit_proc;
   uint16_t step_proc;
@@ -333,6 +337,7 @@ void item_write(FILE *fp)
   
   fprintf(fp, "};\n\n");
 }
+
 
 
 /*============================================*/
@@ -469,6 +474,7 @@ int get_tile_idx_by_ascii(int ascii)
   return -1;
 }
 
+/*============================================*/
 /* map a tile from map[][] to map2[][] */
 /* called by map_all_tile */
 int map_tile(int x, int y)
@@ -548,6 +554,7 @@ int map_all_tiles(void)
   return 1;
 }
 
+/*============================================*/
 
 void clear_map(void)
 {
@@ -626,6 +633,10 @@ void write_tga_map(const char *filename)
     {
       for( x = 0; x < map_width; x++ )
       {
+	/*
+	  TODO: instead of outputing the char from the map, we should output the item if something is here at this position
+	*/
+	
 	u8g2_DrawGlyph(&u8g2, x*16, y*16+16, map2[y][x]);
       }
     }
@@ -636,7 +647,17 @@ void write_tga_map(const char *filename)
   
 }
 
-int map_read_tile(const char **s, int is_overwrite)
+static void write_item_onmap()
+{
+  /* 
+    pseudo code:
+    with all tiles on the map
+      if the tile is connected to an item
+	output an item onmap entry
+  */
+}
+
+int map_read_tile(const char **s, int is_overwrite, int item_index)
 {
   long ascii;
   int idx, i;
@@ -676,6 +697,7 @@ int map_read_tile(const char **s, int is_overwrite)
   }
   
   tile_list[idx].ascii = ascii;
+  tile_list[idx].item_index = item_index;
     
   tile_list[idx].map_to = get_num(s);
   for( i = 0; i < 4; i++ )
@@ -688,6 +710,11 @@ int map_read_tile(const char **s, int is_overwrite)
     
   return 1;
 }
+
+
+/*============================================*/
+/* read one row of the game map */
+
 
 int map_read_row(const char **s)
 {
@@ -709,6 +736,10 @@ int map_read_row(const char **s)
   map_curr_line++;
   return 1;
 }
+
+
+/*============================================*/
+/* read a command of the map file */
 
 
 int map_read_map_cmd(const char **s)
@@ -757,11 +788,26 @@ int map_read_line(const char **s)
   id = get_identifier(s);
   if ( strcmp(id, "tile") == 0 )
   {
-     return map_read_tile(s, 0);
+     return map_read_tile(s, 0, -1);
   }
   else if ( strcmp(id, "thing") == 0 )
   {
-     return map_read_tile(s, 1);
+     return map_read_tile(s, 1, -1);
+  }
+  else if ( strcmp(id, "itemkey") == 0 )
+  {
+    const char *id;
+    int idx;
+    id = get_identifier(s);
+    idx = item_get_idx_by_name(id);
+    if ( idx < 0 )
+    {
+      printf("code line %d, item '%s' unknown.\n", ugl_current_input_line, id);
+    }
+    else
+    {
+     return map_read_tile(s, 1, idx);
+    }
   }
   else if ( strcmp(id, "item") == 0 )
   {
@@ -779,7 +825,14 @@ int map_read_line(const char **s)
       {
 	printf("code line %d, item '%s': Too many items.\n", ugl_current_input_line, id);
       }
-    }      
+      else
+      {
+	idx = item_get_idx_by_name(id);
+	assert( idx >= 0 );
+	item_list[idx].fg_tile = get_num(s);
+      }
+    }  
+    
     return 1;
   }
   else if ( strcmp(id, "iteminit") == 0 )
@@ -805,11 +858,12 @@ int map_read_line(const char **s)
   else if ( strcmp(id, "map") == 0 )
   {
     is_inside_map = 1;
+
     return map_read_map_cmd(s);
   }
   else if ( strcmp(id, "endmap") == 0 )
   {
-    /* write existing map */
+    /* write existing map: once a map has been read, transform it to the target */
     if ( map_width > 0 && map_height > 0 )
     {
       if ( map_all_tiles() )

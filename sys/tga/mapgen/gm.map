@@ -7,8 +7,14 @@
 #		map the <ascii> code to the specified <mapto> code, if the other for tiles match
 #		If one of the other four tiles is 0, then ignore this tile (wildcard)
 #	thing ... same as tile, but can be redefined at any time, should redefine to char
+#	itemkey <iname> <ascii> <bg-tile>		... similar thing, but will connect to an item and assign the <backgroundmapto> instead
+#
+#	summery:
+#		tile: static fixed  thing for all maps
+#		thing: static thing for some maps
+#		itemkey: dynamic objects like changing doors, boxes or monsters
 #	
-#	item <iname> <backgroundmapto> <foregroundmapto>
+#	item <iname> <foregroundmapto>
 #		defines a global template for an object.
 #		anyting on the map, which might disappear, move or change has to be an item
 #	itemuse <iname> <ascii>
@@ -144,7 +150,8 @@ thing 'h $9c		# chest
 thing 'H $92		# hut
 thing 'K $93		# kingdom
 
-item normal_door
+item normal_door $72	# $72 = door closed
+itemkey normal_door 'x $72	# $72 = door closed
 
 iteminit normal_door
   print(add(1,2))
@@ -152,7 +159,9 @@ iteminit normal_door
   print(add(1234,5678))
 endproc
 
+
 map test 20 9
+
 :   K         H
 :   .         .
 :   ...........

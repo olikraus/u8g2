@@ -231,6 +231,8 @@ A) short description of the STM32L0 RTC
 
 Man scheint die zeit nicht immer vorzeitig ausschalten zu können. Warum?
 Erneutes eingeben der alarmzeit behebt das problem.
+Manchmal erscheit die nächste zeit gar nicht im display. Auch hier
+behebt das erneute eingeben der alarmzeit das problem.
 
 
   
