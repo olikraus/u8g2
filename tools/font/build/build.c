@@ -542,6 +542,7 @@ struct fontinfo fi[] = {
   { "-a -r 72 -p 48", "OldStandard-Regular.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 55", "OldStandard-Regular.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 */
+  
   { "-a -r 72 -p 25", "OldStandard-Bold.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 28", "OldStandard-Bold.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 34", "OldStandard-Bold.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
