@@ -45,7 +45,7 @@
 #	itemstep <iname>
 #		executed every step
 #		- moving items can move towards hero or others
-#	enditemstep
+#	endproc
 #
 #
 #	map <name> <width> <height>
@@ -138,7 +138,6 @@ tile '. $6a		# stone 2
 tile ': $6b		# stone 3
 
 thing 'f $74 		# fire
-#thing 'x $72 		# door closed
 thing '^ $73 		# door open
 thing 'C $79		# cupboard
 thing 'S $7a		# bookshelf
@@ -150,14 +149,21 @@ thing 'h $9c		# chest
 thing 'H $92		# hut
 thing 'K $93		# kingdom
 
-item normal_door $73		# $73 = door open
-itemkey normal_door 'x $72	# $72 = door closed
+item normal_door $72		# $72 = door closed --> inital tile
+itemkey normal_door 'x $73	# $73 = door open --> this will be placed on the map, the item can destroy itself, but this tile will stay
 
 iteminit normal_door
   print(add(1,2))
   print(add(3,4))
   print(add(1234,5678))
 endproc
+
+itemhit normal_door
+endproc
+
+itemstep normal_door
+endproc
+
 
 
 map test 20 9

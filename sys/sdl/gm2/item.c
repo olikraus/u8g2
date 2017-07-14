@@ -67,6 +67,14 @@ void setupLevel(uint8_t level)
   
   /* build the pool */
   pool_Clear();
+  
+  /* first item always is our hero (index 0) */
+  item = pool_GetItem(pool_NewItem());
+  item->x = 0;
+  item->y = 0;
+  item->tile = 0x04e;
+  item->template_index = 0;	/* not used, but still template index should be reserverd then */
+  
   onmap_ptr = map_list[level].onmap_list;
   for( i = 0; i < cnt; i++ )
   {
@@ -100,3 +108,4 @@ uint8_t getMapTile(uint8_t x, uint8_t y)
   
   return map_list[current_level].data[offset];
 }
+

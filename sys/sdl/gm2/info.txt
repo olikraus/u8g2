@@ -1,0 +1,5 @@
+14 Jul 17
+
+- introduce position struct (rewrite pos.h/c)
+- use position struct in the code itself
+- write hero movement code

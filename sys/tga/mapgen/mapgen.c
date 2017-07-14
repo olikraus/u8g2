@@ -902,6 +902,46 @@ int map_read_line(const char **s)
     is_inside_proc = 1;
     return 1;
   }
+  else if ( strcmp(id, "itemhit") == 0 )
+  {
+    const char *id;
+    int idx;
+    uint16_t code_pos;
+    
+    id = get_identifier(s);
+    idx = item_get_idx_by_name(id);
+    code_pos = uglStartNamelessProc(0);
+    if ( idx < 0 )
+    {
+	printf("code line %d, item '%s' not found.\n", ugl_current_input_line, id);
+    }
+    else
+    {
+      item_list[idx].hit_proc= code_pos;
+    }    
+    is_inside_proc = 1;
+    return 1;
+  }
+  else if ( strcmp(id, "itemstep") == 0 )
+  {
+    const char *id;
+    int idx;
+    uint16_t code_pos;
+    
+    id = get_identifier(s);
+    idx = item_get_idx_by_name(id);
+    code_pos = uglStartNamelessProc(0);
+    if ( idx < 0 )
+    {
+	printf("code line %d, item '%s' not found.\n", ugl_current_input_line, id);
+    }
+    else
+    {
+      item_list[idx].step_proc= code_pos;
+    }    
+    is_inside_proc = 1;
+    return 1;
+  }
   else if ( strcmp(id, "map") == 0 )
   {
     is_inside_map = 1;
