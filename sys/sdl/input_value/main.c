@@ -8,6 +8,7 @@ u8g2_t u8g2;
 int main(void)
 {
   uint8_t value = 0;
+  uint8_t r;
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -19,7 +20,10 @@ int main(void)
   u8g2_SetFontRefHeightAll(&u8g2);
 
 
-  u8g2_UserInterfaceInputValue(&u8g2, "Title\n-----\n", "X=", &value, 0, 19, 2, "m");
+  r = u8g2_UserInterfaceInputValue(&u8g2, "Title\n-----\n", "X=", &value, 0, 19, 2, "m");
+  
+  printf("r= %d\n", r);
+  printf("value= %d\n", value);
 
 /*
     do
