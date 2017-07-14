@@ -7,9 +7,20 @@
 #include <stdint.h>
 
 
+struct _item_onmap_struct
+{
+  uint8_t x;
+  uint8_t y;  
+  uint8_t template_index;
+  uint8_t option;
+};
+typedef struct _item_onmap_struct item_onmap_t;
+
 struct _map_struct
 {
   unsigned char *data;
+  item_onmap_t *onmap_list;
+  uint8_t onmap_cnt;
   uint8_t width;
   uint8_t height;
 };
@@ -25,14 +36,6 @@ struct _item_template_struct
 };
 typedef struct _item_template_struct item_template_t;
 
-struct _item_onmap_struct
-{
-  uint8_t x;
-  uint8_t y;  
-  uint8_t template_index;
-  uint8_t option;
-};
-struct _item_onmap_struct item_onmap_t;
 
 extern map_t map_list[];
 

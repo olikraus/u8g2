@@ -124,4 +124,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for MAX7219 (issue 280)
   * Performance optimization for SSD1322/25/27  (issue 302)
   * Support for 96x16 SSD1306 OLED (issue 295)
+  * Fixed OldStandard-Bold fonts (osb, issue 306)
   

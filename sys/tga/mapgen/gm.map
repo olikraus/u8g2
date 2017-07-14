@@ -150,7 +150,7 @@ thing 'h $9c		# chest
 thing 'H $92		# hut
 thing 'K $93		# kingdom
 
-item normal_door $73	# $73 = door open
+item normal_door $73		# $73 = door open
 itemkey normal_door 'x $72	# $72 = door closed
 
 iteminit normal_door
