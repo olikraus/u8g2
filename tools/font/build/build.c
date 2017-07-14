@@ -533,13 +533,22 @@ struct fontinfo fi[] = {
 ./do_fontsize_a_v2.sh 48 ../ttf/os/OldStandard-Bold.ttf osb35
 ./do_fontsize_a_v2.sh 55 ../ttf/os/OldStandard-Bold.ttf osb41
 */
+/*
+  bugfix 14 Jul 2017, this is the old (and wrong) code:
   { "-a -r 72 -p 25", "OldStandard-Regular.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 28", "OldStandard-Regular.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 34", "OldStandard-Regular.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 38", "OldStandard-Regular.ttf",	"osb29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 48", "OldStandard-Regular.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 55", "OldStandard-Regular.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  
+*/
+  { "-a -r 72 -p 25", "OldStandard-Bold.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-a -r 72 -p 28", "OldStandard-Bold.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-a -r 72 -p 34", "OldStandard-Bold.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-a -r 72 -p 38", "OldStandard-Bold.ttf",	"osb29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-a -r 72 -p 48", "OldStandard-Bold.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-a -r 72 -p 55", "OldStandard-Bold.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+
 /*
 ./do_fontsize_a_v2.sh 26 ../ttf/os/OldStandard-Regular.ttf osr18
 ./do_fontsize_a_v2.sh 29 ../ttf/os/OldStandard-Regular.ttf osr21

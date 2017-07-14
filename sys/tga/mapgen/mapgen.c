@@ -649,12 +649,35 @@ void write_tga_map(const char *filename)
 
 static void write_item_onmap()
 {
+  int x, y;
   /* 
     pseudo code:
     with all tiles on the map
       if the tile is connected to an item
 	output an item onmap entry
   */
+  if ( map_phase == PHASE_MAPSTRUCT )
+  {
+    if ( out_fp != NULL )
+    {
+      fprintf(out_fp, "item_onmap_t item_onmap_list[] = {\n");
+      for( y = 0; y < map_height; y++ )
+      {
+	for( x = 0; x < map_width; x++ )
+	{
+	    fprintf(out_fp, "  { ");
+	    fprintf(out_fp, "map_%s, ", map_name);
+	    fprintf(out_fp, "%ld, ", map_width);
+	    fprintf(out_fp, "%ld ", map_height);
+	    fprintf(out_fp, " },");
+	  
+	}
+      }
+      
+      
+      fprintf(out_fp, "}\n\n");
+    }
+  }
 }
 
 int map_read_tile(const char **s, int is_overwrite, int item_index)
