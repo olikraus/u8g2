@@ -28,15 +28,14 @@ typedef struct _map_struct map_t;
 
 struct _item_template_struct
 {
-  uint8_t fg_tile;	/* for tga output and inital tile */
-  uint8_t bg_tile;	/* for the internal map */
   uint16_t init_proc;
   uint16_t hit_proc;
   uint16_t step_proc;  
+  uint8_t fg_tile;	/* for tga output and inital tile */
 };
 typedef struct _item_template_struct item_template_t;
 
-
+extern item_template_t item_template_list[];
 extern map_t map_list[];
 
 #endif

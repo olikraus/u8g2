@@ -10,6 +10,7 @@
 
 #include "u8g2.h"
 #include "map.h"
+#include "item.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -273,7 +274,8 @@ int main(void)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   u8g2_SetFont(&u8g2, scrollosprites);
-  
+
+  setupLevel(0);
 
   
   for(;;)

@@ -1,6 +1,6 @@
 CFLAGS = -g -Wall -Wpointer-arith -I../../../csrc/. -I../../tga/mapgen/.  `sdl-config --cflags` 
 
-SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) ../../tga/mapgen/map.c  main.c 
+SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) ../../tga/mapgen/map.c  main.c item.c
 
 OBJ = $(SRC:.c=.o)
 
