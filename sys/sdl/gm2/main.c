@@ -257,14 +257,63 @@ void map_draw(uint8_t map_idx, uint8_t x0, uint8_t y0)
 }
 
 
-void setWindowPosByItem(pos_t *pos, uint8_t item_index)
+uint8_t is_inside(pos_t *p, pos_t *upper_left, uint8_t w, uint8_t h)
+{
+  if ( p->x < upper_left->x )
+    return 0;
+  if ( p->y < upper_left->y )
+    return 0;
+  if ( p->x >= upper_left->x+w )
+    return 0;
+  if ( p->y >= upper_left->y+h )
+    return 0;
+  return 1;
+}
+
+/* assumes, that the direction of the item is set, but not yet executed */
+void setWindowPosByItem(uint8_t item_index)
 {
   item_t *item;
+  pos_t tmp;
+  uint8_t window_dir = 5;
+  
   item = pool_GetItem(item_index);
-  pos->x = item->pos.x;
-  pos->x -= MAP_DISPLAY_WIDTH/2;
-  pos->y = item->pos.y;
-  pos->y -= MAP_DISPLAY_HEIGHT/2;  
+  
+  tmp = window_upper_left_pos;
+  tmp.x++;
+  tmp.y++;
+  if ( is_inside(&(item->pos), &tmp, MAP_DISPLAY_WIDTH-2, MAP_DISPLAY_HEIGHT-2 ) == 0 )
+  {
+    printf("center\n");
+    window_upper_left_pos.x = item->pos.x;
+    window_upper_left_pos.x -= MAP_DISPLAY_WIDTH/2;
+    window_upper_left_pos.y = item->pos.y;
+    window_upper_left_pos.y -= MAP_DISPLAY_HEIGHT/2;  
+  }
+  else
+  {
+    if ( item->dir == 0 )
+    {
+      if ( item->pos.x == window_upper_left_pos.x + MAP_DISPLAY_WIDTH -2 )
+	window_dir = item->dir;
+    }
+    else if ( item->dir == 1 )
+    {
+      if ( item->pos.y == window_upper_left_pos.y+MAP_DISPLAY_HEIGHT-2 )
+	window_dir = item->dir;
+    }
+    else if ( item->dir == 2 )
+    {
+      if ( item->pos.x == window_upper_left_pos.x+1 )
+	window_dir = item->dir;
+    }
+    else if ( item->dir == 3 )
+    {
+      if ( item->pos.y == window_upper_left_pos.y+1 )
+	window_dir = item->dir;
+    }
+    posStep(&window_upper_left_pos, window_dir);
+  }
 }
 
 
@@ -274,12 +323,14 @@ void moveHero(uint8_t dir)
   moveItem(0, dir);
   
   /* other monster actions */
+
+
+  /* recalculate window position */
+  setWindowPosByItem(0);
   
   /* execute any movements */
   moveAllItems();
   
-  /* recalculate window position */
-  setWindowPosByItem(&window_upper_left_pos, 0);
 }
 
 int main(void)
@@ -298,7 +349,7 @@ int main(void)
 
   setupLevel(0);
   /* recalculate window position */
-  setWindowPosByItem(&window_upper_left_pos, 0);
+  setWindowPosByItem(0);
 
   
   for(;;)
