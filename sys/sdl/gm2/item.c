@@ -23,6 +23,31 @@ uint8_t current_level;
 item_t item_pool[ITEM_MAX];
 
 
+/*===============================================*/
+
+void posStep(pos_t *pos, uint8_t dir)
+{
+  dir &= 3;
+  switch( dir )
+  {
+    case 0:
+	pos->x+=1;
+	break;
+    case 1:
+	pos->y+=1;
+	break;
+    case 2:
+	pos->x-=1;
+	break;
+    case 3:
+	pos->y-=1;
+	break;
+  }
+}
+
+/*===============================================*/
+
+
 void pool_Clear(void)
 {
   item_cnt = 0;
@@ -32,6 +57,7 @@ uint8_t pool_NewItem(void)
 {
   if ( item_cnt >= ITEM_MAX )
     return ITEM_MAX;
+  item_pool[item_cnt].dir = 0;
   item_cnt++;
   return item_cnt-1;
 }
@@ -41,8 +67,26 @@ item_t *pool_GetItem(uint8_t idx)
   return item_pool+idx;
 }
 
-/*===============================================*/
+/*
+  Based on the dir attribute, all items, including hero are moved
+*/
+void moveAllItems(void)
+{
+  uint8_t i;
+  item_t *item;
+  i = item_cnt;
+  *item = item_pool;
+  do
+  {
+    posStep(&(item->pos), item->dir);
+    item->dir = 0;
+    item++;
+    i--;
+  } while( i != 0);
+}
 
+
+/*===============================================*/
 
 /*
 void item_SetDefaultTile(uint8_t idx)
@@ -70,8 +114,8 @@ void setupLevel(uint8_t level)
   
   /* first item always is our hero (index 0) */
   item = pool_GetItem(pool_NewItem());
-  item->x = 0;
-  item->y = 0;
+  item->pos.x = 0;
+  item->pos.y = 0;
   item->tile = 0x04e;
   item->template_index = 0;	/* not used, but still template index should be reserverd then */
   
@@ -80,8 +124,8 @@ void setupLevel(uint8_t level)
   {
     /* no check of pool_NewItem() here, this should always succeed */
     item = pool_GetItem(pool_NewItem());
-    item->x = onmap_ptr->x;
-    item->y = onmap_ptr->y;
+    item->pos.x = onmap_ptr->x;
+    item->pos.y = onmap_ptr->y;
     item->template_index = onmap_ptr->template_index;
     item->tile = item_template_list[item->template_index].fg_tile;
     onmap_ptr++;
@@ -98,7 +142,7 @@ uint8_t getMapTile(uint8_t x, uint8_t y)
   for( i = 0; i < cnt; i++ )
   {
     item = pool_GetItem(i);
-    if ( item->x == x && item->y == y )
+    if ( item->pos.x == x && item->pos.y == y )
       return item->tile;
   }
   
@@ -109,3 +153,7 @@ uint8_t getMapTile(uint8_t x, uint8_t y)
   return map_list[current_level].data[offset];
 }
 
+uint8_t getMapTileByPos(pos_t *pos)
+{
+  return getMapTile(pos->x, pos->y);
+}
