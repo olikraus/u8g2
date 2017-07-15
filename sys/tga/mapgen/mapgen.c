@@ -289,6 +289,7 @@ int map_curr_line = 0;
 char map_name[MAP_LINE_MAX];
 long map_width = 0;
 long map_height = 0;
+uint16_t map_init_code_pos;
 
 
 FILE *map_fp;
@@ -600,6 +601,7 @@ void write_map_struct(void)
       fprintf(out_fp, "  { ");
       fprintf(out_fp, "map_%s, ", map_name);
       fprintf(out_fp, "item_onmap_%s, ", map_name);
+      fprintf(out_fp, "/* map init code */ %u, ", map_init_code_pos);
       fprintf(out_fp, "ITEM_ONMAP_%s_CNT, ", map_name);      
       fprintf(out_fp, "/* width= */ %ld, ", map_width);
       fprintf(out_fp, "/* height= */ %ld ", map_height);
@@ -798,6 +800,8 @@ int map_read_map_cmd(const char **s)
   map_height = get_num(s);
 
   printf("map '%s' (%ld x %ld)\n", map_name, map_width, map_height);
+  
+  map_init_code_pos = 0;
   clear_map();
   return 1;
 }
@@ -816,8 +820,6 @@ int map_read_line(const char **s)
       is_inside_proc = 0;
     return 1;
   }
-  
-  
   skip_space(s);
   
   if ( **s == '#' )		/* comment (hmm handled by skip_space) */
@@ -882,6 +884,12 @@ int map_read_line(const char **s)
     
     return 1;
   }
+  else if ( strcmp(id, "mapinit") == 0 )
+  {
+    map_init_code_pos = uglStartNamelessProc(0);
+    is_inside_proc = 1;
+    return 1;
+  }  
   else if ( strcmp(id, "iteminit") == 0 )
   {
     const char *id;
@@ -1083,8 +1091,6 @@ int main(int argc, char **argv)
       fprintf(out_fp, "\n");
       
     }
-    
-      
     if ( out_fp != NULL )
       fclose(out_fp);
   }

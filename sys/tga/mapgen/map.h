@@ -20,6 +20,7 @@ struct _map_struct
 {
   unsigned char *data;
   item_onmap_t *onmap_list;
+  uint16_t init_proc;
   uint8_t onmap_cnt;
   uint8_t width;
   uint8_t height;

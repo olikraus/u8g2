@@ -289,6 +289,7 @@ void setWindowPosByItem(uint8_t item_index)
     window_upper_left_pos.x -= MAP_DISPLAY_WIDTH/2;
     window_upper_left_pos.y = item->pos.y;
     window_upper_left_pos.y -= MAP_DISPLAY_HEIGHT/2;  
+    window_dir = item->dir;
   }
   else
   {
@@ -312,8 +313,9 @@ void setWindowPosByItem(uint8_t item_index)
       if ( item->pos.y == window_upper_left_pos.y+1 )
 	window_dir = item->dir;
     }
-    posStep(&window_upper_left_pos, window_dir);
   }
+  
+  posStep(&window_upper_left_pos, window_dir);
 }
 
 

@@ -46,6 +46,9 @@
 #		executed every step
 #		- moving items can move towards hero or others
 #	endproc
+#	mapinit
+#		executed during map init
+#	endproc
 #
 #
 #	map <name> <width> <height>
@@ -167,6 +170,9 @@ endproc
 
 
 map test 20 9
+mapinit
+  
+endproc
 
 :   K         H
 :   .         .
