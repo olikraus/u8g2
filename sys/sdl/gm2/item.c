@@ -7,6 +7,7 @@
   
 */
 
+#include <stddef.h>
 #include "item.h"
 #include "map.h"
 
@@ -22,12 +23,12 @@ uint8_t current_level;
 /* the pool with all dynamic created items */
 item_t item_pool[ITEM_MAX];
 
+item_t *item_under_pos;	/* set by getMapTile() */
 
 /*===============================================*/
 
 void posStep(pos_t *pos, uint8_t dir)
 {
-  dir &= 3;
   switch( dir )
   {
     case 0:
@@ -42,6 +43,8 @@ void posStep(pos_t *pos, uint8_t dir)
     case 3:
 	pos->y-=1;
 	break;
+    default:
+      break;
   }
 }
 
@@ -57,7 +60,7 @@ uint8_t pool_NewItem(void)
 {
   if ( item_cnt >= ITEM_MAX )
     return ITEM_MAX;
-  item_pool[item_cnt].dir = 0;
+  item_pool[item_cnt].dir = 4; /* no move */
   item_cnt++;
   return item_cnt-1;
 }
@@ -75,11 +78,11 @@ void moveAllItems(void)
   uint8_t i;
   item_t *item;
   i = item_cnt;
-  *item = item_pool;
+  item = item_pool;
   do
   {
     posStep(&(item->pos), item->dir);
-    item->dir = 0;
+    item->dir = 4;	/* no move */
     item++;
     i--;
   } while( i != 0);
@@ -132,6 +135,12 @@ void setupLevel(uint8_t level)
   }
 }
 
+/*
+  return a tile on the map.
+  as a side effect, 
+    item_under_pos
+  is set if the tile is from an item. Otherwise item_under_pos is set to NULL
+*/
 uint8_t getMapTile(uint8_t x, uint8_t y)
 {
   item_t *item;
@@ -143,8 +152,13 @@ uint8_t getMapTile(uint8_t x, uint8_t y)
   {
     item = pool_GetItem(i);
     if ( item->pos.x == x && item->pos.y == y )
+    {
       return item->tile;
+      item_under_pos = item;
+    }
   }
+  
+  item_under_pos = NULL;
   
   offset = y;
   offset *= map_list[current_level].width;
@@ -153,7 +167,60 @@ uint8_t getMapTile(uint8_t x, uint8_t y)
   return map_list[current_level].data[offset];
 }
 
+/*
+  sideeffect: will set item_under_pos
+*/
 uint8_t getMapTileByPos(pos_t *pos)
 {
   return getMapTile(pos->x, pos->y);
 }
+
+/*
+  Check whether a tile is solid by definition.
+  The case, when hitting a tile and it became wakable (because it disapears
+  or moves away) is not considered.
+*/
+uint8_t isSolidTile(uint8_t tile)
+{
+  if ( tile >= 0x07d && tile <= 0x088 )
+    return 1;
+  return 0;
+}
+
+/*
+  sideeffect: will set item_under_pos
+*/
+uint8_t canWalkTo(pos_t *pos)
+{
+  uint8_t tile;
+  tile = getMapTileByPos(pos);
+  /* 
+  if ( item_under_pos != NULL )
+    ...
+  */
+  if ( isSolidTile(tile) != 0 )
+    return 0;
+  return 1;
+}
+
+
+/*
+  0: not moved
+  1: moved
+  sideeffect: will set item_under_pos
+*/
+uint8_t moveItem(uint8_t item_index, uint8_t dir)
+{
+  item_t *item;
+  pos_t pos;
+  item = pool_GetItem(item_index);
+  pos = item->pos;
+  posStep(&pos, dir);
+  if ( canWalkTo(&pos) != 0 )
+  {
+    item->dir = dir;
+    return 1;
+  }
+  return 0;
+}
+

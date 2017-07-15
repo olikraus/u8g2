@@ -232,6 +232,7 @@ const uint8_t scrollosprites[6642] U8G2_FONT_SECTION("scrollosprites") =
 /*===============================================*/
 
 u8g2_t u8g2;
+pos_t window_upper_left_pos;
 
 
 /*===============================================*/
@@ -256,8 +257,30 @@ void map_draw(uint8_t map_idx, uint8_t x0, uint8_t y0)
 }
 
 
+void setWindowPosByItem(pos_t *pos, uint8_t item_index)
+{
+  item_t *item;
+  item = pool_GetItem(item_index);
+  pos->x = item->pos.x;
+  pos->x -= MAP_DISPLAY_WIDTH/2;
+  pos->y = item->pos.y;
+  pos->y -= MAP_DISPLAY_HEIGHT/2;  
+}
 
 
+void moveHero(uint8_t dir)
+{
+  /* hero move/action */
+  moveItem(0, dir);
+  
+  /* other monster actions */
+  
+  /* execute any movements */
+  moveAllItems();
+  
+  /* recalculate window position */
+  setWindowPosByItem(&window_upper_left_pos, 0);
+}
 
 int main(void)
 {
@@ -274,17 +297,19 @@ int main(void)
   u8g2_SetFont(&u8g2, scrollosprites);
 
   setupLevel(0);
+  /* recalculate window position */
+  setWindowPosByItem(&window_upper_left_pos, 0);
 
   
   for(;;)
   {
     
-    printf("%d %d\n",x ,y);
+    printf("%d %d\n",window_upper_left_pos.x ,window_upper_left_pos.y);
     
     u8g2_FirstPage(&u8g2);
     do
     {
-      map_draw(0, x, y);
+      map_draw(0, window_upper_left_pos.x, window_upper_left_pos.y);
     } while( u8g2_NextPage(&u8g2) );
     
     do
@@ -298,10 +323,18 @@ int main(void)
     
     switch( k )
     {
-      case 273: y--; break;
-      case 274: y++; break;
-      case 276: x--; break;
-      case 275: x++; break;      
+      case 273: y--; 
+	moveHero(3);
+	break;
+      case 274: y++; 
+	moveHero(1);
+	break;
+      case 276: x--; 
+	moveHero(2);
+	break;
+      case 275: x++; 
+	moveHero(0);
+	break;      
       default: break;
     }
     

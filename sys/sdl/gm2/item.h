@@ -25,6 +25,8 @@ struct _item_struct
 };
 typedef struct _item_struct item_t;
 
+item_t *pool_GetItem(uint8_t idx);
+
 
 void posStep(pos_t *pos, uint8_t dir);
 void moveAllItems(void);
@@ -34,5 +36,7 @@ uint8_t getMapTileByPos(pos_t *pos);
 
 void setupLevel(uint8_t level);
 uint8_t getMapTile(uint8_t x, uint8_t y);
+
+uint8_t moveItem(uint8_t item_index, uint8_t dir);
 
 #endif /* _ITEM_H */
