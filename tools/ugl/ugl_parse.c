@@ -56,6 +56,8 @@ struct ugl_buildin_cmd_struct ugl_buildin_cmd_list[] = {
   { /* code=*/ 3, 	/* name=*/ "a", 		/* args=*/ 2 }, /* reassign the value of the n-th argument of a user defined function */
   { /* code=*/ 4, 	/* name=*/ "add", 		/* args=*/ 2 },
   { /* code=*/ 5, 	/* name=*/ "print", 		/* args=*/ 1 },
+  { /* code=*/ 6, 	/* name=*/ "setPos", 	/* args=*/ 2 },
+  { /* code=*/ 7, 	/* name=*/ "setItemPos", /* args=*/ 1 },
 };
 
 

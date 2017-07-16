@@ -371,6 +371,34 @@ void bc_fn_add(bc_t *bc)
   bc_push_on_arg_stack(bc, v);
 }
 
+#ifndef UGL_TEST
+pos_t bc_pos;
+#endif
+
+void bc_fn_setPos(bc_t *bc)
+{
+  uint8_t x, y;
+  y = bc_pop_from_arg_stack(bc);
+  x = bc_pop_from_arg_stack(bc);
+#ifndef UGL_TEST
+  bc_pos.x = x;
+  bc_pos.y = y;
+#endif
+  bc_push_on_arg_stack(bc, 0);
+}
+
+void bc_fn_setItemPos(bc_t *bc)
+{
+  uint8_t i;
+  i = bc_pop_from_arg_stack(bc);
+#ifndef UGL_TEST
+  pool_GetItem(i)->pos = bc_pos;
+  printf("item %d new x=%d y=%d\n", i, bc_pos.x, bc_pos.y);
+#endif
+  bc_push_on_arg_stack(bc, i);  
+}
+
+
 /*======================================================*/
 bc_buildin_fn bc_buildin_list[] = 
 {
@@ -380,6 +408,8 @@ bc_buildin_fn bc_buildin_list[] =
   /* 3 */ bc_fn_arg2,		/* two arguments */
   /* 4 */ bc_fn_add,
   /* 5 */ bc_fn_print,
+  /* 6 */ bc_fn_setPos,	/* two args: x & y*/
+  /* 7 */ bc_fn_setItemPos,	/* one args: item */
 };
 
 

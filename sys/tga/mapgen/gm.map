@@ -171,6 +171,8 @@ endproc
 
 map test 20 9
 mapinit
+ setPos(3,2)
+ setItemPos(0)
   
 endproc
 
