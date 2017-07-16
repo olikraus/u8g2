@@ -29,6 +29,13 @@
 #include <stdio.h>
 #include <assert.h>
 
+#ifndef UGL_TEST
+#include "item.h"
+#include "map.h"
+#endif
+
+
+
 void bc_push_on_arg_stack(bc_t *bc, uint16_t val)
 {
   bc->arg_stack[bc->arg_stack_pointer]  = val;

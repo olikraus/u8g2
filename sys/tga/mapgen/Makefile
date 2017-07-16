@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -I../../../csrc/.  -I../../../tools/ugl/. -DU8G2_16BIT
+CFLAGS = -g -Wall -I../../../csrc/.  -I../../../tools/ugl/. -DU8G2_16BIT -DUGL_TEST
 
 SRC = $(shell ls ../../../csrc/*.c) mapgen.c u8g2_d_tga.c
 SRC += ../../../tools/ugl/ugl_arrays.c  

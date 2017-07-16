@@ -36,6 +36,7 @@ struct _item_template_struct
 };
 typedef struct _item_template_struct item_template_t;
 
+extern unsigned char map_code[] ;
 extern item_template_t item_template_list[];
 extern map_t map_list[];
 

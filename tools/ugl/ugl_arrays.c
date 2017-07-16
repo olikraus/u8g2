@@ -19,15 +19,16 @@ int ugl_label_cnt;
 
 /* procedures */
 
-void ugl_InitBytecode(void)
-{
-  ugl_bytecode_len = 0;
-}
-
 void ugl_AddBytecode(uint8_t x)
 {
   ugl_bytecode_array[ugl_bytecode_len] = x;
   ugl_bytecode_len++;
+}
+
+void ugl_InitBytecode(void)
+{
+  ugl_bytecode_len = 0;
+  ugl_AddBytecode(BC_CMD_RETURN_FROM_PROCEDURE);
 }
 
 void ugl_ExecBytecode(void)

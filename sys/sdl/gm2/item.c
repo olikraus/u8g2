@@ -8,6 +8,7 @@
 */
 
 #include <stddef.h>
+#include "ugl_bc.h"
 #include "item.h"
 #include "map.h"
 
@@ -24,6 +25,17 @@ uint8_t current_level;
 item_t item_pool[ITEM_MAX];
 
 item_t *item_under_pos;	/* set by getMapTile() */
+
+bc_t bc;
+
+
+/*===============================================*/
+
+
+void execute(uint16_t pos)
+{
+  bc_exec(&bc, map_code, pos);
+}
 
 /*===============================================*/
 
@@ -135,6 +147,9 @@ void setupLevel(uint8_t level)
     item->tile = item_template_list[item->template_index].fg_tile;
     onmap_ptr++;
   }
+  
+  execute(map_list[level].init_proc);
+
 }
 
 /*
