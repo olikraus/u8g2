@@ -1,14 +1,30 @@
 CFLAGS = -g -Wall -Wpointer-arith -I. -I../../../csrc/. -I../../tga/mapgen/. -I../../../tools/ugl/ `sdl-config --cflags` 
 
-SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) ../../tga/mapgen/map.c  main.c item.c
-SRC += ../../../tools/ugl/ugl_bc.c
+GMSRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) 
+GMSRC += map.c  main.c item.c
+GMSRC += ../../../tools/ugl/ugl_bc.c
 
-OBJ = $(SRC:.c=.o)
+GMOBJ = $(GMSRC:.c=.o)
 
-gm: $(OBJ) 
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) `sdl-config --libs` -o gm
-	
+MAPGENSRC = $(shell ls ../../../csrc/*.c) mapgen.c u8g2_d_tga.c
+MAPGENSRC += ../../../tools/ugl/ugl_arrays.c  
+MAPGENSRC += ../../../tools/ugl/ugl_error.c  
+MAPGENSRC += ../../../tools/ugl/ugl_parse.c
+#MAPGENSRC += ../../../tools/ugl/ugl_bc.c
+
+MAPGENOBJ = $(MAPGENSRC:.c=.o)
+
+
+
+gm: $(GMOBJ) map.c
+	$(CC) $(CFLAGS) $(LDFLAGS) $(GMOBJ) `sdl-config --libs` -o gm
+
+mapgen: $(MAPGENOBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(MAPGENOBJ) -o mapgen
+
+map.c: mapgen gm.map
+	./mapgen -o map.c gm.map
 
 clean:	
-	-rm $(OBJ) u8g2_sdl
+	-rm $(GMOBJ) $(MAPGENOBJ) gm mapgen map.c
 

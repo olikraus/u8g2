@@ -31,11 +31,13 @@ void ugl_InitBytecode(void)
   ugl_AddBytecode(BC_CMD_RETURN_FROM_PROCEDURE);
 }
 
+/*
 void ugl_ExecBytecode(void)
 {
   bc_t bc;
   bc_exec(&bc, ugl_bytecode_array, 0);
 }
+*/
 
 
 void ugl_CheckForAllLabelsDefined(void)

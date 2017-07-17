@@ -299,7 +299,6 @@ void bc_exec(bc_t *bc, uint8_t *code, uint16_t pos)
 }
 
 
-
 /*======================================================*/
 
 /* put top of stack into register a, reduce stack */

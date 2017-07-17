@@ -1,0 +1,204 @@
+#
+# gm.map
+#
+# Syntax:
+# 	'hash' introduces a comment
+#	tile <ascii> <mapto> <top> <right> <bottom> <left>
+#		map the <ascii> code to the specified <mapto> code, if the other for tiles match
+#		If one of the other four tiles is 0, then ignore this tile (wildcard)
+#	thing ... same as tile, but can be redefined at any time, should redefine to char
+#	itemkey <iname> <ascii> <bg-tile>		... similar thing, but will connect to an item and assign the <backgroundmapto> instead
+#
+#	summery:
+#		tile: static fixed  thing for all maps
+#		thing: static thing for some maps
+#		itemkey: dynamic objects like changing doors, boxes or monsters
+#	
+#	item <iname> <foregroundmapto>
+#		defines a global template for an object.
+#		anyting on the map, which might disappear, move or change has to be an item
+#	itemuse <iname> <ascii>
+#		only within active map. <mapto> will be the background tile for the char
+#		the current foreground tile might still be differrent and is set during iteminit
+#		connects the ascii char with the given ascii char on the map to get the xy pos.
+#	iteminit <iname>
+#		<procedure>
+#	endproc
+#		procedure, which is called, when the item is created,
+#		receives position, where it should be created on the map
+#	itemhit <iname>
+#		procedure, which is called, when the item is hit by something
+#		- returns 0 if the item hitting item has to be stopped
+#		- may move itself
+#		- may change its own shape (tile)
+#		- may modify its status
+#	endproc
+#		
+#		example "normal door, status=closed"
+#		1. hit: status=open, change tile to open door, return 0
+#		2. hit: return 1 (hero can pass)
+#		example "creature, status=5 life"
+#		1. hit: get hitting obj attac damage, reduce life --> status=2, apply attack damage hitting object, return 0
+#		2. hit: get hitting obj attac damage, reduce life --> status=0, remove object from map, return 0
+#		3. hero can continue
+#
+#	itemstep <iname>
+#		executed every step
+#		- moving items can move towards hero or others
+#	endproc
+#	mapinit
+#		executed during map init
+#	endproc
+#
+#
+#	map <name> <width> <height>
+#		Create a map with the given name and size. this must be followed by :
+#	endmap
+#		Finish the current map
+#
+tile 32 32	# map space to space
+tile '+ $80 0 '- '| 0
+tile '+ $80 0 '- '+ 0
+tile '+ $80 0 '+ '| 0
+tile '+ $80 0 '+ '+ 0
+
+tile '+ $81 0 0 '| '-
+tile '+ $81 0 0 '+ '-
+tile '+ $81 0 0 '| '+
+tile '+ $81 0 0 '+ '+
+
+tile '+ $82 '| '- 0 0
+tile '+ $82 '+ '- 0 0
+tile '+ $82 '| '+ 0 0
+tile '+ $82 '+ '+ 0 0
+
+tile '+ $83 '| 0 0 '-
+tile '+ $83 '+ 0 0 '-
+tile '+ $83 '| 0 0 '+
+tile '+ $83 '+ 0 0 '+
+
+tile '+ $84 '| '- '| 0
+tile '+ $84 '+ '- '| 0
+tile '+ $84 '| '+ '| 0
+tile '+ $84 '+ '+ '| 0
+tile '+ $84 '| '- '+ 0
+tile '+ $84 '+ '- '+ 0
+tile '+ $84 '| '+ '+ 0
+tile '+ $84 '+ '+ '+ 0
+
+
+tile '+ $85 '| 0 '| '-
+tile '+ $85 '+ 0 '| '-
+tile '+ $85 '| 0 '+ '-
+tile '+ $85 '+ 0 '+ '-
+tile '+ $85 '| 0 '| '+
+tile '+ $85 '+ 0 '| '+
+tile '+ $85 '| 0 '+ '+
+tile '+ $85 '+ 0 '+ '+
+
+tile '+ $86 0 '- '| '-
+tile '+ $86 0 '+ '| '-
+tile '+ $86 0 '- '+ '-
+tile '+ $86 0 '+ '+ '-
+tile '+ $86 0 '- '| '+
+tile '+ $86 0 '+ '| '+
+tile '+ $86 0 '- '+ '+
+tile '+ $86 0 '+ '+ '+
+
+tile '+ $87 '| '- 0 '-
+tile '+ $87 '+ '- 0 '-
+tile '+ $87 '| '+ 0 '-
+tile '+ $87 '+ '+ 0 '-
+tile '+ $87 '| '- 0 '+
+tile '+ $87 '+ '- 0 '+
+tile '+ $87 '| '+ 0 '+
+tile '+ $87 '+ '+ 0 '+
+
+tile '+ $88 '| '- '| '-
+tile '+ $88 '+ '- '| '-
+tile '+ $88 '| '+ '| '-
+tile '+ $88 '+ '+ '| '-
+tile '+ $88 '| '- '+ '-
+tile '+ $88 '+ '- '+ '-
+tile '+ $88 '| '+ '+ '-
+tile '+ $88 '+ '+ '+ '-
+tile '+ $88 '| '- '| '+
+tile '+ $88 '+ '- '| '+
+tile '+ $88 '| '+ '| '+
+tile '+ $88 '+ '+ '| '+
+tile '+ $88 '| '- '+ '+
+tile '+ $88 '+ '- '+ '+
+tile '+ $88 '| '+ '+ '+
+tile '+ $88 '+ '+ '+ '+
+
+
+tile '| $7e 0 0 '| 0
+tile '| $7e 0 0 '+ 0
+tile '| $7f 0 0 0 0
+tile '- $7d 0 0 0 0 
+
+tile '. $6a		# stone 2
+tile ': $6b		# stone 3
+
+thing 'f $74 		# fire
+thing '^ $73 		# door open
+thing 'C $79		# cupboard
+thing 'S $7a		# bookshelf
+thing 'c $78		# chair
+thing 't $7b		# table
+thing 'T $7c		# throne
+thing 'h $9c		# chest
+
+thing 'H $92		# hut
+thing 'K $93		# kingdom
+
+item normal_door $72		# $72 = door closed --> inital tile
+itemkey normal_door 'x $73	# $73 = door open --> this will be placed on the map, the item can destroy itself, but this tile will stay
+
+iteminit normal_door
+  print(add(1,2))
+  print(add(3,4))
+  print(add(1234,5678))
+endproc
+
+itemhit normal_door
+endproc
+
+itemstep normal_door
+endproc
+
+
+
+map test 20 9
+mapinit
+ setPos(3,2)
+ setItemPos(0)
+  
+endproc
+
+:   K         H
+:   .         .
+:   ...........
+:      .  .
+:+-----^--x--C--S---+
+:| T               f|
+:|ctc      h        |
+:| c                |
+:+-----^-----x------+
+
+endmap
+
+thing 'S $54		# Spider
+thing 'k $a0		# key
+map first 12 12
+:+---+  +---+
+:|   |  |   |
+:+-+ +--+ | |
+:  |    +-+ |
+:  |    |   |
+:  |        |
+:  +-+ -----+
+:    |    Sk|
+:    +------+
+endmap
+
