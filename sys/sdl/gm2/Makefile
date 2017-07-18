@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wpointer-arith -I. -I../../../csrc/. -I../../tga/mapgen/. -I../../../tools/ugl/ `sdl-config --cflags` 
+CFLAGS = -g -Wall -Wpointer-arith -I. -I../../../csrc/. -I../../tga/mapgen/. `sdl-config --cflags` 
 
 GMSRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) 
 GMSRC += map.c  main.c item.c
