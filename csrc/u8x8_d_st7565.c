@@ -199,7 +199,7 @@ static const uint8_t u8x8_d_st7565_dogm128_init_seq[] = {
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V5 vreg internal resistor ratio max */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -266,7 +266,7 @@ static const uint8_t u8x8_d_st7565_64128n_init_seq[] = {
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   //U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  //U8X8_C(0x027),		                /* regulator, booster and follower */
+  //U8X8_C(0x027),		                /* set V5 vreg internal resistor ratio max */
 
   U8X8_C(0x010),                   		/* Set V0 voltage resistor ratio. Setting for controlling brightness of Displaytech 64128N */
   
@@ -386,7 +386,7 @@ static const uint8_t u8x8_d_st7565_zolen_128x64_init_seq[] = {
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V5 vreg internal resistor ratio max */
   U8X8_CA(0x081, 0x007),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -635,7 +635,7 @@ static const uint8_t u8x8_d_st7565_lm6059_init_seq[] = {
   U8X8_C(0x0a3),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature)*/
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V5 vreg internal resistor ratio max */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -727,7 +727,7 @@ static const uint8_t u8x8_d_st7565_erc12864_init_seq[] = {
   U8X8_C(0x0a3),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature)*/
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V5 vreg internal resistor ratio max */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -820,7 +820,7 @@ static const uint8_t u8x8_d_nt7534_tg12864r_init_seq[] = {
   U8X8_C(0x0a3),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   //U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature)*/
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V5 vreg internal resistor ratio max */
   U8X8_CA(0x081, 0x009),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
