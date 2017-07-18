@@ -1,0 +1,22 @@
+
+proc main
+  if print(0) 
+    print(123)
+  else
+    print(999)
+  endif
+  print(test(777))
+  print(add(3,4))
+endproc
+
+# expects one argument, which has to be removed with the pop function
+# procedures always have to ensure to remove their args
+# test expects one argument a(1)
+proc test
+  locals 1		
+  a(2, a(1))		# store a(1) in local var a(2)
+  print(a(2))		# print local var a(2)
+  print(a(1))		# print argument a(1)
+  print(a(0))		# print return value a(0) (should be zero)
+  return(888)
+endproc

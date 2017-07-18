@@ -2,18 +2,19 @@ CFLAGS = -g -Wall -Wpointer-arith -I. -I../../../csrc/. -I../../tga/mapgen/. -I.
 
 GMSRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) 
 GMSRC += map.c  main.c item.c
-GMSRC += ../../../tools/ugl/ugl_bc.c
+#GMSRC += ../../../tools/ugl/ugl_bc.c
+GMSRC += ugl_bc.c
 
 GMOBJ = $(GMSRC:.c=.o)
 
 MAPGENSRC = $(shell ls ../../../csrc/*.c) mapgen.c u8g2_d_tga.c
-MAPGENSRC += ../../../tools/ugl/ugl_arrays.c  
-MAPGENSRC += ../../../tools/ugl/ugl_error.c  
-MAPGENSRC += ../../../tools/ugl/ugl_parse.c
-#MAPGENSRC += ../../../tools/ugl/ugl_bc.c
+MAPGENSRC += ugl_arrays.c  ugl_error.c  ugl_parse.c
 
 MAPGENOBJ = $(MAPGENSRC:.c=.o)
 
+UGLSRC = ugl_arrays.c  ugl_error.c  ugl_parse.c ugl_bc.c  ugl_main.c   item.c map.c
+
+UGLOBJ = $(UGLSRC:.c=.o)
 
 
 gm: $(GMOBJ) map.c
@@ -22,9 +23,12 @@ gm: $(GMOBJ) map.c
 mapgen: $(MAPGENOBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(MAPGENOBJ) -o mapgen
 
-map.c: mapgen gm.map
+map.c: mapgen gm.map 
 	./mapgen -o map.c gm.map
+	
+ugl: $(UGLOBJ) map.c
+	$(CC) $(CFLAGS) $(LDFLAGS) $(UGLOBJ) -o ugl
 
 clean:	
-	-rm $(GMOBJ) $(MAPGENOBJ) gm mapgen map.c
+	-rm $(GMOBJ) $(MAPGENOBJ) $(UGLOBJ) gm mapgen map.c
 
