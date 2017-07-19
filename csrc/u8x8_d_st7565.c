@@ -197,9 +197,9 @@ static const uint8_t u8x8_d_st7565_dogm128_init_seq[] = {
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
+  U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -266,7 +266,7 @@ static const uint8_t u8x8_d_st7565_64128n_init_seq[] = {
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
   U8X8_C(0x02f),		                /* all power  control circuits on */
   //U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  //U8X8_C(0x027),		                /* regulator, booster and follower */
+  //U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
 
   U8X8_C(0x010),                   		/* Set V0 voltage resistor ratio. Setting for controlling brightness of Displaytech 64128N */
   
@@ -291,6 +291,7 @@ static const uint8_t u8x8_d_st7565_64128n_init_seq[] = {
   U8X8_C(0x028 | 0x06),            /* power control: turn on voltage regulator */
   U8X8_C(0x028 | 0x07),            /* power control: turn on voltage follower */
   U8X8_C(0x010),                   /* Set V0 voltage resistor ratio. Setting for controlling brightness of Displaytech 64128N */
+					      /* 19 Jul 17: Not sure if this is true, cmd 0x1? is used to set the column */
   U8X8_C(0x0a6),                   /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x081),      	           /* set contrast */
   U8X8_C(0x01e),        	       /* Contrast value. Setting for controlling brightness of Displaytech 64128N */
@@ -384,9 +385,9 @@ static const uint8_t u8x8_d_st7565_zolen_128x64_init_seq[] = {
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x0a2),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
+  U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
   U8X8_CA(0x081, 0x007),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -633,9 +634,9 @@ static const uint8_t u8x8_d_st7565_lm6059_init_seq[] = {
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x0a3),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
-  U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature)*/
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
+  U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature) */
+  U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -725,9 +726,9 @@ static const uint8_t u8x8_d_st7565_erc12864_init_seq[] = {
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x0a3),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
+  U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature)*/
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
   U8X8_CA(0x081, 0x018),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
@@ -818,9 +819,9 @@ static const uint8_t u8x8_d_nt7534_tg12864r_init_seq[] = {
   
   U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
   U8X8_C(0x0a3),		                /* LCD bias 1/9 */
-  U8X8_C(0x02f),		                /* all power  control circuits on */
+  U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
   //U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x (ST7567 feature)*/
-  U8X8_C(0x027),		                /* regulator, booster and follower */
+  U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
   U8X8_CA(0x081, 0x009),		/* set contrast, contrast value, EA default: 0x016 */
   
   U8X8_C(0x0ae),		                /* display off */
