@@ -327,14 +327,12 @@ void item_write(FILE *fp)
   fprintf(fp, "item_template_t item_template_list[] = {\n");
   for( i = 0; i < item_cnt;i++ )
   {
-    fprintf(fp, "  { /* init= */ %u, /* hit= */%u, /* step= */ %u, /* fg= */ 0x%02x}", item_list[i].init_proc, item_list[i].hit_proc, item_list[i].step_proc, item_list[i].fg_tile);    
+    fprintf(fp, " /* %-20s */ { /* init= */ %4u, /* hit= */%4u, /* step= */ %4u, /* fg= */ 0x%02x}", item_list[i].name, item_list[i].init_proc, item_list[i].hit_proc, item_list[i].step_proc, item_list[i].fg_tile);    
     if ( i != item_cnt-1 )
 	fprintf(fp, ",\n");
     else
  	fprintf(fp, "\n");
-      
   }
-  
   fprintf(fp, "};\n\n");
 }
 
@@ -691,8 +689,8 @@ static void write_item_onmap(void)
 		  fprintf(out_fp, ",\n");
 		}
 		is_first = 0;
-		fprintf(out_fp, "  ");
-		fprintf(out_fp, "{ /*x=*/ %d, /*y=*/ %d, /*idx=*/ %d, %d}", x, y, tile_list[i].item_index, 0);
+		fprintf(out_fp, "  /* %-20s */ ", item_list[tile_list[i].item_index].name);
+		fprintf(out_fp, "{ /*x=*/ %2d, /*y=*/ %2d, /*idx=*/ %2d, %2d}", x, y, tile_list[i].item_index, 0);
 		cnt++;
 	      }
 	    }

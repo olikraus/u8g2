@@ -143,7 +143,7 @@ tile ': $6b		# stone 3
 thing 'f $74 		# fire
 thing '^ $73 		# door open
 thing 'C $79		# cupboard
-thing 'S $7a		# bookshelf
+thing 'b $7a		# bookshelf
 thing 'c $78		# chair
 thing 't $7b		# table
 thing 'T $7c		# throne
@@ -151,6 +151,8 @@ thing 'h $9c		# chest
 
 thing 'H $92		# hut
 thing 'K $93		# kingdom
+
+
 
 item normal_door $72		# $72 = door closed --> inital tile
 itemkey normal_door 'x $73	# $73 = door open --> this will be placed on the map, the item can destroy itself, but this tile will stay
@@ -167,28 +169,36 @@ endproc
 itemstep normal_door
 endproc
 
+item spider $54
+itemkey spider 'S 32	# use blank as background under 'S'
+iteminit spider
+endproc
+itemhit spider
+endproc
+itemstep spider
+endproc
 
 
 map test 20 9
+
 mapinit
  setPos(3,2)
- setItemPos(0)
-  
+ setItemPos(0)  
 endproc
 
 :   K         H
 :   .         .
 :   ...........
 :      .  .
-:+-----^--x--C--S---+
+:+-----^--x--C--b---+
 :| T               f|
-:|ctc      h        |
-:| c                |
+:|ctc      h    S   |
+:| c              S |
 :+-----^-----x------+
 
 endmap
 
-thing 'S $54		# Spider
+#thing 'S $54		# Spider
 thing 'k $a0		# key
 map first 12 12
 :+---+  +---+

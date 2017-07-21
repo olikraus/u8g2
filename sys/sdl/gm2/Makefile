@@ -30,5 +30,5 @@ ugl: $(UGLOBJ) map.c
 	$(CC) $(CFLAGS) $(LDFLAGS) $(UGLOBJ) -o ugl
 
 clean:	
-	-rm $(GMOBJ) $(MAPGENOBJ) $(UGLOBJ) gm mapgen map.c
+	-rm $(GMOBJ) $(MAPGENOBJ) $(UGLOBJ) gm mapgen ugl map.c
 
