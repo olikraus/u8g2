@@ -321,6 +321,8 @@ uint8_t u8x8_d_sh1106_128x64_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
   {
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
+      /* maybe use a better init sequence */
+      /* https://www.mikrocontroller.net/topic/431371 */
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
