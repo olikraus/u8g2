@@ -30,6 +30,7 @@ item_t *pool_GetItem(uint8_t idx);
 
 void posStep(pos_t *pos, uint8_t dir);
 void moveAllItems(void);
+void callStepAllItems(void);
 
 uint8_t getMapTileByPos(pos_t *pos);
 

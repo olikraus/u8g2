@@ -100,6 +100,21 @@ void moveAllItems(void)
   } while( i != 0);
 }
 
+void callStepAllItems(void)
+{
+  uint8_t i;
+  item_t *item;
+  i = item_cnt;
+  item = item_pool;
+  do
+  {
+    execute(item_template_list[item->template_index].step_proc);
+    
+    item++;
+    i--;
+  } while( i != 0);
+}
+
 
 /*===============================================*/
 

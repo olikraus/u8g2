@@ -397,6 +397,19 @@ void bc_fn_setItemPos(bc_t *bc)
   bc_push_on_arg_stack(bc, i);  
 }
 
+void bc_fn_setItemDir(bc_t *bc)
+{
+  uint8_t i;
+  uint8_t dir;
+  dir = bc_pop_from_arg_stack(bc);
+  i = bc_pop_from_arg_stack(bc);
+#ifndef UGL_TEST
+  pool_GetItem(i)->dir = dir;
+  printf("item %d dir=%d\n", i, dir);
+#endif
+  bc_push_on_arg_stack(bc, i);  
+}
+
 
 /*======================================================*/
 bc_buildin_fn bc_buildin_list[] = 
@@ -407,8 +420,9 @@ bc_buildin_fn bc_buildin_list[] =
   /* 3 */ bc_fn_arg2,		/* two arguments */
   /* 4 */ bc_fn_add,
   /* 5 */ bc_fn_print,
-  /* 6 */ bc_fn_setPos,	/* two args: x & y*/
-  /* 7 */ bc_fn_setItemPos,	/* one args: item */
+  /* 6 */ bc_fn_setPos,	/* two args: x & y: assign x/y to the pos temp var */
+  /* 7 */ bc_fn_setItemPos,	/* one args: item, assign pos temp var to item */
+  /* 8 */ bc_fn_setItemDir,		/* two args, item and dir */
 };
 
 

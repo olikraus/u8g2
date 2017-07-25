@@ -58,6 +58,7 @@ struct ugl_buildin_cmd_struct ugl_buildin_cmd_list[] = {
   { /* code=*/ 5, 	/* name=*/ "print", 		/* args=*/ 1 },
   { /* code=*/ 6, 	/* name=*/ "setPos", 	/* args=*/ 2 },
   { /* code=*/ 7, 	/* name=*/ "setItemPos", /* args=*/ 1 },
+  { /* code=*/ 8, 	/* name=*/ "setItemDir",  /* args=*/ 2 },
 };
 
 

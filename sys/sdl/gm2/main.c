@@ -325,7 +325,7 @@ void moveHero(uint8_t dir)
   moveItem(0, dir);
   
   /* other monster actions */
-
+  callStepAllItems();
 
   /* recalculate window position */
   setWindowPosByItem(0);
