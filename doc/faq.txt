@@ -66,6 +66,13 @@ You can use any pins with the software emulated SPI of u8g2 (constructors ending
 in _SW_SPI). Howver in general it is better to use hardware SPI to get a better
 performance of your display.
 
+Q: How to wire ST7920 display in 8080 mode?
+A:
+- See also https://github.com/olikraus/u8g2/wiki/gallery#26-nov-2016-st7920-128x64-lcd-in-8080-parallel-mode
+- Connect the RW (SID) input of your ST7920 display to ground.
+- In the u8g2 constructor, use U8X8_PIN_NONE for "cs" signal
+- The "dc" pin is called "RS" in the ST7920 documentation.
+- See also issue #90: https://github.com/olikraus/u8g2/issues/90
 
 Displays
 
