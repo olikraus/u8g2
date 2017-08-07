@@ -583,6 +583,24 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+
+  {
+    "sbn1661", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "122x32" },
+      { NULL }
+    },
+  },
+  {
+    "sed1520", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "122x32" },
+      { NULL }
+    },
+  },
+  
   {
     "ks0108", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
     "", /* is_generate_u8g2_class= */ 1,

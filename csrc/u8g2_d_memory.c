@@ -489,6 +489,42 @@ uint8_t *u8g2_m_ist3020_24_f(uint8_t *page_cnt)
   *page_cnt = 8;
   return buf;
 }
+uint8_t *u8g2_m_sbn1661_16_1(uint8_t *page_cnt)
+{
+  static uint8_t buf[128];
+  *page_cnt = 1;
+  return buf;
+}
+uint8_t *u8g2_m_sbn1661_16_2(uint8_t *page_cnt)
+{
+  static uint8_t buf[256];
+  *page_cnt = 2;
+  return buf;
+}
+uint8_t *u8g2_m_sbn1661_16_f(uint8_t *page_cnt)
+{
+  static uint8_t buf[512];
+  *page_cnt = 4;
+  return buf;
+}
+uint8_t *u8g2_m_sed1520_16_1(uint8_t *page_cnt)
+{
+  static uint8_t buf[128];
+  *page_cnt = 1;
+  return buf;
+}
+uint8_t *u8g2_m_sed1520_16_2(uint8_t *page_cnt)
+{
+  static uint8_t buf[256];
+  *page_cnt = 2;
+  return buf;
+}
+uint8_t *u8g2_m_sed1520_16_f(uint8_t *page_cnt)
+{
+  static uint8_t buf[512];
+  *page_cnt = 4;
+  return buf;
+}
 uint8_t *u8g2_m_ks0108_16_1(uint8_t *page_cnt)
 {
   static uint8_t buf[128];
