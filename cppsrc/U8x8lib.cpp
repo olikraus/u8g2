@@ -1074,3 +1074,19 @@ void u8x8_SetPin_KS0108(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_
   u8x8_SetPin(u8x8, U8X8_PIN_CS2, cs2);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
+
+void u8x8_SetPin_SED1520(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t dc, uint8_t e1, uint8_t e2, uint8_t reset)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_D0, d0);
+  u8x8_SetPin(u8x8, U8X8_PIN_D1, d1);
+  u8x8_SetPin(u8x8, U8X8_PIN_D2, d2);
+  u8x8_SetPin(u8x8, U8X8_PIN_D3, d3);
+  u8x8_SetPin(u8x8, U8X8_PIN_D4, d4);
+  u8x8_SetPin(u8x8, U8X8_PIN_D5, d5);
+  u8x8_SetPin(u8x8, U8X8_PIN_D6, d6);
+  u8x8_SetPin(u8x8, U8X8_PIN_D7, d7);
+  u8x8_SetPin(u8x8, U8X8_PIN_E, e1);
+  u8x8_SetPin(u8x8, U8X8_PIN_CS, e2);
+  u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+}

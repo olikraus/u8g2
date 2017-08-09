@@ -371,6 +371,64 @@ uint8_t u8x8_byte_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 }
 
 
+/* sed1520 or sbn1661 
+  U8X8_MSG_GPIO_E --> E1
+  U8X8_MSG_GPIO_CS --> E2
+*/
+uint8_t u8x8_byte_sed1520(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t i, b;
+  uint8_t *data;
+  static uint8_t enable_pin;
+ 
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 )
+      {
+	b = *data;
+	data++;
+	arg_int--;
+	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+	{
+	  u8x8_gpio_call(u8x8, i, b&1);
+	  b >>= 1;
+	}    
+	
+	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
+	u8x8_gpio_call(u8x8, enable_pin, 1);
+	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+	u8x8_gpio_call(u8x8, enable_pin, 0);
+      }
+      break;
+      
+    case U8X8_MSG_BYTE_INIT:
+      /* disable chipselect */
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);    
+      /* ensure that the enable signals are low */
+      u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+      u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS, 0);
+      enable_pin = U8X8_MSG_GPIO_E;
+      break;
+    case U8X8_MSG_BYTE_SET_DC:
+      u8x8_gpio_SetDC(u8x8, arg_int);
+      break;
+    case U8X8_MSG_BYTE_START_TRANSFER:
+      /* cs lines are not supported for the SED1520/SBN1661 */
+      /* instead, this will select the E1 or E2 line */ 
+      enable_pin = U8X8_MSG_GPIO_E;
+      if ( arg_int != 0 )
+	enable_pin = U8X8_MSG_GPIO_CS;
+      break;
+    case U8X8_MSG_BYTE_END_TRANSFER:
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
 /*=========================================*/
 
 

@@ -610,6 +610,7 @@ void u8x8_byte_set_ks0108_cs(u8x8_t *u8x8, uint8_t arg) U8X8_NOINLINE;
 uint8_t u8x8_byte_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);  /* OBSOLETE! */
 uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_byte_sed1520(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 /*==========================================*/
@@ -651,8 +652,8 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 #define U8X8_MSG_GPIO_D5			U8X8_MSG_GPIO(U8X8_PIN_D5)
 #define U8X8_MSG_GPIO_D6			U8X8_MSG_GPIO(U8X8_PIN_D6)
 #define U8X8_MSG_GPIO_D7			U8X8_MSG_GPIO(U8X8_PIN_D7)
-#define U8X8_MSG_GPIO_E 			U8X8_MSG_GPIO(U8X8_PIN_E)
-#define U8X8_MSG_GPIO_CS			U8X8_MSG_GPIO(U8X8_PIN_CS)
+#define U8X8_MSG_GPIO_E 			U8X8_MSG_GPIO(U8X8_PIN_E)			// used as E1 for the SED1520
+#define U8X8_MSG_GPIO_CS			U8X8_MSG_GPIO(U8X8_PIN_CS)		// used as E2 for the SED1520
 #define U8X8_MSG_GPIO_DC			U8X8_MSG_GPIO(U8X8_PIN_DC)
 #define U8X8_MSG_GPIO_RESET 		U8X8_MSG_GPIO(U8X8_PIN_RESET)
 #define U8X8_MSG_GPIO_I2C_CLOCK	U8X8_MSG_GPIO(U8X8_PIN_I2C_CLOCK)

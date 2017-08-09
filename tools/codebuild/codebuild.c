@@ -26,6 +26,7 @@
 #define COM_ST7920SPI	0x0020			/* mostly identical to COM_4WSPI, but does not use DC */
 #define COM_UART		0x0040
 #define COM_KS0108	0x0080			/* mostly identical to 6800 mode, but has more chip select lines */
+#define COM_SED1520	0x0100			
 
 struct interface
 {
@@ -585,7 +586,7 @@ struct controller controller_list[] =
   },
 
   {
-    "sbn1661", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "sbn1661", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_SED1520,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "122x32" },
@@ -593,7 +594,7 @@ struct controller controller_list[] =
     },
   },
   {
-    "sed1520", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "sed1520", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_SED1520,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "122x32" },
@@ -884,6 +885,17 @@ struct interface interface_list[] =
     "cs, dc, reset",
     "cs, dc [, reset]",
     "uC specific"
+  },  
+  /* 13 */
+  {
+    "",
+    "u8x8_SetPin_SED1520",
+    "u8x8_byte_sed1520",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t dc, uint8_t e1, uint8_t e2, uint8_t reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, reset",
+    "u8x8_byte_sed1520"
   },  
   
 
@@ -1241,6 +1253,10 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   {
     do_display_interface(controller_idx, display_idx, postfix, 11);	/* KS0108 6800 parallel mode */
   }
+  if ( controller_list[controller_idx].com & COM_SED1520 )
+  {
+    do_display_interface(controller_idx, display_idx, postfix, 13);
+  }
   
 }
 
@@ -1472,6 +1488,10 @@ void do_md_controller_list(void)
       if ( controller_list[controller_idx].com & COM_KS0108 )
       {
 	do_md_display_interface(controller_idx, display_idx, 11);		/* KS0108 */
+      }
+      if ( controller_list[controller_idx].com & COM_SED1520 )
+      {
+	do_md_display_interface(controller_idx, display_idx, 13);		/* SED1520 */
       }
       
       display_idx++;
