@@ -1459,6 +1459,7 @@ void do_md_controller_list(void)
 	if ( is_arduino_cpp )
 	{
 	  do_md_display_interface(controller_idx, display_idx, 1);		/* HW SPI */
+	  do_md_display_interface(controller_idx, display_idx, 12);	/* 2nd HW SPI */
 	}
       }
       if ( controller_list[controller_idx].com & COM_3WSPI )
