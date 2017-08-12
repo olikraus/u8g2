@@ -29,7 +29,7 @@ uint8_t tga_desc_b = 0;
 int tga_init(uint16_t w, uint16_t h)
 {
   tga_max_x = 0;
-  tga_max_y = 16;
+  tga_max_y = 64;
   tga_width = 0;
   tga_height = 0;
   tga_max_offset = 0;
@@ -49,76 +49,74 @@ int tga_init(uint16_t w, uint16_t h)
   return 1;
 }
 
-void tga_set_pixel(uint16_t x, uint16_t y, uint16_t f)
+void tga_set_pixel(uint16_t x, uint16_t y)
 {
   uint8_t *p;
-  uint16_t xx,yy;
   size_t offset;
-  for( yy = y; yy < y+f; yy++ )
-  {
-    for( xx = x; xx < x+f; xx++ )
-    {
-      if ( yy < tga_height && xx < tga_width )
-      {
-	//printf ("(%d %d) ", xx, yy);
-	      
-	offset = (tga_height-yy-1)*tga_width*3 + xx*3;
+	offset = (tga_height-y-1)*tga_width*3 + x*3;
 	p = tga_data + offset;
-	if ( tga_max_offset < offset )
-	  tga_max_offset = offset;
 	*p++ = tga_b;
 	*p++ = tga_g;
 	*p++ = tga_r;
-      }
-    }
-  }
 }
 
-void tga_clr_pixel(uint16_t x, uint16_t y, uint16_t f)
+void tga_clr_pixel(uint16_t x, uint16_t y)
 {
   uint8_t *p;
   size_t offset;
-  uint16_t xx,yy;
-  for( yy = y; yy < y+f; yy++ )
-  {
-    for( xx = x; xx < x+f; xx++ )
-    {
-      offset = (tga_height-yy-1)*tga_width*3 + xx*3;
-      p = tga_data + offset;
-      *p++ = 255;
-      *p++ = 255;
-      *p++ = 255;
-    }
-  }
+	
+	offset = (tga_height-y-1)*tga_width*3 + x*3;
+	p = tga_data + offset;
+	*p++ = 255;
+	*p++ = 255;
+	*p++ = 255;
 }
 
-void tga_set_8pixel(int x, int y, uint8_t pixel, uint16_t f)
+void tga_set_8pixel(int x, int y, uint8_t pixel)
 {
   int cnt = 8;
+  uint8_t *p;
+  size_t offset;
+	
+  offset = (tga_height-y-1)*tga_width*3 + x*3;
+  p = tga_data + offset;
+  offset = 3*tga_width + 3;
   while( cnt > 0 )
   {
     if ( (pixel & 1) != 0 )
     {
-      tga_set_pixel(x,y, f);
+      // tga_set_pixel(x,y);
+	*p++ = tga_b;
+	*p++ = tga_g;
+	*p++ = tga_r;
+	    
+	  if ( tga_max_y <= y+8 )
+		  tga_max_y = y+8;
+		
     }
     else
     {
-      tga_clr_pixel(x,y, f);
+      // tga_clr_pixel(x,y);
+	*p++ = 255;
+	*p++ = 255;
+	*p++ = 255;
     }
     pixel >>= 1;
-    y+=f;
+    //y+=1;
+    p -= offset;
     cnt--;
   }
 }
 
-void tga_set_multiple_8pixel(int x, int y, int cnt, uint8_t *pixel, uint16_t f)
+void tga_set_multiple_8pixel(int x, int y, int cnt, uint8_t *pixel)
 {
   uint8_t b;
+
   while( cnt > 0 )
   {
     b = *pixel;
-    tga_set_8pixel(x, y, b, f);
-    x+=f;
+    tga_set_8pixel(x, y, b);
+    x+=1;
     pixel++;
     cnt--;
   }
@@ -140,10 +138,22 @@ void tga_write_word(FILE *fp, uint16_t word)
 void tga_save(const char *name)
 {
   FILE *fp;
+  uint16_t h;
+  size_t offset;
   if ( tga_data == NULL )
     return;
   
-  //printf("tga_save: File %s with %dx%d pixel\n", name, tga_width, tga_height);
+
+  if ( tga_max_y >= tga_height )
+	  tga_max_y = tga_height-1;
+	
+  offset = (tga_height-tga_max_y-1)*tga_width*3;
+  h = tga_max_y+1;
+
+  //printf("tga_save: File %s with %dx%d pixel, offset=%ld\n", name, tga_width, h, offset);
+  
+  //offset = 0;
+  //h = tga_height;
   
   fp = fopen(name, "wb");
   if ( fp != NULL )
@@ -157,10 +167,10 @@ void tga_save(const char *name)
     tga_write_word(fp, 0);		/* x origin */
     tga_write_word(fp, 0);		/* y origin */
     tga_write_word(fp, tga_width);		/* width */
-    tga_write_word(fp, tga_height);		/* height */
+    tga_write_word(fp, h);		/* height */
     tga_write_byte(fp, 24);		/* color depth */
     tga_write_byte(fp, 0);		
-    fwrite(tga_data, tga_width*tga_height*3, 1, fp);
+    fwrite(tga_data+offset, tga_width*h*3, 1, fp);
     tga_write_word(fp, 0);
     tga_write_word(fp, 0);
     tga_write_word(fp, 0);
@@ -238,7 +248,7 @@ uint8_t u8x8_d_tga(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	tga_set_multiple_8pixel(x, y, c*8, ptr, 1);
+	tga_set_multiple_8pixel(x, y, c*8, ptr);
 
 	      
 	arg_int--;
