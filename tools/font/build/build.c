@@ -189,7 +189,8 @@ struct groupinfo gi[] = {
 #define MM_M	32	/* map file */
 #define MM_E	64	/* extended */
 
-struct fontinfo fi[] = {
+struct fontinfo fi[] ={
+	
   { 0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
   
   
@@ -199,6 +200,8 @@ struct fontinfo fi[] = {
   
   { 0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
   { 0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
+
+  { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
@@ -222,10 +225,13 @@ struct fontinfo fi[] = {
   { 0, "7x13O.bdf", 			"7x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14.bdf", 			"7x14", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14B.bdf", 			"7x14B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+//#ifdef TMP
   { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+
+  
   { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "9x15B.bdf", 			"9x15B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -235,6 +241,8 @@ struct fontinfo fi[] = {
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
+
+  
   { 0, "profont10.bdf", 		"profont10", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont11.bdf", 		"profont11", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont12.bdf", 		"profont12", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -242,7 +250,6 @@ struct fontinfo fi[] = {
   { 0, "profont17.bdf", 		"profont17", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
 
   { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
@@ -350,8 +357,10 @@ struct fontinfo fi[] = {
   { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
   { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
 
+//#endif   /* TMP */
   { 0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+//#ifdef TMP
   { 0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
@@ -381,7 +390,6 @@ struct fontinfo fi[] = {
   { 0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
   
-//#ifdef TMP
   
   /*
     $20a0-$20bf currency symbols
@@ -703,7 +711,7 @@ inconsolata
   { "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
   { "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
   
-//#endif
+// #endif /* TMP */
 
 };
 
@@ -785,6 +793,7 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
   
   u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
   u8g2_SetFontDirection(&u8g2, 0);
+  u8g2_SetFontMode(&u8g2, 1);
 
   ch = u8g2_GetMaxCharHeight(&u8g2);
   cw = u8g2_GetMaxCharWidth(&u8g2);

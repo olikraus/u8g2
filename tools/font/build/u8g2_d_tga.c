@@ -29,7 +29,7 @@ uint8_t tga_desc_b = 0;
 int tga_init(uint16_t w, uint16_t h)
 {
   tga_max_x = 0;
-  tga_max_y = 0;
+  tga_max_y = 16;
   tga_width = 0;
   tga_height = 0;
   tga_max_offset = 0;
@@ -61,6 +61,7 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint16_t f)
       if ( yy < tga_height && xx < tga_width )
       {
 	//printf ("(%d %d) ", xx, yy);
+	      
 	offset = (tga_height-yy-1)*tga_width*3 + xx*3;
 	p = tga_data + offset;
 	if ( tga_max_offset < offset )
@@ -238,6 +239,8 @@ uint8_t u8x8_d_tga(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 	tga_set_multiple_8pixel(x, y, c*8, ptr, 1);
+
+	      
 	arg_int--;
       } while( arg_int > 0 );
 
@@ -263,9 +266,9 @@ void u8x8_Setup_TGA(u8x8_t *u8x8)
 
 void u8g2_SetupBuffer_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 {
-  static uint8_t buf[(DEFAULT_WIDTH)*8*8];
+  static uint8_t buf[(DEFAULT_WIDTH)*8*32];
   
   u8x8_Setup_TGA(u8g2_GetU8x8(u8g2));
-  u8g2_SetupBuffer(u8g2, buf, 8, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, buf, 32, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
 }
 
