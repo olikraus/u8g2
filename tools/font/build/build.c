@@ -311,7 +311,7 @@ struct fontinfo fi[] = {
   { 0, "win_crox5t.bdf",		"crox5t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 
   
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
@@ -475,6 +475,8 @@ struct fontinfo fi[] = {
   { "-r 72 -p 8", "pixelle_micro.ttf",		"pixelle_micro",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "robot_de_niro.ttf",	"robot_de_niro",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 8", "trixel_square.ttf",		"trixel_square",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
 
 /*
   Free Universal Bold
