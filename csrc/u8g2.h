@@ -345,6 +345,12 @@ struct u8g2_struct
 
 #define u8g2_GetU8x8(u8g2) ((u8x8_t *)(u8g2))
 
+#ifdef U8X8_WITH_USER_PTR
+#define u8g2_GetUserPtr(u8g2) ((u8g2_GetU8x8(u8g2))->user_ptr)
+#define u8g2_SetUserPtr(u8g2, p) ((u8g2_GetU8x8(u8g2))->user_ptr = (p))
+#endif
+
+
 #define u8g2_SetAutoPageClear(u8g2, mode) ((u8g2)->is_auto_page_clear = (mode))
 
 /*==========================================*/

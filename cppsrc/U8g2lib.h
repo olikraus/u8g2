@@ -74,7 +74,12 @@ class U8G2 : public Print
     uint8_t getRows(void) { return u8x8_GetRows(u8g2_GetU8x8(&u8g2)); }
     void drawTile(uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr) {
       u8x8_DrawTile(u8g2_GetU8x8(&u8g2), x, y, cnt, tile_ptr); }
-    
+
+#ifdef U8X8_WITH_USER_PTR
+      void *getUserPtr() { return u8g2_GetUserPtr(&u8g2); }
+      void setUserPtr(void *p) { u8g2_SetUserPtr(&u8g2, p); }
+#endif
+      
 
 #ifdef U8X8_USE_PINS 
     /* set the menu pins before calling begin() or initDisplay() */

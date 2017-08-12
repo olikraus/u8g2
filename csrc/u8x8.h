@@ -91,6 +91,10 @@
 /* Undefine this to remove u8x8_SetContrast function */
 #define U8X8_WITH_SET_CONTRAST
 
+/* Define this for an additional user pointer inside the u8x8 data struct */
+//#define U8X8_WITH_USER_PTR
+
+
 /* Undefine this to remove u8x8_SetFlipMode function */
 /* 26 May 2016: Obsolete */
 //#define U8X8_WITH_SET_FLIP_MODE
@@ -332,10 +336,19 @@ struct u8x8_struct
   uint8_t debounce_last_pin_state;
   uint8_t debounce_state;
   uint8_t debounce_result_msg;	/* result msg or event after debounce */
+#ifdef U8X8_WITH_USER_PTR
+  void *user_ptr;
+#endif
 #ifdef U8X8_USE_PINS 
   uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
 #endif
 };
+
+#ifdef U8X8_WITH_USER_PTR
+#define u8x8_GetUserPtr(u8x8) ((u8x8)->user_ptr)
+#define u8x8_SetUserPtr(u8x8, p) ((u8x8)->user_ptr = (p))
+#endif
+
 
 #define u8x8_GetCols(u8x8) ((u8x8)->display_info->tile_width)
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
