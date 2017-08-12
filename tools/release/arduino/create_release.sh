@@ -15,6 +15,14 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Chinese
+cp ../../../sys/arduino/u8g2_page_buffer/Chinese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Chinese/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Japanese
+cp ../../../sys/arduino/u8g2_page_buffer/Japanese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Japanese/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Korean
+cp ../../../sys/arduino/u8g2_page_buffer/Korean/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Korean/.
 
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/ScrollingText
 cp ../../../sys/arduino/u8g2_page_buffer/ScrollingText/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ScrollingText/.
