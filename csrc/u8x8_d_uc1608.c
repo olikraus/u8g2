@@ -308,3 +308,85 @@ uint8_t u8x8_d_uc1608_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 }
 
 /*================================================*/
+/* experimental implementation for the uc1608 erc240x120 */
+
+static const u8x8_display_info_t u8x8_uc1608_erc240120_display_info =
+{
+  /* chip_enable_level = */ 1,	/* uc1608 has high active CS */
+  /* chip_disable_level = */ 0,
+  
+  /* post_chip_enable_wait_ns = */ 10,	/* uc1608 datasheet, page 39, actually 0 */
+  /* pre_chip_disable_wait_ns = */ 20,	/* uc1608 datasheet, page 39 */
+  /* reset_pulse_width_ms = */ 1, 	/* uc1608 datasheet, page 42 */
+  /* post_reset_wait_ms = */ 10, 	
+  /* sda_setup_time_ns = */ 30,		/* uc1608 datasheet, page 41 */
+  /* sck_pulse_width_ns = */ 65,	/* half of cycle time  */
+  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 30,	/* uc1608 datasheet, page 39 */
+  /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
+  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
+  /* tile_hight = */ 15,
+  /* default_x_offset = */ 0,	/* reused as y page offset */
+  /* flipmode_x_offset = */ 0,	/* reused as y page offset */
+  /* pixel_width = */ 240,
+  /* pixel_height = */ 120
+};
+
+/* http://www.buydisplay.com/download/democode/ERC240120-1_DemoCode.txt */
+static const uint8_t u8x8_d_uc1608_erc240120_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  U8X8_C(0x0e2),            			/* soft reset */
+  U8X8_DLY(200),
+
+  //U8X8_C(0x023),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
+  U8X8_C(0x026),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
+
+  U8X8_C(0x0c8),            			/* Map control, Bit 3: MY=1, Bit 2: MX=0, Bit 0: MSF =0 */
+  U8X8_C(0x0ea),            			/* LCD bias Bits 0/1: 00=10.7 01=10.3, 10=12.0, 11=12.7 */
+							/* according to DemoCode.txt */
+  
+  U8X8_C(0x02f),            			/* power on, Bit 2 PC2=1 (internal charge pump), Bits 0/1: cap of panel */
+  U8X8_DLY(50),
+  
+  U8X8_C(0x040),            			/* set display start line to 0 */
+  U8X8_C(0x090),            			/* no fixed lines */
+  U8X8_C(0x089),            			/* RAM access control */
+  
+  U8X8_CA(0x081, 46),			/* set contrast, 46 according to  DemoCode.txt */
+  
+  U8X8_C(0x000),		                /* column low nibble */
+  U8X8_C(0x010),		                /* column high nibble */  
+  U8X8_C(0x0b0),		                /* page adr  */
+  
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_uc1608_erc240120(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call common procedure first and handle messages there */
+  if ( u8x8_d_uc1608_common(u8x8, msg, arg_int, arg_ptr) == 0 )
+  {
+    /* msg not handled, then try here */
+    switch(msg)
+    {
+      case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1608_erc240120_display_info);
+	break;
+      case U8X8_MSG_DISPLAY_INIT:
+	u8x8_d_helper_display_init(u8x8);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1608_erc240120_init_seq);
+	break;
+      default:
+	return 0;		/* msg unknown */
+    }
+  }
+  return 1;
+}
+
+/*================================================*/
