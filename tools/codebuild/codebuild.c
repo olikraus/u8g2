@@ -700,6 +700,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "il3820", 	37, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI,
+    "Partly supported by U8x8, no HW flip, no contrast setting", /* is_generate_u8g2_class= */ 1,
+    {
+      { "296x128" },
+      { NULL }
+    }
+  },
+  {
     "sed1330", 	30, 	16, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800|COM_8080,
     "Not tested, might work for RA8835 and SED1335 also", /* is_generate_u8g2_class= */ 1,
     {

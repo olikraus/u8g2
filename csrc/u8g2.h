@@ -69,7 +69,7 @@
   Use 16 Bit mode for any display with more than 240 pixel in one 
   direction.
 */
-//#define U8G2_16BIT
+#define U8G2_16BIT
 
 
 /*
@@ -534,6 +534,9 @@ uint8_t *u8g2_m_ssd1606_22_f(uint8_t *page_cnt);
 uint8_t *u8g2_m_ssd1607_25_1(uint8_t *page_cnt);
 uint8_t *u8g2_m_ssd1607_25_2(uint8_t *page_cnt);
 uint8_t *u8g2_m_ssd1607_25_f(uint8_t *page_cnt);
+uint8_t *u8g2_m_il3820_37_1(uint8_t *page_cnt);
+uint8_t *u8g2_m_il3820_37_2(uint8_t *page_cnt);
+uint8_t *u8g2_m_il3820_37_f(uint8_t *page_cnt);
 uint8_t *u8g2_m_sed1330_30_1(uint8_t *page_cnt);
 uint8_t *u8g2_m_sed1330_30_2(uint8_t *page_cnt);
 uint8_t *u8g2_m_sed1330_30_f(uint8_t *page_cnt);
@@ -791,6 +794,9 @@ void u8g2_Setup_ssd1606_172x72_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_m
 void u8g2_Setup_ssd1607_200x200_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ssd1607_200x200_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ssd1607_200x200_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_il3820_296x128_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_il3820_296x128_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_il3820_296x128_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_sed1330_240x128_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_sed1330_240x128_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_sed1330_240x128_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
