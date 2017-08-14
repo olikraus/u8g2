@@ -329,7 +329,7 @@ static const u8x8_display_info_t u8x8_uc1608_erc240120_display_info =
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
   /* tile_hight = */ 15,
   /* default_x_offset = */ 1,	/* reused as y page offset */
-  /* flipmode_x_offset = */ 1,	/* reused as y page offset */
+  /* flipmode_x_offset = */ 0,	/* reused as y page offset */
   /* pixel_width = */ 240,
   /* pixel_height = */ 120
 };
@@ -356,7 +356,8 @@ static const uint8_t u8x8_d_uc1608_erc240120_init_seq[] = {
   U8X8_C(0x090),            			/* no fixed lines */
   U8X8_C(0x089),            			/* RAM access control */
   
-  U8X8_CA(0x081, 46),			/* set contrast, 46 according to  DemoCode.txt */
+  //U8X8_CA(0x081, 46),			/* set contrast, 46 according to  DemoCode.txt */
+  U8X8_CA(0x081, 80),			/* */
   
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  
