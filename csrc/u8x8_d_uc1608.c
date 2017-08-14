@@ -328,8 +328,8 @@ static const u8x8_display_info_t u8x8_uc1608_erc240120_display_info =
   /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
   /* tile_hight = */ 15,
-  /* default_x_offset = */ 0,	/* reused as y page offset */
-  /* flipmode_x_offset = */ 0,	/* reused as y page offset */
+  /* default_x_offset = */ 1,	/* reused as y page offset */
+  /* flipmode_x_offset = */ 1,	/* reused as y page offset */
   /* pixel_width = */ 240,
   /* pixel_height = */ 120
 };
