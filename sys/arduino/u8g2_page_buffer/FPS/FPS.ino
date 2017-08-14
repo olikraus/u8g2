@@ -214,6 +214,8 @@
   U8G2_SSD1325_NHD_128X64_1_4W_HW_SPI		Uno			Clip=18.2 Box=25.1  @=4.0 Pix=6.7		issue 302 before optimization
   U8G2_SSD1325_NHD_128X64_1_4W_HW_SPI		Uno			Clip=19.1 Box=28.3  @=4.1 Pix=7.2		issue 302 after optimization
   
+  15 Aug 2017, Arduino 1.8.3
+  U8G2_SSD1306_128X64_NONAME_1_HW_I2C		MKR Zero		Clip=20.8 Box=24.1  @=9.9 Pix=11.4
 */
 
 
