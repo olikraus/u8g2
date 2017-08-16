@@ -31,9 +31,9 @@ $EXTMIN
   9
 $EXTMAX
  10
-263.125
+280.6666666666688
  20
-360
+290.8125
  30
 0
   9
@@ -91,7 +91,7 @@ STANDARD
   9
 $CLAYER
   8
-measure
+invisible
   9
 $CELTYPE
   6
@@ -1121,9 +1121,9 @@ AcDbViewportTableRecord
  21
 1
  12
-199.9367346939508
+172.1500000000649
  22
-114.9795918367768
+123.9224489796386
  13
 0
  23
@@ -1149,7 +1149,7 @@ AcDbViewportTableRecord
  37
 0
  40
-263.175510204178
+263.175510204181
  41
 1.811893203883495
  42
@@ -2263,7 +2263,7 @@ AcDbLayerTableRecord
   2
 aux
  70
-    5
+    1
  62
     5
   6
@@ -2295,7 +2295,7 @@ invisible
  62
     7
   6
-DASHEDTINY
+DASHED2
 370
    35
 390
@@ -21151,55 +21151,9 @@ AcDbLine
  21
 222
   0
-MTEXT
-  5
-2C2
-100
-AcDbEntity
-  8
-measure
-  6
-ByLayer
- 62
-  256
-370
-   -1
-100
-AcDbMText
- 10
-156
- 20
-30
- 30
-0
- 40
-8
- 41
-100.4444444444462
- 71
-    1
- 72
-    1
-  1
-Holzbohrer:\P8, 10, 12, 16, 32mm\P
-  7
-standard
-210
-0
-220
-0
-230
-1
- 50
-0
- 73
-    2
- 44
-1
-  0
 DIMENSION
   5
-2C3
+2C2
 100
 AcDbEntity
   8
@@ -21256,6 +21210,288 @@ AcDbAlignedDimension
 0
 100
 AcDbRotatedDimension
+  0
+LINE
+  5
+2C3
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+10
+ 20
+36
+ 11
+10
+ 21
+60
+  0
+LINE
+  5
+2C4
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+12
+ 20
+36
+ 11
+12
+ 21
+60
+  0
+LINE
+  5
+2C5
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+78
+ 20
+36
+ 11
+78
+ 21
+60
+  0
+LINE
+  5
+2C6
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+80
+ 20
+60
+ 11
+80
+ 21
+36
+  0
+LINE
+  5
+2C7
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+10
+ 20
+224
+ 11
+10
+ 21
+200
+  0
+LINE
+  5
+2C8
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+12
+ 20
+224
+ 11
+12
+ 21
+200
+  0
+LINE
+  5
+2C9
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+78
+ 20
+224
+ 11
+78
+ 21
+200
+  0
+LINE
+  5
+2CA
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+80
+ 20
+224
+ 11
+80
+ 21
+200
+  0
+CIRCLE
+  5
+2CB
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+11
+ 20
+155
+ 40
+1
+  0
+CIRCLE
+  5
+2CC
+100
+AcDbEntity
+  8
+invisible
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+79
+ 20
+155
+ 40
+1
+  0
+MTEXT
+  5
+2CD
+100
+AcDbEntity
+  8
+measure
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbMText
+ 10
+166
+ 20
+40
+ 30
+0
+ 40
+8
+ 41
+65.33333333333508
+ 71
+    1
+ 72
+    1
+  1
+Holzbohrer:\P2.5, 8, 10, \P12, 16, 32mm\P
+  7
+standard
+210
+0
+220
+0
+230
+1
+ 50
+0
+ 73
+    2
+ 44
+1
   0
 ENDSEC
   0
