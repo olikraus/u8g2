@@ -128,4 +128,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed OldStandard-Bold fonts (osb, issue 306)
   * Support for SED1520/SBN1661 (issue 324)
  2017-xx-xx	v2.17.x   olikraus@gmail.com
+  * Additional _m_  and _h_ symbol fonts (issue 335)
    
