@@ -236,7 +236,8 @@ Kupferrohre 3x Durchmesser 12mm, Länge 40mm, Meterware Baumarkt
 Kupferrohre 2x L-Stück, 12mm, Baumarkt
 Steckernetzteil 5V, 2.1mm Hohlstecker (z.B. Reichelt SNT 1000 5V)
 Einbaukupplung, 2.0mm Stift (z.B. Reichelt LUM NEBJ 21C)
-
+Buzzer, Durchmesser 10mm
+--> Achtung: Den CAD Plan noch Ã¤ndern.
 
 
 ---------------

@@ -133,13 +133,13 @@ uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
 #else  /* __unix__ */
 
 
-#define U8X8_DEBOUNCE_WAIT 1
+#define U8X8_DEBOUNCE_WAIT 2
 /* do debounce and return a GPIO msg which indicates the event */
 /* returns 0, if there is no event */
 uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
 {
   uint8_t pin_state;
-  uint8_t result_msg = 0;	/* invalid message */
+  uint8_t result_msg = 0;	/* invalid message, no event */
   
   pin_state = u8x8_read_pin_state(u8x8);
   
@@ -149,12 +149,13 @@ uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
     case 0x00:	/* State A, default state */
       if ( u8x8->debounce_default_pin_state != pin_state )
       {
-	u8x8->debounce_last_pin_state = pin_state;
+	//u8x8->debounce_last_pin_state = pin_state;
 	u8x8->debounce_state = 0x010 + U8X8_DEBOUNCE_WAIT;
       }
       break;
     case 0x10:	/* State B */
-      if ( u8x8->debounce_last_pin_state != pin_state )
+      //if ( u8x8->debounce_last_pin_state != pin_state )
+      if ( u8x8->debounce_default_pin_state == pin_state )
       {
 	u8x8->debounce_state = 0x00;	/* back to state A */
       }
@@ -163,10 +164,22 @@ uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
 	/* keypress detected */
 	u8x8->debounce_last_pin_state = pin_state;
 	//result_msg = U8X8_MSG_GPIO_MENU_NEXT;
-	u8x8->debounce_state = 0x020;	/* got to state C */	
+	u8x8->debounce_state = 0x020 + U8X8_DEBOUNCE_WAIT;	/* got to state C */	
       }
       break;
+      
     case 0x20:	/* State C */
+      if ( u8x8->debounce_last_pin_state != pin_state )
+      {
+	u8x8->debounce_state = 0x00;	/* back to state A */
+      }
+      else
+      {
+	u8x8->debounce_state = 0x030;	/* got to state D */	
+      }
+      break;
+      
+    case 0x30:	/* State D */
       /* wait until key release */
       if ( u8x8->debounce_default_pin_state == pin_state )
       {
