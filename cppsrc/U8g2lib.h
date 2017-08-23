@@ -310,6 +310,7 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
 */
 
 
+#ifdef U8X8_USE_PINS
 
 /* Arduino constructor list start */
 /* generated code (codebuild), u8g2 project */
@@ -6309,6 +6310,8 @@ class U8G2_MAX7219_32X8_F_2ND_4W_HW_SPI : public U8G2 {
 };
 
 /* Arduino constructor list end */
+
+#endif // U8X8_USE_PINS
 
 #endif /* _U8G2LIB_HH */
 
