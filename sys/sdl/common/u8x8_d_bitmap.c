@@ -17,6 +17,7 @@
 
 struct _u8x8_bitmap_struct
 {
+  u8x8_msg_cb u8x8_bitmap_display_old_cb;
   uint16_t tile_width;
   uint16_t tile_height;
   uint16_t pixel_width;
@@ -165,7 +166,7 @@ static u8x8_display_info_t u8x8_bitmap_info =
 
 /* allocate bitmap */
 /* will be called by u8x8_SetupBitmap or u8g2_SetupBitmap */
-static uint8_t u8x8_SetBitmapDeviceSize(uint16_t tile_width, uint16_t tile_height)
+static uint8_t u8x8_SetBitmapDeviceSize(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height)
 {
   /* update the global bitmap object, allocate the bitmap */
   if ( u8x8_bitmap_SetSize(&u8x8_bitmap, tile_width, tile_height) == 0 )
@@ -180,17 +181,17 @@ static uint8_t u8x8_SetBitmapDeviceSize(uint16_t tile_width, uint16_t tile_heigh
 }
 
 /* draw tiles to the bitmap, called by the device procedure */
-static void u8x8_DrawBitmapTiles(uint16_t tx, uint16_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
+static void u8x8_DrawBitmapTiles(u8x8_t *u8x8, uint16_t tx, uint16_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
 {
   u8x8_bitmap_DrawTiles(&u8x8_bitmap, tx, ty, tile_cnt, tile_ptr);
 }
 
-uint8_t u8x8_GetBitmapPixel(uint16_t x, uint16_t y)
+uint8_t u8x8_GetBitmapPixel(u8x8_t *u8x8, uint16_t x, uint16_t y)
 {
   return u8x8_bitmap_GetPixel(&u8x8_bitmap, x, y);
 }
 
-void u8x8_SaveBitmapTGA(const char *filename)
+void u8x8_SaveBitmapTGA(u8x8_t *u8x8, const char *filename)
 {
   u8x8_bitmap_SaveTGA(&u8x8_bitmap, filename);
 }
@@ -220,7 +221,7 @@ static uint8_t u8x8_d_bitmap(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
       do
       {
-	u8x8_DrawBitmapTiles(x, y, c, ptr);
+	u8x8_DrawBitmapTiles(u8x8, x, y, c, ptr);
 	x += c;
 	arg_int--;
       } while( arg_int > 0 );
@@ -238,7 +239,7 @@ static uint8_t u8x8_d_bitmap(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height)
 {  
-  u8x8_SetBitmapDeviceSize(tile_width, tile_height);
+  u8x8_SetBitmapDeviceSize(u8x8, tile_width, tile_height);
   
   /* setup defaults */
   u8x8_SetupDefaults(u8x8);
@@ -261,22 +262,21 @@ void u8g2_SetupBitmap(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb, uint16_t tile_widt
 
 
 /*========================================================*/
-u8x8_msg_cb u8x8_bitmap_display_old_cb;
 
 
 static uint8_t u8x8_d_bitmap_chain(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   if ( msg == U8X8_MSG_DISPLAY_DRAW_TILE )
     u8x8_d_bitmap(u8x8, msg, arg_int, arg_ptr);
-  return u8x8_bitmap_display_old_cb(u8x8, msg, arg_int, arg_ptr);
+  return u8x8_bitmap.u8x8_bitmap_display_old_cb(u8x8, msg, arg_int, arg_ptr);
 }
 
 /* connect the bitmap to an existing u8g2 or u8x8 object */
 uint8_t u8x8_ConnectBitmapToU8x8(u8x8_t *u8x8)
 {
-  if ( u8x8_SetBitmapDeviceSize(u8x8_GetCols(u8x8), u8x8_GetRows(u8x8)) == 0 )
+  if ( u8x8_SetBitmapDeviceSize(u8x8, u8x8_GetCols(u8x8), u8x8_GetRows(u8x8)) == 0 )
     return 0;
-  u8x8_bitmap_display_old_cb = u8x8->display_cb;
+  u8x8_bitmap.u8x8_bitmap_display_old_cb = u8x8->display_cb;
   u8x8->display_cb = u8x8_d_bitmap_chain;
   return 1;
 }
