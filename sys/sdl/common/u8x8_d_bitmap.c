@@ -105,7 +105,7 @@ void u8x8_bitmap_SaveTGA(u8x8_bitmap_t *b, const char *name)
     {
       for( x = 0; x < b->pixel_width; x++ )
       {
-	if ( u8x8_bitmap_GetPixel(b, x, y) == 0 )
+	if ( u8x8_bitmap_GetPixel(b, x, b->pixel_height-y-1) == 0 )
 	{
 	  tga_write_byte(fp, 255);		/* R */
 	  tga_write_byte(fp, 255);		/* G */
