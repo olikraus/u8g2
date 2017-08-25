@@ -734,6 +734,7 @@ void tga_save(const char *name);
 uint8_t u8x8_GetBitmapPixel(uint16_t x, uint16_t y);
 void u8x8_SaveBitmapTGA(const char *filename);
 void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height);
+uint8_t u8x8_ConnectBitmapToU8x8(u8x8_t *u8x8);
 
 /*==========================================*/
 /* u8x8_d_utf8.c */

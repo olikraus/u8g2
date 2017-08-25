@@ -36,7 +36,10 @@ uint8_t u8x8_bitmap_SetSize(u8x8_bitmap_t *b, uint16_t tile_width, uint16_t tile
   b->tile_height = tile_height;
   b->pixel_width = tile_width*8;
   b->pixel_height = tile_height*8;
-  b->buf = (uint8_t *)malloc((size_t)tile_width*(size_t)tile_height*(size_t)8);
+  
+  /* allocate the bitmap twice, one for u8x8 and another bitmap for u8g2 */
+  /* however, the final bitmap will always be in the first half of the buffer */
+  b->buf = (uint8_t *)malloc((size_t)tile_width*(size_t)tile_height*(size_t)8*(size_t)2);
   if ( b->buf == NULL )
     return 0;
   return 1;
@@ -251,8 +254,26 @@ void u8g2_SetupBitmap(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb, uint16_t tile_widt
   u8x8_Setup_Bitmap(u8g2_GetU8x8(u8g2), tile_width, tile_height);
   
   /* configure u8g2 in full buffer mode */
-  u8g2_SetupBuffer(u8g2, u8x8_bitmap->buf, tile_height, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, u8x8_bitmap->buf+(size_t)tile_width*(size_t)tile_height*(size_t)8, tile_height, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
 }
 
 
+/*========================================================*/
+u8x8_msg_cb u8x8_bitmap_display_old_cb;
+
+
+static uint8_t u8x8_d_bitmap_chain(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  if ( msg == U8X8_MSG_DISPLAY_DRAW_TILE )
+    u8x8_d_bitmap(u8x8, msg, arg_int, arg_ptr);
+  return u8x8_bitmap_display_old_cb(u8x8, msg, arg_int, arg_ptr);
+}
+
+/* connect the bitmap to an existing u8g2 or u8x8 object */
+uint8_t u8x8_ConnectBitmapToU8x8(u8x8_t *u8x8)
+{
+  u8x8_SetBitmapDeviceSize(u8x8_GetCols(u8x8), u8x8_GetRows(u8x8));
+  u8x8_bitmap_display_old_cb = u8x8->display_cb;
+  u8x8->display_cb = u8x8_d_bitmap_chain;
+}
 
