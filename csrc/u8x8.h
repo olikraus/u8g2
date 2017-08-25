@@ -730,6 +730,12 @@ void u8x8_Setup_TGA_LCD(u8x8_t *u8x8);
 void tga_save(const char *name);
 
 /*==========================================*/
+/* u8x8_d_bitmap.c */
+uint8_t u8x8_GetBitmapPixel(uint16_t x, uint16_t y);
+void u8x8_SaveBitmapTGA(const char *filename);
+void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height);
+
+/*==========================================*/
 /* u8x8_d_utf8.c */
 void u8x8_Setup_Utf8(u8x8_t *u8x8);	/* stdout UTF-8 display */
 void utf8_show(void);		/* show content of UTF-8 frame buffer */
