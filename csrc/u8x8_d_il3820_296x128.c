@@ -74,20 +74,12 @@ static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
 
   U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
   U8X8_C(0x01),
-    U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
+  U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
   
   
   U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
   U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
   
-  U8X8_CA(0x11, 0x01),	/* Define data entry mode, x&y inc, x first*/
-  
-  U8X8_CAA(0x44, 0, 29),	/* RAM x start & end, 32*4=128 */
-  U8X8_CAAAA(0x45, 0, 0, 295&255, 295>>8),	/* RAM y start & end, 0..295 */
-  
-  U8X8_CA(0x4e, 0),	/* set x pos, 0..29? */
-  U8X8_CAA(0x4f, 100&255, 100>>8),	/* set y pos, 0...320??? */
-
   U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
   
   U8X8_C(0x32),	/* write LUT register*/
@@ -130,6 +122,8 @@ according to section 6.8:
   0x00,0x00,0x00,0x00,0x00,  0x00,0x00,0x00,0x00,0x00,
   0x00,0x13,0x14,0x44,0x12,  0x00,0x00,0x00,0x00,0x00,0x00};
 */
+
+#ifdef OLD
   
   /* original values */
   U8X8_A(0x02),
@@ -170,7 +164,44 @@ according to section 6.8:
   
   //U8X8_A(0x00),
   
+#endif
   
+  /* take the values from the 200x200 SSD1607 device, this looks better */
+
+  /* original values, L-macro */
+  U8X8_A(L(0,0,0,2)), // 0x02
+  U8X8_A(L(0,0,0,2)), // 0x02
+  U8X8_A(L(0,0,0,1)), // 0x01
+  U8X8_A(L(0,1,0,1)), // 0x11
+  U8X8_A(L(0,1,0,2)), // 0x12
+  U8X8_A(L(0,1,0,2)), // 0x12
+  U8X8_A(L(0,2,0,2)), // 0x22
+  U8X8_A(L(0,2,0,2)), // 0x22
+  U8X8_A(L(1,2,1,2)), // 0x66
+  U8X8_A(L(1,2,2,1)), // 0x69
+  U8X8_A(L(1,2,2,1)), // 0x69
+  U8X8_A(L(1,1,2,1)), // 0x59
+  U8X8_A(L(1,1,2,0)), // 0x58
+  U8X8_A(L(2,1,2,1)), // 0x99
+  U8X8_A(L(2,1,2,1)), // 0x99
+  U8X8_A(L(2,0,2,0)), // 0x88
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+  U8X8_A(L(0,0,0,0)), // 0x00
+
+  /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
+  U8X8_A(0xF8),
+  U8X8_A(0xB4),
+  U8X8_A(0x13),
+  U8X8_A(0x51),
+  U8X8_A(0x35),
+  U8X8_A(0x51),
+  U8X8_A(0x51),
+  U8X8_A(0x19),
+  U8X8_A(0x01),
+  U8X8_A(0x00),
+
 
   U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
   U8X8_CA(0x3a, 0x1a),	/* dummy lines */
@@ -187,29 +218,6 @@ according to section 6.8:
   U8X8_CA(0x4e, 0),	/* set x pos, 0..29? */
   U8X8_CAA(0x4f, 0, 0),	/* set y pos, 0...320??? */
 
-  U8X8_C(0x024),		/* data write */
-
-  U8X8_D1(0x000),
-  U8X8_D1(0x000),
-  U8X8_D1(0x081),
-  U8X8_D1(0x081),
-
-  U8X8_D1(0x0c3),
-  U8X8_D1(0x0c3),
-  U8X8_D1(0x0e7),
-  U8X8_D1(0x0e7),
-
-
-
-  U8X8_D1(0x00f),
-  U8X8_D1(0x00f),
-  U8X8_D1(0x00f),
-  U8X8_D1(0x00f),
-
-  U8X8_D1(0x00f),
-  U8X8_D1(0x00f),
-  U8X8_D1(0x00f),
-  U8X8_D1(0x00f),
 
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -296,11 +304,13 @@ static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr
   x *= 8;
   x += u8x8->x_offset;
 
+  
+
   //u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
   //u8x8_cad_SendArg(u8x8, 0);
 
   //u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
-  //u8x8_cad_SendArg(u8x8, 3);
+  //u8x8_cad_SendArg(u8x8, 7);
 
   //u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
   //u8x8_cad_SendArg(u8x8, 0);
