@@ -163,43 +163,54 @@ static uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 {
 	static int debounce_cnt = 0;
 	static int curr_msg = 0;
+	static int db_cnt = 10;
 	int event;
-	if ( debounce_cnt > 0 && msg == curr_msg )
+  
+	if ( curr_msg > 0 )
 	{
-		debounce_cnt--;
-		u8x8_SetGPIOResult(u8x8, 0);		
-		return 1;
+	  if ( msg == curr_msg )
+	  {
+		  u8x8_SetGPIOResult(u8x8, 0);
+		  if ( debounce_cnt == 0 )
+		    curr_msg = 0;
+		  else
+		    debounce_cnt--;
+		  return 1;
+	  }
+	  
 	}
-	
-	event = u8g_sdl_get_key();
-	switch(event)
+	else
 	{
-		case 273:
-			curr_msg = U8X8_MSG_GPIO_MENU_UP;
-			debounce_cnt = 5;
-			break;
-		case 274:
-			curr_msg = U8X8_MSG_GPIO_MENU_DOWN;
-			debounce_cnt = 5;
-			break;
-		case 275:
-			curr_msg = U8X8_MSG_GPIO_MENU_NEXT;
-			debounce_cnt = 5;
-			break;
-		case 276:
-			curr_msg = U8X8_MSG_GPIO_MENU_PREV;
-			debounce_cnt = 5;
-			break;
-		case 's':
-			curr_msg = U8X8_MSG_GPIO_MENU_SELECT;
-			debounce_cnt = 5;
-			break;
-		case 'q':
-			curr_msg = U8X8_MSG_GPIO_MENU_HOME;
-			debounce_cnt = 5;
-			break;
+	  event = u8g_sdl_get_key();
+	  
+	  switch(event)
+	  {
+		  case 273:
+			  curr_msg = U8X8_MSG_GPIO_MENU_UP;
+			  debounce_cnt = db_cnt;
+			  break;
+		  case 274:
+			  curr_msg = U8X8_MSG_GPIO_MENU_DOWN;
+			  debounce_cnt = db_cnt;
+			  break;
+		  case 275:
+			  curr_msg = U8X8_MSG_GPIO_MENU_NEXT;
+			  debounce_cnt = db_cnt;
+			  break;
+		  case 276:
+			  curr_msg = U8X8_MSG_GPIO_MENU_PREV;
+			  debounce_cnt = db_cnt;
+			  break;
+		  case 's':
+			  curr_msg = U8X8_MSG_GPIO_MENU_SELECT;
+			  debounce_cnt = db_cnt;
+			  break;
+		  case 'q':
+			  curr_msg = U8X8_MSG_GPIO_MENU_HOME;
+			  debounce_cnt = db_cnt;
+			  break;
+	  }
 	}
-	
 	u8x8_SetGPIOResult(u8x8, 1);
 	return 1;
 }
