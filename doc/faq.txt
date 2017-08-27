@@ -88,6 +88,12 @@ Q: My T6963 has a RD input. How shell this be connected?
 A: The RD input for any 8080 interface has to be connected to power supply (5V or 3.3V, 
 depending on the display)
 
+Q: My T6963 was working with u8glib, but it does not work with U8g2
+A: The sequence of argument has changed from cs, a0, wr to wr, cs, a0:
+U8GLIB_T6963_240X128 u8g(d0, d1, d2, d3, d4, d5, d6, d7, cs, dc, wr, rd, reset); 
+U8G2_T6963_240X128_1_8080 u8g2(U8G2_R0, d0, d1, d2, d3, d4, d5, d6, d7, wr, cs, dc, reset); 
+
+
 Q: My controller/interface combination is not listed in the examples.
 A: Yes, the complete list is here:
 https://github.com/olikraus/u8g2/wiki/u8g2setupcpp

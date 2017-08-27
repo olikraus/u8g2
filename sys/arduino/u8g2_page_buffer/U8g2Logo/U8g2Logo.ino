@@ -198,6 +198,7 @@ void drawLogo(void)
   
 
     u8g2.setFontMode(1);	// Transparent
+    u8g2.setDrawColor(1);
 #ifdef MINI_LOGO
 
     u8g2.setFontDirection(0);
