@@ -156,63 +156,34 @@ void init_lut(void)
   {
     for( j = 0; j < LUT_WAVE_CNT; j++ )
       lut_level[j][i] = 0;
-    lut_time[i] = 15;
+    lut_time[i] = 0;
   }
   
-   lut_level[0][2] = 1;
-   lut_level[0][3] = 2;
-   lut_level[0][4] = 2;
-   lut_level[0][7] = 1;
-   lut_level[0][8] = 2;
-   lut_level[0][LUT_ARRAY_LEN-1] = 1;
-   lut_level[1][4] = 1;
-   lut_level[1][6] = 2;
-   lut_level[2][7] = 1;
-   lut_level[2][8] = 3;
 }
 
-u8g2_t u8g2;
-
-const uint8_t LUTDefault_full[31] =
-{
-0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0xFF, 0xFF, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-
-int main(void)
+uint8_t edit_lut(u8g2_t *u8g2)
 {
   uint8_t event;
   uint8_t cx, cy;
-  u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
-  
-  u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
-  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
 
-  u8g2_SetFont(&u8g2, u8g2_font_5x7_mr);
-  u8g2_SetFontMode(&u8g2, 0);
-  u8g2_SetFontDirection(&u8g2, 0);
-  //u8g2_SetFontRefHeightAll(&u8g2);
+  u8g2_SetFont(u8g2, u8g2_font_5x7_mr);
+  u8g2_SetFontMode(u8g2, 0);
+  u8g2_SetFontDirection(u8g2, 0);
 
-
-  
-  init_lut();
-  read_lut(LUTDefault_full);
-  
   cx = 0;
   cy = 0;
 
   for(;;)
   {
-    u8g2_FirstPage(&u8g2);
+    u8g2_FirstPage(u8g2);
     do
     {
-      draw_all_lut(&u8g2, cx, cy);
-    } while( u8g2_NextPage(&u8g2) );
+      draw_all_lut(u8g2, cx, cy);
+    } while( u8g2_NextPage(u8g2) );
 
     for(;;)
     {
-      event = u8x8_GetMenuEvent(u8g2_GetU8x8(&u8g2));
+      event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
       if ( event == U8X8_MSG_GPIO_MENU_SELECT )
       {
 	if ( cx < LUT_ARRAY_LEN && cy < LUT_WAVE_CNT )
@@ -264,6 +235,33 @@ int main(void)
       }
     }
   }
+  return 0;
+}
+
+
+u8g2_t u8g2;
+
+const uint8_t LUTDefault_full[31] =
+{
+0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0xFF, 0xFF, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+
+int main(void)
+{
+  u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
+  
+  u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
+  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
+
+
+  
+  init_lut();
+  read_lut(LUTDefault_full);
+  edit_lut(&u8g2);
+  
   
   return 0;
 }
