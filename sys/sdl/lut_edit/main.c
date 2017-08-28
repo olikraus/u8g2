@@ -26,23 +26,24 @@ uint8_t lut_time_to_width[16] =
   3,	// 4
   3,	// 5
   3,	// 6
-  4,	// 7
+  3,	// 7
   4,	// 8
   4,	// 9
-  5,	// 10
-  5,	// 11
+  4,	// 10
+  4,	// 11
   5,	// 12
-  6,	// 13
-  6,	// 14
-  6,	// 15
+  5,	// 13
+  5,	// 14
+  5,	// 15
 };
 
 u8g2_uint_t get_dx(uint8_t i)
 {
+  //return 5;
   return lut_time_to_width[lut_time[i]];
 }
 
-void read_lut(uint8_t *lut)
+void read_lut(const uint8_t *lut)
 {
   uint8_t i;
   for ( i = 0; i < LUT_ARRAY_LEN; i++ )
@@ -65,8 +66,10 @@ void draw_lut_wave(u8g2_t *u8g2, uint8_t w, uint8_t cx, u8g2_uint_t y)
   uint8_t i;
   u8g2_uint_t x1, y1;
   u8g2_uint_t x2, y2;
-  x1 = 1;
+  x1 = 18;
   y1 = y;
+  u8g2_DrawGlyph(u8g2, 2,y+2, (w&2)?'1':'0');
+  u8g2_DrawGlyph(u8g2, 8,y+2, (w&1)?'1':'0');
   for( i = 0; i < LUT_ARRAY_LEN; i++ )
   {
     x2 = x1 + get_dx(i);
@@ -107,8 +110,6 @@ void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
   }
 
   y+=1;
-  u8g2_SetFont(u8g2, u8g2_font_5x7_mr);
-  u8g2_SetFontMode(u8g2, 0);
   if ( cy == LUT_WAVE_CNT )
   {
     u8g2_SetDrawColor(u8g2, 0);
@@ -172,6 +173,12 @@ void init_lut(void)
 
 u8g2_t u8g2;
 
+const uint8_t LUTDefault_full[31] =
+{
+0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+0xFF, 0xFF, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
 
 int main(void)
 {
@@ -182,11 +189,16 @@ int main(void)
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
 
-  u8g2_SetFont(&u8g2, u8g2_font_6x10_tr);
+  u8g2_SetFont(&u8g2, u8g2_font_5x7_mr);
+  u8g2_SetFontMode(&u8g2, 0);
   u8g2_SetFontDirection(&u8g2, 0);
   //u8g2_SetFontRefHeightAll(&u8g2);
+
+
   
   init_lut();
+  read_lut(LUTDefault_full);
+  
   cx = 0;
   cy = 0;
 
