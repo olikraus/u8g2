@@ -39,8 +39,25 @@ uint8_t lut_time_to_width[16] =
 
 u8g2_uint_t get_dx(uint8_t i)
 {
-    
   return lut_time_to_width[lut_time[i]];
+}
+
+void read_lut(uint8_t *lut)
+{
+  uint8_t i;
+  for ( i = 0; i < LUT_ARRAY_LEN; i++ )
+  {
+    lut_level[0][i] = lut[i] & 3; 
+    lut_level[1][i] = (lut[i]>>2) & 3; 
+    lut_level[2][i] = (lut[i]>>4) & 3; 
+    lut_level[3][i] = (lut[i]>>6) & 3; 
+    
+  }
+  for ( i = 0; i < LUT_ARRAY_LEN/2; i++ )
+  {
+    lut_time[i*2 + 0] = lut[LUT_ARRAY_LEN+i] & 15;
+    lut_time[i*2 + 1] = (lut[LUT_ARRAY_LEN+i]>>4) & 15;
+  }
 }
 
 void draw_lut_wave(u8g2_t *u8g2, uint8_t w, uint8_t cx, u8g2_uint_t y)
