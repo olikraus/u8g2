@@ -31,20 +31,20 @@ typedef struct _u8x8_bitmap_struct u8x8_bitmap_t;
 /*========================================================*/
 /* bitmap functions */
 
-uint8_t u8x8_bitmap_SetSize(u8x8_bitmap_t *b, uint16_t tile_width, uint16_t tile_height)
+uint8_t u8x8_bitmap_SetSize(u8x8_bitmap_t *b, uint16_t pixel_width, uint16_t pixel_height)
 {
   if ( b->u8x8_buf != NULL )
     free(b->u8x8_buf);
 
-  b->tile_width = tile_width;
-  b->tile_height = tile_height;
-  b->pixel_width = tile_width*8;
-  b->pixel_height = tile_height*8;
+  b->tile_width = (pixel_width+7)/8;
+  b->tile_height = (pixel_height+7)/8;
+  b->pixel_width = pixel_width;
+  b->pixel_height = pixel_height;
 
   /* allocate the bitmap twice, one for u8x8 and another bitmap for u8g2 */
   /* however, the final bitmap will always be in the first half of the buffer */
-  b->u8x8_buf = (uint8_t *)malloc((size_t)tile_width*(size_t)tile_height*(size_t)8*(size_t)2);
-  b->u8g2_buf = b->u8x8_buf+(size_t)tile_width*(size_t)tile_height*(size_t)8;
+  b->u8x8_buf = (uint8_t *)malloc((size_t)b->tile_width*(size_t)b->tile_height*(size_t)8*(size_t)2);
+  b->u8g2_buf = b->u8x8_buf+(size_t)b->tile_width*(size_t)b->tile_height*(size_t)8;
 
   if ( b->u8x8_buf == NULL ) {
     b->u8g2_buf = NULL;
@@ -171,17 +171,17 @@ static u8x8_display_info_t u8x8_bitmap_info =
 
 /* allocate bitmap */
 /* will be called by u8x8_SetupBitmap or u8g2_SetupBitmap */
-static uint8_t u8x8_SetBitmapDeviceSize(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height)
+static uint8_t u8x8_SetBitmapDeviceSize(u8x8_t *u8x8, uint16_t pixel_width, uint16_t pixel_height)
 {
   /* update the global bitmap object, allocate the bitmap */
-  if ( u8x8_bitmap_SetSize(&u8x8_bitmap, tile_width, tile_height) == 0 )
+  if ( u8x8_bitmap_SetSize(&u8x8_bitmap, pixel_width, pixel_height) == 0 )
     return 0;
   
   /* update the u8x8 object */
-  u8x8_bitmap_info.tile_width = tile_width;
-  u8x8_bitmap_info.tile_height = tile_height;
-  u8x8_bitmap_info.pixel_width = tile_width*8;
-  u8x8_bitmap_info.pixel_height = tile_height*8;
+  u8x8_bitmap_info.tile_width = (pixel_width+7)/8;
+  u8x8_bitmap_info.tile_height = (pixel_height+7)/8;
+  u8x8_bitmap_info.pixel_width = pixel_width;
+  u8x8_bitmap_info.pixel_height = pixel_height;
   return 1;
 }
 
@@ -242,9 +242,9 @@ static uint8_t u8x8_d_bitmap(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 /*========================================================*/
 /* u8x8 and u8g2 setup functions */
 
-void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height)
+void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t pixel_width, uint16_t pixel_height)
 {  
-  u8x8_SetBitmapDeviceSize(u8x8, tile_width, tile_height);
+  u8x8_SetBitmapDeviceSize(u8x8, pixel_width, pixel_height);
   
   /* setup defaults */
   u8x8_SetupDefaults(u8x8);
@@ -256,13 +256,13 @@ void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t tile_width, uint16_t tile_height)
   u8x8_SetupMemory(u8x8);  
 }
 
-void u8g2_SetupBitmap(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb, uint16_t tile_width, uint16_t tile_height)
+void u8g2_SetupBitmap(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb, uint16_t pixel_width, uint16_t pixel_height)
 {
   /* allocate bitmap, assign the device callback to u8x8 */
-  u8x8_SetupBitmap(u8g2_GetU8x8(u8g2), tile_width, tile_height);
+  u8x8_SetupBitmap(u8g2_GetU8x8(u8g2), pixel_width, pixel_height);
   
   /* configure u8g2 in full buffer mode */
-  u8g2_SetupBuffer(u8g2, u8x8_bitmap.u8g2_buf, tile_height, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, u8x8_bitmap.u8g2_buf, (pixel_height+7)/8, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
 }
 
 
