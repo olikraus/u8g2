@@ -22,7 +22,8 @@ struct _u8x8_bitmap_struct
   uint16_t tile_height;
   uint16_t pixel_width;
   uint16_t pixel_height;
-  uint8_t *buf;
+  uint8_t *u8x8_buf;
+  uint8_t *u8g2_buf;
 };
 
 typedef struct _u8x8_bitmap_struct u8x8_bitmap_t;
@@ -32,25 +33,29 @@ typedef struct _u8x8_bitmap_struct u8x8_bitmap_t;
 
 uint8_t u8x8_bitmap_SetSize(u8x8_bitmap_t *b, uint16_t tile_width, uint16_t tile_height)
 {
-  if ( b->buf != NULL )
-    free(b->buf);
-  
+  if ( b->u8x8_buf != NULL )
+    free(b->u8x8_buf);
+
   b->tile_width = tile_width;
   b->tile_height = tile_height;
   b->pixel_width = tile_width*8;
   b->pixel_height = tile_height*8;
-  
+
   /* allocate the bitmap twice, one for u8x8 and another bitmap for u8g2 */
   /* however, the final bitmap will always be in the first half of the buffer */
-  b->buf = (uint8_t *)malloc((size_t)tile_width*(size_t)tile_height*(size_t)8*(size_t)2);
-  if ( b->buf == NULL )
+  b->u8x8_buf = (uint8_t *)malloc((size_t)tile_width*(size_t)tile_height*(size_t)8*(size_t)2);
+  b->u8g2_buf = b->u8x8_buf+(size_t)tile_width*(size_t)tile_height*(size_t)8;
+
+  if ( b->u8x8_buf == NULL ) {
+    b->u8g2_buf = NULL;
     return 0;
+  }
   return 1;
 }
 
 void u8x8_bitmap_DrawTiles(u8x8_bitmap_t *b, uint16_t tx, uint16_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
 {
-  uint8_t *dest_ptr = b->buf;
+  uint8_t *dest_ptr = b->u8x8_buf;
   if ( dest_ptr == NULL )
     return;
   dest_ptr += ty*b->pixel_width;
@@ -60,7 +65,7 @@ void u8x8_bitmap_DrawTiles(u8x8_bitmap_t *b, uint16_t tx, uint16_t ty, uint8_t t
 
 uint8_t u8x8_bitmap_GetPixel(u8x8_bitmap_t *b, uint16_t x, uint16_t y)
 {
-  uint8_t *dest_ptr = b->buf;
+  uint8_t *dest_ptr = b->u8x8_buf;
   if ( dest_ptr == NULL )
     return 0;
   dest_ptr += (y/8)*b->pixel_width;
@@ -257,7 +262,7 @@ void u8g2_SetupBitmap(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb, uint16_t tile_widt
   u8x8_SetupBitmap(u8g2_GetU8x8(u8g2), tile_width, tile_height);
   
   /* configure u8g2 in full buffer mode */
-  u8g2_SetupBuffer(u8g2, u8x8_bitmap.buf+(size_t)tile_width*(size_t)tile_height*(size_t)8, tile_height, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+  u8g2_SetupBuffer(u8g2, u8x8_bitmap.u8g2_buf, tile_height, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
 }
 
 
