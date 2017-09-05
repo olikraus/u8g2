@@ -96,6 +96,7 @@ void draw_lut_wave(u8g2_t *u8g2, uint8_t w, uint8_t cx, u8g2_uint_t y)
 void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
 {
   uint8_t i;
+  uint16_t total;
   u8g2_uint_t x, y;
   u8g2_uint_t xs = 1;
   y = LUT_DY +1;
@@ -108,6 +109,10 @@ void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
       
     y += (LUT_DY+2)*2;
   }
+
+  total = 0;
+  for( i = 0; i < LUT_ARRAY_LEN; i++ )
+      total += lut_time[i];
 
   y+=1;
   if ( cy == LUT_WAVE_CNT )
@@ -122,6 +127,9 @@ void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
   x += u8g2_DrawStr(u8g2, x, y, u8x8_u8toa( cx, 2));
   x += u8g2_DrawStr(u8g2, x, y, "]=");
   x += u8g2_DrawStr(u8g2, x, y, u8x8_u8toa( lut_time[cx], 2));
+  x += u8g2_DrawStr(u8g2, x, y, " ");
+  x += u8g2_DrawStr(u8g2, x, y, " total=");
+  x += u8g2_DrawStr(u8g2, x, y, u8x8_u16toa( total, 3));
   x += u8g2_DrawStr(u8g2, x, y, " ");
   
   y+=8;
