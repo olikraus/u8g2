@@ -77,10 +77,6 @@ static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
   U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
   
   
-  U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
-  U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
-  
-  U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
   
 
   
@@ -123,11 +119,75 @@ according to section 6.8:
 */
 
 /*
+0x00, 0x40, 0x04, 0xa6, 0xa8, 
+0x65, 0x19, 0xaa, 0x98, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x20, 0x26, 0x26, 0x26, 0xff, 
+0x0f, 0x00, 0x00, 0x00, 0x00
+
+71 ticks, 1440 ms
+
+
+0x00, 0x88, 0x88, 0x88, 0x98, 
+0x99, 0x99, 0x99, 0x11, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x20, 0x26, 0x26, 0x26, 0xff, 
+0x0f, 0x00, 0x00, 0x00, 0x00
+71 ticks, 1440 ms
+
+*/  
+#ifdef OLD
+  
+  U8X8_C(0x32),	/* write LUT register*/
+  /* original values */
+  U8X8_A(0x00),
+  U8X8_A(0x88),
+  U8X8_A(0x88),
+  U8X8_A(0x88),  
+  U8X8_A(0x98),
+  
+  U8X8_A(0x99),
+  U8X8_A(0x99),
+  U8X8_A(0x99),
+  U8X8_A(0x11),  
+  U8X8_A(0x11),
+  
+  U8X8_A(0x11),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  
+  /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
+  U8X8_A(0x20),
+  U8X8_A(0x26),
+  U8X8_A(0x26),
+  U8X8_A(0x26),
+  U8X8_A(0xff),
+  U8X8_A(0x0f),
+  
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+#endif
+  
+/*
 0x50, 0xAA, 0x55, 0xAA, 0x11, 	0x00, 0x00, 0x00, 0x00, 0x00, 
 0x00, 0x00, 0x00, 0x00, 0x00, 	0x00, 0x00, 0x00, 0x00, 0x00, 
 0xFF, 0xFF, 0x1F, 0x00, 0x00, 		0x00, 0x00, 0x00, 0x00, 0x00
-*/  
-  
+measured 1582 ms
+*/
   U8X8_C(0x32),	/* write LUT register*/
   /* original values */
   U8X8_A(0x50),
@@ -136,7 +196,7 @@ according to section 6.8:
   U8X8_A(0xaa),  
   U8X8_A(0x11),
   
-  U8X8_A(0x00),
+  U8X8_A(0x11),
   U8X8_A(0x00),
   U8X8_A(0x00),
   U8X8_A(0x00),  
@@ -157,7 +217,7 @@ according to section 6.8:
   /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
   U8X8_A(0xff),
   U8X8_A(0xff),
-  U8X8_A(0x1f),
+  U8X8_A(0x3f),
   U8X8_A(0x00),
   U8X8_A(0x00),
   U8X8_A(0x00),
@@ -165,7 +225,7 @@ according to section 6.8:
   U8X8_A(0x00),
   U8X8_A(0x00),
   U8X8_A(0x00),
-  
+
 #ifdef OLD
   /* take the values from the 200x200 SSD1607 device, this looks better */
   U8X8_C(0x32),	/* write LUT register*/
@@ -206,9 +266,15 @@ according to section 6.8:
 
 #endif
 
+  U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
+  U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
+  
+  //U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
+
+  //U8X8_CA(0x0b, 7),	/* Set Delay of gate and source non overlap period, POR = 7 */
   U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
-  U8X8_CA(0x3a, 0x1a),	/* dummy lines */
-  U8X8_CA(0x3b, 0x08),	/* gate time */
+  U8X8_CA(0x3a, 0x16),	/* dummy lines POR=22 (0x016) */
+  U8X8_CA(0x3b, 0x08),	/* gate time POR=0x08*/
   U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
 
@@ -226,6 +292,22 @@ according to section 6.8:
   U8X8_END()             			/* end of sequence */
 };
 
+
+/*
+total_refresh_time = (refresh_lines + dummy_lines*2)*TGate*TS_Sum/f_OSC
+
+f_OSC=1MHz (according to the datasheets)
+refreh_lines = 296 (for the waveshare display, 0x045 cmd)
+dummy_lines = 22 (for the upcoming u8g2 code, 0x03a cmd)
+TGate = 62 (POR default, 0x03b cmd)
+TS_Sum: Sum of all TS entries of the second part of the LUT
+f_OSC: 1MHz according to the datasheet.
+
+so we have
+
+total_refresh_time = 21080*TS_Sum/1000000 = 21ms * TS_Sum
+*/
+
 static const uint8_t u8x8_d_il3820_to_display_seq[] = {
 
 
@@ -234,15 +316,14 @@ static const uint8_t u8x8_d_il3820_to_display_seq[] = {
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
   
-  U8X8_DLY(250),	/* delay for 2000ms. This has to be tested, maybe it can be reduced */
+  U8X8_DLY(250),	/* delay for 1620ms. The current sequence takes 1582ms */
   U8X8_DLY(250),
   U8X8_DLY(250),
   U8X8_DLY(250),
   
   U8X8_DLY(250),
   U8X8_DLY(250),
-  U8X8_DLY(250),
-  U8X8_DLY(250),
+  U8X8_DLY(120),
  
   // 6 sep2017: removed the following code, i think the 0x020 exec cmd is missing
   //U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
@@ -393,6 +474,10 @@ static uint8_t u8x8_d_il3820_296x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       u8x8_RefreshDisplay(u8x8);
 #endif
 
+      u8x8_ClearDisplay(u8x8);		
+      /* write content to the display */
+      u8x8_RefreshDisplay(u8x8);
+      /* another update to ensure, that the buffers are cleared */
       u8x8_ClearDisplay(u8x8);		
       /* write content to the display */
       u8x8_RefreshDisplay(u8x8);

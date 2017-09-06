@@ -1,0 +1,63 @@
+
+Command 0x03a: Set number of dummy line period (7 bits)
+  Range = 0..127
+  POR = 22
+
+Command 0x03b: Set Gate (TGate) Line Width (4 bits)
+  bits	TGate	Hz	m (0x3a:22)
+  0000	30
+  0001	34
+  0010	38
+  0011	38
+  0100	44
+  0101	46
+  0110	52
+  0111	56
+  1000	62	50Hz	20ms	[POR]
+  1001	68		
+  1010	78		25ms
+
+Command 0x0b:	Set Delay of gate and source non overlap period
+  0010	4
+  ...
+  0101	10	[POR]
+  ...
+  1110	28
+--> no influence on update time
+
+Formula:
+update_time = total_TS_ticks * 20ms + 10ms
+
+
+Ticks		Measured Speed	Measured Speed	Calclated	Calculated
+		0x3a:26		0x3a:22
+		[Milliseconds]			ticks*20+10	
+137		2808				2750
+97		1992				1950
+92		1888
+87		1788		1767		1750
+72		1482		1463		1450
+0		11
+1		31
+2		51		51
+10		215		212		210
+20				415
+
+
+update/refresh duration:
+
+(refresh_lines + dummy_lines*2)*TGate*TS_Sum/f_OSC
+
+f_OSC=1MHz (according to the datasheets)
+refreh_lines = 296 (for the waveshare display, 0x045 cmd)
+dummy_lines = 22 (for the upcoming u8g2 code, 0x03a cmd)
+TGate = 62 (POR default, 0x03b cmd)
+TS_Sum: Sum of all TS entries of the second part of the LUT
+f_OSC: 1MHz according to the datasheet.
+so we have
+
+total_refresh_time = 21080*TS_Sum/1000000 = 21ms * TS_Sum
+
+--> this is more or less close to the measure values.
+
+

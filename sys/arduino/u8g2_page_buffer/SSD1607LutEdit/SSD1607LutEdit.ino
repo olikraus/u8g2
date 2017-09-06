@@ -66,11 +66,18 @@ uint16_t lut_measured_duration = 0;
     1:		upper line
     2:		lower line
     
+    00   	black to black (upper line required)
+    01	black to white (lower line required)
+    10	white to black
+    11	white to white
+    
 */
 
 uint8_t lut_level[LUT_WAVE_CNT][LUT_ARRAY_LEN];
 uint8_t lut_time[LUT_ARRAY_LEN];
 #define LUT_DY 3
+
+u8g2_uint_t cursor_x1, cursor_x2;
 
 uint8_t lut_time_to_width[16] = 
 {
@@ -116,7 +123,7 @@ void read_lut(const uint8_t *lut)
   }
 }
 
-void draw_lut_wave(u8g2_t *u8g2, uint8_t w, uint8_t cx, u8g2_uint_t y)
+void draw_lut_wave(u8g2_t *u8g2, uint8_t w, uint8_t cx, uint8_t is_cursor, u8g2_uint_t y)
 {
   uint8_t i;
   u8g2_uint_t x1, y1;
@@ -139,8 +146,13 @@ void draw_lut_wave(u8g2_t *u8g2, uint8_t w, uint8_t cx, u8g2_uint_t y)
     
     if ( i == cx )
     {
-      u8g2_DrawHLine(u8g2, x1, y-LUT_DY-1, x2-x1+1);
-      u8g2_DrawHLine(u8g2, x1, y+LUT_DY+1, x2-x1+1);      
+      cursor_x1 = x1; 
+      cursor_x2 = x2;
+      if ( is_cursor )
+      {
+	u8g2_DrawHLine(u8g2, x1, y-LUT_DY-1, x2-x1+1);
+	u8g2_DrawHLine(u8g2, x1, y+LUT_DY+1, x2-x1+1);
+      }
     }
     
     x1 = x2;
@@ -159,9 +171,9 @@ void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
   for( i = 0; i < LUT_WAVE_CNT; i++ )
   {
     if ( i == cy )
-      draw_lut_wave(u8g2, i, cx, y);
+      draw_lut_wave(u8g2, i, cx, 1, y);
     else
-      draw_lut_wave(u8g2, i, 255, y);		// 255: no cursor
+      draw_lut_wave(u8g2, i, cx, 0, y);		// 255: no cursor
       
     y += (LUT_DY+2)*2;
   }
@@ -186,6 +198,9 @@ void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
   y+=1;
   if ( cy == LUT_WAVE_CNT )
   {
+    u8g2_SetDrawColor(u8g2, 2);
+    u8g2_DrawBox(u8g2, cursor_x1, 0, cursor_x2-cursor_x1+1, (LUT_DY+2)*2*4-1 );
+  
     u8g2_SetDrawColor(u8g2, 0);
   }
   else
@@ -434,7 +449,7 @@ uint8_t u8x8_d_test_hook(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 	// 0x0c4: clk -> CP -> LUT -> pattern display
       u8x8_cad_SendCmd(u8x8, 0x020);		// execute
       start =millis();
-      end = start + 2000;
+      end = start + 4000;
       //pinMode(A2, INPUT);
       delay(10);
       for(;;)
@@ -547,9 +562,65 @@ void show_lut_on_editor(void)
 
 const uint8_t LUTDefault_full[31] =
 {
-0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-0xFF, 0xFF, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+0x50, 0xAA, 0x55, 0xAA, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+0xFF, 0xFF, 0x3F, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+// same as LUTDefault_full, but dubled size
+const uint8_t w01[30] =
+{
+0x00, 0x00, 0x44, 0xaa, 0xaa, 
+0x55, 0x55, 0xaa, 0xaa, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x01, 0xff, 0xff, 0xff, 0xff, 
+0x0f, 0x00, 0x00, 0x00, 0x00
+};
+
+// same as w01, but timing adjisted, should be identical to LUTDefault_full
+const uint8_t w02[30] =
+{
+0x00, 0x00, 0x44, 0xaa, 0xaa, 
+0x55, 0x55, 0xaa, 0xaa, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x11, 0x5a, 0x5a, 0x5a, 0x5a, 
+0x0a, 0x00, 0x00, 0x00, 0x00
+};
+
+// speed optimized, lesser flickering version
+// ticks=71
+// measued=1441ms
+const uint8_t w03[30] =
+{
+0x00, 0x40, 0x04, 0xa6, 0xa8, 
+0x65, 0x19, 0xaa, 0x98, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x20, 0x26, 0x26, 0x26, 0xff, 
+0x0f, 0x00, 0x00, 0x00, 0x00
+};
+
+
+// speed optimized, lesser flickering version
+// ticks=71
+// measued=1441ms
+const uint8_t w04[30] =
+{
+0x00, 0x88, 0x88, 0x88, 0x98, 
+0x99, 0x99, 0x99, 0x11, 0x11, 
+0x11, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x20, 0x26, 0x26, 0x26, 0xff, 
+0x0f, 0x00, 0x00, 0x00, 0x00
 };
 
 void setup(void) 
@@ -568,7 +639,7 @@ void setup(void)
 
   init_lut();
   read_lut(LUTDefault_full);
-  
+  //read_lut(w04);
 }
 
 
