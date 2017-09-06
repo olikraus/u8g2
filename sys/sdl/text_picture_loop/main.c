@@ -12,6 +12,7 @@ int main(void)
   int i;
   
     u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
+  u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
     u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
@@ -87,6 +88,8 @@ int main(void)
     if ( k == 'd' ) x += 1;
     if ( k == 'q' ) break;
     
+    if ( k == 't' ) 
+      u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2),  "screenshot.tga");
   }
   
   //u8x8_Set8x8Font(u8g2_GetU8x8(&u8g2), bdf_font);

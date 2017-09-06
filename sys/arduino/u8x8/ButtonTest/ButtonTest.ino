@@ -1,9 +1,7 @@
 /*
 
-  MessageBox.ino
+  ButtonTest.ino
   
-  Example for the Message Box for U8x8
-
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
   Copyright (c) 2016, olikraus@gmail.com
@@ -56,7 +54,7 @@
 //U8X8_SSD1306_128X64_NONAME_SW_I2C u8x8(/* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // OLEDs without Reset of the Display
 //U8X8_SSD1306_128X64_VCOMH0_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8X8_SH1106_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
+U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
 //U8X8_SH1106_128X64_VCOMH0_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8X8_SSD1306_128X32_UNIVISION_SW_I2C u8x8(/* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // Adafruit Feather ESP8266/32u4 Boards + FeatherWing OLED
 //U8X8_SSD1306_128X32_UNIVISION_SW_I2C u8x8(/* clock=*/ 21, /* data=*/ 20, /* reset=*/ U8X8_PIN_NONE);   // Adafruit Feather M0 Basic Proto + FeatherWing OLED
@@ -130,35 +128,42 @@
 
 // End of constructor list
 
+
+
 void setup(void)
-{
-  // DOGS102 Shield (http://shieldlist.org/controlconnection/dogs102)
-  // u8x8.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 3);
-  
-  // DOGM128 Shield (http://shieldlist.org/schmelle2/dogm128) + DOGXL160 Shield
-  //u8x8.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 8);
-  
-  // Arduboy
-  //u8x8.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
-  u8x8.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
+{  
+  // U8g2 SH1106 Proto-Shield
+  u8x8.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
+
+  u8x8.setPowerSave(0);
+  u8x8.clear();
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
 }
 
 void loop(void)
 {
-  uint8_t r;
-  u8x8.setFont(u8x8_font_chroma48medium8_r);
-  r = u8x8_UserInterfaceMessage(u8x8.getU8x8(), "Message", "Box", NULL, " Ok \n Cancel ");
-  if ( r == 0 )
+  uint8_t e;
+  u8x8.drawUTF8(0, 0, "Event Test");
+  e = u8x8.getMenuEvent();
+  switch(e)
   {
-    u8x8.userInterfaceMessage("You pressed the", "Home/Quit", "Button", " Ok ");  
-  }
-  else if ( r == 1 )
-  {
-    u8x8.userInterfaceMessage("You selected the", "Ok", "Button", " Ok ");  
-  }
-  else if ( r == 2 )
-  {
-    u8x8.userInterfaceMessage("You selected the", "Cancel", "Button", " Ok ");  
+    case U8X8_MSG_GPIO_MENU_SELECT:
+      u8x8.drawUTF8(0, 1, "Select");
+      break;
+    case U8X8_MSG_GPIO_MENU_NEXT:
+      u8x8.drawUTF8(0, 1, "Next  ");
+      break;
+    case U8X8_MSG_GPIO_MENU_PREV:
+      u8x8.drawUTF8(0, 1, "Prev  ");
+      break;
+    case U8X8_MSG_GPIO_MENU_HOME:
+      u8x8.drawUTF8(0, 1, "Home  ");
+      break;
+    case U8X8_MSG_GPIO_MENU_UP:
+      u8x8.drawUTF8(0, 1, "Up    ");
+      break;
+    case U8X8_MSG_GPIO_MENU_DOWN:
+      u8x8.drawUTF8(0, 1, "Down  ");
+      break;
   }
 }
-

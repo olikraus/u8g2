@@ -394,7 +394,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1608", 	30, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "uc1608", 	30, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "erc24064" },
@@ -410,7 +410,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1608", 	30, 	15, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "uc1608", 	30, 	15, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "erc240120" },
@@ -426,7 +426,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1608", 	30, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "uc1608", 	30, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "240x128" },
@@ -442,7 +442,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1610", 		20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "uc1610", 		20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "3W SPI not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogxl160" },
@@ -458,7 +458,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1611", 	30, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "uc1611", 	30, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogm240" },
@@ -474,7 +474,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1611", 	30, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "uc1611", 	30, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogxl240" },
