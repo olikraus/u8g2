@@ -664,7 +664,7 @@ const uint8_t w05[30] =
 /*
   Duration: 1240 ms
   Initial white pulse:
-    - Pn white-white so that white stays white (pulse can be as low as 2 ticks)
+    - Required for white-white so that white stays white (pulse can be as low as 2 ticks)
     - On black-black to ensure long term stbility (pulse should be 4 or higher for 
       long term stability)
     - Pulse should be short, to avoid flicker
