@@ -61,3 +61,15 @@ total_refresh_time = 21080*TS_Sum/1000000 = 21ms * TS_Sum
 --> this is more or less close to the measure values.
 
 
+
+Ticks=61
+
+history clk	clock on	clock off	Time
+on		no		no		1228
+on		yes		no		1238
+off		yes		yes		1382	
+on		yes		yes		1320
+
+--> clock enable may take up to 150ms in this example 
+clock enable (clock was off before) --> 150ms
+clock enable (clock was on before) --> 10ms

@@ -68,17 +68,10 @@
 static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
-  
-  
 
   U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
   U8X8_C(0x01),
   U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
-  
-  
-  
-
   
   /* according to the command table, the lut has 240 bits (=30 bytes * 8 bits) */
   
@@ -337,12 +330,19 @@ static const uint8_t u8x8_d_il3820_to_display_seq[] = {
 
 static const uint8_t u8x8_d_il3820_296x128_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x22, 0xc0),			/* enable clock and charge pump */
+  U8X8_C(0x20),				/* execute sequence */  
+  U8X8_DLY(200),				/* according to my measures it may take up to 150ms */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_il3820_296x128_powersave1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */  
+  /* disable clock and charge pump only, deep sleep is not entered, because we will loose RAM content */
+  U8X8_CA(0x22, 0x02),			/* only disable charge pump, HW reset seems to be required if the clock is disabled */
+  U8X8_C(0x20),				/* execute sequence */  
+  U8X8_DLY(20),
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -569,28 +569,55 @@ static const uint8_t u8x8_d_il3820_v2_296x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-  U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
+  // U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: POR: Normal mode */
   U8X8_C(0x01),
   U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
   
+  /* the driving voltagesmust not be that high, in order to aviod level change after */
+  /* some seconds (which happens with 0xea */
+  U8X8_CA(0x03, 0x75), 	/* Gate Driving voltage: +/-15V =0x00 POR (+22/-20V) = 0x0ea*/
+  U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage:  (POR=0x0a=15V), max=0x0e*/
+  
+  U8X8_CA(0x0b, 7),	/* Set Delay of gate and source non overlap period, POR = 7 */
+  U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
+  U8X8_CA(0x3a, 0x16),	/* dummy lines POR=22 (0x016) */
+  U8X8_CA(0x3b, 0x08),	/* gate time POR=0x08*/
+  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
+
+  U8X8_CA(0x11, 0x07),	/* Define data entry mode, x&y inc, x first*/
+  U8X8_CAA(0x44, 0, 29),	/* RAM x start & end, 32*4=128 */
+  U8X8_CAAAA(0x45, 0, 0, 295&255, 295>>8),	/* RAM y start & end, 0..295 */
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+static const uint8_t u8x8_d_il3820_v2_to_display_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
 /*
-0x50, 0xAA, 0x55, 0xAA, 0x11, 	0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00, 0x00, 	0x00, 0x00, 0x00, 0x00, 0x00, 
-0xFF, 0xFF, 0x1F, 0x00, 0x00, 		0x00, 0x00, 0x00, 0x00, 0x00
-measured 1582 ms
+0xaa, 0x09, 0x09, 0x19, 0x19, 
+0x11, 0x11, 0x11, 0x11, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x75, 0x77, 0x77, 0x77, 0x07, 
+0x00, 0x00, 0x00, 0x00, 0x00
+measured 1240 ms
 */
   U8X8_C(0x32),	/* write LUT register*/
-  /* original values */
-  U8X8_A(0x50),
+  /* https://github.com/olikraus/u8g2/issues/347 */
   U8X8_A(0xaa),
-  U8X8_A(0x55),
-  U8X8_A(0xaa),  
-  U8X8_A(0x11),
+  U8X8_A(0x09),
+  U8X8_A(0x09),
+  U8X8_A(0x19),  
+  U8X8_A(0x19),
   
   U8X8_A(0x11),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),  
+  U8X8_A(0x11),
+  U8X8_A(0x11),
+  U8X8_A(0x11),  
   U8X8_A(0x00),
   
   U8X8_A(0x00),
@@ -606,45 +633,76 @@ measured 1582 ms
   U8X8_A(0x00),
   
   /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
-  U8X8_A(0xff),
-  U8X8_A(0xff),
-  U8X8_A(0x3f),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-
-
-  /* the driving voltagesmust not be that high, in order to aviod level change after */
-  /* some seconds (which happens with 0xea */
-  U8X8_CA(0x03, 0x75), 	/* Gate Driving voltage: +/-15V =0x00 POR (+22/-20V) = 0x0ea*/
-  U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage:  (POR=0x0a=15V), max=0x0e*/
+  U8X8_A(0x75),
+  U8X8_A(0x77),
+  U8X8_A(0x77),
+  U8X8_A(0x77),
+  U8X8_A(0x07),
   
-  //U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
-
-  //U8X8_CA(0x0b, 7),	/* Set Delay of gate and source non overlap period, POR = 7 */
-  U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
-  U8X8_CA(0x3a, 0x16),	/* dummy lines POR=22 (0x016) */
-  U8X8_CA(0x3b, 0x08),	/* gate time POR=0x08*/
-  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
-  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
-
-
-  U8X8_CA(0x11, 0x07),	/* Define data entry mode, x&y inc, x first*/
-
-  U8X8_CAA(0x44, 0, 29),	/* RAM x start & end, 32*4=128 */
-  U8X8_CAAAA(0x45, 0, 0, 295&255, 295>>8),	/* RAM y start & end, 0..295 */
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
   
-  U8X8_CA(0x4e, 0),	/* set x pos, 0..29? */
-  U8X8_CAA(0x4f, 0, 0),	/* set y pos, 0...320??? */
-
-
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  
+  U8X8_DLY(250),	/* delay for 1300ms. The current sequence takes 1240ms */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  
+  U8X8_DLY(250),
+  U8X8_DLY(50),
+ 
+  // 6 sep2017: removed the following code, i think the 0x020 exec cmd is missing
+  //U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
+  //U8X8_DLY(250),
+  //U8X8_DLY(250),
+  //U8X8_DLY(100),  
+  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
+
+static const uint8_t u8x8_d_il3820_exec_1000dly_seq[] = {
+  // assumes, that the start transfer has happend
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static void u8x8_d_il3820_first_init(u8x8_t *u8x8)
+{
+      u8x8_ClearDisplay(u8x8);
+  
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
+      u8x8_cad_SendMultipleArg(u8x8, 8, 0x055);		// all black
+      u8x8_cad_SendMultipleArg(u8x8, 12, 0x0aa);		// all white
+      u8x8_cad_SendMultipleArg(u8x8, 10, 0x022);		// 830ms
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_exec_1000dly_seq);
+  
+}
+
+static void u8x8_d_il3820_second_init(u8x8_t *u8x8)
+{
+      u8x8_ClearDisplay(u8x8);
+  
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
+      u8x8_cad_SendMultipleArg(u8x8, 20, 0x000);		// do nothing
+      u8x8_cad_SendMultipleArg(u8x8, 10, 0x011);		// 414ms dly
+      /* reuse sequence from above, ok some time is wasted here, */
+      /* delay could be lesser */
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_exec_1000dly_seq);  
+}
 
 uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -656,35 +714,39 @@ uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
     case U8X8_MSG_DISPLAY_INIT:
 
       u8x8_d_helper_display_init(u8x8);
+    
       u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_v2_296x128_init_seq);    
 
-      u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-      /* another update to ensure, that the buffers are cleared */
-      u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
+      u8x8_d_il3820_first_init(u8x8);
+      u8x8_d_il3820_second_init(u8x8);
+      
+    
+      /* usually the DISPLAY_INIT message leaves the display in power save state */
+      /* however this is not done for e-paper devices, see: */
+      /* https://github.com/olikraus/u8g2/wiki/internal#powersave-mode */
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
-/*
       if ( arg_int == 0 )
+      {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
+      }
       else
+      {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave1_seq);
-*/
+      }
       break;
-    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       /* not implemented */
+      /*
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       break;
-#ifdef U8X8_WITH_SET_CONTRAST
-#endif
+      */
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_d_il3820_draw_tile(u8x8, arg_int, arg_ptr);
       break;
     case U8X8_MSG_DISPLAY_REFRESH:
-      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_to_display_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_v2_to_display_seq);
       break;
     default:
       return 0;

@@ -288,7 +288,8 @@ void draw_all_lut(u8g2_t *u8g2, uint8_t cx, uint8_t cy)
   x = u8g2_DrawStr(u8g2, xs, y, " Show Binary LUT ");
   u8g2_SetDrawColor(u8g2, 1);
 
-  
+  //extern uint16_t refresh_cnt;
+  //u8g2_DrawStr(u8g2, 115, y, u8x8_u16toa( refresh_cnt, 2));  
 }
 
 void init_lut(void)
@@ -446,7 +447,7 @@ uint8_t u8x8_d_test_hook(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
     {
       u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x022);		// program update sequence
-      u8x8_cad_SendArg(u8x8, 0x0c4);		// define sequence
+      u8x8_cad_SendArg(u8x8, 0x004);		// define sequence
 	// 0x0c4: clk -> CP -> LUT -> pattern display
       u8x8_cad_SendCmd(u8x8, 0x020);		// execute
       start =millis();
@@ -473,6 +474,7 @@ uint8_t u8x8_d_test_hook(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 
 void test_lut(u8g2_t *u8g2)
 {
+
     u8g2_FirstPage(u8g2);
     do
     {
@@ -510,6 +512,7 @@ void test_lut(u8g2_t *u8g2)
     u8g2_epaper.drawBox(50, 70, 80, 40);
     u8g2_epaper.drawBox(150+30, 70, 80, 40);
     } while ( u8g2_epaper.nextPage() );
+
 
     delay(1000);
 
@@ -690,6 +693,7 @@ void setup(void)
   
   
   u8g2_epaper.begin();
+  u8g2_epaper.setPowerSave(0);
   
   u8x8_d_original = u8g2_epaper.getU8x8()->display_cb;		// get the original display function and..
   u8g2_epaper.getU8x8()->display_cb = u8x8_d_test_hook;	// ...replace it with our hook function
@@ -710,8 +714,9 @@ void loop(void)
   switch( cmd )
   {
     case 1:	/* test new lut */
-      write_to_lut_register(u8g2_epaper.getU8x8());
       is_enable_hook = 1;
+      u8g2_epaper.setPowerSave(0);
+      write_to_lut_register(u8g2_epaper.getU8x8());
       test_lut(u8g2_editor.getU8g2());
       break;
     case 2:	/* test old, existing lut */

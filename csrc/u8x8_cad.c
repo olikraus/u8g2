@@ -95,6 +95,16 @@ uint8_t u8x8_cad_SendArg(u8x8_t *u8x8, uint8_t arg)
   return u8x8->cad_cb(u8x8, U8X8_MSG_CAD_SEND_ARG, arg, NULL);
 }
 
+uint8_t u8x8_cad_SendMultipleArg(u8x8_t *u8x8, uint8_t cnt, uint8_t arg)
+{
+  while( cnt > 0 )
+  {
+    u8x8->cad_cb(u8x8, U8X8_MSG_CAD_SEND_ARG, arg, NULL);
+    cnt--;
+  }
+  return 1;
+}
+
 uint8_t u8x8_cad_SendData(u8x8_t *u8x8, uint8_t cnt, uint8_t *data)
 {
   return u8x8->cad_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, cnt, data);
