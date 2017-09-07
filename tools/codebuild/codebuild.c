@@ -720,6 +720,7 @@ struct controller controller_list[] =
     "Partly supported by U8x8, no HW flip, no contrast setting", /* is_generate_u8g2_class= */ 1,
     {
       { "296x128" },
+      { "v2_296x128" },
       { NULL }
     }
   },

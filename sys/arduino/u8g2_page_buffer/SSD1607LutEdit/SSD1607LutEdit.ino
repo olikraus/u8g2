@@ -50,7 +50,8 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2_editor(U8G2_R0, /* reset=*/ U8X8_PIN_NON
 
 // target e-paper device
 //U8G2_SSD1607_200X200_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
-U8G2_IL3820_296X128_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
+//U8G2_IL3820_296X128_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
+U8G2_IL3820_V2_296X128_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
 
 /*================================================*/
 /* lut editor */
@@ -485,6 +486,9 @@ void test_lut(u8g2_t *u8g2)
     u8g2_epaper.drawStr(0,40,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     u8g2_epaper.drawBox(10, 50, 80, 40);
     u8g2_epaper.drawFrame(50, 70, 80, 40);
+    
+    u8g2_epaper.drawBox(110+30, 50, 80, 40);
+    
     } while ( u8g2_epaper.nextPage() );
 
     delay(1000);
@@ -504,9 +508,31 @@ void test_lut(u8g2_t *u8g2)
     u8g2_epaper.drawStr(0,40,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     u8g2_epaper.drawFrame(10, 50, 80, 40);
     u8g2_epaper.drawBox(50, 70, 80, 40);
+    u8g2_epaper.drawBox(150+30, 70, 80, 40);
     } while ( u8g2_epaper.nextPage() );
 
     delay(1000);
+
+    u8g2_FirstPage(u8g2);
+    do
+    {
+      u8g2_DrawStr(u8g2, 0, 20, "Test LUT, Page 3");
+      u8g2_DrawStr(u8g2, 0, 40, u8x8_u16toa( lut_measured_duration, 4));
+      
+    } while( u8g2_NextPage(u8g2) );
+
+    u8g2_epaper.firstPage();
+    do {
+    u8g2_epaper.setFont(u8g2_font_ncenB14_tr);
+    u8g2_epaper.drawStr(0,20,"33333333333333333333333333");
+    u8g2_epaper.drawStr(0,40,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    u8g2_epaper.drawBox(10, 50, 80, 40);
+    u8g2_epaper.drawFrame(50, 70, 80, 40);
+    u8g2_epaper.drawBox(110+30, 50, 80, 40);
+    } while ( u8g2_epaper.nextPage() );
+
+    delay(1000);
+
 }
 
 
@@ -619,9 +645,40 @@ const uint8_t w04[30] =
 0x11, 0x00, 0x00, 0x00, 0x00, 
 0x00, 0x00, 0x00, 0x00, 0x00, 
 
-0x20, 0x26, 0x26, 0x26, 0xff, 
-0x0f, 0x00, 0x00, 0x00, 0x00
+0x77, 0x77, 0x77, 0x77, 0x77, 
+0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+// speed optimized, no (?) flickering version
+const uint8_t w05[30] =
+{
+0xaa, 0x09, 0x09, 0x19, 0x19, 
+0x11, 0x11, 0x11, 0x11, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x75, 0x77, 0x77, 0x77, 0x07, 
+0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+/*
+  Duration: 1240 ms
+  Initial white pulse:
+    - Pn white-white so that white stays white (pulse can be as low as 2 ticks)
+    - On black-black to ensure long term stbility (pulse should be 4 or higher for 
+      long term stability)
+    - Pulse should be short, to avoid flicker
+    - Long enough for the black-black transition
+  White pixel (black-white transition)
+    - Starts at the beginning. Looks like a black pulse is not required.
+    - White low level must stop before the black pixel are finished
+  Black pixel (black-black and white-black)
+    - Black (high level) is extended. If the black level is applied longer, the contrast
+      gets better.
+    - There must be no white pixel write otherwise contrast will be bad: Writing
+      black is put at the end and starts in the middle
+    
+*/
 
 void setup(void) 
 {
@@ -638,8 +695,8 @@ void setup(void)
   u8g2_epaper.getU8x8()->display_cb = u8x8_d_test_hook;	// ...replace it with our hook function
 
   init_lut();
-  read_lut(LUTDefault_full);
-  //read_lut(w04);
+  //read_lut(LUTDefault_full);
+  read_lut(w05);
 }
 
 
