@@ -136,6 +136,9 @@ uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
 #define U8X8_DEBOUNCE_WAIT 2
 /* do debounce and return a GPIO msg which indicates the event */
 /* returns 0, if there is no event */
+#ifdef  __GNUC__
+# pragma weak  u8x8_GetMenuEvent
+#endif
 uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
 {
   uint8_t pin_state;
