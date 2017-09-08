@@ -266,16 +266,6 @@ static void u8x8_d_il3820_second_init(u8x8_t *u8x8)
 
 #define L(a,b,c,d) (((a)<<6)|((b)<<4)|((c)<<2)|(d))
 
-
-/* http://www.waveshare.com/wiki/File:2.9inch_e-Paper_Module_code.7z */
-static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
-    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-
-  U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
-  U8X8_C(0x01),
-  U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
-  
   /* according to the command table, the lut has 240 bits (=30 bytes * 8 bits) */
   
   /* Waveform part of the LUT (20 bytes) */
@@ -301,167 +291,18 @@ according to section 6.8:
 1 empty byte
 
 */
-/*
-  static unsigned char LUTDefault_full[] = 
-  0x32,
-  0x02,0x02,0x01,0x11,0x12,  0x12,0x22,0x22,0x66,0x69,
-  0x69,0x59,0x58,0x99,0x99,  0x88,0x00,0x00,0x00,0x00,
-  0xF8,0xB4,0x13,0x51,0x35,  0x51,0x51,0x19,0x01,0x00, 0x00};
-  static unsigned char LUTDefault_part[] = {
-  0x32,
-  0x10,0x18,0x18,0x08,0x18,  0x18,0x08,0x00,0x00,
-  0x00,0x00,0x00,0x00,0x00,  0x00,0x00,0x00,0x00,0x00,
-  0x00,0x13,0x14,0x44,0x12,  0x00,0x00,0x00,0x00,0x00,0x00};
-*/
-
-/*
-0x00, 0x40, 0x04, 0xa6, 0xa8, 
-0x65, 0x19, 0xaa, 0x98, 0x11, 
-0x11, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00, 0x00, 
-
-0x20, 0x26, 0x26, 0x26, 0xff, 
-0x0f, 0x00, 0x00, 0x00, 0x00
-
-71 ticks, 1440 ms
 
 
-0x00, 0x88, 0x88, 0x88, 0x98, 
-0x99, 0x99, 0x99, 0x11, 0x11, 
-0x11, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00, 0x00, 
+/* http://www.waveshare.com/wiki/File:2.9inch_e-Paper_Module_code.7z */
+static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-0x20, 0x26, 0x26, 0x26, 0xff, 
-0x0f, 0x00, 0x00, 0x00, 0x00
-71 ticks, 1440 ms
-
-*/  
-#ifdef OLD
+  U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
+  U8X8_C(0x01),
+  U8X8_A(295 % 256), U8X8_A(295/256), U8X8_A(0),
   
-  U8X8_C(0x32),	/* write LUT register*/
-  /* original values */
-  U8X8_A(0x00),
-  U8X8_A(0x88),
-  U8X8_A(0x88),
-  U8X8_A(0x88),  
-  U8X8_A(0x98),
   
-  U8X8_A(0x99),
-  U8X8_A(0x99),
-  U8X8_A(0x99),
-  U8X8_A(0x11),  
-  U8X8_A(0x11),
-  
-  U8X8_A(0x11),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  
-  /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
-  U8X8_A(0x20),
-  U8X8_A(0x26),
-  U8X8_A(0x26),
-  U8X8_A(0x26),
-  U8X8_A(0xff),
-  U8X8_A(0x0f),
-  
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-#endif
-  
-/*
-0x50, 0xAA, 0x55, 0xAA, 0x11, 	0x00, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00, 0x00, 0x00, 0x00, 	0x00, 0x00, 0x00, 0x00, 0x00, 
-0xFF, 0xFF, 0x1F, 0x00, 0x00, 		0x00, 0x00, 0x00, 0x00, 0x00
-measured 1582 ms
-*/
-  U8X8_C(0x32),	/* write LUT register*/
-  /* original values */
-  U8X8_A(0x50),
-  U8X8_A(0xaa),
-  U8X8_A(0x55),
-  U8X8_A(0xaa),  
-  U8X8_A(0x11),
-  
-  U8X8_A(0x11),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),  
-  U8X8_A(0x00),
-  
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  
-  /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
-  U8X8_A(0xff),
-  U8X8_A(0xff),
-  U8X8_A(0x3f),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-
-#ifdef OLD
-  /* take the values from the 200x200 SSD1607 device, this looks better */
-  U8X8_C(0x32),	/* write LUT register*/
-
-  /* original values, L-macro */
-  U8X8_A(L(0,0,0,2)), // 0x02
-  U8X8_A(L(0,0,0,2)), // 0x02
-  U8X8_A(L(0,0,0,1)), // 0x01
-  U8X8_A(L(0,1,0,1)), // 0x11
-  U8X8_A(L(0,1,0,2)), // 0x12
-  U8X8_A(L(0,1,0,2)), // 0x12
-  U8X8_A(L(0,2,0,2)), // 0x22
-  U8X8_A(L(0,2,0,2)), // 0x22
-  U8X8_A(L(1,2,1,2)), // 0x66
-  U8X8_A(L(1,2,2,1)), // 0x69
-  U8X8_A(L(1,2,2,1)), // 0x69
-  U8X8_A(L(1,1,2,1)), // 0x59
-  U8X8_A(L(1,1,2,0)), // 0x58
-  U8X8_A(L(2,1,2,1)), // 0x99
-  U8X8_A(L(2,1,2,1)), // 0x99
-  U8X8_A(L(2,0,2,0)), // 0x88
-  U8X8_A(L(0,0,0,0)), // 0x00
-  U8X8_A(L(0,0,0,0)), // 0x00
-  U8X8_A(L(0,0,0,0)), // 0x00
-  U8X8_A(L(0,0,0,0)), // 0x00
-
-  /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
-  U8X8_A(0xF8),
-  U8X8_A(0xB4),
-  U8X8_A(0x13),
-  U8X8_A(0x51),
-  U8X8_A(0x35),
-  U8X8_A(0x51),
-  U8X8_A(0x51),
-  U8X8_A(0x19),
-  U8X8_A(0x01),
-  U8X8_A(0x00),
-
-#endif
-
   U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
   U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
   
@@ -472,7 +313,7 @@ measured 1582 ms
   U8X8_CA(0x3a, 0x16),	/* dummy lines POR=22 (0x016) */
   U8X8_CA(0x3b, 0x08),	/* gate time POR=0x08*/
   U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
-  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  //U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
 
 
   U8X8_CA(0x11, 0x07),	/* Define data entry mode, x&y inc, x first*/
@@ -480,8 +321,8 @@ measured 1582 ms
   U8X8_CAA(0x44, 0, 29),	/* RAM x start & end, 32*4=128 */
   U8X8_CAAAA(0x45, 0, 0, 295&255, 295>>8),	/* RAM y start & end, 0..295 */
   
-  U8X8_CA(0x4e, 0),	/* set x pos, 0..29? */
-  U8X8_CAA(0x4f, 0, 0),	/* set y pos, 0...320??? */
+  //U8X8_CA(0x4e, 0),	/* set x pos, 0..29? */
+  //U8X8_CAA(0x4f, 0, 0),	/* set y pos, 0...320??? */
 
 
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -541,8 +382,6 @@ measured 1582 ms
   U8X8_A(0x00),
   U8X8_A(0x00),
 
-
-  
   U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display, assumes clk and charge pump are enabled  */
   U8X8_C(0x20),	/* execute sequence */
   
@@ -554,13 +393,7 @@ measured 1582 ms
   U8X8_DLY(250),
   U8X8_DLY(250),
   U8X8_DLY(120),
- 
-  // 6 sep2017: removed the following code, i think the 0x020 exec cmd is missing
-  //U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
-  //U8X8_DLY(250),
-  //U8X8_DLY(250),
-  //U8X8_DLY(100),  
-  
+   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -579,39 +412,12 @@ uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_init_seq);    
 
-      //u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_to_display_seq);    
-      //for(;;)
-	//;
-    
-#ifdef NOT_USED
-      /* STRATEGY FOR SSD1606 */
-      /* special code for the SSD1606... */
-      /* ensure that the initial buffer is clear and all eInk is set to white */
-      /* this is done here, because the LUT will be of that kind, that it uses the previous color */
-      /* make everything black */
-      u8x8_FillDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-      /* now make everything clear */
-      u8x8_FillDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-      /* now make everything clear */
-      u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-#endif
-
-      //u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      //u8x8_RefreshDisplay(u8x8);
-      /* another update to ensure, that the buffers are cleared */
-      //u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      //u8x8_RefreshDisplay(u8x8);
-      
       u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
       u8x8_d_il3820_first_init(u8x8);
+
+      /* usually the DISPLAY_INIT message leaves the display in power save state */
+      /* however this is not done for e-paper devices, see: */
+      /* https://github.com/olikraus/u8g2/wiki/internal#powersave-mode */
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
@@ -619,20 +425,6 @@ uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave1_seq);
-      break;
-    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
-/*
-      if ( arg_int == 0 )
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_flip0_seq);
-	u8x8->x_offset = u8x8->display_info->default_x_offset;
-      }
-      else
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_flip1_seq);
-	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
-      }
-*/
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_d_il3820_draw_tile(u8x8, arg_int, arg_ptr);
@@ -645,19 +437,6 @@ uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   }
   return 1;
 }
-
-
-/*
-uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
-{
-    if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
-    {
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_il3820_296x128_display_info);
-      return 1;
-    }
-    return u8x8_d_il3820_296x128_generic(u8x8, msg, arg_int, arg_ptr);
-}
-*/
 
 /*=================================================*/
 /* second version for the IL3820 display */
@@ -755,12 +534,6 @@ measured 1240 ms
   U8X8_DLY(250),
   U8X8_DLY(50),
  
-  // 6 sep2017: removed the following code, i think the 0x020 exec cmd is missing
-  //U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
-  //U8X8_DLY(250),
-  //U8X8_DLY(250),
-  //U8X8_DLY(100),  
-  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
