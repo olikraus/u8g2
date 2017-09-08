@@ -55,6 +55,19 @@
     - Charge pump is always enabled. Charge pump can be enabled/disabled via power save message
     - U8x8 will not really work because of the two buffers in the SSD1606, however U8g2 should be ok.
 
+  LUT for the 296x128 device (IL3820)
+  LUT (cmd: 0x032 has 30 bytes)
+  section 6.8 of the datasheet mentions 256 bits = 32 bytes for the LUT
+  chapter 7 tells 30 bytes
+
+  according to section 6.8:
+  20 bytes waveform
+  10 bytes timing
+  1 byte named as VSH/VSL
+  1 empty byte
+  according to the command table, the lut has 240 bits (=30 bytes * 8 bits)
+
+
   LUT / Refresh time
     total_refresh_time = (refresh_lines + dummy_lines*2)*TGate*TS_Sum/f_OSC
 
@@ -75,7 +88,17 @@
     u8x8_d_il3820_v2_296x128		--> includes LUT which was optimized for faster speed and lesser flicker
 
 */
-
+  
+/* Waveform part of the LUT (20 bytes) */
+/* bit 7/6: 1 - 1 transition */
+/* bit 5/4: 1 - 0 transition */
+/* bit 3/2: 0 - 1 transition */
+/* bit 1/0: 0 - 0 transition */
+/* 	00 – VSS */
+/* 	01 – VSH */
+/* 	10 – VSL */
+/* 	11 – NA */
+  
 
 #include "u8x8.h"
 
@@ -166,29 +189,12 @@ static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr
   page --;
   page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
   
-  //page = (((u8x8_tile_t *)arg_ptr)->y_pos);
-
   x = ((u8x8_tile_t *)arg_ptr)->x_pos;
   x *= 8;
   x += u8x8->x_offset;
 
-  
-
-  //u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
-  //u8x8_cad_SendArg(u8x8, 0);
-
   //u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
   //u8x8_cad_SendArg(u8x8, 7);
-
-  //u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
-  //u8x8_cad_SendArg(u8x8, 0);
-  //u8x8_cad_SendArg(u8x8, 0);
-  //u8x8_cad_SendArg(u8x8, (296-1)&255);		/* end of display */
-  //u8x8_cad_SendArg(u8x8, (296-1)>>8);
-
-  //u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
-  //u8x8_cad_SendArg(u8x8, page);
-  //u8x8_cad_SendArg(u8x8, page+1);
 
   u8x8_cad_SendCmd(u8x8, 0x04f );	/* set cursor column */
   u8x8_cad_SendArg(u8x8, x&255);
@@ -264,35 +270,6 @@ static void u8x8_d_il3820_second_init(u8x8_t *u8x8)
 /* first version, LUT from WaveShare */
 
 
-#define L(a,b,c,d) (((a)<<6)|((b)<<4)|((c)<<2)|(d))
-
-  /* according to the command table, the lut has 240 bits (=30 bytes * 8 bits) */
-  
-  /* Waveform part of the LUT (20 bytes) */
-  /* bit 7/6: 1 - 1 transition */
-  /* bit 5/4: 1 - 0 transition */
-  /* bit 3/2: 0 - 1 transition */
-  /* bit 1/0: 0 - 0 transition */
-  /* 	00 – VSS */
-  /* 	01 – VSH */
-  /* 	10 – VSL */
-  /* 	11 – NA */
-  
-/*
-LUT for the 296x128 device (IL3820)
-LUT (cmd: 0x032 has 30 bytes)
-section 6.8 of the datasheet mentions 256 bits = 32 bytes for the LUT
-chapter 7 tells 30 bytes
-
-according to section 6.8:
-20 bytes waveform
-10 bytes timing
-1 byte named as VSH/VSL
-1 empty byte
-
-*/
-
-
 /* http://www.waveshare.com/wiki/File:2.9inch_e-Paper_Module_code.7z */
 static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
     
@@ -330,14 +307,8 @@ static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
 };
 
 
-
 static const uint8_t u8x8_d_il3820_to_display_seq[] = {
-
-
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-
-
-
 /*
 0x50, 0xAA, 0x55, 0xAA, 0x11, 	0x00, 0x00, 0x00, 0x00, 0x00, 
 0x00, 0x00, 0x00, 0x00, 0x00, 	0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -397,7 +368,6 @@ measured 1582 ms
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
-
 
 
 uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
