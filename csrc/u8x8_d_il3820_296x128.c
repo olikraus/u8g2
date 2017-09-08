@@ -543,7 +543,7 @@ measured 1582 ms
 
 
   
-  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display, assumes clk and charge pump are enabled  */
   U8X8_C(0x20),	/* execute sequence */
   
   U8X8_DLY(250),	/* delay for 1620ms. The current sequence takes 1582ms */
