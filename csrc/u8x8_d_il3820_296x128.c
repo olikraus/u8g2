@@ -602,16 +602,16 @@ uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       u8x8_RefreshDisplay(u8x8);
 #endif
 
-      u8x8_ClearDisplay(u8x8);		
+      //u8x8_ClearDisplay(u8x8);		
       /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
+      //u8x8_RefreshDisplay(u8x8);
       /* another update to ensure, that the buffers are cleared */
-      u8x8_ClearDisplay(u8x8);		
+      //u8x8_ClearDisplay(u8x8);		
       /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
+      //u8x8_RefreshDisplay(u8x8);
       
-      //u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
-      //u8x8_d_il3820_first_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
+      u8x8_d_il3820_first_init(u8x8);
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
