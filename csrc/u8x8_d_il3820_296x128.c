@@ -47,18 +47,179 @@
     bit 1:	Disable Charge Pump
     bit 0:	Disable Clock
     
-    Disable Charge Pump and Clock require about 267ms
-    Enable Charge Pump and Clock require about 10ms
+    Disable Charge Pump and Clock require about 10ms
+    Enable Charge Pump and Clock require about 100 to 300ms
 
   Notes:
     - Introduced a refresh display message, which copies RAM to display
-    - Charge pump and clock are only enabled for the transfer RAM to display
+    - Charge pump is always enabled. Charge pump can be enabled/disabled via power save message
     - U8x8 will not really work because of the two buffers in the SSD1606, however U8g2 should be ok.
+
+  LUT / Refresh time
+    total_refresh_time = (refresh_lines + dummy_lines*2)*TGate*TS_Sum/f_OSC
+
+    f_OSC=1MHz (according to the datasheets)
+    refreh_lines = 296 (for the waveshare display, 0x045 cmd)
+    dummy_lines = 22 (for the upcoming u8g2 code, 0x03a cmd)
+    TGate = 62 (POR default, 0x03b cmd)
+    TS_Sum: Sum of all TS entries of the second part of the LUT
+    f_OSC: 1MHz according to the datasheet.
+
+    so we have
+
+    total_refresh_time = 21080*TS_Sum/1000000 = 21ms * TS_Sum
+
+
+  This file includes two devices:
+    u8x8_d_il3820_296x128		--> includes LUT which is probably from the WaveShare 2.9 Vendor
+    u8x8_d_il3820_v2_296x128		--> includes LUT which was optimized for faster speed and lesser flicker
 
 */
 
 
 #include "u8x8.h"
+
+/*=================================================*/
+/* common code for all devices */
+
+
+static const uint8_t u8x8_d_il3820_296x128_powersave0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x22, 0xc0),			/* enable clock and charge pump */
+  U8X8_C(0x20),				/* execute sequence */  
+  U8X8_DLY(200),				/* according to my measures it may take up to 150ms */
+  U8X8_DLY(100),				/* but it might take longer */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_il3820_296x128_powersave1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */  
+  /* disable clock and charge pump only, deep sleep is not entered, because we will loose RAM content */
+  U8X8_CA(0x22, 0x02),			/* only disable charge pump, HW reset seems to be required if the clock is disabled */
+  U8X8_C(0x20),				/* execute sequence */  
+  U8X8_DLY(20),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_il3820_296x128_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_il3820_296x128_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+static const u8x8_display_info_t u8x8_il3820_296x128_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 120,
+  /* pre_chip_disable_wait_ns = */ 60,
+  /* reset_pulse_width_ms = */ 100, 	
+  /* post_reset_wait_ms = */ 100, 
+  /* sda_setup_time_ns = */ 50,		/* IL3820 */
+  /* sck_pulse_width_ns = */ 125,	/* IL3820: 125ns, clock cycle = 250ns */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 2,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 150,	
+  /* tile_width = */ 37,		/* 37*8 = 296 */
+  /* tile_hight = */ 16,		/* 16*8 = 128 */	
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 296,
+  /* pixel_height = */ 128
+};
+
+
+static uint8_t *u8x8_convert_tile_for_il3820(uint8_t *t)
+{
+  uint8_t i;
+  static uint8_t buf[8];
+  uint8_t *pbuf = buf;
+
+  for( i = 0; i < 8; i++ )
+  {
+    *pbuf++ = ~(*t++);
+  }
+  return buf;
+}
+
+static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr) U8X8_NOINLINE;
+static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
+{
+  uint16_t x;
+  uint8_t c, page;
+  uint8_t *ptr;
+  u8x8_cad_StartTransfer(u8x8);
+
+  page = u8x8->display_info->tile_height;
+  page --;
+  page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
+  
+  //page = (((u8x8_tile_t *)arg_ptr)->y_pos);
+
+  x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+  x *= 8;
+  x += u8x8->x_offset;
+
+  
+
+  //u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
+  //u8x8_cad_SendArg(u8x8, 0);
+
+  //u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
+  //u8x8_cad_SendArg(u8x8, 7);
+
+  //u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
+  //u8x8_cad_SendArg(u8x8, 0);
+  //u8x8_cad_SendArg(u8x8, 0);
+  //u8x8_cad_SendArg(u8x8, (296-1)&255);		/* end of display */
+  //u8x8_cad_SendArg(u8x8, (296-1)>>8);
+
+  //u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
+  //u8x8_cad_SendArg(u8x8, page);
+  //u8x8_cad_SendArg(u8x8, page+1);
+
+  u8x8_cad_SendCmd(u8x8, 0x04f );	/* set cursor column */
+  u8x8_cad_SendArg(u8x8, x&255);
+  u8x8_cad_SendArg(u8x8, x>>8);
+
+  u8x8_cad_SendCmd(u8x8, 0x04e );	/* set cursor row */
+  u8x8_cad_SendArg(u8x8, page);
+
+  u8x8_cad_SendCmd(u8x8, 0x024 );
+  
+  do
+  {
+    c = ((u8x8_tile_t *)arg_ptr)->cnt;
+    ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+    do
+    {
+      u8x8_cad_SendData(u8x8, 8, u8x8_convert_tile_for_il3820(ptr));
+      ptr += 8;
+      x += 8;
+      c--;
+    } while( c > 0 );
+    
+    arg_int--;
+  } while( arg_int > 0 );
+  
+  u8x8_cad_EndTransfer(u8x8);
+}
+
+
+/*=================================================*/
+/* first version, LUT from WaveShare */
 
 
 #define L(a,b,c,d) (((a)<<6)|((b)<<4)|((c)<<2)|(d))
@@ -286,20 +447,6 @@ measured 1582 ms
 };
 
 
-/*
-total_refresh_time = (refresh_lines + dummy_lines*2)*TGate*TS_Sum/f_OSC
-
-f_OSC=1MHz (according to the datasheets)
-refreh_lines = 296 (for the waveshare display, 0x045 cmd)
-dummy_lines = 22 (for the upcoming u8g2 code, 0x03a cmd)
-TGate = 62 (POR default, 0x03b cmd)
-TS_Sum: Sum of all TS entries of the second part of the LUT
-f_OSC: 1MHz according to the datasheet.
-
-so we have
-
-total_refresh_time = 21080*TS_Sum/1000000 = 21ms * TS_Sum
-*/
 
 static const uint8_t u8x8_d_il3820_to_display_seq[] = {
 
@@ -328,124 +475,15 @@ static const uint8_t u8x8_d_il3820_to_display_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_il3820_296x128_powersave0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x22, 0xc0),			/* enable clock and charge pump */
-  U8X8_C(0x20),				/* execute sequence */  
-  U8X8_DLY(200),				/* according to my measures it may take up to 150ms */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_il3820_296x128_powersave1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */  
-  /* disable clock and charge pump only, deep sleep is not entered, because we will loose RAM content */
-  U8X8_CA(0x22, 0x02),			/* only disable charge pump, HW reset seems to be required if the clock is disabled */
-  U8X8_C(0x20),				/* execute sequence */  
-  U8X8_DLY(20),
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_il3820_296x128_flip0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_il3820_296x128_flip1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
 
 
-static uint8_t *u8x8_convert_tile_for_il3820(uint8_t *t)
-{
-  uint8_t i;
-  static uint8_t buf[8];
-  uint8_t *pbuf = buf;
-
-  for( i = 0; i < 8; i++ )
-  {
-    *pbuf++ = ~(*t++);
-  }
-  return buf;
-}
-
-static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr) U8X8_NOINLINE;
-static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr)
-{
-  uint16_t x;
-  uint8_t c, page;
-  uint8_t *ptr;
-  u8x8_cad_StartTransfer(u8x8);
-
-  page = u8x8->display_info->tile_height;
-  page --;
-  page -= (((u8x8_tile_t *)arg_ptr)->y_pos);
-  
-  //page = (((u8x8_tile_t *)arg_ptr)->y_pos);
-
-  x = ((u8x8_tile_t *)arg_ptr)->x_pos;
-  x *= 8;
-  x += u8x8->x_offset;
-
-  
-
-  //u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
-  //u8x8_cad_SendArg(u8x8, 0);
-
-  //u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
-  //u8x8_cad_SendArg(u8x8, 7);
-
-  //u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
-  //u8x8_cad_SendArg(u8x8, 0);
-  //u8x8_cad_SendArg(u8x8, 0);
-  //u8x8_cad_SendArg(u8x8, (296-1)&255);		/* end of display */
-  //u8x8_cad_SendArg(u8x8, (296-1)>>8);
-
-  //u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
-  //u8x8_cad_SendArg(u8x8, page);
-  //u8x8_cad_SendArg(u8x8, page+1);
-
-  u8x8_cad_SendCmd(u8x8, 0x04f );	/* set cursor column */
-  u8x8_cad_SendArg(u8x8, x&255);
-  u8x8_cad_SendArg(u8x8, x>>8);
-
-  u8x8_cad_SendCmd(u8x8, 0x04e );	/* set cursor row */
-  u8x8_cad_SendArg(u8x8, page);
-
-  u8x8_cad_SendCmd(u8x8, 0x024 );
-  
-  do
-  {
-    c = ((u8x8_tile_t *)arg_ptr)->cnt;
-    ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-    do
-    {
-      u8x8_cad_SendData(u8x8, 8, u8x8_convert_tile_for_il3820(ptr));
-      ptr += 8;
-      x += 8;
-      c--;
-    } while( c > 0 );
-    
-    arg_int--;
-  } while( arg_int > 0 );
-  
-  u8x8_cad_EndTransfer(u8x8);
-}
-
-
-static uint8_t u8x8_d_il3820_296x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   switch(msg)
   {
-    /* handled by the calling function
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_il3820_296x128_display_info);
       break;
-    */
     case U8X8_MSG_DISPLAY_INIT:
 
       u8x8_d_helper_display_init(u8x8);
@@ -505,14 +543,6 @@ static uint8_t u8x8_d_il3820_296x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
       }
 */
       break;
-#ifdef U8X8_WITH_SET_CONTRAST
-/*
-    case U8X8_MSG_DISPLAY_SET_CONTRAST:
-      u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_EndTransfer(u8x8);
-*/
-      break;
-#endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_d_il3820_draw_tile(u8x8, arg_int, arg_ptr);
       break;
@@ -526,30 +556,7 @@ static uint8_t u8x8_d_il3820_296x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 }
 
 
-static const u8x8_display_info_t u8x8_il3820_296x128_display_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 120,
-  /* pre_chip_disable_wait_ns = */ 60,
-  /* reset_pulse_width_ms = */ 100, 	
-  /* post_reset_wait_ms = */ 100, 
-  /* sda_setup_time_ns = */ 50,		/* IL3820 */
-  /* sck_pulse_width_ns = */ 125,	/* IL3820: 125ns, clock cycle = 250ns */
-  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 2,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 40,
-  /* write_pulse_width_ns = */ 150,	
-  /* tile_width = */ 37,		/* 37*8 = 296 */
-  /* tile_hight = */ 16,		/* 16*8 = 128 */	
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 296,
-  /* pixel_height = */ 128
-};
-
+/*
 uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
@@ -559,6 +566,7 @@ uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
     }
     return u8x8_d_il3820_296x128_generic(u8x8, msg, arg_int, arg_ptr);
 }
+*/
 
 /*=================================================*/
 /* second version for the IL3820 display */
@@ -719,9 +727,8 @@ uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 
       u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
       u8x8_d_il3820_first_init(u8x8);
-      u8x8_d_il3820_second_init(u8x8);
-      
-    
+      /* u8x8_d_il3820_second_init(u8x8); */  /* not required, u8g2.begin() will also clear the display once more */
+          
       /* usually the DISPLAY_INIT message leaves the display in power save state */
       /* however this is not done for e-paper devices, see: */
       /* https://github.com/olikraus/u8g2/wiki/internal#powersave-mode */
@@ -737,11 +744,6 @@ uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave1_seq);
       }
       break;
-      /* not implemented */
-      /*
-    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
-      break;
-      */
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_d_il3820_draw_tile(u8x8, arg_int, arg_ptr);
       break;
