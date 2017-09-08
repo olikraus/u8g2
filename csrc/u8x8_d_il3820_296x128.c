@@ -218,6 +218,48 @@ static void u8x8_d_il3820_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr
 }
 
 
+
+static const uint8_t u8x8_d_il3820_exec_1000dly_seq[] = {
+  // assumes, that the start transfer has happend
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static void u8x8_d_il3820_first_init(u8x8_t *u8x8)
+{
+      u8x8_ClearDisplay(u8x8);
+  
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
+      u8x8_cad_SendMultipleArg(u8x8, 8, 0x055);		// all black
+      u8x8_cad_SendMultipleArg(u8x8, 12, 0x0aa);		// all white
+      u8x8_cad_SendMultipleArg(u8x8, 10, 0x022);		// 830ms
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_exec_1000dly_seq);
+  
+}
+
+#ifdef OBSOLETE
+static void u8x8_d_il3820_second_init(u8x8_t *u8x8)
+{
+      u8x8_ClearDisplay(u8x8);
+  
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
+      u8x8_cad_SendMultipleArg(u8x8, 20, 0x000);		// do nothing
+      u8x8_cad_SendMultipleArg(u8x8, 10, 0x011);		// 414ms dly
+      /* reuse sequence from above, ok some time is wasted here, */
+      /* delay could be lesser */
+      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_exec_1000dly_seq);  
+}
+#endif
+
+
 /*=================================================*/
 /* first version, LUT from WaveShare */
 
@@ -519,15 +561,16 @@ uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       u8x8_ClearDisplay(u8x8);		
       /* write content to the display */
       u8x8_RefreshDisplay(u8x8);
+      
+      //u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
+      //u8x8_d_il3820_first_init(u8x8);
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
-/*
       if ( arg_int == 0 )
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave1_seq);
-*/
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 /*
@@ -674,44 +717,6 @@ measured 1240 ms
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_il3820_exec_1000dly_seq[] = {
-  // assumes, that the start transfer has happend
-  U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display */
-  U8X8_C(0x20),	/* execute sequence */
-  U8X8_DLY(250),
-  U8X8_DLY(250),
-  U8X8_DLY(250),
-  U8X8_DLY(250),
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static void u8x8_d_il3820_first_init(u8x8_t *u8x8)
-{
-      u8x8_ClearDisplay(u8x8);
-  
-      u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
-      u8x8_cad_SendMultipleArg(u8x8, 8, 0x055);		// all black
-      u8x8_cad_SendMultipleArg(u8x8, 12, 0x0aa);		// all white
-      u8x8_cad_SendMultipleArg(u8x8, 10, 0x022);		// 830ms
-      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_exec_1000dly_seq);
-  
-}
-
-static void u8x8_d_il3820_second_init(u8x8_t *u8x8)
-{
-      u8x8_ClearDisplay(u8x8);
-  
-      u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
-      u8x8_cad_SendMultipleArg(u8x8, 20, 0x000);		// do nothing
-      u8x8_cad_SendMultipleArg(u8x8, 10, 0x011);		// 414ms dly
-      /* reuse sequence from above, ok some time is wasted here, */
-      /* delay could be lesser */
-      u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_exec_1000dly_seq);  
-}
-
 uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   switch(msg)
@@ -736,13 +741,9 @@ uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-      {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave0_seq);
-      }
       else
-      {
 	u8x8_cad_SendSequence(u8x8, u8x8_d_il3820_296x128_powersave1_seq);
-      }
       break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_d_il3820_draw_tile(u8x8, arg_int, arg_ptr);
