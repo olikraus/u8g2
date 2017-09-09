@@ -132,4 +132,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added parallel interfaces for several UC16xx devices (issue 339)
   * Support for IL3820, WaveShare 2.9" e-paper (issues 318 & 347)
   * Improved debounce algorithm (issue 338)
+  * Power save mode for SSD1607 device (issue 352)
+  
   
