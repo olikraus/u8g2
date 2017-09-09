@@ -210,12 +210,8 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
 
 
 /* https://github.com/embeddedadventures/SSD1607/blob/master/SSD1607.cpp */
-static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
-    
+static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {    
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
-  
-  
 
   //U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
   U8X8_C(0x01),
@@ -395,3 +391,106 @@ uint8_t u8x8_d_ssd1607_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 
 
 /*=================================================*/
+
+static const uint8_t u8x8_d_ssd1607_v2_to_display_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  /*
+0xaa, 0x09, 0x09, 0x19, 0x19, 
+0x11, 0x11, 0x11, 0x11, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x75, 0x77, 0x77, 0x77, 0x07, 
+0x00, 0x00, 0x00, 0x00, 0x00
+measured 1240 ms with IL3830 196x128
+*/
+
+  U8X8_C(0x32),	/* write LUT register*/
+
+  /* https://github.com/olikraus/u8g2/issues/347 */
+  U8X8_A(0xaa),
+  U8X8_A(0x09),
+  U8X8_A(0x09),
+  U8X8_A(0x19),  
+  U8X8_A(0x19),
+  
+  U8X8_A(0x11),
+  U8X8_A(0x11),
+  U8X8_A(0x11),
+  U8X8_A(0x11),  
+  U8X8_A(0x00),
+  
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  
+  /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
+  U8X8_A(0x75),
+  U8X8_A(0x77),
+  U8X8_A(0x77),
+  U8X8_A(0x77),
+  U8X8_A(0x07),
+  
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  
+  U8X8_DLY(250),	/* delay for 1300ms. The current sequence takes 1240ms */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  
+  U8X8_DLY(250),
+  U8X8_DLY(50),
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+uint8_t u8x8_d_ssd1607_v2_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1607_200x200_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      u8x8_d_ssd1607_200x200_first_init(u8x8);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave1_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      break;
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_d_ssd1607_draw_tile(u8x8, arg_int, arg_ptr);
+      break;
+    case U8X8_MSG_DISPLAY_REFRESH:
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_v2_to_display_seq);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
