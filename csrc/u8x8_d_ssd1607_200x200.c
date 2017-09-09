@@ -90,6 +90,21 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
   U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
   
+  
+
+  U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
+  U8X8_CA(0x3a, 0x1a),	/* dummy lines */
+  U8X8_CA(0x3b, 0x08),	/* gate time */
+  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
+  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
   U8X8_C(0x32),	/* write LUT register*/
 
   
@@ -189,20 +204,6 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_A(0x01),
   U8X8_A(0x00),
   
-  
-
-  U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
-  U8X8_CA(0x3a, 0x1a),	/* dummy lines */
-  U8X8_CA(0x3b, 0x08),	/* gate time */
-  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
-  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
-  
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
   U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
@@ -397,7 +398,7 @@ static uint8_t u8x8_d_ssd1607_200x200_generic(u8x8_t *u8x8, uint8_t msg, uint8_t
       u8x8_d_ssd1607_draw_tile(u8x8, arg_int, arg_ptr);
       break;
     case U8X8_MSG_DISPLAY_REFRESH:
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_to_display_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_to_display_seq);
       break;
     default:
       return 0;
