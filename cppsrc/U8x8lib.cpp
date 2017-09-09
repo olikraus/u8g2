@@ -67,6 +67,7 @@ size_t U8X8::write(uint8_t v)
 /*=============================================*/
 /* callbacks */
 
+#ifdef U8X8_USE_PINS
 extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
   uint8_t i;
@@ -156,6 +157,7 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
   }
   return 1;
 }
+#endif // U8X8_USE_PINS
 
 
 /*=============================================*/
@@ -337,6 +339,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 
 /*=============================================*/
 
+#ifdef U8X8_USE_PINS
 
 extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -610,6 +613,8 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
   return 1;
 }
 
+#endif // U8X8_USE_PINS
+
 /*=============================================*/
 
 /*
@@ -876,6 +881,7 @@ extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t a
 
 
 
+#ifdef U8X8_USE_PINS
 
 /*
   use U8X8_PIN_NONE as value for "reset", if there is no reset line
@@ -1090,3 +1096,4 @@ void u8x8_SetPin_SED1520(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8
   u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
+#endif // U8X8_USE_PINS

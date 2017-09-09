@@ -1,6 +1,6 @@
 CFLAGS = -g -Wall -I../../../csrc/.  `sdl-config --cflags`
 
-SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c 
+SRC = $(shell ls ../../../csrc/*.c) ../../bitmap/common/u8x8_d_bitmap.c $(shell ls ../common/*.c ) main.c 
 
 OBJ = $(SRC:.c=.o)
 

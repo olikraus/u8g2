@@ -1,0 +1,4 @@
+To generate (TGA) image files using u8g2 on a regular (non-Arduino)
+system, have a look at the sys/bitmap directory, which is the
+recommended way to approach this. This sys/tga directory is mostly kept
+around for compatibility and to generate u8g2 manual images.

@@ -310,6 +310,7 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
 */
 
 
+#ifdef U8X8_USE_PINS
 
 /* Arduino constructor list start */
 /* generated code (codebuild), u8g2 project */
@@ -6309,6 +6310,20 @@ class U8G2_MAX7219_32X8_F_2ND_4W_HW_SPI : public U8G2 {
 };
 
 /* Arduino constructor list end */
+
+#endif // U8X8_USE_PINS
+
+class U8G2_BITMAP : public U8G2 {
+  public: U8G2_BITMAP(uint16_t pixel_width, uint16_t pixel_height, const u8g2_cb_t *rotation) {
+    u8g2_SetupBitmap(getU8g2(), rotation, pixel_width, pixel_height);
+  }
+
+  // This completely resets various settings, such as the
+  // font, so be sure to re-initialize things
+  void changeSize(uint16_t pixel_width, uint16_t pixel_height) {
+    u8g2_SetupBitmap(getU8g2(), getU8g2()->cb, pixel_width, pixel_height);
+  }
+};
 
 #endif /* _U8G2LIB_HH */
 
