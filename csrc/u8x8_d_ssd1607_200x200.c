@@ -88,7 +88,7 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_CAA(0x4f, 0&255, 0>>8),	/* set y pos, 0...299 */
 
   U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
-  U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
+  //U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
   
   
 
@@ -96,7 +96,7 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_CA(0x3a, 0x1a),	/* dummy lines */
   U8X8_CA(0x3b, 0x08),	/* gate time */
   U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
-  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  //U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
