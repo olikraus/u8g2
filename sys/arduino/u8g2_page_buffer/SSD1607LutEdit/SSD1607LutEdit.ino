@@ -49,9 +49,13 @@
 U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2_editor(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 // target e-paper device
-//U8G2_SSD1607_200X200_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
+#define BUSY_PIN 0
+U8G2_SSD1607_200X200_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
+//U8G2_SSD1607_V2_200X200_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display
+
+//#define BUSY_PIN 2
 //U8G2_IL3820_296X128_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
-U8G2_IL3820_V2_296X128_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
+//U8G2_IL3820_V2_296X128_1_4W_SW_SPI u8g2_epaper(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
 
 /*================================================*/
 /* lut editor */
@@ -456,7 +460,7 @@ uint8_t u8x8_d_test_hook(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
       delay(10);
       for(;;)
       {
-	v = analogRead(2);
+	v = analogRead(BUSY_PIN);
 	curr = millis();
 	if ( v < 300 )
 	  break;
@@ -475,6 +479,8 @@ uint8_t u8x8_d_test_hook(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 void test_lut(u8g2_t *u8g2)
 {
 
+    u8g2_epaper.setPowerSave(0);
+
     u8g2_FirstPage(u8g2);
     do
     {
@@ -486,14 +492,14 @@ void test_lut(u8g2_t *u8g2)
     u8g2_epaper.setFont(u8g2_font_ncenB14_tr);
     u8g2_epaper.drawStr(0,20,"11111111111111111111111111");
     u8g2_epaper.drawStr(0,40,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    u8g2_epaper.drawBox(10, 50, 80, 40);
-    u8g2_epaper.drawFrame(50, 70, 80, 40);
+    u8g2_epaper.drawBox(10, 60, 60, 30);
+    u8g2_epaper.drawFrame(50, 70, 60, 40);
     
-    u8g2_epaper.drawBox(110+30, 50, 80, 40);
+    u8g2_epaper.drawBox(110+10, 60, 60, 30);
     
     } while ( u8g2_epaper.nextPage() );
 
-    delay(1000);
+    delay(3000);
 
     u8g2_FirstPage(u8g2);
     do
@@ -508,13 +514,13 @@ void test_lut(u8g2_t *u8g2)
     u8g2_epaper.setFont(u8g2_font_ncenB14_tr);
     u8g2_epaper.drawStr(0,20,"22222222222222222222222222");
     u8g2_epaper.drawStr(0,40,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    u8g2_epaper.drawFrame(10, 50, 80, 40);
-    u8g2_epaper.drawBox(50, 70, 80, 40);
-    u8g2_epaper.drawBox(150+30, 70, 80, 40);
+    u8g2_epaper.drawFrame(10, 60, 60, 30);
+    u8g2_epaper.drawBox(50, 70, 60, 40);
+    
+    u8g2_epaper.drawBox(150+10, 70, 60, 40);
     } while ( u8g2_epaper.nextPage() );
 
-
-    delay(1000);
+    delay(3000);
 
     u8g2_FirstPage(u8g2);
     do
@@ -529,12 +535,16 @@ void test_lut(u8g2_t *u8g2)
     u8g2_epaper.setFont(u8g2_font_ncenB14_tr);
     u8g2_epaper.drawStr(0,20,"33333333333333333333333333");
     u8g2_epaper.drawStr(0,40,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    u8g2_epaper.drawBox(10, 50, 80, 40);
-    u8g2_epaper.drawFrame(50, 70, 80, 40);
-    u8g2_epaper.drawBox(110+30, 50, 80, 40);
+    
+    u8g2_epaper.drawBox(10, 60, 60, 30);
+    u8g2_epaper.drawFrame(50, 70, 60, 40);
+    
+    u8g2_epaper.drawBox(110+10, 60, 60, 30);
     } while ( u8g2_epaper.nextPage() );
 
-    delay(1000);
+    u8g2_epaper.setPowerSave(1);
+
+    delay(3000);
 
 }
 
@@ -655,12 +665,12 @@ const uint8_t w04[30] =
 // speed optimized, no (?) flickering version
 const uint8_t w05[30] =
 {
-0xaa, 0x09, 0x09, 0x19, 0x19, 
-0x11, 0x11, 0x11, 0x11, 0x00, 
+0xaa, 0x55, 0x55, 0x55, 0x99, 
+0x99, 0x99, 0x99, 0x99, 0x00, 
 0x00, 0x00, 0x00, 0x00, 0x00, 
 0x00, 0x00, 0x00, 0x00, 0x00, 
 
-0x75, 0x77, 0x77, 0x77, 0x07, 
+0x77, 0x77, 0x77, 0x77, 0x07, 
 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
@@ -683,6 +693,51 @@ const uint8_t w05[30] =
     
 */
 
+/*
+  U8X8_A(0x02),
+  U8X8_A(0x02),
+  U8X8_A(0x01),
+  U8X8_A(0x11),
+  U8X8_A(0x12),
+  U8X8_A(0x12),
+  U8X8_A(0x22),
+  U8X8_A(0x22),
+  U8X8_A(0x66),
+  U8X8_A(0x69),
+  U8X8_A(0x69),
+  U8X8_A(0x59),
+  U8X8_A(0x58),
+  U8X8_A(0x99),
+  U8X8_A(0x99),
+  U8X8_A(0x88),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+  U8X8_A(0x00),
+
+  U8X8_A(0xF8),
+  U8X8_A(0xB4),
+  U8X8_A(0x13),
+  U8X8_A(0x51),
+  U8X8_A(0x35),
+  U8X8_A(0x51),
+  U8X8_A(0x51),
+  U8X8_A(0x19),
+  U8X8_A(0x01),
+  U8X8_A(0x00),
+*/
+
+const uint8_t w06[30] =
+{
+0x02, 0x02, 0x01, 0x11, 0x12, 
+0x12, 0x12, 0x22, 0x22, 0x66, 
+0x69, 0x59, 0x58, 0x99, 0x99, 
+0x88, 0x00, 0x00, 0x00, 0x00, 
+
+0xf8, 0xb4, 0x13, 0x51, 0x35, 
+0x51, 0x51, 0xe9, 0x04, 0x00
+};
+
 void setup(void) 
 {
 
@@ -700,7 +755,7 @@ void setup(void)
 
   init_lut();
   //read_lut(LUTDefault_full);
-  read_lut(w05);
+  read_lut(w06);
 }
 
 

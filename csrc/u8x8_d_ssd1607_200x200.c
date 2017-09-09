@@ -391,6 +391,8 @@ uint8_t u8x8_d_ssd1607_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 
 
 /*=================================================*/
+/* there is no improvement possible... so i consider the v2 version as obsolete */
+
 
 static const uint8_t u8x8_d_ssd1607_v2_to_display_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -404,58 +406,67 @@ static const uint8_t u8x8_d_ssd1607_v2_to_display_seq[] = {
 0x75, 0x77, 0x77, 0x77, 0x07, 
 0x00, 0x00, 0x00, 0x00, 0x00
 measured 1240 ms with IL3830 196x128
+  
+  
+0x02, 0x02, 0x01, 0x11, 0x12, 
+0x12, 0x12, 0x22, 0x22, 0x66, 
+0x69, 0x59, 0x58, 0x99, 0x99, 
+0x88, 0x00, 0x00, 0x00, 0x00, 
+
+0xf8, 0xb4, 0x13, 0x51, 0x35, 
+0x51, 0x51, 0xe9, 0x04, 0x00
+  
 */
 
   U8X8_C(0x32),	/* write LUT register*/
 
   /* https://github.com/olikraus/u8g2/issues/347 */
-  U8X8_A(0xaa),
-  U8X8_A(0x09),
-  U8X8_A(0x09),
-  U8X8_A(0x19),  
-  U8X8_A(0x19),
-  
+  U8X8_A(0x02),
+  U8X8_A(0x02),
+  U8X8_A(0x01),
   U8X8_A(0x11),
-  U8X8_A(0x11),
-  U8X8_A(0x11),
-  U8X8_A(0x11),  
-  U8X8_A(0x00),
+  U8X8_A(0x12),
+  U8X8_A(0x12),
+  U8X8_A(0x22),
+  U8X8_A(0x22),
+  U8X8_A(0x66),
+  U8X8_A(0x69),
+  U8X8_A(0x69),
+  U8X8_A(0x59),
+  U8X8_A(0x58),
+  U8X8_A(0x99),
+  U8X8_A(0x99),
   
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  
-  U8X8_A(0x00),
+  U8X8_A(0x88),
   U8X8_A(0x00),
   U8X8_A(0x00),
   U8X8_A(0x00),
   U8X8_A(0x00),
   
   /* Timing part of the LUT, 20 Phases with 4 bit each: 10 bytes */
-  U8X8_A(0x75),
-  U8X8_A(0x77),
-  U8X8_A(0x77),
-  U8X8_A(0x77),
-  U8X8_A(0x07),
+  U8X8_A(0xF8),
+  U8X8_A(0xB4),
+  U8X8_A(0x13),
+  U8X8_A(0x51),
+  U8X8_A(0x35),
   
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
-  U8X8_A(0x00),
+  U8X8_A(0x51),
+  U8X8_A(0x51),
+  U8X8_A(0xe9),
+  U8X8_A(0x04),
   U8X8_A(0x00),
   
   U8X8_CA(0x22, 0x04),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
   
-  U8X8_DLY(250),	/* delay for 1300ms. The current sequence takes 1240ms */
+  U8X8_DLY(250),	/* delay for 1500ms. The current sequence takes 1300ms */
   U8X8_DLY(250),
   U8X8_DLY(250),
   U8X8_DLY(250),
   
   U8X8_DLY(250),
-  U8X8_DLY(50),
+  U8X8_DLY(250),
+  
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
