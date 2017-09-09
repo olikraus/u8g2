@@ -496,13 +496,13 @@ measured 1240 ms
   U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display */
   U8X8_C(0x20),	/* execute sequence */
   
-  U8X8_DLY(250),	/* delay for 1300ms. The current sequence takes 1240ms */
+  U8X8_DLY(250),	/* delay for 1400ms. The current sequence takes 1240ms, it was reported, that longer delays are better */
   U8X8_DLY(250),
   U8X8_DLY(250),
   U8X8_DLY(250),
   
   U8X8_DLY(250),
-  U8X8_DLY(50),
+  U8X8_DLY(150),	/* extended, #318 */
  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
