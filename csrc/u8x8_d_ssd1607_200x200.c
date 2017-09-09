@@ -157,12 +157,13 @@ static const uint8_t u8x8_d_ssd1607_200x200_init_seq[] = {
   U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
   U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
   
-  U8X8_CA(0x11, 0x01),	/* Define data entry mode, x&y inc, x first */
+  U8X8_CA(0x0f, 0x00),		/* scan start ? */
+  U8X8_CA(0x11, 0x03),		/* cursor increment mode */
   U8X8_CAA(0x44, 0, 24),	/* RAM x start & end, each byte has 8 pixel, 25*4=200 */
   U8X8_CAAAA(0x45, 0, 0, 299&255, 299>>8),	/* RAM y start & end, 0..299 */
   
-  U8X8_CA(0x4e, 0),	/* set x pos, 0..24 */
-  U8X8_CAA(0x4f, 0&255, 0>>8),	/* set y pos, 0...299 */
+  //U8X8_CA(0x4e, 0),	/* set x pos, 0..24 */
+  //U8X8_CAA(0x4f, 0&255, 0>>8),	/* set y pos, 0...299 */
 
   U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
   //U8X8_CA(0x22, 0xc0),	/* display update seq. option: enable clk, enable CP, .... todo: this is never activated */
@@ -292,11 +293,6 @@ static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   U8X8_DLY(250),
   U8X8_DLY(250),
   
-  //U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
-  //U8X8_DLY(250),
-  //U8X8_DLY(250),
-  //U8X8_DLY(100),  
-  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -332,11 +328,11 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   x *= 8;
   x += u8x8->x_offset;
 
-  u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
-  u8x8_cad_SendArg(u8x8, 0);
+  //u8x8_cad_SendCmd(u8x8, 0x00f );	/* scan start */
+  //u8x8_cad_SendArg(u8x8, 0);
 
-  u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
-  u8x8_cad_SendArg(u8x8, 3);
+  //u8x8_cad_SendCmd(u8x8, 0x011 );	/* cursor increment mode */
+  //u8x8_cad_SendArg(u8x8, 3);
 
   u8x8_cad_SendCmd(u8x8, 0x045 );	/* window start column */
   u8x8_cad_SendArg(u8x8, 0);
@@ -347,8 +343,6 @@ static void u8x8_d_ssd1607_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_pt
   u8x8_cad_SendCmd(u8x8, 0x044 );	/* window end page */
   u8x8_cad_SendArg(u8x8, page);
   u8x8_cad_SendArg(u8x8, page);
-  //u8x8_cad_SendArg(u8x8, 0);
-  //u8x8_cad_SendArg(u8x8, 199/8);
 
   u8x8_cad_SendCmd(u8x8, 0x04f );	/* window column */
   u8x8_cad_SendArg(u8x8, x&255);
