@@ -60,6 +60,57 @@
 
 #include "u8x8.h"
 
+/*=================================================*/
+
+static const uint8_t u8x8_d_ssd1607_200x200_powersave0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x22, 0xc0),			/* enable clock and charge pump */
+  U8X8_C(0x20),				/* execute sequence */  
+  U8X8_DLY(200),				/* according to my measures it may take up to 150ms */
+  U8X8_DLY(100),				/* but it might take longer */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1607_200x200_powersave1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */  
+  /* disable clock and charge pump only, deep sleep is not entered, because we will loose RAM content */
+  U8X8_CA(0x22, 0x02),			/* only disable charge pump, HW reset seems to be required if the clock is disabled */
+  U8X8_C(0x20),				/* execute sequence */  
+  U8X8_DLY(20),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+static const uint8_t u8x8_d_ssd1607_200x200_exec_1000dly_seq[] = {
+  // assumes, that the start transfer has happend
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static void u8x8_d_ssd1607_200x200_first_init(u8x8_t *u8x8)
+{
+      u8x8_ClearDisplay(u8x8);
+  
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x032);		// program update sequence
+      u8x8_cad_SendMultipleArg(u8x8, 8, 0x055);		// all black
+      u8x8_cad_SendMultipleArg(u8x8, 12, 0x0aa);		// all white
+      u8x8_cad_SendMultipleArg(u8x8, 10, 0x022);		// 830ms
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_exec_1000dly_seq);
+  
+}
+
+
+/*=================================================*/
+
 
 #define L(a,b,c,d) (((a)<<6)|((b)<<4)|((c)<<2)|(d))
 
@@ -205,7 +256,7 @@ static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   U8X8_A(0x00),
   
   
-  U8X8_CA(0x22, 0xc4),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
   U8X8_C(0x20),	/* execute sequence */
   U8X8_DLY(250),	/* the sequence above requires about 1200ms for the 200x200 display*/
   U8X8_DLY(250),
@@ -215,39 +266,14 @@ static const uint8_t u8x8_d_ssd1607_to_display_seq[] = {
   U8X8_DLY(250),
   U8X8_DLY(250),
   
-  U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
-  U8X8_DLY(250),
-  U8X8_DLY(250),
-  U8X8_DLY(100),  
+  //U8X8_CA(0x22, 0x03),	/* disable clock and charge pump */
+  //U8X8_DLY(250),
+  //U8X8_DLY(250),
+  //U8X8_DLY(100),  
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
-
-static const uint8_t u8x8_d_ssd1607_200x200_powersave0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_ssd1607_200x200_powersave1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_ssd1607_200x200_flip0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_ssd1607_200x200_flip1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
 
 static uint8_t *u8x8_convert_tile_for_ssd1607(uint8_t *t)
 {
@@ -339,38 +365,15 @@ static uint8_t u8x8_d_ssd1607_200x200_generic(u8x8_t *u8x8, uint8_t msg, uint8_t
 
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_init_seq);    
-    
-#ifdef NOT_USED
-      /* STRATEGY FOR SSD1606 */
-      /* special code for the SSD1606... */
-      /* ensure that the initial buffer is clear and all eInk is set to white */
-      /* this is done here, because the LUT will be of that kind, that it uses the previous color */
-      /* make everything black */
-      u8x8_FillDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-      /* now make everything clear */
-      u8x8_FillDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-      /* now make everything clear */
-      u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
-#endif
-
-      u8x8_ClearDisplay(u8x8);		
-      /* write content to the display */
-      u8x8_RefreshDisplay(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      u8x8_d_ssd1607_200x200_first_init(u8x8);
     
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
-/*
       if ( arg_int == 0 )
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave1_seq);
-*/
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 /*
