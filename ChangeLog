@@ -127,7 +127,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for 96x16 SSD1306 OLED (issue 295)
   * Fixed OldStandard-Bold fonts (osb, issue 306)
   * Support for SED1520/SBN1661 (issue 324)
- 2017-xx-xx	v2.17.x   olikraus@gmail.com
+ 2017-09-10	v2.17.11   olikraus@gmail.com
   * Additional _m_  and _h_ symbol fonts (issue 335)
   * Added parallel interfaces for several UC16xx devices (issue 339)
   * Support for IL3820, WaveShare 2.9" e-paper (issues 318 & 347)
