@@ -248,6 +248,9 @@ Erneutes eingeben der alarmzeit behebt das problem.
 Manchmal erscheit die nächste zeit gar nicht im display. Auch hier
 behebt das erneute eingeben der alarmzeit das problem.
 
+17. Sep 2017: einen bug in uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm) behoben
+
+
 ---------------
 MKR Zero
 

@@ -48,11 +48,12 @@ uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm)
       u |= 1<<i;
     }
   }
-  u |= (alarm->m&63) << (7);
-  u |= (alarm->h&31) << (7+6);
-  u |= (alarm->skip_wd&7) << (7+6+5);
-  u |= (alarm->enable&1) << (7+6+5+3);
-  u |= (alarm->snooze_count&1) << (7+6+5+3+1);
+  /* 17 Sep 2017: fixed 32 bit handling for the next statements */
+  u |= ((uint32_t)alarm->m&63) << (7);
+  u |= ((uint32_t)alarm->h&31) << (7+6);
+  u |= ((uint32_t)alarm->skip_wd&7) << (7+6+5);
+  u |= ((uint32_t)alarm->enable&1) << (7+6+5+3);
+  u |= ((uint32_t)alarm->snooze_count&1) << (7+6+5+3+1);
   return u;
 }
 
