@@ -98,7 +98,7 @@
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7920_128X64_1_HW_SPI u8g2(U8G2_R0, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_64128N_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_64128N_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM132_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ U8X8_PIN_NONE);	// DOGM132 Shield
@@ -115,6 +115,8 @@ U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* res
 //U8G2_ST7565_NHD_C12864_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7567_PI_132X64_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  // Pax Instruments Shield, LCD_BL=6
 //U8G2_ST7567_PI_132X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  // Pax Instruments Shield, LCD_BL=6
+//U8G2_ST7567_JLX12864_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
+//U8G2_ST7567_JLX12864_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_NT7534_TG12864R_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_NT7534_TG12864R_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_ST7588_JLX12864_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ 5);  
@@ -151,6 +153,298 @@ U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* res
 
 
 // End of constructor list
+
+
+//===================================================
+
+uint8_t is_leap_year(uint16_t y);
+uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d);
+uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn);
+uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn);
+uint8_t get_weekday_by_year_day_number(uint16_t y, uint16_t ydn); /* returns day within a week: 0..6 with 0 = Sunday, 1 = Monday, ... */
+uint16_t to_century_day_number(uint16_t y, uint16_t ydn);
+void from_century_day_number(uint16_t cdn, uint16_t *year, uint16_t *ydn);
+uint32_t to_time(uint16_t cdn, uint8_t h, uint8_t m, uint8_t s);
+void from_time(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m, uint8_t *s);
+
+uint32_t to_sec_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi, uint8_t s);
+
+uint32_t to_minutes(uint16_t cdn, uint8_t h, uint8_t m);
+void from_minutes(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m);
+uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi);
+
+
+/*
+  Prototype:
+    uint8_t is_leap_year(uint16_t y)
+  Description:
+    Calculate leap year
+  Arguments:
+    y           year, e.g. 2011 for year 2011
+  Result:
+    0           not a leap year
+    1           leap year
+*/
+uint8_t is_leap_year(uint16_t y)
+{
+   if ( 
+          ((y % 4 == 0) && (y % 100 != 0)) || 
+          (y % 400 == 0) 
+      )
+      return 1;
+   return 0;
+}
+
+/*
+  Prototype:
+    uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d)
+  Description:
+    Calculate the day number within a year. 1st of Jan has the number 1.
+    "Robertson" Algorithm IDAY (CACM Vol 15/#10/Oct 1972)
+  Arguments:
+    y           year, e.g. 2011 for year 2011
+    m           month with 1 = january to 12 = december
+    d           day starting with 1
+  Result:
+    The "day number" within the year: 1 for the 1st of Jan.
+  See also:
+    get_month_by_day_number()
+
+*/
+uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d)
+{
+  uint8_t tmp1; 
+  uint16_t tmp2;
+  tmp1 = 0;
+  if ( m >= 3 )
+    tmp1++;
+  tmp2 = m;
+  tmp2 +=2;
+  tmp2 *=611;
+  tmp2 /= 20;
+  tmp2 += d;
+  tmp2 -= 91;
+  tmp1 <<=1;
+  tmp2 -= tmp1;
+  if ( tmp1 != 0 )
+    tmp2 += is_leap_year(y);
+  return tmp2;
+}
+
+/*
+  Prototype:
+    uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn)
+  Description:
+    Get the month from year and day number within a year.
+    "R. A. Stone" Algorithm (CACM Vol 13/#10/Oct 1970)
+  Arguments:
+    y           year, e.g. 2011 for year 2011
+    ydn	year day number (1st of Jan has the number 1)
+  Result:
+    The month within the year: 1 for January.
+  See also:
+    get_year_day_number()
+*/
+
+static uint16_t corrected_year_day_number(uint16_t y, uint16_t ydn)
+{
+   uint8_t a;
+   a = is_leap_year(y);
+   if ( ydn > 59+a )
+   {
+      ydn += 2;
+      ydn -= a;
+   }
+   ydn += 91;
+   return ydn;
+}
+
+uint8_t get_month_by_year_day_number(uint16_t y, uint16_t ydn)
+{
+  uint8_t a;
+  ydn = corrected_year_day_number(y, ydn);
+  ydn *= 20;
+  ydn /= 611;
+  a = ydn;
+  a -= 2;
+  return a;  
+}
+
+/*
+  Prototype:
+    uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn)
+  Description:
+    Get the day within month from year and day number within a year.
+    "R. A. Stone" Algorithm (CACM Vol 13/#10/Oct 1970)
+  Arguments:
+    y           year, e.g. 2011 for year 2011
+    ydn	year day number (1st of Jan has the number 1)
+  Result:
+    The day within a month: 1 for the first day of a month.
+  See also:
+    get_year_day_number()
+*/
+uint8_t get_day_by_year_day_number(uint16_t y, uint16_t ydn)
+{
+  uint8_t m;
+  uint16_t tmp;
+  m = get_month_by_year_day_number(y, ydn);
+  m += 2;
+  ydn = corrected_year_day_number(y, ydn);
+  tmp = 611;
+  tmp *= m;
+  tmp /= 20;
+  ydn -= tmp;
+  return ydn;
+}
+
+/*
+  Prototype:
+    uint8_t get_weekday_by_year_day_number(uint16_t y, uint16_t ydn)
+  Description:
+    Get the day within week from year and day number within a year.
+    "Zeller" Algorithm
+    https://de.wikisource.org/wiki/Index:Acta_Mathematica_vol._009_(1886)
+    https://ia801407.us.archive.org/8/items/actamathematica09upps/actamathematica09upps.pdf
+  Arguments:
+    y           year, e.g. 2011 for year 2011
+    ydn	year day number (1st of Jan has the number 1)
+  Result:
+    The day within a week: 0..6 with 0 = Sunday, 1 = Monday, ...
+  See also:
+    get_year_day_number()
+*/
+uint8_t get_weekday_by_year_day_number(uint16_t y, uint16_t ydn)
+{
+  uint8_t j, c, tmp8;
+  uint16_t tmp16;
+  y--;
+  j = y % 100;
+  c = y / 100;
+  tmp16 = c;
+  tmp16 *= 5;
+  tmp16 += ydn;
+  tmp8 = j;
+  j >>= 2;
+  c >>= 2;
+  tmp8 += j;
+  tmp8 += c;
+  tmp8 += 28;
+  tmp16 += tmp8;
+  tmp16 %= 7;
+  return tmp16;  
+}
+
+/*
+  Prototype:
+    uint16_t to_century_day_number(uint16_t y, uint16_t ydn)
+  Description:
+    Calculate days since January, 1st, 2000
+  Arguments:
+    y           year, e.g. 2011 for year 2011
+    ydn	year day number (1st of Jan has the number 1)
+*/
+uint16_t to_century_day_number(uint16_t y, uint16_t ydn)
+{
+  uint16_t cdn;
+  cdn = ydn;
+  cdn--;
+  while( y > 2000 )
+  {
+    y--;
+    cdn += 365;
+    cdn += is_leap_year(y);
+  }
+  return cdn;
+}
+
+void from_century_day_number(uint16_t cdn, uint16_t *year, uint16_t *ydn)
+{
+  uint16_t y, days_per_year;
+  y = 2000;
+  for(;;)
+  {
+    days_per_year = 365;
+    days_per_year += is_leap_year(y);
+    if ( cdn >= days_per_year )
+    {
+      cdn -= days_per_year;
+      y++;
+    }
+    else
+      break;
+  }
+  cdn++;
+  *year = y;
+  *ydn = cdn;
+}
+
+/*
+  Calculate the seconds after 2000-01-01 00:00. The largest possible
+  time is 2136-02-07 06:28:15
+*/
+uint32_t to_time(uint16_t cdn, uint8_t h, uint8_t m, uint8_t s)
+{
+  uint32_t t;
+  t = cdn;
+  t *= 24;
+  t += h;
+  t *= 60;
+  t += m;
+  t *= 60;
+  t += s;
+  return t;
+}
+
+
+void from_time(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m, uint8_t *s)
+{
+  *s = t % 60;
+  t /= 60;
+  *m = t % 60;
+  t /= 60;
+  *h = t % 24;
+  t /= 24;
+  *cdn = t;
+}
+
+uint32_t to_sec_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi, uint8_t s)
+{
+  uint16_t ydn = get_year_day_number(y, mo, d);
+  uint16_t cdn = to_century_day_number(y, ydn);
+  return to_time(cdn, h, mi, s);
+}
+
+/*
+  Calculate the minutes after 2000-01-01 00:00. 
+*/
+uint32_t to_minutes(uint16_t cdn, uint8_t h, uint8_t m)
+{
+  uint32_t t;
+  t = cdn;
+  t *= 24;
+  t += h;
+  t *= 60;
+  t += m;
+  return t;
+}
+
+
+void from_minutes(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m)
+{
+  *m = t % 60;
+  t /= 60;
+  *h = t % 24;
+  t /= 24;
+  *cdn = t;
+}
+
+uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi)
+{
+  uint16_t ydn = get_year_day_number(y, mo, d);
+  uint16_t cdn = to_century_day_number(y, ydn);
+  return to_minutes(cdn, h, mi);
+}
 
 //===================================================
 
@@ -240,7 +534,7 @@ int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg);
 
 //===================================================
 
-extern u8g2_t u8g2;
+u8g2_t *u8g2_ptr;
 
 #define GUI_STATE_STOP 0
 #define GUI_STATE_SIGNAL_ALARM 1
@@ -1034,6 +1328,7 @@ void do_reset(void)
 
 void store_gui_data(uint32_t *data)
 {
+  /*
   FILE *fp;
   fp = fopen("clock.dat", "w");
   if ( fp != NULL )
@@ -1041,10 +1336,12 @@ void store_gui_data(uint32_t *data)
     fwrite(data, sizeof(uint32_t), 5, fp);
     fclose(fp);
   }
+  */
 }
 
 void load_gui_data(uint32_t *data)
 {
+  /*
   FILE *fp;
 
   int i;
@@ -1058,6 +1355,7 @@ void load_gui_data(uint32_t *data)
     fread(data, sizeof(uint32_t), 5, fp);
     fclose(fp);
   }
+  */
 }
 
 
@@ -2263,19 +2561,24 @@ void gui_Select(void)
 void setup(void) {
 
   // U8g2 SH1106 Proto-Shield
-  //u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
+  //u8g2_class.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
 
   // DOGS102 Shield (http://shieldlist.org/controlconnection/dogs102)
-  // u8g2.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 3);
+  // u8g2_class.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 3);
   
   // DOGM128 Shield (http://shieldlist.org/schmelle2/dogm128) + DOGXL160 Shield
-  //u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 8);
+  //u8g2_class.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 8);
   
   // Arduboy
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
-  u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
+  u8g2_class.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
 
-  u8g2.setFont(u8g2_font_6x12_tr);
+  u8g2_class.setFont(u8g2_font_6x12_tr);
+  
+  u8g2_ptr = u8g2_class.getU8g2();
+
+  gui_Init(u8g2_ptr, 0);
+  
 }
 
 const char *string_list = 
@@ -2295,24 +2598,25 @@ uint8_t current_selection = 1;
 
 void loop(void) {
 
-  current_selection = u8g2.userInterfaceSelectionList(
+  current_selection = u8g2_class.userInterfaceSelectionList(
     "Cloud Types",
     current_selection, 
     string_list);
 
   if ( current_selection == 0 ) {
-    u8g2.userInterfaceMessage(
+    u8g2_class.userInterfaceMessage(
 	"Nothing selected.", 
 	"",
 	"",
 	" ok ");
   } else {
-    u8g2.userInterfaceMessage(
+    u8g2_class.userInterfaceMessage(
 	"Selection:", 
 	u8x8_GetStringLineStart(current_selection-1, string_list ),
 	"",
 	" ok \n cancel ");
   }
 }
+
 
 

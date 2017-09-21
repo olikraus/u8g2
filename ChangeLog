@@ -133,5 +133,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for IL3820, WaveShare 2.9" e-paper (issues 318 & 347)
   * Improved debounce algorithm (issue 338)
   * Power save mode for SSD1607 device (issue 352)
+ 2017-xx-xx	v2.18.1   olikraus@gmail.com
+  * Support for ST7567_JLX12864 (issue 365)
   
   
