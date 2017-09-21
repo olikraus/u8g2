@@ -267,7 +267,7 @@ static const uint8_t u8x8_st7567_jlx12864_init_seq[] = {
   U8X8_DLY(50),
   
   U8X8_C(0x023),		                /* v0 voltage resistor ratio */
-  U8X8_CA(0x081, 42),		/* set contrast, contrast value*/
+  U8X8_CA(0x081, 42>>2),		/* set contrast, contrast value*/
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
