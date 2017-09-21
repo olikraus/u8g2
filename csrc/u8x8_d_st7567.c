@@ -234,7 +234,7 @@ static const u8x8_display_info_t u8x8_st7567_jlx12864_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,	/* */
   /* write_pulse_width_ns = */ 80,	/* */
-  /* tile_width = */ 17,		/* width of 17*8=136 pixel */
+  /* tile_width = */ 16,		/* width of 16*8=128 pixel */
   /* tile_hight = */ 8,
   /* default_x_offset = */ 4,
   /* flipmode_x_offset = */ 0,
