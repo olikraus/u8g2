@@ -320,7 +320,7 @@ static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
   U8X8_CA(0x0f2, 0),			/* display line start */
   U8X8_CA(0x0f3, 159),			/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 0x08f),		/* set contrast */
+  U8X8_CA(0x081, 75),		/* set contrast */
   
   //U8X8_C(0x0a9),            			/* display enable */
 
