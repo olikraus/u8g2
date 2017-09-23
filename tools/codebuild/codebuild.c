@@ -163,6 +163,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x32_noname" },
+      { "64x32_1f" },
       { NULL }
     }
   },
@@ -171,6 +172,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x32_noname" },
+      { "64x32_1f" },
       { NULL }
     }
   }, 
