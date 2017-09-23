@@ -363,14 +363,14 @@ static const u8x8_display_info_t u8x8_uc1611_ew50850_display_info =
 
 static const uint8_t u8x8_d_uc1611_alt_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
+  U8X8_CA(0x0c0, 0x000),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1611_alt_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0c0, 0x002),            	/* LCD Mapping */
+  U8X8_CA(0x0c0, 0x006),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
