@@ -99,7 +99,7 @@
 //U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7920_128X64_1_HW_SPI u8g2(U8G2_R0, /* CS=*/ 10, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_ST7565_EA_DOGM128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_64128N_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_64128N_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_ST7565_EA_DOGM132_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ U8X8_PIN_NONE);	// DOGM132 Shield
@@ -2107,7 +2107,7 @@ const me_t melist_top_menu[] =
   { me_cb_button_full_line, (void *)me_action_to_display_time, "Zurück", 3,12 },
   { me_cb_button_full_line, (void *)me_action_to_alarm_menu, "Alarm", 3,24 },
   { me_cb_button_skip_alarm, NULL, NULL, 3,36 },
-  { me_cb_button_full_line, (void *)me_action_to_setup_menu, "Weitere Funktionen", 3,48 },
+  //{ me_cb_button_full_line, (void *)me_action_to_setup_menu, "Weitere Funktionen", 3,48 },
   { me_cb_null, NULL, NULL, 0, 0 },
 };
 
@@ -2563,61 +2563,54 @@ void gui_Select(void)
 void setup(void) {
 
   // U8g2 SH1106 Proto-Shield
-  //u8g2_class.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
+  //u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
 
   // DOGS102 Shield (http://shieldlist.org/controlconnection/dogs102)
-  // u8g2_class.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 3);
+  // u8g2.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 3);
   
   // DOGM128 Shield (http://shieldlist.org/schmelle2/dogm128) + DOGXL160 Shield
-  //u8g2_class.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 8);
+  u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 8);
   
   // Arduboy
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
-  u8g2_class.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
+  //u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
 
-  u8g2_class.setFont(u8g2_font_6x12_tr);
+  u8g2.setFont(u8g2_font_6x12_tr);
   
-  u8g2_ptr = u8g2_class.getU8g2();
+  u8g2_ptr = u8g2.getU8g2();
 
   gui_Init(u8g2_ptr, 0);
   
 }
 
-const char *string_list = 
-  "Altocumulus\n"
-  "Altostratus\n"
-  "Cirrocumulus\n"
-  "Cirrostratus\n"
-  "Cirrus\n"
-  "Cumulonimbus\n"
-  "Cumulus\n"
-  "Nimbostratus\n"
-  "Stratocumulus\n"
-  "Stratus";
-
-uint8_t current_selection = 1;
 
 
 void loop(void) {
+  uint8_t event;
+  gui_Recalculate();
+  menu_SetMEList(&gui_menu, melist_display_time, 0);
+  
+  for(;;)
+  {
+    u8g2.firstPage();
+    do
+    {
+      gui_Draw();
+    } while(u8g2.nextPage()); 
+    
+    for(;;)
+    {
+      event = u8g2.getMenuEvent();
+      if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+      {
+      }
+      else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+      {
+      }
+    
+    }
+    }
 
-  current_selection = u8g2_class.userInterfaceSelectionList(
-    "Cloud Types",
-    current_selection, 
-    string_list);
-
-  if ( current_selection == 0 ) {
-    u8g2_class.userInterfaceMessage(
-	"Nothing selected.", 
-	"",
-	"",
-	" ok ");
-  } else {
-    u8g2_class.userInterfaceMessage(
-	"Selection:", 
-	u8x8_GetStringLineStart(current_selection-1, string_list ),
-	"",
-	" ok \n cancel ");
-  }
 }
 
 

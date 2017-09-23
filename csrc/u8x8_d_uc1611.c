@@ -69,7 +69,6 @@ static const uint8_t u8x8_d_uc1611_flip1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-
 uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
@@ -115,18 +114,6 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_powersave1_seq);
-      break;
-    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
-      if ( arg_int == 0 )
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip0_seq);
-	u8x8->x_offset = u8x8->display_info->default_x_offset;
-      }
-      else
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip1_seq);
-	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
-      }	
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
@@ -216,6 +203,18 @@ uint8_t u8x8_d_uc1611_ea_dogm240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ea_dogm240_init_seq);
 	break;
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+	if ( arg_int == 0 )
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->default_x_offset;
+	}
+	else
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip1_seq);
+	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+	}	
+	break;
       default:
 	return 0;		/* msg unknown */
     }
@@ -290,6 +289,18 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ea_dogxl240_init_seq);
 	break;
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+	if ( arg_int == 0 )
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->default_x_offset;
+	}
+	else
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip1_seq);
+	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+	}	
+	break;
       default:
 	return 0;		/* msg unknown */
     }
@@ -350,6 +361,21 @@ static const u8x8_display_info_t u8x8_uc1611_ew50850_display_info =
   /* pixel_height = */ 160
 };
 
+static const uint8_t u8x8_d_uc1611_alt_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_uc1611_alt_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x0c0, 0x002),            	/* LCD Mapping */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
 /* EW50850, 240x160 */
 uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -365,6 +391,18 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ew50850_init_seq);
+	break;
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+	if ( arg_int == 0 )
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_alt_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->default_x_offset;
+	}
+	else
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_alt_flip1_seq);
+	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+	}	
 	break;
       default:
 	return 0;		/* msg unknown */
