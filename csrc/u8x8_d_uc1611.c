@@ -34,6 +34,15 @@
 
   6 Nov 2016: Not yet finished
   
+  There are two controller:
+  UC1611s		160x256
+  UC1611			160x240
+  
+  Differences:
+  UC1611		0xa8 cmd: enables 80 display rows
+  UC1611s	0xa8 cmd: controlls graylevels
+  
+  
 */
 #include "u8x8.h"
 
@@ -41,16 +50,16 @@
 
 
 
-static const uint8_t u8x8_d_uc1611_powersave0_seq[] = {
+static const uint8_t u8x8_d_uc1611s_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a9),		                /* display on */
+  U8X8_C(0x0a9),		                /* display on, UC1611s */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1611_powersave1_seq[] = {
+static const uint8_t u8x8_d_uc1611s_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a8),		                /* display off, enter sleep mode */
+  U8X8_C(0x0a8),		                /* display off, enter sleep mode, UC1611s */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -109,12 +118,6 @@ uint8_t u8x8_d_uc1611_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       u8x8_cad_SendSequence(u8x8, u8x8_d_uc1701_dogs102_init_seq);
       break;
     */
-    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
-      if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_powersave0_seq);
-      else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_powersave1_seq);
-      break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
@@ -203,6 +206,12 @@ uint8_t u8x8_d_uc1611_ea_dogm240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ea_dogm240_init_seq);
 	break;
+      case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+	if ( arg_int == 0 )
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_powersave0_seq);
+	else
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_powersave1_seq);
+	break;
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
@@ -289,6 +298,12 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ea_dogxl240_init_seq);
 	break;
+      case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+	if ( arg_int == 0 )
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_powersave0_seq);
+	else
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_powersave1_seq);
+	break;
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
@@ -310,7 +325,7 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 
 /*================================================*/
 /* E M E R G I N G   D I S P L A Y, EW50850FLWP 240x160 */
-/* active high CS (CS1) */
+/* active high CS (CS1), UC1611 display  */
 
 static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
     
@@ -375,6 +390,20 @@ static const uint8_t u8x8_d_uc1611_alt_flip1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+static const uint8_t u8x8_d_uc1611_powersave0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0af),		                /* display on, UC1611 */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_uc1611_powersave1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a8),		                /* display off, enter sleep mode, UC1611 */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 
 /* EW50850, 240x160 */
 uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -391,6 +420,12 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_ew50850_init_seq);
+	break;
+      case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+	if ( arg_int == 0 )
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_powersave0_seq);
+	else
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_powersave1_seq);
 	break;
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
