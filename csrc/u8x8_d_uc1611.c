@@ -305,9 +305,9 @@ static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x02f),            			/* internal pump control */
-  U8X8_CA(0x0f1, 0x07f),			/* set COM end */
-  U8X8_CA(0x0f2, 0x000),		/* display line start */
-  U8X8_CA(0x0f3, 127),			/* display line end */
+  U8X8_CA(0x0f1, 159),			/* set COM end */
+  U8X8_CA(0x0f2, 0),			/* display line start */
+  U8X8_CA(0x0f3, 159),			/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
   U8X8_CA(0x081, 0x08f),		/* set contrast */
   
@@ -328,7 +328,7 @@ static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
 
 static const u8x8_display_info_t u8x8_uc1611_ew50850_display_info =
 {
-  /* chip_enable_level = */ 1,
+  /* chip_enable_level = */ 1,		/* active high */
   /* chip_disable_level = */ 0,
   
   /* post_chip_enable_wait_ns = */ 10,	/* uc1611 datasheet, page 60, actually 0 */
