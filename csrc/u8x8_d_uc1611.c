@@ -296,3 +296,4 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
   }
   return 1;
 }
+
