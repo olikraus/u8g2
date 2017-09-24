@@ -42,6 +42,9 @@
   UC1611		0xa8 cmd: enables 80 display rows
   UC1611s	0xa8 cmd: controlls graylevels
   
+  UC1611		0xc0 cmd: single byte command for LCD mapping control
+  UC1611s	0xc0 cmd: double byte command for LCD mapping control
+  
   
 */
 #include "u8x8.h"
@@ -64,14 +67,14 @@ static const uint8_t u8x8_d_uc1611s_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1611_flip0_seq[] = {
+static const uint8_t u8x8_d_uc1611s_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1611_flip1_seq[] = {
+static const uint8_t u8x8_d_uc1611s_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x0c0, 0x002),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -191,6 +194,7 @@ static const uint8_t u8x8_d_uc1611_ea_dogm240_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+/* UC1611s 240x64 display */
 uint8_t u8x8_d_uc1611_ea_dogm240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
@@ -215,12 +219,12 @@ uint8_t u8x8_d_uc1611_ea_dogm240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip0_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_flip0_seq);
 	  u8x8->x_offset = u8x8->display_info->default_x_offset;
 	}
 	else
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip1_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	}	
 	break;
@@ -283,6 +287,7 @@ static const u8x8_display_info_t u8x8_uc1611_240x128_display_info =
   /* pixel_height = */ 128
 };
 
+/* UC1611s 240x128 display */
 uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
@@ -307,12 +312,12 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip0_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_flip0_seq);
 	  u8x8->x_offset = u8x8->display_info->default_x_offset;
 	}
 	else
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611_flip1_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_uc1611s_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	}	
 	break;
@@ -324,7 +329,7 @@ uint8_t u8x8_d_uc1611_ea_dogxl240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 }
 
 /*================================================*/
-/* E M E R G I N G   D I S P L A Y, EW50850FLWP 240x160 */
+/* EMERGING DISPLAY, EW50850FLWP 240x160 */
 /* active high CS (CS1), UC1611 display  */
 
 static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
@@ -335,19 +340,18 @@ static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
   U8X8_CA(0x0f2, 0),			/* display line start */
   U8X8_CA(0x0f3, 159),			/* display line end */
   U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 75),		/* set contrast */
+  U8X8_CA(0x081, 75),			/* set contrast */
   
   //U8X8_C(0x0a9),            			/* display enable */
 
   U8X8_C(0x0d1),            			/* display pattern */  
   U8X8_C(0x089),            			/* auto increment */
-  U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
+  U8X8_C(0x0c4),            			/* LCD Mapping Bit 0: MSF, Bit 1: MX, Bit 2: MY */
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  
   U8X8_C(0x060),		                /* page adr low */
   U8X8_C(0x070),		                /* page adr high */
-  
-  
+    
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -378,14 +382,14 @@ static const u8x8_display_info_t u8x8_uc1611_ew50850_display_info =
 
 static const uint8_t u8x8_d_uc1611_alt_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0c0, 0x000),            	/* LCD Mapping */
+  U8X8_C(0x0c0),				/* LCD Mapping Bit 0: MSF, Bit 1: MX, Bit 2: MY */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1611_alt_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0c0, 0x006),            	/* LCD Mapping */
+  U8X8_C(0x0c6),				/* LCD Mapping Bit 0: MSF, Bit 1: MX, Bit 2: MY */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };

@@ -2603,14 +2603,14 @@ void loop(void) {
       event = u8g2.getMenuEvent();
       if ( event == U8X8_MSG_GPIO_MENU_SELECT )
       {
+	gui_Select();
       }
       else if ( event == U8X8_MSG_GPIO_MENU_NEXT )
       {
-      }
-    
+	gui_Next();
+      }    
     }
-    }
-
+  }
 }
 
 
