@@ -346,7 +346,7 @@ static const uint8_t u8x8_d_uc1611_ew50850_init_seq[] = {
 
   U8X8_C(0x0d1),            			/* display pattern */  
   U8X8_C(0x089),            			/* auto increment */
-  U8X8_C(0x0c4),            			/* LCD Mapping Bit 0: MSF, Bit 1: MX, Bit 2: MY */
+  U8X8_C(0x0c0),            			/* LCD Mapping Bit 0: MSF, Bit 1: MX, Bit 2: MY */
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  
   U8X8_C(0x060),		                /* page adr low */
