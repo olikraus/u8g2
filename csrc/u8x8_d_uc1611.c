@@ -424,9 +424,6 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       x *= 8;
       x += u8x8->x_offset;
    
-      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-    
       y = ((u8x8_tile_t *)arg_ptr)->y_pos;
       y*=4;
       for( i = 0; i < 4; i++ )
@@ -434,6 +431,10 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	m0 = 1<<(i*2);
 	m1 = m0;
 	m1 <<= 1;
+	      
+        u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
+        u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+    
 	u8x8_cad_SendCmd(u8x8, 0x060 | (y&15));
 	u8x8_cad_SendCmd(u8x8, 0x070 | (y>>4));
       
