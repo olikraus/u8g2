@@ -437,12 +437,11 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	u8x8_cad_SendCmd(u8x8, 0x060 | (y&15));
 	u8x8_cad_SendCmd(u8x8, 0x070 | (y>>4));
       
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	c *= 8;
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	
 	do
 	{
+	  c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	  c *= 8;
+	  ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 	  while( c > 0 )
 	  {
 	    v = 0;
@@ -452,6 +451,7 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	      v|= 0xf0;
 	    u8x8_cad_SendData(u8x8, 1, &v);	/* note: SendData can not handle more than 255 bytes */
 	    c--;
+            ptr++;
 	  }
 	  arg_int--;
 	} while( arg_int > 0 );
