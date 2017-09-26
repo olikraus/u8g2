@@ -456,8 +456,8 @@ uint8_t u8x8_d_uc1611_ew50850(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	  ai--;
 	} while( ai > 0 );
 	
-	m0 <<= 1;
-	m1 <<= 1;
+	m0 <<= 2;
+	m1 <<= 2;
 	y++;
       }
       u8x8_cad_EndTransfer(u8x8);
