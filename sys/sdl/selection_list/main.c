@@ -18,7 +18,7 @@ int main(void)
   u8g2_SetFontDirection(&u8g2, 0);
   u8g2_SetFontRefHeightAll(&u8g2);
 
-  u8g2_UserInterfaceSelectionList(&u8g2, "Title", 0, "abc\ndef\nghi\njkl\n12345\n67890");
+  u8g2_UserInterfaceSelectionList(&u8g2, "Title", 0, "abc\ndef\nghi\njkl\n12345\n67890\nabcdefg\nxyz\n111\n222\n333\n444");
 
 
 /*

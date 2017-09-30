@@ -10,8 +10,9 @@ int main(void)
   int x, y;
   int k;
   
-  u8g2_SetupBuffer_SDL_128x64(&u8g2, &u8g2_cb_r0);
-  u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
+  u8g2_SetupBuffer_SDL_240x160(&u8g2, &u8g2_cb_r0);
+  //u8g2_SetupBuffer_SDL_128x64(&u8g2, &u8g2_cb_r0);
+  //u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
@@ -92,8 +93,8 @@ int main(void)
     if ( k == 'q' ) break;
 
 
-    if ( k == 't' ) 
-      u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2), "screenshot.tga");
+    //if ( k == 't' ) 
+    //  u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2), "screenshot.tga");
     
   }
   
