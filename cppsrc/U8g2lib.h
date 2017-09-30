@@ -159,9 +159,12 @@ class U8G2 : public Print
     uint8_t *getBufferPtr(void) { return u8g2_GetBufferPtr(&u8g2); }
     uint8_t getBufferTileHeight(void) { return u8g2_GetBufferTileHeight(&u8g2); }
     uint8_t getBufferTileWidth(void) { return u8g2_GetBufferTileWidth(&u8g2); }
-    uint8_t getPageCurrTileRow(void) { return u8g2_GetPageCurrTileRow(&u8g2); }
-    void setPageCurrTileRow(uint8_t row) { u8g2_SetPageCurrTileRow(&u8g2, row); }
+    uint8_t getPageCurrTileRow(void) { return u8g2_GetBufferCurrTileRow(&u8g2); }	// obsolete
+    void setPageCurrTileRow(uint8_t row) { u8g2_SetBufferCurrTileRow(&u8g2, row); }	// obsolete
+    uint8_t getBufferCurrTileRow(void) { return u8g2_GetBufferCurrTileRow(&u8g2); }
+    void setBufferCurrTileRow(uint8_t row) { u8g2_SetBufferCurrTileRow(&u8g2, row); }
     
+    // this should be renamed to setBufferAutoClear
     void setAutoPageClear(uint8_t mode)  { u8g2_SetAutoPageClear(&u8g2, mode); }
 
     /* u8g2_hvline.c */
