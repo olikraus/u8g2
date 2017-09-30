@@ -1264,7 +1264,8 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   fprintf(setup_code_fp, "%s, ", controller_list[controller_idx].cad);
   fprintf(setup_code_fp, "byte_cb, gpio_and_delay_cb);\n");    
   fprintf(setup_code_fp, "  buf = ");
-  fprintf(setup_code_fp, "u8g2_m_%s_%d_%s(&tile_buf_height);\n", strlowercase(controller_list[controller_idx].name), controller_list[controller_idx].tile_width, postfix);
+  //fprintf(setup_code_fp, "u8g2_m_%s_%d_%s(&tile_buf_height);\n", strlowercase(controller_list[controller_idx].name), controller_list[controller_idx].tile_width, postfix);
+  fprintf(setup_code_fp, "u8g2_m_%d_%d_%s(&tile_buf_height);\n", controller_list[controller_idx].tile_width, controller_list[controller_idx].tile_height, postfix);
   fprintf(setup_code_fp, "  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, %s, rotation);\n", controller_list[controller_idx].ll_hvline);
   fprintf(setup_code_fp, "}\n");
   
@@ -1318,7 +1319,9 @@ void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int ro
 {
   int display_idx;
   char s[1024];
-  sprintf(s, "u8g2_m_%s_%d_%s", strlowercase(controller_list[idx].name), controller_list[idx].tile_width, postfix);
+  //sprintf(s, "u8g2_m_%s_%d_%d_%s", strlowercase(controller_list[idx].name), controller_list[idx].tile_width, controller_list[idx].tile_height, postfix);
+  /* this should fix #370, additionally the controller is removed (hope that this will not break anything) */
+  sprintf(s, "u8g2_m_%d_%d_%s", controller_list[idx].tile_width, controller_list[idx].tile_height, postfix);
   
   if ( str_exists(s) == 0 )
   {
