@@ -137,6 +137,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for ST7567_JLX12864 (issue 365)
   * Support for UC1611 (no "s") (issue 339)
   * Fixed several issues related to the _F_ (full buffer) mode (issue 370)
+ 2017-xx-xx	v2.19.x   olikraus@gmail.com
   
   
   
