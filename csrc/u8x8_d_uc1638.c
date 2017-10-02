@@ -42,28 +42,28 @@
 
 static const uint8_t u8x8_d_uc1638_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0af),		                /* display on */
+  U8X8_CA(0x0c9, 0x0ad),		                /* display on */   /* UC1638 B/W mode */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1638_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0ae),		                /* display off, enter sleep mode */
+  U8X8_CA(0x0c9, 0x0ac),		                /* display off */   /* UC1638 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1638_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c8),            			/* LCD Mapping */
+  U8X8_C(0x0c4),            	/* LCD Mapping */    /* UC1638*/
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1638_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c4),            			/* LCD Mapping */
+  U8X8_C(0x0c2),            	/* LCD Mapping */    /* UC1638*/
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -80,14 +80,19 @@ uint8_t u8x8_d_uc1638_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
-   
-      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+
+      u8x8_cad_SendCmd(u8x8, 0x004);  /* UC1638 */
+      u8x8_cad_SendArg(u8x8, x);
     
       y = ((u8x8_tile_t *)arg_ptr)->y_pos;
       y += u8x8->x_offset;
-      u8x8_cad_SendCmd(u8x8, 0x0b0 | (y&15));
+      y *= 2;		/* for B/W mode, use only every second page */
+
+      u8x8_cad_SendCmd(u8x8, 0x060 | (y&15));  /* UC1638 */
+      u8x8_cad_SendCmd(u8x8, 0x070 | (y>>4));  /* UC1638 */
     
+    
+      u8x8_cad_SendCmd(u8x8, 0x001); /* UC1638 */
       c = ((u8x8_tile_t *)arg_ptr)->cnt;
       c *= 8;
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
@@ -142,65 +147,57 @@ uint8_t u8x8_d_uc1638_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 
 /*================================================*/
-/* experimental implementation for the uc1638 240x128, not referenced in codebuild */
+/* uc1638 160x128 */
 
-static const u8x8_display_info_t u8x8_uc1638_240x128_display_info =
+/* values taken from uc1608 */
+static const u8x8_display_info_t u8x8_uc1638_160x128_display_info =
 {
   /* chip_enable_level = */ 1,	/* uc1638 has high active CS */
   /* chip_disable_level = */ 0,
   
-  /* post_chip_enable_wait_ns = */ 10,	/* uc1638 datasheet, page 39, actually 0 */
-  /* pre_chip_disable_wait_ns = */ 20,	/* uc1638 datasheet, page 39 */
-  /* reset_pulse_width_ms = */ 1, 	/* uc1638 datasheet, page 42 */
+  /* post_chip_enable_wait_ns = */ 10,	/* */
+  /* pre_chip_disable_wait_ns = */ 20,	/* */
+  /* reset_pulse_width_ms = */ 1, 	/* */
   /* post_reset_wait_ms = */ 10, 	
-  /* sda_setup_time_ns = */ 30,		/* uc1638 datasheet, page 41 */
-  /* sck_pulse_width_ns = */ 65,	/* half of cycle time  */
+  /* sda_setup_time_ns = */ 30,		/* */
+  /* sck_pulse_width_ns = */ 65,	/* */
   /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 30,	/* uc1638 datasheet, page 39 */
-  /* write_pulse_width_ns = */ 35,	/* uc1638 datasheet, page 39 */
-  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
+  /* data_setup_time_ns = */ 30,	/*  */
+  /* write_pulse_width_ns = */ 35,	/*  */
+  /* tile_width = */ 20,		/* width of 20*8=160 pixel */
   /* tile_hight = */ 16,
-  /* default_x_offset = */ 0,	/* reused as y page offset */
-  /* flipmode_x_offset = */ 0,	/* reused as y page offset */
-  /* pixel_width = */ 240,
+  /* default_x_offset = */ 0,	/*  */
+  /* flipmode_x_offset = */ 0,	/* */
+  /* pixel_width = */ 160,
   /* pixel_height = */ 128
 };
 
-static const uint8_t u8x8_d_uc1638_240x128_init_seq[] = {
+static const uint8_t u8x8_d_uc1638_160x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-  U8X8_C(0x0e2),            			/* soft reset */
-  U8X8_DLY(200),
+  U8X8_CA(0x0e1, 0x0e2),		/* software reset */    /* UC1638*/
+  U8X8_DLY(5),					/* 5 ms */	
 
-  //U8X8_C(0x023),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
-  U8X8_C(0x026),            			/* Bit 0/1: Temp compenstation, Bit 2: Multiplex Rate 0=96, 1=128 */
+  U8X8_C(0x024),            		/*	 set temp comp*/
+  U8X8_C(0x0c0),            		/*	mirror y and mirror x */  /* WAS: c2 */
+  U8X8_C(0x0a2),            		/*	line rate */
+  U8X8_C(0x0d6),            		/*	gray scale 2 */
+  U8X8_C(0x0eb),            		/*	 set bias*/
+  U8X8_C(0x095),            		/*	 set 1 bit per pixel, pattern 0*/
+  U8X8_C(0x089),            		/*	 set auto increment, low bits are AC2 AC1 AC0 */  /* WAS 89 */
 
-  U8X8_C(0x0c8),            			/* Map control, Bit 3: MY=1, Bit 2: MX=0, Bit 0: MSF =0 */
-  U8X8_C(0x0ea),            			/* LCD bias Bits 0/1: 00=10.7 01=10.3, 10=12.0, 11=12.7 */
-							/* maybe 0x0eb??? */
-  
-  U8X8_C(0x02f),            			/* power on, Bit 2 PC2=1 (internal charge pump), Bits 0/1: cap of panel */
-  U8X8_DLY(50),
-  
-  U8X8_C(0x040),            			/* set display start line to 0 */
-  U8X8_C(0x090),            			/* no fixed lines */
-  U8X8_C(0x089),            			/* RAM access control */
-  
-  U8X8_CA(0x081, 0x072),		/* set contrast  */
-  
-  U8X8_C(0x000),		                /* column low nibble */
-  U8X8_C(0x010),		                /* column high nibble */  
-  U8X8_C(0x0b0),		                /* page adr  */
+
+  U8X8_CA(0x081, 0x0a0),		/* set contrast */    /* UC1638*/
   
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-uint8_t u8x8_d_uc1638_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_uc1638_160x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
   if ( u8x8_d_uc1638_common(u8x8, msg, arg_int, arg_ptr) == 0 )
@@ -209,11 +206,11 @@ uint8_t u8x8_d_uc1638_240x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
     switch(msg)
     {
       case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1638_240x128_display_info);
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1638_160x128_display_info);
 	break;
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1638_240x128_init_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1638_160x128_init_seq);
 	break;
       default:
 	return 0;		/* msg unknown */
