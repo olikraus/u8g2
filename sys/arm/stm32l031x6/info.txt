@@ -247,6 +247,9 @@ Man scheint die zeit nicht immer vorzeitig ausschalten zu können. Warum?
 Erneutes eingeben der alarmzeit behebt das problem.
 Manchmal erscheit die nächste zeit gar nicht im display. Auch hier
 behebt das erneute eingeben der alarmzeit das problem.
+Es sieht so aus: man schaltet die zeit vorzeitig ab, dann erscheint das menü
+für den übernächsten tag nicht (für den folgenden tag hatte man es ja abgeschaltet).
+
 
 17. Sep 2017: einen bug in uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm) behoben
 

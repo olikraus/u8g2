@@ -157,12 +157,12 @@ static const u8x8_display_info_t u8x8_uc1638_160x128_display_info =
   
   /* post_chip_enable_wait_ns = */ 10,	/* */
   /* pre_chip_disable_wait_ns = */ 20,	/* */
-  /* reset_pulse_width_ms = */ 1, 	/* */
-  /* post_reset_wait_ms = */ 10, 	
+  /* reset_pulse_width_ms = */ 5, 	/* */
+  /* post_reset_wait_ms = */ 150, 	
   /* sda_setup_time_ns = */ 30,		/* */
   /* sck_pulse_width_ns = */ 65,	/* */
-  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 3,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,	/*  */
   /* write_pulse_width_ns = */ 35,	/*  */
