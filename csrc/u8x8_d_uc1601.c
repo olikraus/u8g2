@@ -107,9 +107,9 @@ static const uint8_t u8x8_d_uc1601_128x32_init_seq[] = {
   U8X8_C(0x089),		                /* RAM address ctrl, default: 0x89 */
   U8X8_C(0x0c6),		                /* RAM mapping ctrl */
   U8X8_C(0x0a0),		                /* Frame Rate, 0x0a0 or 0x0a1 */
-  U8X8_CA(0x081, 0x05a),		/* set contrast */
+  U8X8_CA(0x081, 0x0cf),		/* set contrast */
   U8X8_C(0x02e),            			/* LCD Load + Internal Charge Pump (default: 0x2e) */	
-  U8X8_C(0x040),		                /* set display start line to 0 */
+  U8X8_C(0x060),		                /* set display start line to 32 */
   
   U8X8_C(0x0a6),		                /* normal display */
    
