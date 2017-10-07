@@ -168,10 +168,11 @@ struct groupinfo gi[] = {
   { "Codeman38", 	"fntgrpcodeman38",	"../../../../u8g2.wiki/fntgrpcodeman38.md",	"fntgrpcodeman38.pre" },		/* 12 */
   { "Academia Sinica","fntgrpacademiasinica",	"../../../../u8g2.wiki/fntgrpacademiasinica.md",	"fntgrpacademiasinica.pre" },		/* 13 */
   { "Oldschool PC Fonts","fntgrpoldschoolpcfonts",	"../../../../u8g2.wiki/fntgrpoldschoolpcfonts.md",	"fntgrpoldschoolpcfonts.pre" },  /* 14 */		/* 14 */
-  { "crox", 		"fntgrpcrox", 		"../../../../u8g2.wiki/fntgrpcrox.md", 		"fntgrpcrox.pre" }, 		/* 15 */
+  { "crox", 		"fntgrpcrox", 		"../../../../u8g2.wiki/fntgrpcrox.md", 			"fntgrpcrox.pre" }, 		/* 15 */
   { "efont", 		"fntgrpefont", 		"../../../../u8g2.wiki/fntgrpefont.md", 		"fntgrpefont.pre" }, 		/* 16 */
   { "Tlwg (Thai-Fonts)","fntgrptlwg", 		"../../../../u8g2.wiki/fntgrptlwg.md", 		"fntgrptlwg.pre" }, 		/* 17 */
-  { "NBP", 		"fntgrpnbp", 		"../../../../u8g2.wiki/fntgrpnbp.md", 		"fntgrpnbp.pre" }, 		/* 18 */
+  { "NBP", 		"fntgrpnbp", 		"../../../../u8g2.wiki/fntgrpnbp.md", 			"fntgrpnbp.pre" }, 		/* 18 */
+  { "UW ttyp0", 	"fntgrpttyp0", 		"../../../../u8g2.wiki/fntgrpttyp0.md", 		"fntgrpttyp0.pre" }, 		/* 19 */
   
 };
 
@@ -188,6 +189,18 @@ struct groupinfo gi[] = {
 #define MM_C	16	/* custom */
 #define MM_M	32	/* map file */
 #define MM_E	64	/* extended */
+
+
+/*
+Greek 	$370-$3ff		_greek
+Cyrillic	$400-$52f 	_cyrillic
+Armenian	0530–058F
+Hebrew	0590–05FF
+Thai		0E00–0E7F
+Georgian	10A0–10FF
+Latin Extended Additional	1E00–1EFF
+Greek Extended	1F00–1FFF
+*/
 
 struct fontinfo fi[] ={
 	
@@ -241,6 +254,39 @@ struct fontinfo fi[] ={
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
+
+  
+/*
+t0 includes the following pages/language support:
+Greek 	$370-$3ff		_greek
+Cyrillic	$400-$52f 	_cyrillic
+Armenian	0530–058F
+Hebrew	0590–05FF
+Thai		0E00–0E7F
+Georgian	10A0–10FF
+Latin Extended Additional	1E00–1EFF
+Greek Extended	1F00–1FFF
+*/
+  
+  { 0, "t0-11-uni.bdf", 		"t0_11", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-11-uni.bdf", 		"t0_11", 			19, 0, BM_T, FM_C, MM_C, "$0020-$FFF0", "_all" },
+  { 0, "t0-11b-uni.bdf", 		"t0_11b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-12-uni.bdf", 		"t0_12", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-12b-uni.bdf", 		"t0_12b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-13-uni.bdf", 		"t0_13", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-13b-uni.bdf", 		"t0_13b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-14-uni.bdf", 		"t0_14", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-14b-uni.bdf", 		"t0_14b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-15-uni.bdf", 		"t0_15", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-15b-uni.bdf", 		"t0_15b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-16-uni.bdf", 		"t0_16", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-16b-uni.bdf", 		"t0_16b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-17-uni.bdf", 		"t0_17", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-17b-uni.bdf", 		"t0_17b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-18-uni.bdf", 		"t0_18", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-18b-uni.bdf", 		"t0_18b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-22-uni.bdf", 		"t0_22", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0, "t0-22b-uni.bdf", 		"t0_22b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
   
   { 0, "profont10.bdf", 		"profont10", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
