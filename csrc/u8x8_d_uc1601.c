@@ -56,14 +56,14 @@ static const uint8_t u8x8_d_uc1601_128x32_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_uc1601_128x32_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c6),				/* bit 1: MX, bit 2: MY */
+  U8X8_C(0x0c4),				/* bit 1: MX, bit 2: MY */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1601_128x32_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c0),				/* bit 1: MX, bit 2: MY */
+  U8X8_C(0x0c2),				/* bit 1: MX, bit 2: MY */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -105,9 +105,9 @@ static const uint8_t u8x8_d_uc1601_128x32_init_seq[] = {
   //U8X8_C(0x02e),            			/* LCD Load + Internal Charge Pump (default: 0x2e) */
   U8X8_C(0x024),		                /* Temperature Compenstation, default: 0x24 */
   U8X8_C(0x089),		                /* RAM address ctrl, default: 0x89 */
-  U8X8_C(0x0c6),		                /* RAM mapping ctrl */
+  U8X8_C(0x0c4),		                /* RAM mapping ctrl */
   U8X8_C(0x0a0),		                /* Frame Rate, 0x0a0 or 0x0a1 */
-  U8X8_CA(0x081, 0x0cf),		/* set contrast */
+  U8X8_CA(0x081, 0x0df),		/* set contrast */
   U8X8_C(0x02e),            			/* LCD Load + Internal Charge Pump (default: 0x2e) */	
   U8X8_C(0x060),		                /* set display start line to 32 */
   
@@ -152,7 +152,7 @@ uint8_t u8x8_d_uc1601_128x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int >> 2 );	/* st7567 has range from 0 to 63 */
+      u8x8_cad_SendArg(u8x8, arg_int );	/* uc1601 has range from 0 to 255 */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
