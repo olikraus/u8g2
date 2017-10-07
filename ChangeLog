@@ -138,6 +138,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for UC1611 (no "s") (issue 339)
   * Fixed several issues related to the _F_ (full buffer) mode (issue 370)
  2017-xx-xx	v2.19.x   olikraus@gmail.com
-  
+  * Support for UC1601 (issue 378)
+  * Support for ESP32 I2C pin remapping (issue 377)
   
   
