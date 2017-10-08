@@ -57,6 +57,7 @@ static const uint8_t u8x8_d_uc1601_128x32_powersave1_seq[] = {
 static const uint8_t u8x8_d_uc1601_128x32_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0c4),				/* bit 1: MX, bit 2: MY */
+  U8X8_C(0x060),		                /* set display start line to 32 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -64,6 +65,7 @@ static const uint8_t u8x8_d_uc1601_128x32_flip0_seq[] = {
 static const uint8_t u8x8_d_uc1601_128x32_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0c2),				/* bit 1: MX, bit 2: MY */
+  U8X8_C(0x040),		                /* set display start line to 0 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
