@@ -42,9 +42,6 @@
   code examples:
   http://www.it610.com/article/2601023.htm
   
-  FlipMode is NOT supported, because COM scan direction can not be changed via Software
-  (COMSCN is an external pin)
-  
   normal mode:
 	0x00c	bit format
   U8X8_CA( 0xbc, 0x00 ),	data scan dir 
