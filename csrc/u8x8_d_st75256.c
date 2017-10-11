@@ -616,19 +616,19 @@ static const uint8_t u8x8_d_st75256_jlx172104_init_seq[] = {
   U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_C( 0x094 ),				/* sleep out */
 
-  U8X8_C( 0x030 ),				/* select 00 commands */
+  //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_C( 0x0ae ),				/* display off */
 
   U8X8_C( 0x031 ),				/* select 01 commands */
   U8X8_CA( 0x0d7, 0x09f ),		/* disable auto read */  
 
-  U8X8_C( 0x031 ),				/* select 01 commands */
+  //U8X8_C( 0x031 ),				/* select 01 commands */
   U8X8_C( 0x032 ),				/* analog circuit set */
   U8X8_A( 0x000 ),				/* code example: OSC Frequency adjustment */
   U8X8_A( 0x001 ),				/* Frequency on booster capacitors 1 = 6KHz? */
   U8X8_A( 0x003 ),				/* Bias: 1: 1/13, 2: 1/12, 3: 1/11, 4:1/10, 5:1/9 */
     
-  U8X8_C( 0x031 ),				/* select 01 commands */
+  //U8X8_C( 0x031 ),				/* select 01 commands */
   U8X8_C( 0x020 ),				/* gray levels */
   U8X8_A( 0x01 ),
   U8X8_A( 0x03 ),
@@ -652,31 +652,28 @@ static const uint8_t u8x8_d_st75256_jlx172104_init_seq[] = {
   U8X8_CAA(0x75, 0, 0x4f),		/* row range */
   U8X8_CAA(0x15, 0, 255),		/* col range */
   
-  U8X8_C( 0x030 ),				/* select 00 commands */
+  //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_CA( 0xbc, 0x02 ),			/* data scan dir */
   U8X8_A( 0xa6 ),				/* ??? */
 
-  U8X8_C( 0x030 ),				/* select 00 commands */
+  //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_C( 0x00c ),				/* data format LSB top */
 
-  U8X8_C( 0x030 ),				/* select 00 commands */ 
+  //U8X8_C( 0x030 ),				/* select 00 commands */ 
   U8X8_C( 0xca ),				/* display control, 3 args follow  */
   U8X8_A( 0x00 ),				/* 0x00: no clock division, 0x04: devide clock */
   U8X8_A( 0x9f ),				/* 1/160 duty value from the DS example code */
   U8X8_A( 0x20 ),				/* nline off */ 
 
-  U8X8_C( 0x030 ),				/* select 00 commands */ 
+  //U8X8_C( 0x030 ),				/* select 00 commands */ 
   U8X8_CA( 0x0f0, 0x010 ),		/* monochrome mode  = 0x010*/
 
-  U8X8_C( 0x030 ),				/* select 00 commands */
+  //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_CAA( 0x81, 0x08, 0x04 ),	/* Volume control */
 
-  U8X8_C( 0x030 ),				/* select 00 commands */
+  //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_CA( 0x020, 0x00b ),		/* Power control: Regulator, follower & booster on */
   U8X8_DLY(100),
-
-  //U8X8_C( 0x030 ),				/* select 00 commands */
-  //U8X8_C( 0x0af ),				/* display on */
 
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
