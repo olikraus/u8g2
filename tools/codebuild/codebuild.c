@@ -657,6 +657,15 @@ struct controller controller_list[] =
       { NULL }
     },
   },
+  
+  {
+    "st75256", 		22, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "Hardware flip is not supported", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jlx172104" },
+      { NULL }
+    },
+  },
 
   {
     "nt7534", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
