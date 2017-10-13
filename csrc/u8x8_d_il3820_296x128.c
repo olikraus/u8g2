@@ -151,7 +151,7 @@ static const u8x8_display_info_t u8x8_il3820_296x128_display_info =
   /* sda_setup_time_ns = */ 50,		/* IL3820 */
   /* sck_pulse_width_ns = */ 125,	/* IL3820: 125ns, clock cycle = 250ns */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 2,		/* active high, rising edge */
+  /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	
