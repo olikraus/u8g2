@@ -355,14 +355,19 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       // buffer is overwritten with the incoming data
       // so it can not be used...
       // SPI.transfer((uint8_t *)arg_ptr, arg_int);
+      // The ESP8266 Arduino core, however, offers send-only block transfer 
       
       data = (uint8_t *)arg_ptr;
-      while( arg_int > 0 )
-      {
-	SPI.transfer((uint8_t)*data);
-	data++;
-	arg_int--;
-      }
+      #ifdef ARDUINO_ARCH_ESP8266
+        SPI.writeBytes(data, arg_int);
+      #else
+        while( arg_int > 0 )
+        {
+	  SPI.transfer((uint8_t)*data);
+	  data++;
+	  arg_int--;
+        }
+      #endif
   
       break;
     case U8X8_MSG_BYTE_INIT:
