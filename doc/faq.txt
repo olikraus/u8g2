@@ -194,7 +194,7 @@ https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv
 Use the Makefile in this directory to create a Linux binary.
 
 Q: How can I use multiple SPI Displays?
-A: For each additional display, a CS (Chip select) and a RST (Reset) line is required. 
+A: For each additional display, separate CS (Chip select) and RST (Reset) lines are required. 
 
 ```C++
 // Setup display1 and display2
@@ -216,6 +216,5 @@ Ensure that the buffer is sent after printing with each display as follows.
     display2.setCursor(64, 32);
     display2.print("DISPLAY 2");
     display2.sendBuffer();
-
 ```
                                                 
