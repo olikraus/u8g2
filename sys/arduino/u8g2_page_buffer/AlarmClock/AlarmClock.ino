@@ -51,7 +51,7 @@
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
-//U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // All Boards without Reset of the Display
 //U8G2_SSD1306_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 16, /* data=*/ 17, /* reset=*/ U8X8_PIN_NONE);   // ESP32 Thing, pure SW emulated I2C
@@ -166,7 +166,7 @@
 // End of constructor list
 
 
-//===================================================
+/*===================================================*/
 
 uint8_t is_leap_year(uint16_t y);
 uint16_t get_year_day_number(uint16_t y, uint8_t m, uint8_t d);
@@ -184,6 +184,204 @@ uint32_t to_minutes(uint16_t cdn, uint8_t h, uint8_t m);
 void from_minutes(uint32_t t, uint16_t *cdn, uint8_t *h, uint8_t *m);
 uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uint8_t mi);
 
+
+/*===================================================*/
+
+#define MENU_SMALL_FONT u8g2_font_baby_tr
+#define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
+#define MENU_LARGE_FONT u8g2_font_ncenR10_tf
+#define MENU_BIG_NUM u8g2_font_ncenR24_tn
+#define MENU_BIG_NUM_FOCUS_XO 0
+#define MENU_BIG_NUM_FOCUS_EXTRAX 1
+
+typedef struct _menu_struct menu_t;
+typedef struct _me_struct me_t;
+
+typedef int (*me_cb)(menu_t *menu, const me_t *me, uint8_t msg);
+
+
+
+struct _me_struct
+{
+  me_cb cb;
+  void *val;
+  void *arg;
+  u8g2_uint_t x;
+  u8g2_uint_t y;  
+};
+
+
+/* return 1, if this element can have focus */
+#define ME_MSG_IS_FOCUS 1
+
+/* draw focus graphics for the element */
+#define ME_MSG_DRAW_FOCUS 2
+
+/* user has pressed the select key */
+#define ME_MSG_SELECT 3
+
+/* advice for drawing */
+#define ME_MSG_DRAW 4
+
+
+struct _menu_struct
+{
+  u8g2_t *u8g2;
+  
+  volatile uint16_t current_index;	/* element which is processed right now */
+  uint16_t focus_index;	/* element which has the focus at the moment */
+  uint16_t radio_index;	/* if elements for a radio selection, then this is set by the cb */
+  uint16_t me_count;	/* total number of elements in the list */
+    
+  /* pointer to the list of menu elements */
+  const me_t *me_list;  
+};
+
+void menu_SetEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
+void menu_ClearEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
+void menu_DrawBoxFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
+void menu_DrawFrameFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
+
+void menu_Init(menu_t *menu, u8g2_t *u8g2);
+void menu_SetMEList(menu_t *menu, const me_t *me_list, uint16_t initial_focus);
+void menu_Draw(menu_t *menu);
+void menu_NextFocus(menu_t *menu);
+void menu_Select(menu_t *menu);
+
+
+int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_big_toggle(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_wd_toggle(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_5(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_9_ro(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_23_ro(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_9_small_ro(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_1_12(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_1_31(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_inv_label(menu_t *menu, const me_t *me, uint8_t msg);
+int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg);
+
+/*===================================================*/
+
+u8g2_t *u8g2_ptr;
+
+#define GUI_STATE_STOP 0
+#define GUI_STATE_SIGNAL_ALARM 1
+#define GUI_STATE_DISPLAY_TIME 2
+#define GUI_STATE_MENU 3
+
+#define GUI_ALARM_CNT 4
+#define SNOOZE_MINUTES 5
+#define ALLOW_SKIP_HOURS 10
+
+struct _gui_data
+{
+  uint16_t uptime;				/* uptime in days, 10 bits, counts from 0 to 999, this value will be stored in the backup register */
+  
+  
+  uint16_t week_time;			/* calculated: derived from h, mt, mo and weekday */
+  uint8_t gui_state;				/* global running state, see guistate.c, defaults to 0 (GUI_STATE_STOP) */
+  uint8_t h, mt, mo, st, so;		/* input: current time */
+  uint8_t day; 					/* input: 1 .. 31 current day in month */
+  uint8_t last_day;				/* last day. This is used to check, whether the day has changed. Required for uptime calc. This is also stored in the backup register. */
+  uint8_t month;				/* input: 1..12 */
+  uint8_t year_t, year_o;			/* input: current year */
+  uint8_t weekday; 				/* calculated: 0 = Monday */
+  
+  uint8_t next_alarm_index;	/* calculated: index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
+  uint8_t is_skip_possible;		/* calculated: whether the next alarm (next_alarm_index) can be skipped */
+  
+  uint8_t is_equal;			/* calculated: whether the current time matches any alarm, will be set to 0 automatically */
+  uint8_t equal_h;
+  uint8_t equal_mt;
+  uint8_t equal_mo;
+  
+  uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
+  uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
+  uint8_t contrast;			/* value 1..7, 0 is default (do not set) */
+  uint8_t display_voltage;		
+  
+  char s[16];				/* string buffer */
+};
+typedef struct _gui_data gui_data_t;
+
+
+struct _gui_alarm_struct
+{
+  /* next alarm, all na_ fields are derived from the alarm information */
+  uint16_t na_week_time_in_minutes;
+  uint16_t na_minutes_diff;		/* calculated: time in minutes until next alarm, 0x0ffff = no alarm */
+  uint8_t na_h;					/* calculated */
+  uint8_t na_m;					/* calculated */
+  uint8_t na_wd;				/* calculated: 0...7, 0=monday, 7=no alarm */
+  
+  /* alarm information */
+  uint8_t snooze_count;	/* input, 1 bit*/
+  volatile uint8_t enable;		/* input, 1 bit */
+  uint8_t skip_wd;		/* input 0 = no skip, 1 = Monday, ... 3 bits*/
+  uint8_t h;			/* input 5 bits */
+  uint8_t m;			/* input 6 bits */
+  uint8_t wd[7];		/* input: 0 or 1, 0=weekday not selected, 7 bits */
+};
+typedef struct _gui_alarm_struct gui_alarm_t;
+
+
+
+
+extern const me_t melist_setup_time[];
+extern const me_t melist_display_time[];
+extern const me_t melist_setup_date[];
+extern const me_t melist_setup_alarm[];
+extern const me_t melist_alarm_menu[];
+extern const me_t melist_setup_menu[];
+extern const me_t melist_active_alarm_menu[];
+extern const me_t melist_top_menu[];
+
+extern gui_alarm_t gui_alarm_list[GUI_ALARM_CNT];
+extern char gui_alarm_str[GUI_ALARM_CNT][8];
+extern gui_data_t gui_data;
+extern menu_t gui_menu;
+
+void gui_date_adjust(void);
+
+
+void gui_LoadData(void);
+void gui_Recalculate(void);
+void gui_SignalTimeChange(void);
+void gui_Init(u8g2_t *u8g2, uint8_t is_por);
+void gui_Draw(void);
+void gui_Next(void);
+void gui_Select(void);
+
+void do_reset(void);
+void store_gui_data(uint32_t *data);
+void load_gui_data(uint32_t *data);
+int is_por_reset(void);
+int is_button_reset(void);
+uint32_t get_boot_status_register(void);
+uint32_t get_pwr_status_register(void);
+uint32_t get_reset_reason(void);
+uint32_t get_wakeup_count(void);
+uint32_t get_dst_by_date(void);
+uint32_t get_dst_by_RTC(void);
+
+void enable_alarm(void);
+void disable_alarm(void);
+void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so);
+void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint8_t dayo, uint8_t weekday);
+void set_contrast(void);  /* set contrast to gui_data.contrast, value 1..7, 0 is default (do not set) */
+
+
+/*===================================================*/
 
 /*
   Prototype:
@@ -457,205 +655,9 @@ uint32_t to_minutes_since_2000(uint16_t y, uint8_t mo, uint8_t d, uint8_t h, uin
   return to_minutes(cdn, h, mi);
 }
 
-//===================================================
+/*===================================================*/
 
-#define MENU_SMALL_FONT u8g2_font_baby_tr
-#define MENU_NORMAL_FONT u8g2_font_ncenR08_tf
-#define MENU_LARGE_FONT u8g2_font_ncenR10_tf
-#define MENU_BIG_NUM u8g2_font_ncenR24_tn
-#define MENU_BIG_NUM_FOCUS_XO 0
-#define MENU_BIG_NUM_FOCUS_EXTRAX 1
-
-typedef struct _menu_struct menu_t;
-typedef struct _me_struct me_t;
-
-typedef int (*me_cb)(menu_t *menu, const me_t *me, uint8_t msg);
-
-
-
-struct _me_struct
-{
-  me_cb cb;
-  void *val;
-  void *arg;
-  u8g2_uint_t x;
-  u8g2_uint_t y;  
-};
-
-
-/* return 1, if this element can have focus */
-#define ME_MSG_IS_FOCUS 1
-
-/* draw focus graphics for the element */
-#define ME_MSG_DRAW_FOCUS 2
-
-/* user has pressed the select key */
-#define ME_MSG_SELECT 3
-
-/* advice for drawing */
-#define ME_MSG_DRAW 4
-
-
-struct _menu_struct
-{
-  u8g2_t *u8g2;
-  
-  volatile uint16_t current_index;	/* element which is processed right now */
-  uint16_t focus_index;	/* element which has the focus at the moment */
-  uint16_t radio_index;	/* if elements for a radio selection, then this is set by the cb */
-  uint16_t me_count;	/* total number of elements in the list */
-    
-  /* pointer to the list of menu elements */
-  const me_t *me_list;
-  
-};
-
-void menu_SetEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
-void menu_ClearEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
-void menu_DrawBoxFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
-void menu_DrawFrameFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h) U8G2_NOINLINE;
-
-void menu_Init(menu_t *menu, u8g2_t *u8g2);
-void menu_SetMEList(menu_t *menu, const me_t *me_list, uint16_t initial_focus);
-void menu_Draw(menu_t *menu);
-void menu_NextFocus(menu_t *menu);
-void menu_Select(menu_t *menu);
-
-
-int me_cb_null(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_big_toggle(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_wd_toggle(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_5(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_9(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_9_ro(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_23(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_23_ro(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_9_small_ro(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_0_55(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_1_12(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_1_31(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_num_label(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_button_full_line(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_button_half_line(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_button_empty(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_scale_1_7(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_label(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_inv_label(menu_t *menu, const me_t *me, uint8_t msg);
-int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg);
-
-//===================================================
-
-u8g2_t *u8g2_ptr;
-
-#define GUI_STATE_STOP 0
-#define GUI_STATE_SIGNAL_ALARM 1
-#define GUI_STATE_DISPLAY_TIME 2
-#define GUI_STATE_MENU 3
-
-#define GUI_ALARM_CNT 4
-#define SNOOZE_MINUTES 5
-#define ALLOW_SKIP_HOURS 10
-
-struct _gui_data
-{
-  uint16_t uptime;				/* uptime in days, 10 bits, counts from 0 to 999, this value will be stored in the backup register */
-  
-  
-  uint16_t week_time;			/* calculated: derived from h, mt, mo and weekday */
-  uint8_t gui_state;				/* global running state, see guistate.c, defaults to 0 (GUI_STATE_STOP) */
-  uint8_t h, mt, mo, st, so;		/* input: current time */
-  uint8_t day; 					/* input: 1 .. 31 current day in month */
-  uint8_t last_day;				/* last day. This is used to check, whether the day has changed. Required for uptime calc. This is also stored in the backup register. */
-  uint8_t month;				/* input: 1..12 */
-  uint8_t year_t, year_o;			/* input: current year */
-  uint8_t weekday; 				/* calculated: 0 = Monday */
-  
-  uint8_t next_alarm_index;	/* calculated: index for the next alarm or GUI_ALARM_CNT if there is no next alarm */
-  uint8_t is_skip_possible;		/* calculated: whether the next alarm (next_alarm_index) can be skipped */
-  
-  uint8_t is_equal;			/* calculated: whether the current time matches any alarm, will be set to 0 automatically */
-  uint8_t equal_h;
-  uint8_t equal_mt;
-  uint8_t equal_mo;
-  
-  uint8_t is_alarm;			/* input/calculated: set by the software, has to be reset by the user */
-  uint8_t active_alarm_idx;	/* input/calculated: set by the software, has to be reset by the user */
-  uint8_t contrast;			/* value 1..7, 0 is default (do not set) */
-  uint8_t display_voltage;		
-  
-  char s[16];				/* string buffer */
-};
-typedef struct _gui_data gui_data_t;
-
-
-struct _gui_alarm_struct
-{
-  /* next alarm, all na_ fields are derived from the alarm information */
-  uint16_t na_week_time_in_minutes;
-  uint16_t na_minutes_diff;		/* calculated: time in minutes until next alarm, 0x0ffff = no alarm */
-  uint8_t na_h;					/* calculated */
-  uint8_t na_m;					/* calculated */
-  uint8_t na_wd;				/* calculated: 0...7, 0=monday, 7=no alarm */
-  
-  /* alarm information */
-  uint8_t snooze_count;	/* input, 1 bit*/
-  volatile uint8_t enable;		/* input, 1 bit */
-  uint8_t skip_wd;		/* input 0 = no skip, 1 = Monday, ... 3 bits*/
-  uint8_t h;			/* input 5 bits */
-  uint8_t m;			/* input 6 bits */
-  uint8_t wd[7];		/* input: 0 or 1, 0=weekday not selected, 7 bits */
-};
-typedef struct _gui_alarm_struct gui_alarm_t;
-
-
-
-
-extern const me_t melist_setup_time[];
-extern const me_t melist_display_time[];
-extern const me_t melist_setup_date[];
-extern const me_t melist_setup_alarm[];
-extern const me_t melist_alarm_menu[];
-extern const me_t melist_setup_menu[];
-extern const me_t melist_active_alarm_menu[];
-extern const me_t melist_top_menu[];
-
-extern gui_alarm_t gui_alarm_list[GUI_ALARM_CNT];
-extern char gui_alarm_str[GUI_ALARM_CNT][8];
-extern gui_data_t gui_data;
-extern menu_t gui_menu;
-
-void gui_date_adjust(void);
-
-
-void gui_LoadData(void);
-void gui_Recalculate(void);
-void gui_SignalTimeChange(void);
-void gui_Init(u8g2_t *u8g2, uint8_t is_por);
-void gui_Draw(void);
-void gui_Next(void);
-void gui_Select(void);
-
-void do_reset(void);
-void store_gui_data(uint32_t *data);
-void load_gui_data(uint32_t *data);
-int is_por_reset(void);
-int is_button_reset(void);
-uint32_t get_boot_status_register(void);
-uint32_t get_pwr_status_register(void);
-uint32_t get_reset_reason(void);
-uint32_t get_wakeup_count(void);
-uint32_t get_dst_by_date(void);
-uint32_t get_dst_by_RTC(void);
-
-void enable_alarm(void);
-void disable_alarm(void);
-void set_time(uint8_t ht, uint8_t ho, uint8_t mt, uint8_t mo, uint8_t st, uint8_t so);
-void set_date(uint8_t yt, uint8_t yo, uint8_t mt, uint8_t mo, uint8_t dayt, uint8_t dayo, uint8_t weekday);
-void set_contrast(void);  /* set contrast to gui_data.contrast, value 1..7, 0 is default (do not set) */
-
-
-//===================================================
-// common menu functions
+/* common menu functions */
 
 void menu_DrawEdgePixel(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
 {
@@ -693,7 +695,7 @@ void menu_DrawFrameFocus(menu_t *menu, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t
 }
 
 
-//===================================================
+/*===================================================*/
 // menu callbacks
 
 /* this function must be the last function in the list. it also marks the end of a list */
@@ -1232,7 +1234,7 @@ int me_cb_16x16_bitmap_button(menu_t *menu, const me_t *me, uint8_t msg)
   return r;
 }
 
-//===================================================
+/*===================================================*/
 // menu API
 
 /* call menu element from menu->current_index */
@@ -1323,7 +1325,7 @@ void menu_Draw(menu_t *menu)
    // u8g2_DrawHLine(menu->u8g2, 0, 32, 128);
 }
 
-//===================================================
+/*===================================================*/
 
 /*============================================*/
 /* reset */
@@ -1437,7 +1439,7 @@ void set_contrast(void)
 {
 }
 
-//===================================================
+/*===================================================*/
 
 
 /*============================================*/
@@ -2121,7 +2123,7 @@ const me_t melist_top_menu[] =
 };
 
 
-//===================================================
+/*===================================================*/
 
 
 /*============================================*/
@@ -2567,7 +2569,7 @@ void gui_Select(void)
 
 
 
-//===================================================
+/*===================================================*/
 
 void setup(void) {
 
