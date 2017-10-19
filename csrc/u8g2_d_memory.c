@@ -111,6 +111,24 @@ uint8_t *u8g2_m_12_12_f(uint8_t *page_cnt)
   *page_cnt = 12;
   return buf;
 }
+uint8_t *u8g2_m_16_16_1(uint8_t *page_cnt)
+{
+  static uint8_t buf[128];
+  *page_cnt = 1;
+  return buf;
+}
+uint8_t *u8g2_m_16_16_2(uint8_t *page_cnt)
+{
+  static uint8_t buf[256];
+  *page_cnt = 2;
+  return buf;
+}
+uint8_t *u8g2_m_16_16_f(uint8_t *page_cnt)
+{
+  static uint8_t buf[2048];
+  *page_cnt = 16;
+  return buf;
+}
 uint8_t *u8g2_m_16_12_1(uint8_t *page_cnt)
 {
   static uint8_t buf[128];
@@ -145,24 +163,6 @@ uint8_t *u8g2_m_24_4_f(uint8_t *page_cnt)
 {
   static uint8_t buf[768];
   *page_cnt = 4;
-  return buf;
-}
-uint8_t *u8g2_m_16_16_1(uint8_t *page_cnt)
-{
-  static uint8_t buf[128];
-  *page_cnt = 1;
-  return buf;
-}
-uint8_t *u8g2_m_16_16_2(uint8_t *page_cnt)
-{
-  static uint8_t buf[256];
-  *page_cnt = 2;
-  return buf;
-}
-uint8_t *u8g2_m_16_16_f(uint8_t *page_cnt)
-{
-  static uint8_t buf[2048];
-  *page_cnt = 16;
   return buf;
 }
 uint8_t *u8g2_m_13_8_1(uint8_t *page_cnt)
