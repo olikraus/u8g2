@@ -456,6 +456,51 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   return 1;
 }
 
+/* the st75256 i2c driver is a copy of the ssd13xx driver, but with arg=1 */
+/* modified from cad001 (ssd13xx) to cad011 */
+uint8_t u8x8_cad_st75256_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t *p;
+  switch(msg)
+  {
+    case U8X8_MSG_CAD_SEND_CMD:
+      u8x8_byte_StartTransfer(u8x8);
+      u8x8_byte_SendByte(u8x8, 0x000);
+      u8x8_byte_SendByte(u8x8, arg_int);
+      u8x8_byte_EndTransfer(u8x8);      
+      break;
+    case U8X8_MSG_CAD_SEND_ARG:
+      u8x8_byte_StartTransfer(u8x8);
+      u8x8_byte_SendByte(u8x8, 0x040);
+      u8x8_byte_SendByte(u8x8, arg_int);
+      u8x8_byte_EndTransfer(u8x8);
+      break;
+    case U8X8_MSG_CAD_SEND_DATA:
+      /* see ssd13xx driver */
+      p = arg_ptr;
+       while( arg_int > 24 )
+      {
+	u8x8_i2c_data_transfer(u8x8, 24, p);
+	arg_int-=24;
+	p+=24;
+      }
+      u8x8_i2c_data_transfer(u8x8, arg_int, p);
+      break;
+    case U8X8_MSG_CAD_INIT:
+      /* apply default i2c adr if required so that the start transfer msg can use this */
+      if ( u8x8->i2c_address == 255 )
+	u8x8->i2c_address = 0x078;	/* ST75256, often this is 0x07e */
+      return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+    case U8X8_MSG_CAD_START_TRANSFER:
+    case U8X8_MSG_CAD_END_TRANSFER:
+      /* cad transfer commands are ignored */
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
 /* cad i2c procedure for the ld7032 controller */
 uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {

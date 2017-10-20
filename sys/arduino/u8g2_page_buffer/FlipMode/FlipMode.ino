@@ -169,6 +169,7 @@
 //U8G2_IL3820_V2_296X128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// ePaper Display, lesser flickering and faster speed, enable 16 bit mode for this display!
 
 
+U8G2_ST75256_JLX256128_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ 8);				// Enable U8g2 16 bit mode for this display
 
 // End of constructor list
 
