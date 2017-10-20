@@ -402,7 +402,7 @@ static const uint8_t u8x8_d_ssd1327_128x128_init_seq[] = {
 
 static const uint8_t u8x8_d_ssd1327_128x128_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a0, 0x051),		/* remap configuration */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -410,14 +410,14 @@ static const uint8_t u8x8_d_ssd1327_128x128_flip0_seq[] = {
 
 static const uint8_t u8x8_d_ssd1327_128x128_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a2, 0x060),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a0, 0x042),		/* remap configuration */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 
-uint8_t u8x8_d_ssd1327_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_ssd1327_midas_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call the 96x96 procedure at the moment */
   if ( u8x8_d_ssd1327_96x96_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
