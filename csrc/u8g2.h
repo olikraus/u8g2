@@ -69,7 +69,7 @@
   Use 16 Bit mode for any display with more than 240 pixel in one 
   direction.
 */
-#define U8G2_16BIT
+//#define U8G2_16BIT
 
 
 /*
@@ -484,9 +484,6 @@ uint8_t *u8g2_m_17_8_f(uint8_t *page_cnt);
 uint8_t *u8g2_m_32_16_1(uint8_t *page_cnt);
 uint8_t *u8g2_m_32_16_2(uint8_t *page_cnt);
 uint8_t *u8g2_m_32_16_f(uint8_t *page_cnt);
-uint8_t *u8g2_m_32_8_1(uint8_t *page_cnt);
-uint8_t *u8g2_m_32_8_2(uint8_t *page_cnt);
-uint8_t *u8g2_m_32_8_f(uint8_t *page_cnt);
 uint8_t *u8g2_m_22_13_1(uint8_t *page_cnt);
 uint8_t *u8g2_m_22_13_2(uint8_t *page_cnt);
 uint8_t *u8g2_m_22_13_f(uint8_t *page_cnt);
@@ -496,6 +493,9 @@ uint8_t *u8g2_m_20_10_f(uint8_t *page_cnt);
 uint8_t *u8g2_m_20_20_1(uint8_t *page_cnt);
 uint8_t *u8g2_m_20_20_2(uint8_t *page_cnt);
 uint8_t *u8g2_m_20_20_f(uint8_t *page_cnt);
+uint8_t *u8g2_m_32_8_1(uint8_t *page_cnt);
+uint8_t *u8g2_m_32_8_2(uint8_t *page_cnt);
+uint8_t *u8g2_m_32_8_f(uint8_t *page_cnt);
 uint8_t *u8g2_m_22_9_1(uint8_t *page_cnt);
 uint8_t *u8g2_m_22_9_2(uint8_t *page_cnt);
 uint8_t *u8g2_m_22_9_f(uint8_t *page_cnt);
@@ -750,12 +750,6 @@ void u8g2_Setup_st75256_jlx256128_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x
 void u8g2_Setup_st75256_i2c_jlx256128_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_st75256_i2c_jlx256128_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_st75256_i2c_jlx256128_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
-void u8g2_Setup_st75256_jlx25664_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
-void u8g2_Setup_st75256_jlx25664_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
-void u8g2_Setup_st75256_jlx25664_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
-void u8g2_Setup_st75256_i2c_jlx25664_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
-void u8g2_Setup_st75256_i2c_jlx25664_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
-void u8g2_Setup_st75256_i2c_jlx25664_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_st75256_jlx172104_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_st75256_jlx172104_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_st75256_jlx172104_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
