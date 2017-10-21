@@ -340,7 +340,7 @@ static const u8x8_display_info_t u8x8_st75256_256x64_display_info =
   /* tile_width = */ 32,
   /* tile_hight = */ 8,
   /* default_x_offset = */ 0,	/* must be 0, because this is checked also for normal mode */
-  /* flipmode_x_offset = */ 5,		/* used as y offset */
+  /* flipmode_x_offset = */ 12,		/* used as y offset */
   /* pixel_width = */ 256,
   /* pixel_height = */ 64
 };
