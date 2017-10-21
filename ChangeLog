@@ -145,5 +145,6 @@ https://github.com/olikraus/u8g2 ChangeLog
  2017-xx-xx	v2.20.x   olikraus@gmail.com
   * Bugfix for drawBitmap (issue 391)
   * I2C support for ST75256 (issue 384)
-  * Support for SSD1327 128x128 displays (issue 397)
+  * Support for SSD1327 128x128 display (issue 397)
+  * Support for ST75256 JLX25664 display (issue 399)
   
