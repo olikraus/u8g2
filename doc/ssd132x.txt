@@ -1,0 +1,58 @@
+
+
+		SSD1325		SSD1326		SSD1327		SSD1329
+		128 x 80 x 4	256 x 32 x 4	128 x 128 x 4	128 x 128 x 4
+	
+0x15	set col		set col		set col		set col	
+0x23	gr acc		-			-			-
+0x24	draw rect		-			-			-
+0x25	copy			-			-			-
+0x26	scroll		scroll		scroll		-
+0x27	-			-			scroll		-
+0x2e	end move		end move		end move		-
+0x2f		start move	start move	start move	-
+0x75	set row		set row		set row		set row
+0x81	contrast		contrast		contrast		contrast
+0x82	-			-			-			2nd charge
+0x84	current		current		nop			-
+0x85	current		current		nop			-
+0x86	current		current		nop			-
+0x87	current		current		-
+
+0x90	-			-			-			Icon ctl
+0x91	-			-			-			Icon current
+0x92	-			-			-			Icon current
+0x93	-			-			-			Icon on/off
+0x94	-			-			-			Icon all
+0x95	-			-			-			Icon blink
+0x96	-			-			-			Icon duty
+
+0xa0	remap		remap		remap		remap
+0xa1	start line		start line		start line		start line
+0xa2	offset		offset		offset		offset
+0xa4	mode		mode		mode		mode
+..
+0xa7	mode		mode		mode		mode
+0xa8	multiplex ratio	multiplex ratio	multiplex ratio	multiplex ratio
+0xab	-			-			regulator		-
+0xad	master config	-			-			-
+0xae		disp. on		disp. on		disp. on		disp. on
+0xaf		disp. off		disp. off		disp. on		disp. on
+0xb0	comp enable	-			-			-	
+0xb1	phase len		phase len		phase len		phase len
+0xb2	row period	frame freq	nop			frame freq
+0xb3	div ratio [3]	clock div [2]	clock div 		clock div [2]	
+0xb4	comp level	-			-			-
+0xb5	-			-			GPIO			-
+0xb6	-			-			2nd phase	-
+0xb7	-			default gray	-			default gray
+0xb8	gray level		gray level		gray level		gray öeveö
+0xb9	-			-			linear LUT		-
+0xbb	-			2nd charge	nop			2nd charge
+0xbc	precharge	precharge	precharge	precharge
+0xbe	comh volt		comh volt		comh volt		comh volt
+0xbf		VSL			-			-			-
+0xd5	-			-			fn select B	-
+0xe3	nop			-			-			nop
+0xfd		-			cmd lock		cmd lock		cmd lock
+
