@@ -1427,7 +1427,7 @@ int main(void)
   
   u8g2_font_list_fp = fopen("u8g2_font_list.c", "w");
   u8x8_font_list_fp  = fopen("u8x8_font_list.c", "w");
-  keywords_fp  = fopen("keywords.txt", "w+");
+  keywords_fp  = fopen("keywords.txt", "a");
   fprintf(u8g2_font_list_fp, "/* u8g2_font_list.c */\n");
   fprintf(u8x8_font_list_fp, "/* u8x8_font_list.c */\n");
   fprintf(u8g2_font_list_fp, "#include \"u8g2.h\"\n");

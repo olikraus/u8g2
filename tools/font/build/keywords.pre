@@ -86,5 +86,4 @@ userInterfaceSelectionList	KEYWORD2
 # Constants (LITERAL1)
 #######################################
  
-u8g2_font_ncenB08_tr	LITERAL1
 
