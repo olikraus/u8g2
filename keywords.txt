@@ -1,0 +1,90 @@
+#######################################
+
+# Syntax Coloring Map For u8g2
+
+####################################### 
+
+# Class (KEYWORD1)
+
+#######################################
+
+
+
+u8g2	KEYWORD1
+
+
+
+#######################################
+
+# Methods and Functions (KEYWORD2)
+
+#######################################	
+
+
+begin	KEYWORD2
+
+clear	KEYWORD2
+clearBuffer	KEYWORD2
+clearDisplay	KEYWORD2
+disableUTF8Print	KEYWORD2
+drawBitmap	KEYWORD2
+drawBox	KEYWORD2
+drawCircle	KEYWORD2
+drawDisc	KEYWORD2
+drawEllipse	KEYWORD2
+drawFilledEllipse	KEYWORD2
+drawFrame	KEYWORD2
+drawGlyph	KEYWORD2
+drawHLine	KEYWORD2
+drawLine	KEYWORD2
+drawPixel	KEYWORD2
+drawRBox	KEYWORD2
+drawRFrame	KEYWORD2
+drawStr	KEYWORD2
+drawTriangle	KEYWORD2
+drawUTF8	KEYWORD2
+drawVLine	KEYWORD2
+drawXBM	KEYWORD2
+enableUTF8Print	KEYWORD2
+firstPage	KEYWORD2
+getAscent	KEYWORD2
+getDescent	KEYWORD2
+getMenuEvent	KEYWORD2
+getStrWidth	KEYWORD2
+getUTF8Width	KEYWORD2
+home	KEYWORD2
+initDisplay	KEYWORD2
+nextPage	KEYWORD2
+print	KEYWORD2
+sendBuffer	KEYWORD2
+setAutoPageClear	KEYWORD2
+setBitmapMode	KEYWORD2
+setContrast	KEYWORD2
+setCursor	KEYWORD2
+setDisplayRotation	KEYWORD2
+setDrawColor	KEYWORD2
+setFlipMode	KEYWORD2
+setFont	KEYWORD2
+setFontDirection	KEYWORD2
+setFontMode	KEYWORD2
+setFontPosBaseline	KEYWORD2
+setFontPosBottom	KEYWORD2
+setFontPosTop	KEYWORD2
+setFontPosCenter	KEYWORD2
+setFontRefHeightAll	KEYWORD2
+setFontRefHeightExtendedText	KEYWORD2
+setFontRefHeightText	KEYWORD2
+setI2CAddress	KEYWORD2
+setPowerSave	KEYWORD2
+userInterfaceInputValue	KEYWORD2
+userInterfaceMessage	KEYWORD2
+userInterfaceSelectionList	KEYWORD2
+
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+ 
+u8g2_font_ncenB08_tr	LITERAL1
+
