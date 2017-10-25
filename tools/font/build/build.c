@@ -769,6 +769,7 @@ char *bdfconv_path = "../bdfconv/bdfconv";
 char *otf2bdf_path = "../otf2bdf/otf2bdf";
 FILE *u8g2_font_list_fp;
 FILE *u8x8_font_list_fp;
+FILE *keywords_fp;
 char *u8g2_prototypes = NULL;
 char *u8x8_prototypes = NULL;
 char *u8g2_fonts_filename = "../../../csrc/u8g2_fonts.c";
@@ -1257,6 +1258,9 @@ void fontlist_name(int i, int fm, char *fms, int bm, char *bms, int mm, char *mm
   {
     fprintf(u8x8_font_list_fp, "  \"%s\",\n", target_font_identifier);
   }
+
+  fprintf(keywords_fp, "%s\tLITERAL1\n", target_font_identifier);
+  
   
 }
 
@@ -1415,12 +1419,15 @@ int main(void)
     return 0;
   if ( file_copy("u8g2_fonts.pre", u8g2_fonts_filename) == 0 )
     return 0;
+  if ( file_copy("keywords.pre", "keywords.txt") == 0 )
+    return 0;
   
   
   do_font_loop(bdfconv);
   
   u8g2_font_list_fp = fopen("u8g2_font_list.c", "w");
   u8x8_font_list_fp  = fopen("u8x8_font_list.c", "w");
+  keywords_fp  = fopen("keywords.txt", "w+");
   fprintf(u8g2_font_list_fp, "/* u8g2_font_list.c */\n");
   fprintf(u8x8_font_list_fp, "/* u8x8_font_list.c */\n");
   fprintf(u8g2_font_list_fp, "#include \"u8g2.h\"\n");
@@ -1439,6 +1446,7 @@ int main(void)
   
   fclose(u8g2_font_list_fp);
   fclose(u8x8_font_list_fp);
+  fclose(keywords_fp);
 
   printf("update u8g2.h\n");
   insert_into_file("../../../csrc/u8g2.h", u8g2_prototypes, "/* start font list */", "/* end font list */");
