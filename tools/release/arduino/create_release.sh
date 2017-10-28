@@ -121,7 +121,7 @@ cp ../../../sys/arduino/u8x8/ArduboyTest/*.ino ../../../../U8g2_Arduino/examples
 # copy other files
 cp ../../../ChangeLog ./../../../../U8g2_Arduino/extras/.
 
-
+cp ../../font/build/keywords.txt ./../../../../U8g2_Arduino/.
 
 pushd .
 # goto the release project

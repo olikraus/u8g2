@@ -46,7 +46,7 @@
 0xb5	-			-			GPIO			-
 0xb6	-			-			2nd phase	-
 0xb7	-			default gray	-			default gray
-0xb8	gray level		gray level		gray level		gray öeveö
+0xb8	gray level		gray level		gray level		gray level
 0xb9	-			-			linear LUT		-
 0xbb	-			2nd charge	nop			2nd charge
 0xbc	precharge	precharge	precharge	precharge
