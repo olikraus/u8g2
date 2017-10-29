@@ -147,4 +147,8 @@ https://github.com/olikraus/u8g2 ChangeLog
   * I2C support for ST75256 (issue 384)
   * Support for SSD1327 128x128 display (issue 397)
   * Support for ST75256 JLX25664 display (issue 399)
+  * Added keywords.txt  (issue 402)
+  * Experimental support for SSD1326 (issue 398)
+  * Experimental alternative COM config for SSD1306 128x64 (issue 408)
+  
   
