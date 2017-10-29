@@ -113,6 +113,7 @@ struct controller controller_list[] =
     {
       { "128x64_noname" },
       { "128x64_vcomh0" },
+      { "128x64_winstar" },
       { NULL }
     }
   },
@@ -122,6 +123,7 @@ struct controller controller_list[] =
     {
       { "128x64_noname" },
       { "128x64_vcomh0" },
+      { "128x64_winstar" },
       { NULL }
     }
   },

@@ -148,6 +148,31 @@ static const uint8_t u8x8_d_ssd1306_128x64_alt0_init_seq[] = {
 };
 
 
+
+/* issue 316: a special sh1106 setup, https://www.mikrocontroller.net/topic/431371?goto=5087807#5087807 */
+static const uint8_t u8x8_d_sh1106_128x64_winstar_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_C(0xae),                 // Display OFF/ON: off (POR = 0xae)
+  U8X8_C(0xa4),                 // Set Entire Display OFF/ON: off (POR = 0xa4)
+  U8X8_CA(0xd5, 0x50),       // Divide Ratio/Oscillator FrequencyData Set: divide ratio = 1 (POR = 1), Oscillator Frequency = +/- 0% (POR = +/- 0%)
+  U8X8_CA(0xa8, 0x3f),       // Multiplex Ratio Data Set: 64 (POR = 0x3f, 64)
+  U8X8_CA(0xd3, 0x00),       // Display OffsetData Set: 0 (POR = 0x00)
+  U8X8_C(0x40),                 // Set Display Start Line: 0  
+  U8X8_CA(0xad, 0x8b),       // DC-DC ON/OFF Mode Set: Built-in DC-DC is used, Normal Display (POR = 0x8b)
+  U8X8_CA(0xd9, 0x22),       // Dis-charge/Pre-charge PeriodData Set: pre-charge 2 DCLKs, dis-charge 2 DCLKs (POR = 0x22, pre-charge 2 DCLKs, dis-charge 2 DCLKs)
+  U8X8_CA(0xdb, 0x35),       // VCOM Deselect LevelData Set: 0,770V (POR = 0x35, 0,770 V)
+  U8X8_C(0x32), // Set Pump voltage value: 8,0 V (POR = 0x32, 8,0 V)
+  U8X8_CA(0x81, 0xff),       // Contrast Data Register Set: 255 (large) (POR = 0x80)
+  U8X8_C(0x0a6),			// Set Normal/Reverse Display: normal (POR = 0xa6)
+  U8X8_CA(0x0da, 0x012),		// com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) 
+      
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
 static const uint8_t u8x8_d_ssd1306_128x64_noname_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0af),		                /* display on */
@@ -383,6 +408,7 @@ uint8_t u8x8_d_sh1106_128x64_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
       u8x8_d_helper_display_init(u8x8);
       /* maybe use a better init sequence */
       /* https://www.mikrocontroller.net/topic/431371 */
+      /* the new sequence is added in the winstar constructor (see below), this is kept untouched */
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
@@ -415,3 +441,25 @@ uint8_t u8x8_d_sh1106_128x64_vcomh0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
   return 1;
     
 }
+
+uint8_t u8x8_d_sh1106_128x64_winstar(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  if ( u8x8_d_ssd1306_sh1106_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_128x64_winstar_init_seq);    
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1106_128x64_noname_display_info);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+    
+}
+

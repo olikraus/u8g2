@@ -145,7 +145,7 @@ ver=`../u8g2/tools/release/print_release.sh`
 
 sed -i -e "s/version=.*/version=${ver}/" library.properties
 
-sed -i -e "s/Download .*:/Download ${ver}: /" README.md
+sed -i -e "s/Download (.*)/Download (${ver})/" README.md
 
 # git commit -a -m `../u8g2/tools/release/print_release.sh`
 # git push
