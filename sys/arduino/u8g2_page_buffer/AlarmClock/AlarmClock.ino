@@ -2583,6 +2583,25 @@ void gui_Select(void)
 
 /*===================================================*/
 
+void read_rtc(void)
+{
+  gui_data.h = rtc.getHours();
+  gui_data.mt = rtc.getMinutes()/10;
+  gui_data.mo = rtc.getMinutes()%10;
+  gui_data.st = rtc.getSeconds()/10;
+  gui_data.so = rtc.getSeconds()%10;
+
+  gui_data.day = rtc.getDay();
+  gui_data.month = rtc.getMonth();
+  gui_data.year_o = rtc.getYear()/10;
+  gui_data.year_t = rtc.getYear()%10;
+
+  //gui_date_adjust();	/* calculate weekday */
+  gui_Recalculate();
+  
+}
+
+
 void setup(void) {
 
   rtc.begin();
@@ -2614,17 +2633,18 @@ void setup(void) {
 
 void loop(void) {
   uint8_t event;
-  gui_Recalculate();
-  menu_SetMEList(&gui_menu, melist_display_time, 0);
+  unsigned long m;
   
   for(;;)
   {
+    read_rtc();
     u8g2.firstPage();
     do
     {
       gui_Draw();
     } while(u8g2.nextPage()); 
     
+    m = millis() + 400UL;
     for(;;)
     {
       event = u8g2.getMenuEvent();
@@ -2638,6 +2658,9 @@ void loop(void) {
 	gui_Next();
 	break;
       }
+      if ( millis() > m )
+        break;
+      
     }
   }
 }

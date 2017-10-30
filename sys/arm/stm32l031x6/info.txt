@@ -254,10 +254,13 @@ für den übernächsten tag nicht (für den folgenden tag hatte man es ja abgesc
 17. Sep 2017: einen bug in uint32_t get_u32_by_alarm_data(gui_alarm_t *alarm) behoben
 
 
+
 ---------------
 MKR Zero
 
 Processor: SAMD21G18
 
+---------------
+Ausgabe, ob gerade winter oder sommerzeit aktiv ist.
 
   

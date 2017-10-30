@@ -85,7 +85,8 @@
 /* define U8X8_HAVE_2ND_HW_SPI if the board has a second wire interface*/
 /* As of writing this, I did not found any official board which supports this */
 /* so this is not tested (May 2017), issue #224 */
-#ifdef WIRE_INTERFACES_COUNT
+/* fixed ifdef, #410, #377 */
+#ifdef SPI_INTERFACES_COUNT
 #if SPI_INTERFACES_COUNT > 1
 #define U8X8_HAVE_2ND_HW_SPI
 #endif
