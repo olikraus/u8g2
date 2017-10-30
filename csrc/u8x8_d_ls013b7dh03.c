@@ -80,8 +80,10 @@ uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_
       u8x8_d_helper_display_init(u8x8);
 
       /* clear screen */
+      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, SWAP8(LS013B7DH03_CMD_ALL_CLEAR) );
       u8x8_cad_SendCmd(u8x8, LS013B7DH03_VAL_TRAILER);
+      u8x8_cad_EndTransfer(u8x8);
 
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
