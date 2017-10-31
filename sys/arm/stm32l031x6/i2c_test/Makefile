@@ -34,7 +34,7 @@ GCCBINPATH:=/usr/bin/
 # Project Information
 
 # The name for the project
-TARGETNAME:=blink
+TARGETNAME:=i2c_test
 
 # The source files of the project
 CSRC:=$(wildcard *.c) 
@@ -49,8 +49,8 @@ SYSINC:=../stm32l0xx/inc
 SYSSRC:=$(wildcard ../stm32l0xx/src/*.c)
 
 # Include directory for the u8g2 include files
-#U8G2INC:=../../../../csrc/
-#U8G2SRC:=$(wildcard ../../../../csrc/*.c)
+U8G2INC:=../../../../csrc/
+U8G2SRC:=$(wildcard ../../../../csrc/*.c)
 
 # directory for FatFS
 #FFINC:=../fatfs
@@ -70,8 +70,8 @@ ELFNAME:=$(TARGETNAME).elf
 HEXNAME:=$(TARGETNAME).hex
 DISNAME:=$(TARGETNAME).dis
 MAPNAME:=$(TARGETNAME).map
-OBJ:=$(CSRC:.c=.o) $(SSRC:.s=.o) $(SYSSRC:.c=.o)
-# $(SYSSRC:.c=.o) $(U8G2SRC:.c=.o) $(FFSRC:.c=.o)
+OBJ:=$(CSRC:.c=.o) $(SSRC:.s=.o) $(SYSSRC:.c=.o) $(U8G2SRC:.c=.o)
+# $(SYSSRC:.c=.o)  $(FFSRC:.c=.o)
 
 # Replace standard build tools by arm tools
 AS:=$(GCCBINPATH)arm-none-eabi-as

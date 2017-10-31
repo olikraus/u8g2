@@ -1,16 +1,26 @@
-/* LED blink project for the STM32L031 */
+/* I2C Test */
 
 #include "stm32l031xx.h"
+#include "delay.h"
+#include "u8x8.h"
+
+/*=======================================================================*/
+/* external functions */
+uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+
+
+/*=======================================================================*/
+/* global variables */
+u8x8_t u8x8;                    // u8x8 object
+uint8_t u8x8_x, u8x8_y;         // current position on the screen
 
 volatile unsigned long SysTickCount = 0;
+
+/*=======================================================================*/
 
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
   SysTickCount++;  
-  if ( SysTickCount & 1 )
-    GPIOA->BSRR = GPIO_BSRR_BS_13;		/* atomic set PA13 */
-  else
-    GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
 }
 
 
@@ -70,6 +80,88 @@ void setHSIClock()
     ;
 }
 
+/*
+  Enable several power regions: PWR, GPIOA
+
+  This must be executed after each reset.
+*/
+void startUp(void)
+{  
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface (PWR) */
+  PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */  
+  
+  SysTick->LOAD = (SystemCoreClock/1000)*50 - 1;   /* 50ms task */
+  SysTick->VAL = 0;
+  SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */      
+}
+
+/*=======================================================================*/
+/* u8x8 display procedures */
+
+void initDisplay(void)
+{
+  u8x8_Setup(&u8x8, u8x8_d_ssd1306_128x64_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
+  u8x8_InitDisplay(&u8x8);
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetPowerSave(&u8x8, 0);
+  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);  
+  u8x8_x = 0;
+  u8x8_y = 0;  
+}
+
+
+void outChar(uint8_t c)
+{
+  if ( u8x8_x >= u8x8_GetCols(&u8x8) )
+  {
+    u8x8_x = 0;
+    u8x8_y++;
+  }
+  u8x8_DrawGlyph(&u8x8, u8x8_x, u8x8_y, c);
+  u8x8_x++;
+}
+
+void outStr(const char *s)
+{
+  while( *s )
+    outChar(*s++);
+}
+
+void outHexHalfByte(uint8_t b)
+{
+  b &= 0x0f;
+  if ( b < 10 )
+    outChar(b+'0');
+  else
+    outChar(b+'a'-10);
+}
+
+void outHex8(uint8_t b)
+{
+  outHexHalfByte(b >> 4);
+  outHexHalfByte(b);
+}
+
+void outHex16(uint16_t v)
+{
+  outHex8(v>>8);
+  outHex8(v);
+}
+
+void outHex32(uint32_t v)
+{
+  outHex16(v>>16);
+  outHex16(v);
+}
+
+void setRow(uint8_t r)
+{
+  u8x8_x = 0;
+  u8x8_y = r;
+}
+
+
 /*==============================================*/
 unsigned char i2c_mem[256];     /* contains data, which read or written */
 unsigned char i2c_idx;                  /* the current index into i2c_mem */
@@ -118,8 +210,8 @@ void i2c_mem_write(unsigned char value)
 void i2c_hw_init(unsigned char address)
 {
   RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;		/* Enable clock for I2C */
-  RCC->CIPR &= ~RCC_CCIPR_I2C1SEL;                      /* write 00 to the I2C clk selection register */
-  RCC->CIPR |= RCC_CCIPR_I2C1SEL_0;                      /* select system clock (01) */
+  RCC->CCIPR &= ~RCC_CCIPR_I2C1SEL;                      /* write 00 to the I2C clk selection register */
+  RCC->CCIPR |= RCC_CCIPR_I2C1SEL_0;                      /* select system clock (01) */
   
   /* I2C init flow chart: Clear PE bit */
   
@@ -176,7 +268,7 @@ void i2c_hw_init(unsigned char address)
 
 void __attribute__ ((interrupt, used)) I2C1_IRQHandler(void)
 {
-  unsigned long iSr = I2C1->ISR;
+  unsigned long isr = I2C1->ISR;
   if ( isr & I2C_ISR_TXIS )
   {
     I2C1->TXDR = i2c_mem_read();
@@ -212,23 +304,15 @@ void __attribute__ ((interrupt, used)) I2C1_IRQHandler(void)
 int main()
 {
   setHSIClock();
+  startUp();
+  initDisplay();          /* aktivate display */
   
-  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  setRow(0); outStr("Hello World!"); 
   
   
-  __NOP();
-  __NOP();
-  GPIOA->MODER &= ~GPIO_MODER_MODE13;	/* clear mode for PA13 */
-  GPIOA->MODER |= GPIO_MODER_MODE13_0;	/* Output mode for PA13 */
-  GPIOA->OTYPER &= ~GPIO_OTYPER_OT_13;	/* no Push/Pull for PA13 */
-  GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED13;	/* low speed for PA13 */
-  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD13;	/* no pullup/pulldown for PA13 */
-  GPIOA->BSRR = GPIO_BSRR_BR_13;		/* atomic clr PA13 */
-
-  SysTick->LOAD = 2000*500 - 1;
-  SysTick->VAL = 0;
-  SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */
-    
+  
   for(;;)
-    ;
+  {
+    setRow(2); outHex32(SysTickCount); 
+  }
 }

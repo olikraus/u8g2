@@ -1,4 +1,8 @@
-/* LED blink project for the STM32L031 */
+/* 
+
+  Example for the STM32L031 Eval Board with 128x64 OLED at PA13/PA14
+  
+*/
 
 #include <stdio.h>
 #include "stm32l031xx.h"
@@ -176,7 +180,6 @@ int main()
   setRow(0); outStr("Hello World!"); 
   setRow(2); outStr("RCC_CSR:"); outHex32(RCC->CSR); 
   setRow(3); outStr("PWR_CSR:"); outHex32(PWR->CSR); 
-  
 
   for(;;)
   {
