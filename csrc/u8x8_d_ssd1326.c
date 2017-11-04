@@ -49,7 +49,7 @@ static const uint8_t u8x8_d_ssd1326_er_256x32_init_seq[] = {
   U8X8_CA(0x0a8, 0x01f),		/* multiplex ratio: 0x03f * 1/64 duty - changed by CREESOO, acc. to datasheet, 100317*/ 
   U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
-  //U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
+  U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
   U8X8_CA(0x0a0, 0x052),		/* remap configuration, horizontal address increment (bit 2 = 0), enable nibble remap (upper nibble is left, bit 1 = 1) */
   U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
 
@@ -203,14 +203,16 @@ static uint8_t u8x8_d_ssd1326_256x32_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
 
 	do
 	{
-          /* tile is empty, use the graphics acceleration command */
-          /* are this really available on the ssd1326??? */
-          u8x8_cad_SendCmd(u8x8, 0x024 );	// draw rectangle
-          u8x8_cad_SendArg(u8x8, x );	
-          u8x8_cad_SendArg(u8x8, y );	
-          u8x8_cad_SendArg(u8x8, x+3 );	
-          u8x8_cad_SendArg(u8x8, y+7 );	
-          u8x8_cad_SendArg(u8x8, 0 );	// clear	    
+          u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
+          u8x8_cad_SendArg(u8x8, x );	/* start */
+          u8x8_cad_SendArg(u8x8, x+3 );	/* end */
+
+          u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address */
+          u8x8_cad_SendArg(u8x8, y);
+          u8x8_cad_SendArg(u8x8, y+7);
+          
+          u8x8_cad_SendData(u8x8, 32, u8x8_ssd1326_8to32(u8x8, ptr));
+          
 	  ptr += 8;
 	  x += 4;
 	  c--;
