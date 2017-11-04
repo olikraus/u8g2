@@ -50,7 +50,15 @@ static const uint8_t u8x8_d_ssd1326_er_256x32_init_seq[] = {
   U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
-  U8X8_CA(0x0a0, 0x052),		/* remap configuration, horizontal address increment (bit 2 = 0), enable nibble remap (upper nibble is left, bit 1 = 1) */
+  /*
+    a0 command: 0x0a0 ***abcde
+      a: 1: mono mode
+      b: 0: horizontal (1: vertical) address increment
+      c: 1: enable bit remap
+      d: 1: COM remap
+      e: 1: Column remap
+  */
+  U8X8_CA(0x0a0, 0x002),		/* remap configuration, see above */
   U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
 
   U8X8_C(0x0b7),				/* set default gray scale table */
