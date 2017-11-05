@@ -281,19 +281,47 @@ uint16_t getADC(uint8_t ch)
 
 void main()
 {
+  uint16_t adc_value;
+  uint16_t i;
   
   setHSIClock();        /* enable 32 MHz Clock */
   startUp();               /* enable systick irq and several power regions  */
   initDisplay();          /* aktivate display */
   initADC();
+
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  __NOP();
+  __NOP();
+  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */
+  GPIOA->MODER |= GPIO_MODER_MODE1_0;	/* Output mode for PA1 */
+  GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;	/* no Push/Pull for PA1 */
+  GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED1;	/* low speed for PA1 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PA1 */
+  GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
   
   setRow(0); outStr("ADC Test"); 
 
+  setRow(2); outStr("ch5 pin11: "); 
+  setRow(3); outHex16(getADC(5)); 
+  setRow(4); outStr("bandgap:   "); 
+  setRow(5); outHex16(getADC(17)); 
+  setRow(6); outStr("temp:      "); 
+  setRow(7); outHex16(getADC(18)); 
+
   for(;;)
   {
-    setRow(2); outStr("ch5 pin11: "); outHex16(getADC(5)); 
-    setRow(3); outStr("bandgap:   "); outHex16(getADC(17)); 
-    setRow(4); outStr("temp:      "); outHex16(getADC(18)); 
+    
+    for( i = 0; i < 2000; i++ )
+    {
+      adc_value = getADC(5);
+      GPIOA->BSRR = GPIO_BSRR_BR_1;		/* atomic clr PA1 */
+      delay_system_ticks(0x1000 - adc_value);
+      GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
+      delay_system_ticks(adc_value);
+    }
+    
+    setRow(3); outHex16(adc_value); 
+    
   }
   
 }
