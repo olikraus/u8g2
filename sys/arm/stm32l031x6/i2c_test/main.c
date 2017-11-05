@@ -1,8 +1,4 @@
-/* 
-
-  I2C Test (STM32L0 Eval Board)
-
-*/
+/* I2C Test */
 
 #include "stm32l031xx.h"
 #include "delay.h"
@@ -174,7 +170,6 @@ volatile unsigned char i2c_is_write_idx;                  /* write state */
 volatile uint16_t i2c_total_irq_cnt;
 volatile uint16_t i2c_TXIS_cnt;
 volatile uint16_t i2c_RXNE_cnt;
-volatile uint16_t i2c_ADDR_cnt;
 
 
 void i2c_mem_reset_write(void)
@@ -228,7 +223,7 @@ void i2c_hw_init(unsigned char address)
   RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;		/* Enable clock for I2C */
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
   
-    __NOP();                                                          /* extra delay for clock stabilization? */
+    __NOP();                                                          /* extra delay for clock stabilization required? */
     __NOP();
 
 
@@ -349,7 +344,6 @@ void __attribute__ ((interrupt, used)) I2C1_IRQHandler(void)
   else if ( isr & I2C_ISR_ADDR )
   {
     /* not required, the addr match interrupt is not enabled */
-    i2c_ADDR_cnt++;
     I2C1->ICR = I2C_ICR_ADDRCF;
     I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
     I2C1->TXDR = i2c_mem[i2c_idx];
@@ -377,18 +371,18 @@ int main()
 
   __enable_irq();
   
-  setRow(0); outStr("I2C Test"); 
+  setRow(0); outStr("Hello World!"); 
   
 
   
   for(;;)
   {
-    setRow(2); outStr("SysTick:"); outHex32(SysTickCount); 
-    setRow(3); outStr("I2C IRQs:"); outHex16(i2c_total_irq_cnt);
-    setRow(4); outHex16(i2c_TXIS_cnt); outStr(" "); outHex16(i2c_RXNE_cnt); outStr(" "); outHex16(i2c_ADDR_cnt);
+    setRow(2); outHex32(SysTickCount); 
+    setRow(3); outHex16(i2c_total_irq_cnt);
+    setRow(4); outHex16(i2c_TXIS_cnt); outStr(" "); outHex16(i2c_RXNE_cnt);
     setRow(5); outStr("I2C_ISR:"); outHex32(I2C1->ISR);
     setRow(6); outStr("idx:    "); outHex8(i2c_idx);
-    setRow(7); outHex8(i2c_mem[0]); outStr(" "); outHex8(i2c_mem[1]); outStr(" "); outHex8(i2c_mem[2]); outStr(" "); outHex8(i2c_mem[3]);
+    setRow(7); outHex8(i2c_mem[0]); outStr(" "); outHex8(i2c_mem[1]); outStr(" "); outHex8(i2c_mem[2]);
     
   }
 }

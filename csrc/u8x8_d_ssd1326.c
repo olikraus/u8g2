@@ -58,7 +58,7 @@ static const uint8_t u8x8_d_ssd1326_er_256x32_init_seq[] = {
       d: 1: COM remap
       e: 1: Column remap
   */
-  U8X8_CA(0x0a0, 0x002),		/* remap configuration, see above */
+  U8X8_CA(0x0a0, 0x006),		/* remap configuration, see above */
   U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
 
   U8X8_C(0x0b7),				/* set default gray scale table */
@@ -97,14 +97,14 @@ static const uint8_t u8x8_d_ssd1326_256x32_nhd_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_ssd1326_256x32_nhd_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a0, 0x052),		/* remap */
+  U8X8_CA(0x0a0, 0x006),		/* remap */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1326_256x32_nhd_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a0, 0x041),		/* remap */
+  U8X8_CA(0x0a0, 0x005),		/* remap */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
