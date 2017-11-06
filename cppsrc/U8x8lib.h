@@ -270,6 +270,7 @@ class U8X8 : public Print
  
 };
 
+#ifdef U8X8_USE_PINS
 
 // constructor list start
 /* generated code (codebuild), u8g2 project */
@@ -2881,6 +2882,7 @@ class U8X8_MAX7219_32X8_2ND_4W_HW_SPI : public U8X8 {
 // constructor list end
   
 
+#endif // U8X8_USE_PINS
 
 #endif /* _U8X8LIB_HH */
 
