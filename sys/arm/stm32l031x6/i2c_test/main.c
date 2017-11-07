@@ -1,4 +1,4 @@
-/* I2C Test */
+/* STM32L031 Eval Board: I2C Test */
 
 #include "stm32l031xx.h"
 #include "delay.h"
