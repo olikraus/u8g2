@@ -327,10 +327,10 @@ void initTIM(void)
   TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;               /* configure cc2 as output */
   
   
-  TIM2->EGR =                                           /* enable update event */
-  TIM2->CCER =                                          /* set output polarity */
+  //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
+  TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable */
   
-
+  TIM2->CR1 |= TIM_CR1_CEN;            /* counter enable */
 }
 
 /*=======================================================================*/
@@ -374,7 +374,7 @@ void main()
       delay_system_ticks(0x1000 - adc_value);
       GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
       delay_system_ticks(adc_value);
-    }
+    } 
     
     setRow(3); outHex16(adc_value); 
     
