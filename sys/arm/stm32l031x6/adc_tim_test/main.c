@@ -295,10 +295,12 @@ void initTIM(void)
     __NOP();
   
   /* prescalar for AHB and APB1 */
-  RCC->CFGR &= RCC_CFGR_HPRE;
-  RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
-  RCC->CFGR &= RCC_CFGR_PPRE1;
-  RCC->CFGR |= RCC_CFGR_PPRE1_DIV1;
+  
+  /* reselt defaults for HPRE and PPRE1: no clock division */
+  // RCC->CFGR &= ~RCC_CFGR_HPRE;
+  // RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
+  // RCC->CFGR &= ~RCC_CFGR_PPRE1;
+  // RCC->CFGR |= RCC_CFGR_PPRE1_DIV1;
   
   /* configure GPIOA PA1 for TIM2 */
   GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA9 */  
@@ -308,27 +310,32 @@ void initTIM(void)
   GPIOA->AFR[0] |= 2<<4;                   /* AF2 Alternate Function PA1 */
   
   /* TIM2 configure */
+  /* disable all interrupts */
+  //TIM2->DIER = 0;             /* 0 is reset default value */
+  
   /* clear everything, including the "Update disable" flag, so that updates */
   /* are generated */
-  TIM2->CR1 = 0;
-  TIM2->CR1 |= TIM_CR1_ARPE;
+  // TIM2->CR1 = 0;             /* 0 is reset default value */
+  //TIM2->CR1 |= TIM_CR1_ARPE;  // ARR is not modified so constant update is ok
   /* Update request by manual UG bit setting or slave controller */
   /* both is not required here */
   /* so, update request by couter over/underflow remains */
-  TIM2->CR1 |= TIM_CR1_URS;             /* only udf/ovf generae events */
+  //TIM2->CR1 |= TIM_CR1_URS;             /* only udf/ovf generae events */
   
   
   TIM2->ARR = 4096;                              /* total cycle count */
   TIM2->CCR2 = 1024;                            /* duty cycle */
-  TIM2->CCMR1 &= ~TIM_CCMR1_OC2CE;      /* disable clear output compare 2 **/
+  //TIM2->CCMR1 &= ~TIM_CCMR1_OC2CE;      /* disable clear output compare 2 **/
   TIM2->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
-  TIM2->CCMR1 |= TIM_CCMR1_OC2PE;            /* preload enable */
-  TIM2->CCMR1 &= ~TIM_CCMR1_OC2FE;            /* fast disable */
-  TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;               /* configure cc2 as output */
+  //TIM2->CCMR1 &= ~TIM_CCMR1_OC1M_0;     /* 110: PWM Mode 1 */
+  TIM2->CCMR1 |= TIM_CCMR1_OC2PE;            /* preload enable CCR2 is preloaded*/
+  // TIM2->CCMR1 &= ~TIM_CCMR1_OC2FE;            /* fast disable (reset default) */
+  // TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;               /* configure cc2 as output (this is reset default) */
   
   
   //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
   TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable */
+  //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   
   TIM2->CR1 |= TIM_CR1_CEN;            /* counter enable */
 }
@@ -355,6 +362,9 @@ void main()
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PA1 */
   GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
   
+  initTIM();
+  
+  
   setRow(0); outStr("ADC Test"); 
 
   setRow(2); outStr("ch5 pin11: "); 
@@ -367,15 +377,8 @@ void main()
   for(;;)
   {
     
-    for( i = 0; i < 2000; i++ )
-    {
-      adc_value = getADC(5);
-      GPIOA->BSRR = GPIO_BSRR_BR_1;		/* atomic clr PA1 */
-      delay_system_ticks(0x1000 - adc_value);
-      GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
-      delay_system_ticks(adc_value);
-    } 
-    
+    adc_value = getADC(5);
+    TIM2->CCR2 = adc_value;
     setRow(3); outHex16(adc_value); 
     
   }
