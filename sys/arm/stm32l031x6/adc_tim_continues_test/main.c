@@ -206,7 +206,6 @@ void setRow(uint8_t r)
 
 void initADC(uint8_t ch)
 {
-  //__disable_irq();
   
   /* ADC Clock Enable */
   
@@ -223,27 +222,9 @@ void initADC(uint8_t ch)
   __NOP();								/* let us wait for some time */
   __NOP();								/* let us wait for some time */
  
-  /* ADC Basic Setup */
-  
-  //ADC1->IER = 0;						/* do not allow any interrupts, this is reset default */
-  //ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select ADCCLK (which is HSI16) clock, this is reset default */
-  
-  //ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
-  //ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
-  //ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
-
-  //__NOP();								/* let us wait for some time */
-  //__NOP();								/* let us wait for some time */
-
   /* CALIBRATION */
   
-  //if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required, reset default */
-  //{
-  /* is this correct, i think we must use the disable flag here */
-  //  ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
-  //}
   ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
-  //while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
   while ((ADC1->CR & ADC_CR_ADCAL) != 0) 	/* wait for clibration finished */
   {
   }
@@ -278,8 +259,6 @@ void initADC(uint8_t ch)
   
   ADC1->CHSELR = 1<<ch; 				/* Select channel */
   //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
-  
-  
 
   /* START CONVERSION */
 
@@ -289,7 +268,7 @@ void initADC(uint8_t ch)
   {
   }
 
-  //data in ADC1->DR;
+  //data is available in ADC1->DR;
     
 }
 
