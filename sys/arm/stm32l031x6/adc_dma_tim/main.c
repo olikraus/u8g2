@@ -295,7 +295,7 @@ void initTIM(void)
   // RCC->CFGR |= RCC_CFGR_PPRE1_DIV1;
   
   /* configure GPIOA PA1 for TIM2 */
-  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA9 */  
+  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */  
   GPIOA->MODER |= GPIO_MODER_MODE1_1;  /* alt fn */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;    /* push-pull */
   GPIOA->AFR[0] &= ~(15<<4);            /* Clear Alternate Function PA1 */
@@ -372,39 +372,25 @@ void initDMA()
 
 void main()
 {
-  uint16_t adc_value;
   
   setHSIClock();        /* enable 32 MHz Clock */
   startUp();               /* enable systick irq and several power regions  */
   initDisplay();          /* aktivate display */
-  initADC(5);            /* channel 5 */
+  
+  /* setup ADC controlled PWM */
+  
+  initADC(5);            /* read from channel 5 (pin 11) */
+  initTIM();              
+  initDMA();            
 
-  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
-  __NOP();
-  __NOP();
-  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */
-  GPIOA->MODER |= GPIO_MODER_MODE1_0;	/* Output mode for PA1 */
-  GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;	/* no Push/Pull for PA1 */
-  GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED1;	/* low speed for PA1 */
-  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PA1 */
-  GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
+  /* rest of the code just shows the current ADC value on the OLED */
   
-  initTIM();
-  
-  initDMA();
-  
-  
-  setRow(0); outStr("ADC Test"); 
-
+  setRow(0); outStr("ADC DMA TIM Test"); 
   setRow(2); outStr("ch5 pin11: "); 
 
   for(;;)
   {
-    
-    adc_value = ADC1->DR;
-    //TIM2->CCR2 = adc_value;
-    setRow(3); outHex16(adc_value); 
-    
+    setRow(3); outHex16(ADC1->DR); 
   }
   
 }
