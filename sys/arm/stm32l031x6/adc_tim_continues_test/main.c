@@ -189,6 +189,20 @@ void setRow(uint8_t r)
 }
 
 /*=======================================================================*/
+/*
+  ADC defaults:
+    - Clock source: ADCCLK (HSI16) (ADC_CFGR2)
+    - ADC clock prescaler: divide by 1 (ADC_CCR)
+    - software enabled start
+    - right alignment
+    - 12 Bit resolution
+    - No interrupts enabled
+
+  Calibration:
+    better ignore ADC_ISR_EOCAL and use the ADC_CR_ADCAL flag only.
+    otherwise some extra NOPs are required after calibration
+*/
+
 
 void initADC(uint8_t ch)
 {
@@ -211,34 +225,29 @@ void initADC(uint8_t ch)
  
   /* ADC Basic Setup */
   
-  ADC1->IER = 0;						/* do not allow any interrupts */
-  ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
+  //ADC1->IER = 0;						/* do not allow any interrupts, this is reset default */
+  //ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select ADCCLK (which is HSI16) clock, this is reset default */
   
-  ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
-  ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
-  ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
+  //ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
+  //ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
+  //ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
 
-  __NOP();								/* let us wait for some time */
-  __NOP();								/* let us wait for some time */
+  //__NOP();								/* let us wait for some time */
+  //__NOP();								/* let us wait for some time */
 
   /* CALIBRATION */
   
-  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
-  {
-    ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
-  }
+  //if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required, reset default */
+  //{
+  /* is this correct, i think we must use the disable flag here */
+  //  ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
+  //}
   ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
-  while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
+  //while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
+  while ((ADC1->CR & ADC_CR_ADCAL) != 0) 	/* wait for clibration finished */
   {
   }
-  ADC1->ISR |= ADC_ISR_EOCAL; 			/* clear the status flag, by writing 1 to it */
-  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
-  __NOP();
-  __NOP();
-  __NOP();
-  __NOP();
-  __NOP();
-
+ 
   /* ENABLE ADC */
   
   ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
@@ -249,16 +258,28 @@ void initADC(uint8_t ch)
 
   /* CONFIGURE ADC */
 
-  ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
-  ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
-  ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
+  //ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
+  //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
+  //ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
 
   ADC1->CFGR1 |= ADC_CFGR1_CONT;		/* continues mode */
 
-  ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
+  ADC1->CFGR2 |= ADC_CFGR2_OVSR_0;               /* 011 oversampling ration x16 */
+  ADC1->CFGR2 |= ADC_CFGR2_OVSR_1;               
+  ADC1->CFGR2 |= ADC_CFGR2_OVSS_2;               /* shift 4 bits (because of x16 oversampling) */
+
+  //ADC1->CFGR2 |= ADC_CFGR2_OVSR_1;               /* 110 oversampling ration x128 */
+  //ADC1->CFGR2 |= ADC_CFGR2_OVSR_2;               
+  //ADC1->CFGR2 |= ADC_CFGR2_OVSS_0;               /* shift 7 bits (because of x128 oversampling) */
+  //ADC1->CFGR2 |= ADC_CFGR2_OVSS_1;               /* shift 7 bits (because of x128 oversampling) */
+  //ADC1->CFGR2 |= ADC_CFGR2_OVSS_2;               /* shift 7 bits (because of x128 oversampling) */
+  
+  ADC1->CFGR2 |= ADC_CFGR2_OVSE;                  /* enable oversampling */
   
   ADC1->CHSELR = 1<<ch; 				/* Select channel */
-  ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+  //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+  
+  
 
   /* START CONVERSION */
 

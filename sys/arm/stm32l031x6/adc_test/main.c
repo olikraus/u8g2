@@ -204,6 +204,7 @@ void initADC(void)
   
   if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
   {
+  /* is this correct, i think we must use the disable flag here */
     ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
   }
   ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
