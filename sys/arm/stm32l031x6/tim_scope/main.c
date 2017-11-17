@@ -1,34 +1,19 @@
 /* 
 
+  tim_scope
+
   Example for the STM32L031 Eval Board with 128x64 OLED at PA13/PA14
   
   LED: PA1 / AF2: TIM2_CH2
   VarRes: PA5 / ADC CH5
-
-  ch0   PA0     pin 6
-  ch1   PA1     pin 7
-  ch2   PA2     pin 8
-  ch3   PA3     pin 9
-  ch4   PA4     pin 10
-  ch5   PA5     pin 11
-  ch6   PA6     pin 12
-  ch7   PA7     pin 13
-  ch8   PB0     -
-  ch9   PB1     pin 14
-
-
-  ch 0..15: 	GPIO
-  ch 16:		???
-  ch 17:		vref (bandgap)
-  ch18:		temperature sensor
-
+  
   
 */
 
 #include <stdio.h>
 #include "stm32l031xx.h"
 #include "delay.h"
-#include "u8x8.h"
+#include "u8g2.h"
 
 /*=======================================================================*/
 /* external functions */
@@ -37,8 +22,8 @@ uint8_t u8x8_gpio_and_delay_stm32l0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
 /*=======================================================================*/
 /* global variables */
 
-u8x8_t u8x8;                    // u8x8 object
-uint8_t u8x8_x, u8x8_y;         // current position on the screen
+u8g2_t u8g2;                    // u8g2 object
+uint8_t u8g2_x, u8g2_y;         // current position on the screen
 
 volatile unsigned long SysTickCount = 0;
 
@@ -48,26 +33,6 @@ void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
   SysTickCount++;  
 }
-
-/* return current system time in milliseconds */
-unsigned long getUpTime(void)
-{
-  unsigned long sys_tick_cycle = SysTick->LOAD+1;
-  unsigned long millis_per_sys_tick_irq;
-  
-  /* 
-    the simple approach 
-      millis_per_sys_tick_irq = (sys_tick_cycle*1000UL)/SystemCoreClock;
-    may overflow for large values of SysTick->LOAD. Instead this is better because SystemCoreClock is always
-    very large:
-      millis_per_sys_tick_irq = sys_tick_cycle/(SystemCoreClock/1000);
-  
-  */
-  
-  millis_per_sys_tick_irq = sys_tick_cycle/(SystemCoreClock/1000);
-  return millis_per_sys_tick_irq * SysTickCount;
-}
-
 
 
 
@@ -148,25 +113,26 @@ void startUp(void)
 
 void initDisplay(void)
 {
-  u8x8_Setup(&u8x8, u8x8_d_ssd1306_128x64_noname, u8x8_cad_ssd13xx_i2c, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
-  u8x8_InitDisplay(&u8x8);
-  u8x8_ClearDisplay(&u8x8);
-  u8x8_SetPowerSave(&u8x8, 0);
-  u8x8_SetFont(&u8x8, u8x8_font_amstrad_cpc_extended_r);  
-  u8x8_x = 0;
-  u8x8_y = 0;  
+  
+  /* setup display */
+  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
+  u8g2_InitDisplay(&u8g2);
+  u8g2_SetPowerSave(&u8g2, 0);
+  u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
+  u8g2_ClearBuffer(&u8g2);
+  u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
+  u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
+  u8g2_DrawStr(&u8g2, 20,24, "MHz");
+  u8g2_SendBuffer(&u8g2);
+  
+  u8g2_x = 0;
+  u8g2_y = 0;  
 }
 
 
 void outChar(uint8_t c)
 {
-  if ( u8x8_x >= u8x8_GetCols(&u8x8) )
-  {
-    u8x8_x = 0;
-    u8x8_y++;
-  }
-  u8x8_DrawGlyph(&u8x8, u8x8_x, u8x8_y, c);
-  u8x8_x++;
+  u8g2_x+=u8g2_DrawGlyph(&u8g2, u8g2_x, u8g2_y, c);
 }
 
 void outStr(const char *s)
@@ -196,11 +162,6 @@ void outHex16(uint16_t v)
   outHex8(v);
 }
 
-void outDec16(uint16_t v)
-{
-  outStr(u8x8_u16toa(v, 5));
-}
-
 void outHex32(uint32_t v)
 {
   outHex16(v>>16);
@@ -209,53 +170,62 @@ void outHex32(uint32_t v)
 
 void setRow(uint8_t r)
 {
-  u8x8_x = 0;
-  u8x8_y = r;
+  u8g2_x = 0;
+  u8g2_y = r;
 }
 
 /*=======================================================================*/
-/*
-  ADC defaults:
-    - Clock source: ADCCLK (HSI16) (ADC_CFGR2)
-    - ADC clock prescaler: divide by 1 (ADC_CCR)
-    - software enabled start
-    - right alignment
-    - 12 Bit resolution
-    - No interrupts enabled
-    - 1.5 clock cycles sampling time (fastest)
 
-  Calibration:
-    better ignore ADC_ISR_EOCAL and use the ADC_CR_ADCAL flag only.
-    otherwise some extra NOPs are required after calibration
-
-  Time
-    (1.5 + 12.5) / 4 MHz = 3.5us  --> 286KHz
-    x16 oversampling: 56us  --> 17.9KHz
-*/
-
-
-void initADC(uint8_t ch)
+void initADC(void)
 {
+  //__disable_irq();
   
   /* ADC Clock Enable */
   
   RCC->APB2ENR |= RCC_APB2ENR_ADCEN;	/* enable ADC clock */
-  __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */  
   
   /* ADC Reset */
   
   RCC->APB2RSTR |= RCC_APB2RSTR_ADCRST;
-  __NOP();	__NOP();						/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
   RCC->APB2RSTR &= ~RCC_APB2RSTR_ADCRST;
-  __NOP();	__NOP();						/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
  
+  /* ADC Basic Setup */
+  
+  ADC1->IER = 0;						/* do not allow any interrupts */
+  ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
+  
+  ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
+  ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
+  ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
+
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+
   /* CALIBRATION */
   
+  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
+  {
+  /* is this correct, i think we must use the disable flag here */
+    ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
+  }
   ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
-  while ((ADC1->CR & ADC_CR_ADCAL) != 0) 	/* wait for clibration finished */
+  while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
   {
   }
- 
+  ADC1->ISR |= ADC_ISR_EOCAL; 			/* clear the status flag, by writing 1 to it */
+  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+
   /* ENABLE ADC */
   
   ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
@@ -263,47 +233,81 @@ void initADC(uint8_t ch)
   while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
   {
   }
-
-  /* CONFIGURE ADC */
-
-  ADC1->CFGR1 |= ADC_CFGR1_CONT;		/* continues mode */
-
-  ADC1->CFGR2 |= ADC_CFGR2_OVSR_0;               /* 011 oversampling ration x16 */
-  ADC1->CFGR2 |= ADC_CFGR2_OVSR_1;               
-  ADC1->CFGR2 |= ADC_CFGR2_OVSS_2;               /* shift 4 bits (because of x16 oversampling) */  
-  ADC1->CFGR2 |= ADC_CFGR2_OVSE;                  /* enable oversampling */
-  
-  ADC1->CHSELR = 1<<ch; 				/* Select channel */
-  //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
-
-  /* START CONVERSION */
-
-  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */  
-  while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of first conversion */
-  {
-  }
-
-  //data is available in ADC1->DR;
-    
 }
 
+/*
+  ch0   PA0     pin 6
+  ch1   PA1     pin 7
+  ch2   PA2     pin 8
+  ch3   PA3     pin 9
+  ch4   PA4     pin 10
+  ch5   PA5     pin 11
+  ch6   PA6     pin 12
+  ch7   PA7     pin 13
+  ch8   PB0     -
+  ch9   PB1     pin 14
+
+
+  ch 0..15: 	GPIO
+  ch 16:		???
+  ch 17:		vref (bandgap)
+  ch18:		temperature sensor
+
+  returns 12 bit result, right aligned 
+*/
+uint16_t getADC(uint8_t ch)
+{
+  uint32_t data;
+  uint32_t i;
+  
+  /* CONFIGURE ADC */
+
+  ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
+  ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
+  ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
+  ADC1->CHSELR = 1<<ch; 				/* Select channel */
+  ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+
+  /* DO CONVERSION */
+  
+  data = 0;
+  for( i = 0; i < 8; i++ )
+  {
+    
+    ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+    while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+    {
+    }
+    data += ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
+  }
+  data >>= 3;
+  
+  return data;
+}
 
 /*=======================================================================*/
 
 void initTIM(void)
 {
-  
   /* enable clock for TIM2 */
-  RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;  
-  //RCC->CFGR |= RCC_CFGR_PPRE1_2; 
-  //RCC->CFGR |= RCC_CFGR_PPRE1_1; 
-  //RCC->CFGR |= RCC_CFGR_PPRE1_0; 
-  /*cenable clock for GPIOA */
-  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */  
-  __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
+  RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+  
+  /*enable clock for GPIOA */
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  
+    __NOP();                                                          /* extra delay for clock stabilization required? */
+    __NOP();
+  
+  /* prescalar for AHB and APB1 */
+  
+  /* reselt defaults for HPRE and PPRE1: no clock division */
+  // RCC->CFGR &= ~RCC_CFGR_HPRE;
+  // RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
+  // RCC->CFGR &= ~RCC_CFGR_PPRE1;
+  // RCC->CFGR |= RCC_CFGR_PPRE1_DIV1;
   
   /* configure GPIOA PA1 for TIM2 */
-  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */  
+  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA9 */  
   GPIOA->MODER |= GPIO_MODER_MODE1_1;  /* alt fn */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;    /* push-pull */
   GPIOA->AFR[0] &= ~(15<<4);            /* Clear Alternate Function PA1 */
@@ -337,80 +341,61 @@ void initTIM(void)
   TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable */
   //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   
+  TIM2->PSC = 7;
+  
   TIM2->CR1 |= TIM_CR1_CEN;            /* counter enable */
-}
-
-
-/*
-  copy from ADC1->DR to TIM2->CCR2
-  ADC DMA requests can be used with DMA Channel 1
-*/
-void initDMA()
-{
-  
-  RCC->AHBENR |= RCC_AHBENR_DMAEN; /* enable DMA clock */
-  __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
-  
-  /* defaults: 
-      - 8 Bit access
-      - read from peripheral
-      - none-circular mode
-      - no increment mode
-  */
-  
-  DMA1_Channel1->CCR |= DMA_CCR_MSIZE_0;                /* 16  bit access */
-  DMA1_Channel1->CCR |= DMA_CCR_PSIZE_0;                /* 16  bit access */
-  DMA1_Channel1->CCR |= DMA_CCR_CIRC;                /* circular mode */
-  
-  DMA1_Channel1->CNDTR = 1;                                        /* one data, then repeat (circular mode) */
-  DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
-  DMA1_Channel1->CMAR = (uint32_t)&(TIM2->CCR2);                   /* destination register */
-  
-  DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;         /* 0000: select ADC for DMA CH 1 (this is reset default) */
-  
-  DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
-
-  ADC1->CFGR1 |= ADC_CFGR1_DMACFG;       /* never stop DMA requests */
-  ADC1->CFGR1 |= ADC_CFGR1_DMAEN;         /* enable DMA requests for ADC */
-  
 }
 
 /*=======================================================================*/
 
 void main()
 {
-  uint32_t start, diff;
+  uint16_t adc_value;
+  uint16_t i;
   
   setHSIClock();        /* enable 32 MHz Clock */
   startUp();               /* enable systick irq and several power regions  */
   initDisplay();          /* aktivate display */
-  
-  /* setup ADC controlled PWM */
-  
-  initADC(5);            /* read from channel 5 (pin 11) */
-  initTIM();              
-  initDMA();            
+  initADC();
 
-  /* rest of the code just shows the current ADC value on the OLED */
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  __NOP();
+  __NOP();
+  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */
+  GPIOA->MODER |= GPIO_MODER_MODE1_0;	/* Output mode for PA1 */
+  GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;	/* no Push/Pull for PA1 */
+  GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED1;	/* low speed for PA1 */
+  GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PA1 */
+  GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
   
-  setRow(0); outStr("ADC DMA TIM Test"); 
-  setRow(2); outStr("ch5 pin11: "); 
-  setRow(5); outStr("cycle: "); 
+  initTIM();
+  
+  
 
   for(;;)
   {
-    setRow(3); outHex16(ADC1->DR); 
     
-    TIM2->SR &= ~TIM_SR_CC2IF;	/* clear irq flag */
-    while ( (TIM2->SR & TIM_SR_CC2IF) == 0 )
-      ;
-    start = SysTick->VAL;
+    u8g2_ClearBuffer(&u8g2);
+   
+    setRow(10); outStr("ADC Test"); 
+
+    setRow(20); outStr("ch5 pin11: "); 
     
-    TIM2->SR &= ~TIM_SR_CC2IF;	/* clear irq flag */
-    while ( (TIM2->SR & TIM_SR_CC2IF) == 0 )
+    adc_value = getADC(5);
+    TIM2->CCR2 = adc_value;
+    setRow(30); outHex16(adc_value); 
+    
+    TIM2->SR &= ~TIM_SR_UIF;
+    while( (TIM2->SR & TIM_SR_UIF) == 0 )
       ;
-    diff = start-SysTick->VAL;
-    setRow(6); outHex32(diff);
+    
+    for( i = 0; i < 10; i++ )
+    {
+      u8g2_DrawPixel(&u8g2, i, 60);
+    }
+
+    u8g2_SendBuffer(&u8g2);
+    
   }
   
 }

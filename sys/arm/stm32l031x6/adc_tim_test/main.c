@@ -1,5 +1,7 @@
 /* 
 
+  adc_tim_test
+
   Example for the STM32L031 Eval Board with 128x64 OLED at PA13/PA14
   
   LED: PA1 / AF2: TIM2_CH2
@@ -337,6 +339,8 @@ void initTIM(void)
   //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
   TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable */
   //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
+  
+  TIM2->PSC = 7;
   
   TIM2->CR1 |= TIM_CR1_CEN;            /* counter enable */
 }

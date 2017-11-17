@@ -127,6 +127,3 @@ void delay_micro_seconds(uint32_t us)
   sys_ticks *= us;
   delay_system_ticks(sys_ticks);  
 }
-
-
-
