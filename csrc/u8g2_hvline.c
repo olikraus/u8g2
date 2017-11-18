@@ -37,7 +37,6 @@
     u8g2->cb->draw_l90
     void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
     void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
-    void u8g2_draw_low_level_hv_line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
     void u8g2_draw_pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
 
 */
@@ -148,7 +147,6 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
   }
   
   u8g2->ll_hvline(u8g2, x, y, len, dir);
-  //u8g2_draw_low_level_hv_line(u8g2, x, y, len, dir);
 }
 
 #endif
@@ -200,7 +198,6 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
   u8g2_draw_hv_line_2dir(u8g2, x, y, len, dir);
 #else
   u8g2->ll_hvline(u8g2, x, y, len, dir);
-  //u8g2_draw_low_level_hv_line(u8g2, x, y, len, dir);
 #endif
 }
 
@@ -210,8 +207,6 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-  
-  
   /* Make a call to the callback function (e.g. u8g2_draw_l90_r0). */
   /* The callback may rotate the hv line */
   /* after rotation this will call u8g2_draw_hv_line_4dir() */

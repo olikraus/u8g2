@@ -97,14 +97,15 @@ static const uint8_t u8x8_d_ssd1326_256x32_nhd_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_ssd1326_256x32_nhd_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a0, 0x006),		/* remap */
+  U8X8_CA(0x0a0, 0x006),		/* remap 00110 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1326_256x32_nhd_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a0, 0x005),		/* remap */
+  //U8X8_CA(0x0a0, 0x005),		/* remap 00101 */
+  U8X8_CA(0x0a0, 0x001),		/* remap 00001 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
