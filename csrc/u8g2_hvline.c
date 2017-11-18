@@ -54,7 +54,7 @@
   Description:
     clip range from a (included) to b (excluded) agains c (included) to d (excluded)
   Assumptions:
-    a <= b		(this is checked and handled correctly)
+    a <= b		(violation is checked and handled correctly)
     c <= d		(this is not checked)
   will return 0 if there is no intersection and if a > b
 
@@ -105,12 +105,14 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
 
 
 /*
-  x,y		Upper left position of the line
+  x,y		Upper left position of the line within the pixel buffer 
   len		length of the line in pixel, len must not be 0
   dir		0: horizontal line (left to right)
 		1: vertical line (top to bottom)
   This function first adjusts the y position to the local buffer. Then it
   will clip the line and call u8g2_draw_low_level_hv_line()
+
+  
   
 */
 static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
@@ -118,9 +120,6 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
   u8g2_uint_t a;
   register u8g2_uint_t w, h;
 
-  y -= u8g2->tile_curr_row*8;
-  
-  
   h = u8g2->pixel_buf_height;		// this must be the real buffer height
   w = u8g2->pixel_buf_width;		// this could be replaced by u8g2->u8x8.display_info->pixel_width
 
@@ -155,7 +154,7 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
 #endif
 
 /*
-  x,y		Upper left position of the line
+  x,y		Upper left position of the line (full screen coordinates)
   len		length of the line in pixel, len must not be 0
   dir		0: horizontal line (left to right)
 		1: vertical line (top to bottom)
@@ -171,13 +170,15 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
   u8g2->hv_cnt++;
 #endif /* U8G2_WITH_HVLINE_COUNT */   
 
+  /* transform to pixel buffer coordinates */
+   y -= u8g2->tile_curr_row*8;
+
   /* additional optimization for one pixel draw */
   /* requires about 60 bytes on the ATMega flash memory */
   /* 20% improvement for single pixel draw test in FPS.ino */
 #ifdef U8G2_WITH_ONE_PIXEL_OPTIMIZATION
   if ( len == 1 )
   {
-    y -= u8g2->tile_curr_row*8;
     if ( x < u8g2->pixel_buf_width && y < u8g2->pixel_buf_height )
       u8g2->ll_hvline(u8g2, x, y, len, dir);
     return;

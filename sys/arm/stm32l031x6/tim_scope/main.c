@@ -199,6 +199,8 @@ void initADC(void)
   
   ADC1->IER = 0;						/* do not allow any interrupts */
   ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
+  ADC1->CFGR1 |= ADC_CFGR1_RES_1;		/* 8 bit resolution */
+
   
   ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
   ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
@@ -211,7 +213,7 @@ void initADC(void)
   
   if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
   {
-  /* is this correct, i think we must use the disable flag here */
+  /* is this correct? i think we must use the disable flag here */
     ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
   }
   ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
@@ -226,6 +228,26 @@ void initADC(void)
   __NOP();
   __NOP();
 
+
+  /* CONFIGURATION with ADEN=0 */
+  
+  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
+  {
+  /* is this correct? i think we must use the disable flag here */
+    ADC1->CR |= ADC_CR_ADDIS;
+    while(ADC1->CR & ADC_CR_ADDIS)
+      ;
+  }
+  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+  
+  //ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
+  ADC1->CFGR1 |= ADC_CFGR1_RES_1;		/* 8 bit resolution */
+  
   /* ENABLE ADC */
   
   ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
@@ -257,32 +279,23 @@ void initADC(void)
 */
 uint16_t getADC(uint8_t ch)
 {
-  uint32_t data;
-  uint32_t i;
+  //uint32_t i;
   
   /* CONFIGURE ADC */
 
-  ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
-  ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
-  ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
+  //ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
+  //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
   ADC1->CHSELR = 1<<ch; 				/* Select channel */
-  ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+  //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
 
   /* DO CONVERSION */
   
-  data = 0;
-  for( i = 0; i < 8; i++ )
-  {
-    
     ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
     while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
     {
     }
-    data += ADC1->DR;						/* get ADC result and clear the ISR_EOC flag */
-  }
-  data >>= 3;
   
-  return data;
+  return ADC1->DR;
 }
 
 /*=======================================================================*/
@@ -352,6 +365,7 @@ void main()
 {
   uint16_t adc_value;
   uint16_t i;
+  u8g2_uint_t y, yy;
   
   setHSIClock();        /* enable 32 MHz Clock */
   startUp();               /* enable systick irq and several power regions  */
@@ -377,21 +391,26 @@ void main()
     
     u8g2_ClearBuffer(&u8g2);
    
-    setRow(10); outStr("ADC Test"); 
 
-    setRow(20); outStr("ch5 pin11: "); 
     
-    adc_value = getADC(5);
+    adc_value = getADC(5)*16;
     TIM2->CCR2 = adc_value;
-    setRow(30); outHex16(adc_value); 
+    setRow(10); outHex16(adc_value); 
     
     TIM2->SR &= ~TIM_SR_UIF;
     while( (TIM2->SR & TIM_SR_UIF) == 0 )
       ;
     
-    for( i = 0; i < 10; i++ )
+    yy = 60;
+    for( i = 0; i < 128; i++ )
     {
-      u8g2_DrawPixel(&u8g2, i, 60);
+      y = 60-(getADC(6)>>2);
+      u8g2_DrawPixel(&u8g2, i, y);
+      if ( y < yy )
+	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
+      else
+	u8g2_DrawVLine(&u8g2, i, yy, y-yy+1);
+      yy = y;
     }
 
     u8g2_SendBuffer(&u8g2);
