@@ -1,0 +1,57 @@
+Ideas for a grayscale library
+
+Controller:
+SSD132x		4 Bit, 16 Level
+SSD1327		4 Bit, 16 Level			Variant B/16H
+SSD1327		4 Bit, 16 Level			Variant B/16H
+SSD1329		4 Bit, 16 Level			Variant B/16H
+UC1610		2 Bit, 4 Level			Variant 4V
+UC1611		4 Bit, 16 Level			Variant A/16V
+UC1617		2 Bit, 4 Level			Variant 4H???
+UC1638		2 Bit, 4 Level			Variant 4V
+ST75256		2 Bit, 4 Level			Variant 4V
+
+
+
+======================
+
+Variant A:
+
+Memory:
+aaaabbbb
+ccccdddd
+
+aaaa: 0,0
+bbbb: 0,1
+cccc: 1, 0
+dddd: 1,1
+
+======================
+
+Variant B:
+
+Memory:
+aaaabbbb
+ccccdddd
+
+aaaa: 0,0
+bbbb: 1,0
+cccc: 0, 1
+dddd: 1,1
+
+======================
+
+Variant 4V:
+
+Memory:
+aabbccdd
+eeffgghh
+
+aa: 0,0
+bb: 0,1
+cc: 0,2
+dd: 0,3
+ee: 1,0
+ff: 1,1
+gg: 1,2
+hh: 1,3
