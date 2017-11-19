@@ -298,6 +298,48 @@ uint16_t getADC(uint8_t ch)
   return ADC1->DR;
 }
 
+void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
+{
+  RCC->AHBENR |= RCC_AHBENR_DMAEN; /* enable DMA clock */
+  __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
+
+  /* defaults: 
+      - 8 Bit access	--> ok
+      - read from peripheral	--> ok
+      - none-circular mode  --> ok
+      - no increment mode   --> will be changed below
+  */
+  
+  
+  DMA1_Channel1->CNDTR = cnt;                                        /* one data, then repeat (circular mode) */
+  DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
+  DMA1_Channel1->CMAR = (uint32_t)buf;                   /* destination memory */
+  
+  DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;         /* 0000: select ADC for DMA CH 1 (this is reset default) */
+  
+  DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
+  DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
+  
+  /* 
+    detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
+    recive trigger from TIM2 (ADC_CFGR1_EXTSEL_1)  
+    8 Bit resolution (ADC_CFGR1_RES_1)
+  
+    Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
+    Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
+  */
+  ADC1->CFGR1 = ADC_CFGR1_EXTEN_0 
+	| ADC_CFGR1_EXTSEL_1 
+	| ADC_CFGR1_RES_1
+	| ADC_CFGR1_CONT
+	| ADC_CFGR1_DMAEN;
+  
+  
+  
+  
+}
+
+
 /*=======================================================================*/
 
 void initTIM(void)
@@ -339,6 +381,7 @@ void initTIM(void)
   /* so, update request by couter over/underflow remains */
   //TIM2->CR1 |= TIM_CR1_URS;             /* only udf/ovf generae events */
   
+  TIM2->CR2 |= TIM_CR2_MMS_1;		/* Update event for TRGO */
   
   TIM2->ARR = 4096;                              /* total cycle count */
   TIM2->CCR2 = 1024;                            /* duty cycle */
