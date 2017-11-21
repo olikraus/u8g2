@@ -29,7 +29,6 @@ int main(void)
 {
   int x, y;
   int k;
-  int i;
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -44,7 +43,6 @@ int main(void)
   {
     
     u8g2_FirstPage(&u8g2);
-    i = 0;
     do
     {
 	draw(x,y);

@@ -1,5 +1,5 @@
 
-#include "u8x8.h"
+#include "u8g2.h"
 
 
 const uint8_t bdf_font[762] U8X8_FONT_SECTION("bdf_font") = {
@@ -92,8 +92,8 @@ int main(void)
   u8g2_SendBuffer(&u8g2);
   
   
-  u8x8_Set8x8Font(u8g2_GetU8x8(&u8g2), bdf_font);
-  u8x8_Draw8x8String(u8g2_GetU8x8(&u8g2), 0, 0, "Hello World!");
+  u8x8_SetFont(u8g2_GetU8x8(&u8g2), bdf_font);
+  u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, 0, "Hello World!");
   
   
   

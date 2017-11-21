@@ -406,7 +406,7 @@ uint8_t obj_list_GetEmpty(void)
   for( i = 0; i < OBJ_LIST_MAX; i++ )
     if ( obj_list[i].tile == 0 )
       return i;
-    return 255;
+  return 255;
 }
 
 /*=================================================*/
