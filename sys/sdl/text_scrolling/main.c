@@ -1,13 +1,14 @@
 
 #include "u8g2.h"
 #include <stdio.h>
+#include <string.h>
 
 
 /* not finished */
   
 u8g2_t u8g2;
 
-#define MAX_CHARS 30;
+#define MAX_CHARS 30
 
 u8g2_uint_t char_offset[MAX_CHARS+1]; 	// one more to store the end of the string
 u8g2_uint_t curr_index;
@@ -25,13 +26,13 @@ void init_text(const char *s)
   for( i = 0; i < str_len; i++ )
   {
     char_offset[i+1] = char_offset[i];
-    char_offset[i+1] += u8g2_GetGlyphWidth(u8g2, s[i]);	// assume s[i] is the glyph encoding --> no UTF8 support 
+    char_offset[i+1] += u8g2_GetGlyphWidth(&u8g2, s[i]);	// assume s[i] is the glyph encoding --> no UTF8 support 
   }  
   curr_index = 0;
   curr_offset = 0;
 }
 
-void set_offset(u8g2_uint8_t offset)
+void set_offset(u8g2_uint_t offset)
 {
   for(;;)
   {
