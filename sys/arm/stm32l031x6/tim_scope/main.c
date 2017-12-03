@@ -177,6 +177,43 @@ void setRow(uint8_t r)
 
 /*=======================================================================*/
 
+/* STOP ANY ADC CONVERSION */
+
+void stopADC(void)
+{
+  ADC1->CR |= ADC_CR_ADSTP;
+  while(ADC1->CR & ADC_CR_ADSTP)
+    ;
+}
+
+/* CONFIGURATION with ADEN=0 */
+/* required to change the configuration of the ADC */
+void disableADC(void)
+{
+  /* Check for the ADEN flag. */
+  /* Setting ADDIS will fail if the ADC is alread disabled: The while loop will not terminate */
+  if ((ADC1->CR & ADC_CR_ADEN) != 0) 
+  {
+    /* is this correct? i think we must use the disable flag here */
+    ADC1->CR |= ADC_CR_ADDIS;
+    while(ADC1->CR & ADC_CR_ADDIS)
+      ;
+  }
+}
+
+/* ENABLE ADC (but do not start) */
+/* after the ADC is enabled, it must not be reconfigured */
+void enableADC(void)
+{
+  ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
+  ADC1->CR |= ADC_CR_ADEN; 			/* enable ADC */
+  while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
+  {
+  }
+  
+}
+
+
 void initADC(void)
 {
   //__disable_irq();
@@ -200,7 +237,7 @@ void initADC(void)
   
   ADC1->IER = 0;						/* do not allow any interrupts */
   ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
-  ADC1->CFGR1 |= ADC_CFGR1_RES_1;		/* 8 bit resolution */
+  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
 
   
   ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
@@ -232,30 +269,12 @@ void initADC(void)
 
   /* CONFIGURATION with ADEN=0 */
   
-  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
-  {
-  /* is this correct? i think we must use the disable flag here */
-    ADC1->CR |= ADC_CR_ADDIS;
-    while(ADC1->CR & ADC_CR_ADDIS)
-      ;
-  }
-  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
-  __NOP();
-  __NOP();
-  __NOP();
-  __NOP();
-  __NOP();
+  disableADC();
   
   //ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
-  ADC1->CFGR1 |= ADC_CFGR1_RES_1;		/* 8 bit resolution */
+  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
   
-  /* ENABLE ADC */
-  
-  ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
-  ADC1->CR |= ADC_CR_ADEN; 			/* enable ADC */
-  while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
-  {
-  }
+  enableADC();
 }
 
 /*
@@ -281,26 +300,38 @@ void initADC(void)
 uint16_t getADC(uint8_t ch)
 {
   //uint32_t i;
-  
+
+  stopADC();
+  disableADC();
+    
   /* CONFIGURE ADC */
 
   //ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
   //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
-  ADC1->CHSELR = 1<<ch; 				/* Select channel */
+  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
   //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+
+  enableADC();
+
+  ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
 
   /* DO CONVERSION */
   
-    ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
-    while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
-    {
-    }
+  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+  while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
+  {
+  }
   
   return ADC1->DR;
 }
 
 void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
 {
+  
+  stopADC();
+  disableADC();
+  
+  
   RCC->AHBENR |= RCC_AHBENR_DMAEN; /* enable DMA clock */
   __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
 
@@ -311,8 +342,7 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
       - no increment mode   --> will be changed below
   */
   
-  
-  DMA1_Channel1->CNDTR = cnt;                                        /* one data, then repeat (circular mode) */
+  DMA1_Channel1->CNDTR = cnt;                                        /* buffer size */
   DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
   DMA1_Channel1->CMAR = (uint32_t)buf;                   /* destination memory */
   
@@ -320,6 +350,7 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   
   DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
   DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
+
   
   /* 
     detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
@@ -329,14 +360,21 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
     Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
     Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
   */
-  ADC1->CFGR1 = ADC_CFGR1_EXTEN_0 
-	| ADC_CFGR1_EXTSEL_1 
-	| ADC_CFGR1_RES_1
-	| ADC_CFGR1_CONT
-	| ADC_CFGR1_DMAEN;
+  ADC1->CFGR1 = ADC_CFGR1_EXTEN_0 	/* rising edge */
+	| ADC_CFGR1_EXTSEL_1 			/* TIM2 */
+	| ADC_CFGR1_RES_1				/* 8 Bit resolution */
+	| ADC_CFGR1_CONT				/* continues mode */
+	| ADC_CFGR1_DMAEN;			/* enable generation of DMA requests */
   
+  enableADC();
   
-  
+  /* conversion will be started automatically with rising edge of TIM2 */
+
+  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+
+  /* wait until DMA is completed */
+  while ( DMA1_Channel1->CNDTR > 0 )
+    ;
   
 }
 
@@ -405,6 +443,8 @@ void initTIM(void)
 
 /*=======================================================================*/
 
+uint8_t adc_buf[128];
+
 void main()
 {
   uint16_t adc_value;
@@ -445,10 +485,10 @@ void main()
     while( (TIM2->SR & TIM_SR_UIF) == 0 )
       ;
     
-    yy = 60;
+    yy = 40;
     for( i = 0; i < 128; i++ )
     {
-      y = 60-(getADC(6)>>2);
+      y = 40-(getADC(6)>>3);
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
 	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
@@ -456,6 +496,8 @@ void main()
 	u8g2_DrawVLine(&u8g2, i, yy, y-yy+1);
       yy = y;
     }
+    
+    scanADC(6, 32, adc_buf);
 
     u8g2_SendBuffer(&u8g2);
     
