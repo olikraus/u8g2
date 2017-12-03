@@ -111,8 +111,6 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
   This function first adjusts the y position to the local buffer. Then it
   will clip the line and call u8g2_draw_low_level_hv_line()
 
-  
-  
 */
 static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {

@@ -1,11 +1,12 @@
 /* 
 
-  tim_scope
+  tim_scope for DC motor
 
   Example for the STM32L031 Eval Board with 128x64 OLED at PA13/PA14
   
-  LED: PA1 / AF2: TIM2_CH2
+  MOSFET: PA1 / AF2: TIM2_CH2
   VarRes: PA5 / ADC CH5
+  Voltage sense: PA6 / ADC CH6
   
   
 */
