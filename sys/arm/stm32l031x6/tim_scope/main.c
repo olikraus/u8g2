@@ -358,6 +358,7 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
 
   
+  
   /* 
     detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
     recive trigger from TIM2 (ADC_CFGR1_EXTSEL_1)  
@@ -393,6 +394,17 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   while ( DMA1_Channel1->CNDTR > 0 )
     ;
   
+}
+
+/*
+  special values:
+    -1		Can not find level
+    255	no rotation
+    0..254	BMEF level, speed is k*(255-getBEMFLevel())
+*/
+int getBEMFLevel(uint16_t cnt, uint8_t *buf, uint16_t start)
+{
+  return -1;
 }
 
 
@@ -509,7 +521,6 @@ void main()
     tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
     tim_duty += TIM_CYCLE_LOWER_SKIP;
     TIM2->CCR2 = tim_duty;
-    setRow(10); outHex16(adc_value); 
     
     TIM2->SR &= ~TIM_SR_UIF;
     while( (TIM2->SR & TIM_SR_UIF) == 0 )
@@ -533,14 +544,19 @@ void main()
     
     
     scanADC(6, 128*BUF_MUL, adc_buf);
-    
 
     yy = 60;
     
     zero_pos = ((uint32_t)tim_duty * (uint32_t)256) / (uint32_t)TIM_CYCLE_TIME;
     zero_pos +=4;
     zero_pos += (256-zero_pos)>>6;
+
+    setRow(10); outHex16(adc_value); 
+    outStr(" "); outHex8(adc_buf[0]); outStr(" "); outHex8(adc_buf[1]); outStr(" "); outHex8(adc_buf[2]);
+    outStr("|"); outHex8(adc_buf[zero_pos/2]); outStr("|"); outHex8(adc_buf[zero_pos]); 
+    
     u8g2_DrawVLine(&u8g2, zero_pos/2, yy-7, 15);
+    u8g2_DrawVLine(&u8g2, zero_pos/4, yy-7, 15);
     for( i = 0; i < 128; i++ )
     {
       y = 60-(adc_buf[i*BUF_MUL]>>3);
