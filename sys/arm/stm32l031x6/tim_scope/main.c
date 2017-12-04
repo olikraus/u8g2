@@ -305,12 +305,13 @@ uint16_t getADC(uint8_t ch)
   disableADC();
     
   /* CONFIGURE ADC */
-
+  
   //ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
   //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
   ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
   //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
 
+  ADC1->SMPR  = 0;
   enableADC();
 
   ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
@@ -335,12 +336,17 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   RCC->AHBENR |= RCC_AHBENR_DMAEN; /* enable DMA clock */
   __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
 
+  
+  /* disable and reset to defaults */
+  DMA1_Channel1->CCR = 0;
+  
   /* defaults: 
       - 8 Bit access	--> ok
       - read from peripheral	--> ok
       - none-circular mode  --> ok
       - no increment mode   --> will be changed below
   */
+  
   
   DMA1_Channel1->CNDTR = cnt;                                        /* buffer size */
   DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
@@ -360,15 +366,26 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
     Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
     Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
   */
+  
+  
   ADC1->CFGR1 = ADC_CFGR1_EXTEN_0 	/* rising edge */
 	| ADC_CFGR1_EXTSEL_1 			/* TIM2 */
 	| ADC_CFGR1_RES_1				/* 8 Bit resolution */
 	| ADC_CFGR1_CONT				/* continues mode */
 	| ADC_CFGR1_DMAEN;			/* enable generation of DMA requests */
+
+  //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; 
+  //ADC1->SMPR = ADC_SMPR_SMP_1 ; 
+  ADC1->SMPR = ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 ; 
   
+  /*
+    12.5 + 8.5 = 21 ADC Cycles pre ADC sampling
+    4 MHz / 21 cycle / 256 = 744 Hz
+  */
+
   enableADC();
   
-  /* conversion will be started automatically with rising edge of TIM2 */
+  /* conversion will be started automatically with rising edge of TIM2, yet ADSTART is still required */
 
   ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
 
@@ -381,7 +398,7 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
 
 /*=======================================================================*/
 
-void initTIM(void)
+void initTIM(uint16_t tim_cycle)
 {
   /* enable clock for TIM2 */
   RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
@@ -422,7 +439,7 @@ void initTIM(void)
   
   TIM2->CR2 |= TIM_CR2_MMS_1;		/* Update event for TRGO */
   
-  TIM2->ARR = 4096;                              /* total cycle count */
+  TIM2->ARR = 5355;                              /* total cycle count */
   TIM2->CCR2 = 1024;                            /* duty cycle */
   //TIM2->CCMR1 &= ~TIM_CCMR1_OC2CE;      /* disable clear output compare 2 **/
   TIM2->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
@@ -436,18 +453,30 @@ void initTIM(void)
   TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable */
   //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   
-  TIM2->PSC = 7;
+  TIM2->PSC = 7;						/* divide by 8 */
   
   TIM2->CR1 |= TIM_CR1_CEN;            /* counter enable */
+  
+  /*
+    TIM2 cycle:
+    32000000Hz / 5355 / 8 = 747 Hz  
+  */
 }
 
 /*=======================================================================*/
 
-uint8_t adc_buf[128];
+#define BUF_MUL 2
+#define TIM_CYCLE_TIME 5355
+#define TIM_CYCLE_UPPER_SKIP 100
+#define TIM_CYCLE_LOWER_SKIP 400
+
+uint8_t adc_buf[128*BUF_MUL];
 
 void main()
 {
   uint16_t adc_value;
+  uint16_t tim_duty;
+  uint16_t zero_pos;
   uint16_t i;
   u8g2_uint_t y, yy;
   
@@ -466,7 +495,7 @@ void main()
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PA1 */
   GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
   
-  initTIM();
+  initTIM(TIM_CYCLE_TIME);
   
   
 
@@ -476,19 +505,20 @@ void main()
     u8g2_ClearBuffer(&u8g2);
    
 
-    
-    adc_value = getADC(5)*16;
-    TIM2->CCR2 = adc_value;
+    adc_value = getADC(5);
+    tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
+    tim_duty += TIM_CYCLE_LOWER_SKIP;
+    TIM2->CCR2 = tim_duty;
     setRow(10); outHex16(adc_value); 
     
     TIM2->SR &= ~TIM_SR_UIF;
     while( (TIM2->SR & TIM_SR_UIF) == 0 )
       ;
     
-    yy = 40;
+    yy = 30;
     for( i = 0; i < 128; i++ )
     {
-      y = 40-(getADC(6)>>3);
+      y = 30-(getADC(6)>>3);
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
 	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
@@ -497,7 +527,30 @@ void main()
       yy = y;
     }
     
-    scanADC(6, 32, adc_buf);
+
+    for( i = 0; i < 128*BUF_MUL; i++ )
+      adc_buf[i] = i;
+    
+    
+    scanADC(6, 128*BUF_MUL, adc_buf);
+    
+
+    yy = 60;
+    
+    zero_pos = ((uint32_t)tim_duty * (uint32_t)256) / (uint32_t)TIM_CYCLE_TIME;
+    zero_pos +=4;
+    zero_pos += (256-zero_pos)>>6;
+    u8g2_DrawVLine(&u8g2, zero_pos/2, yy-7, 15);
+    for( i = 0; i < 128; i++ )
+    {
+      y = 60-(adc_buf[i*BUF_MUL]>>3);
+      u8g2_DrawPixel(&u8g2, i, y);
+      if ( y < yy )
+	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
+      else
+	u8g2_DrawVLine(&u8g2, i, yy, y-yy+1);
+      yy = y;
+    }
 
     u8g2_SendBuffer(&u8g2);
     
