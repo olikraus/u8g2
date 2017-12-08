@@ -39,40 +39,6 @@
 
 
 
-static const uint8_t u8x8_d_ssd1322_init_seq[] = {
-    
-  U8X8_DLY(1),
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_DLY(1),
-  
-  U8X8_CA(0xfd, 0x12),            	/* unlock */
-  U8X8_C(0xae),		                /* display off */
-  U8X8_CA(0xb3, 0x91),			/* set display clock divide ratio/oscillator frequency (set clock as 80 frames/sec)  */  
-  U8X8_CA(0xca, 0x3f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
-  U8X8_CA(0xa2, 0x00),			/* display offset, shift mapping ram counter */  
-  U8X8_CA(0xa1, 0x00),			/* display start line */  
-  //U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
-  U8X8_CAA(0xa0, 0x06, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
-  U8X8_CA(0xab, 0x01),			/* Enable Internal VDD Regulator */  
-  U8X8_CAA(0xb4, 0xa0, 0x005|0x0fd),	/* Display Enhancement A */  
-  U8X8_CA(0xc1, 0x9f),			/* contrast */  
-  U8X8_CA(0xc7, 0x0f),			/* Set Scale Factor of Segment Output Current Control */  
-  U8X8_C(0xb9),		                /* linear grayscale */
-  U8X8_CA(0xb1, 0xe2),			/* Phase 1 (Reset) & Phase 2 (Pre-Charge) Period Adjustment */  
-  U8X8_CAA(0xd1, 0x082|0x020, 0x020),	/* Display Enhancement B */  
-  U8X8_CA(0xbb, 0x1f),			/* precharge  voltage */  
-  U8X8_CA(0xb6, 0x08),			/* precharge  period */  
-  U8X8_CA(0xbe, 0x07),			/* vcomh */  
-  U8X8_C(0xa6),		                /* normal display */
-  U8X8_C(0xa9),		                /* exit partial display */
-
-
-  U8X8_DLY(1),					/* delay 2ms */
-
-  
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
 
 static const uint8_t u8x8_d_ssd1322_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -88,19 +54,6 @@ static const uint8_t u8x8_d_ssd1322_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1322_256x64_flip0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CAA(0x0a0, 0x006, 0x011),		/* remap */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
-static const uint8_t u8x8_d_ssd1322_256x64_flip1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CAA(0x0a0, 0x014, 0x011),		/* remap */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
 
 
 /* interpret b as a monochrome bit pattern, write value 15 for high bit and value 0 for a low bit */
@@ -174,28 +127,16 @@ uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
     /*
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       break;
-    */
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_init_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_init_seq);
       break;
+    */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_powersave0_seq);
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_powersave1_seq);
-      break;
-    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
-      if ( arg_int == 0 )
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_flip0_seq);
-	u8x8->x_offset = u8x8->display_info->default_x_offset;
-      }
-      else
-      {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_flip1_seq);
-	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
-      }
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
@@ -251,6 +192,22 @@ uint8_t u8x8_d_ssd1322_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   return 1;
 }
 
+/*=========================================================*/
+
+static const uint8_t u8x8_d_ssd1322_256x64_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CAA(0x0a0, 0x006, 0x011),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1322_256x64_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CAA(0x0a0, 0x014, 0x011),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
 {
   /* chip_enable_level = */ 0,
@@ -276,6 +233,41 @@ static const u8x8_display_info_t u8x8_ssd1322_256x64_display_info =
 };
 
 
+static const uint8_t u8x8_d_ssd1322_256x64_init_seq[] = {
+    
+  U8X8_DLY(1),
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_DLY(1),
+  
+  U8X8_CA(0xfd, 0x12),            	/* unlock */
+  U8X8_C(0xae),		                /* display off */
+  U8X8_CA(0xb3, 0x91),			/* set display clock divide ratio/oscillator frequency (set clock as 80 frames/sec)  */  
+  U8X8_CA(0xca, 0x3f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
+  U8X8_CA(0xa2, 0x00),			/* display offset, shift mapping ram counter */  
+  U8X8_CA(0xa1, 0x00),			/* display start line */  
+  //U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
+  U8X8_CAA(0xa0, 0x06, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
+  U8X8_CA(0xab, 0x01),			/* Enable Internal VDD Regulator */  
+  U8X8_CAA(0xb4, 0xa0, 0x005|0x0fd),	/* Display Enhancement A */  
+  U8X8_CA(0xc1, 0x9f),			/* contrast */  
+  U8X8_CA(0xc7, 0x0f),			/* Set Scale Factor of Segment Output Current Control */  
+  U8X8_C(0xb9),		                /* linear grayscale */
+  U8X8_CA(0xb1, 0xe2),			/* Phase 1 (Reset) & Phase 2 (Pre-Charge) Period Adjustment */  
+  U8X8_CAA(0xd1, 0x082|0x020, 0x020),	/* Display Enhancement B */  
+  U8X8_CA(0xbb, 0x1f),			/* precharge  voltage */  
+  U8X8_CA(0xb6, 0x08),			/* precharge  period */  
+  U8X8_CA(0xbe, 0x07),			/* vcomh */  
+  U8X8_C(0xa6),		                /* normal display */
+  U8X8_C(0xa9),		                /* exit partial display */
+
+
+  U8X8_DLY(1),					/* delay 2ms */
+
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 
 uint8_t u8x8_d_ssd1322_nhd_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -283,6 +275,137 @@ uint8_t u8x8_d_ssd1322_nhd_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1322_256x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_init_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+    
+    default:
+      return u8x8_d_ssd1322_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
+/*=========================================================*/
+/* 
+  NHD-2.7-12864WDW3-M 
+  http://www.newhavendisplay.com/nhd2712864wdw3m-p-9546.html
+  http://www.newhavendisplay.com/specs/NHD-2.7-12864WDW3-M.pdf
+*/
+
+static const uint8_t u8x8_d_ssd1322_128x64_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CAA(0x0a0, 0x016, 0x011),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1322_128x64_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CAA(0x0a0, 0x004, 0x011),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_ssd1322_128x64_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* SSD1322: 2 us */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 50,		/* SSD1322: 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* SSD1322: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 10000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215), 10 MHz (issue 301) */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 10,
+  /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 16,		/* 128 pixel */
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0x01c,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* flipmode_x_offset = */ 0x01c,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 64
+};
+
+
+static const uint8_t u8x8_d_ssd1322_128x64_init_seq[] = {
+    
+  U8X8_DLY(1),
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_DLY(1),
+  
+  U8X8_CA(0xfd, 0x12),            	/* unlock */
+  U8X8_C(0xae),		                /* display off */
+  U8X8_CA(0xb3, 0x91),			/* set display clock divide ratio/oscillator frequency (set clock as 80 frames/sec)  */  
+  U8X8_CA(0xca, 0x3f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
+  U8X8_CA(0xa2, 0x00),			/* display offset, shift mapping ram counter */  
+
+  U8X8_CA(0xa1, 0x00),			/* display start line */  
+  U8X8_CA(0xab, 0x01),			/* Enable Internal VDD Regulator */  
+  //U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
+  //U8X8_CAA(0xa0, 0x06, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
+  U8X8_CAA(0xa0, 0x16, 0x011),	/* Set Re-Map / Dual COM Line Mode (NHD-2.7-12864WDW3-M datasheet) */  
+  U8X8_CA(0xc7, 0x0f),			/* Set Scale Factor of Segment Output Current Control */  
+  U8X8_CA(0xc1, 0x9f),			/* contrast */  
+  //U8X8_CA(0xb1, 0xe2),			/* Phase 1 (Reset) & Phase 2 (Pre-Charge) Period Adjustment */  
+  U8X8_CA(0xb1, 0xf2),			/* Phase 1 (Reset) & Phase 2 (Pre-Charge) Period Adjustment (NHD-2.7-12864WDW3-M datasheet) */  
+  U8X8_CA(0xbb, 0x1f),			/* precharge  voltage */    
+  //U8X8_CAA(0xb4, 0xa0, 0x005|0x0fd),	/* Display Enhancement A */  
+  U8X8_CAA(0xb4, 0xa0, 0x0fd),	/* Display Enhancement A (NHD-2.7-12864WDW3-M datasheet) */  
+  U8X8_CA(0xbe, 0x04),			/* vcomh (NHD-2.7-12864WDW3-M datasheet) */  
+  U8X8_C(0xb9),		                /* linear grayscale */
+  //U8X8_CAA(0xd1, 0x082|0x020, 0x020),	/* Display Enhancement B */  
+  //U8X8_CA(0xb6, 0x08),			/* precharge  period */  
+  U8X8_C(0xa6),		                /* normal display */
+  U8X8_C(0xa9),		                /* exit partial display */
+
+
+  U8X8_DLY(1),					/* delay 2ms */
+
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_ssd1322_nhd_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1322_256x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_128x64_init_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_128x64_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_128x64_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
       break;
     
     default:

@@ -837,6 +837,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "ssd1322", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "nhd_128x64" },
+      { NULL }
+    }
+  },
+  {
     "ssd1606", 	22, 	9, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI,
     "Partly supported by U8x8, no HW flip, no contrast setting", /* is_generate_u8g2_class= */ 1,
     {
