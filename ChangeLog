@@ -151,6 +151,8 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Experimental support for SSD1326 (issue 398)
   * Experimental alternative COM config for SSD1306 128x64 (issue 408)
   * New SH1106 init sequence (SH1106_WINSTAR, issue 316)
+  * Support for SSD1322 NHD 128x64 (issue 412)
+  
   
   
   
