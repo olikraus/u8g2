@@ -637,6 +637,7 @@ u8g2_font_cu12_t_symbols	LITERAL1
 u8g2_font_cu12_h_symbols	LITERAL1
 u8g2_font_cu12_t_greek	LITERAL1
 u8g2_font_cu12_t_cyrillic	LITERAL1
+u8g2_font_cu12_t_tibetan	LITERAL1
 u8g2_font_cu12_t_hebrew	LITERAL1
 u8g2_font_cu12_t_arabic	LITERAL1
 u8g2_font_unifont_t_latin	LITERAL1
@@ -645,6 +646,7 @@ u8g2_font_unifont_t_greek	LITERAL1
 u8g2_font_unifont_t_cyrillic	LITERAL1
 u8g2_font_unifont_t_hebrew	LITERAL1
 u8g2_font_unifont_t_bengali	LITERAL1
+u8g2_font_unifont_t_tibetan	LITERAL1
 u8g2_font_unifont_t_urdu	LITERAL1
 u8g2_font_unifont_t_polish	LITERAL1
 u8g2_font_unifont_t_arabic	LITERAL1
