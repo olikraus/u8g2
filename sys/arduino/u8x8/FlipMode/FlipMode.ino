@@ -78,7 +78,7 @@
 //U8X8_SSD1309_128X64_NONAME2_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
 //U8X8_SSD1322_NHD_256X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1322_NHD_256X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8X8_SSD1322_NHD_128X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8X8_SSD1322_NHD_128X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1322_NHD_128X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1325_NHD_128X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1325_NHD_128X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	
@@ -172,7 +172,7 @@ void loop(void)
   u8x8.setInverseFont(1);
   u8x8.drawString(0,0,"FlipMode 0");
   u8x8.setInverseFont(0);
-  u8x8.drawString(0,2,"FlipMode 0");
+  u8x8.drawString(1,1,"FlipMode 0");
   delay(1500);
 
   u8x8.clear();
@@ -180,7 +180,7 @@ void loop(void)
   u8x8.setInverseFont(1);
   u8x8.drawString(0,0,"FlipMode 1");
   u8x8.setInverseFont(0);
-  u8x8.drawString(0,3,"FlipMode 1");
+  u8x8.drawString(1,1,"FlipMode 1");
   delay(1500);
 
 }

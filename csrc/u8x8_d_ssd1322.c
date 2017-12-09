@@ -368,8 +368,9 @@ uint8_t u8x8_d_ssd1322_common2(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       u8x8_cad_StartTransfer(u8x8);
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
       x *= 2;		// only every 4th col can be addressed
+      x *= 2;		// only every second pixel is used in the 128x64 NHD OLED 
+    
       x += u8x8->x_offset;
-      x *= 2;		// only every second pixel is used in the 128x64 NHD OLED
     
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       y *= 8;
@@ -449,8 +450,8 @@ static const u8x8_display_info_t u8x8_ssd1322_128x64_display_info =
   /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,		/* 128 pixel */
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 0x01c,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
-  /* flipmode_x_offset = */ 0x01c,
+  /* default_x_offset = */ 28,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* flipmode_x_offset = */ 28,
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };
