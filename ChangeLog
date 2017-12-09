@@ -142,7 +142,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for ESP32 I2C pin remapping (issue 377)
   * Support for ST75256 (SPI), JLX256128, JLX172104 (issue 163)
   * Added uw-ttyp0 fonts (issue 349)
- 2017-xx-xx	v2.20.x   olikraus@gmail.com
+ 2017-12-09	v2.20.13   olikraus@gmail.com
   * Bugfix for drawBitmap (issue 391)
   * I2C support for ST75256 (issue 384)
   * Support for SSD1327 128x128 display (issue 397)
