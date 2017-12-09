@@ -109,6 +109,8 @@ void tga_set_pixel(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b)
   if ( p[0] != 255 || p[1] != 255 || p[2] != 255 )
 	  tga_pixel_intersection = 1;
   
+  //printf("tga_set_pixel %d %d\n", x, y);
+  
   *p++ = b;
   *p++ = g;
   *p++ = r;
@@ -153,7 +155,7 @@ void tga_save(const char *name)
     tga_write_word(fp, tga_used_height+1);		/* height */
     tga_write_byte(fp, 24);		/* color depth */
     tga_write_byte(fp, 0);		
-    fwrite(tga_data, tga_width*3, tga_used_height+1, fp);
+    fwrite(tga_data + (tga_height - (tga_used_height+1))*tga_width*3 , tga_width*3, tga_used_height+1, fp);
     tga_write_word(fp, 0);
     tga_write_word(fp, 0);
     tga_write_word(fp, 0);

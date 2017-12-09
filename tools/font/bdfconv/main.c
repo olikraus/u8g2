@@ -232,9 +232,12 @@ unsigned tga_draw_font(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_
   unsigned x, xmax;
   xmax = 0;
   
+  bf_Log(bf, "Draw TGA, line height %d", tga_get_line_height(bf_desc_font, bf));
+  
   y += tga_draw_font_info( y, fontname, bf_desc_font, bf);
   
   y +=   tga_get_line_height(bf_desc_font, bf)+1;
+  
   
   
   for( i = 0; i <= 0x0ffff; i+=16 )
@@ -245,8 +248,11 @@ unsigned tga_draw_font(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_
       if ( xmax < x )
 	xmax = x;
       y +=  tga_get_line_height(bf_desc_font, bf)+1;
+      //bf_Log(bf, "Draw TGA, encoding %04x, y %d", i, y);
     }
   }
+  
+  bf_Log(bf, "Draw TGA, xmax %d", xmax);
   
   tga_set_font(bf->target_data);
   
@@ -401,6 +407,8 @@ int main(int argc, char **argv)
       bf_Log(bf, "Runtime test: %.2lf sec", (double)(clock()-c)/(double)CLOCKS_PER_SEC);
     }
     
+    tga_set_pixel(1, 1, 0, 0, 0);
+
     tga_save("bdf.tga");
   }
 
