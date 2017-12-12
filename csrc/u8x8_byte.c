@@ -266,7 +266,7 @@ uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 	  b |= 256;
 	data++;
 	arg_int--;
-	for( i = 0; i < 9; i++ )
+	for( i = 0; i < 8; i++ )
 	{
 	  if ( b & 256 )
 	    u8x8_gpio_SetSPIData(u8x8, 1);
