@@ -10,16 +10,16 @@ int main(void)
   int x, y;
   int k;
   
-  u8g2_SetupBuffer_SDL_240x160(&u8g2, &u8g2_cb_r0);
-  //u8g2_SetupBuffer_SDL_128x64(&u8g2, &u8g2_cb_r0);
+  //u8g2_SetupBuffer_SDL_240x160(&u8g2, &u8g2_cb_r0);
+  u8g2_SetupBuffer_SDL_128x64(&u8g2, &u8g2_cb_r0);
   //u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
   
-  x = 50;
-  y = 30;
+  x = 30;
+  y = 35;
 
   
   for(;;)
@@ -43,6 +43,8 @@ int main(void)
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x0, u8g2.user_y1-1, 1, 0);
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x1-1, u8g2.user_y1-1, 1, 0);
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x1-1, u8g2.user_y0, 1, 0);
+    
+     u8g2_DrawFilledEllipse(&u8g2, x, y, 23, 27, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_LOWER_LEFT);
     
     u8g2_SendBuffer(&u8g2);
 /*    

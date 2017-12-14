@@ -394,7 +394,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 	SPI.begin();
       }
 #else
-      SPI.begin();	
+      SPI.begin();
 #endif 
 
       
