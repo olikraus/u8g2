@@ -145,6 +145,23 @@ struct controller controller_list[] =
     }
   },
   
+   {
+    "sh1107", 	12, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "Not tested", /* is_generate_u8g2_class= */ 1,
+    {
+      { "seeed_96x96" },
+      { NULL }
+    }
+  },
+  {
+    "sh1107", 	12, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "Not tested", /* is_generate_u8g2_class= */ 1,
+    {
+      { "seeed_96x96" },
+      { NULL }
+    }
+  },
+  
 
   {
     "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
