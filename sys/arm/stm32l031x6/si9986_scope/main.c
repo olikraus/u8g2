@@ -1,14 +1,21 @@
 /* 
 
-  tim_scope for DC motor
+  si9986 scope for DC motor
 
   Example for the STM32L031 Eval Board with 128x64 OLED at PA13/PA14
   
-  Single Mosfet Shield
-  MOSFET: PA1 / AF2: TIM2_CH2
+  SI9986 Shield
+  SI9986 IN_A: PA1 / AF2: TIM2_CH2
+  SI9986 IN_B: PB1 / AF?: TIM2_CH4
   VarRes: PA5 / ADC CH5
   Voltage sense: PA6 / ADC CH6
   
+  
+  IN_A	IN_B	OUT_A	OUT_B
+  1		0		1		0
+  0		1		0		1	
+  0		0		0		0	
+  1		1		HiZ		HiZ
   
 */
 
