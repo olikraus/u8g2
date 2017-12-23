@@ -393,6 +393,7 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   */
 
   enableADC();
+  ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
   
   /* conversion will be started automatically with rising edge of TIM2, yet ADSTART is still required */
 
@@ -425,6 +426,7 @@ void initTIM(uint16_t tim_cycle)
   
   /*enable clock for GPIOA */
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  RCC->IOPENR |= RCC_IOPENR_IOPBEN;		/* Enable clock for GPIO Port B */
   
     __NOP();                                                          /* extra delay for clock stabilization required? */
     __NOP();
@@ -438,12 +440,19 @@ void initTIM(uint16_t tim_cycle)
   // RCC->CFGR |= RCC_CFGR_PPRE1_DIV1;
   
   /* configure GPIOA PA1 for TIM2 */
-  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA9 */  
+  GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */  
   GPIOA->MODER |= GPIO_MODER_MODE1_1;  /* alt fn */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;    /* push-pull */
   GPIOA->AFR[0] &= ~(15<<4);            /* Clear Alternate Function PA1 */
   GPIOA->AFR[0] |= 2<<4;                   /* AF2 Alternate Function PA1 */
-  
+
+  /* configure GPIOA PB1 for TIM2 */
+  GPIOB->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PB1 */  
+  GPIOB->MODER |= GPIO_MODER_MODE1_1;  /* alt fn */
+  GPIOB->OTYPER &= ~GPIO_OTYPER_OT_1;    /* push-pull */
+  GPIOB->AFR[0] &= ~(15<<4);            /* Clear Alternate Function PB1 */
+  GPIOB->AFR[0] |= 5<<4;                   /* AF5 Alternate Function PB1 */
+
   /* TIM2 configure */
   /* disable all interrupts */
   //TIM2->DIER = 0;             /* 0 is reset default value */
@@ -460,18 +469,25 @@ void initTIM(uint16_t tim_cycle)
   TIM2->CR2 |= TIM_CR2_MMS_1;		/* Update event for TRGO */
   
   TIM2->ARR = 5355;                              /* total cycle count */
-  TIM2->CCR2 = 1024;                            /* duty cycle */
+  TIM2->CCR2 = 1024;                            /* duty cycle for channel 2 (PA1) */
+  TIM2->CCR4 = 1024;                            /* duty cycle for channel 4 (PB1) */
+  
   //TIM2->CCMR1 &= ~TIM_CCMR1_OC2CE;      /* disable clear output compare 2 **/
   TIM2->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
   //TIM2->CCMR1 &= ~TIM_CCMR1_OC1M_0;     /* 110: PWM Mode 1 */
   TIM2->CCMR1 |= TIM_CCMR1_OC2PE;            /* preload enable CCR2 is preloaded*/
   // TIM2->CCMR1 &= ~TIM_CCMR1_OC2FE;            /* fast disable (reset default) */
   // TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;               /* configure cc2 as output (this is reset default) */
-  
+
+  TIM2->CCMR2 |= TIM_CCMR2_OC4M;            /* all 3 bits set: PWM Mode 2 */
+  TIM2->CCMR2 |= TIM_CCMR2_OC4PE;            /* preload enable CCR2 is preloaded*/
   
   //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
-  TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable */
   //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
+  
+  
+  //TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
+  TIM2->CCER |= TIM_CCER_CC4E;                     /* set output enable for channel 4 */
   
   TIM2->PSC = 7;						/* divide by 8 */
   
@@ -506,15 +522,25 @@ void main()
   initADC();
 
   RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  RCC->IOPENR |= RCC_IOPENR_IOPBEN;		/* Enable clock for GPIO Port B */
   __NOP();
   __NOP();
+  
   GPIOA->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PA1 */
   GPIOA->MODER |= GPIO_MODER_MODE1_0;	/* Output mode for PA1 */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_1;	/* no Push/Pull for PA1 */
   GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED1;	/* low speed for PA1 */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PA1 */
   GPIOA->BSRR = GPIO_BSRR_BS_1;		/* atomic set PA1 */
-  
+
+  GPIOB->MODER &= ~GPIO_MODER_MODE1;	/* clear mode for PB1 */
+  GPIOB->MODER |= GPIO_MODER_MODE1_0;	/* Output mode for PB1 */
+  //GPIOB->OTYPER &= ~GPIO_OTYPER_OT_1;	/* no Push/Pull for PB1 */
+  GPIOB->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED1;	/* low speed for PB1 */
+  GPIOB->PUPDR &= ~GPIO_PUPDR_PUPD1;	/* no pullup/pulldown for PB1 */
+  GPIOB->BSRR = GPIO_BSRR_BR_1;		/* atomic reset PB1 */
+
+
   initTIM(TIM_CYCLE_TIME);
   
   
@@ -529,11 +555,13 @@ void main()
     tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
     tim_duty += TIM_CYCLE_LOWER_SKIP;
     TIM2->CCR2 = tim_duty;
+    TIM2->CCR4 = tim_duty;
     
     TIM2->SR &= ~TIM_SR_UIF;
     while( (TIM2->SR & TIM_SR_UIF) == 0 )
       ;
     
+    /*
     yy = 30;
     for( i = 0; i < 128; i++ )
     {
@@ -545,12 +573,14 @@ void main()
 	u8g2_DrawVLine(&u8g2, i, yy, y-yy+1);
       yy = y;
     }
+    */
+    
     
 
     for( i = 0; i < 128*BUF_MUL; i++ )
       adc_buf[i] = i;
     
-    
+    //getADC(6);
     scanADC(6, 128*BUF_MUL, adc_buf);
 
     yy = 60;
@@ -568,6 +598,7 @@ void main()
     for( i = 0; i < 128; i++ )
     {
       y = 60-(adc_buf[i*BUF_MUL]>>3);
+      //y = 60-(adc_buf[i*BUF_MUL]);
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
 	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
