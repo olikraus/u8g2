@@ -75,8 +75,8 @@
 //U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1106_128X64_VCOMH0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8G2_SH1106_128X64_WINSTAR_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but uses updated SH1106 init sequence
-//U8G2_SH1107_128X64_1_4W_HW_SPI u8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_SH1107_SEEED_96X96_1_4W_HW_SPI u8g2(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_SH1107_128X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_SH1107_SEEED_96X96_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 21, /* data=*/ 20, /* reset=*/ U8X8_PIN_NONE);   // Adafruit Feather M0 Basic Proto + FeatherWing OLED
 //U8G2_SSD1306_128X32_UNIVISION_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // Adafruit Feather ESP8266/32u4 Boards + FeatherWing OLED
 //U8G2_SSD1306_128X32_UNIVISION_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
@@ -190,10 +190,10 @@
 void setup(void) {
 
   /* U8g2 Project: SSD1306 Test Board */
-  //pinMode(10, OUTPUT);
-  //pinMode(9, OUTPUT);
-  //digitalWrite(10, 0);
-  //digitalWrite(9, 0);		
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  digitalWrite(10, 0);
+  digitalWrite(9, 0);		
 
   /* U8g2 Project: T6963 Test Board */
   //pinMode(18, OUTPUT);
@@ -220,6 +220,6 @@ void loop(void) {
     u8g2.setFont(u8g2_font_ncenB10_tr);
     u8g2.drawStr(0,24,"Hello World!");
   } while ( u8g2.nextPage() );
-  delay(1000);
+  //delay(1000);
 }
 

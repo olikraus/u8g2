@@ -368,6 +368,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
     case U8X8_MSG_BYTE_INIT:
       /* disable chipselect */
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+      
       /* no wait required here */
       
       /* for SPI: setup correct level of the clock signal */
@@ -450,8 +451,9 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       return 0;
   }
   
-#else
-#endif
+#else	/* U8X8_HAVE_HW_SPI */
+
+#endif	/* U8X8_HAVE_HW_SPI */
   return 1;
 }
 
