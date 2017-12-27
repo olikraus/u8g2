@@ -883,14 +883,21 @@ u8g2_uint_t u8g2_DrawExtUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t
       }
       e_prev = e;
 
-      u8g2_DrawGlyph(u8g2, x, y, e);
       if ( to_left )
       {
       }
       else
       {
 	x += delta;
-	x -= k;
+      }
+      u8g2_DrawGlyph(u8g2, x, y, e);
+      if ( to_left )
+      {
+      }
+      else
+      {
+	//x += delta;
+	//x -= k;
       }
       
       sum += delta;    

@@ -334,6 +334,17 @@ uint16_t getADC(uint8_t ch)
   return ADC1->DR;
 }
 
+/*
+  Channel1:
+    Read from ADC1->DR
+    Write to buffer
+    
+  Channel2:
+    Read from GPIOA->ODR (PA1) or GPIOB->ODR (PB1)
+    Write to buffer
+
+*/
+
 void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
 {
   
@@ -358,14 +369,15 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   
   DMA1_Channel1->CNDTR = cnt;                                        /* buffer size */
   DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
+  //  DMA1_Channel1->CPAR = (uint32_t)&(GPIOA->ODR);                    /* source value */
   DMA1_Channel1->CMAR = (uint32_t)buf;                   /* destination memory */
-  
+
   DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;         /* 0000: select ADC for DMA CH 1 (this is reset default) */
+  DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;         /* 0000: select ADC for DMA CH 2 (this is reset default) */
   
   DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
   DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
 
-  
   
   /* 
     detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
@@ -377,15 +389,17 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   */
   
   
-  ADC1->CFGR1 = ADC_CFGR1_EXTEN_0 	/* rising edge */
+  ADC1->CFGR1 = 
+	ADC_CFGR1_CONT				/* continues mode */
+	| ADC_CFGR1_EXTEN_0 	/* rising edge */
 	| ADC_CFGR1_EXTSEL_1 			/* TIM2 */
-	| ADC_CFGR1_RES_1				/* 8 Bit resolution */
-	| ADC_CFGR1_CONT				/* continues mode */
+//	| ADC_CFGR1_RES_1				/* 8 Bit resolution, no value means 12 bit */
 	| ADC_CFGR1_DMAEN;			/* enable generation of DMA requests */
 
   //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; 
   //ADC1->SMPR = ADC_SMPR_SMP_1 ; 
-  ADC1->SMPR = ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 ; 
+  //ADC1->SMPR = ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 ; 
+  ADC1->SMPR = ADC_SMPR_SMP_2 ; 
   
   /*
     12.5 + 8.5 = 21 ADC Cycles pre ADC sampling
@@ -416,10 +430,15 @@ int getBEMFLevel(uint16_t cnt, uint8_t *buf, uint16_t start)
   return -1;
 }
 
+//#define TIM_CYCLE_TIME 5355
+#define TIM_CYCLE_TIME 7950
+#define TIM_CYCLE_UPPER_SKIP 100
+#define TIM_CYCLE_LOWER_SKIP 400
+
 
 /*=======================================================================*/
 
-void initTIM(uint16_t tim_cycle)
+void initTIM(uint16_t tim_cycle, uint8_t is_gpio_a)
 {
   /* enable clock for TIM2 */
   RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
@@ -468,7 +487,7 @@ void initTIM(uint16_t tim_cycle)
   
   TIM2->CR2 |= TIM_CR2_MMS_1;		/* Update event for TRGO */
   
-  TIM2->ARR = 5355;                              /* total cycle count */
+  TIM2->ARR = TIM_CYCLE_TIME;                         /* total cycle count */
   TIM2->CCR2 = 1024;                            /* duty cycle for channel 2 (PA1) */
   TIM2->CCR4 = 1024;                            /* duty cycle for channel 4 (PB1) */
   
@@ -486,8 +505,10 @@ void initTIM(uint16_t tim_cycle)
   //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   
   
-  //TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
-  TIM2->CCER |= TIM_CCER_CC4E;                     /* set output enable for channel 4 */
+  if ( is_gpio_a )
+    TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
+  else
+    TIM2->CCER |= TIM_CCER_CC4E;                     /* set output enable for channel 4 */
   
   TIM2->PSC = 7;						/* divide by 8 */
   
@@ -502,9 +523,6 @@ void initTIM(uint16_t tim_cycle)
 /*=======================================================================*/
 
 #define BUF_MUL 2
-#define TIM_CYCLE_TIME 5355
-#define TIM_CYCLE_UPPER_SKIP 100
-#define TIM_CYCLE_LOWER_SKIP 400
 
 uint8_t adc_buf[128*BUF_MUL];
 
@@ -541,7 +559,7 @@ void main()
   GPIOB->BSRR = GPIO_BSRR_BR_1;		/* atomic reset PB1 */
 
 
-  initTIM(TIM_CYCLE_TIME);
+  initTIM(TIM_CYCLE_TIME, 1);
   
   
 
@@ -565,7 +583,7 @@ void main()
     yy = 30;
     for( i = 0; i < 128; i++ )
     {
-      y = 30-(getADC(6)>>3);
+      y = 30-(gpio_buf[i*BUF_MUL]&2)*2;
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
 	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
@@ -578,7 +596,9 @@ void main()
     
 
     for( i = 0; i < 128*BUF_MUL; i++ )
+    {
       adc_buf[i] = i;
+    }
     
     //getADC(6);
     scanADC(6, 128*BUF_MUL, adc_buf);
@@ -598,7 +618,7 @@ void main()
     for( i = 0; i < 128; i++ )
     {
       y = 60-(adc_buf[i*BUF_MUL]>>3);
-      //y = 60-(adc_buf[i*BUF_MUL]);
+      y = 60-(adc_buf[i*BUF_MUL]>>2);
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
 	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
