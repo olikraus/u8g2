@@ -497,12 +497,13 @@ void initTIM(uint16_t tim_cycle, uint8_t is_gpio_a)
   TIM2->CCMR1 |= TIM_CCMR1_OC2PE;            /* preload enable CCR2 is preloaded*/
   // TIM2->CCMR1 &= ~TIM_CCMR1_OC2FE;            /* fast disable (reset default) */
   // TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;               /* configure cc2 as output (this is reset default) */
+  //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
+  TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
 
   TIM2->CCMR2 |= TIM_CCMR2_OC4M;            /* all 3 bits set: PWM Mode 2 */
   TIM2->CCMR2 |= TIM_CCMR2_OC4PE;            /* preload enable CCR2 is preloaded*/
+  TIM2->CCER |= TIM_CCER_CC4P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   
-  //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
-  //TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   
   
   if ( is_gpio_a )
