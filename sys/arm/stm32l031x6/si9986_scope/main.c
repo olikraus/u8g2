@@ -17,6 +17,23 @@
   0		0		0		0	
   1		1		HiZ		HiZ
   
+  
+  state machine
+  
+  flag: previous_measure_available = 0
+  
+  1. Read Analog Value? No --> 2.
+       Init ADC, Read ADC, Change setup
+  2. Is Setup Changed? No --> 3.
+       Reset measuring (previous_measure_available = 0), Init Tim
+  3. measure data, init adc, init dma
+  4. calculate max value
+  5. if previous measure available: calculate delta
+  6. copy current to previous measure, previous_measure_available = 1
+      
+      
+  
+  
 */
 
 #include <stdio.h>
@@ -185,13 +202,158 @@ void setRow(uint8_t r)
 
 /*=======================================================================*/
 
-/* STOP ANY ADC CONVERSION */
 
+#define ADC_SUB_TASK_NONE 0
+#define ADC_SUB_TASK_STOP_ADC 1
+#define ADC_SUB_TASK_ENABLE_ADC 2
+#define ADC_SUB_TASK_DISABLE_ADC 3
+#define ADC_SUB_TASK_CONVERSION 4
+
+#define ADC_SUB_STATE_INIT 0
+#define ADC_SUB_STATE_ACTIVE 1
+#define ADC_SUB_STATE_DONE 2
+
+uint8_t adc_sub_task = ADC_SUB_TASK_NONE;
+uint8_t adc_sub_state = ADC_SUB_STATE_INIT;
+uint16_t adc_result = 0;
+
+
+
+
+
+int adcIsSubDone(void)
+{
+  if ( adc_sub_state == ADC_SUB_STATE_DONE )
+    return 1;
+  if ( adc_sub_task == ADC_SUB_TASK_NONE )
+    return 1;
+  return 0;
+}
+
+/*
+  int adcStartSubTask(uint8_t msg)
+
+  Args:
+    msg: One of ADC_SUB_TASK_STOP_ADC, ADC_SUB_TASK_ENABLE_ADC, ADC_SUB_TASK_DISABLE_ADC
+
+  Returns:
+    0 if there is any other subtask active
+  
+*/
+int adcStartSubTask(uint8_t msg)
+{
+  if ( adcIsSubDone() == 0 )
+    return 0;
+  adc_sub_task = msg;
+  adc_sub_state = ADC_SUB_STATE_INIT;
+  return 1;
+}
+
+/*
+  void adcExecSub(void)
+
+  Desc:
+    Executes any active ADC subtask. This can be executed inside an interrupt.
+  
+*/
+void adcExecSub(void)
+{
+  switch(adc_sub_task)
+  {
+    case ADC_SUB_TASK_STOP_ADC:
+      switch(adc_sub_state)
+      {
+	case ADC_SUB_STATE_INIT:
+	  /* STOP ANY ADC CONVERSION */
+	  ADC1->CR |= ADC_CR_ADSTP;
+	  adc_sub_state = ADC_SUB_STATE_ACTIVE;
+	  /* fall through */
+	case ADC_SUB_STATE_ACTIVE:
+	  if ( (ADC1->CR & ADC_CR_ADSTP) == 0 )
+	    adc_sub_state = ADC_SUB_STATE_DONE;
+	  break;
+      }      
+      break;
+    case ADC_SUB_TASK_ENABLE_ADC:
+      switch(adc_sub_state)
+      {
+	case ADC_SUB_STATE_INIT:
+	  /* ENABLE ADC (but do not start) */
+	  /* after the ADC is enabled, it must not be reconfigured */
+	  ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
+	  ADC1->CR |= ADC_CR_ADEN; 			/* enable ADC */
+	  adc_sub_state = ADC_SUB_STATE_ACTIVE;
+	  /* fall through */
+	case ADC_SUB_STATE_ACTIVE:
+	  if ( (ADC1->ISR & ADC_ISR_ADRDY) != 0 )
+	    adc_sub_state = ADC_SUB_STATE_DONE;
+	  break;
+      }      
+      break;
+    case ADC_SUB_TASK_DISABLE_ADC:
+      switch(adc_sub_state)
+      {
+	case ADC_SUB_STATE_INIT:
+	  /* required to change the configuration of the ADC */
+	  /* Check for the ADEN flag. */
+	  /* Setting ADDIS will fail if the ADC is alread disabled. */
+	  if ((ADC1->CR & ADC_CR_ADEN) == 0) 
+	  {
+	    adc_sub_state = ADC_SUB_STATE_DONE;
+	  }
+	  else
+	  {
+	    ADC1->CR |= ADC_CR_ADDIS;
+	    if ( (ADC1->CR & ADC_CR_ADDIS) == 0 )
+	      adc_sub_state = ADC_SUB_STATE_DONE;
+	    else
+	      adc_sub_state = ADC_SUB_STATE_ACTIVE;
+	  }
+	  break;
+	case ADC_SUB_STATE_ACTIVE:
+	  if ((ADC1->CR & ADC_CR_ADEN) == 0) 
+	  {
+	    adc_sub_state = ADC_SUB_STATE_DONE;
+	  }
+	  if ( (ADC1->CR & ADC_CR_ADDIS) == 0 )
+	  {
+	    adc_sub_state = ADC_SUB_STATE_DONE;
+	  }
+	  break;
+      }      
+      break;
+    case ADC_SUB_TASK_CONVERSION:
+      switch(adc_sub_state)
+      {
+	case ADC_SUB_STATE_INIT:
+	  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */	
+	  adc_sub_state = ADC_SUB_STATE_ACTIVE;
+	  /* fall through */
+	case ADC_SUB_STATE_ACTIVE:
+	  if ( (ADC1->ISR & ADC_ISR_EOC) != 0 )
+	  {
+	    adc_sub_state = ADC_SUB_STATE_DONE;
+	    adc_result = ADC1->DR;
+	  }
+	  break;
+      }      
+      break;
+  }
+}
+
+
+/* STOP ANY ADC CONVERSION */
 void stopADC(void)
 {
-  ADC1->CR |= ADC_CR_ADSTP;
-  while(ADC1->CR & ADC_CR_ADSTP)
-    ;
+  //ADC1->CR |= ADC_CR_ADSTP;
+  //while(ADC1->CR & ADC_CR_ADSTP)
+  //  ;
+  
+  while( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
 }
 
 /* CONFIGURATION with ADEN=0 */
@@ -200,6 +362,7 @@ void disableADC(void)
 {
   /* Check for the ADEN flag. */
   /* Setting ADDIS will fail if the ADC is alread disabled: The while loop will not terminate */
+#ifdef xxxx
   if ((ADC1->CR & ADC_CR_ADEN) != 0) 
   {
     /* is this correct? i think we must use the disable flag here */
@@ -207,17 +370,31 @@ void disableADC(void)
     while(ADC1->CR & ADC_CR_ADDIS)
       ;
   }
+#endif
+
+  while( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
+
 }
 
 /* ENABLE ADC (but do not start) */
 /* after the ADC is enabled, it must not be reconfigured */
 void enableADC(void)
 {
-  ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
-  ADC1->CR |= ADC_CR_ADEN; 			/* enable ADC */
-  while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
-  {
-  }
+  //ADC1->ISR |= ADC_ISR_ADRDY; 			/* clear ready flag */
+  //ADC1->CR |= ADC_CR_ADEN; 			/* enable ADC */
+  //while ((ADC1->ISR & ADC_ISR_ADRDY) == 0) /* wait for ADC */
+  //{
+  //}
+
+  while( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
   
 }
 
@@ -274,15 +451,6 @@ void initADC(void)
   __NOP();
   __NOP();
 
-
-  /* CONFIGURATION with ADEN=0 */
-  
-  disableADC();
-  
-  //ADC1->CFGR1 &= ~ADC_CFGR1_RES;		/* 12 bit resolution */
-  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
-  
-  enableADC();
 }
 
 /*
@@ -305,12 +473,126 @@ void initADC(void)
 
   returns 12 bit result, right aligned 
 */
+
+uint8_t adc_single_conversion_channel = 5;
+uint8_t adc_single_conversion_state = 0;
+uint16_t adc_single_conversion_result;
+
+int adcStartSingleConversion(uint8_t channel)
+{
+  if ( adc_single_conversion_state != 0 )
+    return 0;
+  adc_single_conversion_state = 1;
+  adc_single_conversion_channel = channel;
+  return 1;
+}
+
+void adcExecSingleConversion(void)
+{
+  switch(adc_single_conversion_state)
+  {
+    case 1:
+      if ( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_single_conversion_state++;
+      /* fall through */
+    case 2:
+      if ( adcIsSubDone() == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_single_conversion_state++;
+      /* fall through */
+    case 3:
+      if ( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_single_conversion_state++;
+      /* fall through */
+    case 4:
+      if ( adcIsSubDone() == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      
+      /* CONFIGURE ADC */
+      
+      //ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
+      //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
+      ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
+      //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
+      ADC1->SMPR  = 0;
+      
+      adc_single_conversion_state++;
+      /* fall through */
+    case 5:
+      if ( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_single_conversion_state++;
+      /* fall through */
+    case 6:
+      if ( adcIsSubDone() != 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      
+      ADC1->CHSELR = 1<<adc_single_conversion_channel; 				/* Select channel (can be done also if ADC is enabled) */
+      adc_single_conversion_state++;
+      /* fall through */      
+    case 7:
+      if ( adcStartSubTask(ADC_SUB_TASK_CONVERSION) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_single_conversion_state++;
+      /* fall through */
+    case 8:
+      if ( adcIsSubDone() != 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_single_conversion_result = adc_result;
+      adc_single_conversion_state = 0;
+      break;
+  }
+}
+
 uint16_t getADC(uint8_t ch)
 {
-  //uint32_t i;
+  while( adcStartSingleConversion(ch) == 0)
+    adcExecSingleConversion();
+  if ( adc_single_conversion_state != 0 )
+    adcExecSingleConversion();
+  return adc_single_conversion_result;
+}
 
-  stopADC();
-  disableADC();
+uint16_t getADC_old(uint8_t ch)
+{
+
+  while( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
+  
+  while( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
     
   /* CONFIGURE ADC */
   
@@ -318,20 +600,25 @@ uint16_t getADC(uint8_t ch)
   //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
   ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
   //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
-
   ADC1->SMPR  = 0;
-  enableADC();
+  
+  while( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
 
   ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
 
   /* DO CONVERSION */
+
+  while( adcStartSubTask(ADC_SUB_TASK_CONVERSION) == 0 )
+    adcExecSub();
   
-  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
-  while ((ADC1->ISR & ADC_ISR_EOC) == 0) /* wait end of conversion */
-  {
-  }
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
   
-  return ADC1->DR;
+  return adc_result;
 }
 
 /*
