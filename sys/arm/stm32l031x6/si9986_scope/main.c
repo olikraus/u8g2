@@ -202,7 +202,6 @@ void setRow(uint8_t r)
 
 /*=======================================================================*/
 
-
 #define ADC_SUB_TASK_NONE 0
 #define ADC_SUB_TASK_STOP_ADC 1
 #define ADC_SUB_TASK_ENABLE_ADC 2
@@ -213,13 +212,9 @@ void setRow(uint8_t r)
 #define ADC_SUB_STATE_ACTIVE 1
 #define ADC_SUB_STATE_DONE 2
 
-uint8_t adc_sub_task = ADC_SUB_TASK_NONE;
-uint8_t adc_sub_state = ADC_SUB_STATE_INIT;
+volatile uint8_t adc_sub_task = ADC_SUB_TASK_NONE;
+volatile uint8_t adc_sub_state = ADC_SUB_STATE_INIT;
 uint16_t adc_result = 0;
-
-
-
-
 
 int adcIsSubDone(void)
 {
@@ -403,9 +398,10 @@ void initADC(void)
 {
   //__disable_irq();
   
-  /* ADC Clock Enable */
+  /* ADC and DMA Clock Enable */
   
   RCC->APB2ENR |= RCC_APB2ENR_ADCEN;	/* enable ADC clock */
+  RCC->AHBENR |= RCC_AHBENR_DMAEN; 	/* enable DMA clock */
   __NOP();								/* let us wait for some time */
   __NOP();								/* let us wait for some time */  
   
@@ -475,7 +471,7 @@ void initADC(void)
 */
 
 uint8_t adc_single_conversion_channel = 5;
-uint8_t adc_single_conversion_state = 0;
+volatile uint8_t adc_single_conversion_state = 0;
 uint16_t adc_single_conversion_result;
 
 int adcStartSingleConversion(uint8_t channel)
@@ -541,7 +537,7 @@ void adcExecSingleConversion(void)
       adc_single_conversion_state++;
       /* fall through */
     case 6:
-      if ( adcIsSubDone() != 0 )
+      if ( adcIsSubDone() == 0 )
       {
 	adcExecSub();
 	break;
@@ -559,7 +555,7 @@ void adcExecSingleConversion(void)
       adc_single_conversion_state++;
       /* fall through */
     case 8:
-      if ( adcIsSubDone() != 0 )
+      if ( adcIsSubDone() == 0 )
       {
 	adcExecSub();
 	break;
@@ -574,52 +570,11 @@ uint16_t getADC(uint8_t ch)
 {
   while( adcStartSingleConversion(ch) == 0)
     adcExecSingleConversion();
-  if ( adc_single_conversion_state != 0 )
+  while( adc_single_conversion_state != 0 )
     adcExecSingleConversion();
   return adc_single_conversion_result;
 }
 
-uint16_t getADC_old(uint8_t ch)
-{
-
-  while( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-  
-  while( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-    
-  /* CONFIGURE ADC */
-  
-  //ADC1->CFGR1 &= ~ADC_CFGR1_EXTEN;	/* software enabled conversion start */
-  //ADC1->CFGR1 &= ~ADC_CFGR1_ALIGN;		/* right alignment */
-  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
-  //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; /* Select a sampling mode of 111 (very slow)*/
-  ADC1->SMPR  = 0;
-  
-  while( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-
-  ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
-
-  /* DO CONVERSION */
-
-  while( adcStartSubTask(ADC_SUB_TASK_CONVERSION) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-  
-  return adc_result;
-}
 
 /*
   Channel1:
@@ -632,16 +587,165 @@ uint16_t getADC_old(uint8_t ch)
 
 */
 
+uint8_t adc_multi_conversion_channel = 6;
+volatile uint8_t adc_multi_conversion_state = 0;
+uint16_t adc_multi_conversion_count = 256;
+uint8_t *adc_multi_conversion_buffer = NULL;
+
+int adcStartMultiConversion(uint8_t channel, uint16_t cnt, uint8_t *buf)
+{
+  if ( adc_multi_conversion_state != 0 )
+    return 0;
+  adc_multi_conversion_state = 1;
+  adc_multi_conversion_channel = channel;
+  adc_multi_conversion_count = cnt;
+  adc_multi_conversion_buffer = buf;
+  return 1;
+}
+
+
+void adcExecMultiConversion(void)
+{
+  switch(adc_multi_conversion_state)
+  {
+    case 1:
+      if ( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_multi_conversion_state++;
+      /* fall through */
+    case 2:
+      if ( adcIsSubDone() == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_multi_conversion_state++;
+      /* fall through */
+    case 3:
+      if ( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_multi_conversion_state++;
+      /* fall through */
+    case 4:
+      if ( adcIsSubDone() == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      
+      /* CONFIGURE ADC */
+
+      /* disable and reset to defaults */
+      DMA1_Channel1->CCR = 0;
+      
+      /* defaults: 
+	  - 8 Bit access	--> ok
+	  - read from peripheral	--> ok
+	  - none-circular mode  --> ok
+	  - no increment mode   --> will be changed below
+      */
+      
+      
+      DMA1_Channel1->CNDTR = adc_multi_conversion_count;                                        /* buffer size */
+      DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
+      //  DMA1_Channel1->CPAR = (uint32_t)&(GPIOA->ODR);                    /* source value */
+      DMA1_Channel1->CMAR = (uint32_t)adc_multi_conversion_buffer;                   /* destination memory */
+
+      DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;         /* 0000: select ADC for DMA CH 1 (this is reset default) */
+      DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;         /* 0000: select ADC for DMA CH 2 (this is reset default) */
+      
+      DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
+      DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
+
+      
+      /* 
+	detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
+	recive trigger from TIM2 (ADC_CFGR1_EXTSEL_1)  
+	8 Bit resolution (ADC_CFGR1_RES_1)
+      
+	Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
+	Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
+      */
+      
+      
+      ADC1->CFGR1 = 
+	    ADC_CFGR1_CONT				/* continues mode */
+	    | ADC_CFGR1_EXTEN_0 	/* rising edge */
+	//    | ADC_CFGR1_EXTEN_1 			/*  */	    
+	    | ADC_CFGR1_EXTSEL_1 			/* TIM2 */
+    //	| ADC_CFGR1_RES_1				/* 8 Bit resolution, no value means 12 bit */
+	    | ADC_CFGR1_DMAEN;			/* enable generation of DMA requests */
+
+      //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; 
+      //ADC1->SMPR = ADC_SMPR_SMP_1 ; 
+      //ADC1->SMPR = ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 ; 
+      ADC1->SMPR = ADC_SMPR_SMP_2 ; 
+      
+      /*
+	12.5 + 8.5 = 21 ADC Cycles pre ADC sampling
+	4 MHz / 21 cycle / 256 = 744 Hz
+      */
+      adc_multi_conversion_state++;
+      /* fall through */
+    case 5:
+      if ( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      adc_multi_conversion_state++;
+      /* fall through */
+    case 6:
+      if ( adcIsSubDone() == 0 )
+      {
+	adcExecSub();
+	break;
+      }
+      
+      ADC1->CHSELR = 1<<adc_multi_conversion_channel; 				/* Select channel (can be done also if ADC is enabled) */
+      /* conversion will be started automatically with rising edge of TIM2, yet ADSTART is still required */
+      ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+      adc_multi_conversion_state++;
+      
+      /* fall through */      
+    case 7:
+      if ( DMA1_Channel1->CNDTR > 0 )
+	break;
+      adc_multi_conversion_state = 0;
+      break;
+  }
+}
+
+
 void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
 {
-  
-  stopADC();
-  disableADC();
-  
-  
-  RCC->AHBENR |= RCC_AHBENR_DMAEN; /* enable DMA clock */
-  __NOP(); __NOP();                                           /* extra delay for clock stabilization required? */
+  while( adcStartMultiConversion(ch, cnt, buf) == 0)
+    adcExecMultiConversion();
+  while( adc_multi_conversion_state != 0 )
+    adcExecMultiConversion();
+}
 
+void __scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
+{
+  
+  while( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
+  
+  while( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
+  
   
   /* disable and reset to defaults */
   DMA1_Channel1->CCR = 0;
@@ -664,7 +768,6 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
   
   DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
   DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
-
   
   /* 
     detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
@@ -674,12 +777,12 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
     Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
     Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
   */
-  
-  
+    
   ADC1->CFGR1 = 
 	ADC_CFGR1_CONT				/* continues mode */
-	| ADC_CFGR1_EXTEN_0 	/* rising edge */
-	| ADC_CFGR1_EXTSEL_1 			/* TIM2 */
+	| ADC_CFGR1_EXTEN_0 			/* rising edge */
+//	| ADC_CFGR1_EXTEN_1 			/*  */
+	| ADC_CFGR1_EXTSEL_1 			/* EXTSEL 010: TIM2 */
 //	| ADC_CFGR1_RES_1				/* 8 Bit resolution, no value means 12 bit */
 	| ADC_CFGR1_DMAEN;			/* enable generation of DMA requests */
 
@@ -693,12 +796,18 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
     4 MHz / 21 cycle / 256 = 744 Hz
   */
 
-  enableADC();
+  while( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
+    adcExecSub();
+  
+  while( adcIsSubDone() == 0 )
+    adcExecSub();
+  
   ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
   
-  /* conversion will be started automatically with rising edge of TIM2, yet ADSTART is still required */
+  /* conversion will be started automatically with rising edge of TIM2 */
+  /* setting ADSTART is still required, see chap 13.4.10 */
 
-  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion */
+  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion with next event */
 
   /* wait until DMA is completed */
   while ( DMA1_Channel1->CNDTR > 0 )
