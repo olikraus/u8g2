@@ -201,6 +201,66 @@ void setRow(uint8_t r)
 }
 
 /*=======================================================================*/
+/* ADC Init */
+
+void initADC(void)
+{
+  //__disable_irq();
+  
+  /* ADC and DMA Clock Enable */
+  
+  RCC->APB2ENR |= RCC_APB2ENR_ADCEN;	/* enable ADC clock */
+  RCC->AHBENR |= RCC_AHBENR_DMAEN; 	/* enable DMA clock */
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */  
+  
+  /* ADC Reset */
+  
+  RCC->APB2RSTR |= RCC_APB2RSTR_ADCRST;
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+  RCC->APB2RSTR &= ~RCC_APB2RSTR_ADCRST;
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+ 
+  /* ADC Basic Setup */
+  
+  ADC1->IER = 0;						/* do not allow any interrupts */
+  ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
+  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
+
+  
+  ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
+  ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
+  ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
+
+  __NOP();								/* let us wait for some time */
+  __NOP();								/* let us wait for some time */
+
+  /* CALIBRATION */
+  
+  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
+  {
+  /* is this correct? i think we must use the disable flag here */
+    ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
+  }
+  ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
+  while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
+  {
+  }
+  ADC1->ISR |= ADC_ISR_EOCAL; 			/* clear the status flag, by writing 1 to it */
+  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+  __NOP();
+
+}
+
+
+/*=======================================================================*/
+/* ADC Subtasks */
 
 #define ADC_SUB_TASK_NONE 0
 #define ADC_SUB_TASK_STOP_ADC 1
@@ -394,60 +454,9 @@ void enableADC(void)
 }
 
 
-void initADC(void)
-{
-  //__disable_irq();
-  
-  /* ADC and DMA Clock Enable */
-  
-  RCC->APB2ENR |= RCC_APB2ENR_ADCEN;	/* enable ADC clock */
-  RCC->AHBENR |= RCC_AHBENR_DMAEN; 	/* enable DMA clock */
-  __NOP();								/* let us wait for some time */
-  __NOP();								/* let us wait for some time */  
-  
-  /* ADC Reset */
-  
-  RCC->APB2RSTR |= RCC_APB2RSTR_ADCRST;
-  __NOP();								/* let us wait for some time */
-  __NOP();								/* let us wait for some time */
-  RCC->APB2RSTR &= ~RCC_APB2RSTR_ADCRST;
-  __NOP();								/* let us wait for some time */
-  __NOP();								/* let us wait for some time */
- 
-  /* ADC Basic Setup */
-  
-  ADC1->IER = 0;						/* do not allow any interrupts */
-  ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE;	/* select HSI16 clock */
-  ADC1->CFGR1 = ADC_CFGR1_RES_1;		/* 8 bit resolution */
+/*=======================================================================*/
+/* ADC Single Conversion */
 
-  
-  ADC1->CR |= ADC_CR_ADVREGEN;				/* enable ADC voltage regulator, probably not required, because this is automatically activated */
-  ADC->CCR |= ADC_CCR_VREFEN; 			/* Wake-up the VREFINT */  
-  ADC->CCR |= ADC_CCR_TSEN; 			/* Wake-up the temperature sensor */  
-
-  __NOP();								/* let us wait for some time */
-  __NOP();								/* let us wait for some time */
-
-  /* CALIBRATION */
-  
-  if ((ADC1->CR & ADC_CR_ADEN) != 0) /* clear ADEN flag if required */
-  {
-  /* is this correct? i think we must use the disable flag here */
-    ADC1->CR &= (uint32_t)(~ADC_CR_ADEN);
-  }
-  ADC1->CR |= ADC_CR_ADCAL; 				/* start calibration */
-  while ((ADC1->ISR & ADC_ISR_EOCAL) == 0) 	/* wait for clibration finished */
-  {
-  }
-  ADC1->ISR |= ADC_ISR_EOCAL; 			/* clear the status flag, by writing 1 to it */
-  __NOP();								/* not sure why, but some nop's are required here, at least 4 of them */
-  __NOP();
-  __NOP();
-  __NOP();
-  __NOP();
-  __NOP();
-
-}
 
 /*
   ch0   PA0     pin 6
@@ -576,16 +585,9 @@ uint16_t getADC(uint8_t ch)
 }
 
 
-/*
-  Channel1:
-    Read from ADC1->DR
-    Write to buffer
-    
-  Channel2:
-    Read from GPIOA->ODR (PA1) or GPIOB->ODR (PB1)
-    Write to buffer
 
-*/
+/*=======================================================================*/
+/* ADC Multi (DMA) Conversion */
 
 uint8_t adc_multi_conversion_channel = 6;
 volatile uint8_t adc_multi_conversion_state = 0;
@@ -731,100 +733,7 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
     adcExecMultiConversion();
 }
 
-void __scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
-{
-  
-  while( adcStartSubTask(ADC_SUB_TASK_STOP_ADC) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-  
-  while( adcStartSubTask(ADC_SUB_TASK_DISABLE_ADC) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-  
-  
-  /* disable and reset to defaults */
-  DMA1_Channel1->CCR = 0;
-  
-  /* defaults: 
-      - 8 Bit access	--> ok
-      - read from peripheral	--> ok
-      - none-circular mode  --> ok
-      - no increment mode   --> will be changed below
-  */
-  
-  
-  DMA1_Channel1->CNDTR = cnt;                                        /* buffer size */
-  DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
-  //  DMA1_Channel1->CPAR = (uint32_t)&(GPIOA->ODR);                    /* source value */
-  DMA1_Channel1->CMAR = (uint32_t)buf;                   /* destination memory */
 
-  DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;         /* 0000: select ADC for DMA CH 1 (this is reset default) */
-  DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;         /* 0000: select ADC for DMA CH 2 (this is reset default) */
-  
-  DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
-  DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
-  
-  /* 
-    detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
-    recive trigger from TIM2 (ADC_CFGR1_EXTSEL_1)  
-    8 Bit resolution (ADC_CFGR1_RES_1)
-  
-    Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
-    Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
-  */
-    
-  ADC1->CFGR1 = 
-	ADC_CFGR1_CONT				/* continues mode */
-	| ADC_CFGR1_EXTEN_0 			/* rising edge */
-//	| ADC_CFGR1_EXTEN_1 			/*  */
-	| ADC_CFGR1_EXTSEL_1 			/* EXTSEL 010: TIM2 */
-//	| ADC_CFGR1_RES_1				/* 8 Bit resolution, no value means 12 bit */
-	| ADC_CFGR1_DMAEN;			/* enable generation of DMA requests */
-
-  //ADC1->SMPR |= ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 | ADC_SMPR_SMP_2; 
-  //ADC1->SMPR = ADC_SMPR_SMP_1 ; 
-  //ADC1->SMPR = ADC_SMPR_SMP_0 | ADC_SMPR_SMP_1 ; 
-  ADC1->SMPR = ADC_SMPR_SMP_2 ; 
-  
-  /*
-    12.5 + 8.5 = 21 ADC Cycles pre ADC sampling
-    4 MHz / 21 cycle / 256 = 744 Hz
-  */
-
-  while( adcStartSubTask(ADC_SUB_TASK_ENABLE_ADC) == 0 )
-    adcExecSub();
-  
-  while( adcIsSubDone() == 0 )
-    adcExecSub();
-  
-  ADC1->CHSELR = 1<<ch; 				/* Select channel (can be done also if ADC is enabled) */
-  
-  /* conversion will be started automatically with rising edge of TIM2 */
-  /* setting ADSTART is still required, see chap 13.4.10 */
-
-  ADC1->CR |= ADC_CR_ADSTART; /* start the ADC conversion with next event */
-
-  /* wait until DMA is completed */
-  while ( DMA1_Channel1->CNDTR > 0 )
-    ;
-  
-}
-
-/*
-  special values:
-    -1		Can not find level
-    255	no rotation
-    0..254	BMEF level, speed is k*(255-getBEMFLevel())
-*/
-int getBEMFLevel(uint16_t cnt, uint8_t *buf, uint16_t start)
-{
-  return -1;
-}
 
 //#define TIM_CYCLE_TIME 5355
 #define TIM_CYCLE_TIME 7950
