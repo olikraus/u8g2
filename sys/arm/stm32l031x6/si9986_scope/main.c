@@ -9,7 +9,7 @@
   SI9986 IN_B: PB1 / AF?: TIM2_CH4
   VarRes: PA5 / ADC CH5
   Voltage sense: PA6 / ADC CH6
-  0.5ms IRQ: PA7 (TIM22_CH2) 
+  0.2ms IRQ: PA7 (TIM22_CH2) (optional)
   
   
   IN_A	IN_B	OUT_A	OUT_B
@@ -21,16 +21,6 @@
   
   state machine
   
-  flag: previous_measure_available = 0
-  
-  1. Read Analog Value? No --> 2.
-       Init ADC, Read ADC, Change setup
-  2. Is Setup Changed? No --> 3.
-       Reset measuring (previous_measure_available = 0), Init Tim
-  3. measure data, init adc, init dma
-  4. calculate max value
-  5. if previous measure available: calculate delta
-  6. copy current to previous measure, previous_measure_available = 1
       
       
   
@@ -740,71 +730,164 @@ void scanADC(uint8_t ch, uint16_t cnt, uint16_t *buf)
 
 /*=======================================================================*/
 /*
-  2000Hz Data Acquisition
+  5000Hz Data Acquisition
 
+  Acqusition:
   1./2. Read DC Motor Voltage into buffer 1
-  3./4. Read DC Motor Voltage into buffer 2   | calculate max value buffer 1
-  3. Read signle ADC from the variable resistor | calculate difference between buffer 1 & 2
-  4. Update duty cycle with value from 1
-  5. Calculate noise via difference signal
+  3./4. Read DC Motor Voltage into buffer 2   
+  5./6. Read signle ADC from the variable resistor 
+  parallel: Calculate noise via difference signal
+
 
 */
 
 volatile uint16_t adc_variable_resistor_value = 0;
 volatile uint8_t adc_acquisition_state = 0;
+volatile uint8_t adc_calculation_state = 0;
 
 #define BUF_MUL 2
 
 uint16_t adc_buf[128*BUF_MUL];
 uint16_t adc_buf2[128*BUF_MUL];
+uint16_t adc_diff[128*BUF_MUL];
+uint32_t adc_diff_sum_tmp = 0;
+uint16_t adc_diff_sum_cnt = 0;
+volatile uint32_t adc_diff_sum = 0;
+volatile uint16_t adc_diff_noise_per_sample_raw = 0;		// scaled by 8 bits
+volatile uint16_t adc_diff_noise_per_sample_filt = 0;		// scaled by 8 bits
+volatile uint16_t adc_max_tmp = 0;
+volatile uint16_t adc_max_raw = 0;
+volatile uint16_t adc_max_filt = 0;
+volatile uint16_t adc_calculation_pos;
 
+/* 128*BUF_MUL / ADC_CALC_PER_STEP must have no reminder */
+#define ADC_CALC_PER_STEP 32
 void adcExecAcquisition(void)
 {
+  uint16_t i;
+  uint16_t a, b, d, z;
   switch(adc_acquisition_state)
   {
     case 1:
       if ( adcStartMultiConversion(6, 128*BUF_MUL, adc_buf) == 0)
+      {
 	adcExecMultiConversion();
-      else
-	adc_acquisition_state++;
-      break;
+	break;
+      }
+      adc_acquisition_state++;
+      /* fall through */
     case 2:
       if ( adc_multi_conversion_state != 0 )
+      {
 	adcExecMultiConversion();
-      else
-	adc_acquisition_state++;
-      break;
+	break;
+      }
+      adc_acquisition_state++;
+      /* fall through */
     case 3:
       if ( adcStartMultiConversion(6, 128*BUF_MUL, adc_buf2) == 0)
+      {
 	adcExecMultiConversion();
-      else
-	adc_acquisition_state++;
-      break;
+	break;
+      }
+      adc_acquisition_state++;
+      /* fall through */
     case 4:
       if ( adc_multi_conversion_state != 0 )
+      {
 	adcExecMultiConversion();
-      else
-	adc_acquisition_state++;
-      break;
+	break;
+      }
+      adc_acquisition_state++;
+      adc_calculation_state = 1;
+      adc_calculation_pos = 0;
+      adc_diff_sum_tmp = 0;
+      adc_diff_sum_cnt = 0;
+      adc_max_tmp = 0;
+      /* fall through */
     case 5:
       if ( adcStartSingleConversion(5) == 0)
+      {
 	adcExecSingleConversion();
-      else
-	adc_acquisition_state++;
-      break;
+	break;
+      }
+      adc_acquisition_state++;
+      /* fall through */
     case 6:
       if ( adc_single_conversion_state != 0 )
-	adcExecSingleConversion();
-      else
       {
-	adc_variable_resistor_value = adc_single_conversion_result;
-	adc_acquisition_state++;
+	adcExecSingleConversion();
+	break;
+      }
+      adc_variable_resistor_value = adc_single_conversion_result;
+      adc_acquisition_state++;
+      /* fall through */
+    case 7:
+      if ( adc_calculation_state >= 2 )		// wait for calculation
+      {
+	adc_acquisition_state = 1;
+	adc_calculation_state = 0;
       }
       break;
-    case 7:
-      adc_acquisition_state = 1;
+  }
+  
+  switch(adc_calculation_state)
+  {
+    case 1:      
+      i = adc_calculation_pos;
+      adc_calculation_pos += ADC_CALC_PER_STEP;
+      if ( adc_calculation_pos >= 128U*BUF_MUL )
+	adc_calculation_pos = 128U*BUF_MUL;
+      while( i < adc_calculation_pos )
+      {
+	a = adc_buf[i];
+	b = adc_buf2[i];
+	if ( a > b )
+	  d = a - b;
+	else
+	  d = b - a;
+	/* ignore values around 0 and very large differences (spikes) 
+	  At least values 0 and 1 for a should be ignored.
+	  Height of the spices is not really clear. 
+	*/
+	if ( a > 4 && b > 4 && d < 24)
+	{
+	  adc_diff_sum_tmp += d;
+	  adc_diff_sum_cnt++;
+	  z = a + b;
+	  z >>= 1;
+	  if ( adc_max_tmp < z )
+	    adc_max_tmp = z;
+	}
+	adc_diff[i] = d;
+	i++;
+      }
+      
+      if ( adc_calculation_pos >= 128U*BUF_MUL )
+      {
+	adc_calculation_pos = 0;
+	adc_diff_sum = adc_diff_sum_tmp;
+	adc_diff_noise_per_sample_raw = (adc_diff_sum_tmp * 256UL)/adc_diff_sum_cnt;
+	/*
+	  this is a strong low-pass filter
+	  currently the filter value is calculated with 100Hz (every 5th duty cycle)
+	  3V DC Motor: adc_diff_noise_per_sample_filt < 0x0200 stop, adc_diff_noise_per_sample_filt > 0x0250 running
+	*/
+        adc_diff_noise_per_sample_filt = (((((1UL<<5) - 1)*(uint32_t)adc_diff_noise_per_sample_filt)) + (uint32_t)((1*adc_diff_noise_per_sample_raw)))>>5; 
+	
+	/*
+	  low-pass filter for the max value of the ADC.
+	  If the DC motor rotates, then the max value indicates speed: lower values are faster, higher values are slower
+	  3V DC Motor: values are from 0x01d (fastest) to 0x90 (almost stopped)
+	*/
+	adc_max_raw = adc_max_tmp;
+        adc_max_filt = (((((1UL<<5) - 3)*(uint32_t)adc_max_filt)) + (uint32_t)((3*adc_max_raw))) >> 5; 
+	
+        adc_calculation_state++;
+      }
       break;
   }
+  
 }
 
 
@@ -812,12 +895,13 @@ void adcExecAcquisition(void)
 /*=======================================================================*/
 /* TIM2: PWM signal for the DC Motor */
 //#define TIM_CYCLE_TIME 5355
+/* 7950 --> 500Hz */
 #define TIM_CYCLE_TIME 7950
 #define TIM_CYCLE_UPPER_SKIP 100
-#define TIM_CYCLE_LOWER_SKIP 400
+#define TIM_CYCLE_LOWER_SKIP 200
 
 
-void initTIM2(uint16_t tim_cycle, uint8_t is_gpio_a)
+void initTIM2(uint8_t is_gpio_a)
 {
   /* enable clock for TIM2 */
   RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
@@ -894,11 +978,31 @@ void initTIM2(uint16_t tim_cycle, uint8_t is_gpio_a)
   */
 }
 
+void setTIM2RawDuty(uint32_t duty_cycle, uint8_t is_gpio_a)
+{
+  TIM2->CCR2 = duty_cycle;
+  TIM2->CCR4 = duty_cycle;
+  
+  if ( is_gpio_a )
+  {
+    TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
+    TIM2->CCER &= ~TIM_CCER_CC4E;                     /* set output disable for channel 4 */
+  }
+  else
+  {
+    TIM2->CCER &= ~TIM_CCER_CC2E;                     /* set output disable for channel 2 */
+    TIM2->CCER |= TIM_CCER_CC4E;                     /* set output enable for channel 4 */
+  }
+}
+
+
+
+
 /*=======================================================================*/
 /* TIM22 */
 
 /* 
-  TIM22: 0.5ms IRQ 
+  TIM22: 0.2ms IRQ 
 
   Assumptions:
     APB2: 32MHz
@@ -913,13 +1017,14 @@ void initTIM22(void)
   GPIOA->MODER |= GPIO_MODER_MODE7_1;  /* alt fn */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_7;    /* push-pull */
   GPIOA->AFR[0] &= ~(15<<28);            /* Clear Alternate Function PA7 */
-  GPIOA->AFR[0] |= 5<<28;                   /* AF5 Alternate Function PA7 */
+  //GPIOA->AFR[0] |= 5<<28;                   /* AF5 Alternate Function PA7 NOTE: OUTPUT at PA7 influences ADC! */
   
   TIM22->CR2 |= TIM_CR2_MMS_1;		/* Update event for TRGO */
-  TIM22->ARR = 16000;				/* 0.5ms (2000Hz) with 32MHz */
-  TIM22->CCR2 = 4000;                            /* duty cycle for channel 2 (PA7) */
+  TIM22->ARR = 6400;				/* 0.2ms (5000Hz) with 32MHz */
+  TIM22->CCR2 = 2000;                            /* duty cycle for channel 2 (PA7) */
   
   TIM22->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
+  TIM22->CCMR1 |= TIM_CCMR1_OC2PE;            /* preload enable --> more accurate duty cycle visible */
   TIM22->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
   TIM22->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
   TIM22->PSC = 0;						/* divide by 1 */
@@ -996,7 +1101,7 @@ void main()
   GPIOB->BSRR = GPIO_BSRR_BR_1;		/* atomic reset PB1 */
 
 
-  initTIM2(TIM_CYCLE_TIME, 1);
+  initTIM2(1);
   initTIM22();
   
   
@@ -1009,16 +1114,30 @@ void main()
 
     //adc_value = getADC(5);
     adc_value = adc_variable_resistor_value;
-    tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
-    tim_duty += TIM_CYCLE_LOWER_SKIP;
-    TIM2->CCR2 = tim_duty;
-    TIM2->CCR4 = tim_duty;
+    if ( adc_value >= 0x080 )
+    {
+      adc_value -= 0x080;
+      adc_value *= 2;
+      tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
+      tim_duty += TIM_CYCLE_LOWER_SKIP;      
+      setTIM2RawDuty(tim_duty, 1);
+    }
+    else
+    {
+      adc_value = 0x080 - adc_value;
+      adc_value *= 2;
+      tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
+      tim_duty += TIM_CYCLE_LOWER_SKIP;      
+      setTIM2RawDuty(tim_duty, 0);
+    }
+    
+    
+    /*
     
     TIM2->SR &= ~TIM_SR_UIF;
     while( (TIM2->SR & TIM_SR_UIF) == 0 )
       ;
     
-    /*
     yy = 30;
     for( i = 0; i < 128; i++ )
     {
@@ -1050,15 +1169,18 @@ void main()
     zero_pos += (256-zero_pos)>>6;
 
     setRow(10); outHex16(adc_value); 
-    outStr(" "); outHex8(adc_buf[0]); outStr(" "); outHex8(adc_buf[1]); outStr(" "); outHex8(adc_buf[2]);
-    outStr("|"); outHex8(adc_buf[zero_pos/2]); outStr("|"); outHex8(adc_buf[zero_pos]); 
+    outStr(" "); outHex16(adc_diff_noise_per_sample_filt); 
+    //outStr(" ");  outHex16(adc_diff_sum_cnt); 
+    outStr(" ");  outHex16(adc_max_raw); 
+    outStr(" ");  outHex16(adc_max_filt); 
+    //outStr("|"); outHex8(adc_buf[zero_pos/2]); outStr("|"); outHex8(adc_buf[zero_pos]); 
     
     u8g2_DrawVLine(&u8g2, zero_pos/2, yy-7, 15);
     u8g2_DrawVLine(&u8g2, zero_pos/4, yy-7, 15);
     for( i = 0; i < 128; i++ )
     {
-      y = 60-(adc_buf[i*BUF_MUL]>>3);
       y = 60-(adc_buf[i*BUF_MUL]>>2);
+      //y = 60-(adc_diff[i*BUF_MUL]>>2);
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
 	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
