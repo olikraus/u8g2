@@ -9,6 +9,7 @@
   SI9986 IN_B: PB1 / AF?: TIM2_CH4
   VarRes: PA5 / ADC CH5
   Voltage sense: PA6 / ADC CH6
+  0.5ms IRQ: PA7 (TIM22_CH2) 
   
   
   IN_A	IN_B	OUT_A	OUT_B
@@ -592,9 +593,9 @@ uint16_t getADC(uint8_t ch)
 uint8_t adc_multi_conversion_channel = 6;
 volatile uint8_t adc_multi_conversion_state = 0;
 uint16_t adc_multi_conversion_count = 256;
-uint8_t *adc_multi_conversion_buffer = NULL;
+uint16_t *adc_multi_conversion_buffer = NULL;
 
-int adcStartMultiConversion(uint8_t channel, uint16_t cnt, uint8_t *buf)
+int adcStartMultiConversion(uint8_t channel, uint16_t cnt, uint16_t *buf)
 {
   if ( adc_multi_conversion_state != 0 )
     return 0;
@@ -647,7 +648,7 @@ void adcExecMultiConversion(void)
       DMA1_Channel1->CCR = 0;
       
       /* defaults: 
-	  - 8 Bit access	--> ok
+	  - 8 Bit access	--> will be changed below
 	  - read from peripheral	--> ok
 	  - none-circular mode  --> ok
 	  - no increment mode   --> will be changed below
@@ -663,6 +664,8 @@ void adcExecMultiConversion(void)
       DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;         /* 0000: select ADC for DMA CH 2 (this is reset default) */
       
       DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
+      DMA1_Channel1->CCR |= DMA_CCR_MSIZE_0;		/* 01: 16 Bit access */   
+      
       DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
 
       
@@ -725,7 +728,7 @@ void adcExecMultiConversion(void)
 }
 
 
-void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
+void scanADC(uint8_t ch, uint16_t cnt, uint16_t *buf)
 {
   while( adcStartMultiConversion(ch, cnt, buf) == 0)
     adcExecMultiConversion();
@@ -735,25 +738,89 @@ void scanADC(uint8_t ch, uint16_t cnt, uint8_t *buf)
 
 
 
+/*=======================================================================*/
+/*
+  2000Hz Data Acquisition
+
+  1./2. Read DC Motor Voltage into buffer 1
+  3./4. Read DC Motor Voltage into buffer 2   | calculate max value buffer 1
+  3. Read signle ADC from the variable resistor | calculate difference between buffer 1 & 2
+  4. Update duty cycle with value from 1
+  5. Calculate noise via difference signal
+
+*/
+
+volatile uint16_t adc_variable_resistor_value = 0;
+volatile uint8_t adc_acquisition_state = 0;
+
+#define BUF_MUL 2
+
+uint16_t adc_buf[128*BUF_MUL];
+uint16_t adc_buf2[128*BUF_MUL];
+
+void adcExecAcquisition(void)
+{
+  switch(adc_acquisition_state)
+  {
+    case 1:
+      if ( adcStartMultiConversion(6, 128*BUF_MUL, adc_buf) == 0)
+	adcExecMultiConversion();
+      else
+	adc_acquisition_state++;
+      break;
+    case 2:
+      if ( adc_multi_conversion_state != 0 )
+	adcExecMultiConversion();
+      else
+	adc_acquisition_state++;
+      break;
+    case 3:
+      if ( adcStartMultiConversion(6, 128*BUF_MUL, adc_buf2) == 0)
+	adcExecMultiConversion();
+      else
+	adc_acquisition_state++;
+      break;
+    case 4:
+      if ( adc_multi_conversion_state != 0 )
+	adcExecMultiConversion();
+      else
+	adc_acquisition_state++;
+      break;
+    case 5:
+      if ( adcStartSingleConversion(5) == 0)
+	adcExecSingleConversion();
+      else
+	adc_acquisition_state++;
+      break;
+    case 6:
+      if ( adc_single_conversion_state != 0 )
+	adcExecSingleConversion();
+      else
+      {
+	adc_variable_resistor_value = adc_single_conversion_result;
+	adc_acquisition_state++;
+      }
+      break;
+    case 7:
+      adc_acquisition_state = 1;
+      break;
+  }
+}
+
+
+
+/*=======================================================================*/
+/* TIM2: PWM signal for the DC Motor */
 //#define TIM_CYCLE_TIME 5355
 #define TIM_CYCLE_TIME 7950
 #define TIM_CYCLE_UPPER_SKIP 100
 #define TIM_CYCLE_LOWER_SKIP 400
 
 
-/*=======================================================================*/
-
-void initTIM(uint16_t tim_cycle, uint8_t is_gpio_a)
+void initTIM2(uint16_t tim_cycle, uint8_t is_gpio_a)
 {
   /* enable clock for TIM2 */
   RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-  
-  /*enable clock for GPIOA */
-  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
-  RCC->IOPENR |= RCC_IOPENR_IOPBEN;		/* Enable clock for GPIO Port B */
-  
-    __NOP();                                                          /* extra delay for clock stabilization required? */
-    __NOP();
   
   /* prescalar for AHB and APB1 */
   
@@ -817,6 +884,7 @@ void initTIM(uint16_t tim_cycle, uint8_t is_gpio_a)
     TIM2->CCER |= TIM_CCER_CC4E;                     /* set output enable for channel 4 */
   
   TIM2->PSC = 7;						/* divide by 8 */
+
   
   TIM2->CR1 |= TIM_CR1_CEN;            /* counter enable */
   
@@ -827,10 +895,73 @@ void initTIM(uint16_t tim_cycle, uint8_t is_gpio_a)
 }
 
 /*=======================================================================*/
+/* TIM22 */
 
-#define BUF_MUL 2
+/* 
+  TIM22: 0.5ms IRQ 
 
-uint8_t adc_buf[128*BUF_MUL];
+  Assumptions:
+    APB2: 32MHz
+    GPIO A anabled
+*/
+void initTIM22(void)
+{
+  RCC->APB2ENR |= RCC_APB2ENR_TIM22EN;
+  
+  /* configure GPIOA PA7 for TIM2 CH2*/
+  GPIOA->MODER &= ~GPIO_MODER_MODE7;	/* clear mode for PA1 */  
+  GPIOA->MODER |= GPIO_MODER_MODE7_1;  /* alt fn */
+  GPIOA->OTYPER &= ~GPIO_OTYPER_OT_7;    /* push-pull */
+  GPIOA->AFR[0] &= ~(15<<28);            /* Clear Alternate Function PA7 */
+  GPIOA->AFR[0] |= 5<<28;                   /* AF5 Alternate Function PA7 */
+  
+  TIM22->CR2 |= TIM_CR2_MMS_1;		/* Update event for TRGO */
+  TIM22->ARR = 16000;				/* 0.5ms (2000Hz) with 32MHz */
+  TIM22->CCR2 = 4000;                            /* duty cycle for channel 2 (PA7) */
+  
+  TIM22->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
+  TIM22->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
+  TIM22->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
+  TIM22->PSC = 0;						/* divide by 1 */
+    
+  TIM22->DIER |= TIM_DIER_UIE;			/* enable TIM22 update interrupt: call TIM22_IRQHandler on reload */
+
+  /* enable IRQ in NVIC */
+  NVIC_SetPriority(TIM22_IRQn, 0);
+  NVIC_EnableIRQ(TIM22_IRQn);
+  
+  
+  TIM22->CR1 |= TIM_CR1_CEN;            /* counter enable */
+  
+  adc_acquisition_state = 1;			/* enable data acquisition */
+
+}
+
+volatile uint16_t adc_max;
+
+void __attribute__ ((interrupt, used)) TIM22_IRQHandler(void)
+{
+  
+/*
+  the following loop requires about 5000 clock cycles 1/3 of the IRQ time:
+  
+  uint16_t i;
+  adc_max = 0;
+  for( i = 0; i < 256; i++ )
+  {
+    adc_max += TIM22->CNT;
+  }
+*/
+
+  adcExecAcquisition();
+
+  TIM22->CCR2 = TIM22->CNT;		/* store the current count value in compare register: duty cycle signals load */
+  TIM22->SR &= ~TIM_SR_UIF;			/* clear interrupt */
+}
+
+
+/*=======================================================================*/
+
 
 void main()
 {
@@ -865,7 +996,8 @@ void main()
   GPIOB->BSRR = GPIO_BSRR_BR_1;		/* atomic reset PB1 */
 
 
-  initTIM(TIM_CYCLE_TIME, 1);
+  initTIM2(TIM_CYCLE_TIME, 1);
+  initTIM22();
   
   
 
@@ -875,7 +1007,8 @@ void main()
     u8g2_ClearBuffer(&u8g2);
    
 
-    adc_value = getADC(5);
+    //adc_value = getADC(5);
+    adc_value = adc_variable_resistor_value;
     tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
     tim_duty += TIM_CYCLE_LOWER_SKIP;
     TIM2->CCR2 = tim_duty;
@@ -901,13 +1034,14 @@ void main()
     
     
 
+    /*
     for( i = 0; i < 128*BUF_MUL; i++ )
     {
       adc_buf[i] = i;
     }
     
-    //getADC(6);
     scanADC(6, 128*BUF_MUL, adc_buf);
+    */
 
     yy = 60;
     
