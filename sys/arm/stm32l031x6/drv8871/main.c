@@ -1,12 +1,11 @@
 /* 
 
-  si9986 scope for DC motor
+  drv8871 DC motor
 
   Example for the STM32L031 Eval Board with 128x64 OLED at PA13/PA14
   
-  SI9986 Shield
-  SI9986 IN_A: PA1 / AF2: TIM2_CH2
-  SI9986 IN_B: PB1 / AF?: TIM2_CH4
+  IN_A: PA1 / AF2: TIM2_CH2
+  IN_B: PB1 / AF?: TIM2_CH4
   VarRes: PA5 / ADC CH5
   Voltage sense: PA6 / ADC CH6
   0.2ms IRQ: PA7 (TIM22_CH2) (optional)
@@ -132,7 +131,7 @@ void initDisplay(void)
 {
   
   /* setup display */
-  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
+  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R2, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0);
   u8g2_InitDisplay(&u8g2);
   u8g2_SetPowerSave(&u8g2, 0);
   u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
@@ -882,7 +881,7 @@ void adcExecAcquisition(void)
 	  3V DC Motor: values are from 0x01d (fastest) to 0x90 (almost stopped)
 	*/
 	adc_max_raw = adc_max_tmp;
-        adc_max_filt = (((((1UL<<5) - 3)*(uint32_t)adc_max_filt)) + (uint32_t)((3*adc_max_raw))) >> 5; 
+        adc_max_filt = (((((1UL<<5) - 1)*(uint32_t)adc_max_filt)) + (uint32_t)((1*adc_max_raw))) >> 5; 
 	
         adc_calculation_state++;
       }
@@ -950,11 +949,7 @@ void initTIM2(uint8_t is_gpio_a)
   
   //TIM2->CCMR1 &= ~TIM_CCMR1_OC2CE;      /* disable clear output compare 2 **/
   TIM2->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
-  //TIM2->CCMR1 &= ~TIM_CCMR1_OC1M_0;     /* 110: PWM Mode 1 */
   TIM2->CCMR1 |= TIM_CCMR1_OC2PE;            /* preload enable CCR2 is preloaded*/
-  // TIM2->CCMR1 &= ~TIM_CCMR1_OC2FE;            /* fast disable (reset default) */
-  // TIM2->CCMR1 &= ~TIM_CCMR1_CC2S;               /* configure cc2 as output (this is reset default) */
-  //TIM2->EGR  |=  TIM_EGR_CC2G;              /* capture event cc2 */
   TIM2->CCER |= TIM_CCER_CC2P;                     /* polarity 0: normal (reset default) / 1: inverted*/
 
   TIM2->CCMR2 |= TIM_CCMR2_OC4M;            /* all 3 bits set: PWM Mode 2 */
@@ -983,19 +978,23 @@ void setTIM2RawDuty(uint32_t duty_cycle, uint8_t is_gpio_a)
 {
   TIM2->CCR2 = duty_cycle;
   TIM2->CCR4 = duty_cycle;
-
-
-    /* disabling the channel is wrong, it has to be set to mode 101, see drv8871 code */
   
   if ( is_gpio_a )
   {
+    TIM2->CCMR1 |= TIM_CCMR1_OC2M;            /* all 3 bits set: PWM Mode 2 */
     TIM2->CCER |= TIM_CCER_CC2E;                     /* set output enable for channel 2 */
-    TIM2->CCER &= ~TIM_CCER_CC4E;                     /* set output disable for channel 4 */
+    
+    //TIM2->CCER &= ~TIM_CCER_CC4E;                     /* set output disable for channel 4 */    
+    TIM2->CCMR2 &= ~TIM_CCMR2_OC4M_1;            /* Mode 101 force high */
+
   }
   else
   {
-    TIM2->CCER &= ~TIM_CCER_CC2E;                     /* set output disable for channel 2 */
+    TIM2->CCMR2 |= TIM_CCMR2_OC4M;            /* all 3 bits set: PWM Mode 2 */
     TIM2->CCER |= TIM_CCER_CC4E;                     /* set output enable for channel 4 */
+    
+    //TIM2->CCER &= ~TIM_CCER_CC2E;                     /* set output disable for channel 2 */
+    TIM2->CCMR1 &= ~TIM_CCMR1_OC2M_1;            /* Mode 101 force high */
   }
 }
 
@@ -1183,7 +1182,7 @@ void main()
     u8g2_DrawVLine(&u8g2, zero_pos/4, yy-7, 15);
     for( i = 0; i < 128; i++ )
     {
-      y = 60-(adc_buf[i*BUF_MUL]>>2);
+      y = 60-(adc_buf[i*BUF_MUL]>>5);
       //y = 60-(adc_diff[i*BUF_MUL]>>2);
       u8g2_DrawPixel(&u8g2, i, y);
       if ( y < yy )
