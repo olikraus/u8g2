@@ -558,6 +558,16 @@ Greek Extended	1F00–1FFF
   { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf",	"fub42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf",	"fub49",			8, 0, BM_T, FM_C, MM_N, "", "" },
 
+  { "-a -r 72 -p 16", "FreeUniversal-Bold.ttf", 	"fub11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 20", "FreeUniversal-Bold.ttf", 	"fub14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 23", "FreeUniversal-Bold.ttf", 	"fub17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 27", "FreeUniversal-Bold.ttf", 	"fub20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 34", "FreeUniversal-Bold.ttf", 	"fub25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 40", "FreeUniversal-Bold.ttf", 	"fub30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 49", "FreeUniversal-Bold.ttf", 	"fub35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf", 	"fub49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
+
   
 /*  
   Free Universal Regular
@@ -582,6 +592,16 @@ Greek Extended	1F00–1FFF
   { "-a -r 72 -p 48", "FreeUniversal-Regular.ttf",	"fur35",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 58", "FreeUniversal-Regular.ttf",	"fur42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 68", "FreeUniversal-Regular.ttf",	"fur49",			8, 0, BM_T, FM_C, MM_N, "", "" },
+
+  { "-a -r 72 -p 16", "FreeUniversal-Bold.ttf", 	"fub11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 19", "FreeUniversal-Bold.ttf", 	"fub14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 23", "FreeUniversal-Bold.ttf", 	"fub17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 28", "FreeUniversal-Bold.ttf", 	"fub20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 34", "FreeUniversal-Bold.ttf", 	"fub25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 40", "FreeUniversal-Bold.ttf", 	"fub30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 48", "FreeUniversal-Bold.ttf", 	"fub35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf", 	"fub49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
   
 /*
 ./do_fontsize_a_v2.sh 25 ../ttf/os/OldStandard-Bold.ttf osb18

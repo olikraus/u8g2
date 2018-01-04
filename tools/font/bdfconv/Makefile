@@ -46,7 +46,7 @@ xlogisoso: bdfconv
 	./bdfconv -v -f 1 -m '32,42-57,$$370-$$3ff,$$2100-$$21ff' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
 
 omega: bdfconv
-	-../otf2bdf/otf2bdf -a -r 72 -p 80 -o tmp.bdf ../ttf/FreeUniversal-Regular.ttf
+	-../otf2bdf/otf2bdf -a -r 72 -p 68 -o tmp.bdf ../ttf/FreeUniversal-Regular.ttf
 	./bdfconv -v -f 1 -m '32,35-57,$$300-$$3ff,$$2031-$$3000' tmp.bdf -o u8g2_font_omega_tn.c  -n u8g2_font_omega_tn -d ../bdf/helvB18.bdf 
 
 tga: bdfconv
