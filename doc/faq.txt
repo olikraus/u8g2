@@ -196,19 +196,15 @@ Use the Makefile in this directory to create a Linux binary.
 Q: How can I use multiple SPI Displays?
 A: For each additional display, separate CS (Chip select) and RST (Reset) lines are required. 
 
-```C++
 // Setup display1 and display2
-U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI display1(U8G2_R0, /*CLK*/ 18, /*MOSI*/ 23, /*CS*/ 16,
-                                                /*DC*/ 17, /*RS*/ 4);
-U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI display2(U8G2_R0, /*CLK*/ 18, /*MOSI*/ 23, /*CS*/ 15,
-                                            /*DC*/ 17, /*RS*/ 4);    
-```
+U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI display1(U8G2_R0, /*CLK*/ 18, /*MOSI*/ 23, /*CS*/ 16,/*DC*/ 17, /*RS*/ 4);
+U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI display2(U8G2_R0, /*CLK*/ 18, /*MOSI*/ 23, /*CS*/ 15,/*DC*/ 17, /*RS*/ 4);
+
 Ensure that the buffer is sent after printing with each display as follows.
 
-```C++
     display1.begin();
     display2.begin();
-    
+    ...
     display1.setCursor(64, 32);
     display1.print("DISPLAY 1");
     display1.sendBuffer();
@@ -216,5 +212,14 @@ Ensure that the buffer is sent after printing with each display as follows.
     display2.setCursor(64, 32);
     display2.print("DISPLAY 2");
     display2.sendBuffer();
-```
                                                 
+Q: How can I send individual/special commands to my display.
+A: The sequence is: Start transfer, send data and args, close transfer. Note that
+this is not portable, because these commands are specific to the display controller.
+The following C++/Arduino code will send one command with one argument to the
+display:
+  u8x8_cad_StartTransfer(u8g2.GetU8x8());
+  u8x8_cad_SendCmd( u8g2.GetU8x8(), <display command>);
+  u8x8_cad_SendArg( u8g2.GetU8x8(), <display-command-arg>);  
+  u8x8_cad_EndTransfer(u8g2.GetU8x8());
+
