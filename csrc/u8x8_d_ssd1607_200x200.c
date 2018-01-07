@@ -505,3 +505,93 @@ uint8_t u8x8_d_ssd1607_v2_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
   }
   return 1;
 }
+
+
+/*=================================================*/
+/* GDEP015OC1 */
+/* https://github.com/olikraus/u8g2/issues/454 */
+
+
+static const uint8_t u8x8_d_ssd1607_gd_to_display_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  /*
+0xaa, 0x09, 0x09, 0x19, 0x19, 
+0x11, 0x11, 0x11, 0x11, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00, 0x00, 0x00, 0x00, 
+
+0x75, 0x77, 0x77, 0x77, 0x07, 
+0x00, 0x00, 0x00, 0x00, 0x00
+measured 1240 ms with IL3830 196x128
+  
+  
+0x02, 0x02, 0x01, 0x11, 0x12, 
+0x12, 0x12, 0x22, 0x22, 0x66, 
+0x69, 0x59, 0x58, 0x99, 0x99, 
+0x88, 0x00, 0x00, 0x00, 0x00, 
+
+0xf8, 0xb4, 0x13, 0x51, 0x35, 
+0x51, 0x51, 0xe9, 0x04, 0x00
+  
+*/
+
+  U8X8_C(0x32),	/* write LUT register*/
+
+  U8X8_A(0x50), U8X8_A(0xAA), U8X8_A(0x55), U8X8_A(0xAA), U8X8_A(0x11), 
+  U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), 
+  U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), 
+  U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), 
+  
+  U8X8_A(0xFF), U8X8_A(0xFF), U8X8_A(0x1F), U8X8_A(0x00), U8X8_A(0x00), 
+  U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00), U8X8_A(0x00),
+
+  U8X8_CA(0x22, 0x04),	/* display update seq. option: clk -> CP -> LUT -> initial display -> pattern display */
+  U8X8_C(0x20),	/* execute sequence */
+  
+  U8X8_DLY(250),	/* delay for 1500ms. The current sequence takes 1300ms */
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  
+  U8X8_DLY(250),
+  U8X8_DLY(250),
+  
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+uint8_t u8x8_d_ssd1607_gd_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1607_200x200_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      u8x8_d_ssd1607_200x200_first_init(u8x8);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave1_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      break;
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_d_ssd1607_draw_tile(u8x8, arg_int, arg_ptr);
+      break;
+    case U8X8_MSG_DISPLAY_REFRESH:
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_gd_to_display_seq);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}

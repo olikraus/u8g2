@@ -892,6 +892,7 @@ struct controller controller_list[] =
     "Partly supported by U8x8, no HW flip, no contrast setting, v2 includes an optimized LUT", /* is_generate_u8g2_class= */ 1,
     {
       { "200x200" },
+      { "gd_200x200" },	// GDEP015OC1
       //{ "v2_200x200" },
       { NULL }
     }
