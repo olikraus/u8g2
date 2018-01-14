@@ -80,7 +80,9 @@ lurs24: bdfconv
 	./bdfconv -f 1 -m '32-255' -p 10 luRS24.bdf -o luRS24.c -n u8g2_font_luRS24 -d ../bdf/helvB12.bdf 
 
 siji: bdfconv
-	./bdfconv -v -f 1 -m '32-$$ffff' ./siji.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
+#	./bdfconv -v -f 1 -m '32-$$ffff' ./siji.bdf -o test1.c  -n test -d ../bdf/helvB12.bdf 
+	./bdfconv -v -f 1 -m '32-$$ffff' ../bdf/siji_with_6x10.bdf -o test2.c  -n test -d ../bdf/helvB12.bdf 
+
 
 	
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support
