@@ -173,7 +173,8 @@ struct groupinfo gi[] = {
   { "Tlwg (Thai-Fonts)","fntgrptlwg", 		"../../../../u8g2.wiki/fntgrptlwg.md", 		"fntgrptlwg.pre" }, 		/* 17 */
   { "NBP", 		"fntgrpnbp", 		"../../../../u8g2.wiki/fntgrpnbp.md", 			"fntgrpnbp.pre" }, 		/* 18 */
   { "UW ttyp0", 	"fntgrpttyp0", 		"../../../../u8g2.wiki/fntgrpttyp0.md", 		"fntgrpttyp0.pre" }, 		/* 19 */
-  
+  { "Siji Icon Font", 	"fntgrpsiji", 		"../../../../u8g2.wiki/fntgrpsiji.md", 		"fntgrpsiji.pre" }, 		/* 20 */
+  { "Wqy (Chinese Font)", 	"fntgrpwqy", 		"../../../../u8g2.wiki/fntgrpwqy.md", 		"fntgrpwqy.pre" }, 		/* 21 */  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -255,6 +256,9 @@ struct fontinfo fi[] ={
   { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
 
+  { 0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "32-128,$e000-$ffff", "_6x10" },
+  { 0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "$e000-$ffff", "" },
+  
   
 /*
 t0 includes the following pages/language support:

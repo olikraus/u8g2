@@ -83,6 +83,9 @@ siji: bdfconv
 #	./bdfconv -v -f 1 -m '32-$$ffff' ./siji.bdf -o test1.c  -n test -d ../bdf/helvB12.bdf 
 	./bdfconv -v -f 1 -m '32-$$ffff' ../bdf/siji_with_6x10.bdf -o test2.c  -n test -d ../bdf/helvB12.bdf 
 
+wqy: bdfconv
+	./bdfconv -v -f 1 -M ../build/gb2312.map ../bdf/wenquanyi_9pt.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
+
 
 	
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support

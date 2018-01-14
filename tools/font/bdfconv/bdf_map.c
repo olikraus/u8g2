@@ -218,14 +218,24 @@ void bf_map_cmd(bf_t *bf, const char **s)
 {
   int i;
   bg_t *bg;
+  static int is_log_disabled_for_single_glyphs = 0;
   
   if ( **s == ',' || **s == '\0' )
     return;
       
   map_cmd(s);
 
+    
+  if ( range_from != range_to )
+  {
+    bf_Log(bf, "Map: exclude=%d from=%ld/$%lx to=%ld/$%lx map=%ld/$%lx", is_exclude, range_from, range_from, range_to, range_to, map_to, map_to);
+  }
+  else if ( is_log_disabled_for_single_glyphs == 0 )
+  {
+    bf_Log(bf, "Map: exclude=%d from=%ld/$%lx to=%ld/$%lx map=%ld/$%lx (further single glyph logs disabled)", is_exclude, range_from, range_from, range_to, range_to, map_to, map_to);
+    is_log_disabled_for_single_glyphs = 1;
+  }
   
-  bf_Log(bf, "Map: exclude=%d from=%ld/$%lx to=%ld/$%lx map=%ld/$%lx", is_exclude, range_from, range_from, range_to, range_to, map_to, map_to);
   
   for( i = 0; i < bf->glyph_cnt; i++ )
   {
@@ -278,7 +288,8 @@ void bf_map_list(bf_t *bf, const char **s)
 
 void bf_Map(bf_t *bf, const char *map_cmd_list)
 {
-  bf_Log(bf, "Map: map_cmd_list='%s'", map_cmd_list);
+  if ( strlen(map_cmd_list) < 1024 )
+    bf_Log(bf, "Map: map_cmd_list='%s'", map_cmd_list);
   bf_map_list(bf, &map_cmd_list);
 }
 
