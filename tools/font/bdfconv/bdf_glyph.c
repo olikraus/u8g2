@@ -151,16 +151,26 @@ int bg_SetBitmapSize(bg_t *bg, int w, int h)
 void bg_SetBitmapPixel(bg_t *bg, int x, int y, int value)
 {
   static long last_encoding = 0xffffffff;
+  static long biggest_x = -1;
   
   if ( x >= bg->bitmap_width || y >= bg->bitmap_height )
   {
     if ( last_encoding != bg->encoding )
     {
+      biggest_x = x;
       printf("Glyph size problem: ");
       printf("encoding=%ld/0x%lx, ", bg->encoding, bg->encoding);
       printf("width=%d, height=%d, ", bg->bitmap_width, bg->bitmap_height);
-      printf("requested position x=%d, y=%d\n", x, y);
+      printf("requested position x=%d, y=%d (use BBX %d ...?)\n", x, y, x+1);
       last_encoding = bg->encoding;
+    }
+    else if ( biggest_x < x )
+    {
+      biggest_x = x; 
+      printf("Glyph size problem: ");
+      printf("encoding=%ld/0x%lx, ", bg->encoding, bg->encoding);
+      printf("width=%d, height=%d, ", bg->bitmap_width, bg->bitmap_height);
+      printf("requested position x=%d, y=%d (use BBX %d ...?)\n", x, y, x+1);
     }
   }
   

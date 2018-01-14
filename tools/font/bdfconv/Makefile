@@ -85,6 +85,10 @@ siji: bdfconv
 
 wqy: bdfconv
 	./bdfconv -v -f 1 -M ../build/gb2312.map ../bdf/wenquanyi_9pt.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
+	./bdfconv -v -f 1 -M ../build/gb2312.map ../bdf/wenquanyi_10pt.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
+	./bdfconv -v -f 1 -M ../build/gb2312.map ../bdf/wenquanyi_13px.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
+	./bdfconv -v -f 1 -M ../build/gb2312.map ../bdf/wenquanyi_11pt.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
+	./bdfconv -v -f 1 -M ../build/gb2312.map ../bdf/wenquanyi_12pt.bdf -o test.c  -n test -d ../bdf/helvB12.bdf 
 
 
 	
