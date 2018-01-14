@@ -665,7 +665,7 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
       fprintf(out_fp, "\\%o", bf->target_data[i]);
       //fprintf(out_fp, "\\x%02x", bf->target_data[i]);
     }
-    else if ( bf->target_data[i] < 128 )
+    else if ( bf->target_data[i] < 127 )		/* issue 482, do not output ASCII char 127, instead use octal code for 127 */
     {
       fprintf(out_fp, "%c", bf->target_data[i]);
     }
