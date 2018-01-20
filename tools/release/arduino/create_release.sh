@@ -18,6 +18,12 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/Chinese
 cp ../../../sys/arduino/u8g2_page_buffer/Chinese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Chinese/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Shennong
+cp ../../../sys/arduino/u8g2_page_buffer/Shennong/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Shennong/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Shennong
+cp ../../../sys/arduino/u8g2_full_buffer/Shennong/*.ino ../../../../U8g2_Arduino/examples/full_buffer/Shennong/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/Japanese
 cp ../../../sys/arduino/u8g2_page_buffer/Japanese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Japanese/.
 
