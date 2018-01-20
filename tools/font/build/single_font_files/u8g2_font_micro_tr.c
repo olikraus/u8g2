@@ -26,5 +26,5 @@ const uint8_t u8g2_font_micro_tr[709] U8G2_FONT_SECTION("u8g2_font_micro_tr") =
   "P*n\7SdF\262\2o\7SdFR#p\7SdF\32\22q\7SdF\32\61r\7"
   "SdF\222\21s\7Sd\206\34\2t\7W\344\322\212Qu\7Sd\222\65\2v\7Sd\222U"
   "\1w\7Sd\222\32*x\7SdR\231\12y\10Sd\222J#\1z\7Sd\326H\3{\7"
-  "W\344T\222Q|\6ud\206\0}\10WddTI\1~\6Ke\244\0\10W\344T\254\24"
+  "W\344T\222Q|\6ud\206\0}\10WddTI\1~\6Ke\244\0\177\10W\344T\254\24"
   "\0\0\0\0";

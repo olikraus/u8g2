@@ -221,20 +221,26 @@ struct fontinfo fi[] ={
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
   { 0, "micro.bdf", 			"micro", 			1, 0, BM_T|BM_M, FM_C, MM_R|MM_N, "", "" },		/* micro does not have the full set */
   { 0, "4x6.bdf", 			"4x6", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0, "4x6.bdf", 			"4x6", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
+  { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
+  { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "6x10.bdf", 			"6x10", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
+  { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
+  { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "6x13O.bdf", 			"6x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "7x13B.bdf", 			"7x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x13O.bdf", 			"7x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "7x14.bdf", 			"7x14", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -242,12 +248,14 @@ struct fontinfo fi[] ={
 //#ifdef TMP
   { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
 
   
   { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   { 0, "9x15B.bdf", 			"9x15B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x18.bdf", 			"9x18", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "9x18B.bdf", 			"9x18B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -604,7 +612,7 @@ Greek Extended	1F00–1FFF
   { "-a -r 72 -p 34", "FreeUniversal-Bold.ttf", 	"fub25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
   { "-a -r 72 -p 40", "FreeUniversal-Bold.ttf", 	"fub30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
   { "-a -r 72 -p 49", "FreeUniversal-Bold.ttf", 	"fub35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
   { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf", 	"fub49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
 
   
@@ -632,15 +640,15 @@ Greek Extended	1F00–1FFF
   { "-a -r 72 -p 58", "FreeUniversal-Regular.ttf",	"fur42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-a -r 72 -p 68", "FreeUniversal-Regular.ttf",	"fur49",			8, 0, BM_T, FM_C, MM_N, "", "" },
 
-  { "-a -r 72 -p 16", "FreeUniversal-Bold.ttf", 	"fub11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 19", "FreeUniversal-Bold.ttf", 	"fub14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 23", "FreeUniversal-Bold.ttf", 	"fub17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 28", "FreeUniversal-Bold.ttf", 	"fub20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 34", "FreeUniversal-Bold.ttf", 	"fub25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 40", "FreeUniversal-Bold.ttf", 	"fub30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 48", "FreeUniversal-Bold.ttf", 	"fub35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf", 	"fub49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
+  { "-a -r 72 -p 16", "FreeUniversal-Regular.ttf", 	"fur11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 19", "FreeUniversal-Regular.ttf", 	"fur14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 23", "FreeUniversal-Regular.ttf", 	"fur17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 28", "FreeUniversal-Regular.ttf", 	"fur20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 34", "FreeUniversal-Regular.ttf", 	"fur25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 40", "FreeUniversal-Regular.ttf", 	"fur30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 48", "FreeUniversal-Regular.ttf", 	"fur35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { "-a -r 72 -p 58", "FreeUniversal-Regular.ttf", 	"fur42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" }, // per mill sign does not fit
+  { "-a -r 72 -p 68", "FreeUniversal-Regular.ttf", 	"fur49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
   
 /*
 ./do_fontsize_a_v2.sh 25 ../ttf/os/OldStandard-Bold.ttf osb18
