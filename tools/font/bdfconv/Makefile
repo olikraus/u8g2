@@ -95,6 +95,72 @@ wqy: bdfconv
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support
 
 chinese: bdfconv
+	./bdfconv ../bdf/wenquanyi_9pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese1.map -d ../bdf/7x13.bdf -n u8g2_font_wqy12_t_chinese1
+	convert bdf.tga -trim u8g2_font_wqy12_t_chinese1.png
+	./bdfconv ../bdf/wenquanyi_9pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese2.map -d ../bdf/7x13.bdf -n u8g2_font_wqy12_t_chinese2
+	convert bdf.tga -trim u8g2_font_wqy12_t_chinese2.png
+	./bdfconv ../bdf/wenquanyi_9pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese3.map -d ../bdf/7x13.bdf -n u8g2_font_wqy12_t_chinese3
+	convert bdf.tga -trim u8g2_font_wqy12_t_chinese3.png
+	./bdfconv ../bdf/wenquanyi_9pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312.map -d ../bdf/7x13.bdf -n u8g2_font_wqy12_t_gb2312
+	convert bdf.tga -trim u8g2_font_wqy12_t_gb2312.png
+	./bdfconv ../bdf/wenquanyi_9pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312a.map -d ../bdf/7x13.bdf -n u8g2_font_wqy12_t_gb2312a
+	convert bdf.tga -trim u8g2_font_wqy12_t_gb2312a.png
+	./bdfconv ../bdf/wenquanyi_9pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312b.map -d ../bdf/7x13.bdf -n u8g2_font_wqy12_t_gb2312b
+	convert bdf.tga -trim u8g2_font_wqy12_t_gb2312b.png
+
+	./bdfconv ../bdf/wenquanyi_10pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese1.map -d ../bdf/7x13.bdf -n u8g2_font_wqy13_t_chinese1
+	convert bdf.tga -trim u8g2_font_wqy13_t_chinese1.png
+	./bdfconv ../bdf/wenquanyi_10pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese2.map -d ../bdf/7x13.bdf -n u8g2_font_wqy13_t_chinese2
+	convert bdf.tga -trim u8g2_font_wqy13_t_chinese2.png
+	./bdfconv ../bdf/wenquanyi_10pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese3.map -d ../bdf/7x13.bdf -n u8g2_font_wqy13_t_chinese3
+	convert bdf.tga -trim u8g2_font_wqy13_t_chinese3.png
+	./bdfconv ../bdf/wenquanyi_10pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312.map -d ../bdf/7x13.bdf -n u8g2_font_wqy13_t_gb2312
+	convert bdf.tga -trim u8g2_font_wqy13_t_gb2312.png
+	./bdfconv ../bdf/wenquanyi_10pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312a.map -d ../bdf/7x13.bdf -n u8g2_font_wqy13_t_gb2312a
+	convert bdf.tga -trim u8g2_font_wqy13_t_gb2312a.png
+	./bdfconv ../bdf/wenquanyi_10pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312b.map -d ../bdf/7x13.bdf -n u8g2_font_wqy13_t_gb2312b
+	convert bdf.tga -trim u8g2_font_wqy13_t_gb2312b.png
+
+	./bdfconv ../bdf/wenquanyi_13px.bdf -g 32 -b 0 -f 1 -M ../build/chinese1.map -d ../bdf/7x13.bdf -n u8g2_font_wqy14_t_chinese1
+	convert bdf.tga -trim u8g2_font_wqy14_t_chinese1.png
+	./bdfconv ../bdf/wenquanyi_13px.bdf -g 32 -b 0 -f 1 -M ../build/chinese2.map -d ../bdf/7x13.bdf -n u8g2_font_wqy14_t_chinese2
+	convert bdf.tga -trim u8g2_font_wqy14_t_chinese2.png
+	./bdfconv ../bdf/wenquanyi_13px.bdf -g 32 -b 0 -f 1 -M ../build/chinese3.map -d ../bdf/7x13.bdf -n u8g2_font_wqy14_t_chinese3
+	convert bdf.tga -trim u8g2_font_wqy14_t_chinese3.png
+	./bdfconv ../bdf/wenquanyi_13px.bdf -g 32 -b 0 -f 1 -M ../build/gb2312.map -d ../bdf/7x13.bdf -n u8g2_font_wqy14_t_gb2312
+	convert bdf.tga -trim u8g2_font_wqy14_t_gb2312.png
+	./bdfconv ../bdf/wenquanyi_13px.bdf -g 32 -b 0 -f 1 -M ../build/gb2312a.map -d ../bdf/7x13.bdf -n u8g2_font_wqy14_t_gb2312a
+	convert bdf.tga -trim u8g2_font_wqy14_t_gb2312a.png
+	./bdfconv ../bdf/wenquanyi_13px.bdf -g 32 -b 0 -f 1 -M ../build/gb2312b.map -d ../bdf/7x13.bdf -n u8g2_font_wqy14_t_gb2312b
+	convert bdf.tga -trim u8g2_font_wqy14_t_gb2312b.png
+
+	./bdfconv ../bdf/wenquanyi_11pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese1.map -d ../bdf/7x13.bdf -n u8g2_font_wqy15_t_chinese1
+	convert bdf.tga -trim u8g2_font_wqy15_t_chinese1.png
+	./bdfconv ../bdf/wenquanyi_11pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese2.map -d ../bdf/7x13.bdf -n u8g2_font_wqy15_t_chinese2
+	convert bdf.tga -trim u8g2_font_wqy15_t_chinese2.png
+	./bdfconv ../bdf/wenquanyi_11pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese3.map -d ../bdf/7x13.bdf -n u8g2_font_wqy15_t_chinese3
+	convert bdf.tga -trim u8g2_font_wqy15_t_chinese3.png
+	./bdfconv ../bdf/wenquanyi_11pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312.map -d ../bdf/7x13.bdf -n u8g2_font_wqy15_t_gb2312
+	convert bdf.tga -trim u8g2_font_wqy15_t_gb2312.png
+	./bdfconv ../bdf/wenquanyi_11pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312a.map -d ../bdf/7x13.bdf -n u8g2_font_wqy15_t_gb2312a
+	convert bdf.tga -trim u8g2_font_wqy15_t_gb2312a.png
+	./bdfconv ../bdf/wenquanyi_11pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312b.map -d ../bdf/7x13.bdf -n u8g2_font_wqy15_t_gb2312b
+	convert bdf.tga -trim u8g2_font_wqy15_t_gb2312b.png
+
+	./bdfconv ../bdf/wenquanyi_12pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese1.map -d ../bdf/7x13.bdf -n u8g2_font_wqy16_t_chinese1
+	convert bdf.tga -trim u8g2_font_wqy16_t_chinese1.png
+	./bdfconv ../bdf/wenquanyi_12pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese2.map -d ../bdf/7x13.bdf -n u8g2_font_wqy16_t_chinese2
+	convert bdf.tga -trim u8g2_font_wqy16_t_chinese2.png
+	./bdfconv ../bdf/wenquanyi_12pt.bdf -g 32 -b 0 -f 1 -M ../build/chinese3.map -d ../bdf/7x13.bdf -n u8g2_font_wqy16_t_chinese3
+	convert bdf.tga -trim u8g2_font_wqy16_t_chinese3.png
+	./bdfconv ../bdf/wenquanyi_12pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312.map -d ../bdf/7x13.bdf -n u8g2_font_wqy16_t_gb2312
+	convert bdf.tga -trim u8g2_font_wqy16_t_gb2312.png
+	./bdfconv ../bdf/wenquanyi_12pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312a.map -d ../bdf/7x13.bdf -n u8g2_font_wqy16_t_gb2312a
+	convert bdf.tga -trim u8g2_font_wqy16_t_gb2312a.png
+	./bdfconv ../bdf/wenquanyi_12pt.bdf -g 32 -b 0 -f 1 -M ../build/gb2312b.map -d ../bdf/7x13.bdf -n u8g2_font_wqy16_t_gb2312b
+	convert bdf.tga -trim u8g2_font_wqy16_t_gb2312b.png
+
+
 	./bdfconv ../bdf/unifont.bdf -b 0 -f 1 -M ../build/chinese1.map -d ../bdf/7x13.bdf -n u8g2_font_unifont_t_chinese1
 	convert bdf.tga -trim u8g2_font_unifont_t_chinese1.png
 	./bdfconv ../bdf/unifont.bdf -b 0 -f 1 -M ../build/chinese2.map -d ../bdf/7x13.bdf -n u8g2_font_unifont_t_chinese2

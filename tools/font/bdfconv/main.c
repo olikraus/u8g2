@@ -86,6 +86,7 @@ void help(void)
   printf("-n <name>   C indentifier (font name)\n");
   printf("-d <file>   Overview picture: Enable generation of bdf.tga and assign BDF font <file> for description\n");
   printf("-l <margin> Overview picture: Set left margin\n");
+  printf("-g <glyphs> Overview picture: Set glyphs per line (default: 16)\n");
   printf("-a          Overview picture: Additional font information (background, orange&blue dot)\n");
   printf("-t          Overview picture: Test string (Woven silk pyjamas exchanged for blue quartz.)\n");
   printf("-r          Runtime test\n");
@@ -127,6 +128,7 @@ unsigned long left_margin = 1;
 unsigned long build_bbx_mode = 0;
 unsigned long font_format = 0;
 unsigned long min_distance_in_per_cent_of_char_width = 25;
+unsigned long cmdline_glyphs_per_line = 16;
 int font_picture_extra_info = 0;
 int font_picture_test_string = 0;
 int runtime_test = 0;
@@ -147,7 +149,7 @@ unsigned tga_get_line_height(bf_t *bf_desc_font, bf_t *bf)
   return h;
 }
 
-unsigned tga_draw_font_line(unsigned y, long enc_start, bf_t *bf_desc_font, bf_t *bf)
+unsigned tga_draw_font_line(unsigned y, long enc_start, bf_t *bf_desc_font, bf_t *bf, long glyphs_per_line)
 {
   long i;
   unsigned x;
@@ -178,12 +180,12 @@ unsigned tga_draw_font_line(unsigned y, long enc_start, bf_t *bf_desc_font, bf_t
   x += 4;
   
   tga_set_font(bf->target_data);
-  for( i = 0; i< 16; i++ )
+  for( i = 0; i< glyphs_per_line; i++ )
   {
     tga_draw_glyph(x + (tga_get_char_width()+2)*i,y,enc_start+i, font_picture_extra_info);
   }
 
-  return left_margin + x + (tga_get_char_width()+2)*16;
+  return left_margin + x + (tga_get_char_width()+2)*glyphs_per_line;
 }
 
 unsigned tga_draw_font_info(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_t *bf)
@@ -226,7 +228,7 @@ unsigned tga_draw_font_info(unsigned y, const char *fontname, bf_t *bf_desc_font
 }
 
 
-unsigned tga_draw_font(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_t *bf)
+unsigned tga_draw_font(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_t *bf, long glyphs_per_line)
 {
   long i;
   unsigned x, xmax;
@@ -240,9 +242,9 @@ unsigned tga_draw_font(unsigned y, const char *fontname, bf_t *bf_desc_font, bf_
   
   
   
-  for( i = 0; i <= 0x0ffff; i+=16 )
+  for( i = 0; i <= 0x0ffff; i+=glyphs_per_line )
   {
-    x = tga_draw_font_line(y, i, bf_desc_font, bf);
+    x = tga_draw_font_line(y, i, bf_desc_font, bf, glyphs_per_line);
     if ( x > 0 )
     {
       if ( xmax < x )
@@ -313,6 +315,9 @@ int main(int argc, char **argv)
     else if ( is_arg(&argv, 'r') != 0 )
     {
       runtime_test = 1;
+    }    
+    else if ( get_num_arg(&argv, 'g', &cmdline_glyphs_per_line) != 0 )
+    {
     }
     else if ( get_num_arg(&argv, 'b', &build_bbx_mode) != 0 )
     {
@@ -389,11 +394,11 @@ int main(int argc, char **argv)
 
   if ( bf_desc_font != NULL )
   {
-    tga_init(1024, 1024*9);
+    tga_init(1024, 1024*12);
     if ( target_fontname[0] != '\0' )
-      y = tga_draw_font(0, target_fontname, bf_desc_font, bf);
+      y = tga_draw_font(0, target_fontname, bf_desc_font, bf, cmdline_glyphs_per_line);
     else
-      y = tga_draw_font(0, bdf_filename, bf_desc_font, bf);
+      y = tga_draw_font(0, bdf_filename, bf_desc_font, bf, cmdline_glyphs_per_line);
     
     if ( runtime_test != 0 )
     {

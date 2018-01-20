@@ -164,7 +164,7 @@
 
 /* the macro U8G2_USE_LARGE_FONTS disables large fonts (>32K) */
 /* it can be enabled for those uC supporting larger arrays */
-#if defined(__arm__) || defined(__arc__) || defined(ESP8266) || defined(ESP_PLATFORM)
+#if defined(unix) || defined(__arm__) || defined(__arc__) || defined(ESP8266) || defined(ESP_PLATFORM)
 #define U8G2_USE_LARGE_FONTS
 #endif
 
