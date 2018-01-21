@@ -239,7 +239,7 @@ uint8_t u8x8_d_uc1610_ea_dogxl160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int >> 2 );	/* uc1610 has range from 0 to 63 */
+      u8x8_cad_SendArg(u8x8, arg_int  );	/* uc1610 has range from 0 to 255 */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
