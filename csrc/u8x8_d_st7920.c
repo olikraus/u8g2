@@ -126,6 +126,7 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       /* The following byte is sent to allow the ST7920 to sync up with the data */
       /* it solves some issues with garbage data */
       u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
+      u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode, issue 487 */
       for( i = 0; i < 8; i++ )
       {
 	//u8x8_cad_SendCmd(u8x8, 0x03e );	/* enable extended mode */
