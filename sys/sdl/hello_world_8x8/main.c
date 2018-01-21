@@ -12,6 +12,8 @@ int main(void)
   
   u8x8_DrawString(&u8x8, 0, 0, "Hello World!");
 
+  u8x8_Draw1x2String(&u8x8, 0, 1, "Hello World!");
+  
   u8x8_Draw2x2String(&u8x8, 0, 3, "Hello World!");
 
 

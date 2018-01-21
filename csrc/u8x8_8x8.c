@@ -378,7 +378,7 @@ static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const ch
     if ( e != 0x0fffe )
     {
       u8x8_Draw1x2Glyph(u8x8, x, y, e);
-      x+=2;
+      x++;
       cnt++;
     }
   }
