@@ -183,6 +183,24 @@ void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
 }
 
+/* https://github.com/olikraus/u8g2/issues/474 */
+void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+{
+  uint8_t i;
+  uint16_t t;
+  uint8_t buf[8];
+  uint8_t buf1[8];
+  uint8_t buf2[8];
+  u8x8_get_glyph_data(u8x8, encoding, buf);
+  for( i = 0; i < 8; i ++ )
+  {
+      t = u8x8_upscale_byte(buf[i]);
+      buf1[i] = t >> 8;
+      buf2[i] = t & 255;
+  }
+  u8x8_DrawTile(u8x8, x,   y, 1, buf2);
+  u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+}
 
 /*
 source: https://en.wikipedia.org/wiki/UTF-8
@@ -341,6 +359,43 @@ uint8_t u8x8_Draw2x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
 {
   u8x8->next_cb = u8x8_utf8_next;
   return u8x8_draw_2x2_string(u8x8, x, y, s);
+}
+
+
+
+static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  uint16_t e;
+  uint8_t cnt = 0;
+  u8x8_utf8_init(u8x8);
+  for(;;)
+  {
+    e = u8x8->next_cb(u8x8, (uint8_t)*s);
+    if ( e == 0x0ffff )
+      break;
+    s++;
+    if ( e != 0x0fffe )
+    {
+      u8x8_Draw1x2Glyph(u8x8, x, y, e);
+      x+=2;
+      cnt++;
+    }
+  }
+  return cnt;
+}
+
+
+uint8_t u8x8_Draw1x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  u8x8->next_cb = u8x8_ascii_next;
+  return u8x8_draw_1x2_string(u8x8, x, y, s);
+}
+
+uint8_t u8x8_Draw1x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+{
+  u8x8->next_cb = u8x8_utf8_next;
+  return u8x8_draw_1x2_string(u8x8, x, y, s);
 }
 
 
