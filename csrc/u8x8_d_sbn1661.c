@@ -70,6 +70,7 @@ struct u8x8_sbn1661_vars
   uint8_t arg_int;
 };
 
+#ifdef NOT_USED
 static void u8x8_sbn1661_out(u8x8_t *u8x8, struct u8x8_sbn1661_vars *v, void *arg_ptr)
 {
   uint8_t cnt;
@@ -107,6 +108,7 @@ static void u8x8_sbn1661_out(u8x8_t *u8x8, struct u8x8_sbn1661_vars *v, void *ar
 	break;       
   } 
 }
+#endif /* NOT_USED */
 
 
 static const u8x8_display_info_t u8x8_sbn1661_122x32_display_info =

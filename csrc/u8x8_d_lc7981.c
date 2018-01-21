@@ -40,30 +40,30 @@
 
 
 /* no powersave mode for the LC7981 */
-static const uint8_t u8x8_d_lc7981_powersave0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
+// static const uint8_t u8x8_d_lc7981_powersave0_seq[] = {
+//   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+//   U8X8_END_TRANSFER(),             	/* disable chip */
+//   U8X8_END()             			/* end of sequence */
+// };
 
-static const uint8_t u8x8_d_lc7981_powersave1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
+// static const uint8_t u8x8_d_lc7981_powersave1_seq[] = {
+//   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+//   U8X8_END_TRANSFER(),             	/* disable chip */
+//   U8X8_END()             			/* end of sequence */
+// };
 
 /* no hardware flip for the LC7981 */
-static const uint8_t u8x8_d_lc7981_flip0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
+// static const uint8_t u8x8_d_lc7981_flip0_seq[] = {
+//   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+//   U8X8_END_TRANSFER(),             	/* disable chip */
+//   U8X8_END()             			/* end of sequence */
+// };
 
-static const uint8_t u8x8_d_lc7981_flip1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
+// static const uint8_t u8x8_d_lc7981_flip1_seq[] = {
+//   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+//   U8X8_END_TRANSFER(),             	/* disable chip */
+//   U8X8_END()             			/* end of sequence */
+// };
 
 
 /* http://graphics.stanford.edu/~seander/bithacks.html */
