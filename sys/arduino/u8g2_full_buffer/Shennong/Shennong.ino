@@ -4,6 +4,8 @@
   
   Scroll through Chinese Short Story
   "The Farmer God Shen Nong Tastes All the Plants" 
+  
+  2KB Ram and >200KB Flash required
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -221,8 +223,6 @@
 //U8G2_IL3820_296X128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// WaveShare 2.9 inch eInk/ePaper Display, enable 16 bit mode for this display!
 //U8G2_IL3820_V2_296X128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// ePaper Display, lesser flickering and faster speed, enable 16 bit mode for this display!
 
-
-
 // End of constructor list
 
 // To read the short story with all glyphs you need at least a font with _gb2312b postfix
@@ -235,8 +235,8 @@
 //#define FONT u8g2_font_wqy12_t_chinese1
 //#define FONT u8g2_font_wqy12_t_gb2312b
 
-#define FONT u8g2_font_wqy14_t_chinese1
-//#define FONT u8g2_font_wqy14_t_gb2312b
+//#define FONT u8g2_font_wqy14_t_chinese1
+#define FONT u8g2_font_wqy14_t_gb2312b
 
 //#define FONT u8g2_font_wqy16_t_chinese1
 //#define FONT u8g2_font_wqy16_t_gb2312b
