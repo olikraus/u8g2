@@ -40,21 +40,21 @@
 
 
 
-static const uint8_t u8x8_d_sh1107_128x64_noname_powersave0_seq[] = {
+static const uint8_t u8x8_d_sh1107_64x128_noname_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0af),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_sh1107_128x64_noname_powersave1_seq[] = {
+static const uint8_t u8x8_d_sh1107_64x128_noname_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0ae),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_sh1107_128x64_noname_flip0_seq[] = {
+static const uint8_t u8x8_d_sh1107_64x128_noname_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
@@ -62,7 +62,7 @@ static const uint8_t u8x8_d_sh1107_128x64_noname_flip0_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_sh1107_128x64_noname_flip1_seq[] = {
+static const uint8_t u8x8_d_sh1107_64x128_noname_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),				/* segment remap a0/a1*/
   U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
@@ -79,30 +79,30 @@ static uint8_t u8x8_d_sh1107_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   {
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1107_128x64_noname_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1107_64x128_noname_display_info);
       break;
     */
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x64_noname_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_64x128_noname_init_seq);    
       break;
     */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x64_noname_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_64x128_noname_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x64_noname_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_64x128_noname_powersave1_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x64_noname_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_64x128_noname_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x64_noname_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_64x128_noname_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
@@ -119,13 +119,15 @@ static uint8_t u8x8_d_sh1107_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
       x *= 8;
       x += u8x8->x_offset;
-    
-      u8x8_cad_SendCmd(u8x8, 0x040 );	/* set line offset to 0 */
-    
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-      u8x8_cad_SendArg(u8x8, 0x000 | ((x&15)));					/* probably wrong, should be SendCmd */
-      u8x8_cad_SendArg(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));	/* probably wrong, should be SendCmd */
 
+      //u8x8_cad_SendCmd(u8x8, 0x040 ); /* set line offset to 0 */
+
+      // set column address
+      u8x8_cad_SendCmd(u8x8, 0x010 | (x >> 4));
+      u8x8_cad_SendCmd(u8x8, 0x000 | ((x & 15))); /* probably wrong, should be SendCmd */
+      
+      // set page address
+      u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos)); /* probably wrong, should be SendCmd */
     
       do
       {
@@ -154,7 +156,7 @@ static uint8_t u8x8_d_sh1107_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 /*==================================================*/
 
 /* QG-6428TSWKG01 */
-static const uint8_t u8x8_d_sh1107_128x64_noname_init_seq[] = {
+static const uint8_t u8x8_d_sh1107_64x128_noname_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -164,20 +166,20 @@ static const uint8_t u8x8_d_sh1107_128x64_noname_init_seq[] = {
   U8X8_CA(0x081, 0x02f), 		/* [2] set contrast control */
   U8X8_C(0x020),		                /* use page addressing mode */
 
-  U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  // U8X8_C(0x0a1),				/* segment remap a0/a1*/
+  // U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   // Flipmode
-  // U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  // U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_C(0x0a0),				/* segment remap a0/a1*/
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
-  U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio */
+  U8X8_CA(0x0a8, 0x7f),		/* 0x03f),/* multiplex ratio */
   U8X8_CA(0x0d3, 0x060),		/* display offset */
   U8X8_CA(0x0d5, 0x051),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8) */
   U8X8_CA(0x0d9, 0x022), 		/* [2] pre-charge period 0x022/f1*/
   U8X8_CA(0x0db, 0x035), 		/* vcomh deselect level */  
-  U8X8_CA(0x0ad, 0x08a), 		/* */  
   
-  
+  U8X8_C(0x0b0), /* set page address */
+  U8X8_CA(0x0da, 0x012), /* set com pins */
   U8X8_C(0x0a4),				/* output ram to display */
   U8X8_C(0x0a6),				/* none inverted normal display mode */
     
@@ -185,7 +187,7 @@ static const uint8_t u8x8_d_sh1107_128x64_noname_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const u8x8_display_info_t u8x8_sh1107_128x64_noname_display_info =
+static const u8x8_display_info_t u8x8_sh1107_64x128_noname_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -201,15 +203,15 @@ static const u8x8_display_info_t u8x8_sh1107_128x64_noname_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
-  /* tile_width = */ 16,
-  /* tile_hight = */ 8,
+  /* tile_width = */ 8,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 64
+  /* pixel_width = */ 64,
+  /* pixel_height = */ 128
 };
 
-uint8_t u8x8_d_sh1107_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_sh1107_64x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
   if ( u8x8_d_sh1107_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
@@ -219,10 +221,10 @@ uint8_t u8x8_d_sh1107_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   {
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x64_noname_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_64x128_noname_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1107_128x64_noname_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1107_64x128_noname_display_info);
       break;
     default:
       return 0;
