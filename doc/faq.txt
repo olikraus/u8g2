@@ -123,7 +123,7 @@ In the Arduino IDE use the Sketch>Include Library>Add .ZIP Library... menu to
 import the u8g2 zip library.
 
 Q: There is a compilation error with I2C/SPI library used by U8g2.
-A: U8g2 expects standard Arduino lWire and SPI libraries. However some
+A: U8g2 expects standard Arduino Wire and SPI libraries. However some
 none-Arduino Boards did not implement the full set of library functions.
 Examples are the missing setClock() or missing beginTransaction() functions.
 This is an issue with your board support library and not an issue of U8g2.
