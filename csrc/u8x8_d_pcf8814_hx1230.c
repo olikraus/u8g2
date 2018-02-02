@@ -144,7 +144,6 @@ static uint8_t u8x8_d_hx1230_96x68_generic(u8x8_t *u8x8, uint8_t msg, uint8_t ar
   return 1;
 }
 
-
 static const u8x8_display_info_t u8x8_hx1230_96x68_display_info =
 {
   /* chip_enable_level = */ 0,
