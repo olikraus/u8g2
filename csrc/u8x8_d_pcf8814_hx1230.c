@@ -49,7 +49,7 @@ static const uint8_t u8x8_d_hx1230_96x68_init_seq[] = {
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x020),		                /* power off */
-  U8X8_C(0x09f),				/* contrast setting, 0..31 */
+  U8X8_C(0x080),				/* contrast setting, 0..31, set to 0 */
   U8X8_C(0x0a6),		                /* not inverted display */
   U8X8_C(0x0a4),		                /* normal display mode */
   
