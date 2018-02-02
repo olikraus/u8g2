@@ -54,6 +54,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/HelloWorld/*.ino ../../../../U8g2_Ardui
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld
 cp ../../../sys/arduino/u8g2_page_buffer/PrintHelloWorld/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintProgmem
+cp ../../../sys/arduino/u8g2_page_buffer/PrintProgmem/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintProgmem/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8
 cp ../../../sys/arduino/u8g2_page_buffer/PrintUTF8/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8/.
 
