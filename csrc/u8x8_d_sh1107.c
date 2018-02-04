@@ -318,7 +318,7 @@ uint8_t u8x8_d_sh1107_seeed_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 
 
 /*==================================================*/
-/* 128x128 OLED */
+/* 128x128 OLED: this display has a very strange x offset */
 
 /* sequence taken over from 64x128 sequence, because it seems to work mostly */
 static const uint8_t u8x8_d_sh1107_128x128_init_seq[] = {
@@ -338,7 +338,7 @@ static const uint8_t u8x8_d_sh1107_128x128_init_seq[] = {
   U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
   U8X8_CA(0x0a8, 0x7f),		/* 0x03f multiplex ratio */
-  U8X8_CA(0x0d3, 0x060),		/* display offset */
+  //U8X8_CA(0x0d3, 0x060),		/* display offset (removed, not in datasheet ) */
   U8X8_CA(0x0d5, 0x051),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8) */
   U8X8_CA(0x0d9, 0x022), 		/* [2] pre-charge period 0x022/f1*/
   U8X8_CA(0x0db, 0x035), 		/* vcomh deselect level */  
@@ -371,8 +371,8 @@ static const u8x8_display_info_t u8x8_sh1107_128x128_display_info =
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
   /* tile_hight = */ 16,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
+  /* default_x_offset = */ 96,
+  /* flipmode_x_offset = */ 96,
   /* pixel_width = */ 128,
   /* pixel_height = */ 128
 };
