@@ -220,7 +220,7 @@
   05 Sep 2017, Arduino 1.8,0 
   U8G2_SH1106_128X64_NONAME_1_HW_I2C		Uno			Clip=13.6 Box=19.4  @=3.8 Pix=5.9
   
-  6 Oct 2016, Arduino 1.8.4
+  6 Oct 2017, Arduino 1.8.4
   U8G2_SSD1306_128X64_NONAME_1_SW_I2C		EPS32		Clip=9.5 Box=9.6  @=8.9 Pix=9.1
   U8G2_SSD1306_128X64_NONAME_1_HW_I2C		EPS32		Clip=30.5 Box=31.3  @=24.7 Pix=26.7
 */
