@@ -38,7 +38,7 @@ static void u8g_sdl_set_pixel(int x, int y, int idx)
       offset = 
 	(y * u8g_sdl_multiple + j) * u8g_sdl_screen->w * u8g_sdl_screen->format->BytesPerPixel + 
 	(x * u8g_sdl_multiple + i) * u8g_sdl_screen->format->BytesPerPixel;
-      assert( offset < u8g_sdl_screen->w * u8g_sdl_screen->h * u8g_sdl_screen->format->BytesPerPixel );
+      assert( offset < (Uint32)(u8g_sdl_screen->w * u8g_sdl_screen->h * u8g_sdl_screen->format->BytesPerPixel) );
       ptr = u8g_sdl_screen->pixels + offset;
       *ptr = u8g_sdl_color[idx];
     }
