@@ -75,12 +75,29 @@
 #endif 
 #endif
 
+/* ATmegaXXM1 do not have I2C */
+#if defined(__AVR_ATmega16M1__) || defined(__AVR_ATmega16M1__) || defined(__AVR_ATmega16M1__)
+#ifdef U8X8_HAVE_HW_I2C
+#undef U8X8_HAVE_HW_I2C
+#endif 
+#endif
+
+/* ATmegaXXC1 do not have I2C */
+#if defined(__AVR_ATmega16C1__) || defined(__AVR_ATmega16C1__) || defined(__AVR_ATmega16C1__)
+#ifdef U8X8_HAVE_HW_I2C
+#undef U8X8_HAVE_HW_I2C
+#endif 
+#endif
+
+
 /* define U8X8_HAVE_2ND_HW_I2C if the board has a second wire interface*/
+#ifdef U8X8_HAVE_HW_I2C
 #ifdef WIRE_INTERFACES_COUNT
 #if WIRE_INTERFACES_COUNT > 1
 #define U8X8_HAVE_2ND_HW_I2C
 #endif
 #endif
+#endif /* U8X8_HAVE_HW_I2C */
 
 /* define U8X8_HAVE_2ND_HW_SPI if the board has a second wire interface*/
 /* As of writing this, I did not found any official board which supports this */
