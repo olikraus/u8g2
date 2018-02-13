@@ -156,5 +156,8 @@ https://github.com/olikraus/u8g2 ChangeLog
  2017-xx-xx	v2.21.xx  olikraus@gmail.com
  * Support for SH1107 (issue 501)
  * FontUsage demo for full buffer mode (issue 490) 
+ * Added 1x2 (double height) draw procedures to U8x8 (issue 474)
+    With this feature a 128x32 display can replace a 16x2 Char LCD.
+ 
   
   
