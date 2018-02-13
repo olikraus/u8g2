@@ -95,6 +95,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld/.
 
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/FontUsage
+cp ../../../sys/arduino/u8g2_full_buffer/FontUsage/*.ino ../../../../U8g2_Arduino/examples/full_buffer/FontUsage/.
+
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo
 cp ../../../sys/arduino/u8g2_full_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo/.
 

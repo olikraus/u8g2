@@ -155,6 +155,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed profont17 (issue 438)
  2017-xx-xx	v2.21.xx  olikraus@gmail.com
  * Support for SH1107 (issue 501)
- *  
+ * FontUsage demo for full buffer mode (issue 490) 
   
   
