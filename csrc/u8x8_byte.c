@@ -398,7 +398,8 @@ uint8_t u8x8_byte_sed1520(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_
 	
 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
 	u8x8_gpio_call(u8x8, enable_pin, 1);
-	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 200);		/* KS0108 requires 450 ns, use 200 here */
+	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);  /* expect 250 here */
 	u8x8_gpio_call(u8x8, enable_pin, 0);
       }
       break;

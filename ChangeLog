@@ -154,6 +154,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for SSD1322 NHD 128x64 (issue 412)
   * Fixed profont17 (issue 438)
  2017-xx-xx	v2.21.xx  olikraus@gmail.com
-  
+ * Support for SH1107 (issue 501)
+ *  
   
   
