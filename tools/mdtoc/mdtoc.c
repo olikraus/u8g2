@@ -259,42 +259,47 @@ int main(int argc, char **argv)
   argv++;
   while( *argv != NULL )
   {
-    toc_cnt = 0;
-    existing_toc_found = 0;
-    read_md(*argv, "tmp.md");
-    if ( toc_cnt != 0 )
+    if ( strstr( *argv, "_Footer.md") == NULL &&
+  	  strstr( *argv, "_Sidebar.md") == NULL )
     {
-      copy_to_md("tmp.md", *argv);
-    }
-    if ( toc_cnt == 0 )
-    {
-      printf("%s: nothing changed (no headings found)\n", *argv);
-    }
-    else
-    {
-      if ( existing_toc_found == 0 )
+	
+      toc_cnt = 0;
+      existing_toc_found = 0;
+      read_md(*argv, "tmp.md");
+      if ( toc_cnt != 0 )
       {
-	if ( toc_cnt == 1 )
-	{
-	  printf("%s: added %d toc entry\n", *argv, toc_cnt);
-	}
-	else
-	{
-	  printf("%s: added %d toc entries\n", *argv, toc_cnt);
-	}
+	copy_to_md("tmp.md", *argv);
+      }
+      if ( toc_cnt == 0 )
+      {
+	printf("%s: nothing changed (no headings found)\n", *argv);
       }
       else
       {
-	if ( toc_cnt == 1 )
+	if ( existing_toc_found == 0 )
 	{
-	  printf("%s: replaced %d toc entry\n", *argv, toc_cnt);
+	  if ( toc_cnt == 1 )
+	  {
+	    printf("%s: added %d toc entry\n", *argv, toc_cnt);
+	  }
+	  else
+	  {
+	    printf("%s: added %d toc entries\n", *argv, toc_cnt);
+	  }
 	}
 	else
 	{
-	  printf("%s: replaced %d toc entries\n", *argv, toc_cnt);
+	  if ( toc_cnt == 1 )
+	  {
+	    printf("%s: replaced %d toc entry\n", *argv, toc_cnt);
+	  }
+	  else
+	  {
+	    printf("%s: replaced %d toc entries\n", *argv, toc_cnt);
+	  }
 	}
-      }
-    }
+      } /* no toc required */
+    } /* skip system .md files */
     argv++;
   }
   return 0;
