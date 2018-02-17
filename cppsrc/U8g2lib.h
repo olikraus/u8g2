@@ -316,6 +316,14 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
 
 #ifdef U8X8_USE_PINS
 
+/* null device */
+class U8G2_NULL : public U8G2 {
+  public: U8G2_NULL(const u8g2_cb_t *rotation) : U8G2() {
+    u8g2_Setup_null(&u8g2, rotation, u8x8_byte_empty, u8x8_dummy_cb);
+  }
+};
+
+
 /* Arduino constructor list start */
 /* generated code (codebuild), u8g2 project */
 class U8G2_SSD1305_128X32_NONAME_1_4W_SW_SPI : public U8G2 {

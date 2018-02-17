@@ -61,6 +61,25 @@ uint8_t u8x8_byte_EndTransfer(u8x8_t *u8x8)
   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_END_TRANSFER, 0, NULL);
 }
 
+/*=========================================*/
+
+uint8_t u8x8_byte_empty(U8X8_UNUSED u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+    case U8X8_MSG_BYTE_INIT:
+    case U8X8_MSG_BYTE_SET_DC:
+    case U8X8_MSG_BYTE_START_TRANSFER:
+    case U8X8_MSG_BYTE_END_TRANSFER:
+      break;	/* do nothing */
+  }
+  return 1;	/* always succeed */
+}
+
+
+/*=========================================*/
+
 
 /*
   Uses:

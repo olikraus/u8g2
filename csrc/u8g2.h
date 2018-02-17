@@ -416,6 +416,9 @@ extern const u8g2_cb_t u8g2_cb_mirror;
 void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb ll_hvline_cb, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetDisplayRotation(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
+/* null device setup */
+void u8g2_Setup_null(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+
 /*==========================================*/
 /* u8g2_d_memory.c generated code start */
 uint8_t *u8g2_m_16_4_1(uint8_t *page_cnt);

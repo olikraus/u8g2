@@ -289,6 +289,13 @@ class U8X8 : public Print
 
 #ifdef U8X8_USE_PINS
 
+class U8X8_NULL : public U8X8 {
+  public: U8X8_NULL(void) : U8X8() {
+    u8x8_Setup(getU8x8(), u8x8_d_null_cb, u8x8_cad_empty, u8x8_byte_empty, u8x8_dummy_cb);
+  }
+};
+
+
 // constructor list start
 /* generated code (codebuild), u8g2 project */
 class U8X8_SSD1305_128X32_NONAME_4W_SW_SPI : public U8X8 {

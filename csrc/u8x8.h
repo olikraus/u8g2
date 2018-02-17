@@ -478,6 +478,8 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 /*==========================================*/
 /* u8x8_setup.c */
 
+uint8_t u8x8_dummy_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+
 /* 
   Setup u8x8 object itself. This should be the very first function 
   called on the new u8x8 object. After this call, assign the callback
@@ -616,6 +618,7 @@ uint8_t u8x8_byte_SendBytes(u8x8_t *u8x8, uint8_t cnt, uint8_t *data) U8X8_NOINL
 uint8_t u8x8_byte_StartTransfer(u8x8_t *u8x8);
 uint8_t u8x8_byte_EndTransfer(u8x8_t *u8x8);
 
+uint8_t u8x8_byte_empty(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_byte_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_byte_8bit_6800mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_byte_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
@@ -746,6 +749,10 @@ void utf8_show(void);		/* show content of UTF-8 frame buffer */
 
 
 /*==========================================*/
+
+/* u8x8_setup.c */
+uint8_t u8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+
 /* u8x8_d_XXX.c */
 uint8_t u8x8_d_uc1701_ea_dogs102(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_uc1701_mini12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);

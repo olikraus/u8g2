@@ -281,6 +281,17 @@ const u8g2_cb_t u8g2_cb_r3 = { u8g2_update_dimension_r3, u8g2_draw_l90_r3 };
   
 const u8g2_cb_t u8g2_cb_mirror = { u8g2_update_dimension_r0, u8g2_draw_l90_mirrorr_r0 };
   
-  
+/*============================================*/
+/* setup for the null device */
+
+/* setup for the null (empty) device */
+void u8g2_Setup_null(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb)
+{
+  static uint8_t buf[8];
+  u8g2_SetupDisplay(u8g2, u8x8_d_null_cb, u8x8_cad_empty, byte_cb, gpio_and_delay_cb);
+  u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_vertical_top_lsb, rotation);
+}
+
+
   
   
