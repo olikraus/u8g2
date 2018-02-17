@@ -153,11 +153,18 @@ https://github.com/olikraus/u8g2 ChangeLog
   * New SH1106 init sequence (SH1106_WINSTAR, issue 316)
   * Support for SSD1322 NHD 128x64 (issue 412)
   * Fixed profont17 (issue 438)
- 2017-xx-xx	v2.21.xx  olikraus@gmail.com
- * Support for SH1107 (issue 501)
- * FontUsage demo for full buffer mode (issue 490) 
- * Added 1x2 (double height) draw procedures to U8x8 (issue 474)
+ 2018-xx-xx	v2.21.xx  olikraus@gmail.com
+  * Support for SH1107 (issue 501)
+  * FontUsage demo for full buffer mode (issue 490) 
+  * Added 1x2 (double height) draw procedures to U8x8 (issue 474)
     With this feature a 128x32 display can replace a 16x2 Char LCD.
- * New constructor for the Good Display 200x200 eInk (issue 454)
-  
+  * New constructor for the Good Display 200x200 eInk (issue 454)
+  * Update for the ST7920 device for more stable output (issue 487)
+  * Double height (2x1) chars for U8x8 API (issue 474)
+  * Excluded I2C for several ATMega uC which do not have HW I2C (issue 508)
+  * Fixed UC1610 contrast command (issue 428)
+  * Added WQY Chinese fonts at sizes 12, 13, 14, 15 and 16 
+     including gb2312 support (issue 455)
+  * Added new full buffer demo for the Chinese fonts (Shennong.ino, issue #455)
+  * Added siji icon font u8g2_font_siji_t_6x10 (issue 451)
   
