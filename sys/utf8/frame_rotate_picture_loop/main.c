@@ -16,7 +16,7 @@ u8g2_t u8g2;
 int main(void)
 {
 
-  u8g2_SetupBuffer_Utf8(&u8g2, U8G2_R1);
+  u8g2_SetupBuffer_Utf8(&u8g2, U8G2_R3);
   
   
   u8g2_InitDisplay(&u8g2);
@@ -27,10 +27,18 @@ int main(void)
   
   u8g2_FirstPage(&u8g2);
   do
-  {      
-    
+  {     
+    printf("u8g2.tile_curr_row=%d\n", u8g2.tile_curr_row);
+    printf("u8g2.pixel_curr_row=%d\n", u8g2.pixel_curr_row);
+    printf("u8g2.buf_y0=%d\n", u8g2.buf_y0);
+    printf("u8g2.buf_y1=%d\n", u8g2.buf_y1);
+    printf("u8g2.user_x0=%d\n", u8g2.user_x0);
+    printf("u8g2.user_x1=%d\n", u8g2.user_x1);
+    printf("u8g2.user_y0=%d\n", u8g2.user_y0);
+    printf("u8g2.user_y1=%d\n", u8g2.user_y1);
     u8g2_DrawFrame(&u8g2, 0, 0, 
       u8g2_GetDisplayWidth(&u8g2), u8g2_GetDisplayHeight(&u8g2));
+    u8g2_DrawPixel(&u8g2, 3, 3);
     //u8g2_DrawHLine(&u8g2, 0, 0, u8g2_GetDisplayWidth(&u8g2));
     //u8g2_DrawHLine(&u8g2, 0, u8g2_GetDisplayHeight(&u8g2)-1, u8g2_GetDisplayWidth(&u8g2));
     //u8g2_DrawHLine(&u8g2, 0, 32, 10);

@@ -173,7 +173,11 @@ void u8g2_update_dimension_r2(u8g2_t *u8g2)
   u8g2->user_x0 = 0;
   u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
   
-  u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+  /* there are ases where the height is not a multiple of 8. */
+  /* in such a case u8g2->buf_y1 might be heigher than u8g2->height */
+  u8g2->user_y0 = 0;
+  if ( u8g2->height >= u8g2->buf_y1 )
+    u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
 
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
@@ -187,7 +191,11 @@ void u8g2_update_dimension_r3(u8g2_t *u8g2)
   u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
   u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
 
-  u8g2->user_x0 = u8g2->width - u8g2->buf_y1;
+  /* there are ases where the height is not a multiple of 8. */
+  /* in such a case u8g2->buf_y1 might be heigher than u8g2->width */
+  u8g2->user_x0 = 0;
+  if ( u8g2->width >= u8g2->buf_y1 )
+    u8g2->user_x0 = u8g2->width - u8g2->buf_y1;
   u8g2->user_x1 = u8g2->width - u8g2->buf_y0;
   
   u8g2->user_y0 = 0;
