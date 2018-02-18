@@ -153,8 +153,10 @@ https://github.com/olikraus/u8g2 ChangeLog
   * New SH1106 init sequence (SH1106_WINSTAR, issue 316)
   * Support for SSD1322 NHD 128x64 (issue 412)
   * Fixed profont17 (issue 438)
- 2018-xx-xx	v2.21.xx  olikraus@gmail.com
+ 2018-02-18	v2.21.8  olikraus@gmail.com
   * Support for SH1107 (issue 501)
+  * Support for HX1230 (issue 469)
+  * Bugfix for displays with display height not a multiple of 8 (issue 469)
   * FontUsage demo for full buffer mode (issue 490) 
   * Added 1x2 (double height) draw procedures to U8x8 (issue 474)
     With this feature a 128x32 display can replace a 16x2 Char LCD.
