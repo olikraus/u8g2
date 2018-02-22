@@ -4,13 +4,16 @@
 
 #include "u8g2.h"
 #include "SDL.h"
-#include "SDL_video.h"
 #include <assert.h>
 
 //#define HEIGHT (64)
 //#define WIDTH 128
 
+#define W(x,w) (((x)*(w))/100)
+
+SDL_Window *u8g_sdl_window;
 SDL_Surface *u8g_sdl_screen;
+
 int u8g_sdl_multiple = 3;
 Uint32 u8g_sdl_color[256];
 int u8g_sdl_height, u8g_sdl_width;
@@ -35,10 +38,11 @@ static void u8g_sdl_set_pixel(int x, int y, int idx)
   for( i = 0; i < u8g_sdl_multiple; i++ )
     for( j = 0; j < u8g_sdl_multiple; j++ )
     {
-      offset = 
-	(y * u8g_sdl_multiple + j) * u8g_sdl_screen->w * u8g_sdl_screen->format->BytesPerPixel + 
-	(x * u8g_sdl_multiple + i) * u8g_sdl_screen->format->BytesPerPixel;
-      assert( offset < (Uint32)(u8g_sdl_screen->w * u8g_sdl_screen->h * u8g_sdl_screen->format->BytesPerPixel) );
+      offset = (
+        ((y * u8g_sdl_multiple) + i) * (u8g_sdl_width * u8g_sdl_multiple) + 
+        ((x * u8g_sdl_multiple) + j)) * u8g_sdl_screen->format->BytesPerPixel;
+        
+      assert( offset < (Uint32)(u8g_sdl_width * u8g_sdl_multiple * u8g_sdl_height * u8g_sdl_multiple * u8g_sdl_screen->format->BytesPerPixel) );
       ptr = u8g_sdl_screen->pixels + offset;
       *ptr = u8g_sdl_color[idx];
     }
@@ -79,9 +83,6 @@ static void u8g_sdl_set_multiple_8pixel(int x, int y, int cnt, uint8_t *pixel)
   }
 }
 
-
-#define W(x,w) (((x)*(w))/100)
-
 static void u8g_sdl_init(int width, int height)
 {
   u8g_sdl_height = height;
@@ -94,21 +95,29 @@ static void u8g_sdl_init(int width, int height)
     exit(1);
   }
   
-  /* http://www.libsdl.org/cgi/docwiki.cgi/SDL_SetVideoMode */
-  u8g_sdl_screen = SDL_SetVideoMode(u8g_sdl_width*u8g_sdl_multiple,u8g_sdl_height*u8g_sdl_multiple,32,SDL_SWSURFACE|SDL_ANYFORMAT);
-  if ( u8g_sdl_screen == NULL ) 
+  u8g_sdl_window = SDL_CreateWindow("U8g2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, u8g_sdl_width * u8g_sdl_multiple, u8g_sdl_height * u8g_sdl_multiple, 0);
+
+  if ( u8g_sdl_window == NULL )
   {
-    printf("Couldn't set video mode: %s\n", SDL_GetError());
+    printf("Couldn't create window: %s\n", SDL_GetError());
     exit(1);
   }
-  //printf("%d bits-per-pixel mode\n", u8g_sdl_screen->format->BitsPerPixel);
-  //printf("%d bytes-per-pixel mode\n", u8g_sdl_screen->format->BytesPerPixel);
+
+  u8g_sdl_screen = SDL_GetWindowSurface(u8g_sdl_window);
+
+  if ( u8g_sdl_screen == NULL )
+  {
+    printf("Couldn't create screen: %s\n", SDL_GetError());
+    exit(1);
+  }
+  
+  printf("%d bits-per-pixel mode\n", u8g_sdl_screen->format->BitsPerPixel);
+  printf("%d bytes-per-pixel mode\n", u8g_sdl_screen->format->BytesPerPixel);
   
   u8g_sdl_color[0] = SDL_MapRGB( u8g_sdl_screen->format, 0, 0, 0 );
   u8g_sdl_color[1] = SDL_MapRGB( u8g_sdl_screen->format, W(100, 50), W(255,50), 0 );
   u8g_sdl_color[2] = SDL_MapRGB( u8g_sdl_screen->format, W(100, 80), W(255,80), 0 );
   u8g_sdl_color[3] = SDL_MapRGB( u8g_sdl_screen->format, 100, 255, 0 );
-
   u8g_sdl_color[4] = SDL_MapRGB( u8g_sdl_screen->format, 30, 30, 30 );
 
   /*
@@ -118,8 +127,7 @@ static void u8g_sdl_init(int width, int height)
   */
 
   /* update all */
-  /* http://www.libsdl.org/cgi/docwiki.cgi/SDL_UpdateRect */
-  SDL_UpdateRect(u8g_sdl_screen, 0,0,0,0);
+  SDL_UpdateWindowSurface(u8g_sdl_window);
 
   atexit(SDL_Quit);
   return;
@@ -275,15 +283,14 @@ uint8_t u8x8_d_sdl_128x64(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_
     
       do
       {
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	u8g_sdl_set_multiple_8pixel(x, y, c*8, ptr);
-	arg_int--;
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+        u8g_sdl_set_multiple_8pixel(x, y, c*8, ptr);
+        arg_int--;
       } while( arg_int > 0 );
-
+      
       /* update all */
-      /* http://www.libsdl.org/cgi/docwiki.cgi/SDL_UpdateRect */
-      SDL_UpdateRect(u8g_sdl_screen, 0,0,0,0);
+      SDL_UpdateWindowSurface(u8g_sdl_window);
       
       break;
     default:
@@ -321,15 +328,14 @@ uint8_t u8x8_d_sdl_240x160(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg
     
       do
       {
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	u8g_sdl_set_multiple_8pixel(x, y, c*8, ptr);
-	arg_int--;
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+        u8g_sdl_set_multiple_8pixel(x, y, c*8, ptr);
+        arg_int--;
       } while( arg_int > 0 );
 
       /* update all */
-      /* http://www.libsdl.org/cgi/docwiki.cgi/SDL_UpdateRect */
-      SDL_UpdateRect(u8g_sdl_screen, 0,0,0,0);
+      SDL_UpdateWindowSurface(u8g_sdl_window);
       
       break;
     default:

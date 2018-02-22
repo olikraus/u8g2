@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wpointer-arith -I. -I../../../csrc/. -I../../tga/mapgen/. `sdl-config --cflags` 
+CFLAGS = -g -Wall -Wpointer-arith -I. -I../../../csrc/. -I../../tga/mapgen/. `sdl2-config --cflags` 
 
 GMSRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) 
 GMSRC += map.c  main.c item.c
@@ -18,7 +18,7 @@ UGLOBJ = $(UGLSRC:.c=.o)
 
 
 gm: $(GMOBJ) map.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $(GMOBJ) `sdl-config --libs` -o gm
+	$(CC) $(CFLAGS) $(LDFLAGS) $(GMOBJ) `sdl2-config --libs` -o gm
 
 mapgen: $(MAPGENOBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(MAPGENOBJ) -o mapgen
