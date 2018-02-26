@@ -169,4 +169,7 @@ https://github.com/olikraus/u8g2 ChangeLog
      including gb2312 support (issue 455)
   * Added new full buffer demo for the Chinese fonts (Shennong.ino, issue #455)
   * Added siji icon font u8g2_font_siji_t_6x10 (issue 451)
+ 2018-xx-xx	v2.22.x  olikraus@gmail.com
+  * Added SSD1306 128x64 Adafruit OLED (issue 521)
+  * Added Winstart SSD1306 64x48 OLED variant (issue 522)
   
