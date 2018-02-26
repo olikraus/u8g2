@@ -219,6 +219,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x48_er" },
+      { "64x48_winstar" },
       { NULL }
     }
   },
@@ -227,6 +228,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x48_er" },
+      { "64x48_winstar" },
       { NULL }
     }
   },  
