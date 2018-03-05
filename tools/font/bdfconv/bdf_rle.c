@@ -768,7 +768,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
 
 	if ( bg->target_cnt >= 255 )
 	{
-	  bf_Error(bf, "RLE Compress: Error, glyph too large, encoding=", bg->encoding);
+	  bf_Error(bf, "RLE Compress: Error, glyph too large, encoding=%ld cnt=%d", (long)bg->encoding, (int)bg->target_cnt);
 	  exit(1);
 	}
 
@@ -797,7 +797,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
 
 	if ( bg->target_cnt >= 255 )
 	{
-	  bf_Error(bf, "RLE Compress: Error, glyph too large, encoding=", bg->encoding);
+	  bf_Error(bf, "RLE Compress: Error, glyph too large, encoding=%ld", (long)bg->encoding);
 	  exit(1);
 	}
 

@@ -1,16 +1,79 @@
 /* GPIO pulse generator project for the STM32L031 */
 
 #include "stm32l031xx.h"
+#include "core_cm0plus.h"
 
 /*================================================*/
 /* forward declaration */
 void setGPIO( uint8_t n );
+void clearGPIO(void);
+
+/*================================================*/
+/* lock, http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHEJCHB.html */
+void get_lock(volatile int *Lock_Variable)
+{ // Note: __LDREXW and __STREXW are CMSIS functions
+  int status = 0;
+  do 
+  {
+    while (__LDREXW(&Lock_Variable) != 0)
+      ; // Wait until Lock_Variable is free
+    status = __STREXW(1, &Lock_Variable); // Try to set Lock_Variable
+  } while (status!=0); 	//retry until lock successfully
+  __DMB();		// Do not start any other memory access
+  // until memory barrier is completed
+  return;
+}
+
+void free_lock(volatile int *Lock_Variable)
+{ // Note: __LDREXW and __STREXW are CMSIS functions
+__DMB(); // Ensure memory operations completed before
+// releasing lock
+Lock_Variable = 0;
+return;
+}
+/*================================================*/
+/* queue */
+
+#define GPIO_QUEUE_MAX 128
+uint8_t gpio_queue_mem[GPIO_QUEUE_MAX];
+uint8_t gpio_queue_start = 0;
+uint8_t gpio_queue_end = 0;
+
+void addCmdToGPIOQueue(uint8_t n)
+{
+  uint8_t pos;
+  pos = gpio_queue_end ;
+  pos++;
+  if ( pos >= GPIO_QUEUE_MAX )
+    pos = 0;
+  if ( pos == gpio_queue_start )
+    return;
+  gpio_queue_mem[pos] = n;
+  gpio_queue_end = pos;
+}
+
+uint8_t isGPIOQueueEmpty(void)
+{
+  if ( gpio_queue_start == gpio_queue_end )
+    return 1;
+  return 0;
+}
+
+uint8_t getCmdFromGPIOQueue(void)
+{
+  uint8_t r = gpio_queue_mem[gpio_queue_start];
+  if ( isGPIOQueueEmpty() )
+    return 255;
+  gpio_queue_start++;
+  if ( gpio_queue_start >= GPIO_QUEUE_MAX )
+    gpio_queue_start = 0;
+  return r;  
+}
 
 
+/*================================================*/
 
 volatile unsigned long SysTickCount = 0;
-
-
 
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
