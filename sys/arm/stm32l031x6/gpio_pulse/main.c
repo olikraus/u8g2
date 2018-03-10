@@ -1,4 +1,10 @@
-/* GPIO pulse generator project for the STM32L031 */
+/* 
+  GPIO pulse generator project for the STM32L031 
+  
+  I2C:
+    Write 0, <gpio cmd>
+    
+*/
 
 #include "stm32l031xx.h"
 #include "core_cm0plus.h"
@@ -8,29 +14,6 @@
 void setGPIO( uint8_t n );
 void clearGPIO(void);
 
-/*================================================*/
-/* lock, http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0321a/BIHEJCHB.html */
-void get_lock(volatile int *Lock_Variable)
-{ // Note: __LDREXW and __STREXW are CMSIS functions
-  int status = 0;
-  do 
-  {
-    while (__LDREXW(&Lock_Variable) != 0)
-      ; // Wait until Lock_Variable is free
-    status = __STREXW(1, &Lock_Variable); // Try to set Lock_Variable
-  } while (status!=0); 	//retry until lock successfully
-  __DMB();		// Do not start any other memory access
-  // until memory barrier is completed
-  return;
-}
-
-void free_lock(volatile int *Lock_Variable)
-{ // Note: __LDREXW and __STREXW are CMSIS functions
-__DMB(); // Ensure memory operations completed before
-// releasing lock
-Lock_Variable = 0;
-return;
-}
 /*================================================*/
 /* queue */
 
@@ -64,12 +47,305 @@ uint8_t getCmdFromGPIOQueue(void)
   uint8_t r = gpio_queue_mem[gpio_queue_start];
   if ( isGPIOQueueEmpty() )
     return 255;
+  return r;
+}
+  
+void removeCmdFromGPIOQueue(void)
+{
+  if ( isGPIOQueueEmpty() )
+    return;
+  __disable_irq();
   gpio_queue_start++;
   if ( gpio_queue_start >= GPIO_QUEUE_MAX )
     gpio_queue_start = 0;
-  return r;  
+  __enable_irq();
 }
 
+/*================================================*/
+/* GPIO output state machine */
+
+#define GPIO_STATE_IDLE 0
+#define GPIO_STATE_TURN_ON 1
+#define GPIO_STATE_WAIT_ON 2
+#define GPIO_STATE_OFF 3
+/* time is in ticks + 1 */
+#define GPIO_STATE_ON_TICKS 0
+#define GPIO_STATE_OFF_TICKS 4
+
+volatile uint8_t gpio_state = GPIO_STATE_IDLE;
+volatile uint8_t gpio_state_machine_output_number = 0;
+volatile uint8_t gpio_state_machine_counter = 0;
+
+void gpioNextState(void)
+{
+  switch(gpio_state)
+  {
+    case GPIO_STATE_IDLE:
+      break;
+    case GPIO_STATE_TURN_ON:
+      setGPIO(gpio_state_machine_output_number);
+      gpio_state_machine_counter = GPIO_STATE_ON_TICKS;
+      gpio_state = GPIO_STATE_WAIT_ON;
+      break;
+    case GPIO_STATE_WAIT_ON:
+      if ( gpio_state_machine_counter == 0 )
+      {
+	clearGPIO();
+	gpio_state_machine_counter = GPIO_STATE_OFF_TICKS;
+	gpio_state = GPIO_STATE_OFF;
+      }
+      else
+      {
+	gpio_state_machine_counter--;
+      }
+      break;
+    case GPIO_STATE_OFF:
+      if ( gpio_state_machine_counter == 0 )
+      {
+	gpio_state = GPIO_STATE_IDLE;
+      }
+      else
+      {
+	gpio_state_machine_counter--;
+      }
+      break;
+    default:
+      gpio_state = GPIO_STATE_IDLE;
+      break;
+  }
+}
+
+uint8_t gpioStartStateMachine(uint8_t gpio_number)
+{
+  /* first, set the gpio number */
+  gpio_state_machine_output_number = gpio_number;
+  /* then try to enable the state machine */
+  if ( gpio_state != GPIO_STATE_IDLE )
+    return 0;	/* not idle, can not start */
+  gpio_state = GPIO_STATE_TURN_ON;
+  return 1;
+}
+
+/*================================================*/
+/* Queue & State Machine Connector */
+
+void processQueue(void)
+{
+  uint8_t cmd;
+  cmd = getCmdFromGPIOQueue();
+  if ( cmd < 255 )
+  {
+    if ( gpioStartStateMachine(cmd) != 0 )
+    {
+      removeCmdFromGPIOQueue();
+    }
+  }
+}
+
+
+/*==============================================*/
+/* I2C */
+
+volatile unsigned char i2c_mem[256];     /* contains data, which read or written */
+volatile unsigned char i2c_idx;                  /* the current index into i2c_mem */
+volatile unsigned char i2c_is_write_idx;                  /* write state */
+
+volatile uint16_t i2c_total_irq_cnt;
+volatile uint16_t i2c_TXIS_cnt;
+volatile uint16_t i2c_RXNE_cnt;
+
+
+void i2c_mem_reset_write(void)
+{
+  i2c_is_write_idx = 1;  
+}
+
+void i2c_mem_init(void)
+{
+  i2c_idx = 0;
+  i2c_mem_reset_write();
+}
+
+void i2c_mem_set_index(unsigned char value)
+{
+  i2c_idx = value;
+  i2c_is_write_idx = 0;
+}
+
+void i2c_mem_write_via_index(unsigned char value)
+{
+  if ( i2c_idx == 0 )
+  {
+    /* additionall put this byte into the queue */
+    addCmdToGPIOQueue(value);
+  }
+  i2c_mem[i2c_idx++] = value;
+}
+
+unsigned char i2c_mem_read(void)
+{
+  i2c_mem_reset_write();
+  i2c_idx++;
+  return i2c_mem[i2c_idx];
+}
+
+void i2c_mem_write(unsigned char value)
+{
+  if ( i2c_is_write_idx != 0 )
+  {
+    i2c_mem_set_index(value);
+  }
+  else
+  {
+    i2c_is_write_idx = 0;
+    i2c_mem_write_via_index(value);
+  }
+}
+
+
+
+/* address: I2C address multiplied by 2 */
+/* Pins PA9 (SCL) and PA10 (SDA) */
+void i2c_hw_init(unsigned char address)
+{
+  RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;		/* Enable clock for I2C */
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  
+    __NOP();                                                          /* extra delay for clock stabilization required? */
+    __NOP();
+
+
+  /* configure io */
+  GPIOA->MODER &= ~GPIO_MODER_MODE9;	/* clear mode for PA9 */  
+  GPIOA->MODER |= GPIO_MODER_MODE9_1;  /* alt fn */
+  GPIOA->OTYPER |= GPIO_OTYPER_OT_9;    /* open drain */
+  GPIOA->AFR[1] &= ~(15<<4);            /* Clear Alternate Function PA9 */
+  GPIOA->AFR[1] |= 1<<4;                   /* I2C Alternate Function PA9 */
+  
+  GPIOA->MODER &= ~GPIO_MODER_MODE10;	/* clear mode for PA10 */  
+  GPIOA->MODER |= GPIO_MODER_MODE10_1;  /* alt fn */
+  GPIOA->OTYPER |= GPIO_OTYPER_OT_10;    /* open drain */
+  GPIOA->AFR[1] &= ~(15<<8);            /* Clear Alternate Function PA10 */
+  GPIOA->AFR[1] |= 1<<8;            /* I2C Alternate Function PA10 */
+  
+  
+  RCC->CCIPR &= ~RCC_CCIPR_I2C1SEL;                      /* write 00 to the I2C clk selection register */
+  RCC->CCIPR |= RCC_CCIPR_I2C1SEL_0;                      /* select system clock (01) */
+  
+  /* I2C init flow chart: Clear PE bit */
+  
+  I2C1->CR1 &= ~I2C_CR1_PE;             
+  
+  /* I2C init flow chart: Configure filter */
+  
+  /* leave at defaults */
+
+  /* I2C init flow chart: Configure timing */
+  /*
+    standard mode 100kHz configuration
+    SYSCLK = I2CCLK = 32 MHz
+    PRESC = 6           bits 28..31
+    SCLL = 0x13         bits 0..7
+    SCLH = 0x0f         bits 8..15
+    SDADEL = 0x02       bits 16..19
+    SCLDEL = 0x04       bits 20..23
+  */
+  I2C1->TIMINGR = 0x60420f13;
+  
+  /* I2C init flow chart: Configure NOSTRECH */
+  
+  I2C1->CR1 |= I2C_CR1_NOSTRETCH;
+
+  /* I2C init flow chart: Enable I2C */
+  
+  I2C1->CR1 |= I2C_CR1_PE;
+
+
+  /* disable OAR1 for reconfiguration */
+  I2C1->OAR1 &= ~I2C_OAR1_OA1EN;
+  
+  I2C1->OAR1 = address;
+  
+  I2C1->OAR1 |= I2C_OAR1_OA1EN;
+
+
+  /* enable interrupts */
+  I2C1->CR1 |= I2C_CR1_STOPIE;
+  I2C1->CR1 |= I2C_CR1_NACKIE;
+  //I2C1->CR1 |= I2C_CR1_ADDRIE;
+  I2C1->CR1 |= I2C_CR1_RXIE;
+  I2C1->CR1 |= I2C_CR1_TXIE;
+  
+  
+
+  /* load first value into TXDR register */
+  I2C1->TXDR = i2c_mem[i2c_idx];
+
+
+  /* enable IRQ in NVIC */
+  NVIC_SetPriority(I2C1_IRQn, 0);
+  NVIC_EnableIRQ(I2C1_IRQn);
+
+
+  
+}
+
+void i2c_init(unsigned char address)
+{
+  i2c_mem_init();
+  i2c_hw_init(address);
+}
+
+
+void __attribute__ ((interrupt, used)) I2C1_IRQHandler(void)
+{
+  unsigned long isr = I2C1->ISR;
+
+  i2c_total_irq_cnt ++;
+  
+  if ( isr & I2C_ISR_TXIS )
+  {
+    i2c_TXIS_cnt++;
+    I2C1->TXDR = i2c_mem_read();
+  }
+  else if ( isr & I2C_ISR_RXNE )
+  {
+    i2c_RXNE_cnt++;
+    i2c_mem_write(I2C1->RXDR);
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+  }
+  else if ( isr & I2C_ISR_STOPF )
+  {
+    I2C1->ICR = I2C_ICR_STOPCF;
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+    i2c_mem_reset_write();
+  }
+  else if ( isr & I2C_ISR_NACKF )
+  {
+    I2C1->ICR = I2C_ICR_NACKCF;
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+    i2c_mem_reset_write();
+  }
+  else if ( isr & I2C_ISR_ADDR )
+  {
+    /* not required, the addr match interrupt is not enabled */
+    I2C1->ICR = I2C_ICR_ADDRCF;
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+    i2c_mem_reset_write();
+  }
+ 
+  /* if at any time the addr match is set, clear the flag */
+  /* not sure, whether this is required */
+  if ( isr & I2C_ISR_ADDR )
+  {
+    I2C1->ICR = I2C_ICR_ADDRCF;
+  }
+    
+}
 
 /*================================================*/
 
@@ -78,10 +354,7 @@ volatile unsigned long SysTickCount = 0;
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
   SysTickCount++;  
-  if ( SysTickCount & 1 )
-    clearGPIO();
-  else
-    setGPIO( (SysTickCount>>1) & 7 );
+  gpioNextState();
 }
 
 
@@ -251,10 +524,23 @@ int main()
   
   setHSIClock();
 
+  i2c_init(2*17);
+  
   SysTick->LOAD = 32000*100 - 1;		// 100 ms
   SysTick->VAL = 0;
   SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */
+  
     
+  addCmdToGPIOQueue(0);
+  addCmdToGPIOQueue(0);
+  addCmdToGPIOQueue(1);
+  addCmdToGPIOQueue(1);
+  addCmdToGPIOQueue(2);
+  addCmdToGPIOQueue(2);
+  
   for(;;)
-    ;
+  {
+    processQueue();
+  }
+    
 }

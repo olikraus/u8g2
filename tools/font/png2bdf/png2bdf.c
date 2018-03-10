@@ -27,6 +27,8 @@ char *bdf_font_name = NULL;
 char *bdf_copyright = NULL;
 FILE *bdf_fp = NULL;
 long encoding = 48;
+int is_invert = 0;
+
 
 
 /*================================================*/
@@ -97,8 +99,8 @@ uint8_t get_pixel(int x, int y)
   if ( y >= height )
     return 0;
   if ( get_gray(x, y) > 128/2 )
-    return 1;
-  return 0;
+    return is_invert == 0 ? 1 : 0;
+  return is_invert == 0 ? 0 : 1;
 }
 
 uint8_t get_pixel_byte(int x, int y)
@@ -115,6 +117,8 @@ uint8_t get_pixel_byte(int x, int y)
 
 void write_4bit(int x)
 {
+  if ( bdf_fp == NULL )
+    return;
   if ( x < 10 )
     fprintf(bdf_fp, "%c", x + '0' );
   else
@@ -130,6 +134,9 @@ void write_byte(int x)
 void write_bdf_bitmap(void)
 {
   int x, y;
+  
+  if ( bdf_fp == NULL )
+    return;
   
   fprintf(bdf_fp, "STARTCHAR %ld\n", encoding);
   fprintf(bdf_fp, "ENCODING %ld\n", encoding);
@@ -249,10 +256,13 @@ void help(void)
 {
   printf("png2bdf [options] bdf-file { [options] png-file }\n");
   printf(" BDF options (use before bdf-file):'\n");
+  printf("  -o output.bdf\n");
   printf("  -f 'name of the font'\n");
   printf("  -c 'copyright note'\n");
   printf(" PNG options (use before png-file):'\n");
-  printf("  -e encoding\n");
+  printf("  -e <enc>   Use the specified encoding number for the next image.\n");
+  printf("  -i         Invert next images\n");
+  printf("  -n         Do not nvert next images\n");
   
 }
 
@@ -303,6 +313,22 @@ int main(int argc, char **argv)
 	  argc--; argv++;
 	}
       }
+      if ( strcmp(argv[0], "-o") == 0 )
+      {
+	argc--; argv++;
+	if ( argc > 0 )
+	{
+	  bdf_file_name = argv[0];
+	  argc--; argv++;
+	  bdf_fp = fopen(bdf_file_name, "wb");
+	  if ( bdf_fp == NULL )
+	  {
+	    perror(bdf_file_name);
+	    exit(1);
+	  }	
+	  write_bdf_header();
+	}
+      }
       else if ( strcmp(argv[0], "-c") == 0 )
       {
 	argc--; argv++;
@@ -321,24 +347,22 @@ int main(int argc, char **argv)
 	  argc--; argv++;
 	}
       }
-      
+
+      else if ( strcmp(argv[0], "-i") == 0 )
+      {
+	argc--; argv++;
+	is_invert = 1;
+      }
+
+      else if ( strcmp(argv[0], "-n") == 0 )
+      {
+	argc--; argv++;
+	is_invert = 0;
+      }
       
     }
     else
     {
-      if ( bdf_file_name == NULL )
-      {
-	bdf_file_name = argv[0];
-	argc--; argv++;
-	bdf_fp = fopen(bdf_file_name, "wb");
-	if ( bdf_fp == NULL )
-	{
-	  perror(bdf_file_name);
-	  exit(1);
-	}	
-	write_bdf_header();
-      }
-      else
       {
 	/* parse png image */
 	read_png_file(argv[0]);
