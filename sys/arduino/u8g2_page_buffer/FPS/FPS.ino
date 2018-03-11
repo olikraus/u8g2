@@ -223,6 +223,11 @@
   6 Oct 2017, Arduino 1.8.4
   U8G2_SSD1306_128X64_NONAME_1_SW_I2C		EPS32		Clip=9.5 Box=9.6  @=8.9 Pix=9.1
   U8G2_SSD1306_128X64_NONAME_1_HW_I2C		EPS32		Clip=30.5 Box=31.3  @=24.7 Pix=26.7
+  
+  9 Mar 2018, Arduino 1.8.4, 16 Bit Mode
+  U8G2_ST75256_JLX256128_1_4W_SW_SPI		MKR Zero		Clip=2.0 Box=2.0  @=1.2 Pix=1.3
+  U8G2_ST75256_JLX256128_1_4W_HW_SPI		MKR Zero		Clip=30.3 Box=31.0  @=2.6 Pix=2.9
+
 */
 
 
