@@ -1,0 +1,119 @@
+STARTFONT 2.1
+FONT "open_iconic_human_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/eye-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+03c0
+0ff0
+1c38
+381c
+710e
+f30f
+f3cf
+718e
+381c
+1c38
+0ff0
+03c0
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eyedropper-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+031e
+03bf
+01ff
+01ff
+03ff
+073e
+0e1c
+1c1e
+383f
+7073
+e0e0
+e1c0
+f380
+ff00
+fe00
+fc00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/heart-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+3c3c
+7e7e
+ffff
+ffff
+ffff
+ffff
+7ffe
+3ffc
+1ff8
+0ff0
+07e0
+03c0
+0180
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/people-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0030
+0078
+0c7c
+1e3c
+3f3c
+3f3c
+3f38
+3f30
+1e00
+0c07
+001f
+e1cf
+ffcf
+ffcf
+ffc0
+ffc0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/person-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03c0
+07e0
+07e0
+0ff0
+0ff0
+0ff0
+0ff0
+07e0
+07e0
+03c0
+300c
+7c3e
+ffff
+ffff
+ffff
+ffff
+ENDCHAR

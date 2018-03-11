@@ -1,0 +1,405 @@
+STARTFONT 2.1
+FONT "open_iconic_play_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/audio-spectrum-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+00c0
+00c0
+0cc0
+0cc0
+0ccc
+0ccc
+cccc
+cccc
+cccc
+cccc
+0ccc
+0ccc
+0cc0
+0cc0
+00c0
+00c0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bullhorn-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+000c
+004c
+01cc
+07cc
+ffcc
+ffcc
+ffcc
+ffcc
+3fcc
+19cc
+184c
+180c
+0c00
+0c00
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eject-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0180
+03c0
+07e0
+0ff0
+0ff0
+1ff8
+3ffc
+7ffe
+ffff
+0000
+0000
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/headphones-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03c0
+0ff0
+1c38
+1818
+300c
+300c
+300c
+300c
+f00f
+f00f
+f00f
+f00f
+f00f
+f00f
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-pause-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+3c3c
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-play-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+2000
+3800
+3e00
+3f80
+3fe0
+3ff8
+3ff8
+3fe0
+3f80
+3e00
+3800
+2000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-record-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+03c0
+0ff0
+1ff8
+1ff8
+3ffc
+3ffc
+3ffc
+3ffc
+1ff8
+1ff8
+0ff0
+03c0
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-skip-backward-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0101
+0303
+0707
+1f1f
+3f3f
+7f7f
+7f7f
+3f3f
+1f1f
+0707
+0303
+0101
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-skip-forward-2x.png
+ENCODING 72
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+8080
+c0c0
+e0e0
+f8f8
+fcfc
+fefe
+fefe
+fcfc
+f8f8
+e0e0
+c0c0
+8080
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-step-backward-2x.png
+ENCODING 73
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+f004
+f00c
+f03c
+f0fc
+f1fc
+f7fc
+f7fc
+f1fc
+f0fc
+f03c
+f00c
+f004
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-step-forward-2x.png
+ENCODING 74
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+803c
+c03c
+f03c
+fc3c
+fe3c
+ffbc
+ffbc
+fe3c
+fc3c
+f03c
+c03c
+803c
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-stop-2x.png
+ENCODING 75
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/microphone-2x.png
+ENCODING 76
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+03c0
+03c0
+03c0
+33cc
+33cc
+33cc
+318c
+1818
+1c38
+0ff0
+03c0
+0180
+0180
+07e0
+0ff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/musical-note-2x.png
+ENCODING 77
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+007f
+07ff
+0fff
+0fff
+0f03
+0c03
+0c03
+0c03
+0c1f
+0c3f
+7c3f
+fc3f
+fc3f
+fc1e
+fc00
+7800
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/play-circle-2x.png
+ENCODING 78
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3ffc
+7ffe
+7dfe
+fcff
+fc3f
+fc1f
+fc1f
+fc3f
+fcff
+7dfe
+7ffe
+3ffc
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-high-2x.png
+ENCODING 79
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0300
+0300
+0730
+0f3c
+ff0e
+ff06
+ff23
+ff33
+ff33
+ff23
+ff06
+ff0e
+0f3c
+0730
+0300
+0300
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-low-2x.png
+ENCODING 80
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+00c0
+00c0
+01c0
+03c0
+3fc0
+3fc0
+3fc8
+3fcc
+3fcc
+3fc8
+3fc0
+3fc0
+03c0
+01c0
+00c0
+00c0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-off-2x.png
+ENCODING 81
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0030
+0030
+0070
+00f0
+0ff0
+0ff0
+0ff0
+0ff0
+0ff0
+0ff0
+0ff0
+0ff0
+00f0
+0070
+0030
+0030
+ENDCHAR

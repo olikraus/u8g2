@@ -1,0 +1,427 @@
+STARTFONT 2.1
+FONT "open_iconic_thing_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/basket-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+03c0
+07e0
+0660
+0c30
+1c38
+ffff
+ffff
+3ffc
+3ffc
+33cc
+33cc
+33cc
+33cc
+3ffc
+3ffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/briefcase-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+0ff0
+0c30
+0c30
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/credit-card-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+ffff
+ffff
+ccff
+ccff
+ffff
+ffff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/key-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0078
+01fe
+01e6
+03c3
+03c3
+03e7
+07ff
+0ffe
+1ffe
+1ff8
+3fc0
+7fc0
+fc00
+fc00
+fc00
+fc00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lock-unlocked-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03c0
+07e0
+0e70
+0c30
+0030
+0030
+0030
+0030
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/paperclip-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+00f0
+01f8
+039c
+070c
+0e0c
+1c1c
+3838
+7670
+eee0
+cdc0
+cf80
+cf60
+e0e0
+71c0
+3f80
+1f00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/puzzle-piece-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0600
+0f00
+0f00
+0600
+fff0
+fff0
+fff0
+fff0
+fff6
+ffff
+ffff
+fff6
+f9f0
+f0f0
+f0f0
+f9f0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/brush-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0002
+0007
+001e
+003c
+007c
+01f8
+01f0
+0060
+0e60
+1f00
+1f00
+1f00
+3f00
+3e00
+7c00
+7800
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/droplet-2x.png
+ENCODING 72
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0100
+0180
+03c0
+07e0
+0ff0
+0ff0
+1ff8
+1ff8
+3ffc
+3ffc
+33fc
+33fc
+38fc
+1878
+0ff0
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/laptop-2x.png
+ENCODING 73
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+3ffc
+3ffc
+300c
+300c
+300c
+300c
+300c
+300c
+fc3f
+fc3f
+ffff
+ffff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/magnifying-glass-2x.png
+ENCODING 74
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0fc0
+1fe0
+3870
+6018
+e01c
+c00c
+c00c
+c00c
+c00c
+e018
+6018
+387c
+1ffe
+0fdf
+000f
+0006
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/phone-2x.png
+ENCODING 75
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+3ff0
+3ff0
+3030
+3030
+3030
+3030
+3030
+3030
+3030
+3030
+3030
+3030
+3ff0
+3cf0
+3cf0
+3ff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signpost-2x.png
+ENCODING 76
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0300
+0300
+3f00
+7f00
+7ff0
+3ff8
+03f8
+03f0
+0300
+0300
+0300
+0300
+0300
+0300
+0300
+0300
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bug-2x.png
+ENCODING 77
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0380
+0780
+0fc0
+0fc0
+cfcc
+fffc
+3ff0
+1fe0
+fcfc
+fcfc
+3cf0
+3cf0
+fcfc
+dcec
+0cc0
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fire-2x.png
+ENCODING 78
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0800
+0c00
+0e00
+0e00
+1f00
+3f00
+3f20
+7f30
+fe38
+fc38
+fc7c
+f8fc
+70fc
+71fc
+33fc
+13f8
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lock-locked-2x.png
+ENCODING 79
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03c0
+07e0
+0e70
+0c30
+0c30
+0c30
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+3ffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/monitor-2x.png
+ENCODING 80
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+c003
+c003
+c003
+c003
+c003
+c003
+c003
+c003
+ffff
+ffff
+03c0
+03c0
+1ff8
+3ffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pin-2x.png
+ENCODING 81
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+3ff0
+3ff0
+0fc0
+0fc0
+0fc0
+0fc0
+7ff8
+fffc
+0300
+0300
+0300
+0300
+0300
+0300
+0300
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tablet-2x.png
+ENCODING 82
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fffc
+fffc
+c00c
+c00c
+c00c
+c00c
+c00c
+c00c
+c00c
+c00c
+c00c
+c00c
+fffc
+fcfc
+fcfc
+fffc
+ENDCHAR

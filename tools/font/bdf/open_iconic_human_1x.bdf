@@ -1,0 +1,79 @@
+STARTFONT 2.1
+FONT "open_iconic_human_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/eye.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+3c
+66
+d3
+db
+66
+3c
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eyedropper.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+17
+0f
+17
+22
+45
+c8
+f0
+e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/heart.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+66
+ff
+ff
+7e
+3c
+18
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/people.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+04
+26
+76
+74
+21
+8b
+fb
+f8
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/person.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+3c
+3c
+3c
+18
+46
+ff
+ff
+ENDCHAR

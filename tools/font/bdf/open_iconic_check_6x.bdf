@@ -1,0 +1,279 @@
+STARTFONT 2.1
+FONT "open_iconic_check_6x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/check-6x.png
+ENCODING 64
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000200
+000000000700
+000000000f80
+000000001fc0
+000000003fe0
+000000007ff0
+00000000fff8
+00000001fffc
+00000003fffe
+00000007fffc
+0000000ffff8
+0000001ffff0
+0080003fffe0
+01c0007fffc0
+03e000ffff80
+07f001ffff00
+0ff803fffe00
+1ffc07fffc00
+3ffe0ffff800
+7fff1ffff000
+ffffbfffe000
+7fffffffc000
+3fffffff8000
+1fffffff0000
+0ffffffe0000
+07fffffc0000
+03fffff80000
+01fffff00000
+00ffffe00000
+007fffc00000
+003fff800000
+001fff000000
+000ffe000000
+0007fc000000
+0003f8000000
+0001f0000000
+0000e0000000
+000040000000
+000000000000
+000000000000
+000000000000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/circle-check-6x.png
+ENCODING 65
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+00001ff80000
+0000ffff0000
+0007ffffe000
+000ffffff000
+003ffffffc00
+007ffffffe00
+00ffffffff00
+01ffffffff80
+03ffffffffc0
+07ffffffffe0
+0ffffffffff0
+0fffffffe7f0
+1fffffffc3f8
+3fffffff81fc
+3fffffff00fc
+3ffffffe00fc
+7ffffffc01fe
+7ffffff803fe
+7ffffff007fe
+ffffffe00fff
+fffcffc01fff
+fff87f803fff
+fff03f007fff
+ffe01e00ffff
+ffe00c01ffff
+fff00003ffff
+fff80007ffff
+fffc000fffff
+fffe001fffff
+7fff003ffffe
+7fff807ffffe
+7fffc0fffffe
+3fffe1fffffc
+3ffff3fffffc
+3ffffffffffc
+1ffffffffff8
+0ffffffffff0
+0ffffffffff0
+07ffffffffe0
+03ffffffffc0
+01ffffffff80
+00ffffffff00
+007ffffffe00
+003ffffffc00
+000ffffff000
+0007ffffe000
+0000ffff0000
+00001ff80000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/circle-x-6x.png
+ENCODING 66
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+00001ff80000
+0000ffff0000
+0007ffffe000
+000ffffff000
+003ffffffc00
+007ffffffe00
+00ffffffff00
+01ffffffff80
+03ffffffffc0
+07ffffffffe0
+0ffffffffff0
+0ffcffff3ff0
+1ff87ffe1ff8
+3ff03ffc0ffc
+3fe01ff807fc
+3fe00ff007fc
+7ff007e00ffe
+7ff803c01ffe
+7ffc01803ffe
+fffe00007fff
+ffff0000ffff
+ffff8001ffff
+ffffc003ffff
+ffffe007ffff
+ffffe007ffff
+ffffc003ffff
+ffff8001ffff
+ffff0000ffff
+fffe00007fff
+7ffc01803ffe
+7ff803c01ffe
+7ff007e00ffe
+3fe00ff007fc
+3fe01ff807fc
+3ff03ffc0ffc
+1ff87ffe1ff8
+0ffcffff3ff0
+0ffffffffff0
+07ffffffffe0
+03ffffffffc0
+01ffffffff80
+00ffffffff00
+007ffffffe00
+003ffffffc00
+000ffffff000
+0007ffffe000
+0000ffff0000
+00001ff80000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/task-6x.png
+ENCODING 67
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+ffffffff8000
+ffffffff0060
+fffffffe00f0
+fffffffc01f8
+fffffff803fc
+fffffff007fe
+fc0000000ffe
+fc0000001ffc
+fc0000003ff8
+fc0000007ff0
+fc000000ffe0
+fc000001ffc0
+fc000003ff80
+fc006007ff00
+fc00f00ffe00
+fc01f81ffc00
+fc03fc3ff800
+fc07fe7ff000
+fc07ffffe000
+fc03ffffc000
+fc01ffff8000
+fc00ffff0040
+fc007ffe00c0
+fc003ffc01c0
+fc001ff803c0
+fc000ff007c0
+fc0007e00fc0
+fc0003c00fc0
+fc0001800fc0
+fc0000000fc0
+fc0000000fc0
+fc0000000fc0
+fc0000000fc0
+fc0000000fc0
+fc0000000fc0
+fc0000000fc0
+ffffffffffc0
+ffffffffffc0
+ffffffffffc0
+ffffffffffc0
+ffffffffffc0
+ffffffffffc0
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/x-6x.png
+ENCODING 68
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+008000000200
+01c000000700
+03e000000f80
+07f000001fc0
+0ff800003fe0
+1ffc00007ff0
+3ffe0000fff8
+7fff0001fffc
+ffff8003fffe
+7fffc007fffc
+3fffe00ffff8
+1ffff01ffff0
+0ffff83fffe0
+07fffc7fffc0
+03fffeffff80
+01ffffffff00
+00fffffffe00
+007ffffffc00
+003ffffff800
+001ffffff000
+000fffffe000
+0007ffffc000
+0003ffff8000
+0001ffff0000
+0003ffff8000
+0007ffffc000
+000fffffe000
+001ffffff000
+003ffffff800
+007ffffffc00
+00fffffffe00
+01ffffffff00
+03fffeffff80
+07fffc7fffc0
+0ffff83fffe0
+1ffff01ffff0
+3fffe00ffff8
+7fffc007fffc
+ffff8003fffe
+7fff0001fffc
+3ffe0000fff8
+1ffc00007ff0
+0ff800003fe0
+07f000001fc0
+03e000000f80
+01c000000700
+008000000200
+000000000000
+ENDCHAR

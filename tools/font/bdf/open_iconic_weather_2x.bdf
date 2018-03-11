@@ -1,0 +1,141 @@
+STARTFONT 2.1
+FONT "open_iconic_weather_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+01e0
+07f8
+07f8
+0ffc
+3ffc
+7ffc
+fffe
+ffff
+ffff
+ffff
+7fff
+3ffe
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloudy-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+1e00
+7f80
+7c00
+f800
+f1e0
+e7f8
+c7f8
+0ffc
+3ffc
+7ffc
+fffe
+ffff
+ffff
+ffff
+7fff
+3ffe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/moon-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0800
+1800
+3800
+7800
+7800
+fc00
+fc00
+fe00
+ff00
+ff80
+7ff2
+7ffe
+3ffc
+1ff8
+0ff0
+0180
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rain-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+01e0
+07f8
+07f8
+0ffc
+3ffc
+7ffc
+fffe
+ffff
+f87f
+f03f
+0307
+0302
+3330
+3330
+3330
+3330
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/star-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0180
+0180
+0180
+03c0
+7ffe
+3ffc
+1ff8
+0ff0
+07e0
+07e0
+0e70
+0c30
+0810
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sun-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+0180
+300c
+300c
+03c0
+07e0
+0ff0
+cff3
+cff3
+0ff0
+07e0
+03c0
+300c
+300c
+0180
+0180
+ENDCHAR

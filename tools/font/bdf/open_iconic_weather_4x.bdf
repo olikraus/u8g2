@@ -1,0 +1,237 @@
+STARTFONT 2.1
+FONT "open_iconic_weather_4x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-4x.png
+ENCODING 64
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0001f800
+0007fe00
+001fff80
+003fffc0
+007fffc0
+007fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7ffffff8
+fffffffc
+fffffffe
+fffffffe
+ffffffff
+ffffffff
+ffffffff
+7fffffff
+7ffffffe
+3ffffffe
+1ffffffc
+07fffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloudy-4x.png
+ENCODING 65
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+01f80000
+07fe0000
+1fff8000
+3fffc000
+3ffc0000
+7ff00000
+7fc00000
+ff800000
+ff01f800
+fe07fe00
+fc1fff80
+f83fffc0
+f87fffc0
+407fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7ffffff8
+fffffffc
+fffffffe
+fffffffe
+ffffffff
+ffffffff
+ffffffff
+7fffffff
+7ffffffe
+3ffffffe
+1ffffffc
+07fffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/moon-4x.png
+ENCODING 66
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00200000
+00c00000
+03c00000
+07c00000
+0fc00000
+1fc00000
+1fc00000
+3fc00000
+7fc00000
+7fe00000
+7fe00000
+ffe00000
+fff00000
+fff00000
+fff80000
+fffc0000
+fffe0000
+ffff0000
+ffff8000
+7fffe000
+7ffffc02
+7ffffffe
+3ffffffc
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rain-4x.png
+ENCODING 67
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0001f800
+0007fe00
+001fff80
+003fffc0
+007fffc0
+007fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7ffffff8
+fffffffc
+fffffffe
+ffffffff
+fff0ffff
+ffc03fff
+ff801fff
+7f801fff
+600600fe
+000f003e
+000f001c
+000f0000
+060f0600
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+06060600
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/star-4x.png
+ENCODING 68
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00018000
+00018000
+00018000
+0003c000
+0003c000
+0003c000
+0007e000
+0007e000
+0007e000
+000ff000
+7ffffffe
+3ffffffc
+1ffffff8
+0ffffff0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+003ffc00
+007ffe00
+007ffe00
+007e7e00
+00fc3f00
+00f81f00
+00f00f00
+01c00380
+01800180
+01000080
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sun-4x.png
+ENCODING 69
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0003c000
+0003c000
+00018000
+06000060
+0f0000f0
+0f0000f0
+06000060
+0007e000
+001ff800
+003ffc00
+007ffe00
+007ffe00
+00ffff00
+60ffff06
+f0ffff0f
+f0ffff0f
+60ffff06
+00ffff00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+0007e000
+06000060
+0f0000f0
+0f0000f0
+06000060
+00018000
+0003c000
+0003c000
+00018000
+ENDCHAR

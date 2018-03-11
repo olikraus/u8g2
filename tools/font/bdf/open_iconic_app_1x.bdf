@@ -1,0 +1,135 @@
+STARTFONT 2.1
+FONT "open_iconic_app_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/aperture.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+1c
+5c
+e3
+c3
+03
+40
+6e
+2c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calculator.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+fe
+82
+82
+fe
+aa
+fa
+aa
+fe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calendar.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+fe
+fe
+00
+fe
+aa
+fe
+ae
+fe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/camera-slr.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+0c
+1e
+ff
+b3
+ed
+ed
+f3
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chat.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+f8
+c0
+df
+df
+1f
+1f
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/clock.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+42
+81
+81
+89
+81
+42
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/compass.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+42
+85
+99
+99
+a1
+42
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/shield.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+ef
+8f
+8f
+4e
+4e
+2c
+18
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/timer.png
+ENCODING 72
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+38
+38
+40
+8a
+92
+82
+44
+38
+ENDCHAR

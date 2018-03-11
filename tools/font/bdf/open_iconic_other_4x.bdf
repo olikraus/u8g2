@@ -1,0 +1,313 @@
+STARTFONT 2.1
+FONT "open_iconic_other_4x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/bolt-4x.png
+ENCODING 64
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00010000
+00010000
+00030000
+00070000
+00070000
+000f0000
+000f0000
+001f0000
+003f0000
+003f0000
+007f0000
+007fff00
+00fffe00
+01fffc00
+01fffc00
+03fff800
+03fff800
+07fff000
+0fffe000
+000fe000
+000fc000
+000fc000
+000f8000
+000f0000
+000f0000
+000e0000
+000e0000
+000c0000
+00080000
+00080000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dial-4x.png
+ENCODING 65
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e00007c
+7c1c383e
+783e7c1e
+787ffe1e
+f87ffe1f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+00ffff00
+00ffff00
+00ffff00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+0007e000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fork-4x.png
+ENCODING 66
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0f000f00
+3fc03fc0
+7fe07fe0
+7fe07fe0
+fff0fff0
+fff0fff0
+fff0fff0
+fff0fff0
+7fe07fe0
+7fe07fe0
+3fc03fc0
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f001f00
+0ffffe00
+0ffffe00
+0ffffc00
+0ffff000
+0f800000
+3fc00000
+7fe00000
+7fe00000
+fff00000
+fff00000
+fff00000
+fff00000
+7fe00000
+7fe00000
+3fc00000
+0f000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-four-up-4x.png
+ENCODING 67
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-three-up-4x.png
+ENCODING 68
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-two-up-4x.png
+ENCODING 69
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signal-4x.png
+ENCODING 70
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000000f0
+000000f0
+000000f0
+000000f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/target-4x.png
+ENCODING 71
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e07e07c
+7c1ff83e
+783ffc1e
+787ffe1e
+f87c3e1f
+f0f81f0f
+f0f00f0f
+f0f00f0f
+f0f00f0f
+f0f00f0f
+f0f81f0f
+f87c3e1f
+787ffe1e
+783ffc1e
+7c1ff83e
+3e07e07c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR

@@ -1,0 +1,79 @@
+STARTFONT 2.1
+FONT "open_iconic_email_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-closed.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+ff
+7e
+99
+e7
+ff
+ff
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-open.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+66
+81
+bd
+99
+e7
+ff
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/inbox.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+ff
+81
+81
+81
+c3
+ff
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tag.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+e0
+90
+98
+7c
+3e
+1e
+0c
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tags.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+c8
+a4
+72
+32
+00
+00
+00
+ENDCHAR

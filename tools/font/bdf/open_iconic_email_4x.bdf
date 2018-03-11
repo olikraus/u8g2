@@ -1,0 +1,199 @@
+STARTFONT 2.1
+FONT "open_iconic_email_4x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-closed-4x.png
+ENCODING 64
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+1ffffff8
+07ffffe0
+01ffff80
+807ffe01
+e01ff807
+f807e01f
+fe01807f
+ff8001ff
+ffe007ff
+fff81fff
+fffe7fff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-open-4x.png
+ENCODING 65
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0007e000
+001ff800
+007ffe00
+01ffff80
+07fc3fe0
+1ff00ff8
+7fc003fe
+ff0000ff
+fc00003f
+f000000f
+f000000f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+f07ffe0f
+f01ff80f
+f807e01f
+fe01807f
+ff8001ff
+ffe007ff
+fff81fff
+fffe7fff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/inbox-4x.png
+ENCODING 66
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+ff0000ff
+ff8001ff
+ffc003ff
+ffe007ff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tag-4x.png
+ENCODING 67
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00000
+fff80000
+fffc0000
+fffe0000
+fc3f0000
+f81f8000
+f00fc000
+f00fe000
+f00ff000
+f00ff800
+f81ffc00
+fc3ffe00
+7fffff00
+3fffff80
+1fffffc0
+0fffffe0
+07fffff0
+03fffff8
+01fffffc
+00fffffe
+007ffffe
+003ffffc
+001ffff8
+000ffff0
+0007ffe0
+0003ffc0
+0001ff80
+0000ff00
+00007e00
+00003c00
+00001800
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tags-4x.png
+ENCODING 68
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ff03f000
+ff81f800
+ffc0fc00
+ffe07e00
+f9f03f00
+f0f81f80
+f0fc0fc0
+f9fe07e0
+7fff03f0
+3fff81f8
+1fffc0fc
+0fffe07e
+07ffe07e
+03ffc0fc
+01ff81f8
+00ff03f0
+007e07e0
+003c03c0
+00180180
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR

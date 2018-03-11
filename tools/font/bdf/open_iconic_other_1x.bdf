@@ -1,0 +1,121 @@
+STARTFONT 2.1
+FONT "open_iconic_other_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/bolt.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+10
+10
+3c
+78
+10
+10
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dial.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+3c
+42
+99
+bd
+3c
+18
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fork.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ee
+ee
+ee
+44
+7c
+e0
+e0
+e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-four-up.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+aa
+00
+aa
+00
+aa
+00
+aa
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-three-up.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+db
+db
+00
+db
+db
+00
+db
+db
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-two-up.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+e7
+e7
+e7
+00
+00
+e7
+e7
+e7
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signal.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+02
+0a
+0a
+2a
+2a
+aa
+aa
+aa
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/target.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+42
+99
+a5
+a5
+99
+42
+3c
+ENDCHAR

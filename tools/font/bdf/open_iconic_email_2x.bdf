@@ -1,0 +1,119 @@
+STARTFONT 2.1
+FONT "open_iconic_email_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-closed-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+ffff
+ffff
+7ffe
+1ff8
+87e1
+e187
+f81f
+fe7f
+ffff
+ffff
+ffff
+ffff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-open-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+07e0
+1e78
+781e
+e007
+c003
+cff3
+cff3
+c7e3
+e187
+f81f
+fe7f
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/inbox-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+ffff
+ffff
+c003
+c003
+c003
+c003
+c003
+c003
+f00f
+f81f
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tag-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fc00
+fe00
+e700
+c380
+c3c0
+e7e0
+7ff0
+3ff8
+1ffc
+0ffe
+07fe
+03fc
+01f8
+00f0
+0060
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tags-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+f1c0
+f8e0
+cc70
+ce38
+7f1c
+3f8e
+1f8e
+0f1c
+0618
+0000
+0000
+0000
+0000
+0000
+ENDCHAR

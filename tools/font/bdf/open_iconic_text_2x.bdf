@@ -1,0 +1,713 @@
+STARTFONT 2.1
+FONT "open_iconic_text_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/align-center-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+3ffc
+3ffc
+0000
+0000
+ffff
+ffff
+0000
+0000
+3ffc
+3ffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-left-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+fff0
+fff0
+0000
+0000
+ffff
+ffff
+0000
+0000
+fff0
+fff0
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-right-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+0fff
+0fff
+0000
+0000
+ffff
+ffff
+0000
+0000
+0fff
+0fff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bold-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fff0
+fff8
+7c7c
+3c3c
+3c3c
+3c7c
+3ff8
+3ffe
+3c1e
+3c0f
+3c0f
+3c0f
+3c0f
+7c1e
+fffe
+fff8
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/code-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0030
+0060
+306c
+60c6
+60c6
+c183
+c183
+6306
+6306
+360c
+0600
+0c00
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/command-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+7878
+fcfc
+cccc
+cccc
+fffc
+7ff8
+0cc0
+0cc0
+7ff8
+fffc
+cccc
+cccc
+fcfc
+7878
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/comment-square-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+0007
+0003
+0001
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/copywriting-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+ffc0
+ffc0
+0000
+0000
+0000
+0000
+ffff
+ffff
+0000
+0000
+fff3
+fff3
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/delete-2x.png
+ENCODING 72
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0fff
+1fff
+3cf3
+3c63
+7e07
+ff0f
+ff0f
+7e07
+3c63
+3cf3
+1fff
+0fff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-sans-left-2x.png
+ENCODING 73
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+f83e
+f03c
+e038
+c030
+8020
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-sans-right-2x.png
+ENCODING 74
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0000
+0401
+0c03
+1c07
+3c0f
+7c1f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-serif-left-2x.png
+ENCODING 75
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0c03
+3c0f
+701c
+6018
+c030
+c030
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-serif-right-2x.png
+ENCODING 76
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+0c03
+0c03
+1806
+380e
+f03c
+c030
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/ellipses-2x.png
+ENCODING 77
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0000
+0000
+0000
+0000
+f3cf
+f3cf
+f3cf
+f3cf
+0000
+0000
+0000
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/excerpt-2x.png
+ENCODING 78
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fffc
+fffc
+0000
+0000
+ffc0
+ffc0
+0000
+0000
+ffff
+ffff
+0000
+0000
+ccc0
+ccc0
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/header-2x.png
+ENCODING 79
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fcfc
+fcfc
+3030
+3030
+3030
+3030
+3ff0
+3ff0
+3030
+3030
+3030
+3030
+fcfc
+fcfc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/infinity-2x.png
+ENCODING 80
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0000
+0000
+3c3c
+7e7e
+e7e7
+c3c3
+c3c3
+e7e7
+7e7e
+3c3c
+0000
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/info-2x.png
+ENCODING 81
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0060
+00f0
+00f0
+0060
+0000
+0780
+0fc0
+0cc0
+00c0
+01c0
+0180
+0380
+0300
+0330
+03f0
+01e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/italic-2x.png
+ENCODING 82
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0ffc
+0ffc
+01e0
+01e0
+03e0
+03c0
+07c0
+0780
+0780
+0f80
+0f00
+1f00
+1e00
+1e00
+ffc0
+ffc0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-center-2x.png
+ENCODING 83
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+0000
+0000
+3ffc
+3ffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-left-2x.png
+ENCODING 84
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+0000
+0000
+fff0
+fff0
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-right-2x.png
+ENCODING 85
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+0000
+0000
+ffff
+ffff
+0000
+0000
+0fff
+0fff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/medical-cross-2x.png
+ENCODING 86
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0ff0
+0ff0
+0ff0
+0ff0
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+0ff0
+0ff0
+0ff0
+0ff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/minus-2x.png
+ENCODING 87
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0000
+0000
+0000
+0000
+ffff
+ffff
+ffff
+ffff
+0000
+0000
+0000
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/plus-2x.png
+ENCODING 88
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+ffff
+ffff
+ffff
+ffff
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/question-mark-2x.png
+ENCODING 89
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03f0
+07f8
+0e1c
+0c0c
+000c
+000c
+0018
+0038
+0070
+00e0
+00c0
+00c0
+0000
+0000
+00c0
+00c0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/terminal-2x.png
+ENCODING 90
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+cfff
+c7ff
+e3ff
+e3ff
+c703
+cf03
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/text-2x.png
+ENCODING 91
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+c3c3
+83c1
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+03c0
+0ff0
+0ff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/underline-2x.png
+ENCODING 92
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+3c30
+3c30
+3c30
+3c30
+3c30
+3c30
+3c30
+3c30
+3c30
+3e70
+1fe0
+07c0
+0000
+0000
+fffc
+fffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-bottom-2x.png
+ENCODING 93
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+f00f
+f00f
+f00f
+f00f
+f3cf
+f3cf
+f3cf
+f3cf
+f3cf
+f3cf
+0000
+0000
+ffff
+ffff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-center-2x.png
+ENCODING 94
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+f00f
+f00f
+f3cf
+f3cf
+0000
+0000
+ffff
+ffff
+0000
+0000
+f3cf
+f3cf
+f00f
+f00f
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-top-2x.png
+ENCODING 95
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+f3cf
+f3cf
+f3cf
+f3cf
+f3cf
+f3cf
+f00f
+f00f
+f00f
+f00f
+0000
+0000
+ENDCHAR

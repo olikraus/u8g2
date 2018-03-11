@@ -1,0 +1,119 @@
+STARTFONT 2.1
+FONT "open_iconic_check_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/check-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0008
+001c
+003e
+007e
+20fc
+71f8
+fbf0
+7fe0
+3fc0
+1f80
+0f00
+0600
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/circle-check-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3ffc
+7ffe
+7fe6
+ffc7
+ff8f
+f31f
+f03f
+f87f
+fcff
+7ffe
+7ffe
+3ffc
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/circle-x-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3ffc
+7ffe
+73ce
+f18f
+f81f
+fc3f
+fc3f
+f81f
+f18f
+73ce
+7ffe
+3ffc
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/task-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffe0
+ffc6
+c00e
+c01c
+c038
+c670
+c7e0
+c3c4
+c18c
+c00c
+c00c
+c00c
+fffc
+fffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/x-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+2008
+701c
+f83e
+7c7e
+3efc
+1ff8
+0ff0
+07e0
+0fe0
+1ff0
+3ff8
+7e7c
+fc3e
+781e
+300c
+0000
+ENDCHAR

@@ -1,0 +1,8483 @@
+STARTFONT 2.1
+FONT "open_iconic_all_4x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/account-login-4x.png
+ENCODING 64
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000fffff
+000fffff
+000fffff
+000fffff
+0000000f
+0000000f
+0000000f
+0000000f
+0000800f
+0000c00f
+0000e00f
+0000f80f
+fffffc0f
+fffffe0f
+fffffe0f
+fffffc0f
+0000f80f
+0000e00f
+0000c00f
+0000800f
+0000000f
+0000000f
+0000000f
+0000000f
+000fffff
+000fffff
+000fffff
+000fffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/account-logout-4x.png
+ENCODING 65
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000fffff
+000fffff
+000fffff
+000fffff
+0000000f
+0000000f
+0000000f
+0000000f
+0100000f
+0300000f
+0700000f
+1f00000f
+3fffff0f
+7fffff0f
+7fffff0f
+3fffff0f
+1f00000f
+0700000f
+0300000f
+0100000f
+0000000f
+0000000f
+0000000f
+0000000f
+000fffff
+000fffff
+000fffff
+000fffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/action-redo-4x.png
+ENCODING 66
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+003fc000
+00fff000
+03fffc00
+07fffe00
+0e07ff00
+1801ff80
+20007fc0
+00003fc0
+40003fe0
+00001fe0
+00001ff0
+00000ff0
+00000ff0
+00000ff0
+00000ff0
+00000ff0
+00007ffe
+00003ffc
+00001ff8
+00000ff0
+000007e0
+000003c0
+00000180
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/action-undo-4x.png
+ENCODING 67
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0003fc00
+000fff00
+003fffc0
+007fffe0
+00ffe070
+01ff8018
+03fe0004
+03fc0000
+07fc0002
+07f80000
+0ff80000
+0ff00000
+0ff00000
+0ff00000
+0ff00000
+0ff00000
+7ffe0000
+3ffc0000
+1ff80000
+0ff00000
+07e00000
+03c00000
+01800000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-center-4x.png
+ENCODING 68
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-left-4x.png
+ENCODING 69
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-right-4x.png
+ENCODING 70
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00ffffff
+00ffffff
+00ffffff
+00ffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00ffffff
+00ffffff
+00ffffff
+00ffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/aperture-4x.png
+ENCODING 71
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+007fff00
+003fff00
+000fff00
+0c07fe00
+1f01fe18
+1f80fe18
+3fc07c3c
+7ff01c3e
+7ff00c3e
+7fe0007e
+ff80007f
+ff00007f
+fc0000ff
+f80000ff
+f00000ff
+c00001ff
+808001ff
+038001ff
+07800000
+0fc00000
+3fc00000
+3fc00000
+1fe1fff8
+1fe1fff8
+0fe0fff0
+07f0ffe0
+03f0ffc0
+01f07f00
+00787e00
+00087000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-bottom-4x.png
+ENCODING 72
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+0fffff00
+07fffe00
+03fffc00
+01fff800
+00fff000
+007fe000
+007fe000
+003fc000
+001f8000
+000f0000
+00060000
+00020000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-bottom-4x.png
+ENCODING 73
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f00fe0
+0ff00ff0
+1ff00ff8
+3ff00ffc
+3ff00ffc
+7ff00ffe
+7ff00ffe
+7ff00ffe
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+f000000f
+f800001f
+fc00003f
+fe00007f
+7f0000fe
+7f8001fe
+7fc003fe
+3fe007fc
+3ff00ffc
+1ff81ff8
+0ffc3ff0
+07fe7fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-left-4x.png
+ENCODING 74
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07feffe0
+0ffcfff0
+1ff8fff8
+3ff0fffc
+3fe0fffc
+7fc0fffe
+7f80fffe
+7f00fffe
+fe00000f
+fc00000f
+f800000f
+f000000f
+f000000f
+f800000f
+fc00000f
+fe00000f
+7f00fffe
+7f80fffe
+7fc0fffe
+3fe0fffc
+3ff0fffc
+1ff8fff8
+0ffcfff0
+07feffe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-right-4x.png
+ENCODING 75
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07ff7fe0
+0fff3ff0
+1fff1ff8
+3fff0ffc
+3fff07fc
+7fff03fe
+7fff01fe
+7fff00fe
+f000007f
+f000003f
+f000001f
+f000000f
+f000000f
+f000001f
+f000003f
+f000007f
+7fff00fe
+7fff01fe
+7fff03fe
+3fff07fc
+3fff0ffc
+1fff1ff8
+0fff3ff0
+07ff7fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-top-4x.png
+ENCODING 76
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07fe7fe0
+0ffc3ff0
+1ff81ff8
+3ff00ffc
+3fe007fc
+7fc003fe
+7f8001fe
+7f0000fe
+fe00007f
+fc00003f
+f800001f
+f000000f
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+7ff00ffe
+7ff00ffe
+7ff00ffe
+3ff00ffc
+3ff00ffc
+1ff00ff8
+0ff00ff0
+07f00fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-left-4x.png
+ENCODING 77
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00100000
+00300000
+00700000
+00f00000
+01f00000
+07f00000
+0ff00000
+1ff00000
+3fffffff
+7fffffff
+ffffffff
+3fffffff
+1ff00000
+0ff00000
+07f00000
+01f00000
+00f00000
+00700000
+00300000
+00100000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-right-4x.png
+ENCODING 78
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000800
+00000c00
+00000e00
+00000f00
+00000f80
+00000fe0
+00000ff0
+00000ff8
+fffffffc
+ffffffff
+fffffffe
+fffffffc
+00000ff8
+00000ff0
+00000fe0
+00000f80
+00000f00
+00000e00
+00000c00
+00000800
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-bottom-4x.png
+ENCODING 79
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+07ffffe0
+03ffffe0
+01ffffc0
+00ffff80
+007fff00
+003ffe00
+001ffc00
+000ff800
+0007f000
+0003e000
+0001c000
+00008000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-left-4x.png
+ENCODING 80
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00100000
+00300000
+00700000
+00f00000
+01f00000
+03f00000
+07f00000
+0fffffff
+1fffffff
+3fffffff
+7fffffff
+ffffffff
+7fffffff
+3fffffff
+1fffffff
+0ff00000
+07f00000
+03f00000
+01f00000
+00f00000
+00700000
+00300000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-right-4x.png
+ENCODING 81
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00000c00
+00000e00
+00000f00
+00000f80
+00000fc0
+00000fe0
+00000ff0
+fffffff8
+fffffffc
+fffffffe
+ffffffff
+fffffffe
+fffffffc
+fffffff8
+fffffff0
+00000fe0
+00000fc0
+00000f80
+00000f00
+00000e00
+00000c00
+00000800
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-top-4x.png
+ENCODING 82
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00010000
+00038000
+0007c000
+000fe000
+001ff000
+003ff800
+007ffc00
+00fffe00
+01ffff00
+03ffff80
+07ffffc0
+07ffffe0
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-top-4x.png
+ENCODING 83
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00040000
+00060000
+000f0000
+001f8000
+003fc000
+007fe000
+007fe000
+00fff000
+01fff800
+03fffc00
+07fffe00
+0fffff00
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/audio-4x.png
+ENCODING 84
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+08000010
+1c000038
+1e000078
+3e00007c
+7c00003e
+7800001e
+7820041e
+f8700e1f
+f0781e0f
+f0f00f0f
+f0f00f0f
+f0f00f0f
+f0f00f0f
+f0f81f0f
+f0781e0f
+78700e1e
+7820041e
+7c00003e
+3c00003c
+3e00007c
+1e000078
+0c000030
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/audio-spectrum-4x.png
+ENCODING 85
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0000f000
+0000f000
+0000f000
+0000f000
+00f0f000
+00f0f000
+00f0f000
+00f0f000
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f000
+00f0f000
+00f0f000
+00f0f000
+0000f000
+0000f000
+0000f000
+0000f000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/badge-4x.png
+ENCODING 86
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+001ff800
+003ffc00
+007ffe00
+007ffe00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+0007e000
+00000000
+00000000
+00000000
+00081000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000e7000
+000c3000
+00081000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/ban-4x.png
+ENCODING 87
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0003fc
+3e0007fc
+7c000fbe
+78001f1e
+78003e1e
+f8007c1f
+f000f80f
+f001f00f
+f003e00f
+f007c00f
+f00f800f
+f01f000f
+f83e001f
+787c001e
+78f8001e
+7df0003e
+3fe0007c
+3fc000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bar-chart-4x.png
+ENCODING 88
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f0000ff0
+f0000ff0
+f0000ff0
+f0000ff0
+f0000ff0
+f0000ff0
+f0000ff0
+f0000ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0ff0ff0
+f0000000
+f0000000
+f0000000
+f0000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/basket-4x.png
+ENCODING 89
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+001ff800
+003e7c00
+007c3e00
+00f81f00
+01f00f80
+03e007c0
+03e007c0
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0f9ff9f0
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f9ff9f0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/battery-empty-4x.png
+ENCODING 90
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/battery-full-4x.png
+ENCODING 91
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/beaker-4x.png
+ENCODING 92
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0fffffe0
+0ffffff0
+0ffffff0
+0fffffe0
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+01e00780
+03e007c0
+03c003c0
+07c003e0
+078001e0
+0f8001f0
+0f0000f0
+1f0000f8
+1e000078
+3ffffffc
+3ffffffc
+7ffffffe
+7ffffffe
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+3ffffffc
+1ffffff8
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bell-4x.png
+ENCODING 93
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+001ff800
+003ffc00
+007ffe00
+007ffe00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+01ffff80
+01ffff80
+01ffff80
+03ffffc0
+03ffffc0
+07ffffe0
+0ffffff0
+1ffffff8
+3ffffffc
+7ffffffe
+7ffffffe
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+000ff000
+000ff000
+0007e000
+0003c000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bluetooth-4x.png
+ENCODING 94
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00380000
+003c0000
+003e0000
+003f8000
+003fc000
+003ff000
+003df800
+003cfc00
+033c3f00
+07bc1f80
+07fc1f80
+03fc3f00
+01fcfc00
+00fdf800
+007fe000
+003fc000
+003fc000
+007fe000
+00fdf800
+01fcfc00
+03fc3f00
+07fc1f80
+07bc1f80
+033c3f00
+003cfc00
+003df800
+003ff000
+003fc000
+003f8000
+003e0000
+003c0000
+00380000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bold-4x.png
+ENCODING 95
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffe00
+ffffff80
+ffffffc0
+ffffffe0
+3ff03fe0
+1ff01ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff01ff0
+0ff03fe0
+0fffffe0
+0fffffe0
+0ffffff8
+0ffffffc
+0ff00ffc
+0ff003fe
+0ff001fe
+0ff001ff
+0ff000ff
+0ff000ff
+0ff000ff
+0ff000ff
+0ff001ff
+0ff001fe
+1ff003fe
+3ff00ffc
+fffffffc
+fffffff8
+ffffffe0
+ffffff80
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bolt-4x.png
+ENCODING 96
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00010000
+00010000
+00030000
+00070000
+00070000
+000f0000
+000f0000
+001f0000
+003f0000
+003f0000
+007f0000
+007fff00
+00fffe00
+01fffc00
+01fffc00
+03fff800
+03fff800
+07fff000
+0fffe000
+000fe000
+000fc000
+000fc000
+000f8000
+000f0000
+000f0000
+000e0000
+000e0000
+000c0000
+00080000
+00080000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/book-4x.png
+ENCODING 97
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+3fff00e0
+7fff00f0
+ffff00f0
+ffff00f0
+ffff00f0
+ffff00f0
+ffff00f0
+ffff00f0
+ffff00f0
+ffff18f0
+ffff3cf0
+ffff7ef0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f8000000
+f0000000
+f0000000
+f8000000
+7ffffff0
+7ffffff0
+3ffffff0
+0ffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bookmark-4x.png
+ENCODING 98
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00fe7f00
+00fc3f00
+00f81f00
+00f00f00
+00e00700
+00c00300
+00800100
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/box-4x.png
+ENCODING 99
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/briefcase-4x.png
+ENCODING 100
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003ffc00
+007ffe00
+00ffff00
+00ffff00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/british-pound-4x.png
+ENCODING 101
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+001ff800
+003ffc00
+007ffe00
+007c3e00
+00781f00
+00f00f00
+00f00f00
+00f00000
+00f00000
+00f00000
+00f00000
+00f00000
+00780000
+00780000
+00780000
+0ffff000
+0ffff000
+0ffff000
+0ffff000
+00780000
+00f00000
+00f00000
+01f00000
+01e00000
+03c00000
+07c00000
+0f800000
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/browser-4x.png
+ENCODING 102
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+7ffffffe
+ffffffff
+ffffffff
+ffffffff
+f9f8001f
+f0f0000f
+f0f0000f
+f9f8001f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/brush-4x.png
+ENCODING 103
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000004
+0000000e
+0000003f
+0000007e
+000000fc
+000003fc
+000007f8
+00001ff0
+00003fe0
+0000ffe0
+0001ffc0
+0003ff80
+0003ff80
+0000ff00
+00007e00
+00003c00
+00f81c00
+01fc1800
+03fe0000
+03ff0000
+07ff0000
+07ff0000
+07ff0000
+07ff0000
+07ff0000
+07fe0000
+0ffe0000
+1ffc0000
+1ff80000
+3ff00000
+ffe00000
+3f000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bug-4x.png
+ENCODING 104
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000f0000
+003fc000
+007fe000
+007fe000
+00fff000
+00fff000
+00fff000
+00fff000
+60fff060
+f87fe1f0
+fe7fe7f0
+7fffffe0
+1fffff80
+07fffe00
+03fffe00
+07fffe00
+7ff9ffe0
+fff0fff0
+fff0fff0
+7ff0ffe0
+0ff0ff00
+0ff0ff00
+0ff0ff00
+1ff0ffc0
+7ff0ffe0
+fff0fff0
+fff0fff0
+e3f0fc70
+01f0f800
+00e07000
+00402000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bullhorn-4x.png
+ENCODING 105
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000000f0
+000000f0
+000010f0
+000070f0
+0001f0f0
+0007f0f0
+001ff0f0
+007ff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+0ffff0f0
+079ff0f0
+0787f0f0
+07c1f0f0
+03c070f0
+03c010f0
+03e000f0
+01e000f0
+01f00000
+00f00000
+00f00000
+00600000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calculator-4x.png
+ENCODING 106
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calendar-4x.png
+ENCODING 107
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0f0fff0
+f0f0fff0
+f0f0fff0
+f0f0fff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/camera-slr-4x.png
+ENCODING 108
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0000ff00
+0001ff80
+0001ff80
+0003ffc0
+0003ffc0
+0007ffe0
+0007ffe0
+000ffff0
+1fffffff
+3fffffff
+7fffffff
+ffffffff
+f9ff81ff
+f0fe007f
+f0fc003f
+f9f8001f
+fff83c1f
+fff07e0f
+fff0ff0f
+fff0ff0f
+fff0ff0f
+fff0ff0f
+fff07e0f
+fff83c1f
+fff8001f
+fffc003f
+fffe007f
+ffff81ff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-bottom-4x.png
+ENCODING 109
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+7ffffffe
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-left-4x.png
+ENCODING 110
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000100
+00000300
+00000700
+00000f00
+00001f00
+00003f00
+00007f00
+0000ff00
+0001ff00
+0003ff00
+0007ff00
+000fff00
+001fff00
+003fff00
+007fff00
+007fff00
+003fff00
+001fff00
+000fff00
+0007ff00
+0003ff00
+0001ff00
+0000ff00
+00007f00
+00003f00
+00001f00
+00000f00
+00000700
+00000300
+00000100
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-right-4x.png
+ENCODING 111
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00800000
+00c00000
+00e00000
+00f00000
+00f80000
+00fc0000
+00fe0000
+00ff0000
+00ff8000
+00ffc000
+00ffe000
+00fff000
+00fff800
+00fffc00
+00fffe00
+00fffe00
+00fffc00
+00fff800
+00fff000
+00ffe000
+00ffc000
+00ff8000
+00ff0000
+00fe0000
+00fc0000
+00f80000
+00f00000
+00e00000
+00c00000
+00800000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-top-4x.png
+ENCODING 112
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00ffff00
+01ffff80
+03ffffc0
+07ffffe0
+0ffffff0
+1ffffff8
+3ffffffc
+7ffffffe
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cart-4x.png
+ENCODING 113
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ffe00000
+fff00000
+fff00000
+fff80000
+00ffffff
+007ffffe
+007ffffe
+007ffffe
+003ffffc
+003ffffc
+003ffffc
+003ffff8
+001ffff8
+001ffff8
+001ffff8
+000ffff0
+00000000
+00000000
+00000000
+00000000
+00060060
+000f00f0
+000f00f0
+00060060
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chat-4x.png
+ENCODING 114
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffff000
+fffff000
+fffff000
+fffff000
+ff000000
+ff000000
+ff000000
+ff000000
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+e00fffff
+c00fffff
+800fffff
+000fffff
+000fffff
+000fffff
+000fffff
+000fffff
+00000007
+00000003
+00000001
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/check-4x.png
+ENCODING 115
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000040
+000000e0
+000001f0
+000003f8
+000007fc
+00000ffe
+00001ffe
+00003ffc
+04007ff8
+0e00fff0
+1f01ffe0
+3f83ffc0
+7fc7ff80
+ffefff00
+7ffffe00
+3ffffc00
+1ffff800
+0ffff000
+07ffe000
+03ffc000
+01ff8000
+00ff0000
+007e0000
+003c0000
+00180000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-bottom-4x.png
+ENCODING 116
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+06000060
+0f0000f0
+1f8001f8
+3fc003fc
+7fe007fe
+7ff00ffe
+3ff81ffc
+1ffc3ff8
+0ffe7ff0
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-left-4x.png
+ENCODING 117
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00001800
+00003c00
+00007e00
+0000ff00
+0001ff80
+0003ff80
+0007ff00
+000ffe00
+001ffc00
+003ff800
+007ff000
+00ffe000
+01ffc000
+03ff8000
+07ff0000
+07ff0000
+03ff8000
+01ffc000
+00ffe000
+007ff000
+003ff800
+001ffc00
+000ffe00
+0007ff00
+0003ff80
+0001ff80
+0000ff00
+00007e00
+00003c00
+00001800
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-right-4x.png
+ENCODING 118
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00600000
+00f00000
+01f80000
+03fc0000
+07fe0000
+07ff0000
+03ff8000
+01ffc000
+00ffe000
+007ff000
+003ff800
+001ffc00
+000ffe00
+0007ff00
+0003ff80
+0003ff80
+0007ff00
+000ffe00
+001ffc00
+003ff800
+007ff000
+00ffe000
+01ffc000
+03ff8000
+07ff0000
+07fe0000
+03fc0000
+01f80000
+00f00000
+00600000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-top-4x.png
+ENCODING 119
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00ffff00
+01ffff80
+03ffffc0
+07ffffe0
+0ffe7ff0
+1ffc3ff8
+3ff81ffc
+7ff00ffe
+7fe007fe
+3fc003fc
+1f8001f8
+0f0000f0
+06000060
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/circle-check-4x.png
+ENCODING 120
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07ffffe0
+0ffffff0
+1ffffff8
+3ffffffc
+3ffffe7c
+7ffffc3e
+7ffff83e
+7ffff07e
+ffffe0ff
+ffffc1ff
+ff9f83ff
+ff0f07ff
+ff060fff
+ff801fff
+ffc03fff
+ffe07fff
+7ff0fffe
+7ff9fffe
+7ffffffe
+3ffffffc
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/circle-x-4x.png
+ENCODING 121
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07ffffe0
+0ffffff0
+1ffffff8
+3ffffffc
+3f9ff9fc
+7f0ff0fe
+7f07e0fe
+7f83c1fe
+ffc183ff
+ffe007ff
+fff00fff
+fff81fff
+fff81fff
+fff00fff
+ffe007ff
+ffc183ff
+7f83c1fe
+7f07e0fe
+7f0ff0fe
+3f9ff9fc
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/clipboard-4x.png
+ENCODING 122
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00060000
+000f0000
+000f0000
+000f0000
+f0fff0f0
+f0fff0f0
+f0fff0f0
+f0fff0f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/clock-4x.png
+ENCODING 123
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e03c07c
+7c03c03e
+7803c01e
+7803c01e
+f803c01f
+f003c00f
+f003c00f
+f003c00f
+f003e00f
+f001f00f
+f000f00f
+f800601f
+7800001e
+7800001e
+7c00003e
+3e00007c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-4x.png
+ENCODING 124
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0001f800
+0007fe00
+001fff80
+003fffc0
+007fffc0
+007fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7ffffff8
+fffffffc
+fffffffe
+fffffffe
+ffffffff
+ffffffff
+ffffffff
+7fffffff
+7ffffffe
+3ffffffe
+1ffffffc
+07fffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-download-4x.png
+ENCODING 125
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0001f800
+0007fe00
+001fff80
+003fffc0
+007fffc0
+007fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7fff0ff8
+fffc03fc
+fff801fe
+fff801fe
+fff060ff
+fff0f0ff
+fff0f0ff
+7ff0f0ff
+0000f000
+0000f000
+0000f000
+0000f000
+001fff80
+000fff00
+0007fe00
+0003fc00
+0001f800
+0000f000
+00006000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-upload-4x.png
+ENCODING 126
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0001f800
+0007fe00
+001fff80
+003fffc0
+007fffc0
+007fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7fff9ff8
+ffff0ffc
+fffe07fe
+fffc03fe
+fff801ff
+fff000ff
+ffe0007f
+7fc0603f
+0000f000
+0001f800
+0003fc00
+0007fe00
+000fff00
+001fff80
+003fffc0
+007fffe0
+0000f000
+0000f000
+0000f000
+00006000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloudy-4x.png
+ENCODING 127
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+01f80000
+07fe0000
+1fff8000
+3fffc000
+3ffc0000
+7ff00000
+7fc00000
+ff800000
+ff01f800
+fe07fe00
+fc1fff80
+f83fffc0
+f87fffc0
+407fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7ffffff8
+fffffffc
+fffffffe
+fffffffe
+ffffffff
+ffffffff
+ffffffff
+7fffffff
+7ffffffe
+3ffffffe
+1ffffffc
+07fffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/code-4x.png
+ENCODING 128
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000f00
+00001e00
+00001e00
+00003c00
+0f003cf0
+1e007878
+1e007878
+3c00f03c
+3c00f03c
+7801e01e
+7801e01e
+f003c00f
+f003c00f
+7807801e
+7807801e
+3c0f003c
+3c0f003c
+1e1e0078
+1e1e0078
+0f3c00f0
+003c0000
+00780000
+00780000
+00f00000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cog-4x.png
+ENCODING 129
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0003c000
+0007e000
+0007e000
+0207e040
+078ff1e0
+0ffffff0
+1ffffff8
+0ffffff0
+0ffffff0
+07ffffe0
+07fc3fe0
+07f00fe0
+0fe007f0
+7fe007fe
+ffc003ff
+ffc003ff
+ffc003ff
+ffc003ff
+7fe007fe
+1fe007f8
+07f00fe0
+07fc3fe0
+07ffffe0
+0ffffff0
+0ffffff0
+1ffffff8
+0ffffff0
+078ff1e0
+0207e040
+0007e000
+0007e000
+0003c000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-down-4x.png
+ENCODING 130
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-left-4x.png
+ENCODING 131
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00010ff
+f00030ff
+f00070ff
+f000f0ff
+f001f0ff
+f003f0ff
+f007f0ff
+f007f0ff
+f003f0ff
+f001f0ff
+f000f0ff
+f00070ff
+f00030ff
+f00010ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-right-4x.png
+ENCODING 132
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff08000f
+ff0c000f
+ff0e000f
+ff0f000f
+ff0f800f
+ff0fc00f
+ff0fe00f
+ff0fe00f
+ff0fc00f
+ff0f800f
+ff0f000f
+ff0e000f
+ff0c000f
+ff08000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-up-4x.png
+ENCODING 133
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/command-4x.png
+ENCODING 134
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0f000f00
+3fc03fc0
+7fe07fe0
+7fe07fe0
+f9f0f9f0
+f0f0f0f0
+f0f0f0f0
+f8f0f1f0
+7fffffe0
+7fffffe0
+3fffffc0
+0fffff00
+00f0f000
+00f0f000
+00f0f000
+00f0f000
+0fffff00
+3fffffc0
+7fffffe0
+7fffffe0
+f8f0f1f0
+f0f0f0f0
+f0f0f0f0
+f9f0f9f0
+7fe07fe0
+7fe07fe0
+3fc03fc0
+0f000f00
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/comment-square-4x.png
+ENCODING 135
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+0000007f
+0000003f
+0000001f
+0000000f
+00000007
+00000003
+00000001
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/compass-4x.png
+ENCODING 136
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e00017c
+7c000e3e
+78007e1e
+7803fe1e
+f80ffc1f
+f00ffc0f
+f01e7c0f
+f01c380f
+f01c380f
+f03e780f
+f03ff00f
+f83ff01f
+787fc01e
+787e001e
+7c70003e
+3e80007c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/contrast-4x.png
+ENCODING 137
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07ff1fe0
+0fff03f0
+1fff01f8
+3fff00fc
+3fff007c
+7fff003e
+7fff001e
+7fff001e
+ffff001f
+ffff000f
+ffff000f
+ffff000f
+ffff000f
+ffff000f
+ffff000f
+ffff001f
+7fff001e
+7fff001e
+7fff003e
+3fff007c
+3fff00fc
+1fff01f8
+0fff03f0
+07ff1fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/copywriting-4x.png
+ENCODING 138
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+fffff000
+fffff000
+fffff000
+fffff000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffff06
+ffffff0f
+ffffff0f
+ffffff06
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/credit-card-4x.png
+ENCODING 139
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f0f0ffff
+f0f0ffff
+f0f0ffff
+f0f0ffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/crop-4x.png
+ENCODING 140
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0f000000
+0f000006
+0f00000e
+0f00001c
+fffffff8
+fffffff0
+fffffff0
+fffffff0
+0f0003f0
+0f0007f0
+0f000ef0
+0f001cf0
+0f0038f0
+0f0070f0
+0f00e0f0
+0f01c0f0
+0f0380f0
+0f0700f0
+0f0e00f0
+0f1c00f0
+0f3800f0
+0f7000f0
+0fe000f0
+0fc000f0
+0fffffff
+0fffffff
+0fffffff
+0fffffff
+000000f0
+000000f0
+000000f0
+000000f0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dashboard-4x.png
+ENCODING 141
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e01807c
+7c03c03e
+7803c01e
+7801801e
+f860061f
+f0f00f0f
+f0f80f0f
+f07c060f
+f03fc00f
+f01fe00f
+f00ff00f
+f80ff01f
+780ff01e
+780ff01e
+7c07e03e
+3e03c07c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/data-transfer-download-4x.png
+ENCODING 142
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/data-transfer-upload-4x.png
+ENCODING 143
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00ffff00
+01ffff80
+03ffffc0
+07ffffe0
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/delete-4x.png
+ENCODING 144
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00ffffff
+01ffffff
+03ffffff
+03ffffff
+07f9ff9f
+0ff0ff0f
+0ff07e0f
+1ff83c1f
+3ffc183f
+3ffe007f
+7fff00ff
+ffff81ff
+ffff81ff
+7fff00ff
+3ffe007f
+3ffc183f
+1ff83c1f
+0ff07e0f
+0ff0ff0f
+07f9ff9f
+03ffffff
+03ffffff
+01ffffff
+00ffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dial-4x.png
+ENCODING 145
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e00007c
+7c1c383e
+783e7c1e
+787ffe1e
+f87ffe1f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+00ffff00
+00ffff00
+00ffff00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+0007e000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/document-4x.png
+ENCODING 146
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00000
+fff08000
+fff0c000
+fff0e000
+fff0f000
+fff0f800
+fff0fc00
+fff0fe00
+f0f0ff00
+f0f0ff80
+f0f0ffc0
+f0f0ffe0
+fff00000
+fff00000
+fff00000
+fff00000
+f0fffff0
+f0fffff0
+f0fffff0
+f0fffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0000ff0
+f0000ff0
+f0000ff0
+f0000ff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dollar-4x.png
+ENCODING 147
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000f0000
+000f0000
+000f0000
+000f0000
+01fffc00
+07fffe00
+07ffff00
+0fffff00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f800000
+07f00000
+07ff0000
+03fff000
+00fffc00
+000ffe00
+0000fe00
+00001f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0fffff00
+0ffffe00
+07fffe00
+03fff800
+000f0000
+000f0000
+000f0000
+000f0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-sans-left-4x.png
+ENCODING 148
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+ffe00ffe
+ffc00ffc
+ff800ff8
+ff000ff0
+fe000fe0
+fc000fc0
+f8000f80
+f0000f00
+e0000e00
+c0000c00
+80000800
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-sans-right-4x.png
+ENCODING 149
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00100001
+00300003
+00700007
+00f0000f
+01f0001f
+03f0003f
+07f0007f
+0ff000ff
+1ff001ff
+3ff003ff
+7ff007ff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-serif-left-4x.png
+ENCODING 150
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00700007
+03f0003f
+07f0007f
+0ff000ff
+1f8001f8
+3e0003e0
+7c0007c0
+78000780
+78000780
+f0000f00
+f0000f00
+f0000f00
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-serif-right-4x.png
+ENCODING 151
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+00f0000f
+00f0000f
+00f0000f
+01e0001e
+01e0001e
+03e0003e
+07c0007c
+1f8001f8
+ff000ff0
+fe000fe0
+fc000fc0
+e0000e00
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/droplet-4x.png
+ENCODING 152
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00038000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+003ffc00
+007ffe00
+00ffff00
+00ffff00
+01ffff80
+03ffffc0
+03ffffc0
+07ffffe0
+07ffffe0
+07ffffe0
+0ffffff0
+0ffffff0
+0f9ffff0
+0f0ffff0
+0f0ffff0
+0f0ffff0
+0f07fff0
+0783ffe0
+07807fe0
+07c03fe0
+03f03fc0
+01fc7f80
+00ffff00
+007ffe00
+003ff800
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eject-4x.png
+ENCODING 153
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00ffff00
+00ffff00
+01ffff80
+03ffffc0
+07ffffe0
+0ffffff0
+0ffffff0
+1ffffff8
+3ffffffc
+7ffffffe
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/elevator-4x.png
+ENCODING 154
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00ffff00
+01ffff80
+03ffffc0
+07ffffe0
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/ellipses-4x.png
+ENCODING 155
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-closed-4x.png
+ENCODING 156
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+1ffffff8
+07ffffe0
+01ffff80
+807ffe01
+e01ff807
+f807e01f
+fe01807f
+ff8001ff
+ffe007ff
+fff81fff
+fffe7fff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-open-4x.png
+ENCODING 157
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0007e000
+001ff800
+007ffe00
+01ffff80
+07fc3fe0
+1ff00ff8
+7fc003fe
+ff0000ff
+fc00003f
+f000000f
+f000000f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+f07ffe0f
+f01ff80f
+f807e01f
+fe01807f
+ff8001ff
+ffe007ff
+fff81fff
+fffe7fff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/euro-4x.png
+ENCODING 158
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0000ff00
+0007ffe0
+001ffff0
+003fffe0
+007f80e0
+00fc0020
+01f80000
+01f00000
+03e00000
+03c00000
+07800000
+07800000
+fffffc00
+fffffc00
+fffffc00
+fffff800
+0f000000
+0f000000
+0f000000
+07800000
+fffff800
+fffff000
+fffff000
+fffff000
+01f00000
+01f80010
+00fc0030
+007f81f0
+003ffff0
+000ffff0
+0007ffe0
+0000ff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/excerpt-4x.png
+ENCODING 159
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+fffff000
+fffff000
+fffff000
+fffff000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+f0f0f000
+f0f0f000
+f0f0f000
+f0f0f000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-down-4x.png
+ENCODING 160
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-left-4x.png
+ENCODING 161
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f08000ff
+f0c000ff
+f0e000ff
+f0f000ff
+f0f800ff
+f0fc00ff
+f0fe00ff
+f0fe00ff
+f0fc00ff
+f0f800ff
+f0f000ff
+f0e000ff
+f0c000ff
+f08000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+f00000ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-right-4x.png
+ENCODING 162
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00010f
+ff00030f
+ff00070f
+ff000f0f
+ff001f0f
+ff003f0f
+ff007f0f
+ff007f0f
+ff003f0f
+ff001f0f
+ff000f0f
+ff00070f
+ff00030f
+ff00010f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ff00000f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-up-4x.png
+ENCODING 163
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00018000
+0003c000
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/external-link-4x.png
+ENCODING 164
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff007fff
+ff003fff
+ff001fff
+ff000fff
+f00007ff
+f00003ff
+f00003ff
+f00007ff
+f0000fff
+f0001fff
+f0003f9f
+f0007f0f
+f000fe07
+f001fc03
+f003f801
+f007f000
+f007e000
+f003c000
+f0018000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f000000f
+f000000f
+f000000f
+f000000f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eye-4x.png
+ENCODING 165
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0007e000
+003ffc00
+00ffff00
+01ffff80
+03f81fc0
+07e007e0
+0fc003f0
+1f8001f8
+3f8381fc
+3f0700fc
+7f0f00fe
+ff0f90ff
+ff0ff0ff
+7f0ff0fe
+3f07e0fc
+3f83c1fc
+1f8001f8
+0fc003f0
+07e007e0
+03f81fc0
+01ffff80
+00ffff00
+003ffc00
+0007e000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eyedropper-4x.png
+ENCODING 166
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000e00f0
+000f03fc
+000f87fe
+0007cfff
+0003ffff
+0001ffff
+0003ffff
+0007ffff
+000fffff
+001f9ffe
+003f0ffc
+007e07f8
+007c03f0
+00f801f0
+01f001f8
+03e003fc
+07c007fe
+0f800f9f
+1f001f0f
+3e003e06
+7c007c00
+fc00f800
+fc01f000
+fe03e000
+ff07c000
+ff8f8000
+ffff0000
+fffe0000
+fffc0000
+fff80000
+fff00000
+ffe00000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/file-4x.png
+ENCODING 167
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00000
+fff08000
+fff0c000
+fff0e000
+fff0f000
+fff0f800
+fff0fc00
+fff0fe00
+fff0ff00
+fff0ff80
+fff0ffc0
+fff0ffe0
+fff00000
+fff00000
+fff00000
+fff00000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fire-4x.png
+ENCODING 168
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00800000
+00400000
+00600000
+00700000
+00780000
+00fc0000
+00fe0000
+01fe0000
+01fe0000
+03ff0000
+07ff0000
+0fff0000
+1fff0800
+1fff0400
+3fff0600
+7ffe0700
+7ffe0780
+fffc0fc0
+fff80fe0
+fff81fe0
+fff01fe0
+ffe03ff0
+ffc07ff0
+7f80fff0
+7f81fff0
+7f01fff0
+3f03fff0
+1e07fff0
+0e07ffe0
+060fffe0
+020fffc0
+010fff80
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/flag-4x.png
+ENCODING 169
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f0fff000
+f0fff000
+f0fff000
+f0fff000
+f0fffffe
+f0fffffe
+f0fffffc
+f0fffff8
+f0fffff0
+f0ffffe0
+f0ffffc0
+f0ffff80
+f0ffff00
+f0ffff80
+f0ffffc0
+f0ffffe0
+f000fff0
+f000fff8
+f000fffc
+f000fffe
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/flash-4x.png
+ENCODING 170
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0003f000
+0007e000
+0007e000
+000fc000
+000fc000
+001f8000
+001f8000
+003f0000
+003fff00
+007ffe00
+007ffe00
+00fffc00
+0000fc00
+0000f800
+0001f800
+0001f000
+0001f000
+0003e000
+0003e000
+0003c000
+00fffe00
+00fffc00
+007ff800
+007ff000
+007fe000
+003fc000
+003f8000
+003f0000
+001e0000
+001c0000
+00180000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/folder-4x.png
+ENCODING 171
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00000
+fff00000
+fff00000
+fff00000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fork-4x.png
+ENCODING 172
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0f000f00
+3fc03fc0
+7fe07fe0
+7fe07fe0
+fff0fff0
+fff0fff0
+fff0fff0
+fff0fff0
+7fe07fe0
+7fe07fe0
+3fc03fc0
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f001f00
+0ffffe00
+0ffffe00
+0ffffc00
+0ffff000
+0f800000
+3fc00000
+7fe00000
+7fe00000
+fff00000
+fff00000
+fff00000
+fff00000
+7fe00000
+7fe00000
+3fc00000
+0f000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fullscreen-enter-4x.png
+ENCODING 173
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffe0000
+fffc0000
+fff80000
+fff00000
+ffe00000
+ffc00000
+ffc00000
+ffe00000
+fff00000
+fff80000
+f9fc0000
+f0fe0000
+e07e0000
+c03c0000
+80180000
+00000000
+00000000
+00001801
+00003c03
+00007e07
+00007f0f
+00003f9f
+00001fff
+00000fff
+000007ff
+000003ff
+000003ff
+000007ff
+00000fff
+00001fff
+00003fff
+00007fff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fullscreen-exit-4x.png
+ENCODING 174
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+18010000
+3c030000
+7e070000
+7f0f0000
+3f9f0000
+1fff0000
+0fff0000
+07ff0000
+03ff0000
+03ff0000
+07ff0000
+0fff0000
+1fff0000
+3fff0000
+7fff0000
+0000fffe
+0000fffc
+0000fff8
+0000fff0
+0000ffe0
+0000ffc0
+0000ffc0
+0000ffe0
+0000fff0
+0000fff8
+0000f9fc
+0000f0fe
+0000e07e
+0000c03c
+00008018
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/globe-4x.png
+ENCODING 175
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc01ff0
+1fe03ff8
+3fe01ffc
+3fe007fc
+7f00043e
+7f000c1e
+7c000f9e
+f80007ff
+fc000fff
+fc001fff
+fc001fff
+f6003fff
+f0003fff
+f0003fff
+f8003fff
+7f000ffe
+7fc0007e
+7fc0003e
+3fe0007c
+3ff0007c
+1ff001f8
+0ff003f0
+07f80fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/graph-4x.png
+ENCODING 176
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000008
+0000001c
+0000003e
+0000007f
+000000fe
+000001fc
+000003f8
+000007f0
+00000fe0
+00181fc0
+003c3f80
+007e7f00
+00fffe00
+01fffc00
+03fff800
+07fff000
+0fe7e000
+1fc3c000
+3fc18000
+7f800000
+ff000000
+7e000000
+3c000000
+18000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-four-up-4x.png
+ENCODING 177
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-three-up-4x.png
+ENCODING 178
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-two-up-4x.png
+ENCODING 179
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/hard-drive-4x.png
+ENCODING 180
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+7fffffe0
+00000000
+00000000
+00000000
+00000000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffff9f0
+fffff0f0
+fffff0f0
+fffff9f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/header-4x.png
+ENCODING 181
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff0fff0
+fff0fff0
+fff0fff0
+fff0fff0
+1f801f80
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0fffff00
+0fffff00
+0fffff00
+0fffff00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+1f801f80
+fff0fff0
+fff0fff0
+fff0fff0
+fff0fff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/headphones-4x.png
+ENCODING 182
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+003ffc00
+007ffe00
+00ffff00
+01f81f80
+03e007c0
+07c003e0
+078001e0
+078001e0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+7f0000fe
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+7e00007e
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/heart-4x.png
+ENCODING 183
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+07e007e0
+1ff81ff8
+3ffc3ffc
+7ffe7ffe
+7ffe7ffe
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+7ffffffe
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/home-4x.png
+ENCODING 184
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0003c000
+0007e000
+001ff800
+003ffc00
+007ffe00
+01ffff80
+03ffffc0
+07ffffe0
+1ffffff8
+3ffffffc
+7ffffffe
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/image-4x.png
+ENCODING 185
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f180018f
+f3c003cf
+f7e007ef
+fff007ff
+fff803ff
+fffc01ff
+fffe00ff
+ffff007f
+ffff803f
+ffffc01f
+ffffe00f
+fffff00f
+fffff80f
+fffffc0f
+fffffe0f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/inbox-4x.png
+ENCODING 186
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+ff0000ff
+ff8001ff
+ffc003ff
+ffe007ff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/infinity-4x.png
+ENCODING 187
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+07c007e0
+1ff00ff8
+3ffc3ffc
+7ffe7ffe
+7c3ffc3e
+f81ff81f
+f00ff00f
+f007e00f
+f007e00f
+f00ff00f
+f81ff81f
+7c3ffc3e
+7ffe7ffe
+3ffc3ffc
+1ff00ff8
+07c007e0
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/info-4x.png
+ENCODING 188
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00003c00
+00007e00
+0000ff00
+0000ff00
+0000ff00
+0000ff00
+00007e00
+00003c00
+00000000
+00000000
+000f0000
+003fc000
+007fe000
+007fe000
+00f9f000
+00f0f000
+0000f000
+0001f000
+0001e000
+0003e000
+0003c000
+0007c000
+00078000
+00078000
+000f0000
+000f0000
+000f0f00
+000f9f00
+0007fe00
+0007fe00
+0003fc00
+0000f000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/italic-4x.png
+ENCODING 189
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00fffff0
+00fffff0
+00fffff0
+00fffff0
+0003fe00
+0003fe00
+0007fc00
+0007fc00
+0007f800
+000ff800
+000ff800
+001ff000
+001ff000
+001fe000
+003fe000
+003fe000
+007fc000
+007fc000
+007f8000
+00ff8000
+00ff8000
+01ff0000
+01ff0000
+01fe0000
+03fe0000
+03fe0000
+03fc0000
+07fc0000
+fffff000
+fffff000
+fffff000
+fffff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-center-4x.png
+ENCODING 190
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-left-4x.png
+ENCODING 191
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-right-4x.png
+ENCODING 192
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00ffffff
+00ffffff
+00ffffff
+00ffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/key-4x.png
+ENCODING 193
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00001f80
+00007fe0
+0001fff8
+0003fffc
+0003fc3c
+0007f81e
+0007f00e
+000ff00f
+000ff00f
+000ff00f
+000ff81f
+000ffc3f
+001fffff
+003ffffe
+007ffffe
+00fffffc
+01fffffc
+03fffff8
+03ffffe0
+07ffff80
+0ffff000
+1ffff000
+3ffff000
+7ffff000
+fff00000
+fff00000
+fff00000
+fff00000
+fff00000
+fff00000
+fff00000
+fff00000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/laptop-4x.png
+ENCODING 194
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+07ffffe0
+0ffffff0
+0ffffff0
+0ffffff0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+fff00fff
+fff00fff
+fff00fff
+fff00fff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/layers-4x.png
+ENCODING 195
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffff0000
+ffff0000
+ffff0000
+ffff0000
+ffff0000
+ffff0000
+ffff0000
+ffff0000
+ffff0f00
+ffff0f00
+ffff0f00
+ffff0f00
+ffff0f00
+ffff0f00
+ffff0f00
+ffff0f00
+00000f0f
+00000f0f
+00000f0f
+00000f0f
+00ffff0f
+00ffff0f
+00ffff0f
+00ffff0f
+0000000f
+0000000f
+0000000f
+0000000f
+0000ffff
+0000ffff
+0000ffff
+0000ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lightbulb-4x.png
+ENCODING 196
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00006000
+0001f000
+0007f000
+001fe000
+007f8000
+01fe0000
+07f80600
+0fe01f00
+0f807f00
+0e01fe00
+0007f800
+001fe000
+007f8000
+01fe0000
+07f80600
+0fe01f00
+0f807f00
+0e01fe00
+0007f800
+001ff000
+007ff000
+00fff000
+00fff000
+007ff000
+00000000
+00000000
+00000000
+00000000
+003f8000
+003fc000
+003fc000
+003f8000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/link-broken-4x.png
+ENCODING 197
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00f007e0
+00f01ff8
+00f03ffc
+00f07ffe
+0ff0fc3e
+0ff0f81f
+0ff0f00f
+0ff0600f
+0000000f
+0000000f
+0000001f
+0000003e
+00e0007e
+01f000fc
+03e001f8
+07e003f0
+0fc007e0
+1f800fc0
+3f000f80
+7e000f00
+7c000000
+f8000000
+f0000000
+f0000000
+f0060ff0
+f00f0ff0
+f81f0ff0
+7c3f0ff0
+7ffe0f00
+3ffc0f00
+1ff80f00
+07e00f00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/link-intact-4x.png
+ENCODING 198
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000007e0
+00001ff8
+00003ffc
+00003ffe
+00003c3e
+0000381f
+0000000f
+0000000f
+0000000f
+0003800f
+001fe01f
+007ff03e
+00fff07e
+01fc70fc
+03f001f8
+07e003f0
+0fc007e0
+1f800fc0
+3f073f80
+7e0fff00
+7c0ffe00
+f807f800
+f001e000
+f0000000
+f0000000
+f0000000
+f81c0000
+7c3c0000
+7ffc0000
+3ffc0000
+0ff00000
+07c00000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/list-4x.png
+ENCODING 199
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+60ffffff
+f0ffffff
+f0ffffff
+60ffffff
+00000000
+00000000
+00000000
+00000000
+60ffffff
+f0ffffff
+f0ffffff
+60ffffff
+00000000
+00000000
+00000000
+00000000
+60ffffff
+f0ffffff
+f0ffffff
+60ffffff
+00000000
+00000000
+00000000
+00000000
+60ffffff
+f0ffffff
+f0ffffff
+60ffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/list-rich-4x.png
+ENCODING 200
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff0ffff
+fff0ffff
+fff0ffff
+fff0ffff
+fff00000
+fff00000
+fff00000
+fff00000
+fff0fff0
+fff0fff0
+fff0fff0
+fff0fff0
+00000000
+00000000
+00000000
+00000000
+fff0ffff
+fff0ffff
+fff0ffff
+fff0ffff
+fff00000
+fff00000
+fff00000
+fff00000
+fff0fff0
+fff0fff0
+fff0fff0
+fff0fff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/location-4x.png
+ENCODING 201
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000006
+0000001e
+0000007c
+000001fc
+000007f8
+00001ff8
+00007ff0
+0001fff0
+0007ffe0
+001fffe0
+007fffc0
+01ffffc0
+07ffff80
+1fffff80
+7fffff00
+3fffff00
+07fffe00
+00fffe00
+001ffc00
+000ffc00
+0007f800
+0007f800
+0007f000
+0003f000
+0003e000
+0003e000
+0001c000
+0001c000
+00018000
+00008000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lock-locked-4x.png
+ENCODING 202
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+001ff800
+003ffc00
+007ffe00
+007c3e00
+00f81f00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+00f00f00
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lock-unlocked-4x.png
+ENCODING 203
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+001ff800
+003ffc00
+007ffe00
+007c3e00
+00f81f00
+00f00f00
+00f00f00
+00000f00
+00000f00
+00000f00
+00000f00
+00000f00
+00000f00
+00000f00
+00000f00
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/loop-4x.png
+ENCODING 204
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000080
+000000c0
+000000e0
+000000f8
+3ffffffc
+7ffffffe
+fffffffe
+fffffffc
+f00000f8
+f00000e0
+f00000c0
+f0000080
+00000000
+00000000
+00000000
+00000000
+0100000f
+0300000f
+0700000f
+1f00000f
+3fffffff
+7fffffff
+7ffffffe
+3ffffffc
+1f000000
+07000000
+03000000
+01000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/loop-circular-4x.png
+ENCODING 205
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00070000
+003f0000
+007f0000
+00ff0000
+01f80000
+03e00060
+07c000f0
+078001f8
+078001f8
+0f0003fc
+0f0007fe
+0f000fff
+fff000f0
+7fe000f0
+3fc000f0
+1f8001e0
+1f8001e0
+0f0003e0
+060007c0
+00001f80
+0000ff00
+0000fe00
+0000fc00
+0000e000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/loop-square-4x.png
+ENCODING 206
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+000000f0
+000000f0
+000000f0
+060000f0
+06000fff
+0f0007fe
+1f8003fc
+1f8003fc
+3fc001f8
+3fc001f8
+7fe000f0
+fff00060
+0f000060
+0f000000
+0f000000
+0f000000
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/magnifying-glass-4x.png
+ENCODING 207
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003fc000
+00fff000
+03fffc00
+07fffe00
+0fe07f00
+1f801f80
+3e0007c0
+3c0003c0
+7c0003e0
+780001e0
+f80001f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f80001f0
+780001e0
+7c0003e0
+3c0003c0
+3e0007e0
+1f801ff0
+0fe07ff8
+07fffffc
+03fffffe
+00ffffff
+003fc3ff
+000001ff
+000000ff
+0000007f
+0000003e
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/map-4x.png
+ENCODING 208
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f00f000f
+f03fc00f
+f07fe00f
+f07fe00f
+f0f9f00f
+f0f0f00f
+f0f0f00f
+f0f9f00f
+f07fe00f
+f07fe00f
+f03fc00f
+f03fc00f
+f01f87ff
+f00f0fff
+f0060fff
+f00007ff
+f000000f
+f000000f
+f000000f
+f000000f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/map-marker-4x.png
+ENCODING 209
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0007e000
+003ffc00
+007ffe00
+00ffff00
+01f81f80
+03e007c0
+07c003e0
+078001e0
+078001e0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+0f0000f0
+078001e0
+078001e0
+07c003e0
+03e007c0
+03f81fc0
+01ffff80
+00ffff00
+00ffff00
+007ffe00
+003ffc00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-pause-4x.png
+ENCODING 210
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+0ff00ff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-play-4x.png
+ENCODING 211
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+08000000
+0e000000
+0f800000
+0fe00000
+0ff80000
+0ffe0000
+0fff8000
+0fffe000
+0ffff800
+0ffffe00
+0fffff80
+0fffffe0
+0fffffe0
+0fffff80
+0ffffe00
+0ffff800
+0fffe000
+0fff8000
+0ffe0000
+0ff80000
+0fe00000
+0f800000
+0e000000
+08000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-record-4x.png
+ENCODING 212
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0007e000
+003ffc00
+007ffe00
+00ffff00
+01ffff80
+03ffffc0
+07ffffe0
+07ffffe0
+07ffffe0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+07ffffe0
+07ffffe0
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+0007e000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-skip-backward-4x.png
+ENCODING 213
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00010001
+00030003
+00070007
+001f001f
+003f003f
+007f007f
+01ff01ff
+03ff03ff
+07ff07ff
+1fff1fff
+3fff3fff
+7fff7fff
+7fff7fff
+3fff3fff
+1fff1fff
+07ff07ff
+03ff03ff
+01ff01ff
+007f007f
+003f003f
+001f001f
+00070007
+00030003
+00010001
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-skip-forward-4x.png
+ENCODING 214
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+80008000
+c000c000
+e000e000
+f800f800
+fc00fc00
+fe00fe00
+ff80ff80
+ffc0ffc0
+ffe0ffe0
+fff8fff8
+fffcfffc
+fffefffe
+fffefffe
+fffcfffc
+fff8fff8
+ffe0ffe0
+ffc0ffc0
+ff80ff80
+fe00fe00
+fc00fc00
+f800f800
+e000e000
+c000c000
+80008000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-step-backward-4x.png
+ENCODING 215
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ff000010
+ff000030
+ff0000f0
+ff0003f0
+ff0007f0
+ff001ff0
+ff007ff0
+ff00fff0
+ff03fff0
+ff0ffff0
+ff1ffff0
+ff7ffff0
+ff7ffff0
+ff1ffff0
+ff0ffff0
+ff03fff0
+ff00fff0
+ff007ff0
+ff001ff0
+ff0007f0
+ff0003f0
+ff0000f0
+ff000030
+ff000010
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-step-forward-4x.png
+ENCODING 216
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+80000ff0
+c0000ff0
+f0000ff0
+fc000ff0
+fe000ff0
+ff800ff0
+ffe00ff0
+fff00ff0
+fffc0ff0
+ffff0ff0
+ffff8ff0
+ffffeff0
+ffffeff0
+ffff8ff0
+ffff0ff0
+fffc0ff0
+fff00ff0
+ffe00ff0
+ff800ff0
+fe000ff0
+fc000ff0
+f0000ff0
+c0000ff0
+80000ff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-stop-4x.png
+ENCODING 217
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+0ffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/medical-cross-4x.png
+ENCODING 218
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/menu-4x.png
+ENCODING 219
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/microphone-4x.png
+ENCODING 220
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0003c000
+0007e000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+060ff060
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f0ff0f0
+0f07e0f0
+0783c1f0
+078001e0
+07c003e0
+03e007c0
+01f81f80
+00ffff00
+007ffe00
+003ffc00
+0007e000
+0003c000
+0003c000
+0003c000
+0003c000
+003ffc00
+007ffe00
+00ffff00
+00ffff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/minus-4x.png
+ENCODING 221
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/monitor-4x.png
+ENCODING 222
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+7ffffffe
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+f000000f
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+000ff000
+000ff000
+000ff000
+000ff000
+03ffffc0
+07ffffe0
+0ffffff0
+0ffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/moon-4x.png
+ENCODING 223
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00200000
+00c00000
+03c00000
+07c00000
+0fc00000
+1fc00000
+1fc00000
+3fc00000
+7fc00000
+7fe00000
+7fe00000
+ffe00000
+fff00000
+fff00000
+fff80000
+fffc0000
+fffe0000
+ffff0000
+ffff8000
+7fffe000
+7ffffc02
+7ffffffe
+3ffffffc
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/move-4x.png
+ENCODING 224
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00060000
+000f0000
+001f8000
+003fc000
+007fe000
+000f0000
+000f0000
+000f0000
+040f0200
+0c0f0300
+1c0f0380
+3fffffc0
+7fffffe0
+7fffffe0
+3fffffc0
+1c0f0380
+0c0f0300
+040f0200
+000f0000
+000f0000
+000f0000
+007fe000
+003fc000
+001f8000
+000f0000
+00060000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/musical-note-4x.png
+ENCODING 225
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000007ff
+0001ffff
+001fffff
+007fffff
+00ffffff
+00ffffff
+00ffffff
+00ffffff
+00fff80f
+00fc000f
+00f0000f
+00f0000f
+00f0000f
+00f0000f
+00f0000f
+00f0000f
+00f000ff
+00f003ff
+00f007ff
+00f007ff
+0ff00fff
+3ff00fff
+7ff00fff
+7ff00fff
+fff007fe
+fff007fe
+fff003fc
+fff000f0
+7fe00000
+7fe00000
+3fc00000
+0f000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/paperclip-4x.png
+ENCODING 226
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00007e00
+0001ff80
+0003ffc0
+0007ffe0
+000fc3e0
+001f81f0
+003f00f0
+007e00f0
+00fc00f0
+01f800f0
+03f001f0
+07e003e0
+0fc007e0
+1f980fc0
+3f3c1f80
+3e7e3f00
+7c7c7e00
+78f8fc00
+f1f1f800
+f1e3f000
+f1e7e000
+f1ffc800
+f0ff1c00
+f07e3e00
+783c7e00
+7c00fc00
+3e01f800
+3f03f000
+1fffe000
+0fffc000
+03ff0000
+00fc0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pencil-4x.png
+ENCODING 227
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000180
+000003c0
+000007e0
+000007f0
+000003f8
+000001fc
+000000fe
+0000007e
+0001803c
+0003c018
+0007e000
+000ff000
+001ff800
+003ffc00
+007ffe00
+00fffe00
+01fffc00
+03fff800
+07fff000
+0fffe000
+1fffc000
+3fff8000
+7fff0000
+fffe0000
+fffc0000
+fff80000
+fff00000
+ffe00000
+ffc00000
+ff800000
+ff000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/people-4x.png
+ENCODING 228
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000f00
+00001f80
+00003fc0
+00007fe0
+00f03fe0
+01f83ff0
+03fc1ff0
+07fe1ff0
+07fe0ff0
+0fff0ff0
+0fff0ff0
+0fff0fe0
+0fff0fe0
+0fff0fc0
+0fff0f80
+07fe0f00
+07fe0000
+03fc000c
+01f8001e
+00f0007f
+000001ff
+3000c1ff
+7801e0ff
+fe07f0ff
+fffff0ff
+fffff0ff
+fffff0ff
+fffff0ff
+fffff000
+fffff000
+fffff000
+fffff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/person-4x.png
+ENCODING 229
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0003c000
+000ff000
+001ff800
+003ffc00
+007ffe00
+007ffe00
+007ffe00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+007ffe00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0003c000
+070000e0
+1f8001f8
+3fe007fc
+7ff81ffe
+7ffffffe
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/phone-4x.png
+ENCODING 230
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0fffff00
+0fffff00
+0fffff00
+0fffff00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0f000f00
+0fffff00
+0fffff00
+0ff9ff00
+0ff0ff00
+0ff0ff00
+0ff9ff00
+0fffff00
+0fffff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pie-chart-4x.png
+ENCODING 231
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003f0000
+00ff0000
+03ff0000
+07ff0000
+07ff0800
+03ff0f00
+01ff0fc0
+00ff0fe0
+007f0ff0
+003f0ff8
+181f0ffc
+3c0f0ffc
+7e070ffe
+7f030ffe
+7f810fff
+ffc00fff
+ffe00fff
+fff00fff
+fff81fff
+fff03fff
+ffe07fff
+7fc0ffff
+7f81fffe
+7f03fffe
+3e07fffc
+1c0ffffc
+081ffff8
+003ffff0
+007fffe0
+003fffc0
+000fff00
+0003fc00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pin-4x.png
+ENCODING 232
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0ffffe00
+0fffff00
+0fffff00
+0ffffe00
+00fff000
+00fff000
+00fff000
+00fff000
+00fff000
+00fff000
+00fff000
+00fff000
+3fffffc0
+7fffffe0
+fffffff0
+fffffff0
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+00060000
+00060000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/play-circle-4x.png
+ENCODING 233
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07ffffe0
+0ffffff0
+1ffffff8
+3ffffffc
+3ff7fffc
+7ff3fffe
+7ff0fffe
+7ff07ffe
+fff01fff
+fff00fff
+fff003ff
+fff001ff
+fff001ff
+fff003ff
+fff00fff
+fff01fff
+7ff07ffe
+7ff0fffe
+7ff3fffe
+3ff7fffc
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/plus-4x.png
+ENCODING 234
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/power-standby-4x.png
+ENCODING 235
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+020f0400
+070f0e00
+0f8f1f00
+1f8f1f80
+3e0f07c0
+3c0f03c0
+7c0f03e0
+780f01e0
+f80f01f0
+f00f00f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f80001f0
+780001e0
+7c0003e0
+3c0003c0
+3e0007c0
+1f801f80
+0fe07f00
+07fffe00
+03fffc00
+00fff000
+003fc000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/print-4x.png
+ENCODING 236
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f000000f
+f000000f
+f000000f
+f000000f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+f0ffff0f
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/project-4x.png
+ENCODING 237
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f000000f
+f000000f
+f000000f
+f000000f
+f0ff000f
+f0ff000f
+f0ff000f
+f0ff000f
+f000000f
+f000000f
+f000000f
+f000000f
+f00ff00f
+f00ff00f
+f00ff00f
+f00ff00f
+f000000f
+f000000f
+f000000f
+f000000f
+f000ff0f
+f000ff0f
+f000ff0f
+f000ff0f
+f000000f
+f000000f
+f000000f
+f000000f
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pulse-4x.png
+ENCODING 238
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+000c0000
+000c0000
+000c0000
+001e0000
+001e0000
+001e0000
+003f0000
+003f0600
+003f0600
+007f8f00
+007f8f00
+007f8f80
+007fdf80
+fff3dfff
+fff3ffff
+fff3ffff
+ffe1fdff
+07e1fc00
+07e1f800
+03c0f800
+03c0f000
+03c0f000
+01c06000
+01806000
+01806000
+01804000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/puzzle-piece-4x.png
+ENCODING 239
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003c0000
+007e0000
+00ff0000
+00ff0000
+00ff0000
+00ff0000
+007e0000
+007e0000
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+ffffff00
+ffffff3c
+fffffffe
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+fffffffe
+ffffff3c
+ffc3ff00
+ff81ff00
+ff00ff00
+ff00ff00
+ff00ff00
+ff00ff00
+ff81ff00
+ff81ff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/question-mark-4x.png
+ENCODING 240
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0003fc00
+000fff00
+001fffc0
+003fffc0
+007e07e0
+007801e0
+00f800f0
+00f000f0
+000000f0
+000000f0
+000001f0
+000001e0
+000003e0
+000007c0
+00000fc0
+00001f80
+00003f00
+00007e00
+00007800
+0000f800
+0000f000
+0000f000
+0000f000
+0000f000
+00000000
+00000000
+00000000
+00000000
+0000f000
+0000f000
+0000f000
+0000f000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rain-4x.png
+ENCODING 241
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0001f800
+0007fe00
+001fff80
+003fffc0
+007fffc0
+007fffe0
+00ffffe0
+00fffff0
+07fffff0
+1ffffff0
+3ffffff0
+7ffffff0
+7ffffff8
+fffffffc
+fffffffe
+ffffffff
+fff0ffff
+ffc03fff
+ff801fff
+7f801fff
+600600fe
+000f003e
+000f001c
+000f0000
+060f0600
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+06060600
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/random-4x.png
+ENCODING 242
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000080
+000000c0
+000000e0
+000000f8
+fc000ffc
+fe001ffe
+ff003ffe
+ff807ffc
+0fc07cf8
+07e0f8e0
+03e1f0c0
+01f3e080
+00ffc000
+007fc000
+003f8000
+003f0000
+003f8000
+007f8000
+00ffc000
+00fbe000
+01f1f080
+03e0f8c0
+07c0fce0
+0f807ef8
+ff803ffc
+ff001ffe
+fe000ffe
+fc0007fc
+000000f8
+000000e0
+000000c0
+00000080
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/reload-4x.png
+ENCODING 243
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe03
+01ffff07
+03ffffcf
+07f01fff
+0fc003ff
+1f8001ff
+3e0000ff
+3e0001ff
+7c0003ff
+780007ff
+78000fff
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+78000000
+78000000
+7c000000
+3e000000
+3e000000
+1f800180
+0fc003c0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/resize-both-4x.png
+ENCODING 244
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00007fff
+00003fff
+00001fff
+00000fff
+000007ff
+000003ff
+000003ff
+000003ff
+000007ff
+00000fff
+00001f1f
+00003e0f
+00007c07
+0000f803
+0001f001
+0003e000
+8007c000
+c00f8000
+c01f0000
+e03e0000
+f07c0000
+f8f80000
+fff00000
+ffe00000
+ffc00000
+ffc00000
+ffc00000
+ffe00000
+fff00000
+fff80000
+fffc0000
+fffe0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/resize-height-4x.png
+ENCODING 245
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00060000
+000f0000
+001f8000
+003fc000
+007fe000
+007fe000
+00fff000
+01fff800
+03fffc00
+07fffe00
+0fffff00
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+0fffff00
+07fffe00
+03fffc00
+01fff800
+00fff000
+007fe000
+007fe000
+003fc000
+001f8000
+000f0000
+00060000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/resize-width-4x.png
+ENCODING 246
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+00100800
+00300c00
+00700e00
+00f00f00
+01f00f80
+07f00fe0
+0ff00ff0
+1ff00ff8
+3ffffffc
+7ffffffe
+7ffffffe
+3ffffffc
+1ff00ff8
+0ff00ff0
+07f00fe0
+01f00f80
+00f00f00
+00700e00
+00300c00
+00100800
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rss-4x.png
+ENCODING 247
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0f800000
+0ff80000
+0fff0000
+0fffc000
+007fe000
+000ff800
+0001fc00
+0000fe00
+0f003f00
+0ff01f80
+0ffc0fc0
+0ffe07e0
+00ff83e0
+001fc1f0
+0007e0f8
+0003f0f8
+0e01f078
+0fc0f83c
+0fe07c3c
+0ff03c3e
+01f83e1e
+007c1e1e
+003e1e1e
+001e1e0f
+3c1e0f0f
+7e0f0f0f
+ff0f0f0f
+ff0f0f0f
+ff000000
+ff000000
+7e000000
+3c000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rss-alt-4x.png
+ENCODING 248
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fc000000
+ffc00000
+fff00000
+fffe0000
+ffff0000
+ffffc000
+ffffe000
+fffff800
+07fffc00
+00fffe00
+001fff00
+0007ff80
+f003ff80
+ff01ffc0
+ffc0ffe0
+ffe07fe0
+fff83ff0
+fffc1ff0
+fffe0ff8
+ffff0ff8
+1fff07fc
+03ff83fc
+01ffc3fe
+00ffc3fe
+e07fe1fe
+f83fe1fe
+fc1fe1ff
+fe1fe0ff
+fe1ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/script-4x.png
+ENCODING 249
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003ffffc
+007ffffe
+00ffffff
+00ffffff
+00f9ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f00000
+00f00000
+00f00000
+00f00000
+00fffff0
+00fffff0
+00fffff0
+00fffff0
+f0fffff0
+f0fffff0
+f0fffff0
+f0fffff0
+f0fffff0
+f0fffff0
+f0fffff0
+f9fffff0
+fffffff0
+fffffff0
+7fffffe0
+3fffffc0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/share-4x.png
+ENCODING 250
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000800
+00000c00
+00000e00
+00000f00
+00000f80
+00000fc0
+00000fe0
+00000ff0
+0003fff8
+003ffffc
+00fffffe
+03ffffff
+07fffffe
+0ffffffc
+1ffffff8
+1ffffff0
+3fe00fe0
+3f000fc0
+7e000f80
+78000f00
+70000e00
+60000c00
+c0000800
+c0000000
+80000000
+80000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/share-boxed-4x.png
+ENCODING 251
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+7ff00000
+fff00080
+fff000c0
+fff000e0
+f0000ff0
+f0007ffc
+f001fffe
+f003ffff
+f007fffe
+f00ffffc
+f01ffff8
+f01ffff0
+f03800e0
+f02000c0
+f0400080
+f0000000
+f0000000
+f0000000
+f0000000
+f0000000
+f0000f00
+f0000f00
+f0000f00
+f0000f00
+ffffff00
+ffffff00
+ffffff00
+7ffffe00
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/shield-4x.png
+ENCODING 252
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0007e000
+003ffc00
+00ffff00
+07ffffe0
+1ff8fff8
+7fe0fffe
+ff00ffff
+fc00ffff
+f000ffff
+f000ffff
+f000ffff
+f800ffff
+7800fffe
+7800fffe
+7800fffe
+7c00fffe
+3c00fffc
+3e00fffc
+1e00fff8
+1f00fff8
+0f00fff0
+0f80fff0
+07c0ffe0
+03e0ffc0
+03f0ffc0
+01f8ff80
+00feff00
+007ffe00
+003ffc00
+000ff000
+0003c000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signal-4x.png
+ENCODING 253
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000000f0
+000000f0
+000000f0
+000000f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+0000f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+00f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signpost-4x.png
+ENCODING 254
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000f0000
+000f0000
+000f0000
+000f0000
+0fff0000
+1fff0000
+3fff0000
+7fff0000
+7fffff00
+3fffff80
+1fffffc0
+0fffffe0
+000fffe0
+000fffc0
+000fff80
+000fff00
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sort-ascending-4x.png
+ENCODING 255
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00f0ff00
+00f0ff00
+00f0ff00
+00f0ff00
+00f00000
+00f00000
+00f00000
+00f00000
+00f0fff0
+00f0fff0
+00f0fff0
+00f0fff0
+00f00000
+00f00000
+00f00000
+00f00000
+00f0ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f00000
+00f00000
+00f00000
+00f00000
+7fffe000
+3fffc000
+1fff8000
+0fff0000
+03fc0000
+01f80000
+00f00000
+00600000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sort-descending-4x.png
+ENCODING 256
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00f0ffff
+00f0ffff
+00f0ffff
+00f0ffff
+00f00000
+00f00000
+00f00000
+00f00000
+00f0fff0
+00f0fff0
+00f0fff0
+00f0fff0
+00f00000
+00f00000
+00f00000
+00f00000
+00f0ff00
+00f0ff00
+00f0ff00
+00f0ff00
+00f00000
+00f00000
+00f00000
+00f00000
+7fffe000
+3fffc000
+1fff8000
+0fff0000
+03fc0000
+01f80000
+00f00000
+00600000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/spreadsheet-4x.png
+ENCODING 257
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+7ffffffe
+ffffffff
+ffffffff
+ffffffff
+f0f0000f
+f0f0000f
+f0f0000f
+f0f0000f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f0f0000f
+f0f0000f
+f0f0000f
+f0f0000f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f0f0000f
+f0f0000f
+f0f0000f
+f0f0000f
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/star-4x.png
+ENCODING 258
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00018000
+00018000
+00018000
+0003c000
+0003c000
+0003c000
+0007e000
+0007e000
+0007e000
+000ff000
+7ffffffe
+3ffffffc
+1ffffff8
+0ffffff0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+003ffc00
+007ffe00
+007ffe00
+007e7e00
+00fc3f00
+00f81f00
+00f00f00
+01c00380
+01800180
+01000080
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sun-4x.png
+ENCODING 259
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0003c000
+0003c000
+00018000
+06000060
+0f0000f0
+0f0000f0
+06000060
+0007e000
+001ff800
+003ffc00
+007ffe00
+007ffe00
+00ffff00
+60ffff06
+f0ffff0f
+f0ffff0f
+60ffff06
+00ffff00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+0007e000
+06000060
+0f0000f0
+0f0000f0
+06000060
+00018000
+0003c000
+0003c000
+00018000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tablet-4x.png
+ENCODING 260
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+fffffff0
+fffffff0
+fff9fff0
+fff0fff0
+fff0fff0
+fff9fff0
+fffffff0
+ffffffe0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tag-4x.png
+ENCODING 261
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fff00000
+fff80000
+fffc0000
+fffe0000
+fc3f0000
+f81f8000
+f00fc000
+f00fe000
+f00ff000
+f00ff800
+f81ffc00
+fc3ffe00
+7fffff00
+3fffff80
+1fffffc0
+0fffffe0
+07fffff0
+03fffff8
+01fffffc
+00fffffe
+007ffffe
+003ffffc
+001ffff8
+000ffff0
+0007ffe0
+0003ffc0
+0001ff80
+0000ff00
+00007e00
+00003c00
+00001800
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tags-4x.png
+ENCODING 262
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+ff03f000
+ff81f800
+ffc0fc00
+ffe07e00
+f9f03f00
+f0f81f80
+f0fc0fc0
+f9fe07e0
+7fff03f0
+3fff81f8
+1fffc0fc
+0fffe07e
+07ffe07e
+03ffc0fc
+01ff81f8
+00ff03f0
+007e07e0
+003c03c0
+00180180
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/target-4x.png
+ENCODING 263
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e07e07c
+7c1ff83e
+783ffc1e
+787ffe1e
+f87c3e1f
+f0f81f0f
+f0f00f0f
+f0f00f0f
+f0f00f0f
+f0f00f0f
+f0f81f0f
+f87c3e1f
+787ffe1e
+783ffc1e
+7c1ff83e
+3e07e07c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/task-4x.png
+ENCODING 264
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffc00
+fffff818
+fffff03c
+ffffe07e
+f00000fe
+f00001fc
+f00003f8
+f00007f0
+f0000fe0
+f0181fc0
+f03c3f80
+f07e7f00
+f07ffe00
+f03ffc00
+f01ff810
+f00ff030
+f007e070
+f003c0f0
+f00180f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/terminal-4x.png
+ENCODING 265
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f9ffffff
+f0ffffff
+f07fffff
+f83fffff
+fc1fffff
+fe0fffff
+fe0fffff
+fc1fffff
+f83f000f
+f07f000f
+f0ff000f
+f9ff000f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/text-4x.png
+ENCODING 266
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f00ff00f
+e00ff007
+c00ff003
+c00ff003
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+000ff000
+001ff800
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/thumb-down-4x.png
+ENCODING 267
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f0fffe00
+f0ffff00
+f0ffff00
+f0ffff80
+f0ffff80
+f0ffff80
+f0ffffc0
+f0ffffc0
+f0ffffc0
+f0ffffe0
+f0ffffe0
+f0ffffe0
+f0fffff0
+f0fffff0
+f0fffff0
+f0ffffe0
+003fe000
+001fc000
+000fc000
+000fc000
+0007c000
+0007e000
+0003e000
+0003e000
+0001f000
+0001f000
+0000f000
+00006000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/thumb-up-4x.png
+ENCODING 268
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00006000
+0000f000
+0001f000
+0001f000
+0003e000
+0003e000
+0007e000
+0007c000
+000fc000
+000fc000
+001fc000
+003fe000
+f0ffffe0
+f0fffff0
+f0fffff0
+f0fffff0
+f0ffffe0
+f0ffffe0
+f0ffffe0
+f0ffffc0
+f0ffffc0
+f0ffffc0
+f0ffff80
+f0ffff80
+f0ffff80
+f0ffff00
+f0ffff00
+f0fffe00
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/timer-4x.png
+ENCODING 269
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00fff000
+00fff000
+00fff000
+00fff000
+003f8000
+00ffe000
+03ffc000
+07ffc0c0
+0fe00180
+1f800300
+3e000e00
+3c001c00
+7c003800
+78007020
+f801f0e0
+f003e0f0
+f007c0f0
+f00f80f0
+f00f00f0
+f00600f0
+f00000f0
+f80001f0
+780001e0
+7c0003e0
+3c0003c0
+3e0007c0
+1f801f80
+0fe07f00
+07fffe00
+03fffc00
+00fff000
+003fc000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/transfer-4x.png
+ENCODING 270
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000080
+000000c0
+000000e0
+000000f8
+fffffffc
+fffffffe
+fffffffe
+fffffffc
+000000f8
+000000e0
+000000c0
+00000080
+00000000
+00000000
+00000000
+00000000
+01000000
+03000000
+07000000
+1f000000
+3fffffff
+7fffffff
+7fffffff
+3fffffff
+1f000000
+07000000
+03000000
+01000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/trash-4x.png
+ENCODING 271
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003fc000
+007fe000
+00fff000
+00fff000
+3fffffc0
+7fffffe0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f0f0f00
+0f9f9f00
+0fffff00
+0fffff00
+0fffff00
+0fffff00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/underline-4x.png
+ENCODING 272
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+0ff00f00
+07f81f00
+07fc3e00
+03fffe00
+01fffc00
+00fff800
+001fe000
+00000000
+00000000
+00000000
+00000000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-bottom-4x.png
+ENCODING 273
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-center-4x.png
+ENCODING 274
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+00000000
+00000000
+00000000
+00000000
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-top-4x.png
+ENCODING 275
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+00000000
+00000000
+00000000
+00000000
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0ff0ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+ff0000ff
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/video-4x.png
+ENCODING 276
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+7ffffe00
+ffffff00
+ffffff00
+ffffff00
+ffffff0f
+ffffff1f
+ffffff3f
+ffffff7f
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffff7f
+ffffff3f
+ffffff1f
+ffffff0f
+ffffff00
+ffffff00
+ffffff00
+7ffffe00
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-high-4x.png
+ENCODING 277
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00070000
+000f0000
+000f0000
+001f0000
+003f0e00
+003f0fc0
+007f0fe0
+00ff0ff0
+ffff01f8
+ffff007c
+ffff003e
+ffff001e
+ffff0c1e
+ffff0e0f
+ffff0f0f
+ffff0f0f
+ffff0f0f
+ffff0f0f
+ffff0e0f
+ffff0c1e
+ffff001e
+ffff003e
+ffff007c
+ffff01f8
+00ff0ff0
+007f0fe0
+003f0fc0
+003f0e00
+001f0000
+000f0000
+000f0000
+00070000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-low-4x.png
+ENCODING 278
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00007000
+0000f000
+0000f000
+0001f000
+0003f000
+0003f000
+0007f000
+000ff000
+0ffff000
+0ffff000
+0ffff000
+0ffff000
+0ffff0c0
+0ffff0e0
+0ffff0f0
+0ffff0f0
+0ffff0f0
+0ffff0f0
+0ffff0e0
+0ffff0c0
+0ffff000
+0ffff000
+0ffff000
+0ffff000
+000ff000
+0007f000
+0003f000
+0003f000
+0001f000
+0000f000
+0000f000
+00007000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-off-4x.png
+ENCODING 279
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000700
+00000f00
+00000f00
+00001f00
+00003f00
+00003f00
+00007f00
+0000ff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+0000ff00
+00007f00
+00003f00
+00003f00
+00001f00
+00000f00
+00000f00
+00000700
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/warning-4x.png
+ENCODING 280
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000f0000
+001f8000
+001f8000
+003f8000
+003fc000
+003fc000
+007fe000
+007fe000
+00fff000
+00fff000
+01fff000
+01fff800
+01f0f800
+03f0fc00
+03f0fc00
+07f0fe00
+07f0fe00
+0ff0fe00
+0ff0ff00
+0ff0ff00
+1fffff80
+1fffff80
+3fffffc0
+3fffffc0
+7ff0ffc0
+7ff0ffe0
+7ff0ffe0
+fff0fff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/wifi-4x.png
+ENCODING 281
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003ff000
+03ffff00
+1fffffe0
+7ffffff8
+ffc00ffc
+7c0000f8
+70000038
+00000000
+00000000
+00000000
+00000000
+00000000
+001fe000
+00fffc00
+01fffe00
+01fffe00
+00f03c00
+00800400
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00078000
+000fc000
+001fe000
+001fe000
+001fe000
+001fe000
+000fc000
+00078000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/wrench-4x.png
+ENCODING 282
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00001e00
+00007e00
+0001fc00
+0003f800
+0003f000
+0007f000
+0007f000
+000ff000
+000ff000
+000ff001
+000ff003
+000ff007
+000fffff
+0007fffe
+000ffffe
+001ffffc
+003ffffc
+007ffff8
+00ffffe0
+01ffdf80
+03ff8000
+07ff0000
+0ffe0000
+1ffc0000
+3ff80000
+7ff00000
+e7e00000
+c3c00000
+c3800000
+e7000000
+7e000000
+3c000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/x-4x.png
+ENCODING 283
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+04000040
+0e0000e0
+1f0001f0
+3f8003f8
+7fc007fc
+ffe00ffe
+7ff01ffe
+3ff83ffc
+1ffc7ff8
+0ffefff0
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+007ffc00
+00fffe00
+01ffff00
+03ffff80
+07ffffc0
+0fffffe0
+1ffe7ff0
+3ffc3ff8
+7ff81ffc
+fff00ffe
+7fe007fe
+3fc003fc
+1f8001f8
+0f0000f0
+06000060
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/yen-4x.png
+ENCODING 284
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+f00000f0
+780001e0
+3c0003c0
+1e000780
+1e000780
+0f000f00
+07801e00
+03c03c00
+03e07c00
+01e07800
+00f0f000
+0079e000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+000f0000
+000f0000
+000f0000
+000f0000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+000f0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/zoom-in-4x.png
+ENCODING 285
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003fc000
+00fff000
+03fffc00
+07fffe00
+0fe07f00
+1f801f80
+3e0007c0
+3c0003c0
+7c0f03e0
+780f01e0
+f80f01f0
+f00f00f0
+f0fff0f0
+f0fff0f0
+f0fff0f0
+f0fff0f0
+f00f00f0
+f80f01f0
+780f01e0
+7c0f03e0
+3c0003c0
+3e0007e0
+1f801ff0
+0fe07ff8
+07fffffc
+03fffffe
+00fff7ff
+003fc3ff
+000001ff
+000000ff
+0000007e
+0000003c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/zoom-out-4x.png
+ENCODING 286
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+003fc000
+00fff000
+03fffc00
+07fffe00
+0fe07f00
+1f801f80
+3e0007c0
+3c0003c0
+7c0003e0
+780001e0
+f80001f0
+f00000f0
+f0fff0f0
+f0fff0f0
+f0fff0f0
+f0fff0f0
+f00000f0
+f80001f0
+780001e0
+7c0003e0
+3c0003c0
+3e0007e0
+1f801ff0
+0fe07ff8
+07fffffc
+03fffffe
+00fff7ff
+003fc3ff
+000001ff
+000000ff
+0000007e
+0000003c
+ENDCHAR

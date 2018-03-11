@@ -1,0 +1,351 @@
+STARTFONT 2.1
+FONT "open_iconic_app_4x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/aperture-4x.png
+ENCODING 64
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+007fff00
+003fff00
+000fff00
+0c07fe00
+1f01fe18
+1f80fe18
+3fc07c3c
+7ff01c3e
+7ff00c3e
+7fe0007e
+ff80007f
+ff00007f
+fc0000ff
+f80000ff
+f00000ff
+c00001ff
+808001ff
+038001ff
+07800000
+0fc00000
+3fc00000
+3fc00000
+1fe1fff8
+1fe1fff8
+0fe0fff0
+07f0ffe0
+03f0ffc0
+01f07f00
+00787e00
+00087000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calculator-4x.png
+ENCODING 65
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+f00000f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+fffff0f0
+fffff0f0
+fffff0f0
+fffff0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calendar-4x.png
+ENCODING 66
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+00000000
+00000000
+00000000
+00000000
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+f0f0f0f0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+f0f0fff0
+f0f0fff0
+f0f0fff0
+f0f0fff0
+fffffff0
+fffffff0
+fffffff0
+fffffff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/camera-slr-4x.png
+ENCODING 67
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0000ff00
+0001ff80
+0001ff80
+0003ffc0
+0003ffc0
+0007ffe0
+0007ffe0
+000ffff0
+1fffffff
+3fffffff
+7fffffff
+ffffffff
+f9ff81ff
+f0fe007f
+f0fc003f
+f9f8001f
+fff83c1f
+fff07e0f
+fff0ff0f
+fff0ff0f
+fff0ff0f
+fff0ff0f
+fff07e0f
+fff83c1f
+fff8001f
+fffc003f
+fffe007f
+ffff81ff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chat-4x.png
+ENCODING 68
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+fffff000
+fffff000
+fffff000
+fffff000
+ff000000
+ff000000
+ff000000
+ff000000
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+ff0fffff
+e00fffff
+c00fffff
+800fffff
+000fffff
+000fffff
+000fffff
+000fffff
+000fffff
+00000007
+00000003
+00000001
+00000000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/clock-4x.png
+ENCODING 69
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e03c07c
+7c03c03e
+7803c01e
+7803c01e
+f803c01f
+f003c00f
+f003c00f
+f003c00f
+f003e00f
+f001f00f
+f000f00f
+f800601f
+7800001e
+7800001e
+7c00003e
+3e00007c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/compass-4x.png
+ENCODING 70
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000ff000
+007ffe00
+01ffff80
+03ffffc0
+07f81fe0
+0fc003f0
+1f8001f8
+3f0000fc
+3e00017c
+7c000e3e
+78007e1e
+7803fe1e
+f80ffc1f
+f00ffc0f
+f01e7c0f
+f01c380f
+f01c380f
+f03e780f
+f03ff00f
+f83ff01f
+787fc01e
+787e001e
+7c70003e
+3e80007c
+3f0000fc
+1f8001f8
+0fc003f0
+07f81fe0
+03ffffc0
+01ffff80
+007ffe00
+000ff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/shield-4x.png
+ENCODING 71
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00018000
+0007e000
+003ffc00
+00ffff00
+07ffffe0
+1ff8fff8
+7fe0fffe
+ff00ffff
+fc00ffff
+f000ffff
+f000ffff
+f000ffff
+f800ffff
+7800fffe
+7800fffe
+7800fffe
+7c00fffe
+3c00fffc
+3e00fffc
+1e00fff8
+1f00fff8
+0f00fff0
+0f80fff0
+07c0ffe0
+03e0ffc0
+03f0ffc0
+01f8ff80
+00feff00
+007ffe00
+003ffc00
+000ff000
+0003c000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/timer-4x.png
+ENCODING 72
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00fff000
+00fff000
+00fff000
+00fff000
+003f8000
+00ffe000
+03ffc000
+07ffc0c0
+0fe00180
+1f800300
+3e000e00
+3c001c00
+7c003800
+78007020
+f801f0e0
+f003e0f0
+f007c0f0
+f00f80f0
+f00f00f0
+f00600f0
+f00000f0
+f80001f0
+780001e0
+7c0003e0
+3c0003c0
+3e0007c0
+1f801f80
+0fe07f00
+07fffe00
+03fffc00
+00fff000
+003fc000
+ENDCHAR

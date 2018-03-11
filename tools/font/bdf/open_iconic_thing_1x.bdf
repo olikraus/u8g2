@@ -1,0 +1,275 @@
+STARTFONT 2.1
+FONT "open_iconic_thing_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/basket.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+18
+24
+ff
+7e
+5a
+5a
+7e
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/briefcase.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+24
+ff
+ff
+ff
+00
+ff
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/credit-card.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+ff
+00
+ff
+ff
+af
+ff
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/key.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+0e
+19
+19
+3f
+7e
+78
+e0
+e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lock-unlocked.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+24
+04
+04
+7e
+7e
+7e
+7e
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/paperclip.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+0c
+12
+22
+44
+a8
+b0
+c8
+70
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/puzzle-piece.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+30
+30
+fc
+fc
+ff
+ff
+cc
+cc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/brush.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+01
+06
+0e
+0c
+30
+70
+70
+e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/droplet.png
+ENCODING 72
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+18
+3c
+7e
+7e
+5e
+6e
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/laptop.png
+ENCODING 73
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+7e
+42
+42
+42
+e7
+ff
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/magnifying-glass.png
+ENCODING 74
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+38
+44
+82
+82
+82
+46
+3f
+03
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/phone.png
+ENCODING 75
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+7c
+44
+44
+44
+44
+44
+7c
+7c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signpost.png
+ENCODING 76
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+10
+70
+7c
+1c
+10
+10
+10
+10
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bug.png
+ENCODING 77
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+10
+38
+fe
+7c
+ee
+6c
+ee
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fire.png
+ENCODING 78
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+20
+30
+70
+74
+e6
+ee
+ce
+5e
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lock-locked.png
+ENCODING 79
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+24
+24
+7e
+7e
+7e
+7e
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/monitor.png
+ENCODING 80
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+81
+81
+81
+81
+ff
+18
+7e
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pin.png
+ENCODING 81
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+7c
+38
+38
+fe
+10
+10
+10
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tablet.png
+ENCODING 82
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+fe
+82
+82
+82
+82
+82
+fe
+fe
+ENDCHAR

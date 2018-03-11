@@ -1,0 +1,457 @@
+STARTFONT 2.1
+FONT "open_iconic_text_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/align-center.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+7e
+00
+ff
+00
+7e
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-left.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+fc
+00
+ff
+00
+fc
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/align-right.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+3f
+00
+ff
+00
+3f
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bold.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+fc
+66
+66
+7e
+63
+63
+63
+fe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/code.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+04
+4a
+89
+91
+52
+20
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/command.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ee
+aa
+fe
+28
+fe
+aa
+ee
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/comment-square.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+ff
+ff
+ff
+ff
+ff
+01
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/copywriting.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+f8
+00
+00
+ff
+00
+fd
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/delete.png
+ENCODING 72
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+3f
+6d
+f3
+f3
+6d
+3f
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-sans-left.png
+ENCODING 73
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+e7
+e7
+e7
+c6
+84
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-sans-right.png
+ENCODING 74
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+21
+63
+e7
+e7
+e7
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-serif-left.png
+ENCODING 75
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+63
+c6
+84
+e7
+e7
+e7
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/double-quote-serif-right.png
+ENCODING 76
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+e7
+e7
+e7
+21
+63
+c6
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/ellipses.png
+ENCODING 77
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+00
+db
+db
+00
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/excerpt.png
+ENCODING 78
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+fe
+00
+f8
+00
+ff
+00
+a8
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/header.png
+ENCODING 79
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ee
+44
+44
+7c
+44
+44
+ee
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/infinity.png
+ENCODING 80
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+66
+99
+99
+66
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/info.png
+ENCODING 81
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+0c
+0c
+00
+38
+08
+10
+10
+1c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/italic.png
+ENCODING 82
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3e
+1c
+18
+18
+30
+30
+70
+f8
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-center.png
+ENCODING 83
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+ff
+00
+ff
+00
+7e
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-left.png
+ENCODING 84
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+ff
+00
+ff
+00
+fc
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/justify-right.png
+ENCODING 85
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+ff
+00
+ff
+00
+3f
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/medical-cross.png
+ENCODING 86
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+3c
+ff
+ff
+ff
+ff
+3c
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/minus.png
+ENCODING 87
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+00
+ff
+ff
+00
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/plus.png
+ENCODING 88
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+18
+18
+ff
+ff
+18
+18
+18
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/question-mark.png
+ENCODING 89
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+1c
+22
+02
+04
+0c
+08
+00
+08
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/terminal.png
+ENCODING 90
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+bf
+df
+b1
+ff
+ff
+ff
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/text.png
+ENCODING 91
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+99
+18
+18
+18
+18
+18
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/underline.png
+ENCODING 92
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+64
+64
+64
+64
+64
+38
+00
+fe
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-bottom.png
+ENCODING 93
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+c3
+c3
+db
+db
+db
+00
+ff
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-center.png
+ENCODING 94
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+c3
+db
+00
+ff
+00
+db
+c3
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/vertical-align-top.png
+ENCODING 95
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+db
+db
+db
+c3
+c3
+00
+ENDCHAR

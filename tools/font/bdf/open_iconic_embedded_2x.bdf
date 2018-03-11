@@ -1,0 +1,383 @@
+STARTFONT 2.1
+FONT "open_iconic_embedded_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/battery-empty-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+fffc
+fffc
+c00c
+c00c
+c00f
+c00f
+c00f
+c00f
+c00c
+c00c
+fffc
+fffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bell-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03c0
+07e0
+0ff0
+0ff0
+0ff0
+0ff0
+1ff8
+1ff8
+3ffc
+7ffe
+ffff
+ffff
+0000
+0000
+03c0
+0180
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cog-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+03c0
+3bdc
+3ffc
+3ffc
+1c38
+781e
+f81f
+f81f
+781e
+1c38
+3ffc
+3ffc
+3bdc
+03c0
+0180
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/flash-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+01c0
+0380
+0380
+0700
+07f0
+0fe0
+00e0
+00c0
+01c0
+0180
+0fe0
+0fc0
+0780
+0700
+0600
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/home-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+03c0
+07e0
+1ff8
+3ffc
+7ffe
+3ffc
+3ffc
+3ffc
+3ffc
+3c3c
+3c3c
+3c3c
+3c3c
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pencil-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0018
+001c
+000e
+0006
+0180
+03c0
+07e0
+0fe0
+1fc0
+3f80
+7f00
+fe00
+fc00
+f800
+f000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/pulse-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0200
+0200
+0700
+0700
+0730
+07b0
+fdff
+fdff
+3de0
+18c0
+18c0
+18c0
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/warning-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0300
+0780
+0780
+0f80
+0fc0
+0fc0
+1ce0
+1ce0
+3cf0
+3cf0
+7ff0
+7ff8
+7cf8
+fcfc
+fffc
+fffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/wrench-2x.png
+ENCODING 72
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0060
+01e0
+01c0
+03c0
+03c0
+03c1
+03ff
+03fe
+07fe
+0ff8
+1f00
+3e00
+7c00
+9800
+9000
+6000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/battery-full-2x.png
+ENCODING 73
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+fffc
+fffc
+fffc
+fffc
+ffff
+ffff
+ffff
+ffff
+fffc
+fffc
+fffc
+fffc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bluetooth-2x.png
+ENCODING 74
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0600
+0700
+0780
+06e0
+1670
+1e70
+0ee0
+0780
+0780
+0ee0
+1e70
+1670
+06e0
+0780
+0700
+0600
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/contrast-2x.png
+ENCODING 75
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3f3c
+7f0e
+7f06
+ff07
+ff03
+ff03
+ff03
+ff03
+ff07
+7f06
+7f0e
+3f3c
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/hard-drive-2x.png
+ENCODING 76
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fffc
+fffc
+fffc
+fffc
+fffc
+fffc
+fffc
+fffc
+0000
+0000
+fffc
+fffc
+ffcc
+ffcc
+fffc
+fffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/lightbulb-2x.png
+ENCODING 77
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+00c0
+03c0
+0f00
+3c30
+30f0
+03c0
+0f00
+3c30
+30f0
+03c0
+0fc0
+0fc0
+0000
+0000
+0780
+0780
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/power-standby-2x.png
+ENCODING 78
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0300
+0300
+0300
+1320
+3330
+6318
+e31c
+c30c
+c00c
+c00c
+c00c
+e01c
+6018
+3870
+1fe0
+0fc0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/reload-2x.png
+ENCODING 79
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ffb
+3c3f
+700f
+601f
+e03f
+c000
+c000
+c000
+c000
+e000
+6000
+7000
+3c38
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/wifi-2x.png
+ENCODING 80
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0fe0
+7ffc
+f01e
+4000
+0000
+0000
+07c0
+1ff0
+0820
+0000
+0000
+0000
+0380
+0380
+0380
+0380
+ENDCHAR

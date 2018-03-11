@@ -1,0 +1,669 @@
+STARTFONT 2.1
+FONT "open_iconic_gui_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/account-login-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03ff
+03ff
+0003
+0003
+0083
+00c3
+ffe3
+ffe3
+00c3
+0083
+0003
+0003
+03ff
+03ff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/account-logout-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+03ff
+03ff
+0003
+0003
+1003
+3003
+7ff3
+7ff3
+3003
+1003
+0003
+0003
+03ff
+03ff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/action-redo-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0fc0
+1fe0
+21f0
+0078
+007c
+003c
+003c
+003c
+007e
+003c
+0018
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/action-undo-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+03f0
+07f8
+0f84
+1e00
+3e00
+3c00
+3c00
+3c00
+7e00
+3c00
+1800
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-down-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+ffff
+ffff
+0000
+0000
+07e0
+03c0
+0180
+0000
+0000
+0000
+0000
+0000
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-left-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+c00f
+c00f
+c00f
+c00f
+c00f
+c04f
+c0cf
+c1cf
+c1cf
+c0cf
+c04f
+c00f
+c00f
+c00f
+c00f
+c00f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-right-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+f003
+f003
+f003
+f003
+f003
+f203
+f303
+f383
+f383
+f303
+f203
+f003
+f003
+f003
+f003
+f003
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/collapse-up-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+0000
+0000
+0000
+0180
+03c0
+07e0
+0000
+0000
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/crop-2x.png
+ENCODING 72
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+3000
+3002
+fffc
+fffc
+301c
+302c
+304c
+308c
+310c
+320c
+340c
+380c
+3fff
+3fff
+000c
+000c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dashboard-2x.png
+ENCODING 73
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3c3c
+700e
+6186
+e187
+cc33
+ce33
+c783
+c3c3
+e3c7
+6186
+700e
+3c3c
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/elevator-2x.png
+ENCODING 74
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0180
+03c0
+07e0
+0ff0
+1ff8
+0000
+0000
+0000
+0000
+1ff8
+0ff0
+07e0
+03c0
+0180
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-down-2x.png
+ENCODING 75
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+0000
+0000
+07e0
+03c0
+0180
+0000
+0000
+0000
+0000
+0000
+ffff
+ffff
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-left-2x.png
+ENCODING 76
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+c00f
+c00f
+c00f
+c00f
+c00f
+c80f
+cc0f
+ce0f
+ce0f
+cc0f
+c80f
+c00f
+c00f
+c00f
+c00f
+c00f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-right-2x.png
+ENCODING 77
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+f003
+f003
+f003
+f003
+f003
+f013
+f033
+f073
+f073
+f033
+f013
+f003
+f003
+f003
+f003
+f003
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/expand-up-2x.png
+ENCODING 78
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffff
+ffff
+ffff
+ffff
+0000
+0000
+0000
+0000
+0000
+0180
+03c0
+07e0
+0000
+0000
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fullscreen-enter-2x.png
+ENCODING 79
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fe00
+fc00
+f800
+f800
+fc00
+ce00
+8600
+0000
+0000
+0061
+0073
+003f
+001f
+001f
+003f
+007f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fullscreen-exit-2x.png
+ENCODING 80
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+6100
+7300
+3f00
+1f00
+1f00
+3f00
+7f00
+00fe
+00fc
+00f8
+00f8
+00fc
+00ce
+0086
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/layers-2x.png
+ENCODING 81
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ff00
+ff00
+ff00
+ff00
+ff30
+ff30
+ff30
+ff30
+0033
+0033
+0ff3
+0ff3
+0003
+0003
+00ff
+00ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/list-2x.png
+ENCODING 82
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+cfff
+cfff
+0000
+0000
+cfff
+cfff
+0000
+0000
+cfff
+cfff
+0000
+0000
+cfff
+cfff
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/list-rich-2x.png
+ENCODING 83
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fcff
+fcff
+fc00
+fc00
+fcfc
+fcfc
+0000
+0000
+fcff
+fcff
+fc00
+fc00
+fcfc
+fcfc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/menu-2x.png
+ENCODING 84
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+ffff
+ffff
+0000
+0000
+0000
+0000
+ffff
+ffff
+0000
+0000
+0000
+0000
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/move-2x.png
+ENCODING 85
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0300
+0780
+0300
+0300
+2310
+7ff8
+7ff8
+2310
+0300
+0300
+0780
+0300
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/print-2x.png
+ENCODING 86
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0ff0
+0ff0
+0ff0
+0ff0
+0000
+0000
+ffff
+ffff
+c003
+c003
+cff3
+cff3
+0ff0
+0ff0
+0ff0
+0ff0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/resize-both-2x.png
+ENCODING 87
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+007f
+003f
+001f
+001f
+003f
+0073
+00e1
+01c0
+8380
+8700
+ce00
+fc00
+f800
+f800
+fc00
+fe00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/resize-height-2x.png
+ENCODING 88
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0300
+0780
+0fc0
+1fe0
+3ff0
+0300
+0300
+0300
+0300
+3ff0
+1fe0
+0fc0
+0780
+0300
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/resize-width-2x.png
+ENCODING 89
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+0420
+0c30
+1c38
+3c3c
+7ffe
+7ffe
+3c3c
+1c38
+0c30
+0420
+0000
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sort-ascending-2x.png
+ENCODING 90
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0cf0
+0cf0
+0c00
+0c00
+0cfc
+0cfc
+0c00
+0c00
+0cff
+0cff
+0c00
+0c00
+7f80
+3f00
+1e00
+0c00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sort-descending-2x.png
+ENCODING 91
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0cff
+0cff
+0c00
+0c00
+0cfc
+0cfc
+0c00
+0c00
+0cf0
+0cf0
+0c00
+0c00
+7f80
+3f00
+1e00
+0c00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/zoom-in-2x.png
+ENCODING 92
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0fc0
+1fe0
+3870
+6018
+e31c
+c30c
+cfcc
+cfcc
+c30c
+e318
+6018
+387c
+1ffe
+0fdf
+000f
+0006
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/zoom-out-2x.png
+ENCODING 93
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0fc0
+1fe0
+3870
+6018
+e01c
+c00c
+cfcc
+cfcc
+c00c
+e018
+6018
+387c
+1ffe
+0fdf
+000f
+0006
+ENDCHAR

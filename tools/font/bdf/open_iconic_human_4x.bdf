@@ -1,0 +1,199 @@
+STARTFONT 2.1
+FONT "open_iconic_human_4x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/eye-4x.png
+ENCODING 64
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+0007e000
+003ffc00
+00ffff00
+01ffff80
+03f81fc0
+07e007e0
+0fc003f0
+1f8001f8
+3f8381fc
+3f0700fc
+7f0f00fe
+ff0f90ff
+ff0ff0ff
+7f0ff0fe
+3f07e0fc
+3f83c1fc
+1f8001f8
+0fc003f0
+07e007e0
+03f81fc0
+01ffff80
+00ffff00
+003ffc00
+0007e000
+00000000
+00000000
+00000000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eyedropper-4x.png
+ENCODING 65
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+000e00f0
+000f03fc
+000f87fe
+0007cfff
+0003ffff
+0001ffff
+0003ffff
+0007ffff
+000fffff
+001f9ffe
+003f0ffc
+007e07f8
+007c03f0
+00f801f0
+01f001f8
+03e003fc
+07c007fe
+0f800f9f
+1f001f0f
+3e003e06
+7c007c00
+fc00f800
+fc01f000
+fe03e000
+ff07c000
+ff8f8000
+ffff0000
+fffe0000
+fffc0000
+fff80000
+fff00000
+ffe00000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/heart-4x.png
+ENCODING 66
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000000
+00000000
+00000000
+00000000
+07e007e0
+1ff81ff8
+3ffc3ffc
+7ffe7ffe
+7ffe7ffe
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+7ffffffe
+7ffffffe
+3ffffffc
+1ffffff8
+0ffffff0
+07ffffe0
+03ffffc0
+01ffff80
+00ffff00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0007e000
+0003c000
+00018000
+00000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/people-4x.png
+ENCODING 67
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+00000f00
+00001f80
+00003fc0
+00007fe0
+00f03fe0
+01f83ff0
+03fc1ff0
+07fe1ff0
+07fe0ff0
+0fff0ff0
+0fff0ff0
+0fff0fe0
+0fff0fe0
+0fff0fc0
+0fff0f80
+07fe0f00
+07fe0000
+03fc000c
+01f8001e
+00f0007f
+000001ff
+3000c1ff
+7801e0ff
+fe07f0ff
+fffff0ff
+fffff0ff
+fffff0ff
+fffff0ff
+fffff000
+fffff000
+fffff000
+fffff000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/person-4x.png
+ENCODING 68
+DWIDTH 32 0
+BBX 32 32 0 0
+BITMAP
+0003c000
+000ff000
+001ff800
+003ffc00
+007ffe00
+007ffe00
+007ffe00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+00ffff00
+007ffe00
+007ffe00
+007ffe00
+003ffc00
+001ff800
+000ff000
+0003c000
+070000e0
+1f8001f8
+3fe007fc
+7ff81ffe
+7ffffffe
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ENDCHAR

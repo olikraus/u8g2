@@ -1,0 +1,261 @@
+STARTFONT 2.1
+FONT "open_iconic_play_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/audio-spectrum.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+08
+28
+2a
+aa
+aa
+2a
+28
+08
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bullhorn.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+02
+1a
+fa
+fa
+7a
+22
+20
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eject.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+18
+3c
+7e
+ff
+00
+ff
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/headphones.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+66
+42
+42
+c3
+c3
+c3
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-pause.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+66
+66
+66
+66
+66
+66
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-play.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+40
+70
+7c
+7c
+70
+40
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-record.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+3c
+7e
+7e
+7e
+7e
+3c
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-skip-backward.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+11
+33
+77
+77
+33
+11
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-skip-forward.png
+ENCODING 72
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+88
+cc
+ee
+ee
+cc
+88
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-step-backward.png
+ENCODING 73
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+c2
+c6
+de
+de
+c6
+c2
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-step-forward.png
+ENCODING 74
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+86
+c6
+f6
+f6
+c6
+86
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/media-stop.png
+ENCODING 75
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+7e
+7e
+7e
+7e
+7e
+7e
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/microphone.png
+ENCODING 76
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+18
+5a
+5a
+66
+3c
+08
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/musical-note.png
+ENCODING 77
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+1f
+3f
+21
+21
+27
+e7
+e7
+e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/play-circle.png
+ENCODING 78
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+7e
+ef
+e7
+e7
+ef
+7e
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-high.png
+ENCODING 79
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+10
+36
+f3
+f5
+f5
+f3
+36
+10
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-low.png
+ENCODING 80
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+08
+18
+78
+7a
+7a
+78
+18
+08
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/volume-off.png
+ENCODING 81
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+04
+0c
+3c
+3c
+3c
+3c
+0c
+04
+ENDCHAR

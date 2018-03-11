@@ -1,0 +1,401 @@
+STARTFONT 2.1
+FONT "open_iconic_arrow_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-bottom.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+10
+10
+10
+10
+10
+7c
+38
+10
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-left.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+20
+60
+ff
+60
+20
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-right.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+04
+06
+ff
+06
+04
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-top.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+10
+38
+7c
+10
+10
+10
+10
+10
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-bottom.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+66
+e7
+e7
+81
+c3
+66
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-left.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+6e
+cf
+81
+81
+cf
+6e
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-right.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+76
+f3
+81
+81
+f3
+76
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-circle-top.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+66
+c3
+81
+e7
+e7
+66
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-bottom.png
+ENCODING 72
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+18
+18
+18
+18
+3c
+18
+08
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-left.png
+ENCODING 73
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+20
+7f
+ff
+20
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-right.png
+ENCODING 74
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+06
+ff
+fe
+04
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/arrow-thick-top.png
+ENCODING 75
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+10
+38
+3c
+18
+18
+18
+18
+18
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-bottom.png
+ENCODING 76
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+7e
+3c
+18
+00
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-left.png
+ENCODING 77
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+04
+0c
+1c
+1c
+0c
+04
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-right.png
+ENCODING 78
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+20
+30
+38
+38
+30
+20
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/caret-top.png
+ENCODING 79
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+00
+18
+3c
+7e
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-bottom.png
+ENCODING 80
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+42
+e7
+7e
+3c
+18
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-left.png
+ENCODING 81
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+0c
+18
+30
+30
+18
+0c
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-right.png
+ENCODING 82
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+20
+70
+38
+1c
+1c
+38
+70
+20
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chevron-top.png
+ENCODING 83
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+18
+3c
+66
+42
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/data-transfer-download.png
+ENCODING 84
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+18
+18
+3c
+18
+00
+00
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/data-transfer-upload.png
+ENCODING 85
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+00
+00
+18
+3c
+18
+18
+18
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/loop.png
+ENCODING 86
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+02
+ff
+82
+00
+41
+ff
+40
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/loop-circular.png
+ENCODING 87
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+30
+62
+47
+e2
+46
+0c
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/loop-square.png
+ENCODING 88
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+7e
+42
+02
+47
+e2
+40
+42
+7e
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/random.png
+ENCODING 89
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+02
+c7
+6a
+30
+30
+6a
+c7
+02
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/share.png
+ENCODING 90
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+04
+06
+3f
+7e
+c4
+80
+00
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/share-boxed.png
+ENCODING 91
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+e0
+8f
+9e
+80
+80
+84
+fc
+00
+ENDCHAR

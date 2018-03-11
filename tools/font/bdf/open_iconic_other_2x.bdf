@@ -1,0 +1,185 @@
+STARTFONT 2.1
+FONT "open_iconic_other_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/bolt-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0100
+0100
+0300
+0700
+0700
+0ff0
+0fe0
+1fc0
+3fc0
+0380
+0380
+0300
+0200
+0200
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/dial-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0000
+0000
+07e0
+1ff8
+3c3c
+700e
+6246
+e7e7
+cff3
+cff3
+0ff0
+0ff0
+07e0
+03c0
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/fork-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+7878
+fcfc
+fcfc
+fcfc
+fcfc
+7878
+3030
+3030
+3ff0
+3fe0
+7800
+fc00
+fc00
+fc00
+fc00
+7800
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-four-up-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+cccc
+cccc
+0000
+0000
+cccc
+cccc
+0000
+0000
+cccc
+cccc
+0000
+0000
+cccc
+cccc
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-three-up-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+f3cf
+f3cf
+f3cf
+f3cf
+0000
+0000
+f3cf
+f3cf
+f3cf
+f3cf
+0000
+0000
+f3cf
+f3cf
+f3cf
+f3cf
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/grid-two-up-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+0000
+0000
+0000
+0000
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+fc3f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/signal-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+000c
+000c
+00cc
+00cc
+00cc
+00cc
+0ccc
+0ccc
+0ccc
+0ccc
+cccc
+cccc
+cccc
+cccc
+cccc
+cccc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/target-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3c3c
+700e
+63c6
+e7e7
+ce73
+cc33
+cc33
+ce73
+e7e7
+63c6
+700e
+3c3c
+1ff8
+07e0
+ENDCHAR

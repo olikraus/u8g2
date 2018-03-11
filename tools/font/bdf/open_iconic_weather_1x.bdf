@@ -1,0 +1,93 @@
+STARTFONT 2.1
+FONT "open_iconic_weather_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/cloud.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+1c
+3e
+7e
+ff
+ff
+7f
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloudy.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+70
+e0
+dc
+3e
+7e
+ff
+ff
+7f
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/moon.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+60
+e0
+e0
+f0
+fe
+7e
+18
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rain.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+1c
+3e
+7e
+ff
+c7
+11
+54
+54
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/star.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+00
+18
+7e
+3c
+3c
+24
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sun.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+42
+18
+3c
+3c
+18
+42
+00
+ENDCHAR

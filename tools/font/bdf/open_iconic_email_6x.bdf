@@ -1,0 +1,279 @@
+STARTFONT 2.1
+FONT "open_iconic_email_6x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-closed-6x.png
+ENCODING 64
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+7ffffffffffe
+1ffffffffff8
+07ffffffffe0
+01ffffffff80
+007ffffffe00
+001ffffff800
+8007ffffe001
+e001ffff8007
+f8007ffe001f
+fe001ff8007f
+ff8007e001ff
+ffe0018007ff
+fff800001fff
+fffe00007fff
+ffff8001ffff
+ffffe007ffff
+fffff81fffff
+fffffe7fffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/envelope-open-6x.png
+ENCODING 65
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000001800000
+000007e00000
+00001ff80000
+00007ffe0000
+0001ffff8000
+0007ffffe000
+001ffffff800
+007ffe7ffe00
+01fff81fff80
+07ffe007ffe0
+1fff8001fff8
+7ffe00007ffe
+fff800001fff
+ffe0000007ff
+ff80000001ff
+fe000000007f
+fc000000003f
+fc000000003f
+fc0ffffff03f
+fc0ffffff03f
+fc0ffffff03f
+fc0ffffff03f
+fc0ffffff03f
+fc0ffffff03f
+fc07ffffe03f
+fc01ffff803f
+fc007ffe003f
+fe001ff8007f
+ff8007e001ff
+ffe0018007ff
+fff800001fff
+fffe00007fff
+ffff8001ffff
+ffffe007ffff
+fffff81fffff
+fffffe7fffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/inbox-6x.png
+ENCODING 66
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fc000000003f
+fff000000fff
+fff800001fff
+fffc00003fff
+fffe00007fff
+ffff0000ffff
+ffff8001ffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tag-6x.png
+ENCODING 67
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+ffffc0000000
+ffffe0000000
+fffff0000000
+fffff8000000
+fffffc000000
+fffffe000000
+ffc3ff000000
+ff00ff800000
+fe007fc00000
+fe007fe00000
+fc003ff00000
+fc003ff80000
+fc003ffc0000
+fc003ffe0000
+fe007fff0000
+fe007fff8000
+ff00ffffc000
+ffc3ffffe000
+7ffffffff000
+3ffffffff800
+1ffffffffc00
+0ffffffffe00
+07ffffffff00
+03ffffffff80
+01ffffffffc0
+00ffffffffe0
+007ffffffff0
+003ffffffff8
+001ffffffffc
+000ffffffffe
+0007fffffffe
+0003fffffffc
+0001fffffff8
+0000fffffff0
+00007fffffe0
+00003fffffc0
+00001fffff80
+00000fffff00
+000007fffe00
+000003fffc00
+000001fff800
+000000fff000
+0000007fe000
+0000003fc000
+0000001f8000
+0000000f0000
+000000060000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/tags-6x.png
+ENCODING 68
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+fff007fc0000
+fff803fe0000
+fffc01ff0000
+fffe00ff8000
+ffff007fc000
+ffff803fe000
+fe1fc01ff000
+fc0fe00ff800
+fc0ff007fc00
+fc0ff803fe00
+fc0ffc01ff00
+fe1ffe00ff80
+7fffff007fc0
+3fffff803fe0
+1fffffc01ff0
+0fffffe00ff8
+07fffff007fc
+03fffff803fe
+01fffff803fe
+00fffff007fc
+007fffe00ff8
+003fffc01ff0
+001fff803fe0
+000fff007fc0
+0007fe00ff80
+0003fc00ff00
+0001f8007e00
+0000f0003c00
+000060001800
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+ENDCHAR

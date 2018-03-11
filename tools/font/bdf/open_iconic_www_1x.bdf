@@ -1,0 +1,289 @@
+STARTFONT 2.1
+FONT "open_iconic_www_1x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/badge.png
+ENCODING 64
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+18
+3c
+3c
+18
+00
+18
+18
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/bookmark.png
+ENCODING 65
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+3c
+3c
+3c
+3c
+3c
+24
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cart.png
+ENCODING 66
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+e0
+3f
+1e
+1e
+00
+12
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-upload.png
+ENCODING 67
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+1c
+3e
+7e
+f7
+e3
+08
+1c
+08
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/flag.png
+ENCODING 68
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+b8
+be
+bc
+bc
+8e
+80
+80
+80
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/link-broken.png
+ENCODING 69
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+26
+69
+01
+22
+44
+80
+96
+64
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/location.png
+ENCODING 70
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+00
+06
+1e
+7c
+3c
+18
+08
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/map-marker.png
+ENCODING 71
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+66
+42
+42
+66
+3c
+18
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rss-alt.png
+ENCODING 72
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+e0
+f8
+3c
+ce
+f6
+37
+9b
+db
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/thumb-up.png
+ENCODING 73
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+08
+18
+18
+be
+be
+bc
+bc
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/ban.png
+ENCODING 74
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+46
+87
+89
+91
+e1
+62
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/browser.png
+ENCODING 75
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+a1
+ff
+81
+81
+81
+81
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-download.png
+ENCODING 76
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+1c
+3e
+7e
+e3
+eb
+08
+1c
+08
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/external-link.png
+ENCODING 77
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+c7
+87
+87
+88
+80
+80
+81
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/globe.png
+ENCODING 78
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+3c
+66
+c7
+87
+8f
+c3
+62
+3c
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/link-intact.png
+ENCODING 79
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+06
+01
+19
+22
+44
+98
+80
+60
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/map.png
+ENCODING 80
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+ff
+81
+b9
+a9
+b9
+97
+81
+ff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rss.png
+ENCODING 81
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+70
+18
+64
+1a
+6b
+35
+d5
+c0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/thumb-down.png
+ENCODING 82
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+bc
+bc
+be
+be
+18
+18
+08
+00
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/transfer.png
+ENCODING 83
+DWIDTH 8 0
+BBX 8 8 0 0
+BITMAP
+02
+ff
+02
+00
+40
+ff
+40
+00
+ENDCHAR

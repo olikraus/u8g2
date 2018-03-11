@@ -1,0 +1,207 @@
+STARTFONT 2.1
+FONT "open_iconic_app_2x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/aperture-2x.png
+ENCODING 64
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+07f0
+23f0
+70e6
+7c66
+fc07
+f00f
+e00f
+800f
+001f
+3800
+7800
+78fe
+3cfc
+1cf8
+0460
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calculator-2x.png
+ENCODING 65
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fffc
+fffc
+c00c
+c00c
+c00c
+c00c
+fffc
+fffc
+cccc
+cccc
+ffcc
+ffcc
+cccc
+cccc
+fffc
+fffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/calendar-2x.png
+ENCODING 66
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+fffc
+fffc
+fffc
+fffc
+0000
+0000
+fffc
+fffc
+cccc
+cccc
+fffc
+fffc
+ccfc
+ccfc
+fffc
+fffc
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/camera-slr-2x.png
+ENCODING 67
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+00f0
+01f8
+01f8
+03fc
+7fff
+ffff
+cf0f
+ce07
+fc63
+fcf3
+fcf3
+fc63
+fe07
+ff0f
+ffff
+ffff
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/chat-2x.png
+ENCODING 68
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+ffc0
+ffc0
+f000
+f000
+f3ff
+f3ff
+f3ff
+f3ff
+83ff
+03ff
+03ff
+03ff
+0001
+0000
+0000
+0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/clock-2x.png
+ENCODING 69
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3c3c
+700e
+6186
+e187
+c183
+c183
+c1c3
+c0c3
+e007
+6006
+700e
+3c3c
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/compass-2x.png
+ENCODING 70
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+07e0
+1ff8
+3c3c
+700e
+6016
+e0e7
+c3e3
+c263
+c643
+c7c3
+e707
+6806
+700e
+3c3c
+1ff8
+07e0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/shield-2x.png
+ENCODING 71
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0180
+0ff0
+3efc
+f8ff
+c0ff
+c0ff
+c0ff
+60fe
+60fe
+60fe
+30fc
+38fc
+1cf8
+0ef0
+07e0
+03c0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/timer-2x.png
+ENCODING 72
+DWIDTH 16 0
+BBX 16 16 0 0
+BITMAP
+0fc0
+0fc0
+0f80
+1f80
+3810
+6020
+e040
+c1cc
+c38c
+c30c
+c00c
+e01c
+6018
+3870
+1fe0
+0fc0
+ENDCHAR

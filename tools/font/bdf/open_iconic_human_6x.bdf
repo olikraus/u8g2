@@ -1,0 +1,279 @@
+STARTFONT 2.1
+FONT "open_iconic_human_6x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/eye-6x.png
+ENCODING 64
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+00000ff00000
+00007ffe0000
+0001ffffc000
+0007ffffe000
+001ffffff800
+003ffffffc00
+007ff81ffe00
+00ffc003ff00
+01ff8001ff80
+03ff0000ffc0
+07fe00007fe0
+0ffc00003ff0
+0ff803801ff0
+1ff80f001ff8
+3ff81f001ffc
+7ff01f000ffe
+7ff03f000ffe
+fff03f840fff
+fff03ffc0fff
+7ff03ffc0ffe
+7ff01ff80ffe
+3ff81ff81ffc
+1ff80ff01ff8
+0ff803c01ff0
+0ffc00003ff0
+07fe00007fe0
+03ff0000ffc0
+01ff8001ff80
+00ffc003ff00
+007ff81ffe00
+003ffffffc00
+001ffffff800
+0007ffffe000
+0001ffffc000
+00007ffe0000
+00000ff00000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/eyedropper-6x.png
+ENCODING 65
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+00001e000fc0
+00003f003ff0
+00003f807ff8
+00003fc0fffc
+00003fe1fffe
+00001ff3fffe
+00000fffffff
+000007ffffff
+000003ffffff
+000003ffffff
+000007ffffff
+00000fffffff
+00001ffffffe
+00003fdffffe
+00007f8ffffc
+0000ff07fff8
+0001fe03fff0
+0003fc01ffe0
+0007f800ffc0
+000ff0007fc0
+001fe0003fe0
+003fe0003ff0
+007fc0007ff8
+00ff8000fffc
+01ff0001fffe
+03fe0003ffff
+07fc0007fcff
+0ff8000ff87f
+1ff0001ff03f
+3fe0003fe01e
+7fc0007fc000
+ff8000ff8000
+ff0001ff0000
+ff8003fe0000
+ffc007fc0000
+ffe00ff80000
+fff01ff00000
+fff83fe00000
+fffc7fc00000
+fffeff800000
+ffffff000000
+fffffe000000
+fffffc000000
+fffff8000000
+fffff0000000
+ffffe0000000
+ffffc0000000
+ffff80000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/heart-6x.png
+ENCODING 66
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+007e00007e00
+03ffc003ffc0
+07ffe007ffe0
+0ffff00ffff0
+1ffff81ffff8
+3ffffc3ffffc
+7ffffe7ffffe
+7ffffe7ffffe
+7ffffe7ffffe
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+7ffffffffffe
+7ffffffffffe
+7ffffffffffe
+3ffffffffffc
+1ffffffffff8
+0ffffffffff0
+07ffffffffe0
+03ffffffffc0
+01ffffffff80
+00ffffffff00
+007ffffffe00
+003ffffffc00
+001ffffff800
+000ffffff000
+0007ffffe000
+0003ffffc000
+0001ffff8000
+0000ffff0000
+00007ffe0000
+00003ffc0000
+00001ff80000
+00000ff00000
+000007e00000
+000003c00000
+000001800000
+000000000000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/people-6x.png
+ENCODING 67
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+00000003e000
+00000007f800
+0000000ffc00
+0000001ffe00
+0000003fff00
+0000003fff00
+000fc01fff80
+001fe01fff80
+003ff00fffc0
+007ff80fffc0
+00fffc07ffc0
+01fffe07ffc0
+01fffe07ffc0
+01fffe03ffc0
+03ffff03ffc0
+03ffff03ffc0
+03ffff03ff80
+03ffff03ff80
+03ffff03ff80
+03ffff03ff00
+03ffff03fe00
+03ffff03fc00
+01fffe03f800
+01fffe01f000
+01fffe000000
+00fffc000010
+007ff800003c
+003ff000007e
+001fe00001fe
+000f800007ff
+000000003fff
+080000403fff
+3c0000f01fff
+3e0001f01fff
+7f8007f80fff
+ffe01ffc0fff
+fffffffc0fff
+fffffffc0fff
+fffffffc0fff
+fffffffc0fff
+fffffffc0fff
+fffffffc0fff
+fffffffc0000
+fffffffc0000
+fffffffc0000
+fffffffc0000
+fffffffc0000
+fffffffc0000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/person-6x.png
+ENCODING 68
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000007e00000
+00001ff80000
+00007ffe0000
+0000ffff0000
+0001ffff8000
+0001ffff8000
+0003ffffc000
+0003ffffc000
+0007ffffe000
+0007ffffe000
+0007ffffe000
+000ffffff000
+000ffffff000
+000ffffff000
+000ffffff000
+000ffffff000
+000ffffff000
+000ffffff000
+000ffffff000
+0007ffffe000
+0007ffffe000
+0007ffffe000
+0003ffffc000
+0003ffffc000
+0001ffff8000
+0001ffff8000
+0000ffff0000
+00007ffe0000
+00001ff80000
+000007e00000
+007000000e00
+03f800001fc0
+07fc00003fe0
+0fff0000fff0
+1fff8001fff8
+3ffff00ffffc
+7ffffffffffe
+7ffffffffffe
+7ffffffffffe
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ffffffffffff
+ENDCHAR

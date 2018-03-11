@@ -1,0 +1,333 @@
+STARTFONT 2.1
+FONT "open_iconic_weather_6x"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR /home/kraus/git/open-iconic/png/cloud-6x.png
+ENCODING 64
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000001fe0000
+00000fff8000
+00001fffe000
+00007ffff800
+0000fffffc00
+0001fffffe00
+0003fffffe00
+0003ffffff00
+0007ffffff00
+0007ffffff80
+000fffffff80
+000fffffffc0
+007fffffffc0
+03ffffffffc0
+07ffffffffc0
+0fffffffffc0
+1fffffffffc0
+3fffffffffc0
+7fffffffffe0
+7ffffffffff8
+7ffffffffffc
+fffffffffffc
+fffffffffffe
+fffffffffffe
+ffffffffffff
+ffffffffffff
+ffffffffffff
+7fffffffffff
+7fffffffffff
+7fffffffffff
+3ffffffffffe
+1ffffffffffe
+0ffffffffffc
+07fffffffff8
+03fffffffff0
+007fffffffc0
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/cloudy-6x.png
+ENCODING 65
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+001fe0000000
+00fff8000000
+01fffe000000
+07ffff800000
+0fffffc00000
+1fffffe00000
+1ffffc000000
+3fffe0000000
+7fff80000000
+7ffe00000000
+7ffc00000000
+fff800000000
+fff001fe0000
+ffe00fff8000
+ffc01fffe000
+ff807ffff800
+ff80fffffc00
+ff01fffffe00
+fe03fffffe00
+7803ffffff00
+6007ffffff00
+0007ffffff80
+000fffffff80
+000fffffffc0
+007fffffffc0
+03ffffffffc0
+07ffffffffc0
+0fffffffffc0
+1fffffffffc0
+3fffffffffc0
+7fffffffffe0
+7ffffffffff8
+7ffffffffffc
+fffffffffffc
+fffffffffffe
+fffffffffffe
+ffffffffffff
+ffffffffffff
+ffffffffffff
+7fffffffffff
+7fffffffffff
+7fffffffffff
+3ffffffffffe
+1ffffffffffe
+0ffffffffffc
+07fffffffff8
+03fffffffff0
+007fffffffc0
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/moon-6x.png
+ENCODING 66
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000100000000
+000700000000
+001f00000000
+003e00000000
+00fe00000000
+01fe00000000
+03fe00000000
+07fe00000000
+07fe00000000
+0ffe00000000
+1ffe00000000
+1ffe00000000
+3ffe00000000
+3fff00000000
+7fff00000000
+7fff00000000
+7fff80000000
+7fff80000000
+ffffc0000000
+ffffc0000000
+ffffe0000000
+ffffe0000000
+fffff0000000
+fffff8000000
+fffffc000000
+fffffe000000
+ffffff000000
+ffffff800000
+7fffffe00000
+7ffffff80000
+7fffffff0000
+3ffffffff03c
+3ffffffffffc
+1ffffffffff8
+1ffffffffff8
+0ffffffffff0
+0ffffffffff0
+07ffffffffe0
+03ffffffffc0
+01ffffffff80
+00ffffffff00
+007ffffffe00
+001ffffff800
+000ffffff000
+0003ffffc000
+00007ffe0000
+000007e00000
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/rain-6x.png
+ENCODING 67
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000001fe0000
+00000fffc000
+00001fffe000
+00007ffff800
+0000fffffc00
+0001fffffe00
+0003fffffe00
+0003ffffff00
+0007ffffff80
+0007ffffff80
+000fffffff80
+000fffffffc0
+007fffffffc0
+03ffffffffc0
+07ffffffffc0
+0fffffffffc0
+1fffffffffc0
+3fffffffffc0
+7fffffffffe0
+7ffffffffff8
+7ffffffffffc
+fffffffffffc
+fffffffffffe
+fffffffffffe
+ffffc0ffffff
+ffff003fffff
+fffe001fffff
+7ffc000fffff
+7ff80007ffff
+7ff80007ffff
+3c001e000ffe
+10003f0003fe
+00003f0001fc
+00003f0000f8
+00003f000070
+00003f000000
+01e03f01e000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+03f03f03f000
+01e01e01e000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/star-6x.png
+ENCODING 68
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000000000000
+000000000000
+000001800000
+000001800000
+000001800000
+000003c00000
+000003c00000
+000003c00000
+000007e00000
+000007e00000
+000007e00000
+00000ff00000
+00000ff00000
+00000ff00000
+00001ff80000
+00001ff80000
+00001ff80000
+00003ffc0000
+7ffffffffffe
+3ffffffffffc
+1ffffffffff8
+0ffffffffff0
+03ffffffffc0
+01ffffffff80
+00ffffffff00
+007ffffffe00
+001ffffff800
+000ffffff000
+0007ffffe000
+0003ffffc000
+0001ffff8000
+0001ffff8000
+0003ffffc000
+0003ffffc000
+0003ffffc000
+0007ffffe000
+0007fe7fe000
+0007fc3fe000
+000ff81ff000
+000ff00ff000
+000fc003f000
+001f8001f800
+001f0000f800
+001e00007800
+003800001c00
+003000000c00
+002000000400
+000000000000
+ENDCHAR
+STARTCHAR /home/kraus/git/open-iconic/png/sun-6x.png
+ENCODING 69
+DWIDTH 48 0
+BBX 48 48 0 0
+BITMAP
+000003c00000
+000007e00000
+000007e00000
+000007e00000
+000007e00000
+000003c00000
+01e000000780
+03f000000fc0
+03f000000fc0
+03f000000fc0
+03f000000fc0
+01e000000780
+000007e00000
+00003ffc0000
+00007ffe0000
+0000ffff0000
+0001ffff8000
+0003ffffc000
+0007ffffe000
+0007ffffe000
+0007ffffe000
+780ffffff01e
+fc0ffffff03f
+fc0ffffff03f
+fc0ffffff03f
+fc0ffffff03f
+780ffffff01e
+0007ffffe000
+0007ffffe000
+0007ffffe000
+0003ffffc000
+0001ffff8000
+0000ffff0000
+00007ffe0000
+00003ffc0000
+000007e00000
+01e000000780
+03f000000fc0
+03f000000fc0
+03f000000fc0
+03f000000fc0
+01e000000780
+000003c00000
+000007e00000
+000007e00000
+000007e00000
+000007e00000
+000003c00000
+ENDCHAR
