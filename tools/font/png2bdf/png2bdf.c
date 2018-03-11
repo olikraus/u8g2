@@ -131,14 +131,14 @@ void write_byte(int x)
   write_4bit(x & 15);
 }
 
-void write_bdf_bitmap(void)
+void write_bdf_bitmap(const char *filename)
 {
   int x, y;
   
   if ( bdf_fp == NULL )
     return;
   
-  fprintf(bdf_fp, "STARTCHAR %ld\n", encoding);
+  fprintf(bdf_fp, "STARTCHAR %s\n", filename);
   fprintf(bdf_fp, "ENCODING %ld\n", encoding);
   fprintf(bdf_fp, "DWIDTH %d 0\n", width);
   fprintf(bdf_fp, "BBX %d %d 0 0\n", width, height);
@@ -243,7 +243,7 @@ int read_png_file(const char* file_name)
 	//print_info(file_name);
 	print_short_info(file_name);
 	//show_ascii();
-	write_bdf_bitmap();
+	write_bdf_bitmap(file_name);
 	
 	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 	fclose(fp);
