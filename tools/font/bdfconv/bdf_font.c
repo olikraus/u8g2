@@ -660,7 +660,7 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
     
   for( i = 0; i < bf->target_cnt-1+extra1; i++ )
   {
-    if ( bf->target_data[i] < 32 || bf->target_data[i] == '\"' || bf->target_data[i] == '\\'  || ( bf->target_data[i] >= '0' && bf->target_data[i] <= '9' ))
+    if ( bf->target_data[i] < 32 || bf->target_data[i] == '\"' || bf->target_data[i] == '\\'  || bf->target_data[i] == '?' || ( bf->target_data[i] >= '0' && bf->target_data[i] <= '9' ))
     {
       fprintf(out_fp, "\\%o", bf->target_data[i]);
       //fprintf(out_fp, "\\x%02x", bf->target_data[i]);

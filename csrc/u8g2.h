@@ -165,7 +165,9 @@
 /* the macro U8G2_USE_LARGE_FONTS disables large fonts (>32K) */
 /* it can be enabled for those uC supporting larger arrays */
 #if defined(unix) || defined(__arm__) || defined(__arc__) || defined(ESP8266) || defined(ESP_PLATFORM)
+#ifndef U8G2_USE_LARGE_FONTS
 #define U8G2_USE_LARGE_FONTS
+#endif 
 #endif
 
 /*==========================================*/
@@ -1428,6 +1430,81 @@ extern const uint8_t u8g2_font_t0_22b_mf[] U8G2_FONT_SECTION("u8g2_font_t0_22b_m
 extern const uint8_t u8g2_font_t0_22b_mr[] U8G2_FONT_SECTION("u8g2_font_t0_22b_mr");
 extern const uint8_t u8g2_font_t0_22b_mn[] U8G2_FONT_SECTION("u8g2_font_t0_22b_mn");
 extern const uint8_t u8g2_font_t0_22b_me[] U8G2_FONT_SECTION("u8g2_font_t0_22b_me");
+extern const uint8_t u8g2_font_open_iconic_all_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_all_1x_t");
+extern const uint8_t u8g2_font_open_iconic_app_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_app_1x_t");
+extern const uint8_t u8g2_font_open_iconic_arrow_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_1x_t");
+extern const uint8_t u8g2_font_open_iconic_check_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_check_1x_t");
+extern const uint8_t u8g2_font_open_iconic_email_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_email_1x_t");
+extern const uint8_t u8g2_font_open_iconic_embedded_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_1x_t");
+extern const uint8_t u8g2_font_open_iconic_gui_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_gui_1x_t");
+extern const uint8_t u8g2_font_open_iconic_human_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_human_1x_t");
+extern const uint8_t u8g2_font_open_iconic_mime_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_mime_1x_t");
+extern const uint8_t u8g2_font_open_iconic_other_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_other_1x_t");
+extern const uint8_t u8g2_font_open_iconic_play_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_play_1x_t");
+extern const uint8_t u8g2_font_open_iconic_text_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_text_1x_t");
+extern const uint8_t u8g2_font_open_iconic_thing_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_thing_1x_t");
+extern const uint8_t u8g2_font_open_iconic_weather_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_weather_1x_t");
+extern const uint8_t u8g2_font_open_iconic_www_1x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_www_1x_t");
+extern const uint8_t u8g2_font_open_iconic_all_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_all_2x_t");
+extern const uint8_t u8g2_font_open_iconic_app_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_app_2x_t");
+extern const uint8_t u8g2_font_open_iconic_arrow_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_2x_t");
+extern const uint8_t u8g2_font_open_iconic_check_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_check_2x_t");
+extern const uint8_t u8g2_font_open_iconic_email_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_email_2x_t");
+extern const uint8_t u8g2_font_open_iconic_embedded_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_2x_t");
+extern const uint8_t u8g2_font_open_iconic_gui_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_gui_2x_t");
+extern const uint8_t u8g2_font_open_iconic_human_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_human_2x_t");
+extern const uint8_t u8g2_font_open_iconic_mime_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_mime_2x_t");
+extern const uint8_t u8g2_font_open_iconic_other_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_other_2x_t");
+extern const uint8_t u8g2_font_open_iconic_play_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_play_2x_t");
+extern const uint8_t u8g2_font_open_iconic_text_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_text_2x_t");
+extern const uint8_t u8g2_font_open_iconic_thing_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_thing_2x_t");
+extern const uint8_t u8g2_font_open_iconic_weather_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_weather_2x_t");
+extern const uint8_t u8g2_font_open_iconic_www_2x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_www_2x_t");
+extern const uint8_t u8g2_font_open_iconic_all_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_all_4x_t");
+extern const uint8_t u8g2_font_open_iconic_app_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_app_4x_t");
+extern const uint8_t u8g2_font_open_iconic_arrow_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_4x_t");
+extern const uint8_t u8g2_font_open_iconic_check_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_check_4x_t");
+extern const uint8_t u8g2_font_open_iconic_email_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_email_4x_t");
+extern const uint8_t u8g2_font_open_iconic_embedded_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_4x_t");
+extern const uint8_t u8g2_font_open_iconic_gui_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_gui_4x_t");
+extern const uint8_t u8g2_font_open_iconic_human_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_human_4x_t");
+extern const uint8_t u8g2_font_open_iconic_mime_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_mime_4x_t");
+extern const uint8_t u8g2_font_open_iconic_other_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_other_4x_t");
+extern const uint8_t u8g2_font_open_iconic_play_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_play_4x_t");
+extern const uint8_t u8g2_font_open_iconic_text_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_text_4x_t");
+extern const uint8_t u8g2_font_open_iconic_thing_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_thing_4x_t");
+extern const uint8_t u8g2_font_open_iconic_weather_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_weather_4x_t");
+extern const uint8_t u8g2_font_open_iconic_www_4x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_www_4x_t");
+extern const uint8_t u8g2_font_open_iconic_all_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_all_6x_t");
+extern const uint8_t u8g2_font_open_iconic_app_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_app_6x_t");
+extern const uint8_t u8g2_font_open_iconic_arrow_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_6x_t");
+extern const uint8_t u8g2_font_open_iconic_check_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_check_6x_t");
+extern const uint8_t u8g2_font_open_iconic_email_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_email_6x_t");
+extern const uint8_t u8g2_font_open_iconic_embedded_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_6x_t");
+extern const uint8_t u8g2_font_open_iconic_gui_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_gui_6x_t");
+extern const uint8_t u8g2_font_open_iconic_human_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_human_6x_t");
+extern const uint8_t u8g2_font_open_iconic_mime_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_mime_6x_t");
+extern const uint8_t u8g2_font_open_iconic_other_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_other_6x_t");
+extern const uint8_t u8g2_font_open_iconic_play_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_play_6x_t");
+extern const uint8_t u8g2_font_open_iconic_text_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_text_6x_t");
+extern const uint8_t u8g2_font_open_iconic_thing_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_thing_6x_t");
+extern const uint8_t u8g2_font_open_iconic_weather_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_weather_6x_t");
+extern const uint8_t u8g2_font_open_iconic_www_6x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_www_6x_t");
+extern const uint8_t u8g2_font_open_iconic_all_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_all_8x_t");
+extern const uint8_t u8g2_font_open_iconic_app_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_app_8x_t");
+extern const uint8_t u8g2_font_open_iconic_arrow_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_8x_t");
+extern const uint8_t u8g2_font_open_iconic_check_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_check_8x_t");
+extern const uint8_t u8g2_font_open_iconic_email_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_email_8x_t");
+extern const uint8_t u8g2_font_open_iconic_embedded_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_8x_t");
+extern const uint8_t u8g2_font_open_iconic_gui_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_gui_8x_t");
+extern const uint8_t u8g2_font_open_iconic_human_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_human_8x_t");
+extern const uint8_t u8g2_font_open_iconic_mime_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_mime_8x_t");
+extern const uint8_t u8g2_font_open_iconic_other_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_other_8x_t");
+extern const uint8_t u8g2_font_open_iconic_play_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_play_8x_t");
+extern const uint8_t u8g2_font_open_iconic_text_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_text_8x_t");
+extern const uint8_t u8g2_font_open_iconic_thing_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_thing_8x_t");
+extern const uint8_t u8g2_font_open_iconic_weather_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_weather_8x_t");
+extern const uint8_t u8g2_font_open_iconic_www_8x_t[] U8G2_FONT_SECTION("u8g2_font_open_iconic_www_8x_t");
 extern const uint8_t u8g2_font_profont10_tf[] U8G2_FONT_SECTION("u8g2_font_profont10_tf");
 extern const uint8_t u8g2_font_profont10_tr[] U8G2_FONT_SECTION("u8g2_font_profont10_tr");
 extern const uint8_t u8g2_font_profont10_tn[] U8G2_FONT_SECTION("u8g2_font_profont10_tn");

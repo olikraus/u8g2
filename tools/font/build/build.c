@@ -175,6 +175,7 @@ struct groupinfo gi[] = {
   { "UW ttyp0", 	"fntgrpttyp0", 		"../../../../u8g2.wiki/fntgrpttyp0.md", 		"fntgrpttyp0.pre" }, 		/* 19 */
   { "Siji Icon Font", 	"fntgrpsiji", 		"../../../../u8g2.wiki/fntgrpsiji.md", 		"fntgrpsiji.pre" }, 		/* 20 */
   { "Wqy (Chinese Font)", 	"fntgrpwqy", 		"../../../../u8g2.wiki/fntgrpwqy.md", 		"fntgrpwqy.pre" }, 		/* 21 */  
+  { "Open Iconic", 	"fntgrpiconic", 		"../../../../u8g2.wiki/fntgrpiconic.md", 		"fntgrpiconic.pre" }, 		/* 22 */  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -300,6 +301,89 @@ Greek Extended	1F00–1FFF
   { 0, "t0-22-uni.bdf", 		"t0_22", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0, "t0-22b-uni.bdf", 		"t0_22b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
+  
+  { 0, "open_iconic_all_1x.bdf", "open_iconic_all_1x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0, "open_iconic_app_1x.bdf", "open_iconic_app_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_arrow_1x.bdf", "open_iconic_arrow_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_check_1x.bdf", "open_iconic_check_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_email_1x.bdf", "open_iconic_email_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_embedded_1x.bdf", "open_iconic_embedded_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_gui_1x.bdf", "open_iconic_gui_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_human_1x.bdf", "open_iconic_human_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_mime_1x.bdf", "open_iconic_mime_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_other_1x.bdf", "open_iconic_other_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_play_1x.bdf", "open_iconic_play_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_text_1x.bdf", "open_iconic_text_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_thing_1x.bdf", "open_iconic_thing_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_weather_1x.bdf", "open_iconic_weather_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_www_1x.bdf", "open_iconic_www_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+
+  
+  { 0, "open_iconic_all_2x.bdf", "open_iconic_all_2x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0, "open_iconic_app_2x.bdf", "open_iconic_app_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_arrow_2x.bdf", "open_iconic_arrow_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_check_2x.bdf", "open_iconic_check_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_email_2x.bdf", "open_iconic_email_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_embedded_2x.bdf", "open_iconic_embedded_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_gui_2x.bdf", "open_iconic_gui_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_human_2x.bdf", "open_iconic_human_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_mime_2x.bdf", "open_iconic_mime_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_other_2x.bdf", "open_iconic_other_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_play_2x.bdf", "open_iconic_play_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_text_2x.bdf", "open_iconic_text_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_thing_2x.bdf", "open_iconic_thing_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_weather_2x.bdf", "open_iconic_weather_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_www_2x.bdf", "open_iconic_www_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },  
+  
+  { 0, "open_iconic_all_4x.bdf", "open_iconic_all_4x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0, "open_iconic_app_4x.bdf", "open_iconic_app_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_arrow_4x.bdf", "open_iconic_arrow_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_check_4x.bdf", "open_iconic_check_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_email_4x.bdf", "open_iconic_email_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_embedded_4x.bdf", "open_iconic_embedded_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_gui_4x.bdf", "open_iconic_gui_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_human_4x.bdf", "open_iconic_human_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_mime_4x.bdf", "open_iconic_mime_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_other_4x.bdf", "open_iconic_other_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_play_4x.bdf", "open_iconic_play_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_text_4x.bdf", "open_iconic_text_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_thing_4x.bdf", "open_iconic_thing_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_weather_4x.bdf", "open_iconic_weather_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_www_4x.bdf", "open_iconic_www_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+
+
+  { 0, "open_iconic_all_6x.bdf", "open_iconic_all_6x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0, "open_iconic_app_6x.bdf", "open_iconic_app_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_arrow_6x.bdf", "open_iconic_arrow_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_check_6x.bdf", "open_iconic_check_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_email_6x.bdf", "open_iconic_email_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_embedded_6x.bdf", "open_iconic_embedded_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_gui_6x.bdf", "open_iconic_gui_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_human_6x.bdf", "open_iconic_human_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_mime_6x.bdf", "open_iconic_mime_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_other_6x.bdf", "open_iconic_other_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_play_6x.bdf", "open_iconic_play_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_text_6x.bdf", "open_iconic_text_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_thing_6x.bdf", "open_iconic_thing_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_weather_6x.bdf", "open_iconic_weather_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_www_6x.bdf", "open_iconic_www_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+
+  { 0, "open_iconic_all_8x.bdf", "open_iconic_all_8x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0, "open_iconic_app_8x.bdf", "open_iconic_app_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_arrow_8x.bdf", "open_iconic_arrow_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_check_8x.bdf", "open_iconic_check_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_email_8x.bdf", "open_iconic_email_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_embedded_8x.bdf", "open_iconic_embedded_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_gui_8x.bdf", "open_iconic_gui_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_human_8x.bdf", "open_iconic_human_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_mime_8x.bdf", "open_iconic_mime_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_other_8x.bdf", "open_iconic_other_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_play_8x.bdf", "open_iconic_play_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_text_8x.bdf", "open_iconic_text_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_thing_8x.bdf", "open_iconic_thing_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_weather_8x.bdf", "open_iconic_weather_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0, "open_iconic_www_8x.bdf", "open_iconic_www_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  
   
   { 0, "profont10.bdf", 		"profont10", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont11.bdf", 		"profont11", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
