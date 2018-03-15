@@ -15,6 +15,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Weather
+cp ../../../sys/arduino/u8g2_page_buffer/Weather/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Weather/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/Chinese
 cp ../../../sys/arduino/u8g2_page_buffer/Chinese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Chinese/.
 
