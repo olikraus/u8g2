@@ -3,7 +3,8 @@
   Wather.ino
   
   Show weather icons from open-iconic set.
-  This example requires display height >= 64
+  Plus demo for text scrolling.
+  This example requires display height >= 64.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -248,7 +249,11 @@ void drawWeather(uint8_t symbol, int degree)
   u8g2.print("°C");		// requires enableUTF8Print()
 }
 
-
+/*
+  Draw a string with specified pixel offset. 
+  The offset can be negative.
+  Limitation: The monochrome font with 8 pixel per glyph
+*/
 void drawScrollString(int16_t offset, const char *s)
 {
   static char buf[36];	// should for screen with up to 256 pixel width 

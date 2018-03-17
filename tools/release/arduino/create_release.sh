@@ -95,6 +95,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_
 
 # full buffer
 
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/Weather
+cp ../../../sys/arduino/u8g2_full_buffer/Weather/*.ino ../../../../U8g2_Arduino/examples/full_buffer/Weather/.
+
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld/.
 
