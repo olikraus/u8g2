@@ -121,9 +121,9 @@ class U8G2 : public Print
       u8g2_SetDisplayRotation(&u8g2, u8g2_cb); }
 
     
-    void begin(void) {
+    bool begin(void) {
       /* note: call to u8x8_utf8_init is not required here, this is done in the setup procedures before */
-      initDisplay(); clearDisplay(); setPowerSave(0); }
+      initDisplay(); clearDisplay(); setPowerSave(0); return 1;}
 
     void beginSimple(void) {
       /* does not clear the display and does not wake up the display */
@@ -132,14 +132,14 @@ class U8G2 : public Print
       
 #ifdef U8X8_USE_PINS 
     /* use U8X8_PIN_NONE if a pin is not required */
-    void begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
+    bool begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
       setMenuSelectPin(menu_select_pin);
       setMenuNextPin(menu_next_pin);
       setMenuPrevPin(menu_prev_pin);
       setMenuUpPin(menu_up_pin);
       setMenuDownPin(menu_down_pin);
       setMenuHomePin(menu_home_pin);
-      begin(); }
+      return begin(); }
 #endif
 
     /* u8g2  */
