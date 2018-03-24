@@ -15,6 +15,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/IconMenu
+cp ../../../sys/arduino/u8g2_page_buffer/IconMenu/*.ino ../../../../U8g2_Arduino/examples/page_buffer/IconMenu/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/Weather
 cp ../../../sys/arduino/u8g2_page_buffer/Weather/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Weather/.
 
@@ -94,6 +97,9 @@ mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
 
 # full buffer
+
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/IconMenu
+cp ../../../sys/arduino/u8g2_full_buffer/IconMenu/*.ino ../../../../U8g2_Arduino/examples/full_buffer/IconMenu/.
 
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/Weather
 cp ../../../sys/arduino/u8g2_full_buffer/Weather/*.ino ../../../../U8g2_Arduino/examples/full_buffer/Weather/.

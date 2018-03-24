@@ -347,9 +347,9 @@ void loop(void) {
     draw(&current_state);  
     u8g2.setFont(u8g2_font_helvB10_tr);  
     u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
-    u8g2.print(menu_entry_list[destination_state.position].name);
-    
+    u8g2.print(menu_entry_list[destination_state.position].name);    
     u8g2.sendBuffer();
+    delay(10);
     event = u8g2.getMenuEvent();
     if ( event == U8X8_MSG_GPIO_MENU_NEXT )
       to_right(&destination_state);
