@@ -230,6 +230,9 @@ class U8X8 : public Print
     void draw2x2Glyph(uint8_t x, uint8_t y, uint8_t encoding) {
       u8x8_Draw2x2Glyph(&u8x8, x, y, encoding); }
 
+    void draw1x2Glyph(uint8_t x, uint8_t y, uint8_t encoding) {
+      u8x8_Draw1x2Glyph(&u8x8, x, y, encoding); }
+
     void drawString(uint8_t x, uint8_t y, const char *s) {
       u8x8_DrawString(&u8x8, x, y, s); }
       
@@ -238,9 +241,15 @@ class U8X8 : public Print
 
     void draw2x2String(uint8_t x, uint8_t y, const char *s) {
       u8x8_Draw2x2String(&u8x8, x, y, s); }
+
+    void draw1x2String(uint8_t x, uint8_t y, const char *s) {
+      u8x8_Draw1x2String(&u8x8, x, y, s); }
       
     void draw2x2UTF8(uint8_t x, uint8_t y, const char *s) {
       u8x8_Draw2x2UTF8(&u8x8, x, y, s); }
+
+    void draw1x2UTF8(uint8_t x, uint8_t y, const char *s) {
+      u8x8_Draw1x2UTF8(&u8x8, x, y, s); }
       
     uint8_t getUTF8Len(const char *s) {
       return u8x8_GetUTF8Len(&u8x8, s); }
