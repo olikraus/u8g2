@@ -155,7 +155,7 @@
 //U8G2_ST75256_JLX256128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Enable U8g2 16 bit mode for this display
 //U8G2_ST75256_JLX256128_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// Enable U8g2 16 bit mode for this display
 //U8G2_ST75256_JLX256128_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 9, /* data=*/ 8, /* cs=*/ 7, /* dc=*/ 6, /* reset=*/ 5);  // MKR Zero, Enable U8g2 16 bit mode for this display
-//U8G2_ST75256_JLX256128_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 6, /* reset=*/ 5);  // MKR Zero, Enable U8g2 16 bit mode for this display
+U8G2_ST75256_JLX256128_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 6, /* reset=*/ 5);  // MKR Zero, Enable U8g2 16 bit mode for this display
 //U8G2_ST75256_JLX25664_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/ 8);	// Due, 2nd I2C, enable U8g2 16 bit mode for this display
 //U8G2_NT7534_TG12864R_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_NT7534_TG12864R_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);  
@@ -206,7 +206,7 @@ void setup(void) {
   u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_home_pin= */ 8);
 
   // MKR Zero Test Board
-  // u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A6); 
+  u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A6); 
 
   // Arduboy
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
@@ -251,6 +251,15 @@ struct menu_entry_type menu_entry_list[] =
   { NULL, 0, NULL } 
 };
 
+int8_t button_event = 0;		// set this to 0, once the event has been processed
+
+void check_button_event(void)
+{
+  if ( button_event == 0 )
+    button_event = u8g2.getMenuEvent();
+}
+
+
 void draw(struct menu_state *state)
 {
   int16_t x;
@@ -266,10 +275,12 @@ void draw(struct menu_state *state)
     }
     i++;
     x += ICON_WIDTH + ICON_GAP;
+    check_button_event();
   }
   u8g2.drawFrame(state->frame_position-1, ICON_Y-ICON_HEIGHT-1, ICON_WIDTH+2, ICON_WIDTH+2);
   u8g2.drawFrame(state->frame_position-2, ICON_Y-ICON_HEIGHT-2, ICON_WIDTH+4, ICON_WIDTH+4);
   u8g2.drawFrame(state->frame_position-3, ICON_Y-ICON_HEIGHT-3, ICON_WIDTH+6, ICON_WIDTH+6);
+  check_button_event();
 }
 
 
@@ -343,11 +354,8 @@ struct menu_state current_state = { ICON_BGAP, ICON_BGAP, 0 };
 struct menu_state destination_state = { ICON_BGAP, ICON_BGAP, 0 };
 
 void loop(void) {
-  int8_t event = 0;
-
   do
   {
-    event = 0;
     u8g2.firstPage();
     do
     {
@@ -355,18 +363,19 @@ void loop(void) {
       u8g2.setFont(u8g2_font_helvB10_tr);  
       u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
       u8g2.print(menu_entry_list[destination_state.position].name);
-      if ( event == 0 )
-	event = u8g2.getMenuEvent();
+      check_button_event();
       delay(10);
     } while( u8g2.nextPage() );
-    if ( event == U8X8_MSG_GPIO_MENU_NEXT )
+    if ( button_event == U8X8_MSG_GPIO_MENU_NEXT )
       to_right(&destination_state);
-    if ( event == U8X8_MSG_GPIO_MENU_PREV )
+    if ( button_event == U8X8_MSG_GPIO_MENU_PREV )
       to_left(&destination_state);
-    if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+    if ( button_event == U8X8_MSG_GPIO_MENU_SELECT )
     {
       u8g2.setFont(u8g2_font_helvB10_tr);  
       u8g2.userInterfaceMessage("Selection:", menu_entry_list[destination_state.position].name, "", " Ok ");
     }
+    if ( button_event > 0 )	// all known events are processed, clear event
+      button_event = 0;
   } while ( towards(&current_state, &destination_state) );
 }
