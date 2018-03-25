@@ -143,7 +143,7 @@ struct menu_state
 
 struct menu_entry_type menu_entry_list[] =
 {
-  { u8g2_font_open_iconic_embedded_8x_t, 65, "Clock Setup"},
+  { u8g2_font_open_iconic_other_8x_t, 66, "Weichen-Test"},
   { u8g2_font_open_iconic_embedded_8x_t, 66, "Gear Game"},
   { u8g2_font_open_iconic_embedded_8x_t, 67, "Flash Light"},
   { u8g2_font_open_iconic_embedded_8x_t, 68, "Home"},
@@ -290,30 +290,87 @@ uint16_t main_menu(void)
 
 /*================================================================================*/
 
+int8_t track_bold1_idx = -1;
+int8_t track_bold2_idx = -1;
+int8_t track_switch[4] = { 0, 0, 0, 0 };
+int16_t track_switch_x[4][2] = { {  85, 85 },   { 9, 19 }, {   58,   58 }, { 105, 105 } };
+int16_t track_switch_y[4][2] = { {    0,  16 }, { 55, 55 }, { 104, 114 }, { 114, 123 } };
+
 void show_tracks(void)
 {
   int i;
+  int16_t x, y;
   u8g2.firstPage();
   do
   {
     u8g2.setFont(track_font);  
     for( i = 0; i < 6; i++ )
     {
-      u8g2.drawGlyph(0,128, 'A'+i);
+      if ( i ==  track_bold1_idx || i ==  track_bold2_idx )
+      {
+	u8g2.drawGlyph(0,128, 'A'+i);
+      }
+      else
+      {
+	u8g2.drawGlyph(0,128, 'A'+6+i);
+      }
     }
     
+    check_button_event();
+    for( i = 0; i < 4; i++ )
+    {      
+      x = track_switch_x[i][track_switch[i]];
+      y = track_switch_y[i][track_switch[i]];
+      u8g2.setDrawColor(0);
+      u8g2.drawBox(x, y, 6, 6);
+      
+      u8g2.setDrawColor(1);
+      u8g2.drawBox(x+1, y+1, 4, 4);      
+    }
+
+    /*
+    for( i = 0; i < 4; i++ )
+    {      
+      x = track_switch_x[i][1];
+      y = track_switch_y[i][1];
+      u8g2.setDrawColor(0);
+      u8g2.drawBox(x, y, 6, 6);
+      
+      u8g2.setDrawColor(1);
+      u8g2.drawBox(x+1, y+1, 4, 4);      
+    }
+    */
+
+    
+    check_button_event();
   } while( u8g2.nextPage() );
   
-  while( u8g2.getMenuEvent() == 0 )
-    ;
+}
+
+void track_switch_test(void)
+{
+  track_bold1_idx = -1;
+  track_bold2_idx = -1;
+  for(;;)
+  {
+      show_tracks();
+      if ( button_event == U8X8_MSG_GPIO_MENU_NEXT )
+	track_switch[3] ^=1;
+      if ( button_event == U8X8_MSG_GPIO_MENU_PREV )
+	track_switch[1] ^=1;
+      if ( button_event == U8X8_MSG_GPIO_MENU_UP )
+	track_switch[0] ^=1;
+      if ( button_event == U8X8_MSG_GPIO_MENU_DOWN )
+	track_switch[2] ^=1;
+      button_event = 0;
+  }
 }
 
 void loop(void)
 {
   uint16_t pos;
   pos = main_menu();
-  show_tracks();
-  //u8g2.setFont(u8g2_font_helvB18_tr);  
-  //u8g2.userInterfaceMessage("Selection:", menu_entry_list[pos].name, "", " Ok ");
+
+  track_switch_test();
 }
 
