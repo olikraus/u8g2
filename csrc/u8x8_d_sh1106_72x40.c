@@ -99,7 +99,7 @@ static const uint8_t u8x8_d_sh1106_72x40_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),				/* segment remap a0/a1*/
   U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
-  U8X8_CA(0x0d3, 24),		/* What is the correct offset in flip 1 mode?  */
+  U8X8_CA(0x0d3, 52),		/* What is the correct offset in flip 1 mode?  --> Issue 547 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
