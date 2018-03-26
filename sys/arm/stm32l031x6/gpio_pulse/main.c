@@ -22,6 +22,7 @@ uint8_t gpio_queue_mem[GPIO_QUEUE_MAX];
 uint8_t gpio_queue_start = 0;
 uint8_t gpio_queue_end = 0;
 
+/* this is called from the I2C interrupt procedures */
 void addCmdToGPIOQueue(uint8_t n)
 {
   uint8_t pos;
@@ -30,8 +31,8 @@ void addCmdToGPIOQueue(uint8_t n)
   if ( pos >= GPIO_QUEUE_MAX )
     pos = 0;
   if ( pos == gpio_queue_start )
-    return;
-  gpio_queue_mem[pos] = n;
+    return;		// queue  overflow
+  gpio_queue_mem[gpio_queue_end] = n;
   gpio_queue_end = pos;
 }
 
@@ -42,6 +43,7 @@ uint8_t isGPIOQueueEmpty(void)
   return 0;
 }
 
+/* get the next command in the queue, return 255 if the queue is empty */
 uint8_t getCmdFromGPIOQueue(void)
 {
   uint8_t r = gpio_queue_mem[gpio_queue_start];
@@ -117,12 +119,14 @@ void gpioNextState(void)
 
 uint8_t gpioStartStateMachine(uint8_t gpio_number)
 {
-  /* first, set the gpio number */
-  gpio_state_machine_output_number = gpio_number;
-  /* then try to enable the state machine */
+  /* can we enable the state machine? */
   if ( gpio_state != GPIO_STATE_IDLE )
     return 0;	/* not idle, can not start */
+  /* set the gpio number */
+  __disable_irq();
+  gpio_state_machine_output_number = gpio_number;
   gpio_state = GPIO_STATE_TURN_ON;
+  __enable_irq();
   return 1;
 }
 
@@ -135,8 +139,10 @@ void processQueue(void)
   cmd = getCmdFromGPIOQueue();
   if ( cmd < 255 )
   {
+    /* try to start the state machine */
     if ( gpioStartStateMachine(cmd) != 0 )
     {
+      /* success, remove the cmd from the queue */
       removeCmdFromGPIOQueue();
     }
   }
@@ -520,6 +526,7 @@ void setGPIO( uint8_t n )
 
 int main()
 {
+  uint8_t i;
   initGPIO();
   
   setHSIClock();
@@ -530,13 +537,37 @@ int main()
   SysTick->VAL = 0;
   SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */
   
+  for( i = 0; i < 4; i++ )
+    addCmdToGPIOQueue(i);
+  
+  if ( gpio_queue_mem[0] != 0 )
+    for(;;)
+      ;
+
+  if ( gpio_queue_mem[1] != 1 )
+    for(;;)
+      ;
+
+  if ( gpio_queue_mem[2] != 2 )
+    for(;;)
+      ;
+
+  if ( gpio_queue_mem[3] != 3 )
+    for(;;)
+      ;
+  
+  if ( gpio_queue_start != 0 )
+    for(;;)
+      ;
     
-  addCmdToGPIOQueue(0);
-  addCmdToGPIOQueue(0);
-  addCmdToGPIOQueue(1);
-  addCmdToGPIOQueue(1);
-  addCmdToGPIOQueue(2);
-  addCmdToGPIOQueue(2);
+  if ( gpio_queue_end != 4 )
+    for(;;)
+      ;
+  
+  if ( getCmdFromGPIOQueue() != 0 )
+    for(;;)
+      ;
+    
   
   for(;;)
   {
