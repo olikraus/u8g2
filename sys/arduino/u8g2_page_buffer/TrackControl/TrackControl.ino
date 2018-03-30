@@ -35,6 +35,8 @@
 
 #include <Arduino.h>
 #include <U8g2lib.h>
+#include <string.h>
+#include <stdarg.h>
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -42,6 +44,9 @@
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
+
+#define MENU_FONT u8g2_font_helvB18_tr
+
 
 /*
   158*128
@@ -103,19 +108,115 @@ const uint8_t track_font[1646] U8G2_FONT_SECTION("track_font") =
   "j*\246r\242h\251\6\23\0\0\0\0";
 
 
+/*================================================================================*/
+
 U8G2_ST75256_JLX256128_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 6, /* reset=*/ 5);  // MKR Zero, Enable U8g2 16 bit mode for this display
+
+
+
+/*================================================================================*/
+
+uint8_t test_i2c_address(uint8_t adr)
+{
+  Wire.beginTransmission(adr);
+  return Wire.endTransmission(false);
+}
+
+void system_test(void)
+{
+  u8x8_SetFont(u8g2.getU8x8(), u8x8_font_amstrad_cpc_extended_r);
+  u8x8_Draw1x2String(u8g2.getU8x8(), 0, 0, "Oli's Spur N Controller (2018)");
+  u8x8_DrawString(u8g2.getU8x8(), 0, 3, "Teste I2C Weichen...");
+  if ( test_i2c_address(17) == 0 )
+    u8x8_DrawString(u8g2.getU8x8(), 26, 3, "Ok");
+  else
+    u8x8_DrawString(u8g2.getU8x8(), 26, 3, "Fehler");
+    
+  u8x8_DrawString(u8g2.getU8x8(), 0, 4, "Teste I2C Motortreiber...");
+  if ( test_i2c_address(40) == 0 )
+    u8x8_DrawString(u8g2.getU8x8(), 26, 4, "Ok");
+  else
+    u8x8_DrawString(u8g2.getU8x8(), 26, 4, "Fehler");
+   
+  /* wait for keypress */
+  while( u8g2.getMenuEvent() == 0 )
+    ;
+
+  
+}
+
 
 
 
 void setup(void) {
   
   // MKR Zero Test Board
-  u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A5); 
+  u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A6); 
 
   u8g2.setFontMode(1);
   
   Wire.begin();
+  
+  system_test();
 }
+
+/*================================================================================*/
+
+#define LOG_BUF_LINES 7
+#define LOG_BUF_LINE_LEN 32
+#define LOG_FONT u8g2_font_lucasfont_alternate_tr
+#define LOG_FONT_LH 9
+
+char log_buf[LOG_BUF_LINES][LOG_BUF_LINE_LEN];
+uint8_t log_end = 0;
+
+  //u8g2_font_u8glib_4_tr
+
+void draw_log(void)
+{
+  uint8_t i;
+  u8g2.setFont(LOG_FONT);
+  
+  for( i = 0; i < LOG_BUF_LINES; i++ )
+  {
+    u8g2.drawStr(160, 64+i*LOG_FONT_LH, log_buf[i]);
+  }
+}
+
+void scroll_log(void)
+{
+  uint8_t i;
+  for( i = 1; i < LOG_BUF_LINES; i++ )
+  {
+    strcpy(log_buf[i-1], log_buf[i]);
+  }
+  log_buf[LOG_BUF_LINES-1][0] = '\0';
+}
+
+void log_line(const char *fmt, ...)
+{
+  va_list va;
+  
+  va_start(va, fmt);
+  vsnprintf(log_buf[log_end], LOG_BUF_LINE_LEN, fmt, va);
+  log_buf[log_end][LOG_BUF_LINE_LEN-1] = '\0';
+  va_end(va);
+  
+  if ( log_end < LOG_BUF_LINES-1 )
+  {
+    log_end++;
+  }
+  else
+  {
+    scroll_log();
+    
+  }
+}
+
+
+
+
+/*================================================================================*/
 
 struct menu_entry_type
 {
@@ -146,8 +247,8 @@ struct menu_state
 struct menu_entry_type menu_entry_list[] =
 {
   { u8g2_font_open_iconic_other_8x_t, 66, "Weichen-Test"},
+  { u8g2_font_open_iconic_embedded_8x_t, 67, "Motor Test"},
   { u8g2_font_open_iconic_embedded_8x_t, 66, "Gear Game"},
-  { u8g2_font_open_iconic_embedded_8x_t, 67, "Flash Light"},
   { u8g2_font_open_iconic_embedded_8x_t, 68, "Home"},
   { u8g2_font_open_iconic_embedded_8x_t, 72, "Configuration"},
   { NULL, 0, NULL } 
@@ -268,7 +369,7 @@ uint16_t main_menu(void)
       do
       {
 	main_menu_draw(&current_state);  
-	u8g2.setFont(u8g2_font_helvB18_tr);  
+	u8g2.setFont(MENU_FONT);  
 	u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-7);
 	u8g2.print(menu_entry_list[destination_state.position].name);
 	check_button_event();
@@ -301,9 +402,23 @@ int16_t track_switch_y[4][2] = { {    0,  16 }, { 55, 55 }, { 104, 114 }, { 114,
 /* sw=0..3, pos=0..1 */
 void set_swtich(uint8_t sw, uint8_t pos)
 {
+  uint8_t error;
+  sw &= 3;
+  pos &= 1;
   Wire.beginTransmission(17);		// switch controller
-  Wire.write(0);
-  Wire.write(sw*2+pos);
+  error = Wire.endTransmission(false);
+  if ( error == 0 )
+  {
+    Wire.beginTransmission(17);		// switch controller
+    Wire.write(0);
+    Wire.write(sw*2+pos);
+    Wire.endTransmission();
+    log_line("I2C ok %d, sw=%d/%d", error, sw, pos);
+  }
+  else
+  {
+    log_line("I2C err %d, sw=%d/%d", error, sw, pos);
+  }
 }
 
 
@@ -354,6 +469,8 @@ void show_tracks(void)
 
     
     check_button_event();
+    
+    draw_log();
   } while( u8g2.nextPage() );
   
 }
@@ -363,6 +480,7 @@ void track_switch_test(void)
 {
   track_bold1_idx = -1;
   track_bold2_idx = -1;
+  button_event = 0;
   for(;;)
   {
     show_tracks();
@@ -386,7 +504,105 @@ void track_switch_test(void)
       track_switch[2] ^=1;
       set_swtich(2, track_switch[2]);
     }
+    if ( button_event == U8X8_MSG_GPIO_MENU_HOME )
+      return;
     button_event = 0;
+  }
+}
+
+/*================================================================================*/
+
+
+/* sw=0..3, pos=0..1 */
+void set_motor_speed(uint8_t motor, uint8_t speed)
+{
+  uint8_t error;
+  Wire.beginTransmission(40+motor);		// motor controller
+  error = Wire.endTransmission(false);
+  if ( error == 0 )
+  {
+    Wire.beginTransmission(40+motor);		// switch controller
+    Wire.write(0);
+    Wire.write(speed);
+    Wire.endTransmission();
+    log_line("I2C ok %d, m%d/%d", error, motor, speed);
+  }
+  else
+  {
+    log_line("I2C err %d, m%d/%d", error, motor, speed);
+  }
+}
+
+void show_motor_set_speed(uint8_t motor, uint8_t speed)
+{
+  u8g2_uint_t y;
+  u8g2_uint_t o = 18;
+  button_event = 0;
+  u8g2.firstPage();  
+  do
+  {
+    check_button_event();
+    u8g2.setFont(MENU_FONT);
+    u8g2.drawBox(5, 0, 2, 128);
+    u8g2.drawHLine(0, 127-speed/2, 12);    
+    
+    check_button_event();
+    y = (uint8_t)(((uint16_t)(128-o)*(uint16_t)(127-speed/2))>>7);
+    u8g2.setCursor(16, y+o);
+    u8g2.print(speed);
+    check_button_event();
+
+    u8g2.setCursor(70, 20);
+    u8g2.print("Motor: ");
+    u8g2.print(motor);
+
+    draw_log();
+  } while( u8g2.nextPage() );
+  
+}
+
+void motor_speed_test(void)
+{
+  uint8_t speed[6] = { 0, 0, 0, 0, 0, 0 };
+  uint8_t step = 10;
+  uint8_t motor = 0;
+
+  for( motor = 0; motor < 6; motor++)
+    set_motor_speed(motor, speed[motor]);      
+
+  motor = 0;
+  for(;;)
+  {
+    show_motor_set_speed(motor, speed[motor]);
+    if ( button_event == U8X8_MSG_GPIO_MENU_UP )
+    {
+      if ( speed[motor] < 255-step )
+	speed[motor] += step;
+      else
+	speed[motor] = 255;
+      set_motor_speed(motor, speed[motor]);      
+    }
+    if ( button_event == U8X8_MSG_GPIO_MENU_DOWN )
+    {
+      if ( speed[motor] >= step )
+	speed[motor] -=step;
+      else
+	speed[motor] = 0;
+      set_motor_speed(motor, speed[motor]);      
+    }
+    if ( button_event == U8X8_MSG_GPIO_MENU_SELECT )
+    {
+      motor++;
+      if ( motor >= 6 )
+	motor = 0;
+      set_motor_speed(motor, speed[motor]);      
+    }
+    if ( button_event == U8X8_MSG_GPIO_MENU_HOME )
+    {
+      button_event = 0;	
+      return;
+    }
+    button_event = 0;	
   }
 }
 
@@ -397,6 +613,10 @@ void loop(void)
   uint16_t pos;
   pos = main_menu();
 
-  track_switch_test();
+  if ( pos == 0 )
+    track_switch_test();
+  else if ( pos == 1 )
+    motor_speed_test();
+    
 }
 

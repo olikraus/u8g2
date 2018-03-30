@@ -34,7 +34,7 @@ GCCBINPATH:=/usr/bin/
 # Project Information
 
 # The name for the project
-TARGETNAME:=si9986_scope
+TARGETNAME:=drv8871
 
 # The source files of the project
 CSRC:=$(wildcard *.c) 

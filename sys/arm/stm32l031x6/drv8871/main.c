@@ -1067,11 +1067,216 @@ void __attribute__ ((interrupt, used)) TIM22_IRQHandler(void)
   TIM22->SR &= ~TIM_SR_UIF;			/* clear interrupt */
 }
 
+/*=======================================================================*/
+/* I2C */
+
+volatile unsigned char i2c_mem[256];     /* contains data, which read or written */
+volatile unsigned char i2c_idx;                  /* the current index into i2c_mem */
+volatile unsigned char i2c_is_write_idx;                  /* write state */
+
+volatile uint16_t i2c_total_irq_cnt;
+volatile uint16_t i2c_TXIS_cnt;
+volatile uint16_t i2c_RXNE_cnt;
+
+
+void i2c_mem_reset_write(void)
+{
+  i2c_is_write_idx = 1;  
+}
+
+void i2c_mem_init(void)
+{
+  i2c_idx = 0;
+  i2c_mem_reset_write();
+}
+
+void i2c_mem_set_index(unsigned char value)
+{
+  i2c_idx = value;
+  i2c_is_write_idx = 0;
+}
+
+void i2c_mem_write_via_index(unsigned char value)
+{
+  if ( i2c_idx == 0 )
+  {
+    /* additionall put this byte into the queue */
+    //addCmdToGPIOQueue(value);
+  }
+  i2c_mem[i2c_idx++] = value;
+}
+
+unsigned char i2c_mem_read(void)
+{
+  i2c_mem_reset_write();
+  i2c_idx++;
+  return i2c_mem[i2c_idx];
+}
+
+void i2c_mem_write(unsigned char value)
+{
+  if ( i2c_is_write_idx != 0 )
+  {
+    i2c_mem_set_index(value);
+  }
+  else
+  {
+    i2c_is_write_idx = 0;
+    i2c_mem_write_via_index(value);
+  }
+}
+
+
+
+/* address: I2C address multiplied by 2 */
+/* Pins PA9 (SCL) and PA10 (SDA) */
+void i2c_hw_init(unsigned char address)
+{
+  RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;		/* Enable clock for I2C */
+  RCC->IOPENR |= RCC_IOPENR_IOPAEN;		/* Enable clock for GPIO Port A */
+  
+    __NOP();                                                          /* extra delay for clock stabilization required? */
+    __NOP();
+
+
+  /* configure io */
+  GPIOA->MODER &= ~GPIO_MODER_MODE9;	/* clear mode for PA9 */  
+  GPIOA->MODER |= GPIO_MODER_MODE9_1;  /* alt fn */
+  GPIOA->OTYPER |= GPIO_OTYPER_OT_9;    /* open drain */
+  GPIOA->AFR[1] &= ~(15<<4);            /* Clear Alternate Function PA9 */
+  GPIOA->AFR[1] |= 1<<4;                   /* I2C Alternate Function PA9 */
+  
+  GPIOA->MODER &= ~GPIO_MODER_MODE10;	/* clear mode for PA10 */  
+  GPIOA->MODER |= GPIO_MODER_MODE10_1;  /* alt fn */
+  GPIOA->OTYPER |= GPIO_OTYPER_OT_10;    /* open drain */
+  GPIOA->AFR[1] &= ~(15<<8);            /* Clear Alternate Function PA10 */
+  GPIOA->AFR[1] |= 1<<8;            /* I2C Alternate Function PA10 */
+  
+  
+  RCC->CCIPR &= ~RCC_CCIPR_I2C1SEL;                      /* write 00 to the I2C clk selection register */
+  RCC->CCIPR |= RCC_CCIPR_I2C1SEL_0;                      /* select system clock (01) */
+  
+  /* I2C init flow chart: Clear PE bit */
+  
+  I2C1->CR1 &= ~I2C_CR1_PE;             
+  
+  /* I2C init flow chart: Configure filter */
+  
+  /* leave at defaults */
+
+  /* I2C init flow chart: Configure timing */
+  /*
+    standard mode 100kHz configuration
+    SYSCLK = I2CCLK = 32 MHz
+    PRESC = 6           bits 28..31
+    SCLL = 0x13         bits 0..7
+    SCLH = 0x0f         bits 8..15
+    SDADEL = 0x02       bits 16..19
+    SCLDEL = 0x04       bits 20..23
+  */
+  I2C1->TIMINGR = 0x60420f13;
+  
+  /* I2C init flow chart: Configure NOSTRECH */
+  
+  I2C1->CR1 |= I2C_CR1_NOSTRETCH;
+
+  /* I2C init flow chart: Enable I2C */
+  
+  I2C1->CR1 |= I2C_CR1_PE;
+
+
+  /* disable OAR1 for reconfiguration */
+  I2C1->OAR1 &= ~I2C_OAR1_OA1EN;
+  
+  I2C1->OAR1 = address;
+  
+  I2C1->OAR1 |= I2C_OAR1_OA1EN;
+
+
+  /* enable interrupts */
+  I2C1->CR1 |= I2C_CR1_STOPIE;
+  I2C1->CR1 |= I2C_CR1_NACKIE;
+  //I2C1->CR1 |= I2C_CR1_ADDRIE;
+  I2C1->CR1 |= I2C_CR1_RXIE;
+  I2C1->CR1 |= I2C_CR1_TXIE;
+  
+  
+
+  /* load first value into TXDR register */
+  I2C1->TXDR = i2c_mem[i2c_idx];
+
+
+  /* enable IRQ in NVIC */
+  NVIC_SetPriority(I2C1_IRQn, 0);
+  NVIC_EnableIRQ(I2C1_IRQn);
+
+
+  
+}
+
+void i2c_init(unsigned char address)
+{
+  i2c_mem_init();
+  i2c_hw_init(address);
+}
+
+
+void __attribute__ ((interrupt, used)) I2C1_IRQHandler(void)
+{
+  unsigned long isr = I2C1->ISR;
+
+  i2c_total_irq_cnt ++;
+  
+  if ( isr & I2C_ISR_TXIS )
+  {
+    i2c_TXIS_cnt++;
+    I2C1->TXDR = i2c_mem_read();
+  }
+  else if ( isr & I2C_ISR_RXNE )
+  {
+    i2c_RXNE_cnt++;
+    i2c_mem_write(I2C1->RXDR);
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+  }
+  else if ( isr & I2C_ISR_STOPF )
+  {
+    I2C1->ICR = I2C_ICR_STOPCF;
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+    i2c_mem_reset_write();
+  }
+  else if ( isr & I2C_ISR_NACKF )
+  {
+    I2C1->ICR = I2C_ICR_NACKCF;
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+    i2c_mem_reset_write();
+  }
+  else if ( isr & I2C_ISR_ADDR )
+  {
+    /* not required, the addr match interrupt is not enabled */
+    I2C1->ICR = I2C_ICR_ADDRCF;
+    I2C1->ISR |= I2C_ISR_TXE;           // allow overwriting the TCDR with new data
+    I2C1->TXDR = i2c_mem[i2c_idx];
+    i2c_mem_reset_write();
+  }
+ 
+  /* if at any time the addr match is set, clear the flag */
+  /* not sure, whether this is required */
+  if ( isr & I2C_ISR_ADDR )
+  {
+    I2C1->ICR = I2C_ICR_ADDRCF;
+  }
+    
+}
+
+
 
 /*=======================================================================*/
 
 
-void main()
+int main()
 {
   uint16_t adc_value;
   uint16_t tim_duty;
@@ -1081,6 +1286,7 @@ void main()
   
   setHSIClock();        /* enable 32 MHz Clock */
   startUp();               /* enable systick irq and several power regions  */
+  i2c_hw_init(40*2);	/* activage I2C, adr = 40 */
   initDisplay();          /* aktivate display */
   initADC();
 
@@ -1195,5 +1401,5 @@ void main()
     u8g2_SendBuffer(&u8g2);
     
   }
-  
+  return 0;
 }
