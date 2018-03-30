@@ -110,9 +110,11 @@ U8G2_ST75256_JLX256128_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 6, /* rese
 void setup(void) {
   
   // MKR Zero Test Board
-  u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A6); 
+  u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A5); 
 
   u8g2.setFontMode(1);
+  
+  Wire.begin();
 }
 
 struct menu_entry_type
@@ -296,6 +298,15 @@ int8_t track_switch[4] = { 0, 0, 0, 0 };
 int16_t track_switch_x[4][2] = { {  85, 85 },   { 9, 19 }, {   58,   58 }, { 105, 105 } };
 int16_t track_switch_y[4][2] = { {    0,  16 }, { 55, 55 }, { 104, 114 }, { 114, 123 } };
 
+/* sw=0..3, pos=0..1 */
+void set_swtich(uint8_t sw, uint8_t pos)
+{
+  Wire.beginTransmission(17);		// switch controller
+  Wire.write(0);
+  Wire.write(sw*2+pos);
+}
+
+
 void show_tracks(void)
 {
   int i;
@@ -347,24 +358,39 @@ void show_tracks(void)
   
 }
 
+
 void track_switch_test(void)
 {
   track_bold1_idx = -1;
   track_bold2_idx = -1;
   for(;;)
   {
-      show_tracks();
-      if ( button_event == U8X8_MSG_GPIO_MENU_NEXT )
-	track_switch[3] ^=1;
-      if ( button_event == U8X8_MSG_GPIO_MENU_PREV )
-	track_switch[1] ^=1;
-      if ( button_event == U8X8_MSG_GPIO_MENU_UP )
-	track_switch[0] ^=1;
-      if ( button_event == U8X8_MSG_GPIO_MENU_DOWN )
-	track_switch[2] ^=1;
-      button_event = 0;
+    show_tracks();
+    if ( button_event == U8X8_MSG_GPIO_MENU_NEXT )
+    {
+      track_switch[3] ^=1;
+      set_swtich(3, track_switch[3]);
+    }
+    if ( button_event == U8X8_MSG_GPIO_MENU_PREV )
+    {
+      track_switch[1] ^=1;
+      set_swtich(1, track_switch[1]);
+    }
+    if ( button_event == U8X8_MSG_GPIO_MENU_UP )
+    {
+      track_switch[0] ^=1;
+      set_swtich(0, track_switch[0]);
+    }
+    if ( button_event == U8X8_MSG_GPIO_MENU_DOWN )
+    {
+      track_switch[2] ^=1;
+      set_swtich(2, track_switch[2]);
+    }
+    button_event = 0;
   }
 }
+
+/*================================================================================*/
 
 void loop(void)
 {
