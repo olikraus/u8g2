@@ -46,6 +46,7 @@
 #endif
 
 #define MENU_FONT u8g2_font_helvB18_tr
+#define SUBMENU_FONT u8g2_font_helvB12_tr
 
 
 /*
@@ -533,11 +534,42 @@ void set_motor_speed(uint8_t motor, uint8_t speed)
   }
 }
 
+uint16_t motor_noise_raw;
+uint16_t motor_noise_filt;
+uint16_t motor_speed_raw;	// lower is faster
+uint16_t motor_speed_filt;	// lower is faster
+
+void read_motor_data(uint8_t motor)
+{
+  uint8_t error;
+  Wire.beginTransmission(40+motor);		// motor controller
+  error = Wire.endTransmission(false);
+  if ( error == 0 )
+  {
+    Wire.beginTransmission(40+motor);		// motor controller
+    Wire.write(1);						// reset to index 0
+    Wire.endTransmission();
+    Wire.requestFrom(40+motor, 9);
+    Wire.read();	// dummy read
+    motor_noise_raw = Wire.read();
+    motor_noise_raw |= (((uint16_t)Wire.read())<<8);
+    motor_noise_filt = Wire.read();
+    motor_noise_filt |= (((uint16_t)Wire.read())<<8);
+    motor_speed_raw = Wire.read();
+    motor_speed_raw |= (((uint16_t)Wire.read())<<8);
+    motor_speed_filt = Wire.read();
+    motor_speed_filt |= (((uint16_t)Wire.read())<<8);
+  }  
+}
+
 void show_motor_set_speed(uint8_t motor, uint8_t speed)
 {
   u8g2_uint_t y;
   u8g2_uint_t o = 18;
   button_event = 0;
+
+  read_motor_data(motor);
+
   u8g2.firstPage();  
   do
   {
@@ -548,13 +580,24 @@ void show_motor_set_speed(uint8_t motor, uint8_t speed)
     
     check_button_event();
     y = (uint8_t)(((uint16_t)(128-o)*(uint16_t)(127-speed/2))>>7);
-    u8g2.setCursor(16, y+o);
+    u8g2.setCursor(14, y+o);
     u8g2.print(speed);
     check_button_event();
 
-    u8g2.setCursor(70, 20);
+    u8g2.setCursor(60, 20);
     u8g2.print("Motor: ");
     u8g2.print(motor);
+
+    u8g2.setFont(SUBMENU_FONT);
+    u8g2.setCursor(60, 50);
+    u8g2.print("Noise: ");
+    u8g2.setCursor(120, 50);
+    u8g2.print(motor_noise_filt);
+
+    u8g2.setCursor(60, 70);
+    u8g2.print("Speed: ");
+    u8g2.setCursor(120, 70);
+    u8g2.print(motor_speed_filt);
 
     draw_log();
   } while( u8g2.nextPage() );
@@ -574,6 +617,7 @@ void motor_speed_test(void)
   for(;;)
   {
     show_motor_set_speed(motor, speed[motor]);
+    
     if ( button_event == U8X8_MSG_GPIO_MENU_UP )
     {
       if ( speed[motor] < 128 && speed[motor]+step > 128 )

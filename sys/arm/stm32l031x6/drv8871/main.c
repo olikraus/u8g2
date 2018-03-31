@@ -44,6 +44,28 @@ uint8_t u8g2_x, u8g2_y;         // current position on the screen
 volatile unsigned long SysTickCount = 0;
 
 /*=======================================================================*/
+/* I2C */
+
+volatile unsigned char i2c_mem[256];     /* contains data, which read or written */
+volatile unsigned char i2c_idx;                  /* the current index into i2c_mem */
+volatile unsigned char i2c_is_write_idx;                  /* write state */
+
+/*
+  i2c_mem[0]		input: speed
+  i2c_mem[1]		not used
+
+  i2c_mem[2] = adc_diff_noise_per_sample_raw & 255
+  i2c_mem[3] = adc_diff_noise_per_sample_raw>>8;
+  i2c_mem[4] = adc_diff_noise_per_sample_filt & 255
+  i2c_mem[5] = adc_diff_noise_per_sample_filt>>8;
+  i2c_mem[6] = adc_max_raw & 255;
+  i2c_mem[7] = adc_max_raw>>8;
+  i2c_mem[8] = adc_max_filt & 255;
+  i2c_mem[9] = adc_max_filt>>8;
+
+
+*/
+/*=======================================================================*/
 
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
@@ -869,20 +891,29 @@ void adcExecAcquisition(void)
 	adc_calculation_pos = 0;
 	adc_diff_sum = adc_diff_sum_tmp;
 	adc_diff_noise_per_sample_raw = (adc_diff_sum_tmp * 256UL)/adc_diff_sum_cnt;
+	i2c_mem[2] = adc_diff_noise_per_sample_raw & 255;
+	i2c_mem[3] = adc_diff_noise_per_sample_raw>>8;
 	/*
 	  this is a strong low-pass filter
 	  currently the filter value is calculated with 100Hz (every 5th duty cycle)
-	  3V DC Motor: adc_diff_noise_per_sample_filt < 0x0200 stop, adc_diff_noise_per_sample_filt > 0x0250 running
+	  3V DC Motor: adc_diff_noise_per_sample_filt < 0x0600 stop, adc_diff_noise_per_sample_filt > 0x0700 running
 	*/
         adc_diff_noise_per_sample_filt = (((((1UL<<5) - 1)*(uint32_t)adc_diff_noise_per_sample_filt)) + (uint32_t)((1*adc_diff_noise_per_sample_raw)))>>5; 
+	i2c_mem[4] = adc_diff_noise_per_sample_filt & 255;
+	i2c_mem[5] = adc_diff_noise_per_sample_filt>>8;
 	
 	/*
 	  low-pass filter for the max value of the ADC.
 	  If the DC motor rotates, then the max value indicates speed: lower values are faster, higher values are slower
-	  3V DC Motor: values are from 0x01d (fastest) to 0x90 (almost stopped)
+	  3V DC Motor: values are from 0x0160 (fastest) to >0x4b0 (almost stopped)
 	*/
 	adc_max_raw = adc_max_tmp;
+	i2c_mem[6] = adc_max_raw & 255;
+	i2c_mem[7] = adc_max_raw>>8;
+	
         adc_max_filt = (((((1UL<<5) - 1)*(uint32_t)adc_max_filt)) + (uint32_t)((1*adc_max_raw))) >> 5; 
+	i2c_mem[8] = adc_max_filt & 255;
+	i2c_mem[9] = adc_max_filt>>8;
 	
         adc_calculation_state++;
       }
@@ -1068,12 +1099,9 @@ void __attribute__ ((interrupt, used)) TIM22_IRQHandler(void)
   TIM22->SR &= ~TIM_SR_UIF;			/* clear interrupt */
 }
 
+
 /*=======================================================================*/
 /* I2C */
-
-volatile unsigned char i2c_mem[256];     /* contains data, which read or written */
-volatile unsigned char i2c_idx;                  /* the current index into i2c_mem */
-volatile unsigned char i2c_is_write_idx;                  /* write state */
 
 volatile uint16_t i2c_total_irq_cnt;
 volatile uint16_t i2c_TXIS_cnt;
@@ -1280,15 +1308,17 @@ void __attribute__ ((interrupt, used)) I2C1_IRQHandler(void)
 
 int main()
 {
-  uint16_t adc_value;
+  uint16_t adc_value = 0x80;
+  uint16_t old_adc_value = 0x0ffff;
   uint16_t tim_duty;
   uint16_t zero_pos;
   uint16_t i;
   u8g2_uint_t y, yy;
+  uint8_t is_i2c = 0;
   
   setHSIClock();        /* enable 32 MHz Clock */
   startUp();               /* enable systick irq and several power regions  */
-  i2c_hw_init(40*2);	/* activage I2C, adr = 40 */
+  i2c_init(40*2);	/* activage I2C, adr = 40 */
   initDisplay();          /* aktivate display */
   initADC();
 
@@ -1323,59 +1353,42 @@ int main()
     u8g2_ClearBuffer(&u8g2);
    
 
-    //adc_value = getADC(5);
-    adc_value = adc_variable_resistor_value;
     
-    adc_value = i2c_mem[0];
-    
-    
-    if ( adc_value >= 0x080 )
+    if ( is_i2c != 0 )
     {
-      adc_value -= 0x080;
-      adc_value *= 2;
-      tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
-      tim_duty += TIM_CYCLE_LOWER_SKIP;      
-      setTIM2RawDuty(tim_duty, 1);
+      adc_value = i2c_mem[0];
     }
     else
     {
-      adc_value = 0x080 - adc_value;
-      adc_value *= 2;
-      tim_duty = ((uint32_t)adc_value*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
-      tim_duty += TIM_CYCLE_LOWER_SKIP;      
-      setTIM2RawDuty(tim_duty, 0);
-    }
-    
-    
-    /*
-    
-    TIM2->SR &= ~TIM_SR_UIF;
-    while( (TIM2->SR & TIM_SR_UIF) == 0 )
-      ;
-    
-    yy = 30;
-    for( i = 0; i < 128; i++ )
-    {
-      y = 30-(gpio_buf[i*BUF_MUL]&2)*2;
-      u8g2_DrawPixel(&u8g2, i, y);
-      if ( y < yy )
-	u8g2_DrawVLine(&u8g2, i, y, yy-y+1);
+      if ( i2c_mem[0] != 0x080 )
+      {
+	adc_value = i2c_mem[0];
+	is_i2c = 1;
+      }
       else
-	u8g2_DrawVLine(&u8g2, i, yy, y-yy+1);
-      yy = y;
+      {
+	adc_value = adc_variable_resistor_value;
+      }
     }
-    */
     
-    
-
-    /*
-    for( i = 0; i < 128*BUF_MUL; i++ )
+    if ( old_adc_value != adc_value )
     {
-      adc_buf[i] = i;
+      
+      if ( adc_value >= 0x080 )
+      {
+	tim_duty = ((uint32_t)((adc_value-0x080)*2)*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
+	tim_duty += TIM_CYCLE_LOWER_SKIP;      
+	setTIM2RawDuty(tim_duty, 1);
+      }
+      else
+      {
+	tim_duty = ((uint32_t)((0x080 - adc_value)*2)*((uint32_t)TIM_CYCLE_TIME-TIM_CYCLE_UPPER_SKIP-TIM_CYCLE_LOWER_SKIP))>>8;
+	tim_duty += TIM_CYCLE_LOWER_SKIP;      
+	setTIM2RawDuty(tim_duty, 0);
+      }
+      old_adc_value = adc_value;
     }
     
-    scanADC(6, 128*BUF_MUL, adc_buf);
-    */
 
     yy = 60;
     
