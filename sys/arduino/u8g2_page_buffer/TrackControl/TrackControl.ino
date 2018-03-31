@@ -563,7 +563,7 @@ void show_motor_set_speed(uint8_t motor, uint8_t speed)
 
 void motor_speed_test(void)
 {
-  uint8_t speed[6] = { 0, 0, 0, 0, 0, 0 };
+  uint8_t speed[6] = { 128, 128, 128, 128, 128, 128 };
   uint8_t step = 10;
   uint8_t motor = 0;
 
@@ -576,7 +576,9 @@ void motor_speed_test(void)
     show_motor_set_speed(motor, speed[motor]);
     if ( button_event == U8X8_MSG_GPIO_MENU_UP )
     {
-      if ( speed[motor] < 255-step )
+      if ( speed[motor] < 128 && speed[motor]+step > 128 )
+	speed[motor] = 128;
+      else if ( speed[motor] < 255-step )
 	speed[motor] += step;
       else
 	speed[motor] = 255;
@@ -584,7 +586,9 @@ void motor_speed_test(void)
     }
     if ( button_event == U8X8_MSG_GPIO_MENU_DOWN )
     {
-      if ( speed[motor] >= step )
+      if ( speed[motor] > 128 && speed[motor]-step < 128 )
+	speed[motor] = 128;
+      else if ( speed[motor] >= step )
 	speed[motor] -=step;
       else
 	speed[motor] = 0;

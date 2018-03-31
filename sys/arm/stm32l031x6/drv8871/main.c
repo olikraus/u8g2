@@ -445,7 +445,7 @@ void enableADC(void)
 
 
 /*=======================================================================*/
-/* ADC Single Conversion */
+/* ADC Single Conversion: 8 bit resolution */
 
 
 /*
@@ -466,7 +466,7 @@ void enableADC(void)
   ch 17:		vref (bandgap)
   ch18:		temperature sensor
 
-  returns 12 bit result, right aligned 
+  returns 8 bit result, right aligned 
 */
 
 uint8_t adc_single_conversion_channel = 5;
@@ -577,7 +577,7 @@ uint16_t getADC(uint8_t ch)
 
 
 /*=======================================================================*/
-/* ADC Multi (DMA) Conversion */
+/* ADC Multi (DMA) Conversion: 12 bit resolution */
 
 uint8_t adc_multi_conversion_channel = 6;
 volatile uint8_t adc_multi_conversion_state = 0;
@@ -718,6 +718,7 @@ void adcExecMultiConversion(void)
 }
 
 
+/* 12 bit resolution */
 void scanADC(uint8_t ch, uint16_t cnt, uint16_t *buf)
 {
   while( adcStartMultiConversion(ch, cnt, buf) == 0)
@@ -1217,6 +1218,7 @@ void i2c_hw_init(unsigned char address)
 void i2c_init(unsigned char address)
 {
   i2c_mem_init();
+  i2c_mem[0] = 0x080;  /* stop */
   i2c_hw_init(address);
 }
 
@@ -1323,6 +1325,10 @@ int main()
 
     //adc_value = getADC(5);
     adc_value = adc_variable_resistor_value;
+    
+    adc_value = i2c_mem[0];
+    
+    
     if ( adc_value >= 0x080 )
     {
       adc_value -= 0x080;
