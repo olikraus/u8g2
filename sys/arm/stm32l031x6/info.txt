@@ -1,8 +1,16 @@
 
 STM32L0	Cortex-M0/M0+
+  STM32L011	access line 2K RAM	2x Timer
+  STM32L031	access line 8K RAM	3x Timer
+  
   STM32L0x1	access line
     STM32L0x1K	access line, 32 Pins (LQFP)
     STM32L0x1F	access line, 20 Pins (TSSOP20)
+      STM32L0x1F3		8KB Flash
+      STM32L0x1F4		16KB Flash
+	STM32L011F4P6
+      STM32L0x1F6		32KB Flash
+      
   STM32L0x2	USB+DAC
 STM32L1	Cortex-M3
 STM32L4	Cortex-M4

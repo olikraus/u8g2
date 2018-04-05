@@ -172,4 +172,7 @@ https://github.com/olikraus/u8g2 ChangeLog
  2018-xx-xx	v2.22.x  olikraus@gmail.com
   * Added SSD1306 128x64 Adafruit OLED (issue 521)
   * Added Winstart SSD1306 64x48 OLED variant (issue 522)
+  * Added support for JLX240160 (issue 556)
+  * Added open iconic icons (issue 535)
+  
   
