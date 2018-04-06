@@ -881,11 +881,11 @@ static const u8x8_display_info_t u8x8_st75256_256x160_display_info =
   /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
   /* data_setup_time_ns = */ 15,
   /* write_pulse_width_ns = */ 70,	
-  /* tile_width = */ 30,
+  /* tile_width = */ 32,
   /* tile_hight = */ 20,
-  /* default_x_offset = */ 16,	/*  x offset in flipmode 0 */
+  /* default_x_offset = */ 0,	/*  x offset in flipmode 0 */
   /* flipmode_x_offset = */ 0,		/* */
-  /* pixel_width = */ 240,
+  /* pixel_width = */ 256,
   /* pixel_height = */ 160
 };
 
@@ -951,7 +951,7 @@ static const uint8_t u8x8_d_st75256_256x160_init_seq[] = {
   U8X8_CA( 0x0f0, 0x010 ),		/* monochrome mode  = 0x010*/
 
   //U8X8_C( 0x030 ),				/* select 00 commands */
-  U8X8_CAA( 0x81, 0x18, 0x04 ),	/* Volume control */
+  U8X8_CAA( 0x81, 0x18, 0x05 ),	/* Volume control */
 
   //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_CA( 0x020, 0x00b ),		/* Power control: Regulator, follower & booster on */
