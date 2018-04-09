@@ -41,6 +41,10 @@ logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
 
+fub: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 40 -o tmp.bdf ../ttf/FreeUniversal-Bold.ttf
+	./bdfconv -v -f 1 -m '32-255' tmp.bdf -o fub30_tf.c  -n fub30_tf -d ../bdf/helvB18.bdf 
+
 xlogisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57,$$370-$$3ff,$$2100-$$21ff' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
@@ -78,6 +82,8 @@ lubr24: bdfconv
 
 lurs24: bdfconv
 	./bdfconv -f 1 -m '32-255' -p 10 luRS24.bdf -o luRS24.c -n u8g2_font_luRS24 -d ../bdf/helvB12.bdf 
+
+
 
 siji: bdfconv
 #	./bdfconv -v -f 1 -m '32-$$ffff' ./siji.bdf -o test1.c  -n test -d ../bdf/helvB12.bdf 
