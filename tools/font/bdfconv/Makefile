@@ -43,7 +43,7 @@ logisoso: bdfconv
 
 fub: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 40 -o tmp.bdf ../ttf/FreeUniversal-Bold.ttf
-	./bdfconv -v -f 1 -m '32-255' tmp.bdf -o fub30_tf.c  -n fub30_tf -d ../bdf/helvB18.bdf 
+	./bdfconv -v -f 2 -m '32-255' tmp.bdf -o fub30_tf.c  -n fub30_tf -d ../bdf/helvB18.bdf 
 
 xlogisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
