@@ -122,20 +122,20 @@ static uint8_t u8x8_d_sh1106_64x32_generic(u8x8_t *u8x8, uint8_t msg, uint8_t ar
     */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-  u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_powersave0_seq);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_powersave0_seq);
       else
-  u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_powersave1_seq);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_powersave1_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-  u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_flip0_seq);
-  u8x8->x_offset = u8x8->display_info->default_x_offset;
+        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_flip0_seq);
+        u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-  u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_flip1_seq);
-  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1106_64x32_flip1_seq);
+        u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
