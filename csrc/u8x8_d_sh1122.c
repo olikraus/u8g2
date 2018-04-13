@@ -65,6 +65,7 @@ static const uint8_t u8x8_d_sh1122_powersave1_seq[] = {
     Tile for SH1122 (32 Bytes)
 */
 
+/*
 static uint8_t u8x8_sh1122_to32_dest_buf[32];
 
 static uint8_t *u8x8_sh1122_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
@@ -96,6 +97,7 @@ static uint8_t *u8x8_sh1122_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
   
   return u8x8_sh1122_to32_dest_buf;
 }
+*/
 
 
 static uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
