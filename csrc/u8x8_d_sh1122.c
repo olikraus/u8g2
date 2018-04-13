@@ -98,10 +98,24 @@ static uint8_t *u8x8_sh1122_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 }
 
 
+static uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
+{
+  static uint8_t buf[4];
+  static uint8_t map[4] = { 0, 0x00f, 0x0f0, 0x0ff };
+  buf [3] = map[b & 3];
+  b>>=2;
+  buf [2] = map[b & 3];
+  b>>=2;
+  buf [1] = map[b & 3];
+  b>>=2;
+  buf [0] = map[b & 3];
+  return u8x8_cad_SendData(u8x8, 4, buf);
+}
+
 uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x; 
-  uint8_t y, c;
+  uint8_t y, c, i;
   uint8_t *ptr;
   switch(msg)
   {
@@ -137,28 +151,26 @@ uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       y *= 8;
           
-      u8x8_cad_SendCmd(u8x8, 0x0b0 );	/* set row address */
-      u8x8_cad_SendArg(u8x8, y);
       
-      do
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
+      for( i = 0; i < 8; i++ )
       {
-	c = ((u8x8_tile_t *)arg_ptr)->cnt;
-	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	u8x8_cad_SendCmd(u8x8, 0x0b0 );	/* set row address */
+	u8x8_cad_SendArg(u8x8, y);
+	u8x8_cad_SendCmd(u8x8, x & 15 );	/* lower 4 bit*/
+	u8x8_cad_SendCmd(u8x8, 0x010 | (x >> 4) );	/* higher 3 bit */	  
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
 
-	do
+	while (  c > 0 )
 	{
-	  u8x8_cad_SendCmd(u8x8, x & 15 );	/* lower 4 bit*/
-	  u8x8_cad_SendCmd(u8x8, 0x010 | (x >> 4) );	/* higher 3 bit */	  
-	  u8x8_cad_SendData(u8x8, 32, u8x8_sh1122_8to32(u8x8, ptr));
-	  
-	  ptr += 8;
-	  x += 2;
+	  u8x8_write_byte_to_16gr_device(u8x8, *ptr);
 	  c--;
-	} while( c > 0 );
-	
-	//x += 2;
-	arg_int--;
-      } while( arg_int > 0 );
+	  ptr++;
+	}
+	y++;
+      }
+
       
       u8x8_cad_EndTransfer(u8x8);
       break;
@@ -172,16 +184,18 @@ uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 static const uint8_t u8x8_d_sh1122_256x64_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a0),		/* remap */
+  U8X8_C(0x0a1),		/* remap */
   U8X8_C(0x0c8),		/* remap */
+  U8X8_C(0x060),
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_sh1122_256x64_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a1),		/* remap */
+  U8X8_C(0x0a0),		/* remap */
   U8X8_C(0x0c0),		/* remap */
+  U8X8_C(0x040),
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -220,7 +234,7 @@ static const uint8_t u8x8_d_sh1122_256x64_init_seq[] = {
   U8X8_C(0xae),		                /* display off */
   U8X8_C(0x40),				/* display start line */  
   U8X8_C(0x0a0),		/* remap */
-  U8X8_C(0x0c8),		/* remap */
+  U8X8_C(0x0c0),		/* remap */
   U8X8_CA(0x81, 0x80),			/* set display contrast  */  
   U8X8_CA(0xa8, 0x3f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
   U8X8_CA(0xad, 0x81),			/* use buildin DC-DC with 0.6 * 500 kHz */  
