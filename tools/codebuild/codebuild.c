@@ -739,6 +739,7 @@ struct controller controller_list[] =
       { "lm6059" },
       { "erc12864" },
       { "nhd_c12864" },
+      { "jlx12864" },
       { NULL }
     },
   },

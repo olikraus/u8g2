@@ -612,6 +612,14 @@ uint8_t u8x8_d_st7565_nhd_c12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
   }
   return 1;
 }
+/*================================================*/
+/* JLX12864 */
+
+uint8_t u8x8_d_st7565_jlx12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  return u8x8_d_st7565_nhd_c12864(u8x8, msg, arg_int, arg_ptr);
+}
+
 
 /*================================================*/
 /* LM6059 (Adafruit)... probably this is a ST7567 display */
