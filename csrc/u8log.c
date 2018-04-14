@@ -72,7 +72,7 @@ void u8log_cursor_on_screen(u8log_t *u8log)
 
 void u8log_write_to_screen(u8log_t *u8log, uint8_t c)
 {
-  u8lib_cursor_on_screen(u8log);
+  u8log_cursor_on_screen(u8log);
   u8log->screen_buffer[u8log->cursor_y * u8log->width + u8log->cursor_x] = c;
   u8log->cursor_x++;
 }

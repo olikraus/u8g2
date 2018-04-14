@@ -176,6 +176,11 @@ struct groupinfo gi[] = {
   { "Siji Icon Font", 	"fntgrpsiji", 		"../../../../u8g2.wiki/fntgrpsiji.md", 		"fntgrpsiji.pre" }, 		/* 20 */
   { "Wqy (Chinese Font)", 	"fntgrpwqy", 		"../../../../u8g2.wiki/fntgrpwqy.md", 		"fntgrpwqy.pre" }, 		/* 21 */  
   { "Open Iconic", 	"fntgrpiconic", 		"../../../../u8g2.wiki/fntgrpiconic.md", 		"fntgrpiconic.pre" }, 		/* 22 */  
+  { "Persian", 	"fntgrppersian", 		"../../../../u8g2.wiki/fntgrppersian.md", 		"fntgrppersian.pre" }, 		/* 23 */  
+  { "Tom-Thumb", 	"fntgrptomthumb", 		"../../../../u8g2.wiki/fntgrptomthumb.md", 		"fntgrptomthumb.pre" }, 		/* 24 */  
+
+
+  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -266,7 +271,8 @@ struct fontinfo fi[] ={
   { 0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
 
   { 0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "32-128,$e000-$ffff", "_6x10" },
-  { 0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "$e000-$ffff", "" },
+  { 0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   
   
 /*
@@ -393,6 +399,30 @@ Greek Extended	1F00–1FFF
   { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
 
+  
+  /* Persian */
+    { "-a -r 72 -p 10", "Samim.ttf",	"samim_10",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-a -r 72 -p 12", "Samim.ttf",	"samim_12",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-a -r 72 -p 14", "Samim.ttf",	"samim_14",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-a -r 72 -p 16", "Samim.ttf",	"samim_16",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+
+    { "-a -r 72 -p 10", "Samim-FD.ttf",	"samim_fd_10",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-a -r 72 -p 12", "Samim-FD.ttf",	"samim_fd_12",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-a -r 72 -p 14", "Samim-FD.ttf",	"samim_fd_14",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-a -r 72 -p 16", "Samim-FD.ttf",	"samim_fd_16",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+
+    { "-r 72 -p 10", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans10",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 12", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans12",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 14", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans14",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 16", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans16",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+
+    { "-r 72 -p 8", "IranianSansRegular.ttf",	"iranian_sans_8",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 10", "IranianSansRegular.ttf",	"iranian_sans_10",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 12", "IranianSansRegular.ttf",	"iranian_sans_12",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 14", "IranianSansRegular.ttf",	"iranian_sans_14",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { "-r 72 -p 16", "IranianSansRegular.ttf",	"iranian_sans_16",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+
+    /* NBP */
   { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T|BM_H, FM_C, MM_C, "32-$ffff", "_all" },
   { "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
@@ -572,7 +602,7 @@ Greek Extended	1F00–1FFF
   
   /*
     $20a0-$20bf currency symbols
-    $2103 Circle C
+    $2103 Circle C-
     $2109 Circle F
     $2126 Ohm
     $2190-$21bb single arrow
@@ -664,6 +694,8 @@ Greek Extended	1F00–1FFF
   { "-r 72 -p 8", "trixel_square.ttf",		"trixel_square",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+
+  
 
 /*
   Free Universal Bold
