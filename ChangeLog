@@ -174,5 +174,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added Winstart SSD1306 64x48 OLED variant (issue 522)
   * Added support for JLX240160 (issue 556)
   * Added open iconic icons (issue 535)
+  * Addef support for SH1122 (issue 420)
+  
   
   
