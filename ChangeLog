@@ -174,7 +174,11 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added Winstart SSD1306 64x48 OLED variant (issue 522)
   * Added support for JLX240160 (issue 556)
   * Added open iconic icons (issue 535)
-  * Addef support for SH1122 (issue 420)
+  * Addef support for SH1122 256x64 OLED (issue 420)
+  * Bugfix for draw1x2string (u8x8 API)
+  * Added support for JLX12864 (ST7565 variant, issue 440)
+  * Added several persian fonts (issue 541)
+  * Added support for JLX256160 (issue 561)  
   
   
   

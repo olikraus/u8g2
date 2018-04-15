@@ -145,8 +145,8 @@ class U8G2 : public Print
     /* u8g2  */
 
       
-    u8g2_uint_t getDisplayHeight() { return u8g2_GetDisplayHeight(&u8g2); }
-    u8g2_uint_t getDisplayWidth() { return u8g2_GetDisplayWidth(&u8g2); }
+    u8g2_uint_t getDisplayHeight(void) { return u8g2_GetDisplayHeight(&u8g2); }
+    u8g2_uint_t getDisplayWidth(void) { return u8g2_GetDisplayWidth(&u8g2); }
 
     
     /* u8g2_buffer.c */
