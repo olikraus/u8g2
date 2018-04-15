@@ -297,6 +297,7 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
     int8_t getFontAscent(void) { return u8g2_GetAscent(&u8g2); }
     int8_t getFontDescent(void) { return u8g2_GetDescent(&u8g2); }
     int8_t getMaxCharHeight(void) { return u8g2_GetMaxCharHeight(&u8g2); }
+    int8_t getMaxCharWidth(void) { return u8g2_GetMaxCharWidth(&u8g2); }
     u8g2_uint_t getHeight() { return u8g2_GetDisplayHeight(&u8g2); }
     u8g2_uint_t getWidth() { return u8g2_GetDisplayWidth(&u8g2); }
     
