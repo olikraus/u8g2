@@ -737,6 +737,7 @@ struct controller controller_list[] =
       { "64128n" },       
       { "zolen_128x64" },
       { "lm6059" },
+      { "lx12864" },
       { "erc12864" },
       { "nhd_c12864" },
       { "jlx12864" },
