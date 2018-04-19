@@ -98,7 +98,7 @@ static void u8log_cursor_on_screen(u8log_t *u8log)
 }
 
 /*
-  Write a single char on the screen, do any kind of scrolling
+  Write a printable, single char on the screen, do any kind of scrolling
 */
 static void u8log_write_to_screen(u8log_t *u8log, uint8_t c)
 {
@@ -113,6 +113,17 @@ static void u8log_write_to_screen(u8log_t *u8log, uint8_t c)
   }
 }
 
+/*
+  Handle control codes or write the char to the screen.
+  Supported control codes are:
+  
+    \n		10		Goto first position of the next line. Line is marked for redraw.
+    \r		13		Goto first position in the same line. Line is marked for redraw.
+    \t		9		Jump to the next tab position
+    \f		12		Clear the screen and mark redraw for whole screen
+    any other char	Write char to screen. Line redraw mark depends on 
+				is_redraw_line_for_each_char flag.
+*/
 void u8log_write_char(u8log_t *u8log, uint8_t c)
 {
   switch(c)
@@ -124,6 +135,8 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
       u8log->cursor_x = 0;
       break;	
     case '\r':	// 13
+      u8log->is_redraw_line = 1;
+      u8log->redraw_line = u8log->cursor_y;
       u8log->cursor_x = 0;
       break;
     case '\t':	// 9
