@@ -584,6 +584,13 @@ Greek Extended	1F00–1FFF
   { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
+  { 0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+
   { 0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
   { 0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
@@ -591,8 +598,10 @@ Greek Extended	1F00–1FFF
 
   { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
   { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
 
   { 0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
