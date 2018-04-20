@@ -12,7 +12,7 @@ typedef struct u8log_struct u8log_t;
 
 
 /* redraw the specified line. */
-typedef void (*u8log_cb)(u8log_t * u8log, uint8_t line);
+typedef void (*u8log_cb)(u8log_t * u8log);
 
 struct u8log_struct
 {
@@ -150,5 +150,13 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
       u8log_write_to_screen(u8log, c);
       break;
   }
+}
+
+void u8log_init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf)
+{
+  memset(u8log, 0, sizeof(u8log_t));
+  u8log->width = width;
+  u8log->height = height;
+  u8log->screen_buffer = buf;
 }
 

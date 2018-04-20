@@ -11,6 +11,7 @@ Font download location is [here](http://openlab.ring.gr.jp/efont/unicode/).
   * All fonts are included in two variantes and are selected from [this site](http://www.tonypottier.info/Unicode_And_Japanese_Kanji/Appendix2.html)
     * Japanese1: Learning level 1-6
     * Japanese2: Learning level 1-7
+    * Japanese3: Extended version with halfwidth and fullwidth forms. 
   * 24 pixel font is not included because of the size.
   * 14 pixel font is not included because of a problem with the sources (failure of the font build tool chain)
   * Only the 10 pixel version on may fit into Arduino Uno Flash ROM
