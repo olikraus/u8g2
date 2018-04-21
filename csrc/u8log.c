@@ -152,11 +152,29 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
   }
 }
 
-void u8log_init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf)
+void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf, u8log_cb cb)
 {
   memset(u8log, 0, sizeof(u8log_t));
   u8log->width = width;
   u8log->height = height;
   u8log->screen_buffer = buf;
+  u8log->cb = cb;
+  u8log_clear_screen(u8log);
+}
+
+void u8log_SetRedrawMode(u8log_t *u8log, uint8_t is_redraw_line_for_each_char)
+{
+  u8log->is_redraw_line_for_each_char = is_redraw_line_for_each_char;
+}
+
+void u8log_WriteChar(u8log_t *u8log, uint8_t c)
+{
+  u8log_write_char(u8log, c);
+  if ( u8log->is_redraw_line || u8log->is_redraw_all )
+  {
+    u8log->cb(u8log);
+    u8log->is_redraw_line = 0;
+    u8log->is_redraw_all = 0;
+  }
 }
 
