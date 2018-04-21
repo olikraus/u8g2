@@ -373,6 +373,35 @@ struct u8x8_struct
 
 
 /*==========================================*/
+/* u8log extension for u8x8 and u8g2 */
+
+typedef struct u8log_struct u8log_t;
+
+
+/* redraw the specified line. */
+typedef void (*u8log_cb)(u8log_t * u8log);
+
+struct u8log_struct
+{
+  /* configuration */
+  void *aux_data;		/* pointer to u8x8 or u8g2 */
+  uint8_t width, height;	/* size of the terminal */
+  u8log_cb cb;			/* callback redraw function */
+  uint8_t *screen_buffer;	/* size must be width*heigh bytes */
+  uint8_t is_redraw_line_for_each_char;
+  int8_t line_height_offset;		/* extra offset for the line height (u8g2 only) */
+  
+  /* internal data */
+  //uint8_t last_x, last_y;	/* position of the last printed char */
+  uint8_t cursor_x, cursor_y;  /* position of the cursor, might be off screen */
+  uint8_t redraw_line;	/* redraw specific line if is_redraw_line is not 0 */
+  uint8_t is_redraw_line;
+  uint8_t is_redraw_all;
+};
+typedef struct u8log_struct u8log_t;
+
+
+/*==========================================*/
 
 /* helper functions */
 void u8x8_d_helper_display_setup_memory(u8x8_t *u8x8, const u8x8_display_info_t *display_info);
@@ -923,6 +952,14 @@ uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *
 /* u8x8_input_value.c  */
 
 uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post);
+
+/*==========================================*/
+/* u8log.c */
+void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf, u8log_cb cb, void *aux_data);
+void u8log_SetRedrawMode(u8log_t *u8log, uint8_t is_redraw_line_for_each_char);
+void u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset);
+void u8log_WriteChar(u8log_t *u8log, uint8_t c);
+
 
 
 /*==========================================*/

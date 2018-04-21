@@ -3,35 +3,41 @@
   u8log.c
   
 
+  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+
+  Copyright (c) 2018, olikraus@gmail.com
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without modification, 
+  are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright notice, this list 
+    of conditions and the following disclaimer.
+    
+  * Redistributions in binary form must reproduce the above copyright notice, this 
+    list of conditions and the following disclaimer in the documentation and/or other 
+    materials provided with the distribution.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 */
 
 #include <stdint.h>
+#include <string.h>
+#include "u8x8.h"
 
-typedef struct u8log_struct u8log_t;
-
-
-/* redraw the specified line. */
-typedef void (*u8log_cb)(u8log_t * u8log);
-
-struct u8log_struct
-{
-  /* configuration */
-  void *aux_data;		/* pointer to u8x8 or u8g2 */
-  uint8_t width, height;	/* size of the terminal */
-  u8log_cb cb;			/* callback redraw function */
-  uint8_t *screen_buffer;	/* size must be width*heigh bytes */
-  uint8_t is_redraw_line_for_each_char;
-  
-  
-  /* internal data */
-  //uint8_t last_x, last_y;	/* position of the last printed char */
-  uint8_t cursor_x, cursor_y;  /* position of the cursor, might be off screen */
-  uint8_t redraw_line;	/* redraw specific line if is_redraw_line is not 0 */
-  uint8_t is_redraw_line;
-  uint8_t is_redraw_all;
-};
-typedef struct u8log_struct u8log_t;
 
 /*
 static uint8_t u8log_is_on_screen(u8log_t *u8log, uint8_t x, uint8_t y)
@@ -77,7 +83,9 @@ static void u8log_scroll_up(u8log_t *u8log)
     *dest++ = ' ';
     cnt--;
   } while(cnt > 0);
-  u8log->is_redraw_all = 1;
+  
+  if ( u8log->is_redraw_line_for_each_char )
+    u8log->is_redraw_all = 1;
 }
 
 /*
@@ -152,13 +160,14 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
   }
 }
 
-void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf, u8log_cb cb)
+void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf, u8log_cb cb, void *aux_data)
 {
   memset(u8log, 0, sizeof(u8log_t));
   u8log->width = width;
   u8log->height = height;
   u8log->screen_buffer = buf;
   u8log->cb = cb;
+  u8log->aux_data = aux_data;
   u8log_clear_screen(u8log);
 }
 
@@ -167,12 +176,23 @@ void u8log_SetRedrawMode(u8log_t *u8log, uint8_t is_redraw_line_for_each_char)
   u8log->is_redraw_line_for_each_char = is_redraw_line_for_each_char;
 }
 
+/* offset can be negative or positive, it is 0 by default */
+void u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset)
+{
+  u8log->line_height_offset = line_height_offset;
+}
+
+
+
 void u8log_WriteChar(u8log_t *u8log, uint8_t c)
 {
   u8log_write_char(u8log, c);
   if ( u8log->is_redraw_line || u8log->is_redraw_all )
   {
-    u8log->cb(u8log);
+    if ( u8log->cb != 0 )
+    {
+      u8log->cb(u8log);
+    }
     u8log->is_redraw_line = 0;
     u8log->is_redraw_all = 0;
   }
