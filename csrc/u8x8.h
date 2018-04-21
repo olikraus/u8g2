@@ -955,7 +955,8 @@ uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char
 
 /*==========================================*/
 /* u8log.c */
-void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf, u8log_cb cb, void *aux_data);
+void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf);
+void u8log_SetCallback(u8log_t *u8log, u8log_cb cb, void *aux_data);
 void u8log_SetRedrawMode(u8log_t *u8log, uint8_t is_redraw_line_for_each_char);
 void u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset);
 void u8log_WriteChar(u8log_t *u8log, uint8_t c);

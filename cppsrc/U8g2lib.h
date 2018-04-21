@@ -207,6 +207,8 @@ class U8G2 : public Print
     void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2) 
       { u8g2_DrawTriangle(&u8g2, x0, y0, x1, y1, x2, y2); }
       
+    /* u8log_u8g2.c */
+    void drawU8log(u8g2_uint_t x, u8g2_uint_t y, class U8G2LOG &u8g2log);
     
     /* u8g2_font.c */
 
@@ -302,6 +304,48 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
     u8g2_uint_t getWidth() { return u8g2_GetDisplayWidth(&u8g2); }
     
 };
+
+class U8G2LOG : public Print
+{
+  
+  public:
+    u8log_t u8log;
+  
+    /* connect to u8g2, draw to u8g2 whenever required */
+    U8G2LOG(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf) 
+    { 
+      u8log_Init(&u8log, width, height, buf);      
+      u8log_SetCallback(&u8log, u8log_u8g2_cb, u8g2.getU8g2());
+    }
+
+    /* disconnected version, manual redraw required */
+    U8G2LOG(uint8_t width, uint8_t height, uint8_t *buf) 
+    { 
+      u8log_Init(&u8log, width, height, buf);      
+    }
+    
+    /* virtual function for print base class */    
+    size_t write(uint8_t v) {
+      u8log_WriteChar(&u8log, v);
+      return 1;
+     }
+
+    size_t write(const uint8_t *buffer, size_t size) {
+      size_t cnt = 0;
+      while( size > 0 ) {
+	cnt += write(*buffer++); 
+	size--;
+      }
+      return cnt;
+    }  
+};
+
+/* u8log_u8g2.c */
+inline void U8G2::drawU8log(u8g2_uint_t x, u8g2_uint_t y, class U8G2LOG &u8g2log)
+{
+  u8g2_DrawU8log(&u8g2, x, y, &(u8g2log.u8log)); 
+}
+
 
 /* 
   U8G2_<controller>_<display>_<memory>_<communication> 

@@ -23,7 +23,8 @@ int main(void)
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);    
   u8g2_SetFont(&u8g2, u8g2_font_helvB12_tr);
-  u8log_Init(&u8log, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buf, u8log_u8g2_cb, &u8g2);
+  u8log_Init(&u8log, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buf);
+  u8log_SetCallback(&u8log, u8log_u8g2_cb, &u8g2);
   u8log_SetRedrawMode(&u8log, /* is_redraw_line_for_each_char = */ 1);
   //u8log_SetRedrawMode(&u8log, /* is_redraw_line_for_each_char = */ 0);
   u8log_SetLineHeightOffset(&u8log, -3);			/* decrese line spacing, u8g2 only */
