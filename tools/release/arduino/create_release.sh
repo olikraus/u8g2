@@ -15,6 +15,15 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Serial
+cp ../../../sys/arduino/u8g2_page_buffer/Serial/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Serial/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/DrawLog
+cp ../../../sys/arduino/u8g2_page_buffer/DrawLog/*.ino ../../../../U8g2_Arduino/examples/page_buffer/DrawLog/.
+
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/Terminal
+cp ../../../sys/arduino/u8g2_page_buffer/Terminal/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Terminal/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/IconMenu
 cp ../../../sys/arduino/u8g2_page_buffer/IconMenu/*.ino ../../../../U8g2_Arduino/examples/page_buffer/IconMenu/.
 

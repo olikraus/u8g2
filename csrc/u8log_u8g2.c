@@ -48,33 +48,24 @@
   to change the return values for u8g2_GetAscent and u8g2_GetDescent
 
 */
-void u8g2_DrawU8log(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log)
+void u8g2_DrawLog(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log)
 {
   u8g2_uint_t disp_x, disp_y;
   uint8_t buf_x, buf_y;
   uint8_t c;
   
   disp_y = y;  
-  if ( u8log->is_redraw_line || u8log->is_redraw_all )
+  u8g2_SetFontDirection(u8g2, 0);
+  for( buf_y = 0; buf_y < u8log->height; buf_y++ )
   {
-    u8g2_SetFontDirection(u8g2, 0);
-    u8g2_FirstPage(u8g2);
-    do
+    disp_x = x;
+    for( buf_x = 0; buf_x < u8log->width; buf_x++ )
     {
-      disp_y = u8g2_GetAscent(u8g2);
-      for( buf_y = 0; buf_y < u8log->height; buf_y++ )
-      {
-	disp_x = x;
-	for( buf_x = 0; buf_x < u8log->width; buf_x++ )
-	{
-	  c = u8log->screen_buffer[buf_y * u8log->width + buf_x];
-	  disp_x += u8g2_DrawGlyph(u8g2, disp_x, disp_y, c);
-	}
-	disp_y += u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2);
-	disp_y += u8log->line_height_offset;
-      }
+      c = u8log->screen_buffer[buf_y * u8log->width + buf_x];
+      disp_x += u8g2_DrawGlyph(u8g2, disp_x, disp_y, c);
     }
-    while( u8g2_NextPage(u8g2) );
+    disp_y += u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2);
+    disp_y += u8log->line_height_offset;
   }
 }
 
@@ -94,6 +85,14 @@ void u8g2_DrawU8log(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log)
 void u8log_u8g2_cb(u8log_t * u8log)
 {
   u8g2_t *u8g2 = (u8g2_t *)(u8log->aux_data);
-  u8g2_DrawU8log( u8g2, 0, u8g2_GetAscent(u8g2), u8log);
+  if ( u8log->is_redraw_line || u8log->is_redraw_all )
+  {
+    u8g2_FirstPage(u8g2);
+    do
+    {
+      u8g2_DrawLog( u8g2, 0, u8g2_GetAscent(u8g2), u8log);
+    }
+    while( u8g2_NextPage(u8g2) );
+  }
 }
 

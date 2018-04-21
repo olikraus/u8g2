@@ -1,10 +1,12 @@
 /*
 
-  HelloWorld.ino
+  DrawLog.ino
+  
+  Use display terminal to output text (using Arduino print)
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2018, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -60,7 +62,7 @@
 //U8G2_NULL u8g2(U8G2_R0);	// null device, a 8x8 pixel display which does nothing
 //U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
-//U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SSD1306_128X64_ALT0_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
@@ -208,13 +210,22 @@
 // End of constructor list
 
 
+// Setup the terminal (U8G2LOG). No connection u8g2
+// The size (width * height) depends on the selected font and the display
+
+#define U8LOG_WIDTH 20
+#define U8LOG_HEIGHT 6
+uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
+U8G2LOG u8g2log(U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
+
+
 void setup(void) {
 
   /* U8g2 Project: SSD1306 Test Board */
-  //pinMode(10, OUTPUT);
-  //pinMode(9, OUTPUT);
-  //digitalWrite(10, 0);
-  //digitalWrite(9, 0);		
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  digitalWrite(10, 0);
+  digitalWrite(9, 0);		
 
   /* U8g2 Project: T6963 Test Board */
   //pinMode(18, OUTPUT);
@@ -233,14 +244,35 @@ void setup(void) {
   //digitalWrite(6, 0);	
 
   u8g2.begin();  
+  u8g2log.setLineHeightOffset(0);	// set extra space between lines in pixel, this can be negative
+  u8g2log.setRedrawMode(0);		// 0: Update screen with newline, 1: Update screen for every char  
 }
 
+unsigned long t = 0;
+
+// print the output of millis() to the terminal every second
 void loop(void) {
+
+  // print something on the log window
+  if ( t < millis() ) {
+    t = millis() + 15000;			// every 15 seconds
+    u8g2log.print("\f");			// \f = form feed: clear the screen
+  }
+  u8g2log.print("millis=");
+  u8g2log.print(millis());
+  u8g2log.print("\n");
+  
+  // print the log window together with a title
   u8g2.firstPage();
   do {
-    u8g2.setFont(u8g2_font_ncenB10_tr);
-    u8g2.drawStr(0,24,"Hello World!");
+    u8g2.setFont(u8g2_font_6x13_tr);		// font for the title
+    u8g2.setCursor(0, 13);
+    u8g2.print("Log Output: ");				// output title
+    u8g2.setFont(u8g2_font_5x7_tr);			// set the font for the terminal window
+    u8g2.drawLog(0, 23, u8g2log);			// draw the log content on the display
   } while ( u8g2.nextPage() );
-  //delay(1000);
+
+  delay(500);
+
 }
 

@@ -153,6 +153,8 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
     case '\f':	// 12
       u8log_clear_screen(u8log);
       u8log->is_redraw_all = 1;
+      u8log->cursor_x = 0;
+      u8log->cursor_y = 0;
       break;
     default:
       u8log_write_to_screen(u8log, c);

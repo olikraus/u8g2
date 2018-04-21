@@ -1098,7 +1098,7 @@ void u8g2_SetFontRefHeightAll(u8g2_t *u8g2);
 
 /*==========================================*/
 /* u8log_u8g2.c */
-void u8g2_DrawU8log(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log);
+void u8g2_DrawLog(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log);
 void u8log_u8g2_cb(u8log_t * u8log);
 
 

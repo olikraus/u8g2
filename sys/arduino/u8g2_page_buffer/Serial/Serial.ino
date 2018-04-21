@@ -1,10 +1,12 @@
 /*
 
-  HelloWorld.ino
+  Serial.ino
+
+  Read from Serial, output to display.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2018, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -60,7 +62,7 @@
 //U8G2_NULL u8g2(U8G2_R0);	// null device, a 8x8 pixel display which does nothing
 //U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
-//U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SSD1306_128X64_ALT0_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
@@ -208,6 +210,15 @@
 // End of constructor list
 
 
+// setup the terminal (U8G2LOG) and connect to u8g2 for automatic refresh of the display
+// The size (width * height) depends on the selected font and the display
+
+#define U8LOG_WIDTH 20
+#define U8LOG_HEIGHT 8
+uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
+U8G2LOG u8g2log(u8g2, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
+
+
 void setup(void) {
 
   /* U8g2 Project: SSD1306 Test Board */
@@ -232,15 +243,19 @@ void setup(void) {
   //pinMode(6, OUTPUT);
   //digitalWrite(6, 0);	
 
+  Serial.begin(9600);				// Start reading from Serial communication interface
+
   u8g2.begin();  
+  u8g2.setFont(u8g2_font_5x7_tr);	// set the font for the terminal window
+  u8g2log.setLineHeightOffset(0);	// set extra space between lines in pixel, this can be negative
+  u8g2log.setRedrawMode(1);		// 0: Update screen with newline, 1: Update screen for every char  
 }
 
 void loop(void) {
-  u8g2.firstPage();
-  do {
-    u8g2.setFont(u8g2_font_ncenB10_tr);
-    u8g2.drawStr(0,24,"Hello World!");
-  } while ( u8g2.nextPage() );
-  //delay(1000);
+  char c;
+  while (Serial.available() > 0) {
+    c = Serial.read();			// read from Serial Monitor
+    u8g2log.print(c);               // print to display
+    Serial.print(c);                // and print back to monitor
+  }
 }
-

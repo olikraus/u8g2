@@ -208,7 +208,7 @@ class U8G2 : public Print
       { u8g2_DrawTriangle(&u8g2, x0, y0, x1, y1, x2, y2); }
       
     /* u8log_u8g2.c */
-    void drawU8log(u8g2_uint_t x, u8g2_uint_t y, class U8G2LOG &u8g2log);
+    void drawLog(u8g2_uint_t x, u8g2_uint_t y, class U8G2LOG &u8g2log);
     
     /* u8g2_font.c */
 
@@ -312,17 +312,21 @@ class U8G2LOG : public Print
     u8log_t u8log;
   
     /* connect to u8g2, draw to u8g2 whenever required */
-    U8G2LOG(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf) 
-    { 
+    U8G2LOG(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf)  { 
       u8log_Init(&u8log, width, height, buf);      
       u8log_SetCallback(&u8log, u8log_u8g2_cb, u8g2.getU8g2());
     }
 
     /* disconnected version, manual redraw required */
-    U8G2LOG(uint8_t width, uint8_t height, uint8_t *buf) 
-    { 
+    U8G2LOG(uint8_t width, uint8_t height, uint8_t *buf) { 
       u8log_Init(&u8log, width, height, buf);      
     }
+    
+    void setLineHeightOffset(int8_t line_height_offset) {
+      u8log_SetLineHeightOffset(&u8log, line_height_offset); }
+
+    void setRedrawMode(uint8_t is_redraw_line_for_each_char) {
+      u8log_SetRedrawMode(&u8log, is_redraw_line_for_each_char); }
     
     /* virtual function for print base class */    
     size_t write(uint8_t v) {
@@ -341,9 +345,9 @@ class U8G2LOG : public Print
 };
 
 /* u8log_u8g2.c */
-inline void U8G2::drawU8log(u8g2_uint_t x, u8g2_uint_t y, class U8G2LOG &u8g2log)
+inline void U8G2::drawLog(u8g2_uint_t x, u8g2_uint_t y, class U8G2LOG &u8g2log)
 {
-  u8g2_DrawU8log(&u8g2, x, y, &(u8g2log.u8log)); 
+  u8g2_DrawLog(&u8g2, x, y, &(u8g2log.u8log)); 
 }
 
 
