@@ -1,9 +1,9 @@
 /*
 
-  HelloWorld.ino
+  Terminal.ino
   
-  "Hello World" version for U8x8 API
-
+  Demo for U8log
+  
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
   Copyright (c) 2016, olikraus@gmail.com
