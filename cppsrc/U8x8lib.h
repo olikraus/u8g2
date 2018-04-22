@@ -293,8 +293,71 @@ class U8X8 : public Print
     void noDisplay(void) { u8x8_SetPowerSave(&u8x8, 1); }
     void display(void) { u8x8_SetPowerSave(&u8x8, 0); }
     void setCursor(uint8_t x, uint8_t y) { tx = x; ty = y; }
- 
+
+    void drawLog(uint8_t x, uint8_t y, class U8X8LOG &u8x8log);
+    
 };
+
+class U8X8LOG : public Print
+{
+  
+  public:
+    u8log_t u8log;
+  
+    /* the constructor does nothing, use begin() instead */
+    U8X8LOG(void) { }
+  
+    /* connect to u8g2, draw to u8g2 whenever required */
+    bool begin(class U8X8 &u8x8, uint8_t width, uint8_t height, uint8_t *buf)  { 
+      u8log_Init(&u8log, width, height, buf);      
+      u8log_SetCallback(&u8log, u8log_u8x8_cb, u8x8.getU8x8());
+      return true;
+    }
+    
+    /* disconnected version, manual redraw required */
+    bool begin(uint8_t width, uint8_t height, uint8_t *buf) { 
+      u8log_Init(&u8log, width, height, buf);  
+      return true;
+    }
+    
+    void setLineHeightOffset(int8_t line_height_offset) {
+      u8log_SetLineHeightOffset(&u8log, line_height_offset); }
+
+    void setRedrawMode(uint8_t is_redraw_line_for_each_char) {
+      u8log_SetRedrawMode(&u8log, is_redraw_line_for_each_char); }
+    
+    /* virtual function for print base class */    
+    size_t write(uint8_t v) {
+      u8log_WriteChar(&u8log, v);
+      return 1;
+     }
+
+    size_t write(const uint8_t *buffer, size_t size) {
+      size_t cnt = 0;
+      while( size > 0 ) {
+	cnt += write(*buffer++); 
+	size--;
+      }
+      return cnt;
+    }  
+
+    void writeString(const char *s) { u8log_WriteString(&u8log, s); }
+    void writeChar(uint8_t c) { u8log_WriteChar(&u8log, c); }
+    void writeHex8(uint8_t b) { u8log_WriteHex8(&u8log, b); }
+    void writeHex16(uint16_t v) { u8log_WriteHex16(&u8log, v); }
+    void writeHex32(uint32_t v) { u8log_WriteHex32(&u8log, v); }
+    void writeDec8(uint8_t v, uint8_t d) { u8log_WriteDec8(&u8log, v, d); }
+    void writeDec16(uint8_t v, uint8_t d) { u8log_WriteDec16(&u8log, v, d); }    
+};
+
+
+/* u8log_u8x8.c */
+inline void U8X8::drawLog(uint8_t x, uint8_t y, class U8X8LOG &u8x8log)
+{
+  u8x8_DrawLog(&u8x8, x, y, &(u8x8log.u8log)); 
+}
+
+
 
 #ifdef U8X8_USE_PINS
 
