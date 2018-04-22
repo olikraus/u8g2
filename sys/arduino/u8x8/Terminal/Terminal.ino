@@ -197,7 +197,6 @@ void setup(void)
   //digitalWrite(16, 0);	
   
   u8x8.begin();
-  u8x8.setPowerSave(0);
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   
   u8x8log.begin(u8x8, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
