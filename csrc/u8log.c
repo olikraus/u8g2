@@ -248,7 +248,7 @@ void u8log_WriteDec8(u8log_t *u8log, uint8_t v, uint8_t d)
 }
 
 /* v = value, d = number of digits (1..5) */
-void u8log_WriteDec16(u8log_t *u8log, uint8_t v, uint8_t d)
+void u8log_WriteDec16(u8log_t *u8log, uint16_t v, uint8_t d)
 {
   u8log_WriteString(u8log, u8x8_u16toa(v, d));
 }

@@ -965,7 +965,7 @@ void u8log_WriteHex8(u8log_t *u8log, uint8_t b) U8X8_NOINLINE;
 void u8log_WriteHex16(u8log_t *u8log, uint16_t v);
 void u8log_WriteHex32(u8log_t *u8log, uint32_t v);
 void u8log_WriteDec8(u8log_t *u8log, uint8_t v, uint8_t d);
-void u8log_WriteDec16(u8log_t *u8log, uint8_t v, uint8_t d);
+void u8log_WriteDec16(u8log_t *u8log, uint16_t v, uint8_t d);
 
 /*==========================================*/
 /* u8log_u8x8.c */

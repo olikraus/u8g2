@@ -216,7 +216,7 @@ U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /*
 #define U8LOG_WIDTH 20
 #define U8LOG_HEIGHT 8
 uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
-U8G2LOG u8g2log(u8g2, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
+U8G2LOG u8g2log;
 
 
 void setup(void) {
@@ -247,6 +247,7 @@ void setup(void) {
 
   u8g2.begin();  
   u8g2.setFont(u8g2_font_5x7_tr);	// set the font for the terminal window
+  u8g2log.begin(u8g2, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
   u8g2log.setLineHeightOffset(0);	// set extra space between lines in pixel, this can be negative
   u8g2log.setRedrawMode(1);		// 0: Update screen with newline, 1: Update screen for every char  
 }
