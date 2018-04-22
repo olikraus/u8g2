@@ -959,8 +959,18 @@ void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf);
 void u8log_SetCallback(u8log_t *u8log, u8log_cb cb, void *aux_data);
 void u8log_SetRedrawMode(u8log_t *u8log, uint8_t is_redraw_line_for_each_char);
 void u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset);
-void u8log_WriteChar(u8log_t *u8log, uint8_t c);
+void u8log_WriteString(u8log_t *u8log, const char *s) U8X8_NOINLINE;
+void u8log_WriteChar(u8log_t *u8log, uint8_t c) U8X8_NOINLINE;
+void u8log_WriteHex8(u8log_t *u8log, uint8_t b) U8X8_NOINLINE;
+void u8log_WriteHex16(u8log_t *u8log, uint16_t v);
+void u8log_WriteHex32(u8log_t *u8log, uint32_t v);
+void u8log_WriteDec8(u8log_t *u8log, uint8_t v, uint8_t d);
+void u8log_WriteDec16(u8log_t *u8log, uint8_t v, uint8_t d);
 
+/*==========================================*/
+/* u8log_u8x8.c */
+void u8x8_DrawLog(u8x8_t *u8x8, uint8_t x, uint8_t y, u8log_t *u8log);
+void u8log_u8x8_cb(u8log_t * u8log);
 
 
 /*==========================================*/

@@ -35,3 +35,41 @@
 */
 
 #include "u8x8.h"
+
+static void u8x8_DrawLogLine(u8x8_t *u8x8, uint8_t disp_x, uint8_t disp_y, uint8_t buf_y, u8log_t *u8log) U8X8_NOINLINE;
+static void u8x8_DrawLogLine(u8x8_t *u8x8, uint8_t disp_x, uint8_t disp_y, uint8_t buf_y, u8log_t *u8log)
+{
+  uint8_t buf_x;
+  uint8_t c;
+  for( buf_x = 0; buf_x < u8log->width; buf_x++ )
+  {
+    c = u8log->screen_buffer[buf_y * u8log->width + buf_x];
+    u8x8_DrawGlyph(u8x8, disp_x, disp_y, c);
+    disp_x++;
+  }
+}
+
+void u8x8_DrawLog(u8x8_t *u8x8, uint8_t x, uint8_t y, u8log_t *u8log)
+{
+  uint8_t buf_y;
+  for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+  {
+    u8x8_DrawLogLine(u8x8, x, y, buf_y, u8log);
+    y++;
+  }
+}
+
+
+void u8log_u8x8_cb(u8log_t * u8log)
+{
+  u8x8_t *u8x8 = (u8x8_t *)(u8log->aux_data);
+  if ( u8log->is_redraw_all )
+  {
+    u8x8_DrawLog(u8x8, 0, 0, u8log);
+  }
+  else if ( u8log->is_redraw_line )
+  {
+    u8x8_DrawLogLine(u8x8, 0, u8log->redraw_line, u8log->redraw_line, u8log);
+  }
+}
+

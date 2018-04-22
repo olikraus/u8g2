@@ -204,3 +204,51 @@ void u8log_WriteChar(u8log_t *u8log, uint8_t c)
   }
 }
 
+void u8log_WriteString(u8log_t *u8log, const char *s)
+{
+  while( *s != '\0' )
+  {
+    u8log_WriteChar(u8log, *s);
+    s++;
+  }
+}
+
+static void u8log_WriteHexHalfByte(u8log_t *u8log, uint8_t b) U8X8_NOINLINE;
+static void u8log_WriteHexHalfByte(u8log_t *u8log, uint8_t b)
+{
+  b &= 0x0f;
+  if ( b < 10 )
+    u8log_WriteChar(u8log, b+'0');
+  else
+    u8log_WriteChar(u8log, b+'a'-10);
+}
+
+void u8log_WriteHex8(u8log_t *u8log, uint8_t b)
+{
+  u8log_WriteHexHalfByte(u8log, b >> 4);
+  u8log_WriteHexHalfByte(u8log, b);
+}
+
+void u8log_WriteHex16(u8log_t *u8log, uint16_t v)
+{
+  u8log_WriteHex8(u8log, v>>8);
+  u8log_WriteHex8(u8log, v);
+}
+
+void u8log_WriteHex32(u8log_t *u8log, uint32_t v)
+{
+  u8log_WriteHex16(u8log, v>>16);
+  u8log_WriteHex16(u8log, v);
+}
+
+/* v = value, d = number of digits (1..3) */
+void u8log_WriteDec8(u8log_t *u8log, uint8_t v, uint8_t d)
+{
+  u8log_WriteString(u8log, u8x8_u8toa(v, d));
+}
+
+/* v = value, d = number of digits (1..5) */
+void u8log_WriteDec16(u8log_t *u8log, uint8_t v, uint8_t d)
+{
+  u8log_WriteString(u8log, u8x8_u16toa(v, d));
+}
