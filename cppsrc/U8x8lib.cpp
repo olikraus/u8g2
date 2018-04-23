@@ -197,7 +197,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   //uint8_t not_takeover_edge = 1 - takeover_edge;
 
   /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
-  /* so, it should be possible to used multiple displays with different pins */
+  /* so, it should be possible to use multiple displays with different pins */
   
   static volatile uint8_t *arduino_clock_port;
   
