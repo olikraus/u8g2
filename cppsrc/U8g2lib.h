@@ -60,6 +60,9 @@ class U8G2 : public Print
     u8g2_uint_t tx, ty;
   
     U8G2(void) { cpp_next_cb = u8x8_ascii_next; home(); }
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+    ~U8G2(void) { u8g2_CleanupBuffer(&u8g2); }
+#endif
     u8x8_t *getU8x8(void) { return u8g2_GetU8x8(&u8g2); }
     u8g2_t *getU8g2(void) { return &u8g2; }
 
