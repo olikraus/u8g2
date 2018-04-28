@@ -574,66 +574,6 @@ static void i2c_write_byte(u8x8_t *u8x8, uint8_t b)
   i2c_read_bit(u8x8);
 }
 
-
-
-#ifdef OBSOLETE_HANDLED_BY_CAD_PROCEDURE
-uint8_t u8x8_byte_ssd13xx_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
-{
-  uint8_t *data;
-  static uint8_t last_dc = 0;
-  static uint8_t is_send_dc = 0;	/* instruction, whether i2c-start including dc has to be sent */
- 
-  switch(msg)
-  {
-    case U8X8_MSG_BYTE_SEND:
-      data = (uint8_t *)arg_ptr;
-    
-      if ( is_send_dc != 0 )
-      {
-	
-	i2c_start(u8x8);
-	i2c_write_byte(u8x8, 0x078);		/* write slave adr and read/write bit */
-	
-	if ( last_dc == 0 )
-	  i2c_write_byte(u8x8, 0);
-	else
-	  i2c_write_byte(u8x8, 0x040);
-	is_send_dc = 0;
-      }
-    
-      while( arg_int > 0 )
-      {
-	i2c_write_byte(u8x8, *data);
-	data++;
-	arg_int--;
-      }
-      
-      break;
-      
-    case U8X8_MSG_BYTE_INIT:
-      i2c_init(u8x8);
-      break;
-    case U8X8_MSG_BYTE_SET_DC:
-      if ( last_dc != arg_int )
-      {
-	last_dc = arg_int;
-	is_send_dc = 1;
-      }
-      break;
-    case U8X8_MSG_BYTE_START_TRANSFER:
-      last_dc = 0;
-      is_send_dc = 1;
-      break;
-    case U8X8_MSG_BYTE_END_TRANSFER:
-      i2c_stop(u8x8);
-      break;
-    default:
-      return 0;
-  }
-  return 1;
-}
-#endif
-
 uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t *data;

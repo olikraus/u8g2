@@ -179,7 +179,7 @@
 //U8G2_SSD1306_128X64_NONAME_F_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SSD1306_128X64_ALT0_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
-//U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* reset=*/ 8);
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // All Boards without Reset of the Display
 //U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 16, /* data=*/ 17, /* reset=*/ U8X8_PIN_NONE);   // ESP32 Thing, pure SW emulated I2C
 //U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 16, /* data=*/ 17);   // ESP32 Thing, HW I2C with pin remapping
@@ -415,6 +415,11 @@ void draw_pixel(void) {
   }
 }
 
+void draw_line(void) {
+  u8g2.setColorIndex(draw_color);
+  u8g2.drawLine(0,0, u8g2.getWidth()-1, u8g2.getHeight()-1);
+}
+
 // returns unadjusted FPS
 uint16_t execute_with_fps(void (*draw_fn)(void)) {
   uint16_t FPS10 = 0;
@@ -454,6 +459,24 @@ void show_result(const char *s, uint16_t fps) {
 }
 
 void setup(void) {
+  /* U8g2 Project: SSD1306 Test Board */
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  digitalWrite(10, 0);
+  digitalWrite(9, 0);		
+
+  /* U8g2 Project: T6963 Test Board */
+  //pinMode(18, OUTPUT);
+  //digitalWrite(18, 1);
+
+  /* U8g2 Project: KS0108 Test Board */
+  //pinMode(16, OUTPUT);
+  //digitalWrite(16, 0);	
+
+  /* U8g2 Project: LC7981 Test Board, connect RW to GND */
+  //pinMode(17, OUTPUT);
+  //digitalWrite(17, 0);	
+
   u8g2.begin();
   // flip screen, if required
   // u8g2.setRot180();
@@ -475,6 +498,9 @@ void loop(void) {
   delay(5000);  
   fps = execute_with_fps(draw_pixel);
   show_result("draw pixel", fps);
+  delay(5000);
+  fps = execute_with_fps(draw_line);
+  show_result("draw line", fps);
   delay(5000);
 }
 
