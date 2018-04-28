@@ -126,6 +126,14 @@ static uint16_t u8g2_font_get_word(const uint8_t *font, uint8_t offset)
     return pos;
 }
 
+static void u8g2_load_font_data(uint8_t *buf, const uint8_t *dataptr, uint8_t len)
+{
+	uint8_t readcnt = 0;
+	while(readcnt < len) {
+		buf[readcnt++] = u8x8_pgm_read( dataptr++ );
+	}
+}
+
 /*========================================================================*/
 /* new font format */
 void u8g2_read_font_info(u8g2_font_info_t *font_info, const uint8_t *font)
@@ -237,7 +245,10 @@ uint8_t u8g2_font_decode_get_unsigned_bits(u8g2_font_decode_t *f, uint8_t cnt)
   uint8_t bit_pos = f->decode_bit_pos;
   uint8_t bit_pos_plus_cnt;
   
-  //val = *(f->decode_ptr);
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+  if (f->is_cached) val = *(f->decode_ptr);
+  else
+#endif
   val = u8x8_pgm_read( f->decode_ptr );  
   
   val >>= bit_pos;
@@ -248,7 +259,10 @@ uint8_t u8g2_font_decode_get_unsigned_bits(u8g2_font_decode_t *f, uint8_t cnt)
     uint8_t s = 8;
     s -= bit_pos;
     f->decode_ptr++;
-    //val |= *(f->decode_ptr) << (8-bit_pos);
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+    if (f->is_cached) val |= *(f->decode_ptr) << (s);
+    else
+#endif
     val |= u8x8_pgm_read( f->decode_ptr ) << (s);
     //bit_pos -= 8;
     bit_pos_plus_cnt -= 8;
@@ -450,6 +464,11 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
 static void u8g2_font_setup_decode(u8g2_t *u8g2, const uint8_t *glyph_data)
 {
   u8g2_font_decode_t *decode = &(u8g2->font_decode);
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+  decode->is_cached = u8g2->glyph_cache_len;
+  if (decode->is_cached) decode->decode_ptr = u8g2->glyph_cache_data;
+  else
+#endif
   decode->decode_ptr = glyph_data;
   decode->decode_bit_pos = 0;
   
@@ -578,6 +597,27 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   return d;
 }
 
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+void u8g2_font_populate_glyph_data_cache(u8g2_t *u8g2, const uint8_t *dataptr, uint8_t symsize)
+{
+	dataptr+= symsize;
+	uint8_t len = u8x8_pgm_read( dataptr ) - symsize - 1;
+	if (u8g2->glyph_cache_len < len) {
+		void* new_cache = realloc(u8g2->glyph_cache_data, len);
+		if (new_cache) {
+			u8g2->glyph_cache_len = len;
+			u8g2->glyph_cache_data = (uint8_t *)new_cache;
+		} else {
+			u8g2->glyph_cache_len = 0;
+			free(u8g2->glyph_cache_data);
+			u8g2->glyph_cache_data = NULL;
+		}
+	}
+	if (u8g2->glyph_cache_data)
+		u8g2_load_font_data(u8g2->glyph_cache_data, dataptr+1, len);
+}
+#endif
+
 /*
   Description:
     Find the starting point of the glyph data.
@@ -588,71 +628,106 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
 */
 const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint16_t encoding)
 {
-  const uint8_t *font = u8g2->font;
-  font += U8G2_FONT_DATA_STRUCT_SIZE;
+  const uint8_t *dataptr = u8g2->font;
+  dataptr += U8G2_FONT_DATA_STRUCT_SIZE;
 
-  
+  ets_printf("Decoding %d\n",encoding);
   if ( encoding <= 255 )
   {
+    uint8_t e;
+
     if ( encoding >= 'a' )
     {
-      font += u8g2->font_info.start_pos_lower_a;
+      dataptr += u8g2->font_info.start_pos_lower_a;
     }
     else if ( encoding >= 'A' )
     {
-      font += u8g2->font_info.start_pos_upper_A;
+      dataptr += u8g2->font_info.start_pos_upper_A;
     }
-    
+    e = u8x8_pgm_read( dataptr );
+
     for(;;)
     {
-      if ( u8x8_pgm_read( font + 1 ) == 0 )
+      if ( e == 0 )
 	break;
-      if ( u8x8_pgm_read( font ) == encoding )
+
+      if ( e == encoding )
       {
-	return font+2;	/* skip encoding and glyph size */
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+	if (e != u8g2->glyph_cache_last) {
+	  u8g2->glyph_cache_last = e;
+	  u8g2_font_populate_glyph_data_cache(u8g2, dataptr, 1);
+	}
+#endif
+	return dataptr+2;	/* skip encoding and glyph size */
       }
-      font += u8x8_pgm_read( font + 1 );
+      dataptr += u8x8_pgm_read( dataptr + 1 );
+
+      e = u8x8_pgm_read( dataptr );
+
+      if ( encoding < e )
+	break;
     }
   }
 #ifdef U8G2_WITH_UNICODE
   else
   {
     uint16_t e;
-    
-#ifdef  __unix__
-    if ( u8g2->last_font_data != NULL && encoding >= u8g2->last_unicode )
+
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 1
+    if ( u8g2->last_unicode_glyph != NULL && encoding >= u8g2->last_unicode )
     {
-	font = u8g2->last_font_data;
+	e = u8g2->last_unicode;
+	dataptr = u8g2->last_unicode_glyph;
     }
     else
-#endif 
-
-    font += u8g2->font_info.start_pos_unicode;
-    
+#endif
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 2
+    e = 0;
+    for (int8_t idx = U8G2_INDEX_CNT_UNICODE-1; idx >= 0; --idx) {
+      if (u8g2->index_unicode[idx] <= encoding) {
+        e = u8g2->index_unicode[idx];
+        dataptr = u8g2->index_unicode_glyphs[idx];
+        break;
+      }
+    }
+    if (e == 0)
+#endif
+    {
+	dataptr += u8g2->font_info.start_pos_unicode;
+	e = u8x8_pgm_read( dataptr );
+	e <<= 8;
+	e |= u8x8_pgm_read( dataptr + 1 );
+    }
     
     for(;;)
     {
-      e = u8x8_pgm_read( font );
-      e <<= 8;
-      e |= u8x8_pgm_read( font + 1 );
-  
-#ifdef  __unix__
-      if ( encoding < e )
-        break;
-#endif 
-
       if ( e == 0 )
 	break;
-  
+
       if ( e == encoding )
       {
-#ifdef  __unix__
-	u8g2->last_font_data = font;
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 1
+	u8g2->last_unicode_glyph = dataptr;
 	u8g2->last_unicode = encoding;
-#endif 
-	return font+3;	/* skip encoding and glyph size */
+#endif
+
+#ifdef U8G2_WITH_GLYPH_DATA_CACHE
+	if (e != u8g2->glyph_cache_last) {
+	  u8g2->glyph_cache_last = e;
+	  u8g2_font_populate_glyph_data_cache(u8g2, dataptr, 2);
+	}
+#endif
+	return dataptr+3;	/* skip encoding and glyph size */
       }
-      font += u8x8_pgm_read( font + 2 );
+      dataptr += u8x8_pgm_read( dataptr + 2 );
+
+      e = u8x8_pgm_read( dataptr );
+      e <<= 8;
+      e |= u8x8_pgm_read( dataptr + 1 );
+
+      if ( encoding < e )
+	break;
     }  
   }
 #endif
@@ -685,20 +760,15 @@ uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
   return 0;
 }
 
+static void u8g2_GetGlyphHorizontalProperties(u8g2_t *u8g2, uint16_t requested_encoding, uint8_t *w, int8_t *ox, int8_t *dx);
+
 /* side effect: updates u8g2->font_decode and u8g2->glyph_x_offset */
 int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
 {
-  const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, requested_encoding);
-  if ( glyph_data == NULL )
-    return 0; 
-  
-  u8g2_font_setup_decode(u8g2, glyph_data);
-  u8g2->glyph_x_offset = u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_x);
-  u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_char_y);
-  
-  /* glyph width is here: u8g2->font_decode.glyph_width */
-
-  return u8g2_font_decode_get_signed_bits(&(u8g2->font_decode), u8g2->font_info.bits_per_delta_x);
+	uint8_t w;
+	int8_t dx;
+	u8g2_GetGlyphHorizontalProperties(u8g2, requested_encoding, &w, &u8g2->glyph_x_offset, &dx);
+	return dx;
 }
 
 
@@ -1010,18 +1080,62 @@ void u8g2_SetFontPosCenter(u8g2_t *u8g2)
 
 /*===============================================*/
 
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 2
+void u8g2_UpdateLookupIdx(u8g2_t *u8g2) {
+	uint16_t unicode_cnt = 0;
+
+	const uint8_t *dataptr = u8g2->font;
+	dataptr += u8g2->font_info.start_pos_unicode;
+
+	uint16_t e;
+	while (1) {
+		e = u8x8_pgm_read( dataptr );
+		e <<= 8;
+		e |= u8x8_pgm_read( dataptr + 1 );
+
+		if (e) {
+			++unicode_cnt;
+			dataptr += u8x8_pgm_read( dataptr + 2 );
+		} else break;
+	}
+
+	uint16_t unicode_part = unicode_cnt/(U8G2_INDEX_CNT_UNICODE+1);
+
+	uint16_t glyph_cur = 0;
+	uint16_t glyph_target = 0;
+
+	dataptr = u8g2->font;
+	dataptr += u8g2->font_info.start_pos_unicode;
+	for (uint8_t idx = 0; idx < U8G2_INDEX_CNT_UNICODE; ++idx) {
+		glyph_target += unicode_part;
+		while (glyph_cur < glyph_target) {
+			++glyph_cur;
+			dataptr += u8x8_pgm_read( dataptr + 2 );
+		}
+		e = u8x8_pgm_read( dataptr );
+		e <<= 8;
+		e |= u8x8_pgm_read( dataptr + 1 );
+		u8g2->index_unicode[idx] = e;
+		u8g2->index_unicode_glyphs[idx] = dataptr;
+	}
+}
+#endif
+
 void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font)
 {
   if ( u8g2->font != font )
   {
-#ifdef  __unix__
-	u8g2->last_font_data = NULL;
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 1
+	u8g2->last_unicode_glyph = NULL;
 	u8g2->last_unicode = 0x0ffff;
 #endif 
     u8g2->font = font;
     u8g2_read_font_info(&(u8g2->font_info), font);
     u8g2_UpdateRefHeight(u8g2);
     /* u8g2_SetFontPosBaseline(u8g2); */ /* removed with issue 195 */
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 2
+    u8g2_UpdateLookupIdx(u8g2);
+#endif
   }
 }
 
