@@ -1170,12 +1170,12 @@ struct interface interface_list[] =
   {
     "SW_I2C",
     "u8x8_SetPin_SW_I2C",
-    "u8x8_byte_sw_i2c" /* "u8x8_byte_ssd13xx_sw_i2c" */,
+    "u8x8_byte_arduino_sw_i2c" /* u8x8_byte_sw_i2c */,
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE",
     "clock,  data,  reset",
     "clock,  data [,  reset]",
-    "u8x8_byte_sw_i2c" /* "u8x8_byte_ssd13xx_sw_i2c" */
+    "u8x8_byte_sw_i2c" /* u8x8_byte_sw_i2c */
   },
   /* 7 */
   {
