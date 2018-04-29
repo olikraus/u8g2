@@ -1148,7 +1148,7 @@ struct interface interface_list[] =
   {
     "3W_SW_SPI",
     "u8x8_SetPin_3Wire_SW_SPI",
-    "u8x8_byte_3wire_sw_spi",
+    "u8x8_byte_arduino_3wire_sw_spi",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
     "clock, data, cs, reset",
