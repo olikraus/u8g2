@@ -178,7 +178,8 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix for draw1x2string (u8x8 API)
   * Added support for JLX12864 (ST7565 variant, issue 440)
   * Added several persian fonts (issue 541)
-  * Added support for JLX256160 (issue 561)  
+  * Added support for JLX256160 (issue 561)
+  * AVR specific optimization for 3-wire Software SPI (issue 586)
   
   
   
