@@ -169,16 +169,21 @@ https://github.com/olikraus/u8g2 ChangeLog
      including gb2312 support (issue 455)
   * Added new full buffer demo for the Chinese fonts (Shennong.ino, issue #455)
   * Added siji icon font u8g2_font_siji_t_6x10 (issue 451)
- 2018-xx-xx	v2.22.x  olikraus@gmail.com
+ 2018-04-30	v2.22.18  olikraus@gmail.com
+  * Bugfix for draw1x2string (u8x8 API)
+  * Changed return value for "begin()" (issue 518)
+  * New feature: U8log, https://github.com/olikraus/u8g2/wiki/u8logreference
   * Added SSD1306 128x64 Adafruit OLED (issue 521)
   * Added Winstart SSD1306 64x48 OLED variant (issue 522)
   * Added support for JLX240160 (issue 556)
-  * Added open iconic icons (issue 535)
-  * Addef support for SH1122 256x64 OLED (issue 420)
-  * Bugfix for draw1x2string (u8x8 API)
   * Added support for JLX12864 (ST7565 variant, issue 440)
-  * Added several persian fonts (issue 541)
   * Added support for JLX256160 (issue 561)
+  * Added support for SH1122 256x64 OLED (issue 420)
+  * Added open iconic icons (issue 535)
+  * Added several Persian fonts (issue 541)
+  * Added additional Japanese font variants (issue 581)
+  * Added Devanagari/Hindi font variant (issue 584)
+  * Added tom-thumb font (issue 563)
   * Added AVR specific optimization for 3-wire Software SPI (issue 586)
   
   
