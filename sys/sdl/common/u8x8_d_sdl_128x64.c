@@ -3,7 +3,9 @@
 */
 
 #include "u8g2.h"
+#ifndef NO_SDL
 #include "SDL.h"
+#endif
 #include <assert.h>
 
 //#define HEIGHT (64)
@@ -11,19 +13,21 @@
 
 #define W(x,w) (((x)*(w))/100)
 
+#ifndef NO_SDL
 SDL_Window *u8g_sdl_window;
 SDL_Surface *u8g_sdl_screen;
+#endif
 
 int u8g_sdl_multiple = 3;
-Uint32 u8g_sdl_color[256];
+uint32_t u8g_sdl_color[256];
 int u8g_sdl_height, u8g_sdl_width;
 
 
 
 static void u8g_sdl_set_pixel(int x, int y, int idx)
 {
-  Uint32  *ptr;
-  Uint32 offset;
+  uint32_t  *ptr;
+  uint32_t offset;
   int i, j;
   
   if ( y >= u8g_sdl_height )
@@ -38,13 +42,16 @@ static void u8g_sdl_set_pixel(int x, int y, int idx)
   for( i = 0; i < u8g_sdl_multiple; i++ )
     for( j = 0; j < u8g_sdl_multiple; j++ )
     {
+#ifndef NO_SDL
       offset = (
         ((y * u8g_sdl_multiple) + i) * (u8g_sdl_width * u8g_sdl_multiple) + 
         ((x * u8g_sdl_multiple) + j)) * u8g_sdl_screen->format->BytesPerPixel;
         
       assert( offset < (Uint32)(u8g_sdl_width * u8g_sdl_multiple * u8g_sdl_height * u8g_sdl_multiple * u8g_sdl_screen->format->BytesPerPixel) );
+      
       ptr = u8g_sdl_screen->pixels + offset;
       *ptr = u8g_sdl_color[idx];
+#endif
     }
 }
 
@@ -88,6 +95,7 @@ static void u8g_sdl_init(int width, int height)
   u8g_sdl_height = height;
   u8g_sdl_width = width;
   
+#ifndef NO_SDL
   
   if (SDL_Init(SDL_INIT_VIDEO) != 0) 
   {
@@ -130,6 +138,7 @@ static void u8g_sdl_init(int width, int height)
   SDL_UpdateWindowSurface(u8g_sdl_window);
 
   atexit(SDL_Quit);
+#endif  
   return;
 }
 
@@ -290,8 +299,9 @@ uint8_t u8x8_d_sdl_128x64(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_
       } while( arg_int > 0 );
       
       /* update all */
+#ifndef NO_SDL
       SDL_UpdateWindowSurface(u8g_sdl_window);
-      
+#endif      
       break;
     default:
       return 0;
@@ -334,8 +344,10 @@ uint8_t u8x8_d_sdl_240x160(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg
         arg_int--;
       } while( arg_int > 0 );
 
+#ifndef NO_SDL
       /* update all */
       SDL_UpdateWindowSurface(u8g_sdl_window);
+#endif
       
       break;
     default:
