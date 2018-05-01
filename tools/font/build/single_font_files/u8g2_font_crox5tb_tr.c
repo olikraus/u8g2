@@ -4,7 +4,7 @@
   Glyphs: 95/224
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_crox5tb_tr[2337] U8G2_FONT_SECTION("u8g2_font_crox5tb_tr") = 
+const uint8_t u8g2_font_crox5tb_tr[2341] U8G2_FONT_SECTION("u8g2_font_crox5tb_tr") = 
   "_\0\4\3\5\5\3\6\6\27\33\0\372\20\372\21\373\2\351\6t\11\10 \6\0\260>\1!\20$"
   "\32DC\342\340\13\21\315$\16\42$\0\42\23\311t]CF\202\342 \202BFDFDF\2\0"
   "#'-\22lgdjdjdjdjd\346\240d\325\310\324\310\324\310\324\310\314A\311\252\221\251"
@@ -78,4 +78,4 @@ const uint8_t u8g2_font_crox5tb_tr[2337] U8G2_FONT_SECTION("u8g2_font_crox5tb_tr
   "dJfFhFjBlB\216\220RTRTR\256\216\20\0z\24j\25d\343@BfDd"
   "nl\335\330\42\211\241\203\2{\20\306~[Id\315\376dhf\77\222\222\0|\10#\32<\341\77"
   "\20}\20\305~[AHfd\177\63\61\262\237\250\1~\14\213\264m\205F\302\13\31\22\0\0\0\0"
-  "";
+  "\4\377\377\0";

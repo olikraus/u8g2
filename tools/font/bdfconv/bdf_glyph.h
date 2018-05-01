@@ -41,8 +41,8 @@ struct _bdf_glyph_struct
   //int actual_bitmap_height;	/* identical to bbx.h, maybe replace actual_bitmap_height by bbx.h */
   
   uint8_t *target_data;		/* if this is not NULL, then there is a valid glyph */
-  int target_max;
-  int target_cnt;
+  int target_max;			/* 32 bit value */
+  int target_cnt;			/* 32 bit value */
   int target_bit_pos;
   
   /* rle data */

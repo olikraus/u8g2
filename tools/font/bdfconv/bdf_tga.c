@@ -255,7 +255,21 @@ uint8_t *tga_get_glyph_data(uint16_t encoding)
   else
   {
     uint16_t e;
+    uint8_t *unicode_lookup_table;
     font += unicode_start_pos;
+    unicode_lookup_table = font;
+    
+    
+    /* search for the glyph start in the unicode lookup table */
+    do
+    {
+      font += ((unicode_lookup_table[0]<<8)|unicode_lookup_table[1]);
+      unicode_lookup_table+=2;
+      e = (unicode_lookup_table[0]<<8)|unicode_lookup_table[1];
+      unicode_lookup_table+=2;
+    } while( e < encoding );
+    
+    /* continue with the search in the font */
     for(;;)
     {
       e = ((font[0]<<8)|font[1]);

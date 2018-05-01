@@ -4,7 +4,7 @@
   Glyphs: 160/165
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_smart_patrol_nbp_tf[2245] U8G2_FONT_SECTION("u8g2_font_smart_patrol_nbp_tf") = 
+const uint8_t u8g2_font_smart_patrol_nbp_tf[2249] U8G2_FONT_SECTION("u8g2_font_smart_patrol_nbp_tf") = 
   "\240\0\4\3\4\4\1\4\5\12\16\0\376\11\376\11\0\1\205\3H\10\254 \5\0\221\2!\7\221Q"
   "\302E\0\42\10#\237B\204D\0#\30\231QKLPL\310\201HLPLPL\310\201HLP"
   "L\10\0$\22\231QS\324EL\214L\324U\214L\212\253 \0%\25\231Q\213PDH.\202$"
@@ -75,4 +75,4 @@ const uint8_t u8g2_font_smart_patrol_nbp_tf[2245] U8G2_FONT_SECTION("u8g2_font_s
   "\364E\234\356\42.\0\366\15\231QOD\364E\234\356\42.\0\367\11W\25O\350i\14\0\370\23y"
   "Q\307ET\204P\210L\214H\220DT\304\5\0\371\14\251QOdt\234\336E\34\4\372\14\251Q"
   "W\134t\234\336E\34\4\373\15\251QS\134Dp\234\336E\34\4\374\14\231QODp\234\336E\34"
-  "\4\0\0\0";
+  "\4\0\0\0\4\377\377\0";

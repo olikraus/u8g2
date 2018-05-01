@@ -344,10 +344,12 @@ struct u8g2_struct
 #ifdef U8G2_WITH_HVLINE_COUNT
   unsigned long hv_cnt;
 #endif /* U8G2_WITH_HVLINE_COUNT */   
-#ifdef __unix__
-  uint16_t last_unicode;
-  const uint8_t *last_font_data;
-#endif
+
+// removed, there is now the new index table
+//#ifdef __unix__
+//  uint16_t last_unicode;
+//  const uint8_t *last_font_data;
+//#endif
 
 };
 

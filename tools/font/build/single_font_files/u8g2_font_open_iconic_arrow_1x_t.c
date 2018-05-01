@@ -4,7 +4,7 @@
   Glyphs: 28/28
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_open_iconic_arrow_1x_t[357] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_1x_t") = 
+const uint8_t u8g2_font_open_iconic_arrow_1x_t[361] U8G2_FONT_SECTION("u8g2_font_open_iconic_arrow_1x_t") = 
   "\34\0\3\3\4\4\3\3\5\10\10\0\0\7\0\7\0\0\12\0\0\1L@\12\205%V\60\247\312,"
   "\4A\14X\64VXz\210\310\1Q\0B\14X\64n\34 \71D\305!\0C\12\205%VlR"
   "\12\346\4D\17\210$\26M$\31\231\310C\211HF\2E\17\210$\26M\62\21\225\305#\212dF"
@@ -16,4 +16,4 @@ const uint8_t u8g2_font_open_iconic_arrow_1x_t[357] U8G2_FONT_SECTION("u8g2_font
   "\306!\216*\245\212\325\0V\16x,v\344 \215\303\242\7I\30\0W\16h,\226T\26\212\331B"
   "\61\251\10\0X\21\210$\216)\30\7\204b\266P\34\20\14Y\0Y\20\210$vD\66\221\244\211\245"
   "\222\24\331\70\2Z\15h\64n\34 \263Xd\241\70\0[\17x,\306\64V\242\304\1q@\60d"
-  "\2\0\0\0";
+  "\2\0\0\0\4\377\377\0";

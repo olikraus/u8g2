@@ -4,6 +4,8 @@
   
   font decode
   
+  (obsolete? does not support unicode)
+  
 */
 
 #include "fd.h"

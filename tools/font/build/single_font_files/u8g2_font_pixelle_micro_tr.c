@@ -4,7 +4,7 @@
   Glyphs: 95/99
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_pixelle_micro_tr[708] U8G2_FONT_SECTION("u8g2_font_pixelle_micro_tr") = 
+const uint8_t u8g2_font_pixelle_micro_tr[712] U8G2_FONT_SECTION("u8g2_font_pixelle_micro_tr") = 
   "_\0\2\2\3\3\1\4\4\6\10\377\376\5\376\6\377\0\344\1\321\2\253 \4@L!\6iTV"
   "\0\42\6\323e\222\12#\12m\364\252\241\252\241*\0$\11\373\343\322\210GJ\0%\6dlb\17"
   "&\11l\354dT*\251\0'\5\321U\4(\7\372\333Tg\0)\10\372[bj)\0*\6c"
@@ -27,4 +27,4 @@ const uint8_t u8g2_font_pixelle_micro_tr[708] U8G2_FONT_SECTION("u8g2_font_pixel
   "dT\222\0s\7[\344TR\0t\10k\344bZ\61\1u\7[d\222\252\0v\7[dR\231"
   "\0w\11]tRRi%\0x\6[dR\7y\10kc\222J\253\2z\6[dV\32{\12"
   "\373cSL\31\304\14\2|\6\371S\216\0}\13\373c\62\210\31\244\230\42\0~\7\324\354\222J\0"
-  "\0\0\0";
+  "\0\0\0\4\377\377\0";

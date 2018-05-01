@@ -1001,13 +1001,13 @@ int u8g2_fnt_cnt = 0;
 extern void do_font_loop(cbfn_t cb);
 
 
-void overview_draw_line(int i, uint16_t encoding_start, uint16_t x, uint16_t y, uint16_t w)
+void overview_draw_line(int i, uint16_t encoding_start, uint16_t x, uint16_t y, uint16_t w, uint16_t glyphs_per_line)
 {
   int j;
 
   u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
   u8g2_SetFontDirection(&u8g2, 0);
-  for( j = 0; j < 16; j++)
+  for( j = 0; j < glyphs_per_line; j++)
   {
     if ( u8g2_IsGlyph(&u8g2, encoding_start + j) != 0 )
     {
@@ -1034,6 +1034,8 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
   int cw, ch;
   int line, h;
   uint16_t encoding;
+  uint16_t glyphs_per_line = 16;
+  int size;
   static char s[256];
   
   h = 13;
@@ -1054,7 +1056,11 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
   u8g2_DrawStr(&u8g2, 0, h, u8g2_font_names[u8g2_fnt_cnt]);
   u8g2_DrawStr(&u8g2, 0, h*2, s);
   
-  sprintf(s, "Font Data Size: %d Bytes", u8g2_GetFontSize(u8g2_font_list[u8g2_fnt_cnt]));
+  size = u8g2_GetFontSize(u8g2_font_list[u8g2_fnt_cnt]);
+  if ( size > 100000 )
+    glyphs_per_line = 32;
+    
+  sprintf(s, "Font Data Size: %d Bytes", size);
   u8g2_DrawStr(&u8g2, 0, h*3, s);
 
   u8g2_SetFont(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
@@ -1069,14 +1075,14 @@ void overview_draw_table(int i, uint16_t x, uint16_t y)
   line = 0;
   for(;;)
   {
-    encoding = line*16;
+    encoding = line*glyphs_per_line;
     if ( is_overview_line_empty(encoding) == 0 )
     {
       u8g2_SetFont(&u8g2, u8g2_font_7x13_tr);    
       sprintf(s, "%5d/%04x ", encoding, encoding);
       
       x = u8g2_DrawStr(&u8g2, 0, y, s);
-      overview_draw_line(i, encoding, x, y, cw+1);
+      overview_draw_line(i, encoding, x, y, cw+1, glyphs_per_line);
       y += ch;
     }
     line++;

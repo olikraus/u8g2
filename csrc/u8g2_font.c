@@ -182,6 +182,9 @@ size_t u8g2_GetFontSize(const uint8_t *font_arg)
   
   /* continue with unicode section */
   font += 2;
+
+  /* skip unicode lookup table */
+  font += u8g2_font_get_word(font, 0);
   
   for(;;)
   {
@@ -618,38 +621,51 @@ const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint16_t encoding)
   else
   {
     uint16_t e;
+    const uint8_t *unicode_lookup_table;
     
-#ifdef  __unix__
-    if ( u8g2->last_font_data != NULL && encoding >= u8g2->last_unicode )
-    {
-	font = u8g2->last_font_data;
-    }
-    else
-#endif 
+// removed, there is now the new index table
+//#ifdef  __unix__
+//    if ( u8g2->last_font_data != NULL && encoding >= u8g2->last_unicode )
+//    {
+//	font = u8g2->last_font_data;
+//    }
+//    else
+//#endif 
 
     font += u8g2->font_info.start_pos_unicode;
+    unicode_lookup_table = font; 
+  
+    /* issue 596: search for the glyph start in the unicode lookup table */
+    do
+    {
+      font += u8g2_font_get_word(unicode_lookup_table, 0);
+      e = u8g2_font_get_word(unicode_lookup_table, 2);
+      unicode_lookup_table+=4;
+    } while( e < encoding );
     
-    
+  
     for(;;)
     {
       e = u8x8_pgm_read( font );
       e <<= 8;
       e |= u8x8_pgm_read( font + 1 );
   
-#ifdef  __unix__
-      if ( encoding < e )
-        break;
-#endif 
+// removed, there is now the new index table  
+//#ifdef  __unix__
+//      if ( encoding < e )
+//        break;
+//#endif 
 
       if ( e == 0 )
 	break;
   
       if ( e == encoding )
       {
-#ifdef  __unix__
-	u8g2->last_font_data = font;
-	u8g2->last_unicode = encoding;
-#endif 
+// removed, there is now the new index table
+//#ifdef  __unix__
+//	u8g2->last_font_data = font;
+//	u8g2->last_unicode = encoding;
+//#endif 
 	return font+3;	/* skip encoding and glyph size */
       }
       font += u8x8_pgm_read( font + 2 );
@@ -1014,10 +1030,10 @@ void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font)
 {
   if ( u8g2->font != font )
   {
-#ifdef  __unix__
-	u8g2->last_font_data = NULL;
-	u8g2->last_unicode = 0x0ffff;
-#endif 
+//#ifdef  __unix__
+//	u8g2->last_font_data = NULL;
+//	u8g2->last_unicode = 0x0ffff;
+//#endif 
     u8g2->font = font;
     u8g2_read_font_info(&(u8g2->font_info), font);
     u8g2_UpdateRefHeight(u8g2);

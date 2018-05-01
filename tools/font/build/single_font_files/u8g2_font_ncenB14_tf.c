@@ -4,7 +4,7 @@
   Glyphs: 191/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_ncenB14_tf[4547] U8G2_FONT_SECTION("u8g2_font_ncenB14_tf") = 
+const uint8_t u8g2_font_ncenB14_tf[4551] U8G2_FONT_SECTION("u8g2_font_ncenB14_tf") = 
   "\277\0\4\3\5\5\4\5\6\27\27\375\374\16\374\16\376\2\210\5\327\21\252 \6\0`,\1!\21\304"
   "%\64C\342\340\300BD\231\304A\204\4\0\42\11\245dFA\202\27\2#\37\213adIBLB"
   "LB\346`\342`FBLB\346`\342`FBLBLB\10\0$#I\246[)\60\254F\42"
@@ -147,4 +147,4 @@ const uint8_t u8g2_font_ncenB14_tf[4547] U8G2_FONT_SECTION("u8g2_font_ncenB14_tf
   "\42K\42cOpnN\36\242fb*d*f&h&j\42l\42np\62J&j\42n\16"
   "\0\376\35L\36c\201r/\210hF\246&\246&\246&\246&\246&hF&\210&\27\326\1\377!"
   "\13\42cGDJD\272fb*d*f&h&j\42l\42np\62J&j\42n\16\0\0"
-  "\0\0";
+  "\0\0\4\377\377\0";

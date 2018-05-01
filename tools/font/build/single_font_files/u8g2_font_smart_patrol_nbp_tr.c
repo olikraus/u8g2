@@ -4,7 +4,7 @@
   Glyphs: 95/165
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_smart_patrol_nbp_tr[1238] U8G2_FONT_SECTION("u8g2_font_smart_patrol_nbp_tr") = 
+const uint8_t u8g2_font_smart_patrol_nbp_tr[1242] U8G2_FONT_SECTION("u8g2_font_smart_patrol_nbp_tr") = 
   "_\0\4\3\4\4\1\4\5\12\15\0\376\11\376\11\0\1\205\3H\4\275 \5\0\221\2!\7\221Q"
   "\302E\0\42\10#\237B\204D\0#\30\231QKLPL\310\201HLPLPL\310\201HLP"
   "L\10\0$\22\231QS\324EL\214L\324U\214L\212\253 \0%\25\231Q\213PDH.\202$"
@@ -43,4 +43,4 @@ const uint8_t u8g2_font_smart_patrol_nbp_tr[1238] U8G2_FONT_SECTION("u8g2_font_s
   "\17yQC\234\272\210\250\230T\21qA\0w\23yQCL\214L\214L\212\234Dd\223(&\4"
   "\0x\20yQC\134DTL\252\251\230T\21q\1y\15\231MC\234\336E\34\4\36H\0z\13"
   "yQ\303\201X\134\316\16\4{\14\223\221JDH\212\230\220\64\1|\6qS\302\1}\15\223\221B"
-  "LH\232\210\220\24!\0~\12\67\27\207PH\42\11\0\0\0\0";
+  "LH\232\210\220\24!\0~\12\67\27\207PH\42\11\0\0\0\0\4\377\377\0";

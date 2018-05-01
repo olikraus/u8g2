@@ -4,7 +4,7 @@
   Glyphs: 95/224
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_crox3hb_tr[1552] U8G2_FONT_SECTION("u8g2_font_crox3hb_tr") = 
+const uint8_t u8g2_font_crox3hb_tr[1556] U8G2_FONT_SECTION("u8g2_font_crox3hb_tr") = 
   "_\0\4\3\5\5\3\6\6\20\24\0\374\14\374\15\375\2\11\4-\5\367 \6\0\20.\1!\11\202"
   "\31,\341\1\221\0\42\11\205\24=A\202\13\1#\37\211\21TGBHBHB\344 DBHB"
   "HBHB\344 DBHBHB\6\0$\27\310\365SG\212\306B\5\205\20\25#\11\31\11\12"
@@ -53,4 +53,4 @@ const uint8_t u8g2_font_crox3hb_tr[1552] U8G2_FONT_SECTION("u8g2_font_crox3hb_tr
   "\16\242D\304D\304Dd\0x\21(\21D!JBD\33*)\32\21-\242\4y\25\250\221C!"
   "jJBD\33\42*\61)\61)\61\251\70\0z\14'\25L\341JH+!U\7{\16\344\265\63"
   "EBD/dD\364F\0|\10\242\371\63\341\203\2}\17\344\265\63AFDo$D\364B\4\0"
-  "~\14hTUc\204B\202d\2\0\0\0\0";
+  "~\14hTUc\204B\202d\2\0\0\0\0\4\377\377\0";

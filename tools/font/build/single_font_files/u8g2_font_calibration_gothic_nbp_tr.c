@@ -4,7 +4,7 @@
   Glyphs: 95/395
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_calibration_gothic_nbp_tr[1570] U8G2_FONT_SECTION("u8g2_font_calibration_gothic_nbp_tr") = 
+const uint8_t u8g2_font_calibration_gothic_nbp_tr[1574] U8G2_FONT_SECTION("u8g2_font_calibration_gothic_nbp_tr") = 
   "_\0\4\2\4\5\1\5\5\16\25\377\373\16\373\17\377\1\330\4\2\6\11 \5\0B\12!\10\341B"
   "\11\17\62\1\42\10\63n\12\11\213\0#\27\234\312Ne\241\314\340@\23\212\205b\241\314\340@\23\212"
   "\205B\0$\26\327F<\251M\242ID\22J\244V\211PDR\321f\225\1%\26\312\302\35\232\222"
@@ -54,4 +54,4 @@ const uint8_t u8g2_font_calibration_gothic_nbp_tr[1570] U8G2_FONT_SECTION("u8g2_
   "\14\251D&\222\251\10%R\25\241D\246$\223H\5y\24\10\257\14\61\377,\21\222\14\22\271\234,"
   "\21\312\14\42\0z\15\267B\14\7\261\252>\213\15\6\1{\16\6\277K\232P\252QYUg\61\1"
   "|\6\361B\11\77}\16\6\277\13\262\252fEU\35eD\0~\12\65Z\33\21EB\222\0\0\0"
-  "\0";
+  "\0\4\377\377\0";

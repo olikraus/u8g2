@@ -4,7 +4,7 @@
   Glyphs: 17/17
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_open_iconic_embedded_4x_t[903] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_4x_t") = 
+const uint8_t u8g2_font_open_iconic_embedded_4x_t[907] U8G2_FONT_SECTION("u8g2_font_open_iconic_embedded_4x_t") = 
   "\21\0\5\5\6\6\5\4\7  \0\0 \0 \0\0$\0\0\3n@$ \6\31\14\70\302G"
   "\10J\20\202\22\204\240\4!(A\10\312\376(A\10J\20\202\22\204\240\4\341G\0A+ \10\21"
   "\334\14\254Tf:\322\211\20\204\357IN\326(F-+aG+\334\360\204\27>\360\1\341\203\203\10"
@@ -33,4 +33,4 @@ const uint8_t u8g2_font_open_iconic_embedded_4x_t[903] U8G2_FONT_SECTION("u8g2_f
   "\314\220\352\34\341De\60\224 \312q\32b\60e\30.\21EDD\1\223P@%\20p\11\304\203"
   "\70\371u\202\23\274\264\13n\70a\31\214X\210A\26\325$\350T\204\1P,\36\10\21\254\24(%"
   "\214pAQJ(d!\6;|\360\16\62\235\7\71\350\21\206\200\1\13>\370\36\221\215\213X\264k"
-  "d\242\1\0\0\0";
+  "d\242\1\0\0\0\4\377\377\0";

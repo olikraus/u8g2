@@ -55,8 +55,13 @@
 
 #define BDF_RLE_FONT_GLYPH_START 23
 
+/* max glyphs count is around 7500, 7500/100 = 75 */
+
+#define UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY 100
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <assert.h>
 #include "bdf_font.h"
 
@@ -641,7 +646,14 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   int idx_para_descent;
   
   unsigned pos;
+  unsigned ascii_glyphs;
   unsigned unicode_start_pos;
+  unsigned unicode_lookup_table_len;  
+  uint32_t unicode_lookup_table_start;
+  uint32_t unicode_last_delta;
+  uint32_t unicode_last_target_cnt;
+  unsigned unicode_lookup_table_pos;
+  unsigned unicode_lookup_table_glyph_cnt;
   
   idx_cap_a_ascent = 0;
   idx_cap_a = bf_GetIndexByEncoding(bf, 'A');
@@ -758,6 +770,8 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf_AddTargetData(bf, 0);
 
   /* assumes, that map_to is sorted */
+
+  ascii_glyphs = 0;
   for( i = 0; i < bf->glyph_cnt; i++ )
   {
     bg = bf->glyph_list[i];
@@ -776,6 +790,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
 	{
 	  bf_AddTargetData(bf, bg->target_data[j]);
 	}
+	ascii_glyphs++;		/* calculate the numner of ascii glyphs, this is required later for the unicode index table */
       }
     }
   }
@@ -784,11 +799,40 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf_AddTargetData(bf, 0);
   
   unicode_start_pos = bf->target_cnt-BDF_RLE_FONT_GLYPH_START;
+  /* 
+  1 May 2018: Unicode lookup table 
+  */
+  bf_Log(bf, "RLE Compress: ASCII gylphs=%d, Unicode glyphs=%d", ascii_glyphs, bf->selected_glyphs-ascii_glyphs);
+  unicode_lookup_table_len = (bf->selected_glyphs-ascii_glyphs) / UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY;
+  //if ( unicode_lookup_table_len > 1 )		
+  //  unicode_lookup_table_len--;			
+  bf_Log(bf, "RLE Compress: Glyphs per unicode lookup table entry=%d", UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY);
+  unicode_lookup_table_start = bf->target_cnt;
+  
+  /* write n-1 entries */
+  for( i = 1; i < unicode_lookup_table_len; i++ )
+  {
+    bf_AddTargetData(bf, 0);	/* offset */
+    bf_AddTargetData(bf, 0);
+    bf_AddTargetData(bf, 0);	/* encoding */
+    bf_AddTargetData(bf, 0);
+  }
+  /* the last entry is special, it contains the encoding 0xffff */
+  bf_AddTargetData(bf, 0);	/* offset */
+  bf_AddTargetData(bf, 4);	/* default, if the table has only one entry, then just skip the table */
+  bf_AddTargetData(bf, 0xff);	/* encoding */
+  bf_AddTargetData(bf, 0xff);
+  
+  
 
+  unicode_lookup_table_pos = 0;
+  unicode_lookup_table_glyph_cnt = 0;
+  unicode_last_delta = bf->target_cnt-unicode_lookup_table_start;   /* should be 4 if unicode_lookup_table_len == 0 */
+  unicode_last_target_cnt = bf->target_cnt;
   /* now write chars with code >= 256 from the BMP */
   /* assumes, that map_to is sorted */
   for( i = 0; i < bf->glyph_cnt; i++ )
-  {
+  { 
     bg = bf->glyph_list[i];
     if ( bg->map_to >= 256 )
     {
@@ -805,13 +849,53 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
 	{
 	  bf_AddTargetData(bf, bg->target_data[j]);
 	}
+	
+	/* update the unicode lookup table entry counter */
+	unicode_lookup_table_glyph_cnt++;
+	if  ( unicode_lookup_table_glyph_cnt  > UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY )
+	{
+	  /* ensure, that there is a table entry available */
+	  if ( unicode_lookup_table_pos < unicode_lookup_table_len )
+	  {
+	    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+0] = unicode_last_delta>>8;
+	    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+1] = unicode_last_delta&255;
+	    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+2] |= bg->encoding>>8;		// ensure to keep the 0x0ffff encoding at the end
+	    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+3] |= bg->encoding&255;		// ensure to keep the 0x0ffff encoding at the end 
+	    
+	    unicode_lookup_table_pos++;
+	    unicode_lookup_table_glyph_cnt = 0;
+	    unicode_last_delta = bf->target_cnt - unicode_last_target_cnt;
+	    unicode_last_target_cnt = bf->target_cnt;
+	  }
+	}	
       }
     }
   }
+
+  /* write pending block to the unicode lookup table, ensure, that there is a table entry available */
+  if ( unicode_lookup_table_pos < unicode_lookup_table_len )
+  {
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+0] = unicode_last_delta>>8;
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+1] = unicode_last_delta&255;
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+2] = 0xff;	
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+3] = 0xff;	
+    unicode_lookup_table_pos++;
+  }
+  
   /* add empty encoding as end of font marker (note: this differs from the ASCII section) */
   bf_AddTargetData(bf, 0);
   bf_AddTargetData(bf, 0);
 
+  bf_Log(bf, "RLE Compress: Unicode lookup table len=%d, written entries=%d", unicode_lookup_table_len, unicode_lookup_table_pos);
+  bf_Log(bf, "RLE Compress: Unicode lookup table first entry: delta=%d, encoding=%d", 
+    bf->target_data[unicode_lookup_table_start+0]*256+bf->target_data[unicode_lookup_table_start+1], 
+    bf->target_data[unicode_lookup_table_start+2]*256+bf->target_data[unicode_lookup_table_start+3]);
+
+  bf_Log(bf, "RLE Compress: Unicode lookup table last entry: delta=%d, encoding=%d", 
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+0]*256+bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+1], 
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+2]*256+bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+3]);
+  
+  assert(unicode_lookup_table_len == unicode_lookup_table_pos );		// ensure that all table entries are filled
   
   pos = bf_RLE_get_glyph_data(bf, 'A');
   bf->target_data[17] = pos >> 8;

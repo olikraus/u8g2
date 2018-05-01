@@ -4,7 +4,7 @@
   Glyphs: 106/111
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_trixel_square_tf[770] U8G2_FONT_SECTION("u8g2_font_trixel_square_tf") = 
+const uint8_t u8g2_font_trixel_square_tf[774] U8G2_FONT_SECTION("u8g2_font_trixel_square_tf") = 
   "j\0\2\3\3\3\1\3\4\5\11\0\376\5\376\5\0\0\333\1\305\2\351 \4@&!\6i*S"
   "\0\42\6\323\63\221\24#\11\355y\251*U\245\0$\10srQYE\0%\10k\62QXF\1"
   "&\11m:c\24R\311\2'\5\321+\2(\7j.SJ\0)\7j.Rj\0*\6[\63"
@@ -29,4 +29,4 @@ const uint8_t u8g2_font_trixel_square_tf[770] U8G2_FONT_SECTION("u8g2_font_trixe
   "~\6\333\262%\0\243\11lvS\14\210!\1\247\7{\61$E\22\253\6\323\62\221\24\273\6\323\62"
   "\221\24\304\11{\62Q\14P\225\24\326\11{\62Q\14P*\2\334\11{\62Q\14DZ\4\337\7{"
   "\61T\63\4\344\11l\66Q\14N)\2\366\10k\62Q\14P\4\374\11k\62Q\14D\22\1\0\0"
-  "\0";
+  "\0\4\377\377\0";

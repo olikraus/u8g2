@@ -4,7 +4,7 @@
   Glyphs: 190/203
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_balthasar_titling_nbp_tf[2721] U8G2_FONT_SECTION("u8g2_font_balthasar_titling_nbp_tf") = 
+const uint8_t u8g2_font_balthasar_titling_nbp_tf[2725] U8G2_FONT_SECTION("u8g2_font_balthasar_titling_nbp_tf") = 
   "\276\0\3\2\4\5\2\5\5\14\27\376\373\16\373\17\377\1\216\3e\12\210 \5\0\204\23!\7\341\204"
   "\22o\2\42\7\63\334\24\211%#\22\212\224\233Q\34e\303-\212\243l\270Eq\24\2$\27\7}"
   "xq\272%M\221\24&\351\232\204Q\26I\225\266\65\316\0%\31\371\204:Z\324_B)Gr "
@@ -90,4 +90,4 @@ const uint8_t u8g2_font_balthasar_titling_nbp_tf[2721] U8G2_FONT_SECTION("u8g2_f
   "\232d\322\22\372\15\307\204\270\355X\352k\222IK\0\373\17\307\204xi\222\325\221\324\327$\223\226\0"
   "\374\15\267\204XINJ}M\62i\11\375\20\27]\270\355X\352k\22F\203\334\232M\0\376\20\247"
   "|\30q<Ha\222\32\223A\212c\0\377\20\7]XINJ}M\302h\220[\263\11\0\0\0"
-  "";
+  "\4\377\377\0";

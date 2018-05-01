@@ -4,7 +4,7 @@
   Glyphs: 95/203
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_balthasar_regular_nbp_tr[973] U8G2_FONT_SECTION("u8g2_font_balthasar_regular_nbp_tr") = 
+const uint8_t u8g2_font_balthasar_regular_nbp_tr[977] U8G2_FONT_SECTION("u8g2_font_balthasar_regular_nbp_tr") = 
   "_\0\3\2\3\4\1\4\5\7\15\0\375\11\375\12\377\1=\2\206\3\264 \5\200(\1!\6\311("
   "q\12\42\7\233N\221X\2#\13\255jS\31\224\312\240T\0$\16\315h\225-\25%\333\22\245\262"
   "E\0%\16\306x!%R\230\206i\30)\221\0&\17\315h\263\204\351 %Q\22%Q\264\0'"
@@ -35,4 +35,4 @@ const uint8_t u8g2_font_balthasar_regular_nbp_tr[973] U8G2_FONT_SECTION("u8g2_fo
   "t\12\315h\25\226\6)l\25u\11\265h\221yK\206\0v\11\265h\221\271%\265\10w\14\265h"
   "\221)\211\222(\235\222\4x\12\265h\221%\265JM\13y\13\315e\221yK\206\260\262\0z\11\264"
   "X\61dQ\333\20{\12\333G\225D-Y\324\26|\6\331'\361 }\13\333G\221EmI\324\22"
-  "\1~\10\235l\241%\65\1\0\0\0";
+  "\1~\10\235l\241%\65\1\0\0\0\4\377\377\0";
