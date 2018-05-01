@@ -186,6 +186,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added tom-thumb font (issue 563)
   * Added AVR specific optimization for 3-wire Software SPI (issue 586)
  2018-xx-xx	v2.23.xx  olikraus@gmail.com
-  
+  * NEW FONT FORMAT for speedup of the unicode font section (issue 596)  
   
   

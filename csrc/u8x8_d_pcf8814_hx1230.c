@@ -5,7 +5,7 @@
   pcf8814: 65x96
   hx1230: 68x96
   
-  pcf8814 and hc1230 are almost identical. Flip mode is not supported.
+  pcf8814 and hc1230 are almost identical.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -52,6 +52,9 @@ static const uint8_t u8x8_d_hx1230_96x68_init_seq[] = {
   U8X8_C(0x080),				/* contrast setting, 0..31, set to 0 */
   U8X8_C(0x0a6),		                /* not inverted display */
   U8X8_C(0x0a4),		                /* normal display mode */
+
+  U8X8_C(0x0a0),		                /* */
+  U8X8_C(0x0c0),		                /* */
   
   U8X8_C(0x040),		                /* start at scanline 0 */
     
@@ -71,6 +74,22 @@ static const uint8_t u8x8_d_hx1230_96x68_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a4),		                /* display off */
   U8X8_C(0x020),		                /* power off */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_hx1230_96x68_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a0),		                /* */
+  U8X8_C(0x0c0),		                /* */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_hx1230_96x68_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a1),		                /* */
+  U8X8_C(0x0c8),		                /* */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -97,7 +116,6 @@ static uint8_t u8x8_d_hx1230_96x68_generic(u8x8_t *u8x8, uint8_t msg, uint8_t ar
       else
 	u8x8_cad_SendSequence(u8x8, u8x8_d_hx1230_96x68_powersave1_seq);
       break;
-/*
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
@@ -110,7 +128,6 @@ static uint8_t u8x8_d_hx1230_96x68_generic(u8x8_t *u8x8, uint8_t msg, uint8_t ar
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
-*/
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
