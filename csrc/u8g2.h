@@ -147,8 +147,10 @@
 */
 #define U8G2_WITH_CLIPPING
 
+// Glyph lookup cache (0 - disabled; 1 - last encoding; 2 - indexed space)
+#define U8G2_WITH_GLYPH_LOOKUP_CACHE 2
 
-
+#define U8G2_INDEX_CNT_UNICODE 8
 
 /*==========================================*/
 
@@ -344,11 +346,13 @@ struct u8g2_struct
 #ifdef U8G2_WITH_HVLINE_COUNT
   unsigned long hv_cnt;
 #endif /* U8G2_WITH_HVLINE_COUNT */   
-#ifdef __unix__
+#if U8G2_WITH_GLYPH_LOOKUP_CACHE == 1
+  const uint8_t *last_unicode_glyph;
   uint16_t last_unicode;
-  const uint8_t *last_font_data;
+#elif U8G2_WITH_GLYPH_LOOKUP_CACHE == 2
+  uint16_t index_unicode[U8G2_INDEX_CNT_UNICODE];
+  const uint8_t *index_unicode_glyphs[U8G2_INDEX_CNT_UNICODE];
 #endif
-
 };
 
 #define u8g2_GetU8x8(u8g2) ((u8x8_t *)(u8g2))
