@@ -694,7 +694,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   }
 
   
-  for( rle_0 = 2; rle_0 < 7; rle_0++ )
+  for( rle_0 = 2; rle_0 < 9; rle_0++ )
   {
     for( rle_1 = 2; rle_1 < 7; rle_1++ )
     {
