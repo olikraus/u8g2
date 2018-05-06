@@ -66,6 +66,7 @@ uint32_t switch_changed_millis;
 uint8_t map_switch_to_light[4];
 
 #define STATE_WAIT 0
+#define STATE_DELAYED_SWAP_WAIT 1
 
 uint8_t state = STATE_WAIT;
 
@@ -279,6 +280,7 @@ void next_state(void)
       {
 	int8_t npos1 = -1;
 	int8_t npos2 = -1;
+	uint8_t i;
 	for( i = 0; i < 4; i++ )
 	{
 	  if ( switch_status[i] == SWITCH_OFF )
