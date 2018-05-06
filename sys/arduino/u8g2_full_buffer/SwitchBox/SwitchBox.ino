@@ -50,6 +50,15 @@ uint8_t switch_status[4];
 #define DEBOUNCE_CNT 3
 uint8_t switch_debounce[4];
 uint8_t is_switch_changed;
+uint8_t last_switch_on_cnt;	// number of "on" leds before the last change
+uint8_t switch_on_cnt;		// current number of "on" leds
+uint8_t max_on_cnt;			// last number max number of "on" leds
+
+// max_on_cnt==1: max_on_cnt_pos1 --> on led
+// max_on_cnt==2: max_on_cnt_pos1/2 --> on led
+// max_on_cnt==3: max_on_cnt_pos1 --> off led
+int8_t max_on_cnt_pos1 = -1;
+int8_t max_on_cnt_pos2 = -1;
 
 uint32_t switch_changed_millis;
 
@@ -76,7 +85,8 @@ void init_switch(void)
 
 void read_switch_status(void)
 {
-  uint8_t i, v;
+  uint8_t i, v, on_cnt;
+  int8_t pos1, pos2, npos1;
   for( i = 0; i < 4; i++ )
   {
      v = digitalRead(switch_to_pin[i]);
@@ -102,11 +112,73 @@ void read_switch_status(void)
 	switch_debounce[i] = DEBOUNCE_CNT;	// start debounce
      }
   }
+  
+  on_cnt = 0;
+  pos1 = -1;
+  for( i = 0; i < 4; i++ )
+  {
+    if ( switch_status[i] == SWITCH_ON )
+    {
+      on_cnt++;
+      if ( pos1 < 0 )
+	pos1 = i;
+      else
+	pos2 = i;
+    }
+    else
+    {
+      npos1 = i;
+    }
+  }
+  
+  if ( switch_on_cnt != on_cnt )
+  {
+    last_switch_on_cnt = switch_on_cnt;
+    switch_on_cnt = on_cnt; 
+    if ( last_switch_on_cnt < switch_on_cnt )
+    {
+      max_on_cnt = on_cnt;
+      if ( max_on_cnt == 1 )
+      {
+	max_on_cnt_pos1 = pos1; 
+	max_on_cnt_pos2 = -1; 
+      }
+      else if ( max_on_cnt == 2 )
+      {
+	max_on_cnt_pos1 = pos1; 
+	max_on_cnt_pos2 = pos2; 
+      }
+      else if ( max_on_cnt == 3 )
+      {
+	max_on_cnt_pos1 = npos1; 
+	max_on_cnt_pos2 = -1; 
+      }
+      else
+      {
+	max_on_cnt_pos1 = -1; 
+	max_on_cnt_pos2 = -1; 
+      }
+    }
+  }
+  
 }
 
 void print_switch_status(void)
 {
   uint8_t i;
+  
+  u8g2log.print(last_switch_on_cnt);
+  u8g2log.print(">");
+  u8g2log.print(switch_on_cnt);
+  u8g2log.print("/");
+  u8g2log.print(max_on_cnt);
+  u8g2log.print("\n");
+  
+  u8g2log.print(max_on_cnt_pos1);
+  u8g2log.print("/");
+  u8g2log.print(max_on_cnt_pos2);
+  u8g2log.print("\n");
+  
   for( i = 0; i < 4; i++ )
     u8g2log.print(switch_status[i] == 0 ? "*" : ".");
   u8g2log.print("\n");
