@@ -57,6 +57,7 @@ uint8_t max_on_cnt;			// last number max number of "on" switches
 // max_on_cnt==1: max_on_cnt_pos1 --> on switch
 // max_on_cnt==2: max_on_cnt_pos1/2 --> on switch
 // max_on_cnt==3: max_on_cnt_pos1 --> off switch
+// max_on_cnt==4: max_on_cnt_pos1 --> last switch which was turned off
 int8_t max_on_cnt_pos1 = -1;
 int8_t max_on_cnt_pos2 = -1;
 
@@ -118,6 +119,7 @@ void read_switch_status(void)
   
   on_cnt = 0;
   pos1 = -1;
+  pos2 = -1;
   for( i = 0; i < 4; i++ )
   {
     if ( switch_status[i] == SWITCH_ON )
@@ -156,12 +158,29 @@ void read_switch_status(void)
 	max_on_cnt_pos1 = npos1; 
 	max_on_cnt_pos2 = -1; 
       }
+      else if ( max_on_cnt == 4 )
+      {
+	max_on_cnt_pos1 = -1; 
+	max_on_cnt_pos2 = -1; 
+      }
       else
       {
 	max_on_cnt_pos1 = -1; 
 	max_on_cnt_pos2 = -1; 
       }
     }
+    else if ( last_switch_on_cnt > switch_on_cnt )
+    {
+      if ( max_on_cnt == 4 )
+      {
+	if ( switch_on_cnt == 1 )
+	{
+	  max_on_cnt_pos1 = pos1; 
+	  max_on_cnt_pos2 = -1; 	  
+	}
+      }
+    }
+    
   }
   
 }
@@ -222,22 +241,35 @@ void next_state(void)
     case STATE_WAIT:
       if ( switch_changed_millis+TIMEOUT < millis() )
       {
-	if ( switch_on_cnt == 0 )
+	if ( switch_on_cnt == 0 )		// main command "1 light max"
 	{
 	  switch_changed_millis = millis();
-	  if ( max_on_cnt == 2 )
+	  if ( max_on_cnt == 1 )
+	  {
+	    if ( max_on_cnt_pos1 == 0 )
+	    {
+	      uint8_t i;
+	      for( i = 0; i < 4; i++ )
+	      {
+		map_switch_to_light[i] = i;
+	      }
+	      u8g2log.print(F("reset\n"));
+	    }
+	  }
+	  else if ( max_on_cnt == 2 )	// main command "2 light max"
 	  {
 	    // swap two pins
 	    uint8_t tmp;
 	    tmp = map_switch_to_light[max_on_cnt_pos1];
 	    map_switch_to_light[max_on_cnt_pos1] = map_switch_to_light[max_on_cnt_pos2];
 	    map_switch_to_light[max_on_cnt_pos2] = tmp;
-	    u8g2log.print("swap\n");
+	    u8g2log.print(F("swap\n"));
 	  }
 	  else
 	  {
 	    u8g2log.print("t-out\n");
 	  }
+	  max_on_cnt = 0;		// ensure, that the command is not executed again
 	}
       }
       break;
