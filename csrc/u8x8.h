@@ -397,6 +397,7 @@ struct u8log_struct
   uint8_t redraw_line;	/* redraw specific line if is_redraw_line is not 0 */
   uint8_t is_redraw_line;
   uint8_t is_redraw_all;
+  uint8_t is_redraw_all_required_for_next_nl; /* in nl mode, redraw all instead of current line */
 };
 typedef struct u8log_struct u8log_t;
 

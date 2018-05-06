@@ -86,6 +86,8 @@ static void u8log_scroll_up(u8log_t *u8log)
   
   if ( u8log->is_redraw_line_for_each_char )
     u8log->is_redraw_all = 1;
+  else
+    u8log->is_redraw_all_required_for_next_nl = 1;
 }
 
 /*
@@ -93,6 +95,7 @@ static void u8log_scroll_up(u8log_t *u8log)
 */
 static void u8log_cursor_on_screen(u8log_t *u8log)
 {
+  //printf("u8log_cursor_on_screen, cursor_y=%d\n", u8log->cursor_y);
   if ( u8log->cursor_x >= u8log->width )
   {
     u8log->cursor_x = 0;
@@ -139,6 +142,9 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
     case '\n':	// 10
       u8log->is_redraw_line = 1;
       u8log->redraw_line = u8log->cursor_y;
+      if ( u8log->is_redraw_all_required_for_next_nl )
+	u8log->is_redraw_all = 1;
+      u8log->is_redraw_all_required_for_next_nl = 0;
       u8log->cursor_y++;
       u8log->cursor_x = 0;
       break;	

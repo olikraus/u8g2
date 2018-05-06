@@ -24,8 +24,8 @@ int main(void)
 
   u8log_Init(&u8log, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buf);
   u8log_SetCallback(&u8log, u8log_u8x8_cb, &u8x8);
-  u8log_SetRedrawMode(&u8log, /* is_redraw_line_for_each_char = */ 1);
-  //u8log_SetRedrawMode(&u8log, /* is_redraw_line_for_each_char = */ 0);
+  //u8log_SetRedrawMode(&u8log, /* is_redraw_line_for_each_char = */ 1);
+  u8log_SetRedrawMode(&u8log, /* is_redraw_line_for_each_char = */ 0);
   
   t = clock()+CLOCKS_PER_SEC/10;
   for(;;)
