@@ -195,7 +195,7 @@ struct groupinfo gi[] = {
 #define MM_N	8	/* numbers */
 #define MM_C	16	/* custom */
 #define MM_M	32	/* map file */
-#define MM_E	64	/* extended */
+#define MM_E	64	/* extended 32-701	 */
 
 
 /*

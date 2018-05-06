@@ -61,6 +61,9 @@ uint8_t max_on_cnt;			// last number max number of "on" switches
 int8_t max_on_cnt_pos1 = -1;
 int8_t max_on_cnt_pos2 = -1;
 
+int8_t max_on_cnt_npos1 = -1;
+int8_t max_on_cnt_npos2 = -1;
+
 uint32_t switch_changed_millis;
 
 uint8_t map_switch_to_light[4];
@@ -243,12 +246,12 @@ void next_state(void)
     case STATE_WAIT:
       if ( switch_changed_millis+TIMEOUT < millis() )
       {
-	if ( switch_on_cnt == 0 )		// main command "1 light max"
+	if ( switch_on_cnt == 0 )
 	{
 	  switch_changed_millis = millis();
-	  if ( max_on_cnt == 1 )
+	  if ( max_on_cnt == 1 )		// main command "1 light max"
 	  {
-	    if ( max_on_cnt_pos1 == 0 )
+	    if ( max_on_cnt_pos1 == 0 )		// sub cmd reset
 	    {
 	      uint8_t i;
 	      for( i = 0; i < 4; i++ )
@@ -256,6 +259,14 @@ void next_state(void)
 		map_switch_to_light[i] = i;
 	      }
 	      u8g2log.print(F("reset\n"));
+	    }
+	    else if ( max_on_cnt_pos1 == 1 )		// sub cmd user choice
+	    {
+	      state = STATE_DELAYED_SWAP_WAIT;
+	      max_on_cnt_npos1 = -1;
+	      max_on_cnt_npos2 = -1;
+	      
+	      u8g2log.print(F("user\n"));
 	    }
 	  }
 	  else if ( max_on_cnt == 2 )	// main command "2 light max"
@@ -275,20 +286,29 @@ void next_state(void)
 	}
       }
       break;
-    case STATE_DELAYED_SWAP_WAIT:
-      if ( switch_on_cnt == 2 )
+    case STATE_DELAYED_SWAP_WAIT:	// user choice 
       {
-	int8_t npos1 = -1;
-	int8_t npos2 = -1;
 	uint8_t i;
 	for( i = 0; i < 4; i++ )
 	{
-	  if ( switch_status[i] == SWITCH_OFF )
+	  if ( switch_status[i] == SWITCH_ON )
 	  {
-	    if ( npos1 < 0 )
-	      npos1 = i;
+	    if ( max_on_cnt_pos1 < 0 )
+	      max_on_cnt_pos1 = i;
 	    else
-	      npos2 = i;
+	    {
+	      uint8_t tmp;
+	      max_on_cnt_pos2 = i;
+	      
+	      
+	      
+	      tmp = map_switch_to_light[max_on_cnt_npos1];
+	      map_switch_to_light[max_on_cnt_npos1] = map_switch_to_light[max_on_cnt_npos2];
+	      map_switch_to_light[max_on_cnt_npos2] = tmp;
+	      
+	      state = STATE_WAIT;
+	      switch_changed_millis = millis();
+	    }
 	  }
 	}
       
