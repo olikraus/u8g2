@@ -108,6 +108,7 @@ void read_switch_status(void)
 	  switch_status[i] = v;	// new value detected
 	  is_switch_changed = 1;
 	  switch_changed_millis = millis();
+	  break;		// break out of the loop, so that we detect only one change at a time
 	}
       }
      }
@@ -271,6 +272,24 @@ void next_state(void)
 	  }
 	  max_on_cnt = 0;		// ensure, that the command is not executed again
 	}
+      }
+      break;
+    case STATE_DELAYED_SWAP_WAIT:
+      if ( switch_on_cnt == 2 )
+      {
+	int8_t npos1 = -1;
+	int8_t npos2 = -1;
+	for( i = 0; i < 4; i++ )
+	{
+	  if ( switch_status[i] == SWITCH_OFF )
+	  {
+	    if ( npos1 < 0 )
+	      npos1 = i;
+	    else
+	      npos2 = i;
+	  }
+	}
+      
       }
       break;
     default:
