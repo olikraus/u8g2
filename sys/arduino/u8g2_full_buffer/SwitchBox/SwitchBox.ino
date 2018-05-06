@@ -50,17 +50,19 @@ uint8_t switch_status[4];
 #define DEBOUNCE_CNT 3
 uint8_t switch_debounce[4];
 uint8_t is_switch_changed;
-uint8_t last_switch_on_cnt;	// number of "on" leds before the last change
-uint8_t switch_on_cnt;		// current number of "on" leds
-uint8_t max_on_cnt;			// last number max number of "on" leds
+uint8_t last_switch_on_cnt;	// number of "on" switches before the last change
+uint8_t switch_on_cnt;		// current number of "on" switches
+uint8_t max_on_cnt;			// last number max number of "on" switches
 
-// max_on_cnt==1: max_on_cnt_pos1 --> on led
-// max_on_cnt==2: max_on_cnt_pos1/2 --> on led
-// max_on_cnt==3: max_on_cnt_pos1 --> off led
+// max_on_cnt==1: max_on_cnt_pos1 --> on switch
+// max_on_cnt==2: max_on_cnt_pos1/2 --> on switch
+// max_on_cnt==3: max_on_cnt_pos1 --> off switch
 int8_t max_on_cnt_pos1 = -1;
 int8_t max_on_cnt_pos2 = -1;
 
 uint32_t switch_changed_millis;
+
+uint8_t map_switch_to_light[4];
 
 #define STATE_WAIT 0
 
@@ -80,6 +82,7 @@ void init_switch(void)
     pinMode(switch_to_pin[i], INPUT_PULLUP);    
     switch_debounce[i] = 0;
     switch_status[i] = 2;
+    map_switch_to_light[i] = i;
   }
 }
 
@@ -202,9 +205,9 @@ void write_switch_to_light(void)
   for( i = 0; i < 4; i++ )
   {
     if ( switch_status[i] == SWITCH_ON )
-      digitalWrite(light_to_pin[i], LIGHT_ON);
+      digitalWrite(light_to_pin[map_switch_to_light[i]], LIGHT_ON);
     else
-      digitalWrite(light_to_pin[i], LIGHT_OFF);
+      digitalWrite(light_to_pin[map_switch_to_light[i]], LIGHT_OFF);
   }
 }
 
@@ -213,20 +216,41 @@ void write_switch_to_light(void)
 void next_state(void)
 {
   read_switch_status();
+  
   switch(state)
   {
     case STATE_WAIT:
       if ( switch_changed_millis+TIMEOUT < millis() )
       {
-	u8g2log.print("t-out\n");
-	switch_changed_millis = millis();
+	if ( switch_on_cnt == 0 )
+	{
+	  switch_changed_millis = millis();
+	  if ( max_on_cnt == 2 )
+	  {
+	    // swap two pins
+	    uint8_t tmp;
+	    tmp = map_switch_to_light[max_on_cnt_pos1];
+	    map_switch_to_light[max_on_cnt_pos1] = map_switch_to_light[max_on_cnt_pos2];
+	    map_switch_to_light[max_on_cnt_pos2] = tmp;
+	    u8g2log.print("swap\n");
+	  }
+	  else
+	  {
+	    u8g2log.print("t-out\n");
+	  }
+	}
       }
-      if ( is_switch_changed != 0 )
-      {
-	print_switch_status();
-	write_switch_to_light();
-	is_switch_changed = 0;
-      }
+      break;
+    default:
+      state = STATE_WAIT;
+      break;
+  }
+  
+  if ( is_switch_changed != 0 )
+  {
+    print_switch_status();
+    write_switch_to_light();
+    is_switch_changed = 0;
   }
 }
 
