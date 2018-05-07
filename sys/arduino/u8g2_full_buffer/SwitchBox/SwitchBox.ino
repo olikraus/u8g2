@@ -61,6 +61,9 @@ uint8_t max_on_cnt;			// last number max number of "on" switches
 int8_t max_on_cnt_pos1 = -1;
 int8_t max_on_cnt_pos2 = -1;
 
+int8_t user_pos1;
+int8_t user_pos2;
+
 int8_t max_on_cnt_npos1 = -1;
 int8_t max_on_cnt_npos2 = -1;
 
@@ -263,8 +266,8 @@ void next_state(void)
 	    else if ( max_on_cnt_pos1 == 1 )		// sub cmd user choice
 	    {
 	      state = STATE_DELAYED_SWAP_WAIT;
-	      max_on_cnt_npos1 = -1;
-	      max_on_cnt_npos2 = -1;
+	      user_pos1 = -1;
+	      user_pos2 = -1;
 	      
 	      u8g2log.print(F("user\n"));
 	    }
@@ -288,23 +291,44 @@ void next_state(void)
       break;
     case STATE_DELAYED_SWAP_WAIT:	// user choice 
       {
-	uint8_t i;
+	uint8_t i, j;
 	for( i = 0; i < 4; i++ )
 	{
-	  if ( switch_status[i] == SWITCH_ON )
+	  if ( user_pos1 != i && switch_status[i] == SWITCH_ON )
 	  {
-	    if ( max_on_cnt_pos1 < 0 )
-	      max_on_cnt_pos1 = i;
+	    if ( user_pos1 < 0 )
+	      user_pos1 = i;
 	    else
 	    {
 	      uint8_t tmp;
-	      max_on_cnt_pos2 = i;
 	      
+	      user_pos2 = i;
+	      tmp = 1<<user_pos1;
+	      tmp |= 1<<user_pos2;
+	      max_on_cnt_npos1 = -1;
+	      max_on_cnt_npos2 = -1;
+	      
+	      for( j = 0; j < 4; j++ )
+	      {
+		if ( ( tmp & (1<<j) ) == 0 )
+		{
+		  if ( max_on_cnt_npos1 < 0 )
+		    max_on_cnt_npos1 = j;
+		  else
+		    max_on_cnt_npos2 = j;
+		}
+	      }
 	      
 	      
 	      tmp = map_switch_to_light[max_on_cnt_npos1];
 	      map_switch_to_light[max_on_cnt_npos1] = map_switch_to_light[max_on_cnt_npos2];
 	      map_switch_to_light[max_on_cnt_npos2] = tmp;
+	      
+	      u8g2log.print(F("swap2\n"));
+	      u8g2log.print(max_on_cnt_npos1);
+	      u8g2log.print(F("<>"));
+	      u8g2log.print(max_on_cnt_npos2);
+	      u8g2log.print(F("\n"));
 	      
 	      state = STATE_WAIT;
 	      switch_changed_millis = millis();
