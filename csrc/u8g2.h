@@ -1209,6 +1209,7 @@ extern const uint8_t u8g2_font_6x12_mn[] U8G2_FONT_SECTION("u8g2_font_6x12_mn");
 extern const uint8_t u8g2_font_6x12_me[] U8G2_FONT_SECTION("u8g2_font_6x12_me");
 extern const uint8_t u8g2_font_6x12_t_symbols[] U8G2_FONT_SECTION("u8g2_font_6x12_t_symbols");
 extern const uint8_t u8g2_font_6x12_m_symbols[] U8G2_FONT_SECTION("u8g2_font_6x12_m_symbols");
+extern const uint8_t u8g2_font_6x12_t_cyrillic[] U8G2_FONT_SECTION("u8g2_font_6x12_t_cyrillic");
 extern const uint8_t u8g2_font_6x13_tf[] U8G2_FONT_SECTION("u8g2_font_6x13_tf");
 extern const uint8_t u8g2_font_6x13_tr[] U8G2_FONT_SECTION("u8g2_font_6x13_tr");
 extern const uint8_t u8g2_font_6x13_tn[] U8G2_FONT_SECTION("u8g2_font_6x13_tn");

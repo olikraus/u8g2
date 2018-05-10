@@ -155,6 +155,7 @@ u8g2_font_6x12_mn	LITERAL1
 u8g2_font_6x12_me	LITERAL1
 u8g2_font_6x12_t_symbols	LITERAL1
 u8g2_font_6x12_m_symbols	LITERAL1
+u8g2_font_6x12_t_cyrillic	LITERAL1
 u8g2_font_6x13_tf	LITERAL1
 u8g2_font_6x13_tr	LITERAL1
 u8g2_font_6x13_tn	LITERAL1
