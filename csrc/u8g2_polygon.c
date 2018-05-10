@@ -296,12 +296,12 @@ static void pg_exec(pg_struct *pg, u8g2_t *u8g2)
 /*===========================================*/
 /* API procedures */
 
-void pg_ClearPolygonXY(pg_struct *pg)
+static void pg_ClearPolygonXY(pg_struct *pg)
 {
   pg->cnt = 0;
 }
 
-void pg_AddPolygonXY(pg_struct *pg, int16_t x, int16_t y)
+static void pg_AddPolygonXY(pg_struct *pg, int16_t x, int16_t y)
 {
   if ( pg->cnt < PG_MAX_POINTS )
   {
@@ -311,7 +311,7 @@ void pg_AddPolygonXY(pg_struct *pg, int16_t x, int16_t y)
   }
 }
 
-void pg_DrawPolygon(pg_struct *pg, u8g2_t *u8g2)
+static void pg_DrawPolygon(pg_struct *pg, u8g2_t *u8g2)
 {
   if ( pg_prepare(pg) == 0 )
     return;
