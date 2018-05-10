@@ -45,6 +45,14 @@ fub: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 40 -o tmp.bdf ../ttf/FreeUniversal-Bold.ttf
 	./bdfconv -v -f 2 -m '32-255' tmp.bdf -o fub30_tf.c  -n fub30_tf -d ../bdf/helvB18.bdf 
 
+fub20x: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 27 -o tmp.bdf ../ttf/FreeUniversal-Bold.ttf
+	./bdfconv -v -f 1 -m '32-127,8364' tmp.bdf -o u8g2_font_fub20_tx.c  -n u8g2_font_fub20_tx -d ../bdf/helvB18.bdf 
+
+logisoso20x: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 30 -o tmp.bdf ../ttf/Logisoso.ttf
+	./bdfconv -v -f 1 -m '32-127,8364' tmp.bdf -o u8g2_font_logisoso20_tx.c  -n u8g2_font_logisoso20_tx -d ../bdf/helvB18.bdf 
+
 xlogisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57,$$370-$$3ff,$$2100-$$21ff' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
