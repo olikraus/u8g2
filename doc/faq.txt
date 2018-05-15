@@ -179,6 +179,8 @@ variable value inside the loop.
 Q: How can I generate my own font.
 A: The font must be available in bdf file format. Then use bdfconv to generate
 the font data. The font data can be pasted into an existing file of your project.
+There is also a nice Windows Bitmap Font Editor "Fony" which can export .bdf files.
+A copy of Fony 1.4.7 is available here: https://github.com/olikraus/u8g2/tree/master/tools/font/fony
 
 Q: Which commandline options are required for bdfconv?
 A: "bdfconv -f 1 -m '32-255' -n fontname -o myfont.c myfont.bdf"
