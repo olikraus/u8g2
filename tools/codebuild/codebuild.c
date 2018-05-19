@@ -792,6 +792,8 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "jlx12864" },
+      { "enh_dg128064" },
+      { "enh_dg128064i" },
       { NULL }
     }
   },

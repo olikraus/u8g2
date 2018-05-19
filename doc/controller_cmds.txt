@@ -1,45 +1,45 @@
 
-Command comparison between ST7565, NT7534, IST3020, SPLC502, SSD1815 and UC1701 display controller
+Command comparison between ST7565, NT7534, IST3020, SPLC502, SSD1815, UC1701 and ST7567 display controller
 
 Note: For multi-byte sequences, only the first byte is considered.
 
 use monospaced font for this txt file
 
-               ST7565      ST7565      NT7534      	UC1701		ST7567		IST3020		SPLC502		SSD1815		UC1601s
-	       1.0a/2002   1.7c/2009													0.6/2007
+               ST7565      ST7565      NT7534      	UC1701		ST7567		IST3020		SPLC502		SSD1815		UC1601s		ST7567
+	       1.0a/2002   1.7c/2009													0.6/2007	1.2a/2016
 	                   
-0x000 00000000 Lo Col      Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col		Lo Col		Lo Col		Lo Col
+0x000 00000000 Lo Col      Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col		Lo Col		Lo Col		Lo Col		Lo Col
 ...                        
-0x00f 00001111 Lo Col      Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col		Lo Col		Lo Col		Lo Col
-0x010 00010000 Hi Col      Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col
+0x00f 00001111 Lo Col      Lo Col      Lo Col      	Lo Col		Lo Col		Lo Col		Lo Col		Lo Col		Lo Col		Lo Col
+0x010 00010000 Hi Col      Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col
 ...                        
-0x01f 00011111 Hi Col      Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col
-0x020 00100000 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-
+0x01f 00011111 Hi Col      Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col
+0x020 00100000 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-		Reg Ratio
 ...                        
-0x023 00100011 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-
-0x024 00100100 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl
+0x023 00100011 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-		Reg Ratio
+0x024 00100100 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl	Reg Ratio
 ...
-0x027 00100111 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl
-0x028 00101000 Pwr Ctrl    Pwr Ctrl    Pwr Ctrl         Pwr Ctrl        Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl
+0x027 00100111 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl	Reg Ratio
+0x028 00101000 Pwr Ctrl    Pwr Ctrl    Pwr Ctrl         Pwr Ctrl        Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl
 ...                        
-0x02f 00101111 Pwr Ctrl    Pwr Ctrl    Pwr Ctrl         Pwr Ctrl        Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl
-0x030 00110000 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl
-0x030 00110001 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl
-0x030 00110010 -           -           PM Duty		-		-		Rev. Line	-		-		-
-...			   				-		-		...		-		-		-
-0x037 00110111 -           -           PM Duty		-		-		Rev. Line	-		-		-
-0x038 00111000 -           -           PM Bias		-		-		Rev. Line	-		-		-
-...			   				-		-		...		-		-		-
-0x03f 00111111 -           -           PM Bias		-		-		Rev. Line	-		-		-
-0x040 01000000 Start Line  Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line	Start Line	Start Line	Scroll Line
+0x02f 00101111 Pwr Ctrl    Pwr Ctrl    Pwr Ctrl         Pwr Ctrl        Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl
+0x030 00110000 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl	-
+0x030 00110001 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl	-
+0x030 00110010 -           -           PM Duty		-		-		Rev. Line	-		-		-		-
+...			   				-		-		...		-		-		-		-
+0x037 00110111 -           -           PM Duty		-		-		Rev. Line	-		-		-		-
+0x038 00111000 -           -           PM Bias		-		-		Rev. Line	-		-		-		-
+...			   				-		-		...		-		-		-		-
+0x03f 00111111 -           -           PM Bias		-		-		Rev. Line	-		-		-		-
+0x040 01000000 Start Line  Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line	Start Line	Start Line	Scroll Line	Start Line
 ...                        
-0x07f 01111111 Start Line  Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line	Start Line	Start Line	Scroll Line
-0x080 10000000 -           -           -		-		-		-		-		-		
-0x081 10000001 Contrast	   Contrast    Contrast         Contrast        Contrast        Contrast        Contrast	Contrast	Contrast
+0x07f 01111111 Start Line  Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line	Start Line	Start Line	Scroll Line	Start Line
+0x080 10000000 -           -           -		-		-		-		-		-		-		-
+0x081 10000001 Contrast	   Contrast    Contrast         Contrast        Contrast        Contrast        Contrast	Contrast	Contrast	Contrast
 0x082 10000010 -           -           Part. Mode  	-		-		-		-		-		-
 0x083 10000011 -           -           Part. Mode  	-		-		-		-		-		-
-0x084 10000100 -           -           Stop NL Inv	-		-		-		-		-		Partial Ctl
-0x085 10000101 -           -           Start NL Inv	-		-		-		-		-		Partial Ctl
+0x084 10000100 -           -           Stop NL Inv	-		-		-		-		-		Partial Ctl	Stop NL Inv
+0x085 10000101 -           -           Start NL Inv	-		-		-		-		-		Partial Ctl	Start NL Inv
 0x086 10000110 -           -           -		-		-		-		-		-		Partial Ctl
 0x087 10000111 -           -           -		-		-		-		-		-		Partial Ctl
 0x088 10001000 -           -           -		-		-		-		-		-		Adr Ctl
@@ -51,68 +51,68 @@ use monospaced font for this txt file
 0x093 10010011 -	   -           -		-		-		Offset Mode	-		-
 ...                        
 0x09f 10011111 -           -           -		-		-		-		-
-0x0a0 10100000 Seg Normal  Seg Normal  Seg Normal	Seg Normal	Seg Normal	Seg Normal	Seg Normal	Seg Normal	Frame Rate
-0x0a1 10100001 Seg Reverse Seg Reverse Seg Reverse	Seg Reverse	Seg Reverse	Seg Reverse	Seg Reverse	Seg Reverse	Frame Rate
-0x0a2 10100010 1/9 bias    1/9 bias    1/9 bias	        1/9 bias	1/9 bias	Bias		Bias		1/9 bias	-
-0x0a3 10100011 1/7 bias    1/7 bias    1/7 bias	        1/7 bias	1/7 bias	Bias		Bias		1/7 bias	-
-0x0a4 10100100 Normal Op   Normal Op   Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op
-0x0a5 10100101 All pt on   All pt on   All pt on	All pt on	All pt on	All pt on	All pt on	All pt on	All pt on
-0x0a6 10100110 Normal Op   Normal Op   Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op
-0x0a7 10100111 Inverse	   Inverse     Inverse	        Inverse	        Inverse	        Inverse	        Inverse		Inverse		Inverse
-0x0a8 10101000 -           -           -		-				Stand-By	-		-		-
-0x0a9 10101001 -           -           -		-				Sleep		-		-		-
-0x0aa 10101010 -           -           -		-		-		-		-		-		-
-0x0ab 10101011 -           -           -		-		-		-		-		-		-
-0x0ac 10101100 Indic. On   Sleep On    Indic. On  	Indic. On			Indic. On	Indic. On	Indic. On	-
-0x0ad 10101101 Indic. Off  Sleep Off   Indic. Off	Indic. Off			Indic. Off	Indic. Off	Indic. Off	-
-0x0ae 10101110 Disp Off    Disp Off    Disp Off         Disp Off	Disp Off	Disp Off	Disp Off	Disp Off	Disp Off
-0x0af 10101111 Disp On     Disp On     Disp On          Disp On		Disp On		Disp On		Disp On		Disp On		Disp On
-0x0b0 10110000 Page Adr    Page Adr    Page Adr    	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr
+0x0a0 10100000 Seg Normal  Seg Normal  Seg Normal	Seg Normal	Seg Normal	Seg Normal	Seg Normal	Seg Normal	Frame Rate	Seg Normal
+0x0a1 10100001 Seg Reverse Seg Reverse Seg Reverse	Seg Reverse	Seg Reverse	Seg Reverse	Seg Reverse	Seg Reverse	Frame Rate	Seg Reverse
+0x0a2 10100010 1/9 bias    1/9 bias    1/9 bias	        1/9 bias	1/9 bias	Bias		Bias		1/9 bias	-		1/9 bias
+0x0a3 10100011 1/7 bias    1/7 bias    1/7 bias	        1/7 bias	1/7 bias	Bias		Bias		1/7 bias	-		1/7 bias
+0x0a4 10100100 Normal Op   Normal Op   Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op
+0x0a5 10100101 All pt on   All pt on   All pt on	All pt on	All pt on	All pt on	All pt on	All pt on	All pt on	All pt on
+0x0a6 10100110 Normal Op   Normal Op   Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op
+0x0a7 10100111 Inverse	   Inverse     Inverse	        Inverse	        Inverse	        Inverse	        Inverse		Inverse		Inverse		Inverse
+0x0a8 10101000 -           -           -		-				Stand-By	-		-		-		-
+0x0a9 10101001 -           -           -		-				Sleep		-		-		-		-
+0x0aa 10101010 -           -           -		-		-		-		-		-		-		-
+0x0ab 10101011 -           -           -		-		-		-		-		-		-		-
+0x0ac 10101100 Indic. On   Sleep On    Indic. On  	Indic. On			Indic. On	Indic. On	Indic. On	-		-
+0x0ad 10101101 Indic. Off  Sleep Off   Indic. Off	Indic. Off			Indic. Off	Indic. Off	Indic. Off	-		-
+0x0ae 10101110 Disp Off    Disp Off    Disp Off         Disp Off	Disp Off	Disp Off	Disp Off	Disp Off	Disp Off	Disp Off
+0x0af 10101111 Disp On     Disp On     Disp On          Disp On		Disp On		Disp On		Disp On		Disp On		Disp On		Disp On
+0x0b0 10110000 Page Adr    Page Adr    Page Adr    	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr
 ...                        
-0x0b7 10111111 Page Adr    Page Adr    Page Adr    	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr
-0x0c0 11000xxx Com Normal  Com Normal  Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	LCD Map
+0x0b7 10111111 Page Adr    Page Adr    Page Adr    	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr	Page Adr
+0x0c0 11000xxx Com Normal  Com Normal  Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	LCD Map		Com Normal
 ...                        
-0x0c7 11000xxx Com Normal  Com Normal  Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	LCD Map
-0x0c8 11001xxx Com Reverse Com Reverse Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	-
+0x0c7 11000xxx Com Normal  Com Normal  Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	Com Normal	LCD Map		Com Normal
+0x0c8 11001xxx Com Reverse Com Reverse Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	-		Com Reverse
 ...                        
-0x0cf 11001xxx Com Reverse Com Reverse Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	-
-0x0d0 11010000 -           -           -		-		-		-		-		-		-
-0x0d1 11010001 -           -           -		-		-		-		-		-		-
-0x0d2 11010010 -           -           -		-		-		-		Drv Mode	-		-
-0x0d3 11010011 -           -           PM Line   	-		-		-		-		-		-
-0x0d4 11010100 -           -           -		-		-		-		Test Mode	-		-
-0x0d5 11010101 -           -           -		-		-		-		Page Blink	-		-
+0x0cf 11001xxx Com Reverse Com Reverse Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	-		Com Reverse
+0x0d0 11010000 -           -           -		-		-		-		-		-		-		-
+0x0d1 11010001 -           -           -		-		-		-		-		-		-		-
+0x0d2 11010010 -           -           -		-		-		-		Drv Mode	-		-		-
+0x0d3 11010011 -           -           PM Line   	-		-		-		-		-		-		-
+0x0d4 11010100 -           -           -		-		-		-		Test Mode	-		-		-
+0x0d5 11010101 -           -           -		-		-		-		Page Blink	-		-		-
 ...                        	
-0x0df 11011111 -           -           -		-		-		-		-		-		-
-0x0e0 11100000 Start R-M-W Start R-M-W Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	-
-0x0e1 11100001 -           -           -		-		-		Reset Pwr Save	-		-		-
-0x0e2 11100010 Reset	   Reset       Reset            Reset           Reset           Reset		Reset		Reset		Reset
-0x0e3 11100011 NOP	   NOP         NOP              NOP             NOP             NOP             NOP		NOP		NOP
-0x0e4 11100100 -           -           OSC Freq         -       	-		Rev Line Reset	OSC Freq	-		-
-0x0e5 11100101 -           -           OSC Freq         -       	-		-		OSC Freq	-		-
-0x0e6 11100110 -           -           DC/DC Freq	-		-		-		-		-		-
-0x0e7 11100111 -           -           -		-		-		-		-		-		-
-0x0e8 11101000 -           -           -		-		-		-		-		-		Bias Ratio
+0x0df 11011111 -           -           -		-		-		-		-		-		-		-
+0x0e0 11100000 Start R-M-W Start R-M-W Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	-		Start R-M-W
+0x0e1 11100001 -           -           -		-		-		Reset Pwr Save	-		-		-		-
+0x0e2 11100010 Reset	   Reset       Reset            Reset           Reset           Reset		Reset		Reset		Reset		Reset
+0x0e3 11100011 NOP	   NOP         NOP              NOP             NOP             NOP             NOP		NOP		NOP		NOP
+0x0e4 11100100 -           -           OSC Freq         -       	-		Rev Line Reset	OSC Freq	-		-		-
+0x0e5 11100101 -           -           OSC Freq         -       	-		-		OSC Freq	-		-		-
+0x0e6 11100110 -           -           DC/DC Freq	-		-		-		-		-		-		-
+0x0e7 11100111 -           -           -		-		-		-		-		-		-		-
+0x0e8 11101000 -           -           -		-		-		-		-		-		Bias Ratio	-
 ...                        
-0x0ed 11101101 -           -           -		-		-		-		-		-		Bias Ratio
-0x0ee 11101110 Stop R-M-W  Stop R-M-W  Stop R-M-W	Stop R-M-W	Stop R-M-W			Stop R-M-W	Stop R-M-W	Bias Ratio
-0x0ef 11101111 -           -           -		-		-		-		-		-		Bias Ratio
-0x0f0 11110000 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-
-0x0f1 11110001 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Com End
-0x0f2 11110010 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Partial Start
-0x0f3 11110011 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Partial End
-0x0f4 11110100 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-
-0x0f5 11110101 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-
-0x0f6 11110110 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-
-0x0f7 11110111 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-
-0x0f8 11111000 Test Mode   Boost Level Test Mode	-		Boost Level	Test Mode	Test Mode	Test Mode	-
-0x0f9 11111001 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-
-0x0fa 11111010 Test Mode   Test Mode   Test Mode        Adv Ctrl0	-		Test Mode	Test Mode	Test Mode	-
-0x0fb 11111011 Test Mode   Test Mode   Test Mode	Adv Ctrl1	-		Test Mode	Test Mode	Test Mode	-
-0x0fc 11111100 Test Mode   Test Mode   Test Mode	Test Mode	-		Test Mode	Test Mode	Test Mode	-
-0x0fd 11111101 Test Mode   Test Mode   Test Mode	Test Mode	-		Test Mode	Test Mode	Test Mode	-
-0x0fe 11111110 Test Mode   Test Mode   Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	-
-0x0ff 11111111 Test Mode   Test Mode   Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	-
+0x0ed 11101101 -           -           -		-		-		-		-		-		Bias Ratio	-
+0x0ee 11101110 Stop R-M-W  Stop R-M-W  Stop R-M-W	Stop R-M-W	Stop R-M-W			Stop R-M-W	Stop R-M-W	Bias Ratio	Stop R-M-W
+0x0ef 11101111 -           -           -		-		-		-		-		-		Bias Ratio	-
+0x0f0 11110000 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-
+0x0f1 11110001 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Com End		-
+0x0f2 11110010 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Partial Start	-
+0x0f3 11110011 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Partial End	-
+0x0f4 11110100 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-
+0x0f5 11110101 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-
+0x0f6 11110110 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-
+0x0f7 11110111 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-
+0x0f8 11111000 Test Mode   Boost Level Test Mode	-		Boost Level	Test Mode	Test Mode	Test Mode	-		Boost Level
+0x0f9 11111001 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-
+0x0fa 11111010 Test Mode   Test Mode   Test Mode        Adv Ctrl0	-		Test Mode	Test Mode	Test Mode	-		-
+0x0fb 11111011 Test Mode   Test Mode   Test Mode	Adv Ctrl1	-		Test Mode	Test Mode	Test Mode	-		-
+0x0fc 11111100 Test Mode   Test Mode   Test Mode	Test Mode	-		Test Mode	Test Mode	Test Mode	-		-
+0x0fd 11111101 Test Mode   Test Mode   Test Mode	Test Mode	-		Test Mode	Test Mode	Test Mode	-		-
+0x0fe 11111110 Test Mode   Test Mode   Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	-		Enter Ext.
+0x0ff 11111111 Test Mode   Test Mode   Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	Test Mode	-		Leave Ext.
 
 
 Conclusion (only from Datasheet documentation perspective)
