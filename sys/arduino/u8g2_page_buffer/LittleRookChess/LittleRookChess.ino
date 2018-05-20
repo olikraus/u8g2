@@ -2108,7 +2108,7 @@ void chess_Init(u8g2_t *u8g, uint8_t body_color)
 
   chess_low_edge = u8g2_GetDisplayHeight(lrc_u8g);
   chess_low_edge--;
-  
+  u8g2_SetBitmapMode(u8g, 1);		// restore previous behaviour
 
   {
   
