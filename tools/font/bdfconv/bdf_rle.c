@@ -798,7 +798,6 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf_AddTargetData(bf, 0);
   bf_AddTargetData(bf, 0);
   
-  unicode_start_pos = bf->target_cnt-BDF_RLE_FONT_GLYPH_START;
   /* 
   1 May 2018: Unicode lookup table 
   */
@@ -824,6 +823,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf_AddTargetData(bf, 0xff);
   
   
+  unicode_start_pos = bf->target_cnt-BDF_RLE_FONT_GLYPH_START;
 
   unicode_lookup_table_pos = 0;
   unicode_lookup_table_glyph_cnt = 0;
