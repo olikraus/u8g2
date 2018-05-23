@@ -1,6 +1,6 @@
 /*
 
-  SelectionList.ino
+  SpaceTrash.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -201,6 +201,14 @@
 
 
 // End of constructor list
+
+
+
+/* button setup for Arduboy Production */
+uint8_t pin_up = A0;
+uint8_t pin_down = A3;
+uint8_t pin_fire = 7;
+
 
 
 
@@ -1614,34 +1622,9 @@ void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire)
 
 
 
-uint8_t pin_up = A0;
-uint8_t pin_down = A3;
-uint8_t pin_fire = 7;
-
-
 void setup(void) {
-
-  // U8g2 SH1106 Proto-Shield
-  //u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
-
-  // DOGS102 Shield (http://shieldlist.org/controlconnection/dogs102)
-  // u8g2.begin(/* menu_select_pin= */ 5, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 2, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 3);
-  
-  // DOGM128 Shield (http://shieldlist.org/schmelle2/dogm128) + DOGXL160 Shield
-  //u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 3, /* menu_prev_pin= */ 7, /* menu_up_pin= */ U8X8_PIN_NONE, /* menu_down_pin= */ U8X8_PIN_NONE, /* menu_home_pin= */ 8);
-  
-  // MKR Zero Test Board
-  u8g2.begin(/*Select=*/ 0, /*Right/Next=*/ 1, /*Left/Prev=*/ 2, /*Up=*/ 4, /*Down=*/ 3, /*Home/Cancel=*/ A6); 
-
-  // Arduboy
-  //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
-  u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ pin_up, /*Down=*/ pin_down, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
-
+  u8g2.begin(); 
 }
-
-//    uint8_t userInterfaceSelectionList(const char *title, uint8_t start_pos, const char *sl)
-// 	userInterfaceMessage(const char *title1, const char *title2, const char *title3, const char *buttons)
-//    uint8_t userInterfaceInputValue(const char *title, const char *pre, uint8_t *value, uint8_t lo, uint8_t hi, uint8_t digits, const char *post) {
 
 uint8_t a;
 uint8_t b;
@@ -1654,45 +1637,23 @@ void loop(void) {
   u8g2.setFontRefHeightAll();
 
   st_Setup(u8g2.getU8g2());
-
-  //u8g2.setFont(u8g2_font_6x12_tf);
-  //a = u8g2.userInterfaceSelectionList( "SpaceTrash", 0, "Start Game\nOptions\nCredits");
-  //if ( a == 1 )
+  for(;;)
   {
-      
-      for(;;)
-      {
-	st_Step(y, /* is_auto_fire */ 0, /* is_fire */ digitalRead(pin_fire));
-	u8g2.firstPage();
-	do
-	{
-	  st_Draw(0);
-	} while( u8g2.nextPage() );
-	
-	if ( digitalRead(pin_down) )
-	{
-	  y++;
-	}
-	
-	if ( digitalRead(pin_up) )
-	{
-	  y--;
-	}
-	
-	
-      }
+    st_Step(y, /* is_auto_fire */ 0, /* is_fire */ digitalRead(pin_fire));
+    u8g2.firstPage();
+    do
+    {
+      st_Draw(0);
+    } while( u8g2.nextPage() );
+    
+    if ( digitalRead(pin_down) ) {
+      y++;
+    }
+    
+    if ( digitalRead(pin_up) ) {
+      y--;
+    }
   }
-  /*
-  if ( a == 2 )
-  {
-    u8g2.userInterfaceInputValue("Brightness", "", &b, 0, 63, 2, "");
-    u8g2.setContrast(b*4);
-  }
-  if ( a == 3 )
-  {
-    u8g2.userInterfaceMessage( "Credits:", "Oli" , "& Kids", " Ok ");
-  }
-  */
 }
 
 
