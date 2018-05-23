@@ -105,6 +105,10 @@ cp ../../../sys/arduino/u8g2_page_buffer/PowerSaveTest/*.ino ../../../../U8g2_Ar
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
 
+mkdir ../../../../U8g2_Arduino/examples/games/SpaceTrash
+cp ../../../sys/arduino/u8g2_page_buffer/SpaceTrash/*.ino ../../../../U8g2_Arduino/examples/page_buffer/SpaceTrash/.
+
+
 # full buffer
 
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/IconMenu
