@@ -106,7 +106,7 @@ mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
 
 mkdir ../../../../U8g2_Arduino/examples/games/SpaceTrash
-cp ../../../sys/arduino/u8g2_page_buffer/SpaceTrash/*.ino ../../../../U8g2_Arduino/examples/page_buffer/SpaceTrash/.
+cp ../../../sys/arduino/u8g2_page_buffer/SpaceTrash/*.ino ../../../../U8g2_Arduino/examples/games/SpaceTrash/.
 
 
 # full buffer
