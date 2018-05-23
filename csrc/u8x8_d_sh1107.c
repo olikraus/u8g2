@@ -280,9 +280,9 @@ static const u8x8_display_info_t u8x8_sh1107_seeed_96x96_display_info =
   /* pre_chip_disable_wait_ns = */ 10,
   /* reset_pulse_width_ms = */ 100, 	/* */
   /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
-  /* sda_setup_time_ns = */ 50,		/* cycle time is 100ns, so use 100/2 */
-  /* sck_pulse_width_ns = */ 50,	/* cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
-  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* sda_setup_time_ns = */ 100,		/* cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 100,	/* cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
@@ -362,9 +362,9 @@ static const u8x8_display_info_t u8x8_sh1107_128x128_display_info =
   /* pre_chip_disable_wait_ns = */ 10,
   /* reset_pulse_width_ms = */ 100, 	/* */
   /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
-  /* sda_setup_time_ns = */ 50,		/* cycle time is 100ns, so use 100/2 */
-  /* sck_pulse_width_ns = */ 50,	/* cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
-  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* sda_setup_time_ns = */ 100,		/* cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 100,	/* cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
   /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
