@@ -4,6 +4,7 @@ SIZE = avr-size
 MCU = at90usb1286
 F_CPU = 16000000
 U8G2_SRC = ../../../csrc
+AVR_LIB_SRC = ../lib
 CFLAGS = \
 	-mmcu=$(MCU) \
 	-DF_CPU=$(F_CPU)UL \
@@ -12,12 +13,13 @@ CFLAGS = \
 	-Werror \
 	-ffunction-sections \
 	-fdata-sections \
-	-I$(U8G2_SRC)/
+	-I$(U8G2_SRC)/ \
+	-I$(AVR_LIB_SRC)
 LDFLAGS = \
 	-Wl,--gc-sections \
 	-mmcu=$(MCU)
 
-SRC = $(shell ls $(U8G2_SRC)/*.c) main.c
+SRC = $(shell ls $(U8G2_SRC)/*.c) $(shell ls $(AVR_LIB_SRC)/*.c) main.c
 
 OBJ = $(SRC:.c=.o)
 
