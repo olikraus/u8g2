@@ -47,7 +47,7 @@
 
 #include <Arduino.h>
 #include <Print.h>
-#include <U8x8lib.h>
+#include "U8x8lib.h"
 
 #include "u8g2.h"
 
