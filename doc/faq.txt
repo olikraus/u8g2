@@ -174,7 +174,18 @@ Q: U8g2 output is corrupted. What are possible causes?
 Do *not* call digitalRead/analogRead inside the firstPage/nextPage loop.
 Read any sensor values into a variable *before* firstPage() and use the 
 variable value inside the loop.
-- If the output includes unicode chars, use the UTF8 procedures.
+If the output includes unicode chars, use the UTF8 procedures.
+
+Q: U8g2 is slow. How to improve speed?
+A1: If there is sufficient RAM, use the F variant of the constructor (see the question
+on F/1/2 above).
+A2: Use hardware SPI or I2C communication. Software emulated SPI or I2C is much
+slower (see the question on SW and HW SPI/I2C above)
+A3: "firstPage/nextPage loop": Remove as much of code out of this loop. Try to
+precalculate as much of possible before the loop is entered.
+A4: "firstPage/nextPage loop": If the loop is still too slow, try to unroll the loop.
+See the StateBufferLoop example:
+https://github.com/olikraus/u8g2/blob/master/sys/arduino/u8g2_page_buffer/StateBufferLoop/StateBufferLoop.ino
 
 Q: How can I generate my own font.
 A: The font must be available in bdf file format. Then use bdfconv to generate

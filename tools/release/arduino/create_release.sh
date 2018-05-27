@@ -15,6 +15,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/StateBufferLoop
+cp ../../../sys/arduino/u8g2_page_buffer/StateBufferLoop/*.ino ../../../../U8g2_Arduino/examples/page_buffer/StateBufferLoop/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/Serial
 cp ../../../sys/arduino/u8g2_page_buffer/Serial/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Serial/.
 
