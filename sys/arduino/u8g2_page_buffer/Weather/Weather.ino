@@ -1,6 +1,6 @@
 /*
 
-  Wather.ino
+  Weather.ino
   
   Show weather icons from open-iconic set.
   Plus demo for text scrolling.

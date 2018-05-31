@@ -1,6 +1,6 @@
 /*
 
-  Wather.ino
+  Weather.ino
   
   Demonstrates:
     - Weather icons from open-iconic set.
