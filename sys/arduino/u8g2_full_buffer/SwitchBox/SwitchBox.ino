@@ -41,7 +41,7 @@ uint8_t light_to_pin[4] = { 11, 10, 9, 8 };
 uint8_t switch_to_pin[4] = { 7, 6, 5, 4 };
 
 #define SWITCH_ON 0
-#define SWITCH_OFF 0
+#define SWITCH_OFF 1
 #define LIGHT_ON 1
 #define LIGHT_OFF 0
 #define TIMEOUT 3000
