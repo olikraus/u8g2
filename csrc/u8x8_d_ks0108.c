@@ -210,6 +210,31 @@ uint8_t u8x8_d_ks0108_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   return 1;
 }
 
+static const u8x8_display_info_t u8x8_ks0108_192x64_display_info =
+{
+  /* chip_enable_level = */ 0,		/* KS0108: Not used */
+  /* chip_disable_level = */ 1,		/* KS0108: Not used */
+  
+  /* post_chip_enable_wait_ns = */ 100,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 6, 		/* could be faster for the KS0108 */
+  /* sda_setup_time_ns = */ 12,		
+  /* sck_pulse_width_ns = */ 75,	/* KS0108: Not used */
+  /* sck_clock_hz = */ 4000000UL,	/* KS0108: Not used */
+  /* spi_mode = */ 0,				/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* KS0108: Not used */
+  /* data_setup_time_ns = */ 200,
+  /* write_pulse_width_ns = */ 250,	/* KS0108: actially 450 ns, but additional 200 ns are added by the byte transfer function */
+  /* tile_width = */ 24,		/* width of 24*8=192 pixel */
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 192,
+  /* pixel_height = */ 64
+};
+
+
 /* east rising (buydisplay.com) ERM19264 */
 /* left: 011, middle: 101, right: 110, no chip select: 111 */
 uint8_t u8x8_d_ks0108_erm19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -218,7 +243,7 @@ uint8_t u8x8_d_ks0108_erm19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ks0108_128x64_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ks0108_192x64_display_info);
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
