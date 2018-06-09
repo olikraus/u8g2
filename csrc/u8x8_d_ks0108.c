@@ -306,10 +306,20 @@ uint8_t u8x8_d_ks0108_erm19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       v.c = ((u8x8_tile_t *)arg_ptr)->cnt;
       v.arg_int = arg_int;    
       
-      
+/*
+    3-bit CS value:
+    In u8x8_byte_set_ks0108_cs(u8x8_t *u8x8, uint8_t arg) the lowest
+    bit is assigned to CS and highest bit if the 3-bit value to CS2
+    
+    CS: left part of the display  --> 6
+    CS1: middle part --> 5
+    CS2: right part of the display --> 3
+
+    Reference: https://github.com/olikraus/u8g2/issues/631
+*/
       if ( v.x < 8 )
       {
-	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 3, NULL);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 6, NULL);  // 3-->6, issue 631
 	u8x8_ks0108_out(u8x8, &v, arg_ptr);
 	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
       }
@@ -321,7 +331,7 @@ uint8_t u8x8_d_ks0108_erm19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       }
       if ( v.x < 24 )
       {
-	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 6, NULL);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 3, NULL); // 6-->3, // issue 631
 	u8x8_ks0108_out(u8x8, &v, arg_ptr);
 	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 7, NULL);
       }    
