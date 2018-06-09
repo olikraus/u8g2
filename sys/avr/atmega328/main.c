@@ -7,7 +7,7 @@
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2018, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -165,7 +165,7 @@ uint8_t u8x8_avr_gpio_and_delay(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 int main(void)
 {
 	/*
-		Select a setup procedure for your display from here:
+		Select a setup procedure for your display from here: https://github.com/olikraus/u8g2/wiki/u8g2setupc
 		1. Arg: Address of an empty u8g2 structure
 		2. Arg: Usually U8G2_R0, others are listed here: https://github.com/olikraus/u8g2/wiki/u8g2reference#carduino-example
 		3. Arg: Protocol procedure (u8g2-byte), list is here: https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform#communication-callback-eg-u8x8_byte_hw_i2c

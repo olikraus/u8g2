@@ -1,5 +1,4 @@
 
-create new c project
 
 001: plain as7
 002: create a new gcc c executable project, enter a useful name and solution name
@@ -23,5 +22,3 @@ Add the target frequency of your controller (here: "F_CPU=8000000")
 014: Check "Flash" and press the "Program" button.
 
 
-
-Project->Add Existing Item...
