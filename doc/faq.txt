@@ -186,6 +186,12 @@ precalculate as much of possible before the loop is entered.
 A4: "firstPage/nextPage loop": If the loop is still too slow, try to unroll the loop.
 See the StateBufferLoop example:
 https://github.com/olikraus/u8g2/blob/master/sys/arduino/u8g2_page_buffer/StateBufferLoop/StateBufferLoop.ino
+A5: For SW I2C and AVR architectures: Uncomment 
+#define U8X8_USE_ARDUINO_AVR_SW_I2C_OPTIMIZATION 
+in U8x8lib.h. This will increase speed a lot for I2C on all AVR uC. However the I2C
+bus is always driven by this implementation. Other I2C devices will not work on
+the same pins.
+
 
 Q: How can I generate my own font.
 A: The font must be available in bdf file format. Then use bdfconv to generate
