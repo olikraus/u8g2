@@ -583,10 +583,6 @@ uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
     case U8X8_MSG_BYTE_SEND:
       data = (uint8_t *)arg_ptr;
     
-      if ( arg_int > 32 )
-	for(;;)
-	  ;
-      
       while( arg_int > 0 )
       {
 	i2c_write_byte(u8x8, *data);
