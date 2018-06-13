@@ -1108,6 +1108,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "max7219", 	1, 	1, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_4WSPI,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "8x8" },
+      { NULL }
+    }
+  },
+  {
     "a2printer", 	48, 	30, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_UART,
     "", /* is_generate_u8g2_class= */ 0,
     {
