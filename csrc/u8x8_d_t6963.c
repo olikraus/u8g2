@@ -484,7 +484,7 @@ static const u8x8_display_info_t u8x8_t6963_160x80_display_info =
 };
 
 /* 128x64 */
-static const uint8_t u8x8_d_t6963_128x64_init_seq[] = {
+static const uint8_t u8x8_d_t6963_160x80_init_seq[] = {
   U8X8_DLY(100),
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_DLY(100),
