@@ -1033,6 +1033,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "t6963", 	20, 	10, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_8080,
+    "Not tested", /* is_generate_u8g2_class= */ 1,
+    {
+      { "160x80" },
+      { NULL }
+    }
+  },
+  {
     "ssd1322", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
     {
