@@ -287,15 +287,15 @@ int read_png_file(const char* file_name)
 
 void help(void)
 {
-  printf("png2bdf [options] bdf-file { [options] png-file }\n");
-  printf(" BDF options (use before bdf-file):'\n");
+  printf("png2bdf [BDF options] { [PNG options] png-file }\n");
+  printf(" BDF options (use at the beginning):'\n");
   printf("  -o output.bdf\n");
   printf("  -f 'name of the font'\n");
   printf("  -c 'copyright note'\n");
   printf(" PNG options (use before png-file):'\n");
   printf("  -e <enc>   Use the specified encoding number for the next image.\n");
   printf("  -i         Invert next images\n");
-  printf("  -n         Do not nvert next images\n");
+  printf("  -n         Do not invert next images\n");
   
 }
 
