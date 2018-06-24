@@ -349,7 +349,7 @@ static const uint8_t u8x8_d_ssd1327_ea_w128128_init_seq[] = {
   U8X8_CA(0x0a1, 0x000),		/* display start line */
   //U8X8_CA(0x0a2, 0x04c),		/* display offset, shift mapping ram counter */
   
-  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a2, 0x010),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a0, 0x051),		/* remap configuration */
   
   
