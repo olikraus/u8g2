@@ -67,6 +67,9 @@ struct controller
   struct display display_list[10];	/* usually not used completly, but space does not matter much here */  
 };
 
+/* issue #649 */
+/* display_controller_list_start */
+
 struct controller controller_list[] =
 {
   {
@@ -1142,6 +1145,9 @@ struct controller controller_list[] =
     }
   }
 };
+
+/* display_controller_list_end */
+
 
 struct interface interface_list[] = 
 {
