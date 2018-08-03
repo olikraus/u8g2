@@ -348,14 +348,20 @@ int get_signed_bit_size(long v)
   return get_unsigned_bit_size(v) + 1;
 }
 
+/*
+#define BDF_BBX_MODE_MINIMAL 0
+#define BDF_BBX_MODE_HEIGHT 1
+#define BDF_BBX_MODE_MAX 2
+#define BDF_BBX_MODE_M8 3
+*/
 void bf_copy_bbx_and_update_shift(bf_t *bf, bbx_t *target_bbx, bg_t *bg)
 {
       /* modifing the following code requires update ind bdf_rle.c also */
-      if ( bf->bbx_mode == BDF_BBX_MODE_MINIMAL )
+      if ( bf->bbx_mode == BDF_BBX_MODE_MINIMAL )	// mode 0
       {
 	*target_bbx = bg->bbx;	
       }
-      else if ( bf->bbx_mode == BDF_BBX_MODE_MAX )
+      else if ( bf->bbx_mode == BDF_BBX_MODE_MAX )	// mode 2 (monospace)
       {
 	*target_bbx = bf->max;	
 	target_bbx->x = 0;
@@ -747,6 +753,11 @@ bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, co
       bf_CalculateMaxBBX(bf);
       //bf_ShowAllGlyphs(bf, &(bf->max));
       bf_CalculateMinMaxDWidth(bf);
+      
+      /* issue 669 */
+      if ( bf->bbx_mode == BDF_BBX_MODE_MAX )
+	if ( bf->max.w < bf->dx_max )
+	  bf->max.w = bf->dx_max;
       
       bf_CalculateMaxBitFieldSize(bf);  
       
