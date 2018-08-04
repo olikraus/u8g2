@@ -189,4 +189,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * NEW FONT FORMAT for speedup of the unicode font section (issue 596)  
   * Fixed a bug in the font construction for monospaced fonts (issue 669) 
   * Added SpaceTrash game (issue 622)
+  * Added support for T6963 160x80 Displays (issue 635)
+  * Added support for EA W128128 (issue 641)
+  
   
