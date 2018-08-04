@@ -821,6 +821,25 @@ struct controller controller_list[] =
   },
   
   {
+    "st7567", 		8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "64x32" },
+      { NULL }
+    }
+  },
+  {
+    "st7567", 		8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "64x32" },
+      { NULL }
+    }
+  },
+  
+  
+  
+  {
     "st7586s", 		48, 	17, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI,
     "", /* is_generate_u8g2_class= */ 1,
     {
