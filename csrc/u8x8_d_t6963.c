@@ -461,8 +461,8 @@ uint8_t u8x8_d_t6963_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 
 static const u8x8_display_info_t u8x8_t6963_160x80_display_info =
 {
-  /* chip_enable_level = */ 1,
-  /* chip_disable_level = */ 0,
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
   
   /* post_chip_enable_wait_ns = */ 10,	/* T6963 Datasheet p30 */
   /* pre_chip_disable_wait_ns = */ 100,	/* T6963 Datasheet p30 */
