@@ -600,7 +600,7 @@ static const u8x8_display_info_t u8x8_st7567_64x32_display_info =
   /* pixel_height = */ 32
 };
 
-static const uint8_t u8x8_d_st7567_64x32_init_seq[] = {
+static const uint8_t u8x8_st7567_64x32_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
