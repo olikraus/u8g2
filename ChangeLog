@@ -188,5 +188,5 @@ https://github.com/olikraus/u8g2 ChangeLog
  2018-xx-xx	v2.23.xx  olikraus@gmail.com
   * NEW FONT FORMAT for speedup of the unicode font section (issue 596)  
   * Fixed a bug in the font construction for monospaced fonts (issue 669) 
-  
+  * Added SpaceTrash game (issue 622)
   
