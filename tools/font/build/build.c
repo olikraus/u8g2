@@ -221,6 +221,8 @@ struct fontinfo fi[] ={
   { 0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
   { 0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
 
+  { 0, "7Segments_26x42.bdf",  "7Segments_26x42", 	0, 0, BM_M, FM_C, MM_N, "", ""},
+
   { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   
   { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
