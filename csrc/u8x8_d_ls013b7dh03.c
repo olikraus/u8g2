@@ -120,3 +120,41 @@ uint8_t u8x8_d_ls013b7dh03_128x128(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_
   }
   return 1;
 }
+
+
+static const u8x8_display_info_t u8x8_ls027b7dh01_400x240_display_info =
+{
+  /* chip_enable_level = */ 1,
+  /* chip_disable_level = */ 0,
+  /* post_chip_enable_wait_ns = */ 50,
+  /* pre_chip_disable_wait_ns = */ 50,
+  /* reset_pulse_width_ms = */ 1,
+  /* post_reset_wait_ms = */ 6,
+  /* sda_setup_time_ns = */ 227,	/* 227 nsec according to the datasheet */		
+  /* sck_pulse_width_ns = */  255,	/* 450 nsec according to the datasheet */
+  /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 2,		/* active low, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 100,
+  /* write_pulse_width_ns = */ 100,
+  /* tile_width = */ 50,
+  /* tile_hight = */ 30,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 400,
+  /* pixel_height = */ 240
+};
+
+uint8_t u8x8_d_ls027b7dh01_400x240(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ls027b7dh01_400x240_display_info);
+      break;
+    default:
+      return u8x8_d_ls013b7dh03_128x128(u8x8, msg, arg_int, arg_ptr);
+  }    
+  return 1;
+}
+
