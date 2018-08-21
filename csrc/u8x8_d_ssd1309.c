@@ -84,8 +84,8 @@ static uint8_t u8x8_d_ssd1309_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
       x += u8x8->x_offset;
     
       u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-      u8x8_cad_SendArg(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendArg(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos)   );
+      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
+      u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos)   );
 
     
       do
@@ -125,6 +125,7 @@ static uint8_t u8x8_d_ssd1309_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
   }
   return 1;
 }
+
 
 /*=================================================*/
 /* offset 2 version */
