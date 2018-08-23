@@ -84,14 +84,14 @@
 #endif
 
 /* ATmegaXXM1 do not have I2C */
-#if defined(__AVR_ATmega16M1__) || defined(__AVR_ATmega16M1__) || defined(__AVR_ATmega16M1__)
+#if defined(__AVR_ATmega16M1__) || defined(__AVR_ATmega32M1__) || defined(__AVR_ATmega64M1__)
 #ifdef U8X8_HAVE_HW_I2C
 #undef U8X8_HAVE_HW_I2C
 #endif 
 #endif
 
 /* ATmegaXXC1 do not have I2C */
-#if defined(__AVR_ATmega16C1__) || defined(__AVR_ATmega16C1__) || defined(__AVR_ATmega16C1__)
+#if defined(__AVR_ATmega16C1__) || defined(__AVR_ATmega32C1__) || defined(__AVR_ATmega64C1__)
 #ifdef U8X8_HAVE_HW_I2C
 #undef U8X8_HAVE_HW_I2C
 #endif 
