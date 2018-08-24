@@ -714,7 +714,12 @@ Greek Extended	1F00–1FFF
   { "-r 72 -p 8", "trixel_square.ttf",		"trixel_square",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
   { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-
+  
+  { "-r 72 -p 24", "bubble.ttf",			"bubble",			2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { "-r 72 -p 36", "cardimon-pixel.ttf",	"cardimon_pixel",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 32", "maniac.ttf",			"maniac",			2, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 32", "lucasarts-scumm-subtitle-roman-outline.ttf", "lucasarts_scumm_subtitle_roman_outline",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { "-r 72 -p 32", "lucasarts-scumm-subtitle-roman.ttf", "lucasarts_scumm_subtitle_roman",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   
 
 /*
