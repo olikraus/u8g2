@@ -188,8 +188,18 @@ https://github.com/olikraus/u8g2 ChangeLog
  2018-xx-xx	v2.23.xx  olikraus@gmail.com
   * NEW FONT FORMAT for speedup of the unicode font section (issue 596)  
   * Fixed a bug in the font construction for monospaced fonts (issue 669) 
-  * Added SpaceTrash game (issue 622)
+  * Fixed a bug with the CS line for huge KS0108 displays (issue 631)
+  * Fixed #if's for some AVR uC (issue 662)
+  * Added support for SH1108 controller (issue 619)
   * Added support for T6963 160x80 Displays (issue 635)
   * Added support for EA W128128 (issue 641)
+  * Added support for LC7981 240x64 (issue 642)  
+  * Added support for ST7567 ENH-DG128064 (issue 616)
+  * Included pull request for ST7586, support for ERC240160 & s028hn118a (pull request 660)
+  * Added SpaceTrash game (issue 622)
+  * Added contributed 7-segment font, https://github.com/olikraus/u8g2/wiki/fntgrpu8g#7segments_26x42 (issue 634)
+  * Added several fonts from fontstruct.com, https://github.com/olikraus/u8g2/wiki/fntgrpfontstruct (issue 687)#
+    This also includes several outline fonts.
+  
   
   
