@@ -395,6 +395,8 @@ void u8g2_ClearDisplay(u8g2_t *u8g2);
 /*==========================================*/
 /* u8g2_setup.c */
 
+void u8g2_draw_l90_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
+
 extern const u8g2_cb_t u8g2_cb_r0;
 extern const u8g2_cb_t u8g2_cb_r1;
 extern const u8g2_cb_t u8g2_cb_r2;
