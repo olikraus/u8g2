@@ -72,8 +72,8 @@ static const uint8_t u8x8_d_hx1230_96x68_powersave0_seq[] = {
 
 static const uint8_t u8x8_d_hx1230_96x68_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a4),		                /* display off */
-  U8X8_C(0x020),		                /* power off */
+  U8X8_C(0x0ae),           		/* display off */
+  U8X8_C(0x0a5),	     		/* All pixels on = powersave */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
