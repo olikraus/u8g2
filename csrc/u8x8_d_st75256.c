@@ -883,8 +883,8 @@ static const u8x8_display_info_t u8x8_st75256_256x160_display_info =
   /* write_pulse_width_ns = */ 70,	
   /* tile_width = */ 32,
   /* tile_hight = */ 20,
-  /* default_x_offset = */ 0,	/* */
-  /* flipmode_x_offset = */ 1,		/* x offset in flipmode = 1 */
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 1,	/* x offset is used as y offset in flipmode */
   /* pixel_width = */ 256,
   /* pixel_height = */ 160
 };
@@ -984,7 +984,7 @@ uint8_t u8x8_d_st75256_jlx256160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
               u8x8_cad_SendArg(u8x8, 0x04f);
               //u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
               u8x8_cad_SendCmd(u8x8, 0x015 );	/* col */
-              u8x8_cad_SendArg(u8x8, x+u8x8->x_offset);
+              u8x8_cad_SendArg(u8x8, x+u8x8->display_info->default_x_offset);
               u8x8_cad_SendArg(u8x8, 255);
               u8x8_cad_SendCmd(u8x8, 0x05c );	
             
