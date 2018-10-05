@@ -32,6 +32,9 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 
+  SSD1322: 
+    480 x 128 dot matrix
+    16 gray scale
   
   
 */
