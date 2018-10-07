@@ -1,0 +1,4 @@
+Oct 2018:
+Two problems:
+a) Ubuntu arm-none-eabi is broken (latest download from of arm gcc required)
+b) stm32flash v0.5 does not support STM32L011, latest stnapshot required instead
