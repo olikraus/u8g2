@@ -33,6 +33,9 @@
 
   SSD1325:
     128 x 80, 16 Gray Scale Dot Matrix
+    
+  SSD0323: Identical to SSD1325, issue 720
+    
   
 */
 
@@ -150,7 +153,7 @@ static uint8_t *u8x8_ssd1325_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 }
 
 
-
+/*===================================================================*/
 
 static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -252,6 +255,7 @@ static uint8_t u8x8_d_ssd1325_128x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t 
   return 1;
 }
 
+/*===================================================================*/
 
 static const u8x8_display_info_t u8x8_nhd_ssd1325_128x64_display_info =
 {
@@ -286,5 +290,42 @@ uint8_t u8x8_d_ssd1325_nhd_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
     }
     return u8x8_d_ssd1325_128x64_generic(u8x8, msg, arg_int, arg_ptr);
 }
+
+/*===================================================================*/
+
+static const u8x8_display_info_t u8x8_ssd0323_os128064_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	
+  /* post_reset_wait_ms = */ 100, 		/**/
+  /* sda_setup_time_ns = */ 100,		/* SSD1325  */
+  /* sck_pulse_width_ns = */ 100,	/* SSD1325  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 60,	/* SSD1325 */
+  /* tile_width = */ 16,
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,		/* x_offset is used as y offset for the SSD1325 */
+  /* flipmode_x_offset = */ 8,		/* x_offset is used as y offset for the SSD1325 */
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 64
+};
+
+uint8_t u8x8_d_ssd0323_os128064(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+    {
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd0323_os128064_display_info);
+      return 1;
+    }
+    return u8x8_d_ssd1325_128x64_generic(u8x8, msg, arg_int, arg_ptr);
+}
+
 
 
