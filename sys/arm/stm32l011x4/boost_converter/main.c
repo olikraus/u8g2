@@ -45,10 +45,19 @@ volatile unsigned long SysTickCount = 0;
 void __attribute__ ((interrupt, used)) SysTick_Handler(void)
 {
   SysTickCount++;  
+  
+  
   if ( SysTickCount & 1 )
     GPIOA->BSRR = GPIO_BSRR_BS_0;		/* atomic set PA0 */
   else
     GPIOA->BSRR = GPIO_BSRR_BR_0;		/* atomic clr PA0 */
+  
+  /*
+  if (  COMP2->CSR & COMP_CSR_COMP2VALUE )
+    GPIOA->BSRR = GPIO_BSRR_BS_0;	
+  else
+    GPIOA->BSRR = GPIO_BSRR_BR_0;	
+  */
 }
 
 /*===============================================*/
@@ -71,15 +80,18 @@ void boost_converter(void)
   /* configure PA7 as COMP2 Plus input */
   /* GPIO has to be in input state without any pull up/down resistor: This is default, so nothing needs to be done here */
   
+  
   /* configure PA9 as TIM21 output */
-  GPIOA->MODER &= ~GPIO_MODER_MODE0;	/* clear mode */
-  GPIOA->MODER |= GPIO_MODER_MODE9_0;	/* Output mode */
+  
+  GPIOA->AFR[1] &= ~GPIO_AFRH_AFRH1_Msk;
+  GPIOA->AFR[1] |= 5<<GPIO_AFRH_AFRH1_Pos;		/* AF5 selects TIM21 */
+  
+  GPIOA->MODER &= ~GPIO_MODER_MODE9;	/* clear mode */  
+  GPIOA->MODER |= GPIO_MODER_MODE9_1;	/* Alternate Function Mode */
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_9;	/* no Push/Pull  */
   GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED9;	/* low speed  */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD9;	/* no pullup/pulldown  */
-  GPIOA->BSRR = GPIO_BSRR_BR_9;		/* atomic clr */
-  GPIOA->AFR[1] &= GPIO_AFRH_AFRH1_Msk;
-  GPIOA->AFR[1] |= 5<<GPIO_AFRH_AFRH1_Pos;		/* AF5 selects TIM21 */
+  GPIOA->BSRR = GPIO_BSRR_BS_9;		/* atomic clr */
   
   /* setup COMP2 */
   /*
@@ -123,7 +135,7 @@ void boost_converter(void)
   COMP2->CSR |= COMP_CSR_COMP2INNSEL_2;
   
   /* invert polarity */
-  COMP2->CSR |= COMP_CSR_COMP2POLARITY;
+  //COMP2->CSR |= COMP_CSR_COMP2POLARITY;
 
   /* comparator enable */
   COMP2->CSR |= COMP_CSR_COMP2EN;
@@ -141,7 +153,7 @@ void boost_converter(void)
 
   TIM21->PSC = 0;		/* run with max speed (2 MHz after reset) */
   TIM21->ARR = 20;		/* period of 20 clocks (100KHz if sys clock is not modified */
-  TIM21->CCR2 = 10; 	/* a value between 0 and ARR, which defines the duty cycle */
+  TIM21->CCR2 = 4; 	/* a value between 0 and ARR, which defines the duty cycle */
 
   /* output the result of channel 2 to PA9 */
   TIM21->CCER |= TIM_CCER_CC2E;
@@ -160,8 +172,24 @@ void boost_converter(void)
   /* update event can be caused by UG bit and overflow (this is default) */ 
   TIM21->CR1 &= ~(uint32_t)TIM_CR1_URS;
   
+  /* select gated mode */
+  //TIM21->SMCR &= ~TIM_SMCR_SMS_Msk;
+  //TIM21->SMCR |= 5<<TIM_SMCR_SMS_Pos;		/* mode 5: gated mode */
+  
+  /* connect COMP2 with TIM21 */
+  /* the following two bits are not documented in RM0377 */
+  /* However, it is mentioned in "A.9.10 ETR configuration to clear OCxREF code example" */
+  TIM21->CCMR1 |= TIM_CCMR1_OC2CE;	/* enable clearing on OC1 for ETR clearing */
+  TIM21->SMCR |= TIM_SMCR_OCCS; /* Select ETR as OCREF clear source (reserved bit = 1) */
+  //TIM21->EGR |= TIM_EGR_UG;
+  
+  TIM21->OR &= ~TIM21_OR_ETR_RMP_Msk;
+  TIM21->OR |= TIM21_OR_ETR_RMP_0;		/* bit pattern 01: connect with COMP2 */
+  
   /* enable the counter */
   TIM21->CR1 |= TIM_CR1_CEN;
+  
+  
 }
 
 
@@ -182,7 +210,9 @@ int main()
   GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED0;	/* low speed for PA0 */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD0;	/* no pullup/pulldown for PA0 */
   GPIOA->BSRR = GPIO_BSRR_BR_0;		/* atomic clr PA0 */
--
+
+  boost_converter();
+  
   SysTick->LOAD = 2000*500 - 1;
   SysTick->VAL = 0;
   SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */
