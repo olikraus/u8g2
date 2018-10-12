@@ -4,7 +4,7 @@
   Assumes LED at Pin 6, GPIO PA0
 */
 
-#include "stm32l031xx.h"
+#include "stm32l011xx.h"
 
 volatile unsigned long SysTickCount = 0;
 
