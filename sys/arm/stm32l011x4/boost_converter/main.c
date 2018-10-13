@@ -91,7 +91,7 @@ void boost_converter(void)
   GPIOA->OTYPER &= ~GPIO_OTYPER_OT_9;	/* no Push/Pull  */
   GPIOA->OSPEEDR &= ~GPIO_OSPEEDER_OSPEED9;	/* low speed  */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD9;	/* no pullup/pulldown  */
-  GPIOA->BSRR = GPIO_BSRR_BS_9;		/* atomic clr */
+  GPIOA->BSRR = GPIO_BSRR_BR_9;		/* atomic clr */
   
   /* setup COMP2 */
   /*
@@ -153,7 +153,7 @@ void boost_converter(void)
 
   TIM21->PSC = 0;		/* run with max speed (2 MHz after reset) */
   TIM21->ARR = 20;		/* period of 20 clocks (100KHz if sys clock is not modified */
-  TIM21->CCR2 = 4; 	/* a value between 0 and ARR, which defines the duty cycle */
+  TIM21->CCR2 = 5; 	/* a value between 0 and ARR, which defines the duty cycle */
 
   /* output the result of channel 2 to PA9 */
   TIM21->CCER |= TIM_CCER_CC2E;
@@ -172,9 +172,6 @@ void boost_converter(void)
   /* update event can be caused by UG bit and overflow (this is default) */ 
   TIM21->CR1 &= ~(uint32_t)TIM_CR1_URS;
   
-  /* select gated mode */
-  //TIM21->SMCR &= ~TIM_SMCR_SMS_Msk;
-  //TIM21->SMCR |= 5<<TIM_SMCR_SMS_Pos;		/* mode 5: gated mode */
   
   /* connect COMP2 with TIM21 */
   /* the following two bits are not documented in RM0377 */
