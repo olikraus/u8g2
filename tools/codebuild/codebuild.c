@@ -77,6 +77,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x32_noname" },
+      { "128x32_adafruit" },
       { NULL }
     }
   },
@@ -85,6 +86,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x32_noname" },
+      { "128x32_adafruit" },
       { NULL }
     }
   },
