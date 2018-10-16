@@ -152,7 +152,7 @@ void boost_converter(void)
   TIM21->CCMR1 |= TIM_CCMR1_OC2PE;	/* load modified CCR1 during update event only */
 
   TIM21->PSC = 0;		/* run with max speed (2 MHz after reset) */
-  TIM21->ARR = 20;		/* period of 20 clocks (100KHz if sys clock is not modified */
+  TIM21->ARR = 20;		/* period of 20 clocks (100KHz if sys clock is not modified) */
   TIM21->CCR2 = 5; 	/* a value between 0 and ARR, which defines the duty cycle */
 
   /* output the result of channel 2 to PA9 */
