@@ -35,6 +35,8 @@
 
 #include "u8g2.h"
 #include <string.h>
+#include <assert.h>
+
 
 /*============================================*/
 /*
@@ -206,12 +208,15 @@ void u8g2_update_dimension_r3(u8g2_t *u8g2)
 }
 
 /*============================================*/
-extern void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
+extern void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 
 
 void u8g2_draw_l90_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-  u8g2_draw_hv_line_4dir(u8g2, x, y, len, dir);
+#ifdef __unix
+  assert( dir <= 1 );
+#endif
+  u8g2_draw_hv_line_2dir(u8g2, x, y, len, dir);
 }
 
 void u8g2_draw_l90_mirrorr_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
@@ -227,14 +232,17 @@ void u8g2_draw_l90_mirrorr_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_u
   {
     xx--;
   }
-  u8g2_draw_hv_line_4dir(u8g2, xx, y, len, dir);
+  u8g2_draw_hv_line_2dir(u8g2, xx, y, len, dir);
 }
 
-
-
+/* dir = 0 or 1 */
 void u8g2_draw_l90_r1(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   u8g2_uint_t xx, yy;
+
+#ifdef __unix
+  assert( dir <= 1 );
+#endif
   
   yy = x;
   
@@ -243,14 +251,21 @@ void u8g2_draw_l90_r1(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
   xx--;
   
   dir ++;
-  dir &= 3;
-  u8g2_draw_hv_line_4dir(u8g2, xx, yy, len, dir);
+  if ( dir == 2 )
+  {
+    xx -= len;
+    xx++;
+    dir = 0;
+  }
+  
+  u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
 }
 
 void u8g2_draw_l90_r2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   u8g2_uint_t xx, yy;
 
+  /*
   yy = u8g2->height;
   yy -= y;
   yy--;
@@ -259,9 +274,36 @@ void u8g2_draw_l90_r2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
   xx -= x;
   xx--;
   
-  dir +=2;
-  dir &= 3;
-  u8g2_draw_hv_line_4dir(u8g2, xx, yy, len, dir);
+  if ( dir == 0 )
+  {
+    xx -= len;
+    xx++;
+  }
+  else if ( dir == 1 )
+  {
+    yy -= len;
+    yy++;
+  }
+  */
+
+  yy = u8g2->height;
+  yy -= y;
+  
+  xx = u8g2->width;
+  xx -= x;
+  
+  if ( dir == 0 )
+  {
+    yy--;
+    xx -= len;
+  }
+  else if ( dir == 1 )
+  {
+    xx--;
+    yy -= len;
+  }
+
+  u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
 }
 
 void u8g2_draw_l90_r3(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
@@ -272,11 +314,22 @@ void u8g2_draw_l90_r3(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
   
   yy = u8g2->width;
   yy -= x;
-  yy--;
   
-  dir +=3;
-  dir &= 3;
-  u8g2_draw_hv_line_4dir(u8g2, xx, yy, len, dir);
+  if ( dir == 0 )
+  {
+    yy--;
+    yy -= len;
+    yy++;
+    dir = 1;
+  }
+  else
+  {
+    yy--;
+    dir = 0;
+  }
+  
+  
+  u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
 }
 
 

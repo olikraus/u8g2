@@ -47,8 +47,6 @@
 
 
 
-#ifdef U8G2_WITH_CLIPPING
-
 /*
   Description:
     clip range from a (included) to b (excluded) agains c (included) to d (excluded)
@@ -112,10 +110,13 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
   will clip the line and call u8g2_draw_low_level_hv_line()
 
 */
-static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
   u8g2_uint_t a;
   register u8g2_uint_t w, h;
+
+  /* transform to pixel buffer coordinates */
+  y -= u8g2->tile_curr_row*8;
 
   h = u8g2->pixel_buf_height;		// this must be the real buffer height
   w = u8g2->pixel_buf_width;		// this could be replaced by u8g2->u8x8.display_info->pixel_width
@@ -147,8 +148,6 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
   u8g2->ll_hvline(u8g2, x, y, len, dir);
 }
 
-#endif
-
 /*
   x,y		Upper left position of the line (full screen coordinates)
   len		length of the line in pixel, len must not be 0
@@ -162,12 +161,6 @@ static void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u
 */
 void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-#ifdef U8G2_WITH_HVLINE_COUNT
-  u8g2->hv_cnt++;
-#endif /* U8G2_WITH_HVLINE_COUNT */   
-
-  /* transform to pixel buffer coordinates */
-   y -= u8g2->tile_curr_row*8;
 
   /* additional optimization for one pixel draw */
   /* requires about 60 bytes on the ATMega flash memory */
@@ -175,6 +168,8 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
 #ifdef U8G2_WITH_ONE_PIXEL_OPTIMIZATION
   if ( len == 1 )
   {
+    /* transform to pixel buffer coordinates */
+     y -= u8g2->tile_curr_row*8;
     if ( x < u8g2->pixel_buf_width && y < u8g2->pixel_buf_height )
       u8g2->ll_hvline(u8g2, x, y, len, dir);
     return;
@@ -192,16 +187,14 @@ void u8g2_draw_hv_line_4dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
     y++;
   }
   dir &= 1;  
-#ifdef U8G2_WITH_CLIPPING
   u8g2_draw_hv_line_2dir(u8g2, x, y, len, dir);
-#else
-  u8g2->ll_hvline(u8g2, x, y, len, dir);
-#endif
 }
 
 /*
   This is the toplevel function for the hv line draw procedures.
   This function should be called by the user.
+  
+  "dir" may have 4 directions: 0 (left to right), 1, 2, 3 (down up)
 */
 void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
@@ -209,7 +202,25 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
   /* The callback may rotate the hv line */
   /* after rotation this will call u8g2_draw_hv_line_4dir() */
   if ( len != 0 )
+  {
+    /* convert to dir2 */
+    if ( len > 1 )
+    {
+      if ( dir == 2 )
+      {
+	x -= len;
+	x++;
+      }
+      else if ( dir == 3 )
+      {
+	y -= len;
+	y++;
+      }
+    }
+    dir &= 1;  
+
     u8g2->cb->draw_l90(u8g2, x, y, len, dir);
+  }
 }
 
 void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
