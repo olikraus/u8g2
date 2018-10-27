@@ -57,6 +57,8 @@
   will return 0 if there is no intersection and if a > b
 
   optimized clipping: c is set to 0 --> 27 Oct 2018: again removed the c==0 assumption
+  
+  replaced by uint8_t u8g2_clip_intersection2
 */
 static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t c, u8g2_uint_t d)
 //static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t d)
@@ -102,12 +104,45 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
 
 static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_uint_t c, u8g2_uint_t d)
 {
+  u8g2_uint_t a = *ap;
   u8g2_uint_t b;
-  b  = *ap;
+  b  = a;
   b += *len;
-  if ( u8g2_clip_intersection(ap, &b, c, d) == 0 )
+  
+  /* handle the a>b case correctly. If code and time is critical, this could */
+  /* be removed completly (be aware about memory curruption for wrong */
+  /* arguments) or return 0 for a>b (will lead to skipped lines for wrong */
+  /* arguments) */  
+  
+  /* removing the following if clause completly may lead to memory corruption of a>b */
+  if ( a > b )
+  {    
+    /* replacing this if with a simple "return 0;" will not handle the case with negative a */    
+    if ( a < d )
+    {
+      b = d;
+      b--;
+    }
+    else
+    {
+      a = c;
+    }
+  }
+  
+  /* from now on, the asumption a <= b is ok */
+  
+  if ( a >= d )
     return 0;
-  *len = b - *ap;
+  if ( b <= c )
+    return 0;
+  if ( a < c )		
+    a = c;
+  if ( b > d )
+    b = d;
+  
+  *ap = a;
+  b -= a;
+  *len = b;
   return 1;
 }
 
@@ -147,7 +182,8 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
   if ( len != 0 )
   {
   
-    /* convert to dir2 */
+    /* convert to two directions */
+    
     if ( len > 1 )
     {
       if ( dir == 2 )
@@ -164,25 +200,25 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
     dir &= 1;  
     
     /* clip against the user window */
-    
     if ( dir == 0 )
     {
-      if ( u8g2_clip_intersection2(&x, &len, u8g2->user_x0, u8g2->user_x1) == 0 )
-	return;
       if ( y < u8g2->user_y0 )
 	return;
       if ( y >= u8g2->user_y1 )
 	return;
+      if ( u8g2_clip_intersection2(&x, &len, u8g2->user_x0, u8g2->user_x1) == 0 )
+	return;
     }
     else
     {
-      if ( u8g2_clip_intersection2(&y, &len, u8g2->user_y0, u8g2->user_y1) == 0 )
-	return;
       if ( x < u8g2->user_x0 )
 	return;
       if ( x >= u8g2->user_x1 )
 	return;
+      if ( u8g2_clip_intersection2(&y, &len, u8g2->user_y0, u8g2->user_y1) == 0 )
+	return;
     }
+    
     
     u8g2->cb->draw_l90(u8g2, x, y, len, dir);
   }
@@ -190,19 +226,19 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
 
 void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
 {
-#ifdef U8G2_WITH_INTERSECTION
-  if ( u8g2_IsIntersection(u8g2, x, y, x+len, y+1) == 0 ) 
-    return;
-#endif /* U8G2_WITH_INTERSECTION */
+// #ifdef U8G2_WITH_INTERSECTION
+//   if ( u8g2_IsIntersection(u8g2, x, y, x+len, y+1) == 0 ) 
+//     return;
+// #endif /* U8G2_WITH_INTERSECTION */
   u8g2_DrawHVLine(u8g2, x, y, len, 0);
 }
 
 void u8g2_DrawVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)
 {
-#ifdef U8G2_WITH_INTERSECTION
-  if ( u8g2_IsIntersection(u8g2, x, y, x+1, y+len) == 0 ) 
-    return;
-#endif /* U8G2_WITH_INTERSECTION */
+// #ifdef U8G2_WITH_INTERSECTION
+//   if ( u8g2_IsIntersection(u8g2, x, y, x+1, y+len) == 0 ) 
+//     return;
+// #endif /* U8G2_WITH_INTERSECTION */
   u8g2_DrawHVLine(u8g2, x, y, len, 1);
 }
 
