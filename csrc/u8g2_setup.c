@@ -39,6 +39,30 @@
 
 
 /*============================================*/
+
+
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+void u8g2_SetMaxClipWindow(u8g2_t *u8g2)
+{
+  u8g2->clip_x0 = 0;
+  u8g2->clip_y0 = 0;
+  u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+  u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+}
+#endif
+
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+void u8g2_SetClipWindow(u8g2_t *u8g2, u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1, u8g2_uint_t clip_y1 )
+{
+  u8g2->clip_x0 = clip_x0;
+  u8g2->clip_y0 = clip_y0;
+  u8g2->clip_x1 = clip_x1;
+  u8g2->clip_y1 = clip_y1;
+  u8g2->cb->update(u8g2);
+}
+#endif
+
+/*============================================*/
 /*
   This procedure is called after setting up the display (u8x8 structure).
   --> This is the central init procedure for u8g2 object
@@ -64,6 +88,9 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
   u8g2->is_auto_page_clear = 1;
   
   u8g2->cb = u8g2_cb;
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  u8g2_SetMaxClipWindow(u8g2);		/* assign a clip window before the update() callback is called */
+#endif
   u8g2->cb->update(u8g2);
 
   u8g2_SetFontPosBaseline(u8g2);  /* issue 195 */
@@ -96,13 +123,14 @@ void u8g2_SetDisplayRotation(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
 
 static void u8g2_update_dimension_common(u8g2_t *u8g2)
 {
+  const u8x8_display_info_t *display_info = u8g2_GetU8x8(u8g2)->display_info;
   u8g2_uint_t t;
   
   t = u8g2->tile_buf_height;
   t *= 8;
   u8g2->pixel_buf_height = t;
   
-  t = u8g2_GetU8x8(u8g2)->display_info->tile_width;
+  t = display_info->tile_width;
 #ifndef U8G2_16BIT
   if ( t >= 32 )
     t = 31;
@@ -116,8 +144,8 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
   
   t = u8g2->tile_buf_height;
   /* handle the case, where the buffer is larger than the (remaining) part of the display */
-  if ( t + u8g2->tile_curr_row > u8g2_GetU8x8(u8g2)->display_info->tile_height )
-    t = u8g2_GetU8x8(u8g2)->display_info->tile_height - u8g2->tile_curr_row;
+  if ( t + u8g2->tile_curr_row > display_info->tile_height )
+    t = display_info->tile_height - u8g2->tile_curr_row;
   t *= 8;
   
   u8g2->buf_y0 = u8g2->pixel_curr_row;   
@@ -126,16 +154,46 @@ static void u8g2_update_dimension_common(u8g2_t *u8g2)
 
   
 #ifdef U8G2_16BIT
-  u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
-  u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+  u8g2->width = display_info->pixel_width;
+  u8g2->height = display_info->pixel_height;
 #else
   u8g2->width = 240;
-  if ( u8g2_GetU8x8(u8g2)->display_info->pixel_width <= 240 )
-    u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
-  u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+  if ( display_info->pixel_width <= 240 )
+    u8g2->width = display_info->pixel_width;
+  u8g2->height = display_info->pixel_height;
 #endif
 
 }
+
+/*==========================================================*/
+/* apply clip window */
+
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+static void u8g2_apply_clip_window(u8g2_t *u8g2)
+{
+  /* check aganst the current user_??? window */
+  if ( u8g2_IsIntersection(u8g2, u8g2->clip_x0, u8g2->clip_y0, u8g2->clip_x1, u8g2->clip_y1) == 0 ) 
+  {
+    u8g2->is_page_clip_window_intersection = 0;
+  }
+  else
+  {
+    u8g2->is_page_clip_window_intersection = 1;
+
+    if ( u8g2->user_x0 < u8g2->clip_x0 )
+      u8g2->user_x0 = u8g2->clip_x0;
+    if ( u8g2->user_x1 > u8g2->clip_x1 )
+      u8g2->user_x1 = u8g2->clip_x1;
+    if ( u8g2->user_y0 < u8g2->clip_y0 )
+      u8g2->user_y0 = u8g2->clip_y0;
+    if ( u8g2->user_y1 > u8g2->clip_y1 )
+      u8g2->user_y1 = u8g2->clip_y1;
+  }
+}
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+
+/*==========================================================*/
+
 
 void u8g2_update_dimension_r0(u8g2_t *u8g2)
 {
@@ -146,6 +204,10 @@ void u8g2_update_dimension_r0(u8g2_t *u8g2)
   
   u8g2->user_y0 = u8g2->buf_y0;
   u8g2->user_y1 = u8g2->buf_y1;
+  
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  u8g2_apply_clip_window(u8g2);
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
   
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
@@ -164,6 +226,9 @@ void u8g2_update_dimension_r1(u8g2_t *u8g2)
   u8g2->user_y0 = 0;
   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (which is the real pixel width) */
   
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  u8g2_apply_clip_window(u8g2);
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
   //printf("x0=%d x1=%d y0=%d y1=%d\n", 
    //   u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
 }
@@ -182,6 +247,9 @@ void u8g2_update_dimension_r2(u8g2_t *u8g2)
     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
 
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  u8g2_apply_clip_window(u8g2);
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
 }
@@ -203,6 +271,9 @@ void u8g2_update_dimension_r3(u8g2_t *u8g2)
   u8g2->user_y0 = 0;
   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (pixel_width) */
 
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  u8g2_apply_clip_window(u8g2);
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
 //  printf("x0=%d x1=%d y0=%d y1=%d\n", 
 //      u8g2->user_x0, u8g2->user_x1, u8g2->user_y0, u8g2->user_y1);
 }
