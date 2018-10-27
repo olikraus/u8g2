@@ -82,6 +82,15 @@
 */
 #define U8G2_WITH_ONE_PIXEL_OPTIMIZATION
 
+/*
+  Enable clip window support:
+    void u8g2_SetMaxClipWindow(u8g2_t *u8g2)
+    void u8g2_SetClipWindow(u8g2_t *u8g2, u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1, u8g2_uint_t clip_y1 )
+  Setting a clip window will restrict all drawing to this window.
+  Clip window support requires about 200 bytes flash memory on AVR systems
+*/
+//#define U8G2_WITH_CLIP_WINDOW_SUPPORT
+
 
 /*
   The following macro enables the HVLine speed optimization.
@@ -290,7 +299,7 @@ struct u8g2_struct
   u8g2_uint_t buf_y0;
   u8g2_uint_t buf_y1;
   
-  /* display dimensions in pixel for the user, calculated in u8g2_update_dimension_common(), used in u8g2_draw_hv_line_2dir() */
+  /* display dimensions in pixel for the user, calculated in u8g2_update_dimension_common()  */
   u8g2_uint_t width;
   u8g2_uint_t height;
   
@@ -302,6 +311,15 @@ struct u8g2_struct
   u8g2_uint_t user_y0;	/* upper edge of the buffer */
   u8g2_uint_t user_y1;	/* lower edge of the buffer (excluded) */
   
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  /* clip window */
+  u8g2_uint_t clip_x0;	/* left corner of the clip window */
+  u8g2_uint_t clip_x1;	/* right corner of the clip window (excluded) */
+  u8g2_uint_t clip_y0;	/* upper edge of the clip window */
+  u8g2_uint_t clip_y1;	/* lower edge of the clip window (excluded) */
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+  
+  
   /* information about the current font */
   const uint8_t *font;             /* current font for all text procedures */
   // removed: const u8g2_kerning_t *kerning;		/* can be NULL */
@@ -310,6 +328,11 @@ struct u8g2_struct
   u8g2_font_calc_vref_fnptr font_calc_vref;
   u8g2_font_decode_t font_decode;		/* new font decode structure */
   u8g2_font_info_t font_info;			/* new font info structure */
+
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  /* 1 of there is an intersection between user_?? and clip_?? box */
+  uint8_t is_page_clip_window_intersection;
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
 
   uint8_t font_height_mode;
   int8_t font_ref_ascent;
@@ -325,12 +348,6 @@ struct u8g2_struct
 	// the following variable should be renamed to is_buffer_auto_clear
   uint8_t is_auto_page_clear; 		/* set to 0 to disable automatic clear of the buffer in firstPage() and nextPage() */
   
-// removed, there is now the new index table
-//#ifdef __unix__
-//  uint16_t last_unicode;
-//  const uint8_t *last_font_data;
-//#endif
-
 };
 
 #define u8g2_GetU8x8(u8g2) ((u8x8_t *)(u8g2))
@@ -398,6 +415,9 @@ extern const u8g2_cb_t u8g2_cb_mirror;
   u8g2_cb			U8G2_R0 .. U8G2_R3
       
 */
+
+void u8g2_SetMaxClipWindow(u8g2_t *u8g2);
+void u8g2_SetClipWindow(u8g2_t *u8g2, u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1, u8g2_uint_t clip_y1 );
 
 void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb ll_hvline_cb, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetDisplayRotation(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);

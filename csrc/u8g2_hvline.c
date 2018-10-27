@@ -45,6 +45,8 @@
 #include "u8g2.h"
 #include <assert.h>
 
+/*==========================================================*/
+/* intersection procedure */
 
 /*
   Description:
@@ -114,6 +116,10 @@ static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_u
 }
 
 
+
+/*==========================================================*/
+/* draw procedures */
+
 /*
   x,y		Upper left position of the line within the pixel buffer 
   len		length of the line in pixel, len must not be 0
@@ -129,7 +135,7 @@ void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
   /* clipping happens before the display rotation */
 
   /* transform to pixel buffer coordinates */
-  y -= u8g2->tile_curr_row*8;
+  y -= u8g2->pixel_curr_row;
   
   u8g2->ll_hvline(u8g2, x, y, len, dir);
 }
@@ -146,48 +152,52 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
   /* Make a call to the callback function (e.g. u8g2_draw_l90_r0). */
   /* The callback may rotate the hv line */
   /* after rotation this will call u8g2_draw_hv_line_4dir() */
-  if ( len != 0 )
-  {
   
-    /* convert to two directions */    
-    if ( len > 1 )
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  if ( u8g2->is_page_clip_window_intersection != 0 )
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+    if ( len != 0 )
     {
-      if ( dir == 2 )
+    
+      /* convert to two directions */    
+      if ( len > 1 )
       {
-	x -= len;
-	x++;
+	if ( dir == 2 )
+	{
+	  x -= len;
+	  x++;
+	}
+	else if ( dir == 3 )
+	{
+	  y -= len;
+	  y++;
+	}
       }
-      else if ( dir == 3 )
+      dir &= 1;  
+      
+      /* clip against the user window */
+      if ( dir == 0 )
       {
-	y -= len;
-	y++;
+	if ( y < u8g2->user_y0 )
+	  return;
+	if ( y >= u8g2->user_y1 )
+	  return;
+	if ( u8g2_clip_intersection2(&x, &len, u8g2->user_x0, u8g2->user_x1) == 0 )
+	  return;
       }
+      else
+      {
+	if ( x < u8g2->user_x0 )
+	  return;
+	if ( x >= u8g2->user_x1 )
+	  return;
+	if ( u8g2_clip_intersection2(&y, &len, u8g2->user_y0, u8g2->user_y1) == 0 )
+	  return;
+      }
+      
+      
+      u8g2->cb->draw_l90(u8g2, x, y, len, dir);
     }
-    dir &= 1;  
-    
-    /* clip against the user window */
-    if ( dir == 0 )
-    {
-      if ( y < u8g2->user_y0 )
-	return;
-      if ( y >= u8g2->user_y1 )
-	return;
-      if ( u8g2_clip_intersection2(&x, &len, u8g2->user_x0, u8g2->user_x1) == 0 )
-	return;
-    }
-    else
-    {
-      if ( x < u8g2->user_x0 )
-	return;
-      if ( x >= u8g2->user_x1 )
-	return;
-      if ( u8g2_clip_intersection2(&y, &len, u8g2->user_y0, u8g2->user_y1) == 0 )
-	return;
-    }
-    
-    
-    u8g2->cb->draw_l90(u8g2, x, y, len, dir);
-  }
 }
 
 void u8g2_DrawHLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len)

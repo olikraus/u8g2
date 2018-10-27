@@ -144,6 +144,12 @@ class U8G2 : public Print
 
     /* u8g2  */
 
+#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+    void setMaxClipWindow(void) { u8g2_SetMaxClipWindow(&u8g2); }
+    void setClipWindow(u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1, u8g2_uint_t clip_y1) {
+      u8g2_SetClipWindow(&u8g2, clip_x0, clip_y0, clip_x1, clip_y1 ); }
+#endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+      
       
     u8g2_uint_t getDisplayHeight(void) { return u8g2_GetDisplayHeight(&u8g2); }
     u8g2_uint_t getDisplayWidth(void) { return u8g2_GetDisplayWidth(&u8g2); }
