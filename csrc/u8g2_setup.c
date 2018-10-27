@@ -42,16 +42,16 @@
 
 
 #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+
 void u8g2_SetMaxClipWindow(u8g2_t *u8g2)
 {
   u8g2->clip_x0 = 0;
   u8g2->clip_y0 = 0;
   u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
   u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+  u8g2->cb->update(u8g2);
 }
-#endif
 
-#ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
 void u8g2_SetClipWindow(u8g2_t *u8g2, u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1, u8g2_uint_t clip_y1 )
 {
   u8g2->clip_x0 = clip_x0;
@@ -89,9 +89,10 @@ void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_
   
   u8g2->cb = u8g2_cb;
 #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
-  u8g2_SetMaxClipWindow(u8g2);		/* assign a clip window before the update() callback is called */
-#endif
+  u8g2_SetMaxClipWindow(u8g2);		/* assign a clip window and call the update() procedure */
+#else
   u8g2->cb->update(u8g2);
+#endif
 
   u8g2_SetFontPosBaseline(u8g2);  /* issue 195 */
   
