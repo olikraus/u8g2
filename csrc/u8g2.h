@@ -89,7 +89,7 @@
   Setting a clip window will restrict all drawing to this window.
   Clip window support requires about 200 bytes flash memory on AVR systems
 */
-//#define U8G2_WITH_CLIP_WINDOW_SUPPORT
+#define U8G2_WITH_CLIP_WINDOW_SUPPORT
 
 
 /*
