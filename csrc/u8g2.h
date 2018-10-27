@@ -300,7 +300,7 @@ struct u8g2_struct
   u8g2_uint_t pixel_curr_row;		/* u8g2.tile_curr_row*8 */
   
   /* the following variables are set by the update dimension callback */
-  /* this is clipbox after rotation for the hvline procedures */
+  /* this is the clipbox after rotation for the hvline procedures */
   //u8g2_uint_t buf_x0;	/* left corner of the buffer */
   //u8g2_uint_t buf_x1;	/* right corner of the buffer (excluded) */
   u8g2_uint_t buf_y0;
@@ -312,7 +312,7 @@ struct u8g2_struct
   
   /* ths is the clip box for the user to check if a specific box has an intersection */
   /* use u8g2_IsIntersection from u8g2_intersection.c to test against this intersection */
-  /* boundary values are part of the box so that they can be used with u8g2_IsIntersection */
+  /* actually, this window describes the positon of the current page */
   u8g2_uint_t user_x0;	/* left corner of the buffer */
   u8g2_uint_t user_x1;	/* right corner of the buffer (excluded) */
   u8g2_uint_t user_y0;	/* upper edge of the buffer */
