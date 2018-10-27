@@ -130,24 +130,6 @@
 #define U8G2_WITH_UNICODE
 
 
-/*
-  Internal performance test for the effect of enabling U8G2_WITH_INTERSECTION
-  Should not be defined for production code
-*/
-//#define U8G2_WITH_HVLINE_COUNT
-
-/*
-  Defining the following variable adds the clipping and check procedures agains the display boundaries.
-  Clipping procedures are mandatory for the picture loop (u8g2_FirstPage/NextPage).
-  Clipping procedures will also allow strings to exceed the display boundaries.
-  On the other side, without clipping, all the setting of pixels must happen within the display boundaries.
-  
-  WARNING: Adding a comment in front of the following macro or removing the following line
-  may lead to memory faults if you write any pixel outside the display boundary.
-*/
-#define U8G2_WITH_CLIPPING
-
-
 
 
 /*==========================================*/
@@ -341,10 +323,6 @@ struct u8g2_struct
 	// the following variable should be renamed to is_buffer_auto_clear
   uint8_t is_auto_page_clear; 		/* set to 0 to disable automatic clear of the buffer in firstPage() and nextPage() */
   
-#ifdef U8G2_WITH_HVLINE_COUNT
-  unsigned long hv_cnt;
-#endif /* U8G2_WITH_HVLINE_COUNT */   
-
 // removed, there is now the new index table
 //#ifdef __unix__
 //  uint16_t last_unicode;
