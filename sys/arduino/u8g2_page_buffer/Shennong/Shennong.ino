@@ -273,7 +273,7 @@
 // To read the short story with all glyphs you need at least a font with _gb2312b postfix
 // However, a font with _gb2312b postfix is very large and will not always fit on
 // the target controller. For testing you can use _chinese1 extenstion, but then
-// many gylphs are skipped.
+// many gylphs are skipped and not visible.
 //
 // wqy fonts are available in different sizes, here are only wqy12, wqy14 and wqy16 listed
 
@@ -392,7 +392,7 @@ void setup(void) {
 
   /* select a font */
   
-  u8g2.setFont(u8g2_font_wqy12_t_chinese1);	// two unknown glyphs
+ // u8g2.setFont(u8g2_font_wqy12_t_chinese1);	// two unknown glyphs
  //u8g2.setFont(u8g2_font_wqy12_t_chinese3);	// two unknown glyphs
 
   //u8g2.setFont(u8g2_font_wqy12_t_gb2312a);	// ";" is missing
