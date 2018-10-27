@@ -32,11 +32,12 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
   
   27 Oct 2018:
-  U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
+  U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2
   make -f Makefile.184.uno
      text	   data	    bss	    dec	    hex	filename
    8440	    152	    420	   9012	   2334	HelloWorld.elf
-
+   
+  8422
 
 */
 
