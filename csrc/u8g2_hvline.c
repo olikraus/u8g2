@@ -47,61 +47,6 @@
 
 
 
-
-/*
-  Description:
-    clip range from a (included) to b (excluded) agains c (included) to d (excluded)
-  Assumptions:
-    a <= b		(violation is checked and handled correctly)
-    c <= d		(this is not checked)
-  will return 0 if there is no intersection and if a > b
-
-  optimized clipping: c is set to 0 --> 27 Oct 2018: again removed the c==0 assumption
-  
-  replaced by uint8_t u8g2_clip_intersection2
-*/
-static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t c, u8g2_uint_t d)
-//static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t d)
-{
-  u8g2_uint_t a = *ap;
-  u8g2_uint_t b = *bp;
-  
-  /* handle the a>b case correctly. If code and time is critical, this could */
-  /* be removed completly (be aware about memory curruption for wrong */
-  /* arguments) or return 0 for a>b (will lead to skipped lines for wrong */
-  /* arguments) */  
-  
-  /* removing the following if clause completly may lead to memory corruption of a>b */
-  if ( a > b )
-  {    
-    /* replacing this if with a simple "return 0;" will not handle the case with negative a */    
-    if ( a < d )
-    {
-      b = d;
-      b--;
-      *bp = b;
-    }
-    else
-    {
-      a = c;
-      *ap = a;
-    }
-  }
-  
-  /* from now on, the asumption a <= b is ok */
-  
-  if ( a >= d )
-    return 0;
-  if ( b <= c )
-    return 0;
-  if ( a < c )		
-    *ap = c;
-  if ( b > d )
-    *bp = d;
-    
-  return 1;
-}
-
   /*
     Description:
       clip range from pos a (included) with line len (a+len excluded) agains c (included) to d (excluded)
@@ -110,9 +55,6 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
       c <= d		(this is not checked)
     will return 0 if there is no intersection and if a > b
 
-    optimized clipping: c is set to 0 --> 27 Oct 2018: again removed the c==0 assumption
-    
-    replaced by uint8_t u8g2_clip_intersection2
   */
 
 static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_uint_t c, u8g2_uint_t d)
