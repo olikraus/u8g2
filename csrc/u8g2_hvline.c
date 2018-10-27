@@ -102,13 +102,39 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
   return 1;
 }
 
+  /*
+    Description:
+      clip range from pos a (included) with line len (a+len excluded) agains c (included) to d (excluded)
+    Assumptions:
+      len > 0
+      c <= d		(this is not checked)
+    will return 0 if there is no intersection and if a > b
+
+    optimized clipping: c is set to 0 --> 27 Oct 2018: again removed the c==0 assumption
+    
+    replaced by uint8_t u8g2_clip_intersection2
+  */
+
 static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_uint_t c, u8g2_uint_t d)
 {
   u8g2_uint_t a = *ap;
   u8g2_uint_t b;
   b  = a;
   b += *len;
-  
+
+  /*
+    Description:
+      clip range from a (included) to b (excluded) agains c (included) to d (excluded)
+    Assumptions:
+      a <= b		(violation is checked and handled correctly)
+      c <= d		(this is not checked)
+    will return 0 if there is no intersection and if a > b
+
+    optimized clipping: c is set to 0 --> 27 Oct 2018: again removed the c==0 assumption
+    
+    replaced by uint8_t u8g2_clip_intersection2
+  */
+
   /* handle the a>b case correctly. If code and time is critical, this could */
   /* be removed completly (be aware about memory curruption for wrong */
   /* arguments) or return 0 for a>b (will lead to skipped lines for wrong */
