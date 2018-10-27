@@ -200,6 +200,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added contributed 7-segment font, https://github.com/olikraus/u8g2/wiki/fntgrpu8g#7segments_26x42 (issue 634)
   * Added several fonts from fontstruct.com, https://github.com/olikraus/u8g2/wiki/fntgrpfontstruct (issue 687)#
     This also includes several outline fonts.
-  
+ 2018-xx-xx	v2.24.yy  olikraus@gmail.com
+  * Added clip window support (issue 364)
   
   
