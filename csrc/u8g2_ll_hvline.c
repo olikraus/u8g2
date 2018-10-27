@@ -75,6 +75,9 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   uint8_t *ptr;
   uint8_t bit_pos, mask;
   uint8_t or_mask, xor_mask;
+#ifdef __unix
+  uint8_t *max_ptr = u8g2->tile_buf_ptr + u8g2_GetU8x8(u8g2)->display_info->tile_width*u8g2->tile_buf_height*8;
+#endif
 
   //assert(x >= u8g2->buf_x0);
   //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
@@ -106,6 +109,9 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   {
       do
       {
+#ifdef __unix
+	assert(ptr < max_ptr);
+#endif
 	*ptr |= or_mask;
 	*ptr ^= xor_mask;
 	ptr++;
@@ -116,6 +122,9 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
   {    
     do
     {
+#ifdef __unix
+      assert(ptr < max_ptr);
+#endif
       *ptr |= or_mask;
       *ptr ^= xor_mask;
       
