@@ -56,10 +56,10 @@
     c <= d		(this is not checked)
   will return 0 if there is no intersection and if a > b
 
-  optimized clipping: c is set to 0
+  optimized clipping: c is set to 0 --> 27 Oct 2018: again removed the c==0 assumption
 */
-//static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t c, u8g2_uint_t d)
-static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t d)
+static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t c, u8g2_uint_t d)
+//static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uint_t d)
 {
   u8g2_uint_t a = *ap;
   u8g2_uint_t b = *bp;
@@ -81,7 +81,7 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
     }
     else
     {
-      a = 0;
+      a = c;
       *ap = a;
     }
   }
@@ -90,16 +90,26 @@ static uint8_t u8g2_clip_intersection(u8g2_uint_t *ap, u8g2_uint_t *bp, u8g2_uin
   
   if ( a >= d )
     return 0;
-  if ( b <= 0 )		// was b <= c, could be replaced with b == 0
+  if ( b <= c )
     return 0;
-  //if ( a < c )		// never true with c == 0
-  //  *ap = c;
+  if ( a < c )		
+    *ap = c;
   if ( b > d )
     *bp = d;
     
   return 1;
 }
 
+static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_uint_t c, u8g2_uint_t d)
+{
+  u8g2_uint_t b;
+  b  = *ap;
+  b += *len;
+  if ( u8g2_clip_intersection(ap, &b, c, d) == 0 )
+    return 0;
+  *len = b - *ap;
+  return 1;
+}
 
 
 /*
@@ -119,6 +129,8 @@ void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
   /* transform to pixel buffer coordinates */
   y -= u8g2->tile_curr_row*8;
 
+  /* the following code is not required, clipping happens before the display rotation */
+  /*
   h = u8g2->pixel_buf_height;		// this must be the real buffer height
   w = u8g2->pixel_buf_width;		// this could be replaced by u8g2->u8x8.display_info->pixel_width
 
@@ -129,7 +141,7 @@ void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
       return;
     a = x;
     a += len;
-    if ( u8g2_clip_intersection(&x, &a, w) == 0 )
+    if ( u8g2_clip_intersection(&x, &a, 0, w) == 0 )
       return;
     len = a;
     len -= x;
@@ -140,11 +152,12 @@ void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uin
       return;
     a = y;
     a += len;
-    if ( u8g2_clip_intersection(&y, &a, h) == 0 )
+    if ( u8g2_clip_intersection(&y, &a, 0, h) == 0 )
       return;
     len = a;
     len -= y;
   }
+  */
   
   u8g2->ll_hvline(u8g2, x, y, len, dir);
 }
@@ -163,6 +176,7 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
   /* after rotation this will call u8g2_draw_hv_line_4dir() */
   if ( len != 0 )
   {
+  
     /* convert to dir2 */
     if ( len > 1 )
     {
@@ -178,7 +192,28 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
       }
     }
     dir &= 1;  
-
+    
+    /* clip against the user window */
+    
+    if ( dir == 0 )
+    {
+      if ( u8g2_clip_intersection2(&x, &len, u8g2->user_x0, u8g2->user_x1) == 0 )
+	return;
+      if ( y < u8g2->user_y0 )
+	return;
+      if ( y >= u8g2->user_y1 )
+	return;
+    }
+    else
+    {
+      if ( u8g2_clip_intersection2(&y, &len, u8g2->user_y0, u8g2->user_y1) == 0 )
+	return;
+      if ( x < u8g2->user_x0 )
+	return;
+      if ( x >= u8g2->user_x1 )
+	return;
+    }
+    
     u8g2->cb->draw_l90(u8g2, x, y, len, dir);
   }
 }
