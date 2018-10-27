@@ -48,6 +48,9 @@ int main(void)
   
   u8g2_SetFontDirection(&u8g2, 0);
   
+  u8g2_SetClipWindow(&u8g2, 10, 10, 50, 60 );
+  
+  
   u8g2_SetDisplayRotation(&u8g2, U8G2_R0);  
   u8g2_FirstPage(&u8g2);
   do
