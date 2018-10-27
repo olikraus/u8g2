@@ -46,16 +46,15 @@
 #include <assert.h>
 
 
+/*
+  Description:
+    clip range from pos a (included) with line len (a+len excluded) agains c (included) to d (excluded)
+  Assumptions:
+    len > 0
+    c <= d		(this is not checked)
+  will return 0 if there is no intersection and if a > b
 
-  /*
-    Description:
-      clip range from pos a (included) with line len (a+len excluded) agains c (included) to d (excluded)
-    Assumptions:
-      len > 0
-      c <= d		(this is not checked)
-    will return 0 if there is no intersection and if a > b
-
-  */
+*/
 
 static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_uint_t c, u8g2_uint_t d)
 {
@@ -150,8 +149,7 @@ void u8g2_DrawHVLine(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len
   if ( len != 0 )
   {
   
-    /* convert to two directions */
-    
+    /* convert to two directions */    
     if ( len > 1 )
     {
       if ( dir == 2 )
