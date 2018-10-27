@@ -77,6 +77,8 @@
   in the HVLine procedure for lines with one pixel length.
   It enabled, it will consume about 60 bytes in flash memory of the AVR and
   there will be a speed improvement of about 20% for any single pixel draw.
+  
+  27 Oct 2018: The one pixel optimization is removed, it does not have any effect
 */
 #define U8G2_WITH_ONE_PIXEL_OPTIMIZATION
 
