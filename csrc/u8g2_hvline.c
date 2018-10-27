@@ -123,41 +123,11 @@ static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_u
 */
 void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
 {
-  u8g2_uint_t a;
-  register u8g2_uint_t w, h;
+
+  /* clipping happens before the display rotation */
 
   /* transform to pixel buffer coordinates */
   y -= u8g2->tile_curr_row*8;
-
-  /* the following code is not required, clipping happens before the display rotation */
-  /*
-  h = u8g2->pixel_buf_height;		// this must be the real buffer height
-  w = u8g2->pixel_buf_width;		// this could be replaced by u8g2->u8x8.display_info->pixel_width
-
-
-  if ( dir == 0 )
-  {
-    if ( y >= h )
-      return;
-    a = x;
-    a += len;
-    if ( u8g2_clip_intersection(&x, &a, 0, w) == 0 )
-      return;
-    len = a;
-    len -= x;
-  }
-  else
-  {
-    if ( x >= w )
-      return;
-    a = y;
-    a += len;
-    if ( u8g2_clip_intersection(&y, &a, 0, h) == 0 )
-      return;
-    len = a;
-    len -= y;
-  }
-  */
   
   u8g2->ll_hvline(u8g2, x, y, len, dir);
 }
