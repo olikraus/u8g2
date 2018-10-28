@@ -165,7 +165,9 @@ The file "u8g2.h" is located in "/libraries/U8g2_Arduino/src/clib" inside your d
 sketch folder.
 
 Q: U8g2 requires a lot of memory. How to reduce this?
-- Limit the font size. If possible avoid "f" fonts, instead use "r" fonts
+- Visit https://github.com/olikraus/u8g2/wiki/u8g2optimization
+- Disable U8g2 features if possible (see u8g2.h)
+- Limit the font size. If possible avoid "f" fonts, instead use "r" or "n" fonts
 - If the I2C interface is not required, then uncomment #define U8X8_HAVE_HW_I2C in U8x8lib.h
   (Background: Due to a problem in Wire.h, the I2C Arduino lib is always included)
 
