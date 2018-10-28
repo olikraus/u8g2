@@ -156,8 +156,11 @@ class U8X8 : public Print
   public:
     uint8_t tx, ty;
   
-    U8X8(void) { home(); }
+    U8X8(void) { home();  }
     u8x8_t *getU8x8(void) { return &u8x8; }
+    
+    uint32_t getBusClock(void) { return u8x8.bus_clock; }
+    void setBusClock(uint32_t clock_speed) { u8x8.bus_clock = clock_speed; }
     
     void setI2CAddress(uint8_t adr) { u8x8_SetI2CAddress(&u8x8, adr); }
 
