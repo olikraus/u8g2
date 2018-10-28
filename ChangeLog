@@ -200,7 +200,11 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added contributed 7-segment font, https://github.com/olikraus/u8g2/wiki/fntgrpu8g#7segments_26x42 (issue 634)
   * Added several fonts from fontstruct.com, https://github.com/olikraus/u8g2/wiki/fntgrpfontstruct (issue 687)#
     This also includes several outline fonts.
- 2018-xx-xx	v2.24.yy  olikraus@gmail.com
+ 2018-10-28	v2.24.3  olikraus@gmail.com
   * Added clip window support (issue 364)
+  * Added setBusClock() proc to change the I2C/SPI bus clock speed (Arduino only, issue 705)
+  * Added sleep mode for ST7920 (issue 245)
+  * Added support for SSD0323 (issue 720)
+
   
   
