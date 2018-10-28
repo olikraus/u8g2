@@ -975,6 +975,40 @@ int main(void)
   tga_save_png("u8g2_input_value.png");
 
   /*=========================================*/
+  /* u8g2_clip_window.png */
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_ncenB24_tf);
+  u8g2_SetClipWindow(&u8g2, 10, 10, 85, 30);
+  u8g2_SetDrawColor(&u8g2, 1);
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_DrawStr(&u8g2, 3, 32, "U8g2");
+  } while( u8g2_NextPage(&u8g2) );
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(10,10, "(10, 10)");
+    ra(85,30, "(85, 30)");
+    ra(3,32, "(3, 32)");
+
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontDirection(&u8g2, 0);
+
+  tga_save_png("u8g2_clip_window.png");
+  
+  /*=========================================*/
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc));
 
