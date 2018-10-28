@@ -247,7 +247,7 @@ static const u8x8_display_info_t u8x8_ssd1305_128x32_adafruit_display_info =
   /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
   /* tile_hight = */ 4,
-  /* default_x_offset = */ 0,
+  /* default_x_offset = */ 4,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
   /* pixel_height = */ 32
