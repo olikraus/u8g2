@@ -72,6 +72,7 @@
 //#define U8G2_16BIT
 
 
+
 /*
   The following macro enables a special check and optimization
   in the HVLine procedure for lines with one pixel length.
@@ -80,7 +81,25 @@
   
   27 Oct 2018: The one pixel optimization is removed, it does not have any effect
 */
-#define U8G2_WITH_ONE_PIXEL_OPTIMIZATION
+//#define U8G2_WITH_ONE_PIXEL_OPTIMIZATION
+
+
+/*
+  The following macro enables the HVLine speed optimization.
+  It will consume about 40 bytes more in flash memory of the AVR.
+  HVLine procedures are also used by the text drawing functions.
+*/
+#define U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
+
+/*
+  The following macro activates the early intersection check with the current visible area.
+  Clipping (and low level intersection calculation) will still happen and is controlled by U8G2_WITH_CLIPPING.
+  This early intersection check only improves speed for the picture loop (u8g2_FirstPage/NextPage).
+  With a full framebuffer in RAM and if most graphical elements are drawn within the visible area, then this
+  macro can be commented to reduce code size.
+*/
+#define U8G2_WITH_INTERSECTION
+
 
 /*
   Enable clip window support:
@@ -91,28 +110,11 @@
 */
 #define U8G2_WITH_CLIP_WINDOW_SUPPORT
 
-
-/*
-  The following macro enables the HVLine speed optimization.
-  It will consume about 40 bytes more in flash memory of the AVR.
-  HVLine procedures are also used by the text drawing functions.
-*/
-#define U8G2_HVLINE_SPEED_OPTIMIZATION
-
 /*
   The following macro enables all four drawing directions for glyphs and strings.
   If this macro is not defined, than a string can be drawn only in horizontal direction.
 */
 #define U8G2_WITH_FONT_ROTATION
-
-/*
-  The following macro activates the early intersection check with the current visible area.
-  Clipping (and low level intersection calculation) will still happen and is controlled by U8G2_WITH_CLIPPING.
-  This early intersection check only improves speed for the picture loop (u8g2_FirstPage/NextPage).
-  With a full framebuffer in RAM and if most graphical elements are drawn within the visible area, then this
-  macro can be commented to reduce code size.
-*/
-#define U8G2_WITH_INTERSECTION
 
 /*
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
