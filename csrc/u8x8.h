@@ -321,6 +321,7 @@ struct u8x8_struct
   u8x8_msg_cb cad_cb;
   u8x8_msg_cb byte_cb;
   u8x8_msg_cb gpio_and_delay_cb;
+  uint32_t bus_clock;	/* can be used by the byte function to store the clock speed of the bus */
   const uint8_t *font;
   uint16_t encoding;		/* encoding result for utf8 decoder in next_cb */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */

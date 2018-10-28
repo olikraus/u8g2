@@ -556,6 +556,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
   
       break;
     case U8X8_MSG_BYTE_INIT:
+      u8x8->bus_clock = u8x8->display_info->sck_clock_hz;
       /* disable chipselect */
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
       
@@ -608,7 +609,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       }
       
 #if ARDUINO >= 10600
-      SPI.beginTransaction(SPISettings(u8x8->display_info->sck_clock_hz, MSBFIRST, internal_spi_mode));
+      SPI.beginTransaction(SPISettings(u8x8->bus_clock, MSBFIRST, internal_spi_mode));
 #else
       SPI.begin();
       
@@ -674,6 +675,7 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
   
       break;
     case U8X8_MSG_BYTE_INIT:
+      u8x8->bus_clock = u8x8->display_info->sck_clock_hz;
       /* disable chipselect */
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
       /* no wait required here */
@@ -704,7 +706,7 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       }
       
 #if ARDUINO >= 10600
-      SPI1.beginTransaction(SPISettings(u8x8->display_info->sck_clock_hz, MSBFIRST, internal_spi_mode));
+      SPI1.beginTransaction(SPISettings(u8x8->bus_clock, MSBFIRST, internal_spi_mode));
 #else
       SPI1.begin();
       
@@ -975,6 +977,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
       Wire.write((uint8_t *)arg_ptr, (int)arg_int);
       break;
     case U8X8_MSG_BYTE_INIT:
+      u8x8->bus_clock = u8x8->display_info->i2c_bus_clock_100kHz * 100000UL;
 #if defined(ESP8266) || defined(ARDUINO_ARCH_ESP8266) || defined(ESP_PLATFORM) || defined(ARDUINO_ARCH_ESP32)
       /* for ESP8266/ESP32, Wire.begin has two more arguments: clock and data */          
       if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
@@ -996,10 +999,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
 #if ARDUINO >= 10600
       /* not sure when the setClock function was introduced, but it is there since 1.6.0 */
       /* if there is any error with Wire.setClock() just remove this function call */
-      if ( u8x8->display_info->i2c_bus_clock_100kHz >= 4 )
-      {
-	Wire.setClock(400000L); 
-      }
+      Wire.setClock(u8x8->bus_clock); 
 #endif
       Wire.beginTransmission(u8x8_GetI2CAddress(u8x8)>>1);
       break;
@@ -1022,6 +1022,7 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       Wire1.write((uint8_t *)arg_ptr, (int)arg_int);
       break;
     case U8X8_MSG_BYTE_INIT:
+      u8x8->bus_clock = u8x8->display_info->i2c_bus_clock_100kHz * 100000UL;
       Wire1.begin();
       break;
     case U8X8_MSG_BYTE_SET_DC:
@@ -1030,10 +1031,7 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
 #if ARDUINO >= 10600
       /* not sure when the setClock function was introduced, but it is there since 1.6.0 */
       /* if there is any error with Wire.setClock() just remove this function call */
-      if ( u8x8->display_info->i2c_bus_clock_100kHz >= 4 )
-      {
-	Wire1.setClock(400000L); 
-      }
+      Wire1.setClock(u8x8->bus_clock); 
 #endif
       Wire1.beginTransmission(u8x8_GetI2CAddress(u8x8)>>1);
       break;
