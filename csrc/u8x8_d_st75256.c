@@ -883,8 +883,8 @@ static const u8x8_display_info_t u8x8_st75256_256x160_display_info =
   /* write_pulse_width_ns = */ 70,	
   /* tile_width = */ 32,
   /* tile_hight = */ 20,
-  /* default_x_offset = */ 0,	/*  x offset in flipmode 0 */
-  /* flipmode_x_offset = */ 0,		/* */
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 1,	/* x offset is used as y offset in flipmode */
   /* pixel_width = */ 256,
   /* pixel_height = */ 160
 };
@@ -931,8 +931,8 @@ static const uint8_t u8x8_d_st75256_256x160_init_seq[] = {
  
   
   U8X8_C( 0x030 ),				/* select 00 commands */
-  U8X8_CAA(0x75, 0, 0x4f),		/* row range */
-  U8X8_CAA(0x15, 0, 255),		/* col range */
+  U8X8_CAA(0x75, 0, 0x28),		/* row range */
+  U8X8_CAA(0x15, 0, 0xFF),		/* col range */
   
   //U8X8_C( 0x030 ),				/* select 00 commands */
   U8X8_CA( 0xbc, 0x02 ),			/* data scan dir */
@@ -977,14 +977,14 @@ uint8_t u8x8_d_st75256_jlx256160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
               
               u8x8_cad_SendCmd(u8x8, 0x030 );	/* select command set */
               u8x8_cad_SendCmd(u8x8, 0x075 );	/* row */
-	      if ( u8x8->x_offset == 0 )		/* 0 means flip mode 1 */
+	      if ( u8x8->x_offset == 1 )		/* 1 means flip mode 1 */
 		u8x8_cad_SendArg(u8x8, 1+(((u8x8_tile_t *)arg_ptr)->y_pos));
 	      else
 		u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
               u8x8_cad_SendArg(u8x8, 0x04f);
               //u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
               u8x8_cad_SendCmd(u8x8, 0x015 );	/* col */
-              u8x8_cad_SendArg(u8x8, x+u8x8->x_offset);
+              u8x8_cad_SendArg(u8x8, x+u8x8->display_info->default_x_offset);
               u8x8_cad_SendArg(u8x8, 255);
               u8x8_cad_SendCmd(u8x8, 0x05c );	
             
