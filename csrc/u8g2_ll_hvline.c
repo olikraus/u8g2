@@ -59,7 +59,7 @@
 */
 
 
-#ifdef U8G2_HVLINE_SPEED_OPTIMIZATION
+#ifdef U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
 
 /*
   x,y		Upper left position of the line within the local buffer (not the display!)
@@ -153,7 +153,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 
 
 
-#else /* U8G2_HVLINE_SPEED_OPTIMIZATION */
+#else /* U8G2_WITH_HVLINE_SPEED_OPTIMIZATION */
 
 /*
   x,y position within the buffer
@@ -221,7 +221,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
 }
 
 
-#endif /* U8G2_HVLINE_SPEED_OPTIMIZATION */
+#endif /* U8G2_WITH_HVLINE_SPEED_OPTIMIZATION */
 
 /*=================================================*/
 /*
@@ -229,7 +229,7 @@ void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y,
     ST7920
 */
 
-#ifdef U8G2_HVLINE_SPEED_OPTIMIZATION
+#ifdef U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
 
 /*
   x,y		Upper left position of the line within the local buffer (not the display!)
@@ -297,7 +297,7 @@ void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_
   }
 }
 
-#else /* U8G2_HVLINE_SPEED_OPTIMIZATION */
+#else /* U8G2_WITH_HVLINE_SPEED_OPTIMIZATION */
 
 
 /*
@@ -365,4 +365,4 @@ void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_
   }
 }
 
-#endif /* U8G2_HVLINE_SPEED_OPTIMIZATION */
+#endif /* U8G2_WITH_HVLINE_SPEED_OPTIMIZATION */
