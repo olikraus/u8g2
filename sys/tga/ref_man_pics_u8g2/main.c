@@ -997,7 +997,8 @@ int main(void)
     ra(10,10, "(10, 10)");
     ra(85,30, "(85, 30)");
     ra(3,32, "(3, 32)");
-
+    hm(10, 35, 75);
+    vm(88, 29, 20);
     
     //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
   } while( u8g2_NextPage(&desc) );
