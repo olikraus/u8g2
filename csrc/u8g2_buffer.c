@@ -100,7 +100,8 @@ void u8g2_SendBuffer(u8g2_t *u8g2)
 void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row)
 {
   u8g2->tile_curr_row = row;
-  u8g2->cb->update(u8g2);
+  u8g2->cb->update_dimension(u8g2);
+  u8g2->cb->update_page_win(u8g2);
 }
 
 void u8g2_FirstPage(u8g2_t *u8g2)

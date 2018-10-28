@@ -187,6 +187,7 @@ typedef struct u8g2_struct u8g2_t;
 typedef struct u8g2_cb_struct u8g2_cb_t;
 
 typedef void (*u8g2_update_dimension_cb)(u8g2_t *u8g2);
+typedef void (*u8g2_update_page_win_cb)(u8g2_t *u8g2);
 typedef void (*u8g2_draw_l90_cb)(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 typedef void (*u8g2_draw_ll_hvline_cb)(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 
@@ -269,7 +270,8 @@ typedef struct _u8g2_kerning_t u8g2_kerning_t;
 
 struct u8g2_cb_struct
 {
-  u8g2_update_dimension_cb update;
+  u8g2_update_dimension_cb update_dimension;
+  u8g2_update_page_win_cb update_page_win;
   u8g2_draw_l90_cb draw_l90;
 };
 

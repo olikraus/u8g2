@@ -238,6 +238,10 @@
   U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI 	Uno			Clip=2.7 Box=2.9  @=1.8 Pix=2.2		issue 586, before optimization
   U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI 	Uno			Clip=23.4 Box=40.8  @=4.4 Pix=8.1	issue 586, after optimization
 
+
+  28 Oct 2018, Arduino 1.8.4, 8 Bit Mode
+  U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno	8MHz	Clip=34.0 Box=88.4  @=4.5 Pix=8.2	issue 364, clip window 
+
 */
 
 
