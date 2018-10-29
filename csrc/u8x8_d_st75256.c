@@ -640,12 +640,12 @@ uint8_t u8x8_d_st75256_jlx172104(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 	case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	    if ( arg_int == 0 )
 	    {
-	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx172104_flip0_seq);
+	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx172104_flip0_seq); // or u8x8_d_st75256_jlx256128_flip0_seq?
 	      u8x8->x_offset = u8x8->display_info->default_x_offset;
 	    }
 	    else
 	    {
-	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx172104_flip1_seq);
+	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx172104_flip1_seq);  // or u8x8_d_st75256_jlx256128_flip1_seq?
 	      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	    }
 	    return 1;
