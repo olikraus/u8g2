@@ -110,6 +110,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <limits.h>
 
 #if defined(__GNUC__) && defined(__AVR__)
 #include <avr/pgmspace.h>
@@ -167,7 +168,15 @@ uint8_t u8x8_pgm_read_esp(const uint8_t * addr);   /* u8x8_8x8.c */
 #endif
 
 #ifndef u8x8_pgm_read
-#  define u8x8_pgm_read(adr) (*(const uint8_t *)(adr)) 
+#  ifndef CHAR_BIT
+#  	define u8x8_pgm_read(adr) (*(const uint8_t *)(adr)) 
+#  else
+#	if CHAR_BIT > 8 
+#  	  define u8x8_pgm_read(adr) ((*(const uint8_t *)(adr)) & 0x0ff)
+#     else
+#  	  define u8x8_pgm_read(adr) (*(const uint8_t *)(adr)) 
+#     endif 
+#  endif
 #endif
 
 #ifndef U8X8_PROGMEM
