@@ -129,6 +129,29 @@ static const uint8_t u8x8_d_st75256_jlx172104_flip1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+static const uint8_t u8x8_d_st75256_jlx256160_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C( 0x030 ),				/* select 00 commands */
+  U8X8_CA( 0xbc, 0x00 ),			/* data scan dir */
+  U8X8_A( 0xa6 ),				/* ??? */
+
+  //U8X8_C( 0x030 ),				/* select 00 commands */
+  U8X8_C( 0x00c ),				/* data format LSB top */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_st75256_jlx256160_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C( 0x030 ),				/* select 00 commands */
+  U8X8_CA( 0xbc, 0x03 ),			/* data scan dir */
+  U8X8_A( 0xa6 ),				/* ??? */
+
+  //U8X8_C( 0x030 ),				/* select 00 commands */
+  U8X8_C( 0x008 ),				/* data format MSB top */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
 
 
 static uint8_t u8x8_d_st75256_256x128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -935,7 +958,7 @@ static const uint8_t u8x8_d_st75256_256x160_init_seq[] = {
   U8X8_CAA(0x15, 0, 0xFF),		/* col range */
   
   //U8X8_C( 0x030 ),				/* select 00 commands */
-  U8X8_CA( 0xbc, 0x02 ),			/* data scan dir */
+  U8X8_CA( 0xbc, 0x00 ),			/* data scan dir */
   U8X8_A( 0xa6 ),				/* ??? */
 
   //U8X8_C( 0x030 ),				/* select 00 commands */
@@ -1025,12 +1048,12 @@ uint8_t u8x8_d_st75256_jlx256160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
 	case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	    if ( arg_int == 0 )
 	    {
-	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx172104_flip0_seq);	 // or u8x8_d_st75256_jlx256128_flip0_seq?
+	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx256160_flip0_seq);
 	      u8x8->x_offset = u8x8->display_info->default_x_offset;
 	    }
 	    else
 	    {
-	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx172104_flip1_seq);	 // or u8x8_d_st75256_jlx256128_flip1_seq?
+	      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx256160_flip1_seq);
 	      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	    }
 	    return 1;
@@ -1247,4 +1270,4 @@ uint8_t u8x8_d_st75256_jlx256160_alt(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   
   
   
-}
+} 
