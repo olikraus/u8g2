@@ -147,7 +147,7 @@
 #define U8G2_FONT_SECTION(name) U8X8_FONT_SECTION(name) 
 
 
-/* the macro U8G2_USE_LARGE_FONTS disables large fonts (>32K) */
+/* the macro U8G2_USE_LARGE_FONTS enables large fonts (>32K) */
 /* it can be enabled for those uC supporting larger arrays */
 #if defined(unix) || defined(__arm__) || defined(__arc__) || defined(ESP8266) || defined(ESP_PLATFORM)
 #ifndef U8G2_USE_LARGE_FONTS
