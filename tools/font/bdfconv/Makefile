@@ -37,6 +37,9 @@ helvb18: bdfconv
 helvb18n: bdfconv
 	./bdfconv -v -f 1 -m '32,48-57' ../bdf/helvB18.bdf -o helvb18_tn.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 
+emoticons21: bdfconv
+	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
+
 logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
