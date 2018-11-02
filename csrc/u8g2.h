@@ -282,7 +282,7 @@ struct u8g2_struct
   uint8_t tile_curr_row;	/* current row for picture loop */
   
   /* dimension of the buffer in pixel */
-  u8g2_uint_t pixel_buf_width;		/* equal to tile_buf_height*8 */
+  u8g2_uint_t pixel_buf_width;		/* equal to tile_buf_width*8 */
   u8g2_uint_t pixel_buf_height;		/* u8g2.display_info->tile_width*8 */
   u8g2_uint_t pixel_curr_row;		/* u8g2.tile_curr_row*8 */
   
