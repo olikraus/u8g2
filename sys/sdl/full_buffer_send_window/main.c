@@ -11,14 +11,14 @@ u8g2_t u8g2;
     - Any display rotation/mirror is ignored
     - Only works with displays, which support U8x8 API
     - Only available in full buffer mode
+    - Will not send the e-paper refresh message 
 */
 u8g2_SendTileSubBuffer(u8g2_t *u8g2, uint8_t x, uint8_t y, uint8_t w, uint8_t h)
 {
   uint16_t page_size;
   uint8_t *ptr;
 
-  /* the page size in bytes is equal to the pixel width in bits */
-  page_size = u8g2->pixel_buf_width;
+  page_size = u8g2->pixel_buf_width;  /* 8*u8g2->u8g2_GetU8x8(u8g2)->display_info->tile_width */
     
   ptr = u8g2_GetBufferPtr(u8g2);
   ptr += x*8;
@@ -48,7 +48,6 @@ void u8g2_SendWindow(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t x
   y1 +=7;
   y1 /= 8;
   u8g2_SendTileSubBuffer(u8g2, x0, y0, x1-x0, y1-y0);
-  
 }
 
 

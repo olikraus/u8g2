@@ -207,7 +207,7 @@ void u8g2_update_dimension_r0(u8g2_t *u8g2)
 void u8g2_update_page_win_r0(u8g2_t *u8g2)
 {
   u8g2->user_x0 = 0;
-  u8g2->user_x1 = u8g2->pixel_buf_width;	/* pixel_buf_width replaced with width */
+  u8g2->user_x1 = u8g2->width;			/* pixel_buf_width replaced with width */
   
   u8g2->user_y0 = u8g2->buf_y0;
   u8g2->user_y1 = u8g2->buf_y1;
