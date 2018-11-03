@@ -445,6 +445,59 @@ void draw_eco2(void)
 
 //===================================================
 
+void draw_1_4_temperature(u8g2_uint_t x, u8g2_uint_t y)
+{
+    u8g2.setFont(FONT_MED_NUM);
+    
+    u8g2.setCursor(x, 28+y);
+    draw_temperature(temperature);
+
+    u8g2.setFont(FONT_SMALL);
+    
+    u8g2.setCursor(x, 10+y);
+    u8g2.print(F("°C"));
+}
+
+void draw_1_4_humidity(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(FONT_MED_NUM);
+  u8g2.setCursor(x, 28+y);
+  draw_humidity(humidity);
+  
+  u8g2.setFont(FONT_SMALL);
+  u8g2.setCursor(x, 10+y);
+  u8g2.print(F("%RH"));
+}
+
+void draw_1_4_eco2(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(FONT_SMALL);
+
+  u8g2.setCursor(x, y+45-32);
+  u8g2.print(F("ppm CO"));
+  u8g2.setCursor(x+40, y+50-32);
+  u8g2.print(F("²"));
+
+  u8g2.setFont(FONT_MED_NUM);
+
+  u8g2.setCursor(x, y+63-32);
+  u8g2.print(eco2_raw);
+}
+
+void draw_1_4_tvoc(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(FONT_SMALL);
+  u8g2.setCursor(x, y+45-32);
+  u8g2.print(F("ppb TVOC"));
+
+  u8g2.setFont(FONT_MED_NUM);
+
+  u8g2.setCursor(x, y+63-32);
+  u8g2.print(tvoc_raw);
+}
+
+//===================================================
+
 void draw_all_numbers(void)
 {
   u8g2.setFontMode(1);
@@ -453,42 +506,14 @@ void draw_all_numbers(void)
     u8g2.drawHLine(0, 32, 128);
     u8g2.drawVLine(62, 0, 64);
   
-    u8g2.setFont(FONT_MED_NUM);
     
-    u8g2.setCursor(1, 28);
-    draw_temperature(temperature);
-
-    u8g2.setCursor(66, 28);
-    draw_humidity(humidity);
-
-    u8g2.setFont(FONT_SMALL);
-    
-    u8g2.setCursor(1, 10);
-    u8g2.print(F("°C"));
-    
-    u8g2.setCursor(66, 10);
-    u8g2.print(F("%RH"));
+    draw_1_4_temperature(1, 0);
+    draw_1_4_humidity(66, 0);
 
     if ( is_air_quality_available )
     {
-      u8g2.setFont(FONT_MED_NUM);
-      
-      u8g2.setCursor(1, 63);
-      u8g2.print(eco2_raw);
-
-      u8g2.setCursor(66, 63);
-      u8g2.print(tvoc_raw);
-
-      u8g2.setFont(FONT_SMALL);
-
-      u8g2.setCursor(1, 45);
-      u8g2.print(F("CO"));
-      u8g2.setCursor(18, 50);
-      u8g2.print(F("²"));
-
-      u8g2.setCursor(66, 45);
-      u8g2.print(F("TVOC"));
-
+      draw_1_4_eco2(1, 32);
+      draw_1_4_tvoc(66, 32);
     }
       
   } while ( u8g2.nextPage() );
