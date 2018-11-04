@@ -496,9 +496,79 @@ void draw_1_4_tvoc(u8g2_uint_t x, u8g2_uint_t y)
   u8g2.print(tvoc_raw);
 }
 
+void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
+{
+  uint8_t tvoc_idx, eco2_idx, emo_idx;
+  if ( tvoc_raw <= 75 )
+    tvoc_idx = 1;
+  else if ( tvoc_raw <= 150 )
+    tvoc_idx = 2;
+  else if ( tvoc_raw <= 300 )
+    tvoc_idx = 3;
+  else if ( tvoc_raw <= 500 )
+    tvoc_idx = 4;
+  else if ( tvoc_raw <= 1000 )
+    tvoc_idx = 5;
+  else if ( tvoc_raw <= 1500 )
+    tvoc_idx = 6;
+  else if ( tvoc_raw <= 3000 )
+    tvoc_idx = 7;
+  else if ( tvoc_raw <= 5000 )
+    tvoc_idx = 8;
+  else
+    tvoc_idx = 9;
+
+  if ( eco2_raw <= 500 )
+    eco2_idx = 1;
+  else if ( eco2_raw <= 600 )
+    eco2_idx = 2;
+  else if ( eco2_raw <= 800 )
+    eco2_idx = 3;
+  else if ( eco2_raw <= 1000 )
+    eco2_idx = 4;
+  else if ( eco2_raw <= 1200 )
+    eco2_idx = 5;
+  else if ( eco2_raw <= 1400 )
+    eco2_idx = 6;
+  else if ( eco2_raw <= 5000 )
+    eco2_idx = 7;
+  else if ( eco2_raw <= 10000 )
+    eco2_idx = 8;
+  else
+    eco2_idx = 9;
+
+  emo_idx = tvoc_idx;
+  if ( emo_idx < eco2_idx )
+    emo_idx = eco2_idx;
+  u8g2.setFont(u8g2_font_emoticons21_tr);
+  u8g2.drawGlyph(x+20, y+21+6, 32+emo_idx);
+}
+
 //===================================================
 
 void draw_all_numbers(void)
+{
+  u8g2.setFontMode(1);
+  u8g2.firstPage();
+  do {
+    u8g2.drawHLine(0, 32, 128);
+    u8g2.drawVLine(62, 0, 64);
+  
+    
+    draw_1_4_temperature(1, 0);
+    draw_1_4_humidity(66, 0);
+
+    if ( is_air_quality_available )
+    {
+      draw_1_4_eco2(1, 32);
+      draw_1_4_emoticon(66, 32);
+    }
+      
+  } while ( u8g2.nextPage() );
+}
+
+
+void draw_with_emo(void)
 {
   u8g2.setFontMode(1);
   u8g2.firstPage();
