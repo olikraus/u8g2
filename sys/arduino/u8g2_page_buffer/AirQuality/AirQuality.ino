@@ -1,10 +1,12 @@
 /*
 
   AirQuality.ino
+  
+  ATMEGA328 (Arduino UNO) only
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2018, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -38,7 +40,7 @@
 #include <U8g2lib.h>
 #include <Adafruit_SGP30.h>
 #include <Adafruit_SHT31.h>
-
+#include <avr/sleep.h> 
 
 
 
@@ -106,9 +108,79 @@ uint8_t hist_rh_min[HIST_CNT];
 
 
 //===================================================
+// http://shelvin.de/arduino-in-den-sleep_mode_pwr_down-schlaf-modus-setzen/
+
+
+// define startup calibration time: 2h
+#define STARTUP_TIME ((60*60*2)/2)
+
+// define startup calibration time: 30 seconds
+#define DISPLAY_TIME ((30))
+
+// Datasheet, page 8:
+// For the first 15s after the “Init_air_quality” command  the  sensor  
+// is  in  an  initialization  phase  during  which  a  “Measure_air_quality”  
+// command  returns  fixed  values
+// --> sensor warmup time
+#define SENSOR_WARMUP_TIME ((16))
+
+#define SENSOR_MEASURE_TIME (14)
+
+#define SENSOR_SAMPLE_TIME (2*60)
+
+
+// count WDT interrupts. Interrupt will happen every 4 seconds, so overflow happens after 544 years
+volatile uint32_t wdt_count = 0;
+
+volatile uint16_t startup_timer = 0;
+volatile uint16_t sensor_sample_timer = SENSOR_SAMPLE_TIME;
+volatile uint8_t is_sensor_sample_timer_alarm = 0;
+volatile uint8_t display_timer = 0;
+volatile uint8_t sensor_warmup_timer = 0;
+volatile uint8_t sensor_measure_timer = 0;
+
+ISR(WDT_vect) 
+{
+  wdt_count++; 
+  if ( startup_timer > 0 )
+    startup_timer--;
+  if ( display_timer > 0 )
+    display_timer--;
+  if ( sensor_warmup_timer > 0 )
+    sensor_warmup_timer--;
+  if ( sensor_measure_timer > 0 )
+    sensor_measure_timer--;
+  if ( sensor_sample_timer > 0 )
+  {
+    sensor_sample_timer--;
+  }
+  else
+  {
+    sensor_sample_timer = SENSOR_SAMPLE_TIME;
+    is_sensor_sample_timer_alarm = 1;
+  }
+}
+
+void enableWDT() 
+{
+  MCUSR = 0;			// clear all reset flags including the WDT flag
+  WDTCSR = B00011000; // enable bit 4 (WDCE) and bit 3 (WDE) to change the prescalar
+  WDTCSR = B01000110; // Enable watchdog IRQ  and set prescaler to 128k --> 1 sec
+}
+
+void reducePower(void)
+{
+  ADCSRA = ADCSRA & B01111111; // ADC abschalten, ADEN bit7 zu 0
+  ACSR = B10000000; // Analogen Comparator abschalten, ACD bit7 zu 1
+  //DIDR0 = DIDR0 | B00111111; // Digitale Eingangspuffer ausschalten, analoge Eingangs Pins 0-5 auf 1
+}
+
+//===================================================
 
 
 void setup(void) {
+  reducePower();
+
   u8g2.begin();  
   u8g2.enableUTF8Print();
   
@@ -139,6 +211,8 @@ void setup(void) {
   u8g2log.println(sgp.serialnumber[2], HEX);
 
   delay(1000);
+  
+  enableWDT();
 }
 
 /* 
@@ -496,6 +570,18 @@ void draw_1_4_tvoc(u8g2_uint_t x, u8g2_uint_t y)
   u8g2.print(tvoc_raw);
 }
 
+void draw_1_4_wdt_count(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(FONT_SMALL);
+  u8g2.setCursor(x, y+45-32);
+  u8g2.print(F("WDT Count"));
+
+  u8g2.setFont(FONT_MED_NUM);
+
+  u8g2.setCursor(x, y+63-32);
+  u8g2.print(wdt_count);
+}
+
 void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
 {
   uint8_t tvoc_idx, eco2_idx, emo_idx;
@@ -561,7 +647,7 @@ void draw_all_numbers(void)
     if ( is_air_quality_available )
     {
       draw_1_4_eco2(1, 32);
-      draw_1_4_emoticon(66, 32);
+      draw_1_4_tvoc(66, 32);
     }
       
   } while ( u8g2.nextPage() );
@@ -579,15 +665,82 @@ void draw_with_emo(void)
     
     draw_1_4_temperature(1, 0);
     draw_1_4_humidity(66, 0);
+    //draw_1_4_wdt_count(66, 0);
 
     if ( is_air_quality_available )
     {
       draw_1_4_eco2(1, 32);
-      draw_1_4_tvoc(66, 32);
+      draw_1_4_emoticon(66, 32);
     }
       
   } while ( u8g2.nextPage() );
 }
+
+//===================================================
+
+#define STATE_RESET 0
+#define STATE_STARTUP_DISP_ON 1
+#define STATE_STARTUP_DISP_OFF 2
+#define STATE_WARMUP_DISP_ON 11
+#define STATE_WARMUP_DISP_OFF 12
+#define STATE_MEASURE_DISP_ON 21
+#define STATE_MEASURE_DISP_OFF 22
+#define STATE_SENSOR_SLEEP_DISP_OFF 32
+
+uint8_t state = STATE_STARTUP_DISP_ON;
+
+void next_state(void)
+{
+  switch(state)
+  {
+    case STATE_RESET:
+      startup_timer = STARTUP_TIME;
+      state = STATE_STARTUP_DISP_ON;
+      break;
+    case STATE_STARTUP_DISP_ON:
+      if ( display_timer == 0 )
+      {
+	state = STATE_STARTUP_DISP_OFF;
+      }
+      else
+      {
+      }
+      break;
+    case STATE_STARTUP_DISP_OFF:
+    
+      break;
+    case STATE_WARMUP_DISP_ON:
+      if ( display_timer == 0 )
+      {
+	state = STATE_WARMUP_DISP_OFF;
+      }
+      else
+      {
+      }
+      break;
+    case STATE_WARMUP_DISP_OFF:
+      break;
+    case STATE_MEASURE_DISP_ON:
+      if ( display_timer == 0 )
+      {
+	state = STATE_MEASURE_DISP_OFF;
+      }
+      else
+      {
+      }
+      break;
+    case STATE_MEASURE_DISP_OFF:
+      break;
+    case STATE_SENSOR_SLEEP_DISP_OFF.
+      break;
+    default:
+      state = STATE_RESET;
+      break;
+  }
+}
+
+
+
 
 //===================================================
 
@@ -610,7 +763,10 @@ void loop(void) {
   new_counter++;
   
   sgp.getIAQBaseline(&eco2_base, &tvoc_base);
-  draw_all_numbers();
+  draw_with_emo();
 
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN); 
+  sleep_enable(); 
+  sleep_mode(); 
+  sleep_disable(); 
 }
-
