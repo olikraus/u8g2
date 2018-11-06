@@ -67,6 +67,20 @@ uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 
 //===================================================
 
+#define STATE_RESET 0
+#define STATE_STARTUP_DISP_ON 1
+#define STATE_STARTUP_DISP_OFF 2
+#define STATE_WARMUP_DISP_ON 11
+#define STATE_WARMUP_DISP_OFF 12
+#define STATE_MEASURE_DISP_ON 21
+#define STATE_MEASURE_DISP_OFF 22
+#define STATE_SENSOR_SLEEP_DISP_OFF 32
+
+uint8_t state = STATE_RESET;
+
+
+//===================================================
+
 #define HIST_CNT 64
 #define HIST_VAUES 5
 #define TEMP_LOW -20
@@ -112,7 +126,9 @@ uint8_t hist_rh_min[HIST_CNT];
 
 
 // define startup calibration time: 2h
-#define STARTUP_TIME ((60*60*2)/2)
+//#define STARTUP_TIME (60*60*2)
+
+#define STARTUP_TIME (60)
 
 // define startup calibration time: 30 seconds
 #define DISPLAY_TIME ((30))
@@ -126,8 +142,9 @@ uint8_t hist_rh_min[HIST_CNT];
 
 #define SENSOR_MEASURE_TIME (14)
 
+// the sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
+// be lesser than SENSOR_SAMPLE_TIME
 #define SENSOR_SAMPLE_TIME (2*60)
-
 
 // count WDT interrupts. Interrupt will happen every 4 seconds, so overflow happens after 544 years
 volatile uint32_t wdt_count = 0;
@@ -136,8 +153,13 @@ volatile uint16_t startup_timer = 0;
 volatile uint16_t sensor_sample_timer = SENSOR_SAMPLE_TIME;
 volatile uint8_t is_sensor_sample_timer_alarm = 0;
 volatile uint8_t display_timer = 0;
+
 volatile uint8_t sensor_warmup_timer = 0;
 volatile uint8_t sensor_measure_timer = 0;
+
+volatile uint8_t is_shake = 0;
+volatile uint8_t shake_cnt = 0;
+volatile uint8_t shake_last_cnt = 0;
 
 ISR(WDT_vect) 
 {
@@ -157,8 +179,11 @@ ISR(WDT_vect)
   else
   {
     sensor_sample_timer = SENSOR_SAMPLE_TIME;
-    is_sensor_sample_timer_alarm = 1;
+    if ( is_sensor_sample_timer_alarm == 0 )
+      is_sensor_sample_timer_alarm = 1;
   }
+  shake_last_cnt = shake_cnt;
+  shake_cnt = 0;
 }
 
 void enableWDT() 
@@ -173,6 +198,14 @@ void reducePower(void)
   ADCSRA = ADCSRA & B01111111; // ADC abschalten, ADEN bit7 zu 0
   ACSR = B10000000; // Analogen Comparator abschalten, ACD bit7 zu 1
   //DIDR0 = DIDR0 | B00111111; // Digitale Eingangspuffer ausschalten, analoge Eingangs Pins 0-5 auf 1
+}
+
+
+void detectShake(void)
+{
+  is_shake = 1;
+  if ( shake_cnt < 255 )
+    shake_cnt++;
 }
 
 //===================================================
@@ -211,6 +244,10 @@ void setup(void) {
   u8g2log.println(sgp.serialnumber[2], HEX);
 
   delay(1000);
+  
+  // tilt detection at pin 2
+  pinMode(2, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(2), detectShake, CHANGE);
   
   enableWDT();
 }
@@ -582,6 +619,19 @@ void draw_1_4_wdt_count(u8g2_uint_t x, u8g2_uint_t y)
   u8g2.print(wdt_count);
 }
 
+void draw_1_4_system(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(FONT_SMALL);
+  u8g2.setCursor(x, y+45-32);
+  u8g2.print(F("Shake "));
+  u8g2.print(shake_last_cnt);
+  
+  u8g2.setCursor(x, y+45-32+10);
+  u8g2.print(F("State "));
+  u8g2.print(state);
+
+}
+
 void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
 {
   uint8_t tvoc_idx, eco2_idx, emo_idx;
@@ -670,7 +720,8 @@ void draw_with_emo(void)
     if ( is_air_quality_available )
     {
       draw_1_4_eco2(1, 32);
-      draw_1_4_emoticon(66, 32);
+      //draw_1_4_emoticon(66, 32);
+      draw_1_4_system(66, 32);
     }
       
   } while ( u8g2.nextPage() );
@@ -678,16 +729,16 @@ void draw_with_emo(void)
 
 //===================================================
 
-#define STATE_RESET 0
-#define STATE_STARTUP_DISP_ON 1
-#define STATE_STARTUP_DISP_OFF 2
-#define STATE_WARMUP_DISP_ON 11
-#define STATE_WARMUP_DISP_OFF 12
-#define STATE_MEASURE_DISP_ON 21
-#define STATE_MEASURE_DISP_OFF 22
-#define STATE_SENSOR_SLEEP_DISP_OFF 32
 
-uint8_t state = STATE_STARTUP_DISP_ON;
+uint8_t is_display_on_event(void)
+{
+  if ( shake_last_cnt >= 1 )
+    return 1;
+  return 0;
+}
+
+//===================================================
+
 
 void next_state(void)
 {
@@ -696,43 +747,112 @@ void next_state(void)
     case STATE_RESET:
       startup_timer = STARTUP_TIME;
       state = STATE_STARTUP_DISP_ON;
+      display_timer = DISPLAY_TIME;
       break;
+	
+    // - - -  Start Up - - -
+      
     case STATE_STARTUP_DISP_ON:
+      if ( is_display_on_event() )
+	display_timer = DISPLAY_TIME;
+	
       if ( display_timer == 0 )
       {
 	state = STATE_STARTUP_DISP_OFF;
       }
-      else
+      else if ( startup_timer == 0 )
       {
+	sensor_measure_timer = SENSOR_MEASURE_TIME;	
+	state = STATE_MEASURE_DISP_ON;
       }
       break;
     case STATE_STARTUP_DISP_OFF:
-    
+      if ( is_display_on_event() )
+      {
+	state = STATE_STARTUP_DISP_ON;
+      }
+      else if ( startup_timer == 0 )
+      {
+	sensor_measure_timer = SENSOR_MEASURE_TIME;	
+	state = STATE_MEASURE_DISP_OFF;
+      }
       break;
-    case STATE_WARMUP_DISP_ON:
+      
+    // - - -  Sensor Warm Up - - -
+      
+    case STATE_WARMUP_DISP_ON:				// DONE
+      if ( is_display_on_event() )
+	display_timer = DISPLAY_TIME;
+
       if ( display_timer == 0 )
       {
 	state = STATE_WARMUP_DISP_OFF;
       }
-      else
+      else if ( sensor_warmup_timer == 0 )
       {
+	sensor_measure_timer = SENSOR_MEASURE_TIME;
+	state = STATE_MEASURE_DISP_ON;
       }
       break;
-    case STATE_WARMUP_DISP_OFF:
+      
+    case STATE_WARMUP_DISP_OFF:		// DONE
+      if ( is_display_on_event() )
+      {
+	display_timer = DISPLAY_TIME;
+	state = STATE_WARMUP_DISP_ON;
+      }
+      else if ( sensor_warmup_timer == 0 )
+      {
+	sensor_measure_timer = SENSOR_MEASURE_TIME;
+	state = STATE_MEASURE_DISP_OFF;
+      }
       break;
-    case STATE_MEASURE_DISP_ON:
+
+    // - - -  Sensor Measure - - -
+
+    case STATE_MEASURE_DISP_ON:				// DONE
+      if ( is_display_on_event() )
+	display_timer = DISPLAY_TIME;
+	
       if ( display_timer == 0 )
       {
 	state = STATE_MEASURE_DISP_OFF;
       }
-      else
+      else if ( sensor_measure_timer == 0 )
       {
+	// ignored: Measurement is continued until the display goes off.
       }
       break;
-    case STATE_MEASURE_DISP_OFF:
+      
+    case STATE_MEASURE_DISP_OFF:		// DONE
+      if ( is_display_on_event() )
+      {
+	display_timer = DISPLAY_TIME;
+	state = STATE_MEASURE_DISP_ON;
+      }
+      else if ( sensor_measure_timer == 0 )
+      {
+	state = STATE_SENSOR_SLEEP_DISP_OFF;
+      }
       break;
-    case STATE_SENSOR_SLEEP_DISP_OFF.
+
+    // - - -  Sensor Sleep - - -
+
+    case STATE_SENSOR_SLEEP_DISP_OFF:			// DONE
+      if ( is_display_on_event() )
+      {
+	sensor_warmup_timer = SENSOR_WARMUP_TIME;
+	display_timer = DISPLAY_TIME;
+	state = STATE_WARMUP_DISP_ON;
+      }
+      else if ( is_sensor_sample_timer_alarm != 0 )
+      {
+	is_sensor_sample_timer_alarm = 0;
+	sensor_warmup_timer = SENSOR_WARMUP_TIME;
+	state = STATE_WARMUP_DISP_OFF;
+      }
       break;
+      
     default:
       state = STATE_RESET;
       break;
@@ -769,4 +889,5 @@ void loop(void) {
   sleep_enable(); 
   sleep_mode(); 
   sleep_disable(); 
+  next_state();
 }
