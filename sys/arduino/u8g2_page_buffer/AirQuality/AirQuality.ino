@@ -81,8 +81,7 @@ uint8_t state = STATE_RESET;
 
 //===================================================
 
-#define HIST_CNT 64
-#define HIST_VAUES 5
+#define HIST_CNT 96
 #define TEMP_LOW -20
 #define TEMP_HIGH (TEMP_LOW+120)
 
@@ -113,11 +112,11 @@ void hist_append(void)
 uint16_t hist_eco2_max[HIST_CNT];
 uint16_t hist_eco2_min[HIST_CNT];
 
-uint8_t hist_temp_max[HIST_CNT];
-uint8_t hist_temp_min[HIST_CNT];
+//uint8_t hist_temp_max[HIST_CNT];
+//uint8_t hist_temp_min[HIST_CNT];
 
-uint8_t hist_rh_max[HIST_CNT];
-uint8_t hist_rh_min[HIST_CNT];
+//uint8_t hist_rh_max[HIST_CNT];
+//uint8_t hist_rh_min[HIST_CNT];
 
 
 
@@ -127,7 +126,6 @@ uint8_t hist_rh_min[HIST_CNT];
 
 // define startup calibration time: 2h
 //#define STARTUP_TIME (60*60*2)
-
 #define STARTUP_TIME (60)
 
 // define startup calibration time: 30 seconds
@@ -145,6 +143,11 @@ uint8_t hist_rh_min[HIST_CNT];
 // the sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
 // be lesser than SENSOR_SAMPLE_TIME
 #define SENSOR_SAMPLE_TIME (2*60)
+
+
+// history sample time: number of seconds between each history entry
+// 15 min = 15*60 seconds: 96 entries for 24h
+#define HISTORY_SAMPLE_TIME (15*60)
 
 // count WDT interrupts. Interrupt will happen every 4 seconds, so overflow happens after 544 years
 volatile uint32_t wdt_count = 0;
@@ -257,7 +260,8 @@ void setup(void) {
   Args: Temperature [°C], humidity [%RH]
 */
 
-uint32_t getAbsoluteHumidity(float temperature, float humidity) {
+uint32_t getAbsoluteHumidity(float temperature, float humidity) 
+{
     // approximation formula from Sensirion SGP30 Driver Integration chapter 3.15
     const float absoluteHumidity = 216.7f * ((humidity / 100.0f) * 6.112f * exp((17.62f * temperature) / (243.12f + temperature)) / (273.15f + temperature)); // [g/m^3]
     const uint32_t absoluteHumidityScaled = static_cast<uint32_t>(1000.0f * absoluteHumidity); // [mg/m^3]
@@ -343,11 +347,11 @@ void add_hist_minmax(void)
   hist_eco2_max[hist_last] = maximum(hist_eco2_max[hist_last], eco2_raw);
   hist_eco2_min[hist_last] = minimum(hist_eco2_min[hist_last], eco2_raw);
 
-  hist_temp_max[hist_last] = maximum(hist_temp_max[hist_last], temperature);
-  hist_temp_min[hist_last] = minimum(hist_temp_min[hist_last], temperature);
+  //hist_temp_max[hist_last] = maximum(hist_temp_max[hist_last], temperature);
+  //hist_temp_min[hist_last] = minimum(hist_temp_min[hist_last], temperature);
 
-  hist_rh_max[hist_last] = maximum(hist_rh_max[hist_last], humidity);
-  hist_rh_min[hist_last] = minimum(hist_rh_min[hist_last], humidity);
+  //hist_rh_max[hist_last] = maximum(hist_rh_max[hist_last], humidity);
+  //hist_rh_min[hist_last] = minimum(hist_rh_min[hist_last], humidity);
 }
 
 void add_hist_new(void)
@@ -357,11 +361,11 @@ void add_hist_new(void)
   hist_eco2_max[hist_last] = eco2_raw;
   hist_eco2_min[hist_last] = eco2_raw;
 
-  hist_temp_max[hist_last] = temperature;
-  hist_temp_min[hist_last] = temperature;
+  //hist_temp_max[hist_last] = temperature;
+  //hist_temp_min[hist_last] = temperature;
 
-  hist_rh_max[hist_last] = humidity;
-  hist_rh_min[hist_last] = humidity;
+  //hist_rh_max[hist_last] = humidity;
+  //hist_rh_min[hist_last] = humidity;
 
 }
 
@@ -431,8 +435,8 @@ void draw_graph( uint16_t (*get_val)(void *ptr, uint8_t pos), void *min_array, v
   }
   if ( min > max )
     return;
-  if ( min + 32 >= max )
-    max = min + 32;
+  if ( min + 30 >= max )
+    max = min + 30;
     
   if ( max - min < 100 )
   {
@@ -466,12 +470,12 @@ void draw_graph( uint16_t (*get_val)(void *ptr, uint8_t pos), void *min_array, v
       i = 0;
     if ( i == hist_end )
       break;
-    ymin = ((unsigned long)(get_val(min_array, ii) - min)*32UL)/delta;
-    ymax = ((unsigned long)(get_val(max_array, ii) - min)*32UL)/delta;
+    ymin = ((unsigned long)(get_val(min_array, ii) - min)*30UL)/delta;
+    ymax = ((unsigned long)(get_val(max_array, ii) - min)*30UL)/delta;
     u8g2.drawVLine(x, 63-ymax, ymax-ymin+1);
     x++;
   }
-  u8g2.setCursor(0, 43);
+  u8g2.setCursor(0, 46);
   draw_value(max);
   u8g2.setCursor(0, 63);
   draw_value(min);
@@ -556,6 +560,13 @@ void draw_eco2(void)
 
 //===================================================
 
+void draw_1_2_eco2_history(u8g2_uint_t x, u8g2_uint_t y)
+{
+    u8g2.setFont(u8g2_font_mercutio_basic_nbp_tr);
+  
+    draw_graph( get_uint16, hist_eco2_min, hist_eco2_max, draw_16bit);
+}
+
 void draw_1_4_temperature(u8g2_uint_t x, u8g2_uint_t y)
 {
     u8g2.setFont(FONT_MED_NUM);
@@ -584,26 +595,26 @@ void draw_1_4_eco2(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(FONT_SMALL);
 
-  u8g2.setCursor(x, y+45-32);
+  u8g2.setCursor(x, y+10);
   u8g2.print(F("ppm CO"));
-  u8g2.setCursor(x+40, y+50-32);
+  u8g2.setCursor(x+40, y+15);
   u8g2.print(F("²"));
 
   u8g2.setFont(FONT_MED_NUM);
 
-  u8g2.setCursor(x, y+63-32);
+  u8g2.setCursor(x, y+28);
   u8g2.print(eco2_raw);
 }
 
 void draw_1_4_tvoc(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(FONT_SMALL);
-  u8g2.setCursor(x, y+45-32);
+  u8g2.setCursor(x, y+10);
   u8g2.print(F("ppb TVOC"));
 
   u8g2.setFont(FONT_MED_NUM);
 
-  u8g2.setCursor(x, y+63-32);
+  u8g2.setCursor(x, y+28);
   u8g2.print(tvoc_raw);
 }
 
@@ -677,7 +688,7 @@ void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
   if ( emo_idx < eco2_idx )
     emo_idx = eco2_idx;
   u8g2.setFont(u8g2_font_emoticons21_tr);
-  u8g2.drawGlyph(x+20, y+21+6, 32+emo_idx);
+  u8g2.drawGlyph(x+20, y+21, 32+emo_idx);
 }
 
 //===================================================
@@ -696,8 +707,8 @@ void draw_all_numbers(void)
 
     if ( is_air_quality_available )
     {
-      draw_1_4_eco2(1, 32);
-      draw_1_4_tvoc(66, 32);
+      draw_1_4_eco2(1, 32+3);
+      draw_1_4_tvoc(66, 32+3);
     }
       
   } while ( u8g2.nextPage() );
@@ -719,10 +730,32 @@ void draw_with_emo(void)
 
     if ( is_air_quality_available )
     {
-      draw_1_4_eco2(1, 32);
-      //draw_1_4_emoticon(66, 32);
-      draw_1_4_system(66, 32);
+      draw_1_4_eco2(1, 32+3);
+      draw_1_4_emoticon(66, 32+6);
+      //draw_1_4_system(66, 32);
     }
+      
+  } while ( u8g2.nextPage() );
+}
+
+void draw_with_history(void)
+{
+  u8g2.setFontMode(1);
+  u8g2.firstPage();
+  do {
+    u8g2.drawHLine(0, 32, 128);
+    u8g2.drawVLine(62-20, 0, 32);
+    u8g2.drawVLine(98, 0, 32);
+  
+    
+    draw_1_4_temperature(1, 0);
+    if ( is_air_quality_available )
+    {
+      draw_1_4_eco2(66-20, 0);
+      draw_1_4_emoticon(127-20-21, 4);
+    }
+    
+    draw_1_2_eco2_history(0, 32);
       
   } while ( u8g2.nextPage() );
 }
@@ -883,11 +916,12 @@ void loop(void) {
   new_counter++;
   
   sgp.getIAQBaseline(&eco2_base, &tvoc_base);
-  draw_with_emo();
+  //draw_with_emo();
+  draw_with_history();
 
   set_sleep_mode(SLEEP_MODE_PWR_DOWN); 
   sleep_enable(); 
   sleep_mode(); 
   sleep_disable(); 
-  next_state();
+  //next_state();
 }
