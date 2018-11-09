@@ -34,6 +34,7 @@ SRC_DIRS+=$(ARDUINO_PATH)hardware/arduino/avr/libraries/Wire/src/
 SRC_DIRS+=$(ARDUINO_PATH)hardware/arduino/avr/libraries/Wire/src/utility/
 SRC_DIRS+=/home/kraus/Arduino/libraries/Adafruit_SGP30_Sensor/
 SRC_DIRS+=/home/kraus/Arduino/libraries/Adafruit_SHT31_Library/
+SRC_DIRS+=/home/kraus/Arduino/libraries/arduino-sht/
 SRC_DIRS+=../../../../csrc/
 SRC_DIRS+=../../../../cppsrc/
 
