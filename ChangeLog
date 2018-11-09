@@ -205,6 +205,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added setBusClock() proc to change the I2C/SPI bus clock speed (Arduino only, issue 705)
   * Added sleep mode for ST7920 (issue 245)
   * Added support for SSD0323 (issue 720)
-
+2018-xx-xx	v2.25.x  olikraus@gmail.com
   
   
