@@ -768,6 +768,12 @@ void draw_1_4_system(u8g2_uint_t x, u8g2_uint_t y)
 
 }
 
+void draw_1_4_battery(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(u8g2_font_battery19_tn);
+  u8g2.drawGlyph(x, y+20, 50);
+}
+
 void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
 {
   uint8_t tvoc_idx, eco2_idx, emo_idx;
@@ -851,7 +857,8 @@ void draw_with_emo(void)
     u8g2.drawHLine(0, 32, 128);
     u8g2.drawVLine(62-14, 0, 32);
     u8g2.drawVLine(98, 0, 32);
-    u8g2.drawVLine(62, 32, 64);
+    u8g2.drawVLine(62-8, 32, 32);
+    u8g2.drawVLine(128-12, 32, 32);
 
     
     draw_1_4_temperature(1, 0);
@@ -863,9 +870,10 @@ void draw_with_emo(void)
     {
       draw_1_4_eco2(1, 32+3);
       //draw_1_4_emoticon(66, 32+6);
-      draw_1_4_tvoc(66, 32+3);
+      draw_1_4_tvoc(66-8, 32+3);      
     }
       
+    draw_1_4_battery(128-8, 32+7);
   } while ( u8g2.nextPage() );
 }
 
