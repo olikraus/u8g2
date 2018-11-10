@@ -67,8 +67,8 @@ U8G2LOG u8g2log;
 // setup the terminal (U8G2LOG) and connect to u8g2 for automatic refresh of the display
 // The size (width * height) depends on the selected font and the display
 
-#define U8LOG_WIDTH 25
-#define U8LOG_HEIGHT 9
+#define U8LOG_WIDTH 24
+#define U8LOG_HEIGHT 5
 uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 
 //===================================================
@@ -845,19 +845,25 @@ void draw_with_emo(void)
   u8g2.setFontMode(1);
   u8g2.firstPage();
   do {
+    //u8g2.drawHLine(0, 32, 128);
+    //u8g2.drawVLine(62, 0, 64);
+
     u8g2.drawHLine(0, 32, 128);
-    u8g2.drawVLine(62, 0, 64);
-  
+    u8g2.drawVLine(62-14, 0, 32);
+    u8g2.drawVLine(98, 0, 32);
+    u8g2.drawVLine(62, 32, 64);
+
     
     draw_1_4_temperature(1, 0);
-    draw_1_4_humidity(66, 0);
+    draw_1_4_humidity(66-14, 0);
+    draw_1_4_emoticon(127-20-21, 4);
     //draw_1_4_wdt_count(66, 0);
 
     if ( is_air_quality_available )
     {
       draw_1_4_eco2(1, 32+3);
-      draw_1_4_emoticon(66, 32+6);
-      //draw_1_4_system(66, 32);
+      //draw_1_4_emoticon(66, 32+6);
+      draw_1_4_tvoc(66, 32+3);
     }
       
   } while ( u8g2.nextPage() );
@@ -1082,11 +1088,11 @@ void loop(void) {
 
     
     start = millis();
-    if ( current_display == 2 )
+    if ( current_display == 0 )
       draw_with_emo();
     else if ( current_display == 1 )
       draw_with_history();
-    else if ( current_display == 0 )
+    else if ( current_display == 2 )
       draw_system();
       
     millis_display = millis() - start;
