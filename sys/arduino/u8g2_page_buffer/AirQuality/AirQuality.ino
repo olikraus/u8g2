@@ -146,6 +146,9 @@ uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 
 uint8_t state = STATE_RESET;		// assign STATE_xxx constants
 
+uint8_t is_display_enabled = 0;		// modified by enable_display() and disable_display()
+
+
 //===================================================
 // Variables: Air quality sensor related varables
 
@@ -159,13 +162,19 @@ uint16_t eco2_raw;
 uint16_t eco2_lp;
 int is_air_quality_available = 0;
 
-uint16_t eco2_base;		// calibration value eCO2
-uint16_t tvoc_base;		// calibration value TVOC
+// Calibration values, values seem to be 0x8a27 and 0x08a98 for my sensor, so 0 will be used as not set
+uint16_t eco2_base = 0;		// calibration value eCO2
+uint16_t tvoc_base = 0;		// calibration value TVOC
 
 //===================================================
 // Variables: Timer for the state machine
 
 volatile uint32_t wdt_count = 0;
+volatile uint8_t wdt_sec = 0;
+volatile uint8_t wdt_min = 0;
+volatile uint8_t wdt_hour = 0;
+volatile uint16_t wdt_day = 0;
+
 
 volatile uint16_t startup_timer = 0;
 volatile uint16_t sensor_sample_timer = SENSOR_SAMPLE_TIME;
@@ -181,6 +190,8 @@ volatile uint8_t is_wdt_irq = 0;
 
 uint32_t millis_sensor;
 uint32_t millis_display;
+
+
 
 //===================================================
 // Variables: Shake detection
@@ -287,6 +298,27 @@ ISR(WDT_vect)
 {
   is_wdt_irq = 1;
   wdt_count++; 
+  
+  
+  wdt_sec++;
+  if ( wdt_sec >= 60 )
+  {
+    wdt_sec = 0;
+    wdt_min++;
+    if ( wdt_min >= 60 )
+    {
+      wdt_min = 0;
+      wdt_hour++;
+      if ( wdt_hour >= 24 )
+      {	
+	wdt_day++;
+      }
+    }
+  }
+  
+  
+  
+  
   if ( startup_timer > 0 )
     startup_timer--;
   if ( display_timer > 0 )
@@ -365,6 +397,7 @@ void setup(void) {
   }
   sht.setAccuracy(SHTSensor::SHT_ACCURACY_HIGH); 
 #endif // USE_ADAFRUIT_SHT31_LIB
+
 
   if (sgp.begin()) {   				
     u8g2log.print(F("SGP30 found\n"));
@@ -750,6 +783,25 @@ void draw_1_4_delay(u8g2_uint_t x, u8g2_uint_t y)
 
 }
 
+void draw_1_4_uptime(u8g2_uint_t x, u8g2_uint_t y)
+{
+  u8g2.setFont(FONT_SMALL);
+  u8g2.setCursor(x, y+11);
+  u8g2.print(F("Day "));
+  u8g2.print(wdt_day);
+
+  u8g2.setCursor(x, y+21);
+  u8g2.print(F("Hour "));
+  u8g2.print(wdt_hour);
+
+  u8g2.setCursor(x, y+31);
+  u8g2.print(F("Min "));
+  u8g2.print(wdt_min);
+}
+
+
+
+
 
 void draw_1_4_system(u8g2_uint_t x, u8g2_uint_t y)
 {
@@ -886,7 +938,8 @@ void draw_system(void)
     u8g2.drawVLine(62, 0, 64);
   
     
-    draw_1_4_delay(1,0);
+    draw_1_4_uptime(1, 0);
+    //draw_1_4_delay(1,0);
     //draw_1_4_temperature(1, 0);
     draw_1_4_eco2(66, 0);
     //draw_1_4_humidity(66, 0);
@@ -949,6 +1002,35 @@ void handle_new_display(void)
   }
 }
 
+void disable_display(void)
+{
+  u8g2.clear();
+  u8g2.setPowerSave(1);
+  is_display_enabled = 0;
+}
+
+void enable_display(void)
+{
+  is_display_enabled = 1;
+  u8g2.setPowerSave(0);
+}
+
+void disable_sensors(void)
+{
+  /* both sensors will go to idle/sleep mode when the I2C soft reset is sent */
+  Wire.beginTransmission(0);
+  Wire.write(6);
+  Wire.endTransmission(true);	// true: send full stop on I2C
+  delay(5);
+}
+
+void enable_sensors(void)
+{
+  sht.init();
+  sgp.begin();
+  delay(5);
+}
+
 //===================================================
 
 
@@ -957,6 +1039,7 @@ void next_state(void)
   switch(state)
   {
     case STATE_RESET:
+      enable_display();
       startup_timer = STARTUP_TIME;
       state = STATE_STARTUP_DISP_ON;
       display_timer = DISPLAY_TIME;
@@ -966,10 +1049,14 @@ void next_state(void)
       
     case STATE_STARTUP_DISP_ON:
       if ( is_display_on_event() )
+      {
+	// display is already enabled, but the timer is reseted
 	display_timer = DISPLAY_TIME;
-	
+      }
+      
       if ( display_timer == 0 )
       {
+	disable_display();
 	state = STATE_STARTUP_DISP_OFF;
       }
       else if ( startup_timer == 0 )
@@ -978,9 +1065,12 @@ void next_state(void)
 	state = STATE_MEASURE_DISP_ON;
       }
       break;
+      
     case STATE_STARTUP_DISP_OFF:
       if ( is_display_on_event() )
       {
+	enable_display();
+	display_timer = DISPLAY_TIME;
 	state = STATE_STARTUP_DISP_ON;
       }
       else if ( startup_timer == 0 )
@@ -994,10 +1084,14 @@ void next_state(void)
       
     case STATE_WARMUP_DISP_ON:				// DONE
       if ( is_display_on_event() )
+      {
+	// display is already enabled, but the timer is reseted
 	display_timer = DISPLAY_TIME;
+      }
 
       if ( display_timer == 0 )
       {
+	disable_display();
 	state = STATE_WARMUP_DISP_OFF;
       }
       else if ( sensor_warmup_timer == 0 )
@@ -1010,6 +1104,7 @@ void next_state(void)
     case STATE_WARMUP_DISP_OFF:		// DONE
       if ( is_display_on_event() )
       {
+	enable_display();
 	display_timer = DISPLAY_TIME;
 	state = STATE_WARMUP_DISP_ON;
       }
@@ -1023,11 +1118,17 @@ void next_state(void)
     // - - -  Sensor Measure - - -
 
     case STATE_MEASURE_DISP_ON:				// DONE
+      sgp.getIAQBaseline(&eco2_base, &tvoc_base);	// always store the calibration values during measure
+      
       if ( is_display_on_event() )
+      {
+	// display is already enabled, but the timer is reseted
 	display_timer = DISPLAY_TIME;
+      }
 	
       if ( display_timer == 0 )
       {
+	disable_display();
 	state = STATE_MEASURE_DISP_OFF;
       }
       else if ( sensor_measure_timer == 0 )
@@ -1037,13 +1138,17 @@ void next_state(void)
       break;
       
     case STATE_MEASURE_DISP_OFF:		// DONE
+      sgp.getIAQBaseline(&eco2_base, &tvoc_base);	// always store the calibration values during measure
+      
       if ( is_display_on_event() )
       {
+	enable_display();
 	display_timer = DISPLAY_TIME;
 	state = STATE_MEASURE_DISP_ON;
       }
       else if ( sensor_measure_timer == 0 )
       {
+	disable_sensors();
 	state = STATE_SENSOR_SLEEP_DISP_OFF;
       }
       break;
@@ -1053,13 +1158,22 @@ void next_state(void)
     case STATE_SENSOR_SLEEP_DISP_OFF:			// DONE
       if ( is_display_on_event() )
       {
-	sensor_warmup_timer = SENSOR_WARMUP_TIME;
+	enable_display();
 	display_timer = DISPLAY_TIME;
+	
+	enable_sensors();
+	sgp.setIAQBaseline(eco2_base, tvoc_base);		// Whenever we wake up the sensor from sleep, send the previous calibration information
+	
+	sensor_warmup_timer = SENSOR_WARMUP_TIME;
 	state = STATE_WARMUP_DISP_ON;
       }
       else if ( is_sensor_sample_timer_alarm != 0 )
       {
 	is_sensor_sample_timer_alarm = 0;
+	
+	enable_sensors();
+	sgp.setIAQBaseline(eco2_base, tvoc_base);		// Whenever we wake up the sensor from sleep, send the previous calibration information
+	
 	sensor_warmup_timer = SENSOR_WARMUP_TIME;
 	state = STATE_WARMUP_DISP_OFF;
       }
@@ -1091,20 +1205,24 @@ void loop(void) {
 
     start = millis();
     readAirQuality();
-    sgp.getIAQBaseline(&eco2_base, &tvoc_base);
+    
     millis_sensor = millis() - start;
 
-    
-    start = millis();
-    if ( current_display == 0 )
-      draw_with_emo();
-    else if ( current_display == 1 )
-      draw_with_history();
-    else if ( current_display == 2 )
-      draw_system();
-      
-    millis_display = millis() - start;
-      
+    if ( is_display_enabled )		// "is_display_enabled" will be calculated in next_state()
+    {
+      start = millis();
+      if ( current_display == 2 )
+	draw_with_emo();
+      else if ( current_display == 1 )
+	draw_with_history();
+      else if ( current_display == 0 )
+	draw_system();      
+      millis_display = millis() - start;
+    }
+    else
+    {
+      millis_display = 0;
+    }
   }
 
   set_sleep_mode(SLEEP_MODE_PWR_DOWN); 
