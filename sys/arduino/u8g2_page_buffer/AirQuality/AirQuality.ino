@@ -823,7 +823,30 @@ void draw_1_4_system(u8g2_uint_t x, u8g2_uint_t y)
 void draw_1_4_battery(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(u8g2_font_battery19_tn);
-  u8g2.drawGlyph(x, y+20, 50);
+
+/*
+STATE_STARTUP_DISP_ON 1
+STATE_WARMUP_DISP_ON 11
+STATE_MEASURE_DISP_ON 21
+*/
+
+  if ( state == STATE_WARMUP_DISP_ON )
+  {
+    uint16_t l = sensor_warmup_timer;
+    l *= 9;
+    l /= SENSOR_WARMUP_TIME;
+    
+    u8g2.drawGlyph(x, y+25, 50);
+    
+    u8g2.setFont(FONT_SMALL);
+    u8g2.drawGlyph(x, y+5, '0' + l);
+  }
+  else
+  {
+    u8g2.drawGlyph(x, y+20, 50);
+  }
+
+  
 }
 
 void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
@@ -872,6 +895,8 @@ void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
     emo_idx = eco2_idx;
   u8g2.setFont(u8g2_font_emoticons21_tr);
   u8g2.drawGlyph(x+20, y+21, 32+emo_idx);
+
+  
 }
 
 //===================================================
@@ -1021,13 +1046,15 @@ void disable_sensors(void)
   Wire.beginTransmission(0);
   Wire.write(6);
   Wire.endTransmission(true);	// true: send full stop on I2C
+
   delay(5);
+  
 }
 
 void enable_sensors(void)
 {
   sht.init();
-  sgp.begin();
+  sgp.IAQinit();
   delay(5);
 }
 
@@ -1036,6 +1063,7 @@ void enable_sensors(void)
 
 void next_state(void)
 {
+  uint32_t start;
   switch(state)
   {
     case STATE_RESET:
@@ -1048,6 +1076,11 @@ void next_state(void)
     // - - -  Start Up - - -
       
     case STATE_STARTUP_DISP_ON:
+      start = millis();
+      sgp.getIAQBaseline(&eco2_base, &tvoc_base);	// always store the calibration values during measure
+      readAirQuality();
+      millis_sensor = millis() - start;
+      
       if ( is_display_on_event() )
       {
 	// display is already enabled, but the timer is reseted
@@ -1067,6 +1100,11 @@ void next_state(void)
       break;
       
     case STATE_STARTUP_DISP_OFF:
+      start = millis();
+      sgp.getIAQBaseline(&eco2_base, &tvoc_base);	// always store the calibration values during measure
+      readAirQuality();
+      millis_sensor = millis() - start;
+      
       if ( is_display_on_event() )
       {
 	enable_display();
@@ -1096,6 +1134,11 @@ void next_state(void)
       }
       else if ( sensor_warmup_timer == 0 )
       {
+	// set the baseline at the end of the warmup
+	// this is described in the "SGP30 Driver Integration"
+	if ( eco2_base != 0 )
+	  sgp.setIAQBaseline(eco2_base, tvoc_base);		// Restore the baseline values
+	  
 	sensor_measure_timer = SENSOR_MEASURE_TIME;
 	state = STATE_MEASURE_DISP_ON;
       }
@@ -1110,6 +1153,11 @@ void next_state(void)
       }
       else if ( sensor_warmup_timer == 0 )
       {
+	// set the baseline at the end of the warmup
+	// this is described in the "SGP30 Driver Integration"
+	if ( eco2_base != 0 )
+	  sgp.setIAQBaseline(eco2_base, tvoc_base);		// Restore the baseline values
+	        
 	sensor_measure_timer = SENSOR_MEASURE_TIME;
 	state = STATE_MEASURE_DISP_OFF;
       }
@@ -1118,7 +1166,10 @@ void next_state(void)
     // - - -  Sensor Measure - - -
 
     case STATE_MEASURE_DISP_ON:				// DONE
+      start = millis();
       sgp.getIAQBaseline(&eco2_base, &tvoc_base);	// always store the calibration values during measure
+      readAirQuality();
+      millis_sensor = millis() - start;
       
       if ( is_display_on_event() )
       {
@@ -1138,7 +1189,10 @@ void next_state(void)
       break;
       
     case STATE_MEASURE_DISP_OFF:		// DONE
+      start = millis();
       sgp.getIAQBaseline(&eco2_base, &tvoc_base);	// always store the calibration values during measure
+      readAirQuality();
+      millis_sensor = millis() - start;
       
       if ( is_display_on_event() )
       {
@@ -1162,7 +1216,6 @@ void next_state(void)
 	display_timer = DISPLAY_TIME;
 	
 	enable_sensors();
-	sgp.setIAQBaseline(eco2_base, tvoc_base);		// Whenever we wake up the sensor from sleep, send the previous calibration information
 	
 	sensor_warmup_timer = SENSOR_WARMUP_TIME;
 	state = STATE_WARMUP_DISP_ON;
@@ -1172,8 +1225,7 @@ void next_state(void)
 	is_sensor_sample_timer_alarm = 0;
 	
 	enable_sensors();
-	sgp.setIAQBaseline(eco2_base, tvoc_base);		// Whenever we wake up the sensor from sleep, send the previous calibration information
-	
+	  
 	sensor_warmup_timer = SENSOR_WARMUP_TIME;
 	state = STATE_WARMUP_DISP_OFF;
       }
@@ -1202,11 +1254,6 @@ void loop(void) {
 
     next_state();
     handle_new_display();
-
-    start = millis();
-    readAirQuality();
-    
-    millis_sensor = millis() - start;
 
     if ( is_display_enabled )		// "is_display_enabled" will be calculated in next_state()
     {
