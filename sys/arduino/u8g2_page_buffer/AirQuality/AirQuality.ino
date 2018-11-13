@@ -111,10 +111,13 @@ uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 
 #define SENSOR_MEASURE_TIME (14)
 
-// the sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
+// This is the time, after which the gas sensor should do another measurement.
+// The sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
 // be lesser than SENSOR_SAMPLE_TIME
 #define SENSOR_SAMPLE_TIME (2*60)
 
+// This is the time after which a new history entry is generated
+#define NEW_HISTORY_DELAY (15*60)
 
 // number of seconds, for which a new display is fixed
 #define NEW_DISPLAY_COOL_DOWN 4
@@ -178,7 +181,7 @@ volatile uint16_t wdt_day = 0;
 
 volatile uint16_t startup_timer = 0;
 volatile uint16_t sensor_sample_timer = SENSOR_SAMPLE_TIME;
-volatile uint8_t is_sensor_sample_timer_alarm = 0;
+volatile uint8_t is_sensor_sample_timer_alarm = 0;		// if zero: wake up gas sensor
 volatile uint8_t display_timer = 0;
 
 volatile uint8_t sensor_warmup_timer = 0;
@@ -188,9 +191,13 @@ volatile uint8_t new_display_cool_down_timer = 0;
 
 volatile uint8_t is_wdt_irq = 0;
 
+volatile uint8_t is_new_history_entry = 0;
+volatile uint16_t new_history_timer = NEW_HISTORY_DELAY;
+
+
+
 uint32_t millis_sensor;
 uint32_t millis_display;
-
 
 
 //===================================================
@@ -337,6 +344,20 @@ ISR(WDT_vect)
     if ( is_sensor_sample_timer_alarm == 0 )
       is_sensor_sample_timer_alarm = 1;
   }
+
+  volatile uint8_t is_new_history_entry = 0;
+  if ( new_history_timer > 0 )
+  {
+    new_history_timer--;
+  }
+  else
+  {
+    new_history_timer = NEW_HISTORY_DELAY;
+    if ( is_new_history_entry == 0 )
+      is_new_history_entry = 1;
+  }
+
+
   shake_last_cnt = shake_cnt;
   shake_cnt = 0;
 }
@@ -494,11 +515,23 @@ void readAirQuality(void)
     eco2_raw = 400;
   }
   
+  if ( is_new_history_entry != 0 )
+  {
+    add_hist_new();
+    is_new_history_entry = 0;
+  }
+  else
+  {
+    add_hist_minmax();
+  }
+  
+  /*
   if ( (new_counter & 3) == 0 )
     add_hist_new();
   else
     add_hist_minmax();
   new_counter++;
+  */
   
 }
 
