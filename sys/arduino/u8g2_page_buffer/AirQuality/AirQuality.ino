@@ -435,9 +435,11 @@ void setup(void) {
 
   delay(1000);
   
-  // tilt detection at pin 2
+  // tilt detection at pin 2 and 3
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(2), detectShake, CHANGE);
+  pinMode(3, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(3), detectShake, CHANGE);
 
   set_sleep_mode(SLEEP_MODE_PWR_DOWN); 
 
@@ -759,6 +761,23 @@ void draw_1_4_humidity(u8g2_uint_t x, u8g2_uint_t y)
   u8g2.print(F("%RH"));
 }
 
+void draw_gray_out(u8g2_uint_t x, u8g2_uint_t y)
+{
+  if ( state == STATE_WARMUP_DISP_ON )
+  {
+    uint8_t xx, yy;
+    u8g2.setDrawColor(0);
+    for( yy = y+14; yy < y+28; yy+=1 )
+    {
+      for( xx = 0; xx < 52; xx += 2 )
+      {
+	u8g2.drawPixel(xx+x+(yy&1), yy);
+      }
+    }
+    u8g2.setDrawColor(1);
+  }
+}
+
 void draw_1_4_eco2(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(FONT_SMALL);
@@ -772,6 +791,8 @@ void draw_1_4_eco2(u8g2_uint_t x, u8g2_uint_t y)
 
   u8g2.setCursor(x, y+28);
   u8g2.print(eco2_raw);
+  
+  draw_gray_out(x, y);  
 }
 
 void draw_1_4_tvoc(u8g2_uint_t x, u8g2_uint_t y)
@@ -784,6 +805,8 @@ void draw_1_4_tvoc(u8g2_uint_t x, u8g2_uint_t y)
 
   u8g2.setCursor(x, y+28);
   u8g2.print(tvoc_raw);
+
+  draw_gray_out(x, y);  
 }
 
 void draw_1_4_base(u8g2_uint_t x, u8g2_uint_t y)
@@ -857,12 +880,8 @@ void draw_1_4_battery(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(u8g2_font_battery19_tn);
 
-/*
-STATE_STARTUP_DISP_ON 1
-STATE_WARMUP_DISP_ON 11
-STATE_MEASURE_DISP_ON 21
-*/
 
+/*
   if ( state == STATE_WARMUP_DISP_ON )
   {
     uint16_t l = sensor_warmup_timer;
@@ -875,6 +894,7 @@ STATE_MEASURE_DISP_ON 21
     u8g2.drawGlyph(x, y+5, '0' + l);
   }
   else
+*/
   {
     u8g2.drawGlyph(x, y+20, 50);
   }
@@ -1291,11 +1311,11 @@ void loop(void) {
     if ( is_display_enabled )		// "is_display_enabled" will be calculated in next_state()
     {
       start = millis();
-      if ( current_display == 2 )
+      if ( current_display == 0 )
 	draw_with_emo();
       else if ( current_display == 1 )
 	draw_with_history();
-      else if ( current_display == 0 )
+      else if ( current_display == 2 )
 	draw_system();      
       millis_display = millis() - start;
     }
