@@ -147,6 +147,13 @@
   Uno U8G2_ST7565_DOGM128_1_4W_SW_SPI		SW SPI	        FPS: Clip=18.1 Box=35.8  @=3.9 Pix=6.2		
   Uno U8G2_ST7565_DOGM128_1_4W_HW_SPI		HW SPI	        FPS: Clip=25.4 Box=78.7  @=4.2 Pix=6.9		
 
+  18. Nov 2018
+  Uno U8G2_ST7920_128X64_F_HW_SPI			HW SPI 0.1MHz FPS: Clip=5.4 Box=5.4  @=3.6 Pix=4.2
+  Uno U8G2_ST7920_128X64_F_HW_SPI			HW SPI 1.0MHz	 FPS: Clip=23.0 Box=22.8  @=7.4 Pix=10.4
+  Uno U8G2_ST7920_128X64_F_HW_SPI			HW SPI 1.8MHz FPS: Clip=23.0 Box=22.8  @=7.4 Pix=10.4
+  Uno U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=22.7 Box=21.0  @=7.1 Pix=9.6
+  Due U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=3.3 Box=3.2  @=3.1 Pix=3.1
+  Due U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=18.0 Box=17.8  @=13.5 Pix=14.6		/* Due optimized, 1000ns */
 */
 
 
@@ -508,6 +515,8 @@ void setup(void) {
   
   // assign default color value
   draw_color = 1;         // pixel on
+  
+  //u8g2.setBusClock(2000000);
 }
 
 void loop(void) {
