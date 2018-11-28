@@ -92,12 +92,12 @@ static uint8_t u8x8_d_st7586s_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
       {
         byte = 0;
         if (input & 0x800000)          // if bit 23
-            byte = byte | 0b11000000;  //set pixel 1
+            byte = byte | 0xC0;  //set pixel 1
         if (input & 0x400000)          // if bit 22
-            byte = byte | 0b00011000;  //set pixel 2
-        if (input & 0x200000)          // if bit 22
-            byte = byte | 0b00000011;  //set pixel 3
-        output[i] = byte;
+            byte = byte | 0x18;  //set pixel 2
+		if (input & 0x200000)          // if bit 22
+			byte = byte | 0x3;  //set pixel 3
+		output[i] = byte;
         input <<= 3;
       }
       u8x8_cad_SendData(u8x8, 8, output);
