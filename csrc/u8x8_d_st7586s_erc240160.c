@@ -194,13 +194,13 @@ uint8_t u8x8_d_st7586s_erc240160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
           if (input & 0x80)          // if bit 7
             byte = byte | 0x18;  //set pixel 1
           if (input & 0x40)          // if bit 6
-            byte = byte | 0b00000011;  //set pixel 2
+            byte = byte | 0x3;  //set pixel 2
         }
         if (u8x8->x_offset ==1){
           if (input & 0x80)          // if bit 7
-            byte = byte | 0b11000000;  //set pixel 1
+            byte = byte | 0xC0;  //set pixel 1
           if (input & 0x40)          // if bit 6
-            byte = byte | 0b00011000;  //set pixel 2
+            byte = byte | 0x18;  //set pixel 2
         }
         output[i] = byte;
         input <<= 2;
