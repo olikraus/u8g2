@@ -249,6 +249,10 @@
   U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno			Clip=32.8 Box=80.6  @=4.5 Pix=8.2	SPI default speed	u8g2.setBusClock(6000000UL);
   U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI	Uno			Clip=33.9 Box=88.2  @=4.5 Pix=8.2	SPI default speed	u8g2.setBusClock(9000000UL);
 
+  2 Dez 2018, Arduino 1.8.4
+  U8G2_UC1610_EA_DOGXL160_1_4W_SW_SPI		Due			Clip=15.8 Box=16.9  @=6.3 Pix=6.4
+  U8G2_UC1610_EA_DOGXL160_1_4W_SW_SPI		Due			Clip=17.6 Box=19.2  @=6.4 Pix=6.8	issue 749 (atomic writes)
+
 */
 
 
