@@ -531,16 +531,21 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
   /* so, it should be possible to use multiple displays with different pins */
   
-  static volatile uint32_t *arduino_clock_port;
-  
+  /*
+  static volatile uint32_t *arduino_clock_port;  
   static uint32_t arduino_clock_mask;
   static uint32_t arduino_clock_n_mask;
   
   static volatile uint32_t *arduino_data_port;
   static uint32_t arduino_data_mask;
   static uint32_t arduino_data_n_mask;
+  */
 
+  static WoReg *arduinoSetClockPort, *arduinoUnsetClockPort;
+  static uint32_t arduino_clock_mask;
 
+  static WoReg *arduinoSetDataPort, *arduinoUnsetDataPort;
+  static uint32_t arduino_data_mask;
 
   switch(msg)
   {
@@ -557,16 +562,24 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	  {
 	    for( i = 0; i < 8; i++ )
 	    {
+	      /*
 	      if ( b & 128 )
 		*arduino_data_port |= arduino_data_mask;
 	      else
 		*arduino_data_port &= arduino_data_n_mask;
+	      */
+	      if (b & 128)
+		  *arduinoSetDataPort = arduino_data_mask;
+	      else
+		  *arduinoUnsetDataPort = arduino_data_mask;
 
 	      //delayMicroseconds(us);
-	      *arduino_clock_port |= arduino_clock_mask;
+	      //*arduino_clock_port |= arduino_clock_mask;
+	      *arduinoSetClockPort = arduino_clock_mask;
 	      b <<= 1;
 	      delayMicroseconds(us);
-	      *arduino_clock_port &= arduino_clock_n_mask;
+	      //*arduino_clock_port &= arduino_clock_n_mask;
+	      *arduinoUnsetClockPort = arduino_clock_mask;
 	    }
 	  }
 	}
@@ -581,16 +594,24 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	  {
 	    for( i = 0; i < 8; i++ )
 	    {
+	      /*
 	      if ( b & 128 )
 		*arduino_data_port |= arduino_data_mask;
 	      else
 		*arduino_data_port &= arduino_data_n_mask;
+	      */
+	      if (b & 128)
+		  *arduinoSetDataPort = arduino_data_mask;
+	      else
+		  *arduinoUnsetDataPort = arduino_data_mask;
 
 	      //delayMicroseconds(us);
-	      *arduino_clock_port &= arduino_clock_n_mask;
+	      //*arduino_clock_port &= arduino_clock_n_mask;
+	      *arduinoUnsetClockPort = arduino_clock_mask;
 	      b <<= 1;
 	      delayMicroseconds(us);
-	      *arduino_clock_port |= arduino_clock_mask;	    
+	      //*arduino_clock_port |= arduino_clock_mask;	    
+	      *arduinoSetClockPort = arduino_clock_mask;
 	    }
 	  }
 	}
@@ -614,17 +635,24 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 
       /* there is no consistency checking for u8x8->pins[U8X8_PIN_SPI_CLOCK] */
     
+      /*
       arduino_clock_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_CLOCK]));
       arduino_clock_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_CLOCK]);
       arduino_clock_n_mask = ~arduino_clock_mask;
     
-      
-
-      /* there is no consistency checking for u8x8->pins[U8X8_PIN_SPI_DATA] */
-
       arduino_data_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_DATA]));
       arduino_data_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_DATA]);
       arduino_data_n_mask = ~arduino_data_mask;
+      */
+      
+      arduinoSetClockPort = &digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_CLOCK])->PIO_SODR;
+      arduinoUnsetClockPort = &digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_CLOCK])->PIO_CODR;
+      arduino_clock_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_CLOCK]);      
+
+      arduinoSetDataPort = &digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_DATA])->PIO_SODR;
+      arduinoUnsetDataPort = &digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_DATA])->PIO_CODR;
+      arduino_data_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_DATA]);
+    
       
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:
