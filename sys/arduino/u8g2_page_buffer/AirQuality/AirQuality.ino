@@ -52,8 +52,50 @@
 #include <avr/sleep.h> 
 
 
+//===================================================
+// Constants: Timing values for the sensor & display state machine
+// all values are "seconds"
+
+// define startup calibration time: 2h
+//#define STARTUP_TIME (60*60*2)
+#define STARTUP_TIME (60)
+
+// define duration after which the display is disabled: 30 seconds
+#define DISPLAY_TIME ((30))
+
+// Datasheet, page 8:
+// For the first 15s after the “Init_air_quality” command  the  sensor  
+// is  in  an  initialization  phase  during  which  a  “Measure_air_quality”  
+// command  returns  fixed  values
+// --> sensor warmup time
+#define SENSOR_WARMUP_TIME ((16))
+
+#define SENSOR_MEASURE_TIME (14)
+
+// This is the time, after which the gas sensor should do another measurement.
+// The sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
+// be lesser than SENSOR_SAMPLE_TIME
+#define SENSOR_SAMPLE_TIME (2*60)
+
+// This is the time after which a new history entry is generated
+// There are 96 entries in the history table (HIST_CNT) 
+// 16*60 = 15 minutes --> 96 * 15 minutes --> 24h
+#define NEW_HISTORY_DELAY (15*60)
+//#define NEW_HISTORY_DELAY 2
+
+// changing the content of the display is done via "shakes"
+// shakes are detected by a tilt switsch.
+// This value defines the number of shake events to change the display page.
+#define NEW_DISPLAY_SHAKE_THRESHOLD 5
+
+// number of seconds, for which a new display page is fixed
+// this means, for this duration, the user can not change the display page
+#define NEW_DISPLAY_COOL_DOWN 3
+
+
 
 U8G2_SSD1306_128X64_NONAME_2_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+
 #ifdef USE_ADAFRUIT_SHT31_LIB
 Adafruit_SHT31 sht31 = Adafruit_SHT31();	// temperature & humidity sensor
 #else // USE_ADAFRUIT_SHT31_LIB
@@ -92,38 +134,6 @@ uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 #define STATE_MEASURE_DISP_OFF 22
 #define STATE_SENSOR_SLEEP_DISP_OFF 32
 
-//===================================================
-// Constants: Timing values for the sensor & display state machine
-
-// define startup calibration time: 2h
-//#define STARTUP_TIME (60*60*2)
-#define STARTUP_TIME (60)
-
-// define startup calibration time: 30 seconds
-#define DISPLAY_TIME ((30))
-
-// Datasheet, page 8:
-// For the first 15s after the “Init_air_quality” command  the  sensor  
-// is  in  an  initialization  phase  during  which  a  “Measure_air_quality”  
-// command  returns  fixed  values
-// --> sensor warmup time
-#define SENSOR_WARMUP_TIME ((16))
-
-#define SENSOR_MEASURE_TIME (14)
-
-// This is the time, after which the gas sensor should do another measurement.
-// The sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
-// be lesser than SENSOR_SAMPLE_TIME
-#define SENSOR_SAMPLE_TIME (2*60)
-
-// This is the time after which a new history entry is generated
-#define NEW_HISTORY_DELAY (15*60)
-
-// number of seconds, for which a new display is fixed
-#define NEW_DISPLAY_COOL_DOWN 4
-
-// number of shakes required to change the display
-#define NEW_DISPLAY_SHAKE_THRESHOLD 5
 
 //===================================================
 // Constants: Temperature boundaries
@@ -133,7 +143,7 @@ uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 
 //===================================================
 // Constants: Number of different display pages
-#define DISPLAY_CNT 3
+#define DISPLAY_PAGE_CNT 3
 
 //===================================================
 // Constants: History 
@@ -141,8 +151,8 @@ uint8_t u8log_buffer[U8LOG_WIDTH*U8LOG_HEIGHT];
 #define HIST_CNT 96
 
 // history sample time: number of seconds between each history entry
+// --> see NEW_HISTORY_DELAY
 // 15 min = 15*60 seconds: 96 entries for 24h
-#define HISTORY_SAMPLE_TIME (15*60)
 
 //===================================================
 // State variable for the sensor & display coordination
@@ -196,8 +206,8 @@ volatile uint16_t new_history_timer = NEW_HISTORY_DELAY;
 
 
 
-uint32_t millis_sensor;
-uint32_t millis_display;
+uint32_t millis_sensor;	// Debugging: Duration of the sensour measurement
+uint32_t millis_display;	// Debugging: Duration of the display refresh
 
 
 //===================================================
@@ -208,9 +218,9 @@ volatile uint8_t shake_cnt = 0;
 volatile uint8_t shake_last_cnt = 0;
 
 //===================================================
-// Variables: Current visible display
+// Variables: Current visible display page
 
-uint8_t current_display = 0; // 0 .. DISPLAY_CNT - 1
+uint8_t current_display_page = 0; // 0 .. DISPLAY_PAGE_CNT - 1
 
 //===================================================
 // Variables: History management
@@ -323,9 +333,6 @@ ISR(WDT_vect)
     }
   }
   
-  
-  
-  
   if ( startup_timer > 0 )
     startup_timer--;
   if ( display_timer > 0 )
@@ -345,7 +352,6 @@ ISR(WDT_vect)
       is_sensor_sample_timer_alarm = 1;
   }
 
-  volatile uint8_t is_new_history_entry = 0;
   if ( new_history_timer > 0 )
   {
     new_history_timer--;
@@ -377,17 +383,21 @@ void reducePower(void)
 }
 
 
+// argument for attachInterrupt
+// This is called if something happens on the tilt switch
+
 void detectShake(void)
 {
-  is_shake = 1;
+  is_shake = 1;			// used and cleared in is_display_on_event()
   if ( shake_cnt < 255 )
-    shake_cnt++;
+    shake_cnt++;		// used and cleared in ISR(WDT_vect) 
 }
 
 //===================================================
 
 
 void setup(void) {
+  uint8_t i;
   reducePower();
   Wire.begin();
 
@@ -401,6 +411,13 @@ void setup(void) {
 
   
   u8g2log.print(F("Air Quality\n"));
+  
+  for( i = 0; i < HIST_CNT; i++ )
+  {
+    hist_eco2_max[i] = 0;
+    hist_eco2_min[i] = 0;
+  }
+  
   
 #ifdef USE_ADAFRUIT_SHT31_LIB
   if (sht31.begin(0x44)) {   				// 0x45 for alternate i2c addr
@@ -467,8 +484,6 @@ void startAirQuality(void)
 {
 }
 
-uint8_t new_counter = 0; 
-
 void readAirQuality(void)
 {
   uint8_t i;
@@ -526,14 +541,6 @@ void readAirQuality(void)
   {
     add_hist_minmax();
   }
-  
-  /*
-  if ( (new_counter & 3) == 0 )
-    add_hist_new();
-  else
-    add_hist_minmax();
-  new_counter++;
-  */
   
 }
 
@@ -604,7 +611,11 @@ void draw_graph( uint16_t (*get_val)(void *ptr, uint8_t pos), void *min_array, v
       max = get_val(max_array, ii);
   }
   if ( min > max )
+  {
+    min = 0;
+    max = 600;
     return;
+  }
   if ( min + 30 >= max )
     max = min + 30;
     
@@ -631,7 +642,10 @@ void draw_graph( uint16_t (*get_val)(void *ptr, uint8_t pos), void *min_array, v
 
   i = hist_start;
   x = 127-HIST_CNT;
-  
+
+  u8g2.setFont(FONT_NARROW);
+  u8g2.setDrawColor(1);
+
   for(;;)
   {
     ii = i;
@@ -653,86 +667,8 @@ void draw_graph( uint16_t (*get_val)(void *ptr, uint8_t pos), void *min_array, v
 
 //===================================================
 
-void draw_page1(void)
-{
-  u8g2.firstPage();
-  do {
-    u8g2.setFont(u8g2_font_helvB08_tf);
-    u8g2.setCursor(0, 10);
-    //u8g2.print(temperature_raw);
-    draw_temperature(temperature);
-    //u8g2.setCursor(33, 10);
-    u8g2.print(F(" °C"));
-    u8g2.setCursor(64, 10);
-    draw_humidity(humidity);
-    //u8g2.setCursor(98, 10);
-    u8g2.print(F(" %RH"));
-
-    //u8g2.setCursor(0, 20);
-    //u8g2.print(eco2_base, HEX);
-    //u8g2.print(" ");
-    //u8g2.print(tvoc_base, HEX);
-
-
-    if ( is_air_quality_available )
-    {
-      u8g2.setCursor(0, 30);
-      u8g2.print(tvoc_raw);
-      u8g2.print(" / ");
-      u8g2.print(eco2_raw);
-    }
-      
-    draw_graph( get_uint16, hist_eco2_min, hist_eco2_max, draw_16bit);
-      
-  } while ( u8g2.nextPage() );
-}
-
-//===================================================
-
-void draw_eco2(void)
-{
-  u8g2.setFontMode(1);
-  u8g2.firstPage();
-  do {
-    u8g2.setFont(FONT_SMALL);
-    u8g2.setCursor(0, 10);
-    //u8g2.print(temperature_raw);
-    draw_temperature(temperature);
-    //u8g2.setCursor(33, 10);
-    u8g2.print(F(" °C"));
-    u8g2.setCursor(64, 10);
-    draw_humidity(humidity);
-    //u8g2.setCursor(98, 10);
-    u8g2.print(F(" %RH"));
-
-    //u8g2.setCursor(0, 20);
-    //u8g2.print(eco2_base, HEX);
-    //u8g2.print(" ");
-    //u8g2.print(tvoc_base, HEX);
-
-    if ( is_air_quality_available )
-    {
-      u8g2.setFont(FONT_BIG);
-      u8g2.setCursor(20, 63);
-      u8g2.print(eco2_raw);
-      
-      u8g2.setFont(FONT_SMALL);
-      u8g2.setCursor(0, 25);
-      u8g2.print(F("CO"));
-      u8g2.setCursor(17, 30);
-      u8g2.print(F("²"));
-      
-      //u8g2.print(tvoc_raw);
-    }
-      
-  } while ( u8g2.nextPage() );
-}
-
-//===================================================
-
 void draw_1_2_eco2_history(u8g2_uint_t x, u8g2_uint_t y)
 {
-    u8g2.setFont(FONT_NARROW);
   
     draw_graph( get_uint16, hist_eco2_min, hist_eco2_max, draw_16bit);
 }
@@ -1048,6 +984,8 @@ void draw_with_history(void)
     }
     
     draw_1_2_eco2_history(0, 32);
+    
+    
       
   } while ( u8g2.nextPage() );
 }
@@ -1057,12 +995,17 @@ void draw_with_history(void)
 
 uint8_t is_display_on_event(void)
 {
+  if ( is_shake > 0 )
+  {
+    is_shake = 0;
+    return 1;
+  }
   if ( shake_last_cnt >= 1 )
     return 1;
   return 0;
 }
 
-void handle_new_display(void)
+void handle_new_display_page(void)
 {
   if ( new_display_cool_down_timer > 0 )
   {
@@ -1073,9 +1016,9 @@ void handle_new_display(void)
     if ( shake_last_cnt > NEW_DISPLAY_SHAKE_THRESHOLD )
     {
       new_display_cool_down_timer = NEW_DISPLAY_COOL_DOWN;
-      current_display++;
-      if ( current_display >= DISPLAY_CNT )
-	current_display = 0;
+      current_display_page++;
+      if ( current_display_page >= DISPLAY_PAGE_CNT )
+	current_display_page = 0;
     }
   }
 }
@@ -1162,6 +1105,7 @@ void next_state(void)
       {
 	enable_display();
 	display_timer = DISPLAY_TIME;
+	new_display_cool_down_timer = NEW_DISPLAY_COOL_DOWN;		// ensure, that the display page is visible for a while
 	state = STATE_STARTUP_DISP_ON;
       }
       else if ( startup_timer == 0 )
@@ -1202,6 +1146,7 @@ void next_state(void)
       {
 	enable_display();
 	display_timer = DISPLAY_TIME;
+	new_display_cool_down_timer = NEW_DISPLAY_COOL_DOWN;		// ensure, that the display page is visible for a while
 	state = STATE_WARMUP_DISP_ON;
       }
       else if ( sensor_warmup_timer == 0 )
@@ -1251,6 +1196,7 @@ void next_state(void)
       {
 	enable_display();
 	display_timer = DISPLAY_TIME;
+	new_display_cool_down_timer = NEW_DISPLAY_COOL_DOWN;		// ensure, that the display page is visible for a while
 	state = STATE_MEASURE_DISP_ON;
       }
       else if ( sensor_measure_timer == 0 )
@@ -1267,6 +1213,7 @@ void next_state(void)
       {
 	enable_display();
 	display_timer = DISPLAY_TIME;
+	new_display_cool_down_timer = NEW_DISPLAY_COOL_DOWN;		// ensure, that the display page is visible for a while
 	
 	enable_sensors();
 	
@@ -1306,16 +1253,16 @@ void loop(void) {
     is_wdt_irq = 0;
 
     next_state();
-    handle_new_display();
+    handle_new_display_page();
 
     if ( is_display_enabled )		// "is_display_enabled" will be calculated in next_state()
     {
       start = millis();
-      if ( current_display == 0 )
+      if ( current_display_page == 0 )
 	draw_with_emo();
-      else if ( current_display == 1 )
+      else if ( current_display_page == 1 )
 	draw_with_history();
-      else if ( current_display == 2 )
+      else if ( current_display_page == 2 )
 	draw_system();      
       millis_display = millis() - start;
     }
