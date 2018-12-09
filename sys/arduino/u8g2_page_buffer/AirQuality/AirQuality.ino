@@ -35,20 +35,28 @@
   
   http://shelvin.de/arduino-in-den-sleep_mode_pwr_down-schlaf-modus-setzen/  
   
+  
+  battery symbol
+    trinket 3.3V requires at least 3.5V (https://learn.adafruit.com/introducing-pro-trinket/pinouts)
+    Assuming 3x AAA and a fresh cell with 1.5V: --> 4.5V
+    There are 6 battery symbols
+    symbol 0: < 3.5V
+    symbol 1: 3.5 - 3.7
+    symbol 2: 3.7 - 3.9
+    symbol 3: 3.9 - 4.1
+    symbol 4: 4.1 - 4-5
+    symbol 5: >= 4.5V    
+    1V difference --> 5 steps --> 1V / 5 --> 0.2V step
+    
+  
 */
 
-// The Adafruit_SHT31 lib v1.0.0 should be disabled, because measurement will take 500ms, which is too much
-//#define USE_ADAFRUIT_SHT31_LIB
 
 #include <Arduino.h>
 #include <Wire.h>
 #include <U8g2lib.h>
 #include <Adafruit_SGP30.h>
-#ifdef USE_ADAFRUIT_SHT31_LIB
-#include <Adafruit_SHT31.h>			// adafruit sht31 lib v1.0.0 has a 500 milliseconds delay, 15 are sufficient
-#else // USE_ADAFRUIT_SHT31_LIB
-#include <SHTSensor.h>				
-#endif // USE_ADAFRUIT_SHT31_LIB
+#include <SHTSensor.h>				// adafruit sht31 lib v1.0.0 has a wrong 500 milliseconds delay, so use the SHTSensor.h lib
 #include <avr/sleep.h> 
 
 
@@ -86,7 +94,7 @@
 // changing the content of the display is done via "shakes"
 // shakes are detected by a tilt switsch.
 // This value defines the number of shake events to change the display page.
-#define NEW_DISPLAY_SHAKE_THRESHOLD 5
+#define NEW_DISPLAY_SHAKE_THRESHOLD 7
 
 // number of seconds, for which a new display page is fixed
 // this means, for this duration, the user can not change the display page
@@ -96,15 +104,11 @@
 
 U8G2_SSD1306_128X64_NONAME_2_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
-#ifdef USE_ADAFRUIT_SHT31_LIB
-Adafruit_SHT31 sht31 = Adafruit_SHT31();	// temperature & humidity sensor
-#else // USE_ADAFRUIT_SHT31_LIB
-SHTSensor sht;
-#endif // USE_ADAFRUIT_SHT31_LIB
+SHTSensor sht;							// temperature & humidity sensor
 
 Adafruit_SGP30 sgp;						// air quality sensor
 
-U8G2LOG u8g2log;
+U8G2LOG u8g2log;						
 
 // setup the terminal (U8G2LOG) and connect to u8g2 for automatic refresh of the display
 // The size (width * height) depends on the selected font and the display
@@ -204,6 +208,7 @@ volatile uint8_t is_wdt_irq = 0;
 volatile uint8_t is_new_history_entry = 0;
 volatile uint16_t new_history_timer = NEW_HISTORY_DELAY;
 
+//volatile uint16_t battery_level = 0;	// in millivolt
 
 
 uint32_t millis_sensor;	// Debugging: Duration of the sensour measurement
@@ -377,7 +382,7 @@ void enableWDT()
 
 void reducePower(void)
 {
-  ADCSRA = ADCSRA & B01111111; // ADC abschalten, ADEN bit7 zu 0
+  //ADCSRA = ADCSRA & B01111111; // ADC abschalten, ADEN bit7 zu 0
   ACSR = B10000000; // Analogen Comparator abschalten, ACD bit7 zu 1
   //DIDR0 = DIDR0 | B00111111; // Digitale Eingangspuffer ausschalten, analoge Eingangs Pins 0-5 auf 1
 }
@@ -399,6 +404,8 @@ void detectShake(void)
 void setup(void) {
   uint8_t i;
   reducePower();
+  analogReference(INTERNAL);		// use the internal 1.1V reference of the ATmega
+  
   Wire.begin();
 
   u8g2.begin();  
@@ -419,22 +426,13 @@ void setup(void) {
   }
   
   
-#ifdef USE_ADAFRUIT_SHT31_LIB
-  if (sht31.begin(0x44)) {   				// 0x45 for alternate i2c addr
-    u8g2log.print(F("SHT31 found at 0x44\n"));
-  } else {
-    u8g2log.print(F("SHT31 not found\n"));
-    while (1);
-  }
-#else // USE_ADAFRUIT_SHT31_LIB
-  if (sht.init()) {
+ if (sht.init()) {
     u8g2log.print(F("SHT31 found at 0x44\n"));
   } else {
     u8g2log.print(F("SHT31 not found\n"));
     while (1);
   }
   sht.setAccuracy(SHTSensor::SHT_ACCURACY_HIGH); 
-#endif // USE_ADAFRUIT_SHT31_LIB
 
 
   if (sgp.begin()) {   				
@@ -462,6 +460,14 @@ void setup(void) {
 
   enableWDT();
 }
+
+
+//===================================================
+void readBatteryVoltageLevel(void)
+{
+  uint16_t rawanalogRead(0);
+}
+
 
 //===================================================
 
@@ -491,15 +497,9 @@ void readAirQuality(void)
   int32_t eco2_coeff = 7;	// 1..32
 
 
-#ifdef USE_ADAFRUIT_SHT31_LIB
-  temperature_raw = sht31.readTemperature();
-  humidity_raw = sht31.readHumidity();
-#else // USE_ADAFRUIT_SHT31_LIB
   sht.readSample();
   temperature_raw = sht.getTemperature();
   humidity_raw = sht.getHumidity();
-#endif // USE_ADAFRUIT_SHT31_LIB
-
   
   if ( temperature_raw <= (float)TEMP_LOW )
   {
