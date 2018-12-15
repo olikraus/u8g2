@@ -47,8 +47,14 @@
     symbol 4: 4.1 - 4-5
     symbol 5: >= 4.5V    
     1V difference --> 5 steps --> 1V / 5 --> 0.2V step
+
+    R1 = 470K
+    R2 = 100K
+    Rsum = 570K
+    Um = 100K * 4.5V / 570K = 0.7894 V --> *1024/1.1 --> 735 (analogRead)
+    Um = 100K * 3.5V / 570K = 0.6140 V --> 571 (analogRead)
     
-  
+    735 - 571 = 164 --> 33    
 */
 
 
@@ -78,6 +84,8 @@
 // --> sensor warmup time
 #define SENSOR_WARMUP_TIME ((16))
 
+// SENSOR_MEASURE_TIME defines the duration how long the measurement
+// shell be aktive (after SENSOR_WARMUP_TIME)
 #define SENSOR_MEASURE_TIME (14)
 
 // This is the time, after which the gas sensor should do another measurement.
@@ -100,6 +108,12 @@
 // this means, for this duration, the user can not change the display page
 #define NEW_DISPLAY_COOL_DOWN 3
 
+
+// Battery empty value
+// U = 100K * 3.5V / 570K = 0.6140 V --> 571 (analogRead)
+#define BATTERY_LOW 571
+// step width for each battery symbol
+#define BATTERY_STEP 33
 
 
 U8G2_SSD1306_128X64_NONAME_2_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
@@ -182,6 +196,10 @@ int is_air_quality_available = 0;
 // Calibration values, values seem to be 0x8a27 and 0x08a98 for my sensor, so 0 will be used as not set
 uint16_t eco2_base = 0;		// calibration value eCO2
 uint16_t tvoc_base = 0;		// calibration value TVOC
+
+//===================================================
+uint16_t battery_raw;
+uint16_t battery_glyph; 
 
 //===================================================
 // Variables: Timer for the state machine
@@ -450,9 +468,11 @@ void setup(void) {
 
   delay(1000);
   
-  // tilt detection at pin 2 and 3
-  pinMode(2, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(2), detectShake, CHANGE);
+  // tilt detection at pin 2
+  //pinMode(2, INPUT_PULLUP);
+  //attachInterrupt(digitalPinToInterrupt(2), detectShake, CHANGE);
+  
+  // tilt detection at pin 3
   pinMode(3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(3), detectShake, CHANGE);
 
@@ -465,7 +485,15 @@ void setup(void) {
 //===================================================
 void readBatteryVoltageLevel(void)
 {
-  uint16_t rawanalogRead(0);
+  battery_raw = analogRead(0);
+  battery_glyph = 0;
+  if ( battery_raw >= BATTERY_LOW )
+  {
+    battery_glyph = (battery_raw - BATTERY_LOW)/BATTERY_STEP;
+    if ( battery_glyph > 5 )
+      battery_glyph = 5;
+  }
+  battery_glyph += 48;
 }
 
 
@@ -803,39 +831,19 @@ void draw_1_4_system(u8g2_uint_t x, u8g2_uint_t y)
   u8g2.print(shake_last_cnt);
 
   u8g2.setCursor(x, y+21);
-  u8g2.print(F("Cool "));
-  u8g2.print(new_display_cool_down_timer);
-
-  u8g2.setCursor(x, y+31);
   u8g2.print(F("State "));
   u8g2.print(state);
+
+  u8g2.setCursor(x, y+31);
+  u8g2.print(F("Bat "));
+  u8g2.print(battery_raw);
 
 }
 
 void draw_1_4_battery(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(u8g2_font_battery19_tn);
-
-
-/*
-  if ( state == STATE_WARMUP_DISP_ON )
-  {
-    uint16_t l = sensor_warmup_timer;
-    l *= 9;
-    l /= SENSOR_WARMUP_TIME;
-    
-    u8g2.drawGlyph(x, y+25, 50);
-    
-    u8g2.setFont(FONT_SMALL);
-    u8g2.drawGlyph(x, y+5, '0' + l);
-  }
-  else
-*/
-  {
-    u8g2.drawGlyph(x, y+20, 50);
-  }
-
-  
+  u8g2.drawGlyph(x, y+20, battery_glyph);  
 }
 
 void draw_1_4_emoticon(u8g2_uint_t x, u8g2_uint_t y)
@@ -1253,6 +1261,7 @@ void loop(void) {
     is_wdt_irq = 0;
 
     next_state();
+    readBatteryVoltageLevel();
     handle_new_display_page();
 
     if ( is_display_enabled )		// "is_display_enabled" will be calculated in next_state()
