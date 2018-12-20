@@ -63,7 +63,7 @@
 
 
 /*
-  U8glib Example Overview:
+  U8g2lib Example Overview:
     Frame Buffer Examples: clearBuffer/sendBuffer. Fast, but may not work with all Arduino boards because of RAM consumption
     Page Buffer Examples: firstPage/nextPage. Less RAM usage, should work with all Arduino boards.
     U8x8 Text Only Example: No RAM usage, direct communication with display controller. No graphics, 8x8 Text only.
