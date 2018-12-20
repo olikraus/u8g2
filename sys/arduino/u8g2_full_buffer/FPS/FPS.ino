@@ -153,7 +153,13 @@
   Uno U8G2_ST7920_128X64_F_HW_SPI			HW SPI 1.8MHz FPS: Clip=23.0 Box=22.8  @=7.4 Pix=10.4
   Uno U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=22.7 Box=21.0  @=7.1 Pix=9.6
   Due U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=3.3 Box=3.2  @=3.1 Pix=3.1
-  Due U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=18.0 Box=17.8  @=13.5 Pix=14.6		/* Due optimized, 1000ns */
+  Due U8G2_ST7920_128X64_F_SW_SPI			SW SPI		FPS: Clip=18.0 Box=17.8  @=13.5 Pix=14.6		Due optimized, 1000ns
+  
+  20 Dec 2018
+  Uno U8G2_SSD1306_128X64_NONAME_F_SW_I2C	SW I2C		FPS: Clip=1.8 Box=1.9  @=1.6 Pix=1.7
+  Uno U8G2_SSD1306_128X64_NONAME_F_HW_I2C	HW I2C		FPS: Clip=17.3 Box=19.5  @=6.6 Pix=8.8		old SSD13xx cad procedure
+  Uno U8G2_SSD1306_128X64_NONAME_F_HW_I2C	HW I2C		FPS: Clip=18.0 Box=20.3  @=6.6 Pix=9.0		new SSD13xx cad procedure
+  Uno U8G2_SSD1306_128X64_NONAME_F_HW_I2C	HW I2C		FPS: Clip=18.3 Box=20.8  @=6.7 Pix=9.1		new SSD13xx cad procedure (lightning version)
 */
 
 
@@ -184,7 +190,7 @@
 //U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
 //U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_F_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
-//U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SSD1306_128X64_ALT0_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
 //U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // All Boards without Reset of the Display
