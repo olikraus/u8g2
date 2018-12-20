@@ -2,6 +2,14 @@
 
   generate and update c/c++ files
   this also replaces the buildcpp tool
+  
+  
+  Dec 2018:
+  There are now two SSD13xx cad procedures:
+    u8x8_cad_ssd13xx_i2c			Put a I2C start/stop around each command and each argument	--> many start/stop commands
+    u8x8_cad_ssd13xx_fast_i2c		Put a I2C start/stop around each command+arg sequence		--> start/stop is probably halfed --> 4% faster
+
+  
 
 */
 
@@ -119,7 +127,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "ssd1306", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
@@ -278,7 +286,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "ssd1306", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x32_univision" },
@@ -295,7 +303,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	8, 	6, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "ssd1306", 	8, 	6, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x48_er" },
@@ -312,7 +320,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	6, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "ssd1306", 	6, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "48x64_winstar" },
@@ -331,7 +339,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "ssd1306", 	8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x32_noname" },
@@ -349,7 +357,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1306", 	12, 	2, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "ssd1306", 	12, 	2, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "96x16_er" },
