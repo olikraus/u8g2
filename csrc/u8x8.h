@@ -409,7 +409,6 @@ struct u8log_struct
   uint8_t is_redraw_all;
   uint8_t is_redraw_all_required_for_next_nl; /* in nl mode, redraw all instead of current line */
 };
-typedef struct u8log_struct u8log_t;
 
 
 /*==========================================*/
