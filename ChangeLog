@@ -206,5 +206,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added sleep mode for ST7920 (issue 245)
   * Added support for SSD0323 (issue 720)
 2018-xx-xx	v2.25.x  olikraus@gmail.com
-  
+  * Improved speed for I2C with SSD1306 controller: 4% faster now (issue 735)
+  * Fixed code problems (issues 766 and 754)  
+  * Added battery and emoticons (issue 747)
   
