@@ -65,7 +65,7 @@ size_t U8X8::write(uint8_t v)
 
 
 /*=============================================*/
-/* callbacks */
+/*=== ARDUINO GPIO & DELAY ===*/
 
 #ifdef U8X8_USE_PINS
 extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
@@ -168,6 +168,7 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 
 
 /*=============================================*/
+/*=== 3 WIRE SOFTWARE SPI ===*/
 
 /*
   replacement for a more faster u8x8_byte_3wire_sw_spi
@@ -351,6 +352,7 @@ extern "C" uint8_t u8x8_byte_arduino_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 
 
 /*=============================================*/
+/*=== 4 WIRE SOFTWARE SPI ===*/
 
 /*
   replacement for a more faster u8x8_byte_4wire_sw_spi
@@ -682,6 +684,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 
 
 /*=============================================*/
+/*=== 4 WIRE HARDWARE SPI ===*/
 
 #ifdef U8X8_USE_PINS
 
@@ -1121,6 +1124,7 @@ extern "C" uint8_t u8x8_byte_arduino_sw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
 #endif
 
 /*=============================================*/
+/*=== HARDWARE I2C ===*/
 
 extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
