@@ -1412,6 +1412,17 @@ struct interface interface_list[] =
     "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, reset",
     "u8x8_byte_sed1520"
   },  
+  /* 14 */
+  {
+    /* ST7920 */ "2ND_HW_SPI",
+    "u8x8_SetPin_ST7920_HW_SPI",
+    "u8x8_byte_arduino_2nd_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
+    "cs, reset",
+    "cs [, reset]",
+    "uC specific"
+  },  
   
 
   
@@ -1759,7 +1770,8 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   if ( controller_list[controller_idx].com & COM_ST7920SPI )
   {
     do_display_interface(controller_idx, display_idx, postfix, 8);		/* ST7920 SW SPI */
-    do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI (not yet implemented) */
+    do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI  */
+    do_display_interface(controller_idx, display_idx, postfix, 14);		/* 2ND HW SPI  */
   }
   if ( controller_list[controller_idx].com & COM_UART )
   {
@@ -2003,6 +2015,7 @@ void do_md_controller_list(void)
       {
 	do_md_display_interface(controller_idx, display_idx, 8);		/* ST7920 SW SPI */
 	do_md_display_interface(controller_idx, display_idx, 9);		/* HW SPI (not yet implemented) */
+ 	do_md_display_interface(controller_idx, display_idx, 14);		/* 2ND HW SPI  */
       }
       if ( controller_list[controller_idx].com & COM_KS0108 )
       {
