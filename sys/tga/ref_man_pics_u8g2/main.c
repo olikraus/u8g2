@@ -1006,8 +1006,52 @@ int main(void)
   tga_is_transparent = 0;
   u8g2_SetFontPosBaseline(&u8g2);
   u8g2_SetFontDirection(&u8g2, 0);
+  u8g2_SetMaxClipWindow(&u8g2);
 
   tga_save_png("u8g2_clip_window.png");
+  
+  /*=========================================*/
+  /* u8g2_tile_row.png */
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+  
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+  } while( u8g2_NextPage(&u8g2) );
+  
+
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetDrawColor(&u8g2, 1);
+  
+  u8g2_SetBufferCurrTileRow(&u8g2, 0);
+  u8g2_SetFont(&u8g2, u8g2_font_helvB08_tr);
+  u8g2_DrawStr(&u8g2, 2, 8, "abcdefg");
+  
+  u8g2_SetBufferCurrTileRow(&u8g2, 2);
+  u8g2_SendBuffer(&u8g2);
+  u8g2_SetBufferCurrTileRow(&u8g2, 4);
+  u8g2_SendBuffer(&u8g2);
+
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(2,8, "(2, 8)");
+    ra(2,24, "(2, 24)");
+    ra(2,40, "(2, 40)");
+    //hm(10, 35, 75);
+    //vm(88, 29, 20);
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontDirection(&u8g2, 0);
+
+  tga_save_png("u8g2_tile_row.png");
   
   /*=========================================*/
   
