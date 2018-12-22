@@ -15,6 +15,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/UpdatePartly
+cp ../../../sys/arduino/u8g2_page_buffer/UpdatePartly/*.ino ../../../../U8g2_Arduino/examples/page_buffer/UpdatePartly/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/ClipWindow
 cp ../../../sys/arduino/u8g2_page_buffer/ClipWindow/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ClipWindow/.
 
