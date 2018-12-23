@@ -51,10 +51,20 @@
     R1 = 470K
     R2 = 100K
     Rsum = 570K
+    
+    analogRead will use the internal 1.1V reference signal
+    
     Um = 100K * 4.5V / 570K = 0.7894 V --> *1024/1.1 --> 735 (analogRead)
     Um = 100K * 3.5V / 570K = 0.6140 V --> 571 (analogRead)
     
     735 - 571 = 164 --> 33    
+    
+    analogRead*1.1/1024 = Um, Um = 100 * Ubat/570
+    analogRead*1.1/1024 = 10 * Ubat/57
+    analogRead*1.1*57/10240 = Ubat
+    Ubat = analogRead*1.1*57/10240 = analogRead*0.006123 = analogRead/163
+    
+    
 */
 
 
