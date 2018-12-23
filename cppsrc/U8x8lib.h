@@ -111,6 +111,9 @@
 /* As of writing this, I did not found any official board which supports this */
 /* so this is not tested (May 2017), issue #224 */
 /* fixed ifdef, #410, #377 */
+/* meanwhile it is defined e.g. here: https://github.com/arduino/ArduinoCore-samd/blob/master/variants/mkrzero/variant.h#L91 */
+/* so it should be available for mkrzero */
+
 #ifdef SPI_INTERFACES_COUNT
 #if SPI_INTERFACES_COUNT > 1
 #define U8X8_HAVE_2ND_HW_SPI
