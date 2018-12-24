@@ -728,8 +728,10 @@ int bf_WriteU8G2CByFilename(bf_t *bf, const char *filename, const char *fontname
 }
 
 
-
-bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format)
+/*
+  xo, yo: offset for 8x8 fonts (font_format==2)
+*/
+bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format, int xo, int yo)
 {
   bf_t *bf;
 
@@ -768,7 +770,7 @@ bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, co
       }
       else
       {
-	bf_Generate8x8Font(bf);
+	bf_Generate8x8Font(bf, xo, yo);
       }
       
       if ( bf->bbx_mode != BDF_BBX_MODE_MINIMAL )

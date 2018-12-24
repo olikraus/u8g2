@@ -116,7 +116,9 @@ void help(void)
   printf("-M 'mapfile'    Read Unicode ASCII mapping from file 'mapname'\n");
   printf("-o <file>   C output font file\n");
   printf("-k <file>   C output file with kerning information\n");	
-  printf("-p <%%>    Minimum distance for kerning in percent of the global char width (lower values: Smaller gaps, more data)\n");	
+  printf("-p <%%>      Minimum distance for kerning in percent of the global char width (lower values: Smaller gaps, more data)\n");	
+  printf("-x <n>      X-Offset for 8x8 font sub-glyph extraction (requires -f 2, default 0)\n");
+  printf("-y <n>      Y-Offset for 8x8 font sub-glyph extraction (requires -f 2, default 0)\n");
 
   printf("-n <name>   C indentifier (font name)\n");
   printf("-d <file>   Overview picture: Enable generation of bdf.tga and assign BDF font <file> for description\n");
@@ -164,6 +166,8 @@ unsigned long build_bbx_mode = 0;
 unsigned long font_format = 0;
 unsigned long min_distance_in_per_cent_of_char_width = 25;
 unsigned long cmdline_glyphs_per_line = 16;
+unsigned long xoffset = 0;
+unsigned long yoffset = 0;
 int font_picture_extra_info = 0;
 int font_picture_test_string = 0;
 int runtime_test = 0;
@@ -360,6 +364,12 @@ int main(int argc, char **argv)
     else if ( get_num_arg(&argv, 'f', &font_format) != 0 )
     {
     }
+    else if ( get_num_arg(&argv, 'x', &xoffset) != 0 )
+    {
+    }
+    else if ( get_num_arg(&argv, 'y', &yoffset) != 0 )
+    {
+    }
     else if ( get_num_arg(&argv, 'l', &left_margin) != 0 )
     {
     }
@@ -400,7 +410,7 @@ int main(int argc, char **argv)
   bf_desc_font = NULL;
   if ( desc_font_str[0] != '\0' )
   {
-    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", 0);	/* assume format 0 for description */
+    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", 0, 0, 0);	/* assume format 0 for description */
     if ( bf_desc_font == NULL )
     {
       exit(1);
@@ -414,7 +424,7 @@ int main(int argc, char **argv)
     /* bf_Log(bf, "Font mode 1: BBX mode set to 3"); */
   }
   
-  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, font_format);
+  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, font_format, xoffset, yoffset);
   
   if ( bf == NULL )
   {
@@ -424,7 +434,7 @@ int main(int argc, char **argv)
   if ( font_format == 2 )
   {
     /* now generate the log message */
-    bf_Log(bf, "Note: For font format 1 BBX mode has been set to 3");
+    bf_Log(bf, "Note: For font format 2 BBX mode has been set to 3");
   }
 
   if ( bf_desc_font != NULL )
