@@ -40,6 +40,13 @@ helvb18n: bdfconv
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
 
+px437wyse700a: bdfconv
+	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700a.ttf
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ul.c  -n u8x8_font_px437wyse700a_ul
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ur.c  -n u8x8_font_px437wyse700a_ur
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_bl.c  -n u8x8_font_px437wyse700a_bl
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_br.c  -n u8x8_font_px437wyse700a_br
+
 logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 

@@ -17,7 +17,7 @@
 #include "bdf_font.h"
 
 
-int bg_8x8_convert(bg_t *bg, bbx_t *bbx)
+int bg_8x8_convert(bg_t *bg, bbx_t *bbx, int xo, int yo)
 {
   int x;
   int y;
@@ -57,7 +57,7 @@ int bg_8x8_convert(bg_t *bg, bbx_t *bbx)
     for( y = bbx->y+bbx->h-1; y >= bbx->y; y--)
     {
       d >>= 1;
-      if ( bg_GetBBXPixel(bg, x, y) != 0 )
+      if ( bg_GetBBXPixel(bg, x+xo, y+yo) != 0 )
       {
 	d |= 128;
       }
@@ -70,7 +70,7 @@ int bg_8x8_convert(bg_t *bg, bbx_t *bbx)
 }
 
 
-void bf_Generate8x8Font(bf_t *bf)
+void bf_Generate8x8Font(bf_t *bf, int xo, int yo)
 {
   int i, j, k;
   bg_t *bg;
@@ -99,7 +99,7 @@ void bf_Generate8x8Font(bf_t *bf)
 	}
 	else
 	{
-	  if ( bg_8x8_convert(bg, &local_bbx) == 0 )
+	  if ( bg_8x8_convert(bg, &local_bbx, xo, yo) == 0 )
 	  {
 	    bf_Log(bf, "Generate8x8Font: Error, 8x8 conversion, encoding=%d", bg->target_cnt, bg->encoding);
 	  }
