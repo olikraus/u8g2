@@ -3,8 +3,8 @@
   UpdatePartly.ino
 
   This will scroll text on the display similar to ScrollingText.ino example,
-  but will be faster faster, because only the changing part of the display
-  will be updated.
+  Scrolling will be faster, because only the changing part of the display
+  gets updated.
   Enable U8g2 16 bit mode (see FAQ) for larger text!
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)

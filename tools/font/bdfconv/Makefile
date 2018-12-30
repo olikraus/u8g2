@@ -40,12 +40,35 @@ helvb18n: bdfconv
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
 
-px437wyse700a: bdfconv
+16x16: bdfconv
 	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700a.ttf
-	./bdfconv -x 0 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ul.c  -n u8x8_font_px437wyse700a_ul
-	./bdfconv -x 8 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ur.c  -n u8x8_font_px437wyse700a_ur
-	./bdfconv -x 0 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_bl.c  -n u8x8_font_px437wyse700a_bl
-	./bdfconv -x 8 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_br.c  -n u8x8_font_px437wyse700a_br
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_ul_n.c  -n u8x8_font_px437wyse700a_ul_n
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_ur_n.c  -n u8x8_font_px437wyse700a_ur_n
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_ll_n.c  -n u8x8_font_px437wyse700a_ll_n
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_lr_n.c  -n u8x8_font_px437wyse700a_lr_n	
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ul_r.c  -n u8x8_font_px437wyse700a_ul_r
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ur_r.c  -n u8x8_font_px437wyse700a_ur_r
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_ll_r.c  -n u8x8_font_px437wyse700a_ll_r
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_lr_r.c  -n u8x8_font_px437wyse700a_lr_r
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700a_ul_f.c  -n u8x8_font_px437wyse700a_ul_f
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700a_ur_f.c  -n u8x8_font_px437wyse700a_ur_f
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700a_ll_f.c  -n u8x8_font_px437wyse700a_ll_f
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700a_lr_f.c  -n u8x8_font_px437wyse700a_lr_f	
+	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700b.ttf
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700b_ul_n.c  -n u8x8_font_px437wyse700b_ul_n
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700b_ur_n.c  -n u8x8_font_px437wyse700b_ur_n
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700b_ll_n.c  -n u8x8_font_px437wyse700b_ll_n
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700b_lr_n.c  -n u8x8_font_px437wyse700b_lr_n	
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700b_ul_r.c  -n u8x8_font_px437wyse700b_ul_r
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700b_ur_r.c  -n u8x8_font_px437wyse700b_ur_r
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700b_ll_r.c  -n u8x8_font_px437wyse700b_ll_r
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700b_lr_r.c  -n u8x8_font_px437wyse700b_lr_r
+	./bdfconv -x 0 -y 8 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700b_ul_f.c  -n u8x8_font_px437wyse700b_ul_f
+	./bdfconv -x 8 -y 8 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700b_ur_f.c  -n u8x8_font_px437wyse700b_ur_f
+	./bdfconv -x 0 -y 0 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700b_ll_f.c  -n u8x8_font_px437wyse700b_ll_f
+	./bdfconv -x 8 -y 0 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700b_lr_f.c  -n u8x8_font_px437wyse700b_lr_f
+	cat u8x8_font_px437*.c >16x16.c
+	
 
 logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
