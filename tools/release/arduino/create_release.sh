@@ -149,6 +149,9 @@ cp ../../../sys/arduino/u8g2_full_buffer/FPS/*.ino ../../../../U8g2_Arduino/exam
 
 # u8x8
 
+mkdir ../../../../U8g2_Arduino/examples/u8x8/16x16Font
+cp ../../../sys/arduino/u8x8/16x16Font/*.ino ../../../../U8g2_Arduino/examples/u8x8/16x16Font/.
+
 mkdir ../../../../U8g2_Arduino/examples/u8x8/Terminal
 cp ../../../sys/arduino/u8x8/Terminal/*.ino ../../../../U8g2_Arduino/examples/u8x8/Terminal/.
 
