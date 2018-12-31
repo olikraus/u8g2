@@ -474,7 +474,7 @@ int main(int argc, char **argv)
     else
     {
       /* font format >= 1 are for u8g2 */
-      bf_WriteU8G2CByFilename(bf, c_filename, target_fontname, "  ");
+      bf_WriteU8G2CByFilename(bf, c_filename, target_fontname, "  ");	/* bdf_font.c */
     }
   }
 
