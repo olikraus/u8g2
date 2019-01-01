@@ -136,6 +136,7 @@ struct groupinfo
 struct fontinfo
 {
   //int is_ttf;		/* 0 = bdf, 1= ttf */
+  char *bdfconv_opt;
   char *ttf_opt;		/* 0 or "-r 72 -p 8" */
   char *filename;	/* filename including extension */
   char *name;
@@ -211,73 +212,79 @@ Greek Extended	1F00–1FFF
 
 struct fontinfo fi[] ={
 	
-  { 0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
+  { 0,  0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
   
   
-  { 0, "m2icon_5.bdf", 		"m2icon_5", 		0, 0, BM_T, FM_C, MM_F, "", ""},
-  { 0, "m2icon_7.bdf", 		"m2icon_7", 		0, 0, BM_T, FM_C, MM_F, "", ""},
-  { 0, "m2icon_9.bdf", 		"m2icon_9", 		0, 0, BM_T, FM_C, MM_F, "", ""},
-  { 0, "emoticons21.bdf", 	"emoticons21", 	0, 0, BM_T, FM_C, MM_R, "", ""},
-  { 0, "battery19.bdf", 		"battery19", 		0, 0, BM_T, FM_C, MM_N, "", ""},
+  { 0,  0, "m2icon_5.bdf", 		"m2icon_5", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  { 0,  0, "m2icon_7.bdf", 		"m2icon_7", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  { 0,  0, "m2icon_9.bdf", 		"m2icon_9", 		0, 0, BM_T, FM_C, MM_F, "", ""},
+  { 0,  0, "emoticons21.bdf", 	"emoticons21", 	0, 0, BM_T, FM_C, MM_R, "", ""},
+  { 0,  0, "battery19.bdf", 		"battery19", 		0, 0, BM_T, FM_C, MM_N, "", ""},
   
-  { 0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
-  { 0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
+  { 0,  0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
+  { 0,  0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
 
-  { 0, "7Segments_26x42.bdf",  "7Segments_26x42", 	0, 0, BM_M, FM_C, MM_N, "", ""},
+  { 0,  0, "7Segments_26x42.bdf",  "7Segments_26x42", 	0, 0, BM_M, FM_C, MM_N, "", ""},
 
-  { 0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   
-  { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
-  { 0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
-  { 0, "micro.bdf", 			"micro", 			1, 0, BM_T|BM_M, FM_C, MM_R|MM_N, "", "" },		/* micro does not have the full set */
-  { 0, "4x6.bdf", 			"4x6", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "4x6.bdf", 			"4x6", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
-  { 0, "5x7.bdf", 			"5x7", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
-  { 0, "5x8.bdf", 			"5x8", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "6x10.bdf", 			"6x10", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  { 0, "6x12.bdf", 			"6x12", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
-  { 0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
-  { 0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "6x13O.bdf", 			"6x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  { 0, "7x13.bdf", 			"7x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "7x13B.bdf", 			"7x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "7x13O.bdf", 			"7x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "7x14.bdf", 			"7x14", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "7x14B.bdf", 			"7x14B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
+  { 0,  0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-80>32", "r" },
+  { 0,  0, "micro.bdf", 			"micro", 			1, 0, BM_T|BM_M, FM_C, MM_R|MM_N, "", "" },		/* micro does not have the full set */
+  { 0,  0, "4x6.bdf", 			"4x6", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "4x6.bdf", 			"4x6", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "5x7.bdf", 			"5x7", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "5x7.bdf", 			"5x7", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "5x7.bdf", 			"5x7", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "5x8.bdf", 			"5x8", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "5x8.bdf", 			"5x8", 			1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "5x8.bdf", 			"5x8", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "6x10.bdf", 			"6x10", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "6x12.bdf", 			"6x12", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0,  0, "6x12.bdf", 			"6x12", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "6x13.bdf", 			"6x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
+  { 0,  0, "6x13.bdf", 			"6x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
+  { 0,  0, "6x13B.bdf", 			"6x13B", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "6x13O.bdf", 			"6x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "7x13.bdf", 			"7x13", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0,  0, "7x13.bdf", 			"7x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "7x13B.bdf", 			"7x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "7x13O.bdf", 			"7x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "7x14.bdf", 			"7x14", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "7x14B.bdf", 			"7x14B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0,  0, "8x13.bdf", 			"8x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+
 //#ifdef TMP
-  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  { 0, "8x13.bdf", 			"8x13", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-
   
-  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  { 0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "9x15B.bdf", 			"9x15B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "9x18.bdf", 			"9x18", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "9x18B.bdf", 			"9x18B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
-  { 0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
+  { 0,  0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0,  0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "9x15B.bdf", 			"9x15B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "9x18.bdf", 			"9x18", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "9x18B.bdf", 			"9x18B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "10x20.bdf", 			"10x20", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
+  { 0,  0, "10x20.bdf", 			"10x20", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "10x20.bdf", 			"10x20", 			1, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
 
-  { 0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "32-128,$e000-$ffff", "_6x10" },
-  { 0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { "-y -2 -th 1 -tv 2",  0, "8x13.bdf",	"8x13_1x2",	1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -2 -th 1 -tv 2",  0, "8x13B.bdf",	"8x13B_1x2",	1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -1 -x -1 -th 1 -tv 2",  0, "7x14.bdf",	"7x14_1x2",	1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -1 -x -1 -th 1 -tv 2",  0, "7x14B.bdf",	"7x14B_1x2",	1, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  
+  
+  { 0,  0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "32-128,$e000-$ffff", "_6x10" },
+  { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   
   
 /*
@@ -292,333 +299,360 @@ Latin Extended Additional	1E00–1EFF
 Greek Extended	1F00–1FFF
 */
   
-  { 0, "t0-11-uni.bdf", 		"t0_11", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-11-uni.bdf", 		"t0_11", 			19, 0, BM_T, FM_C, MM_C, "$0020-$FFF0", "_all" },
-  { 0, "t0-11b-uni.bdf", 		"t0_11b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-12-uni.bdf", 		"t0_12", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-12b-uni.bdf", 		"t0_12b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-13-uni.bdf", 		"t0_13", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-13b-uni.bdf", 		"t0_13b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-14-uni.bdf", 		"t0_14", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-14b-uni.bdf", 		"t0_14b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-15-uni.bdf", 		"t0_15", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-15b-uni.bdf", 		"t0_15b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-16-uni.bdf", 		"t0_16", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-16b-uni.bdf", 		"t0_16b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-17-uni.bdf", 		"t0_17", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-17b-uni.bdf", 		"t0_17b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-18-uni.bdf", 		"t0_18", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-18b-uni.bdf", 		"t0_18b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-22-uni.bdf", 		"t0_22", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "t0-22b-uni.bdf", 		"t0_22b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-11-uni.bdf", 		"t0_11", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-11-uni.bdf", 		"t0_11", 			19, 0, BM_T, FM_C, MM_C, "$0020-$FFF0", "_all" },
+  { 0,  0, "t0-11b-uni.bdf", 		"t0_11b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-12-uni.bdf", 		"t0_12", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-12b-uni.bdf", 		"t0_12b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-13-uni.bdf", 		"t0_13", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-13b-uni.bdf", 		"t0_13b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-14-uni.bdf", 		"t0_14", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-14b-uni.bdf", 		"t0_14b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-15-uni.bdf", 		"t0_15", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-15b-uni.bdf", 		"t0_15b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-16-uni.bdf", 		"t0_16", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-16b-uni.bdf", 		"t0_16b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-17-uni.bdf", 		"t0_17", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-17b-uni.bdf", 		"t0_17b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-18-uni.bdf", 		"t0_18", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-18b-uni.bdf", 		"t0_18b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-22-uni.bdf", 		"t0_22", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-22b-uni.bdf", 		"t0_22b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
   
-  { 0, "open_iconic_all_1x.bdf", "open_iconic_all_1x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
-  { 0, "open_iconic_app_1x.bdf", "open_iconic_app_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_arrow_1x.bdf", "open_iconic_arrow_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_check_1x.bdf", "open_iconic_check_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_email_1x.bdf", "open_iconic_email_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_embedded_1x.bdf", "open_iconic_embedded_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_gui_1x.bdf", "open_iconic_gui_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_human_1x.bdf", "open_iconic_human_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_mime_1x.bdf", "open_iconic_mime_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_other_1x.bdf", "open_iconic_other_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_play_1x.bdf", "open_iconic_play_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_text_1x.bdf", "open_iconic_text_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_thing_1x.bdf", "open_iconic_thing_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_weather_1x.bdf", "open_iconic_weather_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_www_1x.bdf", "open_iconic_www_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_all_1x.bdf", "open_iconic_all_1x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0,  0, "open_iconic_app_1x.bdf", "open_iconic_app_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_arrow_1x.bdf", "open_iconic_arrow_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_check_1x.bdf", "open_iconic_check_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_email_1x.bdf", "open_iconic_email_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_embedded_1x.bdf", "open_iconic_embedded_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_gui_1x.bdf", "open_iconic_gui_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_human_1x.bdf", "open_iconic_human_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_mime_1x.bdf", "open_iconic_mime_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_other_1x.bdf", "open_iconic_other_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_play_1x.bdf", "open_iconic_play_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_text_1x.bdf", "open_iconic_text_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_thing_1x.bdf", "open_iconic_thing_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_weather_1x.bdf", "open_iconic_weather_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_www_1x.bdf", "open_iconic_www_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
 
   
-  { 0, "open_iconic_all_2x.bdf", "open_iconic_all_2x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
-  { 0, "open_iconic_app_2x.bdf", "open_iconic_app_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_arrow_2x.bdf", "open_iconic_arrow_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_check_2x.bdf", "open_iconic_check_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_email_2x.bdf", "open_iconic_email_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_embedded_2x.bdf", "open_iconic_embedded_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_gui_2x.bdf", "open_iconic_gui_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_human_2x.bdf", "open_iconic_human_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_mime_2x.bdf", "open_iconic_mime_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_other_2x.bdf", "open_iconic_other_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_play_2x.bdf", "open_iconic_play_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_text_2x.bdf", "open_iconic_text_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_thing_2x.bdf", "open_iconic_thing_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_weather_2x.bdf", "open_iconic_weather_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_www_2x.bdf", "open_iconic_www_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },  
+  { 0,  0, "open_iconic_all_2x.bdf", "open_iconic_all_2x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0,  0, "open_iconic_app_2x.bdf", "open_iconic_app_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_arrow_2x.bdf", "open_iconic_arrow_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_check_2x.bdf", "open_iconic_check_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_email_2x.bdf", "open_iconic_email_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_embedded_2x.bdf", "open_iconic_embedded_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_gui_2x.bdf", "open_iconic_gui_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_human_2x.bdf", "open_iconic_human_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_mime_2x.bdf", "open_iconic_mime_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_other_2x.bdf", "open_iconic_other_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_play_2x.bdf", "open_iconic_play_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_text_2x.bdf", "open_iconic_text_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_thing_2x.bdf", "open_iconic_thing_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_weather_2x.bdf", "open_iconic_weather_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_www_2x.bdf", "open_iconic_www_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },  
   
-  { 0, "open_iconic_all_4x.bdf", "open_iconic_all_4x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
-  { 0, "open_iconic_app_4x.bdf", "open_iconic_app_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_arrow_4x.bdf", "open_iconic_arrow_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_check_4x.bdf", "open_iconic_check_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_email_4x.bdf", "open_iconic_email_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_embedded_4x.bdf", "open_iconic_embedded_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_gui_4x.bdf", "open_iconic_gui_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_human_4x.bdf", "open_iconic_human_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_mime_4x.bdf", "open_iconic_mime_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_other_4x.bdf", "open_iconic_other_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_play_4x.bdf", "open_iconic_play_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_text_4x.bdf", "open_iconic_text_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_thing_4x.bdf", "open_iconic_thing_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_weather_4x.bdf", "open_iconic_weather_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_www_4x.bdf", "open_iconic_www_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-
-
-  { 0, "open_iconic_all_6x.bdf", "open_iconic_all_6x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
-  { 0, "open_iconic_app_6x.bdf", "open_iconic_app_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_arrow_6x.bdf", "open_iconic_arrow_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_check_6x.bdf", "open_iconic_check_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_email_6x.bdf", "open_iconic_email_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_embedded_6x.bdf", "open_iconic_embedded_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_gui_6x.bdf", "open_iconic_gui_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_human_6x.bdf", "open_iconic_human_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_mime_6x.bdf", "open_iconic_mime_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_other_6x.bdf", "open_iconic_other_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_play_6x.bdf", "open_iconic_play_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_text_6x.bdf", "open_iconic_text_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_thing_6x.bdf", "open_iconic_thing_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_weather_6x.bdf", "open_iconic_weather_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_www_6x.bdf", "open_iconic_www_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-
-  { 0, "open_iconic_all_8x.bdf", "open_iconic_all_8x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
-  { 0, "open_iconic_app_8x.bdf", "open_iconic_app_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_arrow_8x.bdf", "open_iconic_arrow_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_check_8x.bdf", "open_iconic_check_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_email_8x.bdf", "open_iconic_email_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_embedded_8x.bdf", "open_iconic_embedded_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_gui_8x.bdf", "open_iconic_gui_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_human_8x.bdf", "open_iconic_human_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_mime_8x.bdf", "open_iconic_mime_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_other_8x.bdf", "open_iconic_other_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_play_8x.bdf", "open_iconic_play_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_text_8x.bdf", "open_iconic_text_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_thing_8x.bdf", "open_iconic_thing_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_weather_8x.bdf", "open_iconic_weather_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
-  { 0, "open_iconic_www_8x.bdf", "open_iconic_www_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { "-th 2 -tv 2",  0, "open_iconic_arrow_2x.bdf",		"open_iconic_arrow_2x2",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 2 -tv 2",  0, "open_iconic_check_2x.bdf",		"open_iconic_check_2x2",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 2 -tv 2",  0, "open_iconic_embedded_2x.bdf",	"open_iconic_embedded_2x2",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 2 -tv 2",  0, "open_iconic_play_2x.bdf",		"open_iconic_play_2x2",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 2 -tv 2",  0, "open_iconic_thing_2x.bdf",		"open_iconic_thing_2x2",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 2 -tv 2",  0, "open_iconic_weather_2x.bdf",		"open_iconic_weather_2x2",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
   
   
-  { 0, "profont10.bdf", 		"profont10", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "profont11.bdf", 		"profont11", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "profont12.bdf", 		"profont12", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "profont15.bdf", 		"profont15", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "profont17.bdf", 		"profont17", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "open_iconic_all_4x.bdf", "open_iconic_all_4x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0,  0, "open_iconic_app_4x.bdf", "open_iconic_app_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_arrow_4x.bdf", "open_iconic_arrow_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_check_4x.bdf", "open_iconic_check_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_email_4x.bdf", "open_iconic_email_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_embedded_4x.bdf", "open_iconic_embedded_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_gui_4x.bdf", "open_iconic_gui_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_human_4x.bdf", "open_iconic_human_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_mime_4x.bdf", "open_iconic_mime_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_other_4x.bdf", "open_iconic_other_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_play_4x.bdf", "open_iconic_play_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_text_4x.bdf", "open_iconic_text_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_thing_4x.bdf", "open_iconic_thing_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_weather_4x.bdf", "open_iconic_weather_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_www_4x.bdf", "open_iconic_www_4x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+
+  { "-th 4 -tv 4",  0, "open_iconic_arrow_4x.bdf",		"open_iconic_arrow_4x4",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 4 -tv 4",  0, "open_iconic_check_4x.bdf",		"open_iconic_check_4x4",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 4 -tv 4",  0, "open_iconic_embedded_4x.bdf",	"open_iconic_embedded_4x4",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 4 -tv 4",  0, "open_iconic_play_4x.bdf",		"open_iconic_play_4x4",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 4 -tv 4",  0, "open_iconic_thing_4x.bdf",		"open_iconic_thing_4x4",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 4 -tv 4",  0, "open_iconic_weather_4x.bdf",		"open_iconic_weather_4x4",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+
+
+  { 0,  0, "open_iconic_all_6x.bdf", "open_iconic_all_6x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0,  0, "open_iconic_app_6x.bdf", "open_iconic_app_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_arrow_6x.bdf", "open_iconic_arrow_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_check_6x.bdf", "open_iconic_check_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_email_6x.bdf", "open_iconic_email_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_embedded_6x.bdf", "open_iconic_embedded_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_gui_6x.bdf", "open_iconic_gui_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_human_6x.bdf", "open_iconic_human_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_mime_6x.bdf", "open_iconic_mime_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_other_6x.bdf", "open_iconic_other_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_play_6x.bdf", "open_iconic_play_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_text_6x.bdf", "open_iconic_text_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_thing_6x.bdf", "open_iconic_thing_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_weather_6x.bdf", "open_iconic_weather_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_www_6x.bdf", "open_iconic_www_6x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+
+  { 0,  0, "open_iconic_all_8x.bdf", "open_iconic_all_8x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
+  { 0,  0, "open_iconic_app_8x.bdf", "open_iconic_app_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_arrow_8x.bdf", "open_iconic_arrow_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_check_8x.bdf", "open_iconic_check_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_email_8x.bdf", "open_iconic_email_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_embedded_8x.bdf", "open_iconic_embedded_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_gui_8x.bdf", "open_iconic_gui_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_human_8x.bdf", "open_iconic_human_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_mime_8x.bdf", "open_iconic_mime_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_other_8x.bdf", "open_iconic_other_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_play_8x.bdf", "open_iconic_play_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_text_8x.bdf", "open_iconic_text_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_thing_8x.bdf", "open_iconic_thing_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_weather_8x.bdf", "open_iconic_weather_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+  { 0,  0, "open_iconic_www_8x.bdf", "open_iconic_www_8x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
+
+  { "-th 8 -tv 8",  0, "open_iconic_arrow_8x.bdf",		"open_iconic_arrow_8x8",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 8 -tv 8",  0, "open_iconic_check_8x.bdf",		"open_iconic_check_8x8",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 8 -tv 8",  0, "open_iconic_embedded_8x.bdf",	"open_iconic_embedded_8x8",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 8 -tv 8",  0, "open_iconic_play_8x.bdf",		"open_iconic_play_8x8",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 8 -tv 8",  0, "open_iconic_thing_8x.bdf",		"open_iconic_thing_8x8",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 8 -tv 8",  0, "open_iconic_weather_8x.bdf",		"open_iconic_weather_8x8",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+
+  
+  
+  { 0,  0, "profont10.bdf", 		"profont10", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "profont11.bdf", 		"profont11", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "profont12.bdf", 		"profont12", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "profont15.bdf", 		"profont15", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "profont17.bdf", 		"profont17", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "profont22.bdf", 		"profont22", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "profont29.bdf", 		"profont29", 		4, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  
+  { "-y 0 -th 2 -tv 3",  0, "profont29.bdf",	"profont29_2x3",	4, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
 
   
   /* Persian */
-    { "-a -r 72 -p 10", "Samim.ttf",	"samim_10",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-a -r 72 -p 12", "Samim.ttf",	"samim_12",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-a -r 72 -p 14", "Samim.ttf",	"samim_14",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-a -r 72 -p 16", "Samim.ttf",	"samim_16",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 10", "Samim.ttf",	"samim_10",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 12", "Samim.ttf",	"samim_12",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 14", "Samim.ttf",	"samim_14",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 16", "Samim.ttf",	"samim_16",						23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
 
-    { "-a -r 72 -p 10", "Samim-FD.ttf",	"samim_fd_10",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-a -r 72 -p 12", "Samim-FD.ttf",	"samim_fd_12",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-a -r 72 -p 14", "Samim-FD.ttf",	"samim_fd_14",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-a -r 72 -p 16", "Samim-FD.ttf",	"samim_fd_16",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 10", "Samim-FD.ttf",	"samim_fd_10",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 12", "Samim-FD.ttf",	"samim_fd_12",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 14", "Samim-FD.ttf",	"samim_fd_14",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-a -r 72 -p 16", "Samim-FD.ttf",	"samim_fd_16",				23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
 
-    { "-r 72 -p 10", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans10",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 12", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans12",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 14", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans14",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 16", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans16",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 10", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans10",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 12", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans12",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 14", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans14",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 16", "GanjNamehSans-Regular.ttf",	"ganj_nameh_sans16",	23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
 
-    { "-r 72 -p 8", "IranianSansRegular.ttf",	"iranian_sans_8",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 10", "IranianSansRegular.ttf",	"iranian_sans_10",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 12", "IranianSansRegular.ttf",	"iranian_sans_12",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 14", "IranianSansRegular.ttf",	"iranian_sans_14",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
-    { "-r 72 -p 16", "IranianSansRegular.ttf",	"iranian_sans_16",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 8", "IranianSansRegular.ttf",	"iranian_sans_8",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 10", "IranianSansRegular.ttf",	"iranian_sans_10",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 12", "IranianSansRegular.ttf",	"iranian_sans_12",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 14", "IranianSansRegular.ttf",	"iranian_sans_14",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
+    { 0,  "-r 72 -p 16", "IranianSansRegular.ttf",	"iranian_sans_16",			23, 0, BM_T, FM_C, MM_C, "32-65500", "_all" },
 
     /* NBP */
-  { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T|BM_H, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "RENT_0.ttf",	"roentgen_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "RENT_0.ttf",	"roentgen_nbp",			18, 0, BM_T|BM_H, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "CALIBRATE1.ttf",	"calibration_gothic_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "CALIBRATE1.ttf",	"calibration_gothic_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "smart_patrol_nbp.ttf",	"smart_patrol_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "prospero_bold_nbp.ttf", "prospero_bold_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "prospero_nbp.ttf",	"prospero_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "BALRG_0.ttf",	"balthasar_regular_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 32", "BALTT_0.ttf",	"balthasar_titling_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "synchronizer_nbp.ttf",	"synchronizer_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "mercutio_basic.ttf", "mercutio_basic_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "mercutio_basic.ttf", "mercutio_basic_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "mercutio_sc.ttf", "mercutio_sc_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "mercutio_sc.ttf", "mercutio_sc_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "MIRANDA.ttf",	"miranda_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "nine0.ttf", "nine_by_five_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "nine0.ttf", "nine_by_five_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "ROSEN_0.ttf", "rosencrantz_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "ROSEN_0.ttf", "rosencrantz_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { "-r 72 -p 16", "astra0.ttf",	"astragal_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "MOZART_0.ttf",	"mozart_nbp",			18, 0, BM_T|BM_H, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "glasstown_nbp.ttf",	"glasstown_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "RENT_0.ttf",	"roentgen_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "RENT_0.ttf",	"roentgen_nbp",			18, 0, BM_T|BM_H, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "CALIBRATE1.ttf",	"calibration_gothic_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "CALIBRATE1.ttf",	"calibration_gothic_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "smart_patrol_nbp.ttf",	"smart_patrol_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "prospero_bold_nbp.ttf", "prospero_bold_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "prospero_nbp.ttf",	"prospero_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "BALRG_0.ttf",	"balthasar_regular_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 32", "BALTT_0.ttf",	"balthasar_titling_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "synchronizer_nbp.ttf",	"synchronizer_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "mercutio_basic.ttf", "mercutio_basic_nbp",	18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "mercutio_basic.ttf", "mercutio_basic_nbp",	18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "mercutio_sc.ttf", "mercutio_sc_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "mercutio_sc.ttf", "mercutio_sc_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "MIRANDA.ttf",	"miranda_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "nine0.ttf", "nine_by_five_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "nine0.ttf", "nine_by_five_nbp",			18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "ROSEN_0.ttf", "rosencrantz_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "ROSEN_0.ttf", "rosencrantz_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "astra0.ttf",	"astragal_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+
+  { "-y -1 -th 1 -tv 2",  "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp_1x2",	18, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   
 
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
-  { 0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
-  { 0, "etl16-thai.bdf", 		"etl16thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
-  { 0, "etl24-thai.bdf", 		"etl24thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
+  { 0,  0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
+  { 0,  0, "etl16-thai.bdf", 		"etl16thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
+  { 0,  0, "etl24-thai.bdf", 		"etl24thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
 
   
   
   /* crox fonts are CP1251 encoded */
-  { 0, "win_crox1cb.bdf",		"crox1cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox1c.bdf",		"crox1c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox1hb.bdf",		"crox1hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox1h.bdf",		"crox1h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox1tb.bdf",		"crox1tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox1t.bdf",		"crox1t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox2cb.bdf",		"crox2cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox2c.bdf",		"crox2c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox2hb.bdf",		"crox2hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox2h.bdf",		"crox2h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox2tb.bdf",		"crox2tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox2t.bdf",		"crox2t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox3cb.bdf",		"crox3cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox3c.bdf",		"crox3c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox3hb.bdf",		"crox3hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox3h.bdf",		"crox3h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox3tb.bdf",		"crox3tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox3t.bdf",		"crox3t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox4hb.bdf",		"crox4hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox4h.bdf",		"crox4h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox4tb.bdf",		"crox4tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox4t.bdf",		"crox4t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox5hb.bdf",		"crox5hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox5h.bdf",		"crox5h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox5tb.bdf",		"crox5tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "win_crox5t.bdf",		"crox5t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox1cb.bdf",		"crox1cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox1c.bdf",		"crox1c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox1hb.bdf",		"crox1hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox1h.bdf",		"crox1h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox1tb.bdf",		"crox1tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox1t.bdf",		"crox1t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox2cb.bdf",		"crox2cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox2c.bdf",		"crox2c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox2hb.bdf",		"crox2hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox2h.bdf",		"crox2h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox2tb.bdf",		"crox2tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox2t.bdf",		"crox2t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox3cb.bdf",		"crox3cb",		15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox3c.bdf",		"crox3c",			15,0,BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox3hb.bdf",		"crox3hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox3h.bdf",		"crox3h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox3tb.bdf",		"crox3tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox3t.bdf",		"crox3t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox4hb.bdf",		"crox4hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox4h.bdf",		"crox4h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox4tb.bdf",		"crox4tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox4t.bdf",		"crox4t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox5hb.bdf",		"crox5hb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox5h.bdf",		"crox5h",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox5tb.bdf",		"crox5tb",		15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "win_crox5t.bdf",		"crox5t",			15,0,BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 
   
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$f00-$fff", "_tibetan" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
-  { 0, "cu12.bdf", 			"cu12", 			3, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T|BM_H, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$f00-$fff", "_tibetan" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
+  { 0,  0, "cu12.bdf", 			"cu12", 			3, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
   
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-701", "_extended" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$980-$9ff", "_bengali" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$f00-$fff", "_tibetan" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$750-$77f,$fb50-$fdff,$fe70-$feff", "_urdu" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-127,$104-$107,$118-$119,$141-$144,$15a-$15b,$179-$17c,$d3,$f3", "_polish" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$900-$97f,$1cd0-$1cff,$a8e0-$a8ff", "_devanagari" },   /* Hindi, issue 584 */
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-701", "_extended" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$980-$9ff", "_bengali" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$f00-$fff", "_tibetan" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$750-$77f,$fb50-$fdff,$fe70-$feff", "_urdu" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-127,$104-$107,$118-$119,$141-$144,$15a-$15b,$179-$17c,$d3,$f3", "_polish" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$900-$97f,$1cd0-$1cff,$a8e0-$a8ff", "_devanagari" },   /* Hindi, issue 584 */
   
   
-  { 0, "unifont.bdf", 		"unifont", 		6, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
 
 
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
 
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
 
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
   
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "vietnamese1.map", "_vietnamese1" },
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "vietnamese2.map", "_vietnamese2" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "vietnamese1.map", "_vietnamese1" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "vietnamese2.map", "_vietnamese2" },
   
-  { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
-  { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
-  { 0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
+  { 0,  0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
+  { 0,  0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
+  { 0,  0, "gb16st.bdf", 		"gb16st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
 
-  { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
-  { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
-  { 0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
+  { 0,  0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese1.map", "_1" },
+  { 0,  0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese2.map", "_2" },
+  { 0,  0, "gb24st.bdf", 		"gb24st", 		13, 0, BM_T, FM_C, MM_M, "chinese3.map", "_3" },
 
-  { 0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
-  { 0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
-  { 0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
-  { 0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
-  { 0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
-  { 0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
+  { 0,  0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0,  0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0,  0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
+  { 0,  0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
+  { 0,  0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
+  { 0,  0, "wenquanyi_9pt.bdf", 	"wqy12", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
-  { 0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
-  { 0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
-  { 0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
-  { 0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
-  { 0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
-  { 0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
+  { 0,  0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0,  0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0,  0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
+  { 0,  0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
+  { 0,  0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
+  { 0,  0, "wenquanyi_10pt.bdf", 	"wqy13", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
-  { 0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
-  { 0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
-  { 0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
-  { 0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
-  { 0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
-  { 0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
+  { 0,  0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0,  0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0,  0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
+  { 0,  0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
+  { 0,  0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
+  { 0,  0, "wenquanyi_13px.bdf", 	"wqy14", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
-  { 0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
-  { 0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
-  { 0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
-  { 0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
-  { 0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
-  { 0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
+  { 0,  0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0,  0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0,  0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
+  { 0,  0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
+  { 0,  0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
+  { 0,  0, "wenquanyi_11pt.bdf", 	"wqy15", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
   
-  { 0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
-  { 0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
-  { 0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
-  { 0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
-  { 0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
-  { 0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
+  { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
+  { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
+  { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese3" },
+  { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312.map", "_gb2312" },
+  { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
+  { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
 //#endif   /* TMP */
-  { 0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 //#ifdef TMP
-  { 0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
-  { 0, "f10.bdf", 			"f10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "f10.bdf", 			"f10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "f10_b.bdf", 			"f10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "f10_b.bdf", 			"f10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "f10.bdf", 			"f10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "f10.bdf", 			"f10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "f10_b.bdf", 			"f10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "f10_b.bdf", 			"f10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
-  { 0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
-  { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b12.bdf", 			"b12", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b12_b.bdf", 			"b12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
 
     /* does not work, error in bdf 
-  { 0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
-  { 0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b14.bdf", 			"b14", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b14_b.bdf", 			"b14_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
   */
 
-  { 0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "f12.bdf", 			"f12", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "f12_b.bdf", 			"f12_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
-  { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
-  { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b16.bdf", 			"b16", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
+  { 0,  0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "b16_b.bdf", 			"b16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese3.map", "_japanese3" },
 
-  { 0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-  { 0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
-  { 0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "f16.bdf", 			"f16", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
+  { 0,  0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
+  { 0,  0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
   
   
@@ -638,90 +672,99 @@ Greek Extended	1F00–1FFF
     $274f-$2752 3d box
     $1f600-$1f64f emoticons
   */
-  { 0, "unifont.bdf", 		"unifont", 		6, 0, BM_T|BM_H, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T|BM_H, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   
 
-  { 0, "ArtosSans-8.bdf",			"artossans8",			7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
-  { 0, "ArtosSerif-8.bdf",			"artosserif8",			7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
-  { 0, "Chroma48Medium-8.bdf",	"chroma48medium8",	7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "ArtosSans-8.bdf",			"artossans8",			7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "ArtosSerif-8.bdf",			"artosserif8",			7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "Chroma48Medium-8.bdf",	"chroma48medium8",	7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
   /* no lowercase */
-  { 0, "SaikyoSansBold-8.bdf",		"saikyosansbold8",		7, 0, BM_8, FM_C|FM_8, MM_U|MM_N, "" , ""},
-  { 0, "TorusSansBold-8.bdf",		"torussansbold8",		7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
-  { 0, "VictoriaBold-8.bdf",		"victoriabold8",		7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
-  { 0, "VictoriaMedium-8.bdf",		"victoriamedium8",		7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "SaikyoSansBold-8.bdf",		"saikyosansbold8",		7, 0, BM_8, FM_C|FM_8, MM_U|MM_N, "" , ""},
+  { 0,  0, "TorusSansBold-8.bdf",		"torussansbold8",		7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "VictoriaBold-8.bdf",		"victoriabold8",		7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
+  { 0,  0, "VictoriaMedium-8.bdf",		"victoriamedium8",		7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
   
-  { 0, "courB08.bdf", 		"courB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courB10.bdf", 		"courB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courB12.bdf", 		"courB12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courB14.bdf", 		"courB14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courB18.bdf", 		"courB18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courB24.bdf", 		"courB24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courR08.bdf", 		"courR08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courR10.bdf", 		"courR10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courR12.bdf", 		"courR12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courR14.bdf", 		"courR14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courR18.bdf", 		"courR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "courR24.bdf", 		"courR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courB08.bdf", 		"courB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courB10.bdf", 		"courB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courB12.bdf", 		"courB12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courB14.bdf", 		"courB14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courB18.bdf", 		"courB18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courB24.bdf", 		"courB24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courR08.bdf", 		"courR08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courR10.bdf", 		"courR10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courR12.bdf", 		"courR12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courR14.bdf", 		"courR14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courR18.bdf", 		"courR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "courR24.bdf", 		"courR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  
+  { "-y -1 -th 2 -tv 3",  0, "courB18.bdf",	"courB18_2x3",	5, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -1 -th 2 -tv 3",  0, "courR18.bdf",	"courR18_2x3",	5, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -2 -th 3 -tv 4",  0, "courB24.bdf",	"courB24_3x4",	5, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -2 -th 3 -tv 4",  0, "courR24.bdf",	"courR24_3x4",	5, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
 
-  { 0, "helvB08.bdf", 		"helvB08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB10.bdf", 		"helvB10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB12.bdf", 		"helvB12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB14.bdf", 		"helvB14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB18.bdf", 		"helvB18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvB24.bdf", 		"helvB24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR08.bdf", 		"helvR08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR10.bdf", 		"helvR10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR12.bdf", 		"helvR12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR14.bdf", 		"helvR14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR18.bdf", 		"helvR18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "helvR24.bdf", 		"helvR24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
-  { 0, "ncenB08.bdf", 		"ncenB08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB10.bdf", 		"ncenB10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB12.bdf", 		"ncenB12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB14.bdf", 		"ncenB14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB18.bdf", 		"ncenB18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenB24.bdf", 		"ncenB24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR08.bdf", 		"ncenR08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR10.bdf", 		"ncenR10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR12.bdf", 		"ncenR12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR14.bdf", 		"ncenR14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR18.bdf", 		"ncenR18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0, "ncenR24.bdf", 		"ncenR24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvB08.bdf", 		"helvB08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvB10.bdf", 		"helvB10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvB12.bdf", 		"helvB12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvB14.bdf", 		"helvB14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvB18.bdf", 		"helvB18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvB24.bdf", 		"helvB24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvR08.bdf", 		"helvR08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvR10.bdf", 		"helvR10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvR12.bdf", 		"helvR12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvR14.bdf", 		"helvR14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvR18.bdf", 		"helvR18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "helvR24.bdf", 		"helvR24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
-  { 0, "timB08.bdf", 		"timB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timB10.bdf", 		"timB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timB12.bdf", 		"timB12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timB14.bdf", 		"timB14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timB18.bdf", 		"timB18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timB24.bdf", 		"timB24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timR08.bdf", 		"timR08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timR10.bdf", 		"timR10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timR12.bdf", 		"timR12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timR14.bdf", 		"timR14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timR18.bdf", 		"timR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { 0, "timR24.bdf", 		"timR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenB08.bdf", 		"ncenB08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenB10.bdf", 		"ncenB10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenB12.bdf", 		"ncenB12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenB14.bdf", 		"ncenB14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenB18.bdf", 		"ncenB18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenB24.bdf", 		"ncenB24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenR08.bdf", 		"ncenR08", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenR10.bdf", 		"ncenR10", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenR12.bdf", 		"ncenR12", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenR14.bdf", 		"ncenR14", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenR18.bdf", 		"ncenR18", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "ncenR24.bdf", 		"ncenR24", 		5, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+
+  { 0,  0, "timB08.bdf", 		"timB08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timB10.bdf", 		"timB10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timB12.bdf", 		"timB12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timB14.bdf", 		"timB14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timB18.bdf", 		"timB18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timB24.bdf", 		"timB24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timR08.bdf", 		"timR08", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timR10.bdf", 		"timR10", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timR12.bdf", 		"timR12", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timR14.bdf", 		"timR14", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timR18.bdf", 		"timR18", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "timR24.bdf", 		"timR24", 		5, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   
   /* Adobe symb skipped... */
 
 
   
-  { "-r 72 -p 8", "baby.ttf",			"baby",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "blipfest_07.ttf",		"blipfest_07",		2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "chikita.ttf",			"chikita",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "lucasfont_alternate.ttf",	"lucasfont_alternate",2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "p01type.ttf",			"p01type",		2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "pixelle_micro.ttf",		"pixelle_micro",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "robot_de_niro.ttf",	"robot_de_niro",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 8", "trixel_square.ttf",		"trixel_square",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-r 72 -p 8", "baby.ttf",			"baby",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "blipfest_07.ttf",		"blipfest_07",		2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "chikita.ttf",			"chikita",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "lucasfont_alternate.ttf",	"lucasfont_alternate",2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "p01type.ttf",			"p01type",		2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "pixelle_micro.ttf",		"pixelle_micro",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "robot_de_niro.ttf",	"robot_de_niro",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 8", "trixel_square.ttf",		"trixel_square",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "haxrcorp4089.ttf",	"haxrcorp4089",	2, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
   
-  { "-r 72 -p 24", "bubble.ttf",			"bubble",			2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
-  { "-r 72 -p 36", "cardimon-pixel.ttf",	"cardimon_pixel",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 32", "maniac.ttf",			"maniac",			2, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 32", "lucasarts-scumm-subtitle-roman-outline.ttf", "lucasarts_scumm_subtitle_o",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-r 72 -p 16", "lucasarts-scumm-subtitle-roman.ttf", "lucasarts_scumm_subtitle_r",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 24", "bubble.ttf",			"bubble",			2, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 36", "cardimon-pixel.ttf",	"cardimon_pixel",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 32", "maniac.ttf",			"maniac",			2, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 32", "lucasarts-scumm-subtitle-roman-outline.ttf", "lucasarts_scumm_subtitle_o",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "lucasarts-scumm-subtitle-roman.ttf", "lucasarts_scumm_subtitle_r",	2, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+
+  { "-y 1 -th 2 -tv 2",  "-r 72 -p 32", "lucasarts-scumm-subtitle-roman-outline.ttf",	"lucasarts_scumm_subtitle_o_2x2",	2, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y 0 -th 2 -tv 2",  "-r 72 -p 16", "lucasarts-scumm-subtitle-roman.ttf",	"lucasarts_scumm_subtitle_r_2x2",	2, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   
 
 /*
@@ -738,25 +781,25 @@ Greek Extended	1F00–1FFF
   ./do_fontsize_a_v2.sh 68 ../ttf/fu/FreeUniversal-Bold.ttf fub49
 */
   
-  { "-a -r 72 -p 16", "FreeUniversal-Bold.ttf",	"fub11",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 20", "FreeUniversal-Bold.ttf",	"fub14",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 23", "FreeUniversal-Bold.ttf",	"fub17",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 27", "FreeUniversal-Bold.ttf",	"fub20",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 34", "FreeUniversal-Bold.ttf",	"fub25",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 40", "FreeUniversal-Bold.ttf",	"fub30",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 49", "FreeUniversal-Bold.ttf",	"fub35",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf",	"fub42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf",	"fub49",			8, 0, BM_T, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 16", "FreeUniversal-Bold.ttf",	"fub11",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 20", "FreeUniversal-Bold.ttf",	"fub14",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 23", "FreeUniversal-Bold.ttf",	"fub17",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 27", "FreeUniversal-Bold.ttf",	"fub20",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 34", "FreeUniversal-Bold.ttf",	"fub25",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 40", "FreeUniversal-Bold.ttf",	"fub30",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 49", "FreeUniversal-Bold.ttf",	"fub35",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 58", "FreeUniversal-Bold.ttf",	"fub42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 68", "FreeUniversal-Bold.ttf",	"fub49",			8, 0, BM_T, FM_C, MM_N, "", "" },
 
-  { "-a -r 72 -p 16", "FreeUniversal-Bold.ttf", 	"fub11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 20", "FreeUniversal-Bold.ttf", 	"fub14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 23", "FreeUniversal-Bold.ttf", 	"fub17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 27", "FreeUniversal-Bold.ttf", 	"fub20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 34", "FreeUniversal-Bold.ttf", 	"fub25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 40", "FreeUniversal-Bold.ttf", 	"fub30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 49", "FreeUniversal-Bold.ttf", 	"fub35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
-  { "-a -r 72 -p 68", "FreeUniversal-Bold.ttf", 	"fub49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
+  { 0,  "-a -r 72 -p 16", "FreeUniversal-Bold.ttf", 	"fub11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 20", "FreeUniversal-Bold.ttf", 	"fub14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 23", "FreeUniversal-Bold.ttf", 	"fub17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 27", "FreeUniversal-Bold.ttf", 	"fub20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 34", "FreeUniversal-Bold.ttf", 	"fub25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 40", "FreeUniversal-Bold.ttf", 	"fub30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 49", "FreeUniversal-Bold.ttf", 	"fub35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 58", "FreeUniversal-Bold.ttf", 	"fub42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
+  { 0,  "-a -r 72 -p 68", "FreeUniversal-Bold.ttf", 	"fub49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
 
   
 /*  
@@ -773,25 +816,25 @@ Greek Extended	1F00–1FFF
 ./do_fontsize_a_v2.sh 68 ../ttf/fu/FreeUniversal-Regular.ttf fur49
 */
 
-  { "-a -r 72 -p 15", "FreeUniversal-Regular.ttf",	"fur11",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 19", "FreeUniversal-Regular.ttf",	"fur14",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 23", "FreeUniversal-Regular.ttf",	"fur17",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 28", "FreeUniversal-Regular.ttf",	"fur20",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 34", "FreeUniversal-Regular.ttf",	"fur25",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 40", "FreeUniversal-Regular.ttf",	"fur30",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 48", "FreeUniversal-Regular.ttf",	"fur35",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 58", "FreeUniversal-Regular.ttf",	"fur42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 68", "FreeUniversal-Regular.ttf",	"fur49",			8, 0, BM_T, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 15", "FreeUniversal-Regular.ttf",	"fur11",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 19", "FreeUniversal-Regular.ttf",	"fur14",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 23", "FreeUniversal-Regular.ttf",	"fur17",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 28", "FreeUniversal-Regular.ttf",	"fur20",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 34", "FreeUniversal-Regular.ttf",	"fur25",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 40", "FreeUniversal-Regular.ttf",	"fur30",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 48", "FreeUniversal-Regular.ttf",	"fur35",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 58", "FreeUniversal-Regular.ttf",	"fur42",			8, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 68", "FreeUniversal-Regular.ttf",	"fur49",			8, 0, BM_T, FM_C, MM_N, "", "" },
 
-  { "-a -r 72 -p 16", "FreeUniversal-Regular.ttf", 	"fur11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 19", "FreeUniversal-Regular.ttf", 	"fur14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 23", "FreeUniversal-Regular.ttf", 	"fur17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 28", "FreeUniversal-Regular.ttf", 	"fur20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 34", "FreeUniversal-Regular.ttf", 	"fur25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 40", "FreeUniversal-Regular.ttf", 	"fur30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 48", "FreeUniversal-Regular.ttf", 	"fur35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
-  { "-a -r 72 -p 58", "FreeUniversal-Regular.ttf", 	"fur42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" }, // per mill sign does not fit
-  { "-a -r 72 -p 68", "FreeUniversal-Regular.ttf", 	"fur49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
+  { 0,  "-a -r 72 -p 16", "FreeUniversal-Regular.ttf", 	"fur11", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 19", "FreeUniversal-Regular.ttf", 	"fur14", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 23", "FreeUniversal-Regular.ttf", 	"fur17", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 28", "FreeUniversal-Regular.ttf", 	"fur20", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 34", "FreeUniversal-Regular.ttf", 	"fur25", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 40", "FreeUniversal-Regular.ttf", 	"fur30", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 48", "FreeUniversal-Regular.ttf", 	"fur35", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2030-$3000", "_symbol" },
+  { 0,  "-a -r 72 -p 58", "FreeUniversal-Regular.ttf", 	"fur42", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" }, // per mill sign does not fit
+  { 0,  "-a -r 72 -p 68", "FreeUniversal-Regular.ttf", 	"fur49", 			8, 0, BM_T, FM_C, MM_C, "32,35-57,$300-$3ff,$2031-$3000", "_symbol" },  // per mill sign does not fit
   
 /*
 ./do_fontsize_a_v2.sh 25 ../ttf/os/OldStandard-Bold.ttf osb18
@@ -803,20 +846,20 @@ Greek Extended	1F00–1FFF
 */
 /*
   bugfix 14 Jul 2017, this is the old (and wrong) code:
-  { "-a -r 72 -p 25", "OldStandard-Regular.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 28", "OldStandard-Regular.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 34", "OldStandard-Regular.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 38", "OldStandard-Regular.ttf",	"osb29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 48", "OldStandard-Regular.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 55", "OldStandard-Regular.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 25", "OldStandard-Regular.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 28", "OldStandard-Regular.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 34", "OldStandard-Regular.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 38", "OldStandard-Regular.ttf",	"osb29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 48", "OldStandard-Regular.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 55", "OldStandard-Regular.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 */
   
-  { "-a -r 72 -p 25", "OldStandard-Bold.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 28", "OldStandard-Bold.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 34", "OldStandard-Bold.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 38", "OldStandard-Bold.ttf",	"osb29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 48", "OldStandard-Bold.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 55", "OldStandard-Bold.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 25", "OldStandard-Bold.ttf",	"osb18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 28", "OldStandard-Bold.ttf",	"osb21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 34", "OldStandard-Bold.ttf",	"osb26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 38", "OldStandard-Bold.ttf",	"osb29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 48", "OldStandard-Bold.ttf",	"osb35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 55", "OldStandard-Bold.ttf",	"osb41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 
 /*
 ./do_fontsize_a_v2.sh 26 ../ttf/os/OldStandard-Regular.ttf osr18
@@ -827,12 +870,12 @@ Greek Extended	1F00–1FFF
 ./do_fontsize_a_v2.sh 57 ../ttf/os/OldStandard-Regular.ttf osr41
 */
 
-  { "-a -r 72 -p 26", "OldStandard-Regular.ttf",	"osr18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 29", "OldStandard-Regular.ttf",	"osr21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 36", "OldStandard-Regular.ttf",	"osr26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 41", "OldStandard-Regular.ttf",	"osr29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 49", "OldStandard-Regular.ttf",	"osr35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 57", "OldStandard-Regular.ttf",	"osr41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 26", "OldStandard-Regular.ttf",	"osr18",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 29", "OldStandard-Regular.ttf",	"osr21",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 36", "OldStandard-Regular.ttf",	"osr26",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 41", "OldStandard-Regular.ttf",	"osr29",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 49", "OldStandard-Regular.ttf",	"osr35",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 57", "OldStandard-Regular.ttf",	"osr41",			9, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   
 /*
 
@@ -853,20 +896,25 @@ inconsolata
 ./do_fontsize_a_mono_v2.sh  78 ../ttf/in/inr.otf inr57
 ./do_fontsize_a_mono_v2.sh  82 ../ttf/in/inr.otf inr62
 */
-  { "-a -r 72 -p 22", "inr.otf",	"inr16",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 26", "inr.otf",	"inr19",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 30", "inr.otf",	"inr21",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 33", "inr.otf",	"inr24",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 36", "inr.otf",	"inr27",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 40", "inr.otf",	"inr30",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 44", "inr.otf",	"inr33",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 51", "inr.otf",	"inr38",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 57", "inr.otf",	"inr42",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 62", "inr.otf",	"inr46",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 67", "inr.otf",	"inr49",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 72", "inr.otf",	"inr53",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 78", "inr.otf",	"inr57",			11, 0, BM_M, FM_C, MM_N, "", "" },
-  { "-a -r 72 -p 82", "inr.otf",	"inr62",			11, 0, BM_M, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 22", "inr.otf",	"inr16",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 26", "inr.otf",	"inr19",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 30", "inr.otf",	"inr21",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 33", "inr.otf",	"inr24",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 36", "inr.otf",	"inr27",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 40", "inr.otf",	"inr30",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 44", "inr.otf",	"inr33",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 51", "inr.otf",	"inr38",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 57", "inr.otf",	"inr42",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 62", "inr.otf",	"inr46",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 67", "inr.otf",	"inr49",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 72", "inr.otf",	"inr53",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 78", "inr.otf",	"inr57",			11, 0, BM_M, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 82", "inr.otf",	"inr62",			11, 0, BM_M, FM_C, MM_N, "", "" },
+  
+  { "-y -1 -x 1 -th 2 -tv 4",  "-a -r 72 -p 30", "inr.otf",	"inr21_2x4",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -1 -x 2 -th 3 -tv 6",  "-a -r 72 -p 44", "inr.otf",	"inr33_3x6",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y 0 -x 3 -th 4 -tv 8",  "-a -r 72 -p 62", "inr.otf",		"inr46_4x8",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  
   
 /*
 
@@ -886,20 +934,25 @@ inconsolata
 ./do_fontsize_a_mono_v2.sh  84 ../ttf/in/inb.otf inb63	
 */
 
-  { "-a -r 72 -p 22", "inb.otf",	"inb16",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 25", "inb.otf",	"inb19",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 30", "inb.otf",	"inb21",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 33", "inb.otf",	"inb24",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 36", "inb.otf",	"inb27",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 40", "inb.otf",	"inb30",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 44", "inb.otf",	"inb33",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 51", "inb.otf",	"inb38",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 57", "inb.otf",	"inb42",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 62", "inb.otf",	"inb46",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 66", "inb.otf",	"inb49",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 71", "inb.otf",	"inb53",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 78", "inb.otf",	"inb57",			11, 0, BM_M, FM_C, MM_N, "", "" },
-  { "-a -r 72 -p 84", "inb.otf",	"inb63",			11, 0, BM_M, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 22", "inb.otf",	"inb16",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 25", "inb.otf",	"inb19",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 30", "inb.otf",	"inb21",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 33", "inb.otf",	"inb24",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 36", "inb.otf",	"inb27",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 40", "inb.otf",	"inb30",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 44", "inb.otf",	"inb33",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 51", "inb.otf",	"inb38",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 57", "inb.otf",	"inb42",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 62", "inb.otf",	"inb46",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 66", "inb.otf",	"inb49",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 71", "inb.otf",	"inb53",			11, 0, BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 78", "inb.otf",	"inb57",			11, 0, BM_M, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 84", "inb.otf",	"inb63",			11, 0, BM_M, FM_C, MM_N, "", "" },
+  
+  { "-y -1 -x 1 -th 2 -tv 4",  "-a -r 72 -p 30", "inb.otf",	"inb21_2x4",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -1 -x 2 -th 3 -tv 6",  "-a -r 72 -p 44", "inb.otf",	"inb33_3x6",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y 0 -x 3 -th 4 -tv 8",  "-a -r 72 -p 62", "inb.otf",	"inb46_4x8",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  
 
 /*
   Logisoso
@@ -924,28 +977,28 @@ inconsolata
 
 */
 
-  { "-a -r 72 -p 23", "Logisoso.ttf",	"logisoso16",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 27", "Logisoso.ttf",	"logisoso18",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 30", "Logisoso.ttf",	"logisoso20",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 32", "Logisoso.ttf",	"logisoso22",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 34", "Logisoso.ttf",	"logisoso24",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 38", "Logisoso.ttf",	"logisoso26",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 40", "Logisoso.ttf",	"logisoso28",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 43", "Logisoso.ttf",	"logisoso30",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 45", "Logisoso.ttf",	"logisoso32",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 49", "Logisoso.ttf",	"logisoso34",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 54", "Logisoso.ttf",	"logisoso38",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 60", "Logisoso.ttf",	"logisoso42",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 66", "Logisoso.ttf",	"logisoso46",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 71", "Logisoso.ttf",	"logisoso50",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 77", "Logisoso.ttf",	"logisoso54",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 83", "Logisoso.ttf",	"logisoso58",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
-  { "-a -r 72 -p 89", "Logisoso.ttf",	"logisoso62",			10, 0, BM_T, FM_C, MM_N, "", "" },
-  { "-a -r 72 -p 110", "Logisoso.ttf",	"logisoso78",			10, 0, BM_T, FM_C, MM_N, "", "" },
-  { "-a -r 72 -p 131", "Logisoso.ttf",	"logisoso92",			10, 0, BM_T, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 23", "Logisoso.ttf",	"logisoso16",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 27", "Logisoso.ttf",	"logisoso18",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 30", "Logisoso.ttf",	"logisoso20",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 32", "Logisoso.ttf",	"logisoso22",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 34", "Logisoso.ttf",	"logisoso24",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 38", "Logisoso.ttf",	"logisoso26",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 40", "Logisoso.ttf",	"logisoso28",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 43", "Logisoso.ttf",	"logisoso30",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 45", "Logisoso.ttf",	"logisoso32",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 49", "Logisoso.ttf",	"logisoso34",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 54", "Logisoso.ttf",	"logisoso38",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 60", "Logisoso.ttf",	"logisoso42",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 66", "Logisoso.ttf",	"logisoso46",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 71", "Logisoso.ttf",	"logisoso50",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 77", "Logisoso.ttf",	"logisoso54",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 83", "Logisoso.ttf",	"logisoso58",			10, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-a -r 72 -p 89", "Logisoso.ttf",	"logisoso62",			10, 0, BM_T, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 110", "Logisoso.ttf",	"logisoso78",			10, 0, BM_T, FM_C, MM_N, "", "" },
+  { 0,  "-a -r 72 -p 131", "Logisoso.ttf",	"logisoso92",			10, 0, BM_T, FM_C, MM_N, "", "" },
 
-  { "-r 72 -p 8", "PressStart2P.ttf",	"pressstart2p",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
-  { "-r 72 -p 8", "pcsenior.ttf",		"pcsenior",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { 0,  "-r 72 -p 8", "PressStart2P.ttf",	"pressstart2p",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { 0,  "-r 72 -p 8", "pcsenior.ttf",		"pcsenior",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
 
 
     /*
@@ -954,23 +1007,26 @@ inconsolata
   PxPlus_TandyNew_TV.ttf
   */
   
-  { "-r 72 -p 8", "PxPlus_IBM_CGAthin.ttf",	"pxplusibmcgathin",	14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
-  { "-r 72 -p 8", "PxPlus_IBM_CGA.ttf",		"pxplusibmcga",		14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
-  { "-r 72 -p 8", "PxPlus_TandyNew_TV.ttf",	"pxplustandynewtv",	14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},  
-  { "-r 72 -p 8", "PxPlus_TandyNew_TV.ttf",	"pxplustandynewtv",	14, 0, BM_T|BM_8, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 8", "PxPlus_IBM_CGAthin.ttf",	"pxplusibmcgathin",	14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { 0,  "-r 72 -p 8", "PxPlus_IBM_CGA.ttf",		"pxplusibmcga",		14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
+  { 0,  "-r 72 -p 8", "PxPlus_TandyNew_TV.ttf",	"pxplustandynewtv",	14, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},  
+  { 0,  "-r 72 -p 8", "PxPlus_TandyNew_TV.ttf",	"pxplustandynewtv",	14, 0, BM_T|BM_8, FM_C, MM_C, "32-$ffff", "_all" },
 
   
-  { "-r 72 -p 16", "PxPlus_IBM_VGA9.ttf",	"pxplusibmvga9",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
-  { "-r 72 -p 16", "PxPlus_IBM_VGA9.ttf",	"pxplusibmvga9",	14, 0, BM_T|BM_M, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "PxPlus_IBM_VGA9.ttf",	"pxplusibmvga9",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  { 0,  "-r 72 -p 16", "PxPlus_IBM_VGA9.ttf",	"pxplusibmvga9",	14, 0, BM_T|BM_M, FM_C, MM_C, "32-$ffff", "_all" },
   
-  { "-r 72 -p 16", "PxPlus_IBM_VGA8.ttf",	"pxplusibmvga8",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
-  { "-r 72 -p 16", "PxPlus_IBM_VGA8.ttf",	"pxplusibmvga8",	14, 0, BM_T|BM_M, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "PxPlus_IBM_VGA8.ttf",	"pxplusibmvga8",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  { 0,  "-r 72 -p 16", "PxPlus_IBM_VGA8.ttf",	"pxplusibmvga8",	14, 0, BM_T|BM_M, FM_C, MM_C, "32-$ffff", "_all" },
   
-  { "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
-  { "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
-  
+  { 0,  "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+  { 0,  "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
+
 //#endif /* TMP */
 
+  { "-y -1 -th 2 -tv 2",  "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a_2x2",	14, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  { "-y -1 -th 2 -tv 2",  "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b_2x2",	14, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
+  
 };
 
 
@@ -1123,7 +1179,8 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   int cw, ch;
   if ( fm == FM_8 ) 
   {
-  
+    int cw;
+    int ch;
     printf("8x8 font overview picture %s\n", target_font_identifier);  
     u8g2_SetupBuffer_TGA(&u8g2, &u8g2_cb_r0);
     u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -1132,6 +1189,9 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_extended_r);
     u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, 0, target_font_identifier);
     u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
+    cw = u8x8_GetFontCharWidth(u8g2_GetU8x8(&u8g2));
+    ch = u8x8_GetFontCharHeight(u8g2_GetU8x8(&u8g2));
+    
     {
       uint8_t x;
       uint8_t y;
@@ -1140,17 +1200,17 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
       {
 	u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_amstrad_cpc_extended_r);
 	sprintf(s, "%3d/%02x ", y*16, y*16);
-	u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, y+2, s);
+	u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0, (y+2)*ch, s);
   	u8x8_SetFont(u8g2_GetU8x8(&u8g2), u8x8_font_list[u8x8_fnt_cnt]);
 	for( x = 0; x < 16; x++ )
 	{
-	    u8x8_DrawGlyph(u8g2_GetU8x8(&u8g2), x*2+7,y+2, y*16+x);
+	    u8x8_DrawGlyph(u8g2_GetU8x8(&u8g2), x*(cw+1)+7,(y+2)*ch, y*16+x);
 	}
       }
     }
     
     if ( mm != MM_N )
-      u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0,16+2, "The quick brown fox jumps over the lazy dog.");
+      u8x8_DrawString(u8g2_GetU8x8(&u8g2), 0,(16+2)*ch, "The quick brown fox jumps over the lazy dog.");
 
     tga_save("font.tga");
     
@@ -1355,7 +1415,13 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   
   strcpy(bdf_cmd, bdfconv_path);
   strcat(bdf_cmd, " ");
-
+  
+  if ( fi[i].bdfconv_opt != 0 )
+  {
+    strcat(bdf_cmd, fi[i].bdfconv_opt);    
+    strcat(bdf_cmd, " ");
+  }
+  
   if ( fm == FM_C ) strcat(bdf_cmd, " -f 1");
   if ( fm == FM_8 ) strcat(bdf_cmd, " -f 2");
   
@@ -1529,10 +1595,12 @@ void gen_font(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms, cb
   strcpy(target_font_identifier, fms);
   strcat(target_font_identifier, "_font_");
   strcat(target_font_identifier, fi[i].name);
-  strcat(target_font_identifier, "_");
-  strcat(target_font_identifier, bms);
-  strcat(target_font_identifier, mms);
-    
+  if ( bms[0] != '\0' || mms[0] != '\0' )
+  {
+    strcat(target_font_identifier, "_");
+    strcat(target_font_identifier, bms);
+    strcat(target_font_identifier, mms);
+  }
   cb(i, fm,fms,bm,bms,mm,mms);
 }
 
