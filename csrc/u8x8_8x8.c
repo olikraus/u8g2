@@ -58,21 +58,25 @@ void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)
    encoding: glyph for which the data is requested (must be between 0 and 255)
    buf: pointer to 8 bytes
 */
-static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf) U8X8_NOINLINE;
-static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf) 
+static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) U8X8_NOINLINE;
+static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) 
 {
-  uint8_t first, last, i;
+  uint8_t first, last, tiles, i;
   uint16_t offset;
   first = u8x8_pgm_read(u8x8->font+0);
   last = u8x8_pgm_read(u8x8->font+1);
+  tiles = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+  tiles *= u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
   
   /* get the glyph bitmap from the font */
   if ( first <= encoding && encoding <= last )
   {
     offset = encoding;
     offset -= first;
+    offset *= tiles;		/* new 2019 format */
+    offset += tile_offset;	/* new 2019 format */
     offset *= 8;
-    offset +=2;
+    offset +=4;			/* changed from 2 to 4, new 2019 format */
     for( i = 0; i < 8; i++ )
     {
       buf[i] = u8x8_pgm_read(u8x8->font+offset);
@@ -100,9 +104,25 @@ static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf)
 
 void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
 {
+  uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+  uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+  uint8_t xx, tile;
   uint8_t buf[8];
-  u8x8_get_glyph_data(u8x8, encoding, buf);
-  u8x8_DrawTile(u8x8, x, y, 1, buf);
+  th += x;
+  tv += y;
+  tile = 0;
+  do
+  {
+    xx = x;
+    do
+    {
+      u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+      u8x8_DrawTile(u8x8, xx, y, 1, buf);
+      tile++;
+      xx++;
+    } while( xx < th );
+    y++;
+  } while( y < tv );
 }
 
 
@@ -163,7 +183,7 @@ void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
   uint8_t buf[8];
   uint8_t buf1[8];
   uint8_t buf2[8];
-  u8x8_get_glyph_data(u8x8, encoding, buf);
+  u8x8_get_glyph_data(u8x8, encoding, buf, 0);
   for( i = 0; i < 8; i ++ )
   {
       t = u8x8_upscale_byte(buf[i]);
@@ -191,7 +211,7 @@ void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
   uint8_t buf[8];
   uint8_t buf1[8];
   uint8_t buf2[8];
-  u8x8_get_glyph_data(u8x8, encoding, buf);
+  u8x8_get_glyph_data(u8x8, encoding, buf, 0);
   for( i = 0; i < 8; i ++ )
   {
       t = u8x8_upscale_byte(buf[i]);
@@ -294,6 +314,8 @@ static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *
 {
   uint16_t e;
   uint8_t cnt = 0;
+  uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+
   u8x8_utf8_init(u8x8);
   for(;;)
   {
@@ -304,7 +326,7 @@ static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *
     if ( e != 0x0fffe )
     {
       u8x8_DrawGlyph(u8x8, x, y, e);
-      x++;
+      x+=th;
       cnt++;
     }
   }

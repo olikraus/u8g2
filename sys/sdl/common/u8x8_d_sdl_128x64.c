@@ -296,6 +296,7 @@ uint8_t u8x8_d_sdl_128x64(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_
         ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
         u8g_sdl_set_multiple_8pixel(x, y, c*8, ptr);
         arg_int--;
+	x+=c*8;
       } while( arg_int > 0 );
       
       /* update all */

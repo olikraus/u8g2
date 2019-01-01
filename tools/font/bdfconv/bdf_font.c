@@ -51,7 +51,9 @@ bf_t *bf_Open(int is_verbose, int bbx_mode)
     bf->enc_y = 0;
     
     bf->bbx_mode = bbx_mode;
-    
+    bf->tile_h_size = 1;
+    bf->tile_v_size = 1;
+        
     return bf;
   }
   return NULL;
@@ -616,7 +618,7 @@ int bf_WriteU8G2CByFP(bf_t *bf, FILE *out_fp, const char *fontname, const char *
     fprintf(out_fp, "#ifdef U8G2_USE_LARGE_FONTS\n");    
   }
   
-  if ( bf->bbx_mode == 3 )
+  if ( bf->bbx_mode == 3 )	// maybe better check for the font_format
   {
     //fprintf(out_fp, "#include \"u8x8.h\"\n");  
     fprintf(out_fp, "const uint8_t %s[%d] U8X8_FONT_SECTION(\"%s\") = \n", fontname, bf->target_cnt+extra1, fontname);
@@ -695,14 +697,17 @@ int bf_WriteU8G2CByFilename(bf_t *bf, const char *filename, const char *fontname
 
 /*
   xo, yo: offset for 8x8 fonts (font_format==2)
+  called from main()
 */
-bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format, int xo, int yo)
+bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format, int xo, int yo, int th, int tv)
 {
   bf_t *bf;
 
   bf = bf_Open(is_verbose, bbx_mode);
   if ( bf != NULL )
   {
+    bf->tile_h_size = th;
+    bf->tile_v_size = tv;
     
     if ( bf_ParseFile(bf, bdf_filename) != 0 )
     {
@@ -735,7 +740,7 @@ bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, co
       }
       else
       {
-	bf_Generate8x8Font(bf, xo, yo);
+	bf_Generate8x8Font(bf, xo, yo);	/* bdf_8x8.c */
       }
       
       if ( bf->bbx_mode != BDF_BBX_MODE_MINIMAL )

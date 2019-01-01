@@ -7,7 +7,7 @@
 //#define FACTOR 3
 //#define XOFFSET (FACTOR*32)
 //#define YOFFSET (FACTOR*32)
-#define DEFAULT_WIDTH (512+512)
+#define DEFAULT_WIDTH (512+512+256)
 #define DEFAULT_HEIGHT (1024+512+256)
 
 

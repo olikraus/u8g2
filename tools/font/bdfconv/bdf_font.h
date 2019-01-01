@@ -82,6 +82,8 @@ struct _bdf_font_struct
   int target_cnt;
   
 
+  int tile_h_size;	// new 2019 8x8 font format
+  int tile_v_size;	// new 2019 8x8 font format
 };
 
 /* bdf_font.c */
@@ -127,7 +129,7 @@ void bf_Generate8x8Font(bf_t *bf, int xo, int yo);
 int bf_WriteUCGCByFilename(bf_t *bf, const char *filename, const char *fontname, const char *indent);
 int bf_WriteU8G2CByFilename(bf_t *bf, const char *filename, const char *fontname, const char *indent);
 
-bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format, int xo, int yo);
+bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format, int xo, int yo, int th, int tv);
 
 
 /* bdf_parser.c */

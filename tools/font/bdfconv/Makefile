@@ -40,7 +40,7 @@ helvb18n: bdfconv
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
 
-16x16: bdfconv
+old16x16: bdfconv
 	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700a.ttf
 	./bdfconv -x 0 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_ul_n.c  -n u8x8_font_px437wyse700a_ul_n
 	./bdfconv -x 8 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_ur_n.c  -n u8x8_font_px437wyse700a_ur_n
@@ -68,7 +68,49 @@ emoticons21: bdfconv
 	./bdfconv -x 0 -y 0 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700b_ll_f.c  -n u8x8_font_px437wyse700b_ll_f
 	./bdfconv -x 8 -y 0 -v -f 2 -m '32-255' tmp.bdf -o u8x8_font_px437wyse700b_lr_f.c  -n u8x8_font_px437wyse700b_lr_f
 	cat u8x8_font_px437*.c >16x16.c
-	
+
+16x16: bdfconv
+	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700b.ttf
+	./bdfconv -y -1 -th 2 -tv 2 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700b_2x2_r.c  -n u8x8_font_px437wyse700b_2x2_r
+	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700a.ttf
+	./bdfconv -y -1 -th 2 -tv 2 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_px437wyse700a_2x2_r.c  -n u8x8_font_px437wyse700a_2x2_r
+	-../otf2bdf/otf2bdf -r 72 -p 32 -o tmp.bdf ../ttf/BALTT_0.ttf
+	./bdfconv -y 0 -th 1 -tv 2 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_balthasar_titling_nbp_1x2_r.c  -n u8x8_font_balthasar_titling_nbp_1x2_r
+	-../otf2bdf/otf2bdf -r 72 -p 32 -o tmp.bdf ../ttf/lucasarts-scumm-subtitle-roman-outline.ttf
+	./bdfconv -y 1 -th 2 -tv 2 -v -f 2 -m '32-127' tmp.bdf -o lucasarts_scumm_subtitle_o_2x2_r.c  -n lucasarts_scumm_subtitle_o_2x2_r
+	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/lucasarts-scumm-subtitle-roman.ttf
+	./bdfconv -y 0 -th 2 -tv 2 -v -f 2 -m '32-127' tmp.bdf -o lucasarts_scumm_subtitle_r_2x2_r.c  -n lucasarts_scumm_subtitle_r_2x2_r  
+	./bdfconv -y -1 -th 2 -tv 3 -v -f 2 -m '32-127' ../bdf/courB18.bdf -o u8x8_font_courb18_2x3_r.c  -n u8x8_font_courB18_2x3_r
+	./bdfconv -y -1 -th 2 -tv 3 -v -f 2 -m '32-127' ../bdf/courR18.bdf -o u8x8_font_courr18_2x3_r.c  -n u8x8_font_courR18_2x3_r
+	./bdfconv -y -2 -th 3 -tv 4 -v -f 2 -m '32-127' ../bdf/courB24.bdf -o u8x8_font_courb24_3x4_r.c  -n u8x8_font_courB24_3x4_r
+	./bdfconv -y -2 -th 3 -tv 4 -v -f 2 -m '32-127' ../bdf/courR24.bdf -o u8x8_font_courr24_3x4_r.c  -n u8x8_font_courR24_3x4_r
+	./bdfconv -y 0 -th 2 -tv 3 -v -f 2 -m '32-127' ../bdf/profont29.bdf -o u8x8_font_profont29_2x3_r.c  -n u8x8_font_profont29_2x3_r
+	./bdfconv -y -2 -th 1 -tv 2 -v -f 2 -m '32-127' ../bdf/8x13.bdf -o u8x8_font_8x13_r.c  -n u8x8_font_8x13_1x2_r
+	./bdfconv -y -2 -th 1 -tv 2 -v -f 2 -m '32-127' ../bdf/8x13B.bdf -o u8x8_font_8x13b_r.c  -n u8x8_font_8x13B_1x2_r
+	./bdfconv -y -1 -x -1 -th 1 -tv 2 -v -f 2 -m '32-127' ../bdf/7x14.bdf -o u8x8_font_7x14_r.c  -n u8x8_font_7x14_1x2_r
+	./bdfconv -y -1 -x -1 -th 1 -tv 2 -v -f 2 -m '32-127' ../bdf/7x14B.bdf -o u8x8_font_7x14b_r.c  -n u8x8_font_7x14B_1x2_r
+	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/shylock_nbp.ttf
+	./bdfconv -y -1 -th 1 -tv 2 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_shylock_nbp_1x2_r.c  -n u8x8_font_shylock_nbp_1x2_r
+
+	-../otf2bdf/otf2bdf -a -r 72 -p 30 -o tmp.bdf ../ttf/inr.otf
+	./bdfconv -y -1 -x 1 -th 2 -tv 4 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_inr21_2x4_r.c  -n u8x8_font_inr21_2x4_r
+	-../otf2bdf/otf2bdf -a -r 72 -p 44 -o tmp.bdf ../ttf/inr.otf
+	./bdfconv -y -1 -x 2 -th 3 -tv 6 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_inr33_3x6_r.c  -n u8x8_font_inr33_3x6_r
+	-../otf2bdf/otf2bdf -a -r 72 -p 62 -o tmp.bdf ../ttf/inr.otf
+	./bdfconv -y 0 -x 3 -th 4 -tv 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_inr46_4x8_r.c  -n u8x8_font_inr46_4x8_r
+
+	-../otf2bdf/otf2bdf -a -r 72 -p 30 -o tmp.bdf ../ttf/inb.otf
+	./bdfconv -y -1 -x 1 -th 2 -tv 4 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_inb21_2x4_r.c  -n u8x8_font_inb21_2x4_r
+	-../otf2bdf/otf2bdf -a -r 72 -p 44 -o tmp.bdf ../ttf/inb.otf
+	./bdfconv -y -1 -x 2 -th 3 -tv 6 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_inb33_3x6_r.c  -n u8x8_font_inb33_3x6_r
+	-../otf2bdf/otf2bdf -a -r 72 -p 62 -o tmp.bdf ../ttf/inb.otf
+	./bdfconv -y 0 -x 3 -th 4 -tv 8 -v -f 2 -m '32-127' tmp.bdf -o u8x8_font_inb46_4x8_r.c  -n u8x8_font_inb46_4x8_r
+
+	./bdfconv -y 0 -th 2 -tv 2 -v -f 2 -m '32-127' ../bdf/open_iconic_weather_2x.bdf -o u8x8_font_open_iconic_weather_2x2.c  -n u8x8_font_open_iconic_weather_2x2
+	./bdfconv -y 0 -th 4 -tv 4 -v -f 2 -m '32-127' ../bdf/open_iconic_weather_4x.bdf -o u8x8_font_open_iconic_weather_4x4.c  -n u8x8_font_open_iconic_weather_4x4
+	./bdfconv -y 0 -th 8 -tv 8 -v -f 2 -m '32-127' ../bdf/open_iconic_weather_8x.bdf -o u8x8_font_open_iconic_weather_8x8.c  -n u8x8_font_open_iconic_weather_8x8
+
+
 
 logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
