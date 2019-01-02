@@ -347,9 +347,6 @@ uint8_t u8x8_d_tga_lcd(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr
       tga_fg_g = tga_lcd_fg_g;
       tga_fg_b = tga_lcd_fg_b;
 
-      tga_bg_r = tga_lcd_bg_r;
-      tga_bg_g = tga_lcd_bg_g;
-      tga_bg_b = tga_lcd_bg_b;
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       //printf("U8X8_MSG_DISPLAY_DRAW_TILE x=%d, ", x);
@@ -366,6 +363,20 @@ uint8_t u8x8_d_tga_lcd(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr
     
       do
       {
+
+	if ( (x/8+y/8) & 1 )
+	{
+	  tga_bg_r = tga_lcd_bg_r;
+	  tga_bg_g = tga_lcd_bg_g;
+	  tga_bg_b = tga_lcd_bg_b;
+	}
+	else
+	{
+	  tga_bg_r = (tga_lcd_bg_r*10)/11;
+	  tga_bg_g = (tga_lcd_bg_g*10)/11;
+	  tga_bg_b = (tga_lcd_bg_b*10)/11;
+	}
+	
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 	tga_set_multiple_8pixel(x, y, c*8, ptr, FACTOR);
