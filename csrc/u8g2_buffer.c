@@ -131,3 +131,46 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2)
   u8g2_SetBufferCurrTileRow(u8g2, row);
   return 1;
 }
+
+
+
+/*============================================*/
+/*
+  Description:
+    Update a sub area of the display, given by tile position, width and height.
+    The arguments are "tile" coordinates. Any u8g2 rotation is ignored.
+    This procedure only checks whether full buffer mode is active.
+    There is no error checking for the arguments: It is the responsibility of the
+    user to ensure, that the provided arguments are correct.
+
+  Limitations:
+    - Only available in full buffer mode
+    - Tile positions and sizes (pixel position divided by 8)
+    - Any display rotation/mirror is ignored
+    - Only works with displays, which support U8x8 API
+    - Will not send the e-paper refresh message (will probably not work with e-paper devices)
+*/
+void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th)
+{
+  uint16_t page_size;
+  uint8_t *ptr;
+  
+  /* check, whether we are in full buffer mode */
+  if ( u8g2->tile_buf_height != u8g2_GetU8x8(u8g2)->display_info->tile_height )
+    return; /* not in full buffer mode, do nothing */
+
+  page_size = u8g2->pixel_buf_width;  /* 8*u8g2->u8g2_GetU8x8(u8g2)->display_info->tile_width */
+    
+  ptr = u8g2_GetBufferPtr(u8g2);
+  ptr += tx*8;
+  ptr += page_size*ty;
+  
+  while( th > 0 )
+  {
+    u8x8_DrawTile( u8g2_GetU8x8(u8g2), tx, ty, tw, ptr );
+    ptr += page_size;
+    ty++;
+    th--;
+  }  
+}
+
