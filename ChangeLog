@@ -209,4 +209,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Improved speed for I2C with SSD1306 controller: 4% faster now (issue 735)
   * Fixed code problems (issues 766 and 754)  
   * Added battery and emoticons (issue 747)
+  * New U8x8 font format, added larger fonts (issue 771)
   

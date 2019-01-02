@@ -176,14 +176,14 @@ static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest)
   } while( i > 0 );
 }
 
-void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+static void u8x8_draw_2x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding, uint8_t tile)
 {
   uint8_t i;
   uint16_t t;
   uint8_t buf[8];
   uint8_t buf1[8];
   uint8_t buf2[8];
-  u8x8_get_glyph_data(u8x8, encoding, buf, 0);
+  u8x8_get_glyph_data(u8x8, encoding, buf, tile);
   for( i = 0; i < 8; i ++ )
   {
       t = u8x8_upscale_byte(buf[i]);
@@ -203,15 +203,39 @@ void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
 }
 
+
+void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+{
+  uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+  uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+  uint8_t xx, tile;
+  th *= 2;
+  th += x;
+  tv *= 2;
+  tv += y;
+  tile = 0;
+  do
+  {
+    xx = x;
+    do
+    {
+      u8x8_draw_2x2_subglyph(u8x8, xx, y, encoding, tile);
+      tile++;
+      xx+=2;
+    } while( xx < th );
+    y+=2;
+  } while( y < tv );  
+}
+
 /* https://github.com/olikraus/u8g2/issues/474 */
-void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+static void u8x8_draw_1x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding, uint8_t tile)
 {
   uint8_t i;
   uint16_t t;
   uint8_t buf[8];
   uint8_t buf1[8];
   uint8_t buf2[8];
-  u8x8_get_glyph_data(u8x8, encoding, buf, 0);
+  u8x8_get_glyph_data(u8x8, encoding, buf, tile);
   for( i = 0; i < 8; i ++ )
   {
       t = u8x8_upscale_byte(buf[i]);
@@ -220,6 +244,28 @@ void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
   }
   u8x8_DrawTile(u8x8, x,   y, 1, buf2);
   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+}
+
+void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+{
+  uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+  uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+  uint8_t xx, tile;
+  th += x;
+  tv *= 2;
+  tv += y;
+  tile = 0;
+  do
+  {
+    xx = x;
+    do
+    {
+      u8x8_draw_1x2_subglyph(u8x8, xx, y, encoding, tile);
+      tile++;
+      xx++;
+    } while( xx < th );
+    y+=2;
+  } while( y < tv );  
 }
 
 /*

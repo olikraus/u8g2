@@ -20,6 +20,14 @@ int main(void)
   while( u8g_sdl_get_key() < 0 )
     ;
   
+  u8x8_ClearDisplay(&u8x8);
+  u8x8_SetFont(&u8x8, u8x8_font_7x14_1x2_f );
+  u8x8_Draw1x2String(&u8x8, 0, 0, "Hello World!");
+  u8x8_Draw2x2String(&u8x8, 0, 4, "Hello World!");
+  
+  while( u8g_sdl_get_key() < 0 )
+    ;
+  
   return 0;
 }
 
