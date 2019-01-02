@@ -283,7 +283,7 @@ struct u8g2_struct
   
   /* dimension of the buffer in pixel */
   u8g2_uint_t pixel_buf_width;		/* equal to tile_buf_width*8 */
-  u8g2_uint_t pixel_buf_height;		/* u8g2.display_info->tile_width*8 */
+  u8g2_uint_t pixel_buf_height;		/* tile_buf_height*8 */
   u8g2_uint_t pixel_curr_row;		/* u8g2.tile_curr_row*8 */
   
   /* the following variables are set by the update dimension callback */
@@ -1047,6 +1047,9 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
 /* renamed from Page to Buffer: the CurrTileRow is the current row of the buffer, issue #370 */
 #define u8g2_GetPageCurrTileRow(u8g2) ((u8g2)->tile_curr_row)
 #define u8g2_GetBufferCurrTileRow(u8g2) ((u8g2)->tile_curr_row)
+
+void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th);
+
 
 /*==========================================*/
 /* u8g2_ll_hvline.c */

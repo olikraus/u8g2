@@ -175,6 +175,10 @@ class U8G2 : public Print
     
     // this should be renamed to setBufferAutoClear
     void setAutoPageClear(uint8_t mode)  { u8g2_SetAutoPageClear(&u8g2, mode); }
+    
+    void updateDisplayArea(uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th)
+      { u8g2_UpdateDisplayArea(&u8g2, tx, ty, tw, th); }
+
 
     /* u8g2_hvline.c */
     void setDrawColor(uint8_t color_index) { u8g2_SetDrawColor(&u8g2, color_index); }
