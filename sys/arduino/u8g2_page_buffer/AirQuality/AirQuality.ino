@@ -82,7 +82,8 @@
 
 // define startup calibration time: 2h
 //#define STARTUP_TIME (60*60*2)
-#define STARTUP_TIME (60)
+// five minutes
+#define STARTUP_TIME (60*5)
 
 // define duration after which the display is disabled: 30 seconds
 #define DISPLAY_TIME ((30))
@@ -101,11 +102,12 @@
 // This is the time, after which the gas sensor should do another measurement.
 // The sum of SENSOR_WARMUP_TIME and SENSOR_MEASURE_TIME must 
 // be lesser than SENSOR_SAMPLE_TIME
-#define SENSOR_SAMPLE_TIME (2*60)
+// every 7 minutes, so there are at least two measures per history entry
+#define SENSOR_SAMPLE_TIME (7*60)
 
 // This is the time after which a new history entry is generated
 // There are 96 entries in the history table (HIST_CNT) 
-// 16*60 = 15 minutes --> 96 * 15 minutes --> 24h
+// 15*60 = 15 minutes --> 96 * 15 minutes --> 24h
 #define NEW_HISTORY_DELAY (15*60)
 //#define NEW_HISTORY_DELAY 2
 
@@ -412,7 +414,7 @@ void reducePower(void)
 {
   //ADCSRA = ADCSRA & B01111111; // ADC abschalten, ADEN bit7 zu 0
   ACSR = B10000000; // Analogen Comparator abschalten, ACD bit7 zu 1
-  //DIDR0 = DIDR0 | B00111111; // Digitale Eingangspuffer ausschalten, analoge Eingangs Pins 0-5 auf 1
+  DIDR0 = DIDR0 | B00111111; // Digitale Eingangspuffer ausschalten, analoge Eingangs Pins 0-5 auf 1
 }
 
 
