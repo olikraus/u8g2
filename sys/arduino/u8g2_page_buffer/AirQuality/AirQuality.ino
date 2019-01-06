@@ -362,7 +362,8 @@ ISR(WDT_vect)
       wdt_min = 0;
       wdt_hour++;
       if ( wdt_hour >= 24 )
-      {	
+      {
+	wdt_hour = 0;
 	wdt_day++;
       }
     }
