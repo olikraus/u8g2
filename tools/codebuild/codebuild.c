@@ -1141,6 +1141,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64" },
+      { "128x64_alt" },
       { NULL }
     }
   },
