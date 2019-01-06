@@ -540,6 +540,24 @@ uint8_t u8x8_d_t6963_160x80(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 }
 
 
+/* alternative version for the 128x64 t6963 display: use the 160x80 init sequence */
+uint8_t u8x8_d_t6963_128x64_alt(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_t6963_128x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_t6963_160x80_init_seq);
+      break;
+    default:
+      return u8x8_d_t6963_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
 
   
 
