@@ -33,6 +33,8 @@
 
 
   SSD1317: 128x96 OLED
+  
+  https://github.com/olikraus/u8g2/issues/663
 
 */
 
