@@ -664,7 +664,7 @@ uint8_t u8x8_d_ssd1607_ws_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_ws_200x200_init_seq);    
       u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
       u8x8_d_ssd1607_200x200_first_init(u8x8);
       break;
