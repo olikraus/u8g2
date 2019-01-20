@@ -108,7 +108,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for SSD1329 128x96 OLED (issue 208)
   * Support for LC7981 240x128 (issue 193)
   * Performance improvement for the ST7920 (issue 200)
- 2017-05-22	v2.15.2	  olikraus@gmail.com
+2017-05-22	v2.15.2	  olikraus@gmail.com
   * Added setBitmapMode (pull request 220)
      Warning: Default behavior of drawXBM has changed in this release.
   * Increased SPI speed to 8MHz for SSD1306, SH1106 and SSD1322 (issue 215)
@@ -127,22 +127,22 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for 96x16 SSD1306 OLED (issue 295)
   * Fixed OldStandard-Bold fonts (osb, issue 306)
   * Support for SED1520/SBN1661 (issue 324)
- 2017-09-10	v2.17.11   olikraus@gmail.com
+2017-09-10	v2.17.11   olikraus@gmail.com
   * Additional _m_  and _h_ symbol fonts (issue 335)
   * Added parallel interfaces for several UC16xx devices (issue 339)
   * Support for IL3820, WaveShare 2.9" e-paper (issues 318 & 347)
   * Improved debounce algorithm (issue 338)
   * Power save mode for SSD1607 device (issue 352)
- 2017-09-30	v2.18.13   olikraus@gmail.com
+2017-09-30	v2.18.13   olikraus@gmail.com
   * Support for ST7567_JLX12864 (issue 365)
   * Support for UC1611 (no "s") (issue 339)
   * Fixed several issues related to the _F_ (full buffer) mode (issue 370)
- 2017-10-13	v2.19.8   olikraus@gmail.com
+2017-10-13	v2.19.8   olikraus@gmail.com
   * Support for UC1601 (issue 378)
   * Support for ESP32 I2C pin remapping (issue 377)
   * Support for ST75256 (SPI), JLX256128, JLX172104 (issue 163)
   * Added uw-ttyp0 fonts (issue 349)
- 2017-12-09	v2.20.13   olikraus@gmail.com
+2017-12-09	v2.20.13   olikraus@gmail.com
   * Bugfix for drawBitmap (issue 391)
   * I2C support for ST75256 (issue 384)
   * Support for SSD1327 128x128 display (issue 397)
@@ -153,7 +153,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * New SH1106 init sequence (SH1106_WINSTAR, issue 316)
   * Support for SSD1322 NHD 128x64 (issue 412)
   * Fixed profont17 (issue 438)
- 2018-02-18	v2.21.8  olikraus@gmail.com
+2018-02-18	v2.21.8  olikraus@gmail.com
   * Support for SH1107 (issue 501)
   * Support for HX1230 (issue 469)
   * Bugfix for displays with display height not a multiple of 8 (issue 469)
@@ -169,7 +169,7 @@ https://github.com/olikraus/u8g2 ChangeLog
      including gb2312 support (issue 455)
   * Added new full buffer demo for the Chinese fonts (Shennong.ino, issue #455)
   * Added siji icon font u8g2_font_siji_t_6x10 (issue 451)
- 2018-04-30	v2.22.18  olikraus@gmail.com
+2018-04-30	v2.22.18  olikraus@gmail.com
   * Bugfix for draw1x2string (u8x8 API)
   * Changed return value for "begin()" (issue 518)
   * New feature: U8log, https://github.com/olikraus/u8g2/wiki/u8logreference
@@ -185,7 +185,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added Devanagari/Hindi font variant (issue 584)
   * Added tom-thumb font (issue 563)
   * Added AVR specific optimization for 3-wire Software SPI (issue 586)
- 2018-08-24	v2.23.18  olikraus@gmail.com
+2018-08-24	v2.23.18  olikraus@gmail.com
   * NEW FONT FORMAT for speedup of the unicode font section (issue 596)  
   * Fixed a bug in the font construction for monospaced fonts (issue 669) 
   * Fixed a bug with the CS line for huge KS0108 displays (issue 631)
@@ -200,14 +200,14 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added contributed 7-segment font, https://github.com/olikraus/u8g2/wiki/fntgrpu8g#7segments_26x42 (issue 634)
   * Added several fonts from fontstruct.com, https://github.com/olikraus/u8g2/wiki/fntgrpfontstruct (issue 687)#
     This also includes several outline fonts.
- 2018-10-28	v2.24.3  olikraus@gmail.com
+2018-10-28	v2.24.3  olikraus@gmail.com
   * Added clip window support (issue 364)
   * Added setBusClock() proc to change the I2C/SPI bus clock speed (Arduino only, issue 705)
   * Added sleep mode for ST7920 (issue 245)
   * Added support for SSD0323 (issue 720)
-2018-xx-xx	v2.25.x  olikraus@gmail.com
+2019-xx-xx	v2.25.x  olikraus@gmail.com
   * Improved speed for I2C with SSD1306 controller: 4% faster now (issue 735)
   * Fixed code problems (issues 766 and 754)  
-  * Added battery and emoticons (issue 747)
+  * Added battery symbols and emoticons (issue 747)
   * New U8x8 font format, added large U8x8 fonts (issue 771)
   
