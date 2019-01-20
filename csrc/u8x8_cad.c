@@ -478,7 +478,7 @@ uint8_t u8x8_cad_ssd13xx_fast_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       in_transfer = 1;
       /* lightning version: can replace the improved version from above */
       /* the drawback of the lightning version is this: The complete init sequence */
-      /* must fit into the 32 byte Arduino Wire buffer, wbich might not always be the case */
+      /* must fit into the 32 byte Arduino Wire buffer, which might not always be the case */
       /* speed improvement is about 6% compared to the classic version */
       // if ( in_transfer == 0 )
 	// {

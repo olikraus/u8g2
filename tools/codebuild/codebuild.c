@@ -418,6 +418,25 @@ struct controller controller_list[] =
     }
   },
   
+  /* issue 784 */
+  {
+    "ssd1318", 	16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x96" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1318", 	16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x96" },
+      { NULL }
+    }
+  },  
+  
+  
   {
     "ssd1325", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -822,6 +841,7 @@ struct controller controller_list[] =
       { "lm6059" },
       { "lx12864" },
       { "erc12864" },
+      { "erc12864_alt" },	/* issue 790 */
       { "nhd_c12864" },
       { "jlx12864" },
       { NULL }
@@ -1183,7 +1203,7 @@ struct controller controller_list[] =
     {
       { "200x200" },
       { "gd_200x200" },	// GDEP015OC1
-      //{ "v2_200x200" },
+      { "ws_200x200" },	// Waveshare issue #637
       { NULL }
     }
   },

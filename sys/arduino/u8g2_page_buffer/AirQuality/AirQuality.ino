@@ -2,7 +2,7 @@
 
   AirQuality.ino
   
-  ATMEGA328 (Arduino UNO) only
+  ATMEGA328P (Arduino UNO/Pro Trinket) only
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -195,6 +195,8 @@ uint8_t is_display_enabled = 0;		// modified by enable_display() and disable_dis
 //===================================================
 // Variables: Air quality sensor related varables
 
+uint8_t is_ethanol_read = 0;
+
 float temperature_raw;
 float humidity_raw;
 uint8_t temperature;	/* with offset and multiplied by 2 */
@@ -203,7 +205,9 @@ uint16_t tvoc_raw;
 uint16_t tvoc_lp;
 uint16_t eco2_raw;
 uint16_t eco2_lp;
+uint16_t ethanol_raw = 0;
 int is_air_quality_available = 0;
+
 
 // Calibration values, values seem to be 0x8a27 and 0x08a98 for my sensor, so 0 will be used as not set
 uint16_t eco2_base = 0;		// calibration value eCO2
@@ -496,6 +500,37 @@ void setup(void) {
 
 
 //===================================================
+// read ethanol value from SGP30 
+// bypass Adafruit lib, because this command is not included
+
+
+// not used at the moment
+uint16_t readEthanol(void)
+{
+  uint8_t buf[6];
+  uint8_t i;
+
+  Wire.beginTransmission(0x58);
+  Wire.write(0x20);     // 0x2050: measure signals command
+  Wire.write(0x50);
+  Wire.endTransmission();
+  
+  delay(200);           // max 200ms according to the datasheet
+  
+  if (Wire.requestFrom(0x58, 6) != 6) 
+    return 0;
+  for (i=0; i<6; i++)
+    buf[i] = Wire.read();
+
+  // each data value has: msb, lsb and crc
+  // ethanol value is the second data returned
+  // crc is ignored
+  return (((uint16_t)buf[3])<<8) + (uint16_t)buf[4];
+}
+
+
+//===================================================
+
 void readBatteryVoltageLevel(void)
 {
   battery_raw = analogRead(0);
@@ -533,56 +568,77 @@ void startAirQuality(void)
 
 void readAirQuality(void)
 {
-  uint8_t i;
-  int32_t tvoc_coeff = 7;	// 1..32
-  int32_t eco2_coeff = 7;	// 1..32
 
-
-  sht.readSample();
-  temperature_raw = sht.getTemperature();
-  humidity_raw = sht.getHumidity();
   
-  if ( temperature_raw <= (float)TEMP_LOW )
+  if ( is_ethanol_read == 0 )
   {
-    temperature = 0;
-  }
-  else if ( temperature_raw >= (float)TEMP_HIGH )
-  {
-    temperature = TEMP_HIGH - TEMP_LOW;
-    temperature *= 2;
+    // normal air quality read
+    sht.readSample();
+    temperature_raw = sht.getTemperature();
+    humidity_raw = sht.getHumidity();
+    
+    if ( temperature_raw <= (float)TEMP_LOW )
+    {
+      temperature = 0;
+    }
+    else if ( temperature_raw >= (float)TEMP_HIGH )
+    {
+      temperature = TEMP_HIGH - TEMP_LOW;
+      temperature *= 2;
+    }
+    else
+    {
+      temperature = (uint8_t)((temperature_raw-(float)TEMP_LOW)*2.0);
+    }
+    
+    humidity = (uint8_t)((humidity_raw)*2.0);
+  
+    sgp.setHumidity(getAbsoluteHumidity(temperature_raw, humidity_raw));
+    
+    is_air_quality_available = sgp.IAQmeasure();
+  
+    if ( is_air_quality_available )
+    {
+      tvoc_raw = sgp.TVOC;
+      eco2_raw = sgp.eCO2;
+    }
+    else
+    {
+      tvoc_raw = 0;
+      eco2_raw = 400;
+    }
+    
+    if ( is_new_history_entry != 0 )
+    {
+      add_hist_new();
+      is_new_history_entry = 0;
+    }
+    else
+    {
+      add_hist_minmax();
+    }
+
+    // ethanol should be read only, if the display is active:
+    /* not used
+    if ( is_display_enabled )
+    {
+      is_ethanol_read = 1;
+    }
+    */
+    
   }
   else
   {
-    temperature = (uint8_t)((temperature_raw-(float)TEMP_LOW)*2.0);
-  }
-  
-  humidity = (uint8_t)((humidity_raw)*2.0);
+    
+    // special ethanol read
+    //ethanol_raw = readEthanol();
 
-  sgp.setHumidity(getAbsoluteHumidity(temperature_raw, humidity_raw));
-  
-  is_air_quality_available = sgp.IAQmeasure();
-
-  if ( is_air_quality_available )
-  {
-    tvoc_raw = sgp.TVOC;
-    eco2_raw = sgp.eCO2;
+    // according to the datasheet, the baseline values are corrupted... so restore them if available
+    //if ( eco2_base != 0 )
+    //  sgp.setIAQBaseline(eco2_base, tvoc_base);   // Restore the baseline values
+    
+    is_ethanol_read = 0;    // next: read normal air quality values
   }
-  else
-  {
-    tvoc_raw = 0;
-    eco2_raw = 400;
-  }
-  
-  if ( is_new_history_entry != 0 )
-  {
-    add_hist_new();
-    is_new_history_entry = 0;
-  }
-  else
-  {
-    add_hist_minmax();
-  }
-  
 }
 
 
@@ -840,12 +896,14 @@ void draw_1_4_system(u8g2_uint_t x, u8g2_uint_t y)
 {
   u8g2.setFont(FONT_SMALL);
   u8g2.setCursor(x, y+11);
-  u8g2.print(F("Shake "));
-  u8g2.print(shake_last_cnt);
+  u8g2.print(F("ETH "));
+  u8g2.print(ethanol_raw, HEX);
 
   u8g2.setCursor(x, y+21);
-  u8g2.print(F("State "));
+  u8g2.print(F("St "));
   u8g2.print(state);
+  u8g2.print(F(" Sh "));
+  u8g2.print(shake_last_cnt);
 
   u8g2.setCursor(x, y+31);
   u8g2.print(F("Bat "));
