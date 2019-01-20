@@ -210,4 +210,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed code problems (issues 766 and 754)  
   * Added battery symbols and emoticons (issue 747)
   * New U8x8 font format, added large U8x8 fonts (issue 771)
+  * Added alternative version for ERC12864 (issue 790)
+  * Added Waveshare SSD1607 200x200 support (issue 637)
+  * Added support for SSD1318 (issue 784)
   
