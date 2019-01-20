@@ -595,3 +595,71 @@ uint8_t u8x8_d_ssd1607_gd_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
   }
   return 1;
 }
+
+
+
+/*=================================================*/
+
+/* waveshare 200x200 */
+static const uint8_t u8x8_d_ssd1607_ws_200x200_init_seq[] = {    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  //U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
+  U8X8_C(0x01),
+  U8X8_A(199),U8X8_A(0),U8X8_A(0),
+  
+  
+  U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
+  U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
+  
+  U8X8_CA(0x0f, 0x00),		/* scan start ? */
+  
+  U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
+
+  U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
+  U8X8_CA(0x3a, 0x1a),	/* dummy lines */
+  U8X8_CA(0x3b, 0x08),	/* gate time */
+  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
+  
+  U8X8_CA(0x11, 0x03),		/* cursor increment mode */
+  U8X8_CAA(0x44, 0, 24),	/* RAM x start & end, each byte has 8 pixel, 25*4=200 */
+  U8X8_CAAAA(0x45, 0, 0, 299&255, 299>>8),	/* RAM y start & end, 0..299 */
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+uint8_t u8x8_d_ssd1607_ws_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1607_ws_200x200_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      u8x8_d_ssd1607_200x200_first_init(u8x8);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_200x200_powersave1_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      break;
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_d_ssd1607_draw_tile(u8x8, arg_int, arg_ptr);
+      break;
+    case U8X8_MSG_DISPLAY_REFRESH:
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1607_to_display_seq);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
