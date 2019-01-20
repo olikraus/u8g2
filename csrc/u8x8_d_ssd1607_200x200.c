@@ -602,31 +602,56 @@ uint8_t u8x8_d_ssd1607_gd_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 
 /* waveshare 200x200 */
 static const uint8_t u8x8_d_ssd1607_ws_200x200_init_seq[] = {    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  //  original code 
+  
+  // U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-  //U8X8_CA(0x10, 0x00),	/* Deep Sleep mode Control: Disable */
-  U8X8_C(0x01),
+  // U8X8_C(0x01),
+  // U8X8_A(199),U8X8_A(0),U8X8_A(0),
+  
+  
+  // U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
+  // U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
+  
+  // U8X8_CA(0x0f, 0x00),		/* scan start ? */
+  
+  // U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
+
+  // U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
+  // U8X8_CA(0x3a, 0x1a),	/* dummy lines */
+  // U8X8_CA(0x3b, 0x08),	/* gate time */
+  // U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
+  
+  // U8X8_CA(0x11, 0x03),		/* cursor increment mode */
+  // U8X8_CAA(0x44, 0, 24),	/* RAM x start & end, each byte has 8 pixel, 25*4=200 */
+  // U8X8_CAAAA(0x45, 0, 0, 299&255, 299>>8),	/* RAM y start & end, 0..299 */
+  
+  // U8X8_END_TRANSFER(),             	/* disable chip */
+  // U8X8_END()             			/* end of sequence */
+  
+  
+  // suggested code from https://github.com/olikraus/u8g2/issues/637
+  
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+ 
+  U8X8_C(0x01), /* DRIVER_OUTPUT_CONTROL: LO(EPD_HEIGHT-1), HI(EPD_HEIGHT-1). GD = 0; SM = 0; TB = 0; */
   U8X8_A(199),U8X8_A(0),U8X8_A(0),
   
+  U8X8_C(0x0C), /* BOOSTER_SOFT_START_CONTROL */
+  U8X8_A(0xd7),U8X8_A(0xd6),U8X8_A(0x9d),
   
-  U8X8_CA(0x03, 0x00), 	/* Gate Driving voltage: 15V (lowest value)*/
-  U8X8_CA(0x04, 0x0a), 	/* Source Driving voltage: 15V (mid value and POR)*/
-  
-  U8X8_CA(0x0f, 0x00),		/* scan start ? */
-  
-  U8X8_CA(0xf0, 0x1f),	/* set booster feedback to internal */
-
-  U8X8_CA(0x2c, 0xa8),	/* write vcom value*/
-  U8X8_CA(0x3a, 0x1a),	/* dummy lines */
-  U8X8_CA(0x3b, 0x08),	/* gate time */
-  U8X8_CA(0x3c, 0x33),	/* select boarder waveform */
-  
-  U8X8_CA(0x11, 0x03),		/* cursor increment mode */
-  U8X8_CAA(0x44, 0, 24),	/* RAM x start & end, each byte has 8 pixel, 25*4=200 */
-  U8X8_CAAAA(0x45, 0, 0, 299&255, 299>>8),	/* RAM y start & end, 0..299 */
+  U8X8_CA(0x2c, 0xa8), /* WRITE_VCOM_REGISTER: VCOM 7C */
+  U8X8_CA(0x3a, 0x1a), /* SET_DUMMY_LINE_PERIOD: 4 dummy lines per gate */
+  U8X8_CA(0x3b, 0x08), /* SET_GATE_TIME: 2us per line */
+  U8X8_CA(0x11, 0x03), /* DATA_ENTRY_MODE_SETTING: X increment; Y increment */
+  U8X8_CAA(0x44, 0, 24), /* SET_RAM_X_ADDRESS_START_END_POSITION: LO(x >> 3), LO((w-1) >> 3) */
+  U8X8_CAAAA(0x45, 0, 0, 199&255, 199>>8), /* SET_RAM_Y_ADDRESS_START_END_POSITION: LO(y), HI(y), LO(h - 1), HI(h - 1) */
+  U8X8_CA(0x4e, 0), /* LO(x >> 3) */
+  U8X8_CAA(0x4f, 0, 0), /* LO(y), HI(y >> 8) */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
+  U8X8_END()             			/* end of sequence */  
+  
 };
 
 
