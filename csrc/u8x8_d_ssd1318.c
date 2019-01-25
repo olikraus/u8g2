@@ -62,7 +62,7 @@ static const uint8_t u8x8_d_ssd1318_128x96_init_seq[] = {
   // U8X8_CA(0x08d, 0x004),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
   // U8X8_CA(0x08d, 0x044),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
   // U8X8_CA(0x08d, 0x084),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
-  // U8X8_CA(0x08d, 0x0c4),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
+  U8X8_CA(0x08d, 0x0c4),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
   
   U8X8_CA(0x0ac, 0x001),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
 
