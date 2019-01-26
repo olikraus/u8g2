@@ -266,7 +266,7 @@ static const u8x8_display_info_t u8x8_ssd1318_128x96_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
-  /* tile_width = */ 12,
+  /* tile_width = */ 16,
   /* tile_hight = */ 12,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
