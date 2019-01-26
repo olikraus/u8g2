@@ -43,8 +43,8 @@
 
 
 
-/* more or less generic setup of all these small OLEDs */
-static const uint8_t u8x8_d_ssd1318_128x96_init_seq[] = {
+/* with internal charge pump (icp) */
+static const uint8_t u8x8_d_ssd1318_128x96_icp_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -59,18 +59,18 @@ static const uint8_t u8x8_d_ssd1318_128x96_init_seq[] = {
   
   // four possible charge pump setting from as per sec 6.8.2 of the ssd1318 datasheet
   // uncomment only one of the below for lines  
-  // U8X8_CA(0x08d, 0x004),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
-  // U8X8_CA(0x08d, 0x044),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
-  // U8X8_CA(0x08d, 0x084),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
-  U8X8_CA(0x08d, 0x0c4),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
+  // default: 
+  // U8X8_CA(0x08d, 0x004, 0x0ac, 0x001),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
+  // U8X8_CA(0x08d, 0x044, 0x0ac, 0x001),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
+  // U8X8_CA(0x08d, 0x084, 0x0ac, 0x001),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
+  U8X8_CAAA(0x08d, 0x0c4, 0x0ac, 0x001),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
   
-  U8X8_CA(0x0ac, 0x001),		/* Charge pump setting from sec 6.8.2 of SSD1318 datasheet */
 
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   // Flipmode
   // U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  // U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  // U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   
   U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
 
@@ -93,6 +93,50 @@ static const uint8_t u8x8_d_ssd1318_128x96_init_seq[] = {
 };
 
 
+/* with external charge pump */
+static const uint8_t u8x8_d_ssd1318_128x96_xcp_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  
+  U8X8_CA(0x0fd, 0x012),		/* unlock */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_CA(0x0ad, 0x0d0),		/* external or internal IREF selection */
+  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio, 96 duty */
+  U8X8_CA(0x0d3, 0x000),		/* display offset */
+  U8X8_CA(0x0a2, 0x000),		/* start line */
+  
+  
+  // not sure if we have to set something for external charge pump
+  // ...
+  
+
+  U8X8_C(0x0a1),				/* segment remap a0/a1*/
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  // Flipmode
+  // U8X8_C(0x0a0),				/* segment remap a0/a1*/
+  // U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  
+  U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
+
+  U8X8_CA(0x081, 0x00f), 		/* value from issue 784, seems to be a little bit low... */
+  
+  
+  U8X8_CA(0x0d5, 0x0d1),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8), value from issue 784 example code */
+  U8X8_CA(0x0d9, 0x022), 		/* [2] pre-charge period 0x022/f1, value from issue 784 example code */
+  U8X8_CA(0x0db, 0x030), 		/* vcomh deselect level, value from issue 784 example code  */  
+  
+  
+  //U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  //U8X8_C(0x02e),				/* Deactivate scroll */ 
+  
+  U8X8_C(0x0a4),				/* output ram to display */
+  U8X8_C(0x0a6),				/* none inverted normal display mode */
+    
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 
 static const uint8_t u8x8_d_ssd1318_128x96_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -111,7 +155,7 @@ static const uint8_t u8x8_d_ssd1318_128x96_powersave1_seq[] = {
 static const uint8_t u8x8_d_ssd1318_128x96_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -119,7 +163,7 @@ static const uint8_t u8x8_d_ssd1318_128x96_flip0_seq[] = {
 static const uint8_t u8x8_d_ssd1318_128x96_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -240,7 +284,28 @@ uint8_t u8x8_d_ssd1318_128x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   {
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1318_128x96_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1318_128x96_icp_init_seq);    
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1318_128x96_display_info);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+uint8_t u8x8_d_ssd1318_128x96_xcp(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    
+  if ( u8x8_d_ssd1318_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1318_128x96_xcp_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1318_128x96_display_info);
