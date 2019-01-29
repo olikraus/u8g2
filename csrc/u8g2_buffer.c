@@ -37,6 +37,11 @@
 #include <string.h>
 
 /*============================================*/
+void u8g2_SetBufferPtr(u8g2_t *u8g2, uint8_t *buf) {
+  u8g2->tile_buf_ptr = buf;
+}
+
+/*============================================*/
 void u8g2_ClearBuffer(u8g2_t *u8g2)
 {
   size_t cnt;

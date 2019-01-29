@@ -1070,6 +1070,8 @@ void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row) U8G2_NOINLINE;
 void u8g2_FirstPage(u8g2_t *u8g2);
 uint8_t u8g2_NextPage(u8g2_t *u8g2);
 
+void u8g2_SetBufferPtr(u8g2_t *u8g2, uint8_t *buf);
+
 #define u8g2_GetBufferPtr(u8g2) ((u8g2)->tile_buf_ptr)
 #define u8g2_GetBufferTileHeight(u8g2)	((u8g2)->tile_buf_height)
 #define u8g2_GetBufferTileWidth(u8g2)	(u8g2_GetU8x8(u8g2)->display_info->tile_width)

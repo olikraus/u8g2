@@ -166,6 +166,7 @@ class U8G2 : public Print
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
     
     uint8_t *getBufferPtr(void) { return u8g2_GetBufferPtr(&u8g2); }
+    void setBufferPtr(uint8_t *buf) { u8g2_SetBufferPtr(&u8g2, buf); }
     uint8_t getBufferTileHeight(void) { return u8g2_GetBufferTileHeight(&u8g2); }
     uint8_t getBufferTileWidth(void) { return u8g2_GetBufferTileWidth(&u8g2); }
     uint8_t getPageCurrTileRow(void) { return u8g2_GetBufferCurrTileRow(&u8g2); }	// obsolete
