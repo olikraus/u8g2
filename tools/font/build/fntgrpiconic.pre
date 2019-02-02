@@ -1,0 +1,51 @@
+
+
+# Reference
+
+Open Iconic fonts are generated from png files available from [https://github.com/iconic/open-iconic/tree/master/png](https://github.com/iconic/open-iconic/tree/master/png).
+
+# Build Process
+
+1. A toplevel script [https://github.com/olikraus/u8g2/blob/master/tools/font/png2bdf/test/do_iconic.sh](https://github.com/olikraus/u8g2/blob/master/tools/font/png2bdf/test/do_iconic.sh) handles the creation of .bdf file
+2. The script calls png2bdf [https://github.com/olikraus/u8g2/tree/master/tools/font/png2bdf](https://github.com/olikraus/u8g2/tree/master/tools/font/png2bdf), which reads the 
+png pictures and creates the .bdf files.
+3. The .bdf files are now part of the u8g2 font build process
+4. During the normal build process, the bdfconv tool creates the u8g2 fonts from the .bdf files.
+
+# Available Icon Collections
+
+The Open Iconic font collection will be available with U8g2 2.22.
+
+The icon collection is split into smaller parts and one font with all icons.
+Depending on the flash memory size of the target system, one or multiple sets can be selected. If flash memory is not a problem, then also the font with the complete list can be used.
+
+ - check: Yes/no/tick marks
+ - gui: Icons related to window mangers and other gui elements
+ - other: Any other icons not fitting anywhere else
+ - thing: Icon which show things
+ - app: Applications
+ - email: E-Mail related icons
+ - human: People or other human related icons
+ - play: Icons for meida and audio players
+ - weather: Weather icons
+ - arrow: All kind of arrows
+ - embedded: Icons which might be suitable for a microcontroller project
+ - mime: File data types
+ - text: Text editing icons
+ - www: Internet related icons
+ - all: All icons
+
+The .bdf file of the "all icon" set can be used to create a custom font with your own selection of icons.
+
+All icon sets are avilable in sizes 1x (8x8 pixel), 2x (16x16 pixel), 4x (32x32 pixel), 6x (48x48 pixel) and 8x (64x64 pixel).
+
+Open iconic fonts are transparent fonts. You can not use a background color and you must use transparent mode for drawing. The base line (reference point) for the icons is the lower left corner of the icons.
+
+
+# Copyright
+
+Open Iconic Icons are available under the SIL OPEN FONT LICENSE ([https://github.com/iconic/open-iconic](https://github.com/iconic/open-iconic)).
+
+
+# Font Details
+
