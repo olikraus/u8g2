@@ -178,7 +178,8 @@ struct groupinfo gi[] = {
   { "Wqy (Chinese Font)", 	"fntgrpwqy", 		"../../../../u8g2.wiki/fntgrpwqy.md", 		"fntgrpwqy.pre" }, 		/* 21 */  
   { "Open Iconic", 	"fntgrpiconic", 		"../../../../u8g2.wiki/fntgrpiconic.md", 		"fntgrpiconic.pre" }, 		/* 22 */  
   { "Persian", 	"fntgrppersian", 		"../../../../u8g2.wiki/fntgrppersian.md", 		"fntgrppersian.pre" }, 		/* 23 */  
-  { "Tom-Thumb", 	"fntgrptomthumb", 		"../../../../u8g2.wiki/fntgrptomthumb.md", 		"fntgrptomthumb.pre" }, 		/* 24 */  
+  { "Tom-Thumb", 	"fntgrptomthumb", 		"../../../../u8g2.wiki/fntgrptomthumb.md", 		"fntgrptomthumb.pre" }, 	/* 24 */  
+  { "Extant", 	"fntgrpextant", 		"../../../../u8g2.wiki/fntgrpextant.md", 		"fntgrpextant.pre" }, 		/* 25 */  
 
 
   
@@ -489,8 +490,18 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "GUILD_0.ttf", "guildenstern_nbp",		18, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "astra0.ttf",	"astragal_nbp",			18, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
 
-  { "-y -1 -th 1 -tv 2",  "-r 72 -p 16", "shylock_nbp.ttf",	"shylock_nbp_1x2",	18, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
-  
+    /* Extant, 25 */
+  { 0,  "-r 72 -p 16", "HabsburgChancery.ttf",	"habsburgchancery",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "HabsburgChancery.ttf",	"habsburgchancery",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "MissingPlanet.ttf",	"missingplanet",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "MissingPlanet.ttf",	"missingplanet",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "OrdinaryBasis.ttf",	"ordinarybasis",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "OrdinaryBasis.ttf",	"ordinarybasis",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "PixelMordred.ttf",	"pixelmordred",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "PixelMordred.ttf",	"pixelmordred",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+
 
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
