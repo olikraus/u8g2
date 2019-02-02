@@ -180,8 +180,10 @@ struct groupinfo gi[] = {
   { "Persian", 	"fntgrppersian", 		"../../../../u8g2.wiki/fntgrppersian.md", 		"fntgrppersian.pre" }, 		/* 23 */  
   { "Tom-Thumb", 	"fntgrptomthumb", 		"../../../../u8g2.wiki/fntgrptomthumb.md", 		"fntgrptomthumb.pre" }, 	/* 24 */  
   { "Extant", 	"fntgrpextant", 		"../../../../u8g2.wiki/fntgrpextant.md", 		"fntgrpextant.pre" }, 		/* 25 */  
+  { "MistressEllipsis", "fntgrpmistressellipsis", "../../../../u8g2.wiki/fntgrpmistressellipsis.md", 		"fntgrpmistressellipsis.pre" }, 		/* 26 */ 
+  { "JayWright", "fntgrpjaywright", "../../../../u8g2.wiki/fntgrpjaywright.md", 		"fntgrpjaywright.pre" }, 		/* 27 */ 
 
-
+  
   
 };
 
@@ -502,6 +504,22 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
 
+
+  /* MistressEllipsis, 26 */
+  { 0,  "-r 72 -p 16", "Beanstalk.ttf",	"beanstalk_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "Cube.ttf",	"cube_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "Mademoiselle.ttf",	"mademoiselle_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "PieceOfCake.ttf",	"pieceofcake_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "Press.ttf",	"press_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "RePress.ttf",	"repress_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "Sticker.ttf",	"sticker_mel",	26, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+
+
+  /* JayWright, 27 */
+  { 0,  "-r 72 -p 16", "CelibateMonk.ttf",	"celibatemonk",		27, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "DisrespectfulTeenager.ttf",	"disrespectfulteenager",	27, 0, BM_T, FM_C, MM_U, "", "" },
+  { 0,  "-r 72 -p 16", "MichaelMouse.ttf",	"michaelmouse",		27, 0, BM_T, FM_C, MM_U, "", "" },
+  { 0,  "-r 72 -p 16", "SandyForest.ttf",	"sandyforest",			27, 0, BM_T, FM_C, MM_R|MM_U|MM_N, "", "" },
 
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
