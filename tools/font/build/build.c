@@ -185,6 +185,7 @@ struct groupinfo gi[] = {
   { "Angel", "fntgrpangel", "../../../../u8g2.wiki/fntgrpangel.md", 		"fntgrpangel.pre" }, 		/* 28 */ 
   { "JosephKnightcom", "fntgrpjosephknightcom", "../../../../u8g2.wiki/fntgrpjosephknightcom.md", 		"fntgrpjosephknightcom.pre" }, 		/* 29 */ 
   { "ChristinaAntoinetteNeofotistou", "fntgrpchristinaneofotistou", "../../../../u8g2.wiki/fntgrpchristinaneofotistou.md", 		"fntgrpchristinaneofotistou.pre" }, 		/* 30 */ 
+  { "Geoff", "fntgrpgeoff", "../../../../u8g2.wiki/fntgrpgeoff.md", 		"fntgrpgeoff.pre" }, 		/* 31 */ 
 
   
   
@@ -537,7 +538,20 @@ Greek Extended	1F00–1FFF
   /* ChristinaAntoinetteNeofotistou, 30 */
   { 0,  "-r 72 -p 16", "JinxedWizards.ttf",	"jinxedwizards",	30, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "LastPriestess.ttf",	"lastpriestess",		30, 0, BM_T, FM_C, MM_N|MM_U|MM_R, "", "" },
-  
+
+  /* Geoff, 31 */
+  { 0,  "-r 72 -p 16", "BitCasual.ttf",			"BitCasual",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "BitCasual.ttf",			"BitCasual",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "Koleeko.ttf",			"Koleeko",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenFatGuys.ttf",		"TenFatGuys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenFatGuys.ttf",		"TenFatGuys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "TenStamps.ttf",		"TenStamps",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenThinGuys.ttf",		"TenThinGuys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenThinGuys.ttf",		"TenThinGuys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"TenThinnerGuys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"TenThinnerGuys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "TwelveDings.ttf",		"TwelveDings",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
   { 0,  0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
