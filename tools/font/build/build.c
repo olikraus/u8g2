@@ -182,6 +182,9 @@ struct groupinfo gi[] = {
   { "Extant", 	"fntgrpextant", 		"../../../../u8g2.wiki/fntgrpextant.md", 		"fntgrpextant.pre" }, 		/* 25 */  
   { "MistressEllipsis", "fntgrpmistressellipsis", "../../../../u8g2.wiki/fntgrpmistressellipsis.md", 		"fntgrpmistressellipsis.pre" }, 		/* 26 */ 
   { "JayWright", "fntgrpjaywright", "../../../../u8g2.wiki/fntgrpjaywright.md", 		"fntgrpjaywright.pre" }, 		/* 27 */ 
+  { "Angel", "fntgrpangel", "../../../../u8g2.wiki/fntgrpangel.md", 		"fntgrpangel.pre" }, 		/* 28 */ 
+  { "JosephKnightcom", "fntgrpjosephknightcom", "../../../../u8g2.wiki/fntgrpjosephknightcom.md", 		"fntgrpjosephknightcom.pre" }, 		/* 29 */ 
+  { "ChristinaAntoinetteNeofotistou", "fntgrpchristinaneofotistou", "../../../../u8g2.wiki/fntgrpchristinaneofotistou.md", 		"fntgrpchristinaneofotistou.pre" }, 		/* 30 */ 
 
   
   
@@ -521,6 +524,20 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "MichaelMouse.ttf",	"michaelmouse",		27, 0, BM_T, FM_C, MM_U, "", "" },
   { 0,  "-r 72 -p 16", "SandyForest.ttf",	"sandyforest",			27, 0, BM_T, FM_C, MM_R|MM_U|MM_N, "", "" },
 
+  /* Angel, 28 */
+  { 0,  "-r 72 -p 16", "CupcakeMeToYourLeader.ttf",	"cupcakemetoyourleader",	28, 0, BM_T, FM_C, MM_R|MM_U|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "OldWizard.ttf",			"oldwizard",				28, 0, BM_T, FM_C, MM_F|MM_R|MM_U|MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "Squirrel.ttf",				"squirrel",				28, 0, BM_T, FM_C, MM_R|MM_U|MM_N, "", "" },
+  
+  /* JosephKnightcom, 29 */
+  { 0,  "-r 72 -p 16", "DiodeSemiMono.ttf",	"diodesemimono",	29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Questgiver.ttf",		"questgiver",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Seraphimb1.ttf",		"seraphimb1",		29, 0, BM_T, FM_C, MM_R, "", "" },
+
+  /* ChristinaAntoinetteNeofotistou, 30 */
+  { 0,  "-r 72 -p 16", "JinxedWizards.ttf",	"jinxedwizards",	30, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "LastPriestess.ttf",	"lastpriestess",		30, 0, BM_T, FM_C, MM_N|MM_U|MM_R, "", "" },
+  
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
   { 0,  0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },

@@ -1055,9 +1055,6 @@ extern const uint8_t u8x8_font_open_iconic_weather_8x8[] U8X8_FONT_SECTION("u8x8
 extern const uint8_t u8x8_font_profont29_2x3_f[] U8X8_FONT_SECTION("u8x8_font_profont29_2x3_f");
 extern const uint8_t u8x8_font_profont29_2x3_r[] U8X8_FONT_SECTION("u8x8_font_profont29_2x3_r");
 extern const uint8_t u8x8_font_profont29_2x3_n[] U8X8_FONT_SECTION("u8x8_font_profont29_2x3_n");
-extern const uint8_t u8x8_font_shylock_nbp_1x2_f[] U8X8_FONT_SECTION("u8x8_font_shylock_nbp_1x2_f");
-extern const uint8_t u8x8_font_shylock_nbp_1x2_r[] U8X8_FONT_SECTION("u8x8_font_shylock_nbp_1x2_r");
-extern const uint8_t u8x8_font_shylock_nbp_1x2_n[] U8X8_FONT_SECTION("u8x8_font_shylock_nbp_1x2_n");
 extern const uint8_t u8x8_font_artossans8_r[] U8X8_FONT_SECTION("u8x8_font_artossans8_r");
 extern const uint8_t u8x8_font_artossans8_n[] U8X8_FONT_SECTION("u8x8_font_artossans8_n");
 extern const uint8_t u8x8_font_artossans8_u[] U8X8_FONT_SECTION("u8x8_font_artossans8_u");
