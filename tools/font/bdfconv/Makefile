@@ -136,6 +136,10 @@ fub20x: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 27 -o tmp.bdf ../ttf/FreeUniversal-Bold.ttf
 	./bdfconv -v -f 1 -m '32-127,8364' tmp.bdf -o u8g2_font_fub20_tx.c  -n u8g2_font_fub20_tx -d ../bdf/helvB18.bdf 
 
+climacons: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 32 -o tmp.bdf Climacons.ttf
+	./bdfconv -v -f 1 -m '32-256' tmp.bdf -o u8g2_font_climacons.c  -n u8g2_font_climacons -d ../bdf/helvB18.bdf 
+
 logisoso20x: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 30 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32-127,8364' tmp.bdf -o u8g2_font_logisoso20_tx.c  -n u8g2_font_logisoso20_tx -d ../bdf/helvB18.bdf 

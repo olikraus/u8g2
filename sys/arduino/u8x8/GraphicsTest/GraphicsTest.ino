@@ -53,7 +53,7 @@
 //U8X8_SSD1306_128X64_NONAME_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 6, /* dc=*/ 4, /* reset=*/ 12);	// Arduboy (DevKit)
 //U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy 10 (Production, Kickstarter Edition)
-//U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8X8_SSD1306_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1306_128X64_NONAME_3W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8X8_SSD1306_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE); 	      
 //U8X8_SSD1306_128X64_ALT0_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE); 	      // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
@@ -322,10 +322,16 @@ void loop(void)
   pre();
   u8x8.drawString(0, 1, "3x6 Font");
   u8x8.setFont(u8x8_font_inb33_3x6_n);
-  for(i = 0; i < 200; i++ )
+  for(i = 0; i < 100; i++ )
   {
-    u8x8.drawString(0, 2, u8x8_u16toa(i, 5));
+    u8x8.setCursor(0, 2);
+    u8x8.print(i);			// Arduino Print function
     delay(10);
+  }
+  for(i = 0; i < 100; i++ )
+  {
+    u8x8.drawString(0, 2, u8x8_u16toa(i, 5));	// U8g2 Build-In functions
+    delay(10);		
   }
 
   pre();

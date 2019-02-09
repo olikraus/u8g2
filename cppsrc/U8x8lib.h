@@ -271,7 +271,7 @@ class U8X8 : public Print
       return u8x8_GetUTF8Len(&u8x8, s); }
     
     size_t write(uint8_t v);
-    /*
+    /* code extended and moved to .cpp file, issue 74
     size_t write(uint8_t v) {
       u8x8_DrawGlyph(&u8x8, tx, ty, v);
       tx++;

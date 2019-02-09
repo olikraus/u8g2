@@ -51,13 +51,16 @@ size_t U8X8::write(uint8_t v)
 {
   if ( v == '\n' )
   {
-    ty++;
+    uint8_t dy = u8x8_pgm_read(u8x8.font+3);		/* new 2019 format */
+    ty+=dy;
     tx=0;
   }
   else
   {
+    uint8_t dx = u8x8_pgm_read(u8x8.font+2);		/* new 2019 format */
     u8x8_DrawGlyph(&u8x8, tx, ty, v);
-    tx++;
+
+    tx+=dx;
   }
   return 1;
 }
