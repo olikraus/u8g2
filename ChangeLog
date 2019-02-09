@@ -205,7 +205,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added setBusClock() proc to change the I2C/SPI bus clock speed (Arduino only, issue 705)
   * Added sleep mode for ST7920 (issue 245)
   * Added support for SSD0323 (issue 720)
-2019-xx-xx	v2.25.x  olikraus@gmail.com
+2019-02-09	v2.25.10  olikraus@gmail.com
   * Improved speed for I2C with SSD1306 controller: 4% faster now (issue 735)
   * Fixed code problems (issues 766 and 754)  
   * Added battery symbols and emoticons (issue 747)
@@ -213,4 +213,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added alternative version for ERC12864 (issue 790)
   * Added Waveshare SSD1607 200x200 support (issue 637)
   * Added support for SSD1318 (issue 784)
+  * Partial display update with updateDisplayArea (issue 736)
+  * Several new decorative and fancy fonts (issue 801)
   
