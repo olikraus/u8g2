@@ -1,0 +1,14 @@
+This directory contains code that can be shared across all AVR uC.
+
+Please refer to https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform to understand what is here.
+
+At lib/u8x8_avr.h, you can find:
+
+	u8x8_byte_avr_hw_spi
+		Implements HW SPI communication. To use it, you're required to define SCK and MOSI ports externally (see example Makefiles).
+	u8x8_avr_delay
+		Implements the delay functions that are required by the GPIO and Delay callback function.
+
+This means, you have to write little code to support your own project.
+
+Please refer to the existing main.c and Makefile examples for details on how to use it.
