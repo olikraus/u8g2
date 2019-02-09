@@ -211,4 +211,133 @@ uint8_t u8x8_d_ssd1306_128x32_univision(u8x8_t *u8x8, uint8_t msg, uint8_t arg_i
     return u8x8_d_ssd1306_128x32_generic(u8x8, msg, arg_int, arg_ptr);
 }
 
+/*=============================================*/
+/* issue 756 */
 
+#define	    ADDR_MODE	0 //0:horizontal, 1:vertical, 2:page
+
+
+/* From WEO012832DWPP3N00000 Datasheet and Winstar Example Constructors */
+static const uint8_t u8x8_d_ssd1306_128x32_winstar_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	// enable chip, delay is part of the transfer start 
+  
+  //*/taken from WEO012832.c example provided by Winstar as an example
+  U8X8_C(0x8D), 
+  U8X8_C(0x14), //Enable embedded DC/DC converter
+
+  U8X8_C(0xae),		                // display off 
+
+  U8X8_C(0xd5),
+  U8X8_C(0xA0),		// display clock
+
+  U8X8_C(0x0a8),
+  U8X8_C(0x01f),		// multiplex ratio 
+
+  U8X8_C(0xd3),
+  U8X8_C(0x00),		// display offset 
+
+  U8X8_C(0x40),                 //start line
+  
+  U8X8_C(0x00),                 //Set Lower Column Start Address for Page Addressing Mode  efault => 0x00
+  U8X8_C(0x10),                 //Set Higher Column Start Address for Page Addressing Mode;Default => 0x10	
+
+  U8X8_C(0xA1),                //segment remapping
+
+  U8X8_C(0xC8),                 //Com/Row scan direction
+
+  U8X8_C(0xDA),
+  U8X8_C(0x02),                 //Set alternative configuration
+
+  U8X8_C(0x91),
+  U8X8_C(0x3F),
+  U8X8_C(0x3F),
+  U8X8_C(0x3F),
+  U8X8_C(0x3F),
+
+  U8X8_C(0x81),
+  U8X8_C(0x30), //Set SEG output current
+
+  U8X8_C(0xD9),
+  U8X8_C(0x77), //set precharge as 15 clocks and discharge as 1 clock
+
+  U8X8_C(0xDB),
+  U8X8_C(0x00), //set VCOM Deselect level
+
+  U8X8_C(0xA4), //set entire display on
+
+  U8X8_C(0xA6), //Disable reverse display on
+
+  U8X8_C(0xAF), //display on
+ //*/
+
+
+  U8X8_END_TRANSFER(),             	// disable chip 
+  U8X8_END()             			// end of sequence 
+};
+
+static const uint8_t u8x8_d_ssd1306_128x32_winstar_powersave0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0af),		                /* display on */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1306_128x32_winstar_powersave1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1306_128x32_winstar_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a1),				/* segment remap a0/a1*/
+  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1306_128x32_winstar_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a0),				/* segment remap a0/a1*/
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+
+static const u8x8_display_info_t u8x8_ssd1306_128x32_winstar_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* SSD1306: 3 us */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 50,		/* SSD1306: 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* SSD1306: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215) */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 16,
+  /* tile_hight = */ 4,
+  /* default_x_offset = */ 125,
+  /* flipmode_x_offset = */ 125,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 32
+};
+
+uint8_t u8x8_d_ssd1306_128x32_winstar(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+    {
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1306_128x32_winstar_display_info);
+      return 1;
+    }
+    return u8x8_d_ssd1306_128x32_generic(u8x8, msg, arg_int, arg_ptr);
+}
