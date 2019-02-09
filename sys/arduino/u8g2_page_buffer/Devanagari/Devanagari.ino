@@ -347,6 +347,7 @@ void loop(void) {
   u8g2.firstPage();
   do {
     u8g2_draw_unifont_devanagari(0,24,"नमस्ते दुनिया");	
+    u8g2_draw_unifont_devanagari(0,48,"दुनिया");	// \0x0926 \0x0941 \0x0928 \0x093f \0x092f \0x093e
   } while ( u8g2.nextPage() );
   //delay(1000);
 }
