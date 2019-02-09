@@ -231,6 +231,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x128" },
+      { "pimoroni_128x128" },
       { NULL }
     }
   },
@@ -239,6 +240,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x128" },
+      { "pimoroni_128x128" },
       { NULL }
     }
   },
