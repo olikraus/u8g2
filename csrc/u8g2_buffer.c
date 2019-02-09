@@ -174,3 +174,8 @@ void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, u
   }  
 }
 
+/* same as sendBuffer, but does not send the ePaper refresh message */
+void u8g2_UpdateDisplay(u8g2_t *u8g2)
+{
+  u8g2_send_buffer(u8g2);
+}

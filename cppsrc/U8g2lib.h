@@ -178,6 +178,8 @@ class U8G2 : public Print
     
     void updateDisplayArea(uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th)
       { u8g2_UpdateDisplayArea(&u8g2, tx, ty, tw, th); }
+    void updateDisplay(void)
+      { u8g2_UpdateDisplay(&u8g2); }
 
 
     /* u8g2_hvline.c */

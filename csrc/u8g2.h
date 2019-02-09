@@ -1091,6 +1091,7 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
 #define u8g2_GetBufferCurrTileRow(u8g2) ((u8g2)->tile_curr_row)
 
 void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th);
+void u8g2_UpdateDisplay(u8g2_t *u8g2);
 
 
 /*==========================================*/
