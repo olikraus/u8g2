@@ -78,7 +78,7 @@
 //U8G2_NULL u8g2(U8G2_R0);	// null device, a 8x8 pixel display which does nothing
 //U8G2_SSD1306_128X64_NONAME_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 12, /* dc=*/ 4, /* reset=*/ 6);	// Arduboy (Production, Kickstarter Edition)
-//U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
 //U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SSD1306_128X64_ALT0_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
@@ -291,13 +291,14 @@ u8g2_uint_t u8g2_draw_unifont_devanagari(u8g2_uint_t x, u8g2_uint_t y, const cha
 	/* please report to https://github.com/olikraus/u8g2/issues/584 */
 	case 0x093e: x-= 12; break;
 	case 0x093f: x-= 19; break;
-	case 0x0941: x-= 14; break;
+	case 0x0941: x-= 10; y+=3; break;		// move down
 	case 0x0947: x-= 12; break;
 	case 0x094d: x-= 10; break;
       }
       delta = u8g2.drawGlyph(x, y, e);    
       switch(e)
       {
+	case 0x0941: x-= 3; y -=3; break;		// revert the y shift
 	case 0x094d: x-= 8; break;
       }
       x += delta;
