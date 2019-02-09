@@ -144,7 +144,7 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2)
     user to ensure, that the provided arguments are correct.
 
   Limitations:
-    - Only available in full buffer mode
+    - Only available in full buffer mode (will not do anything in page mode)
     - Tile positions and sizes (pixel position divided by 8)
     - Any display rotation/mirror is ignored
     - Only works with displays, which support U8x8 API

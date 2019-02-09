@@ -186,6 +186,10 @@ struct groupinfo gi[] = {
   { "JosephKnightcom", "fntgrpjosephknightcom", "../../../../u8g2.wiki/fntgrpjosephknightcom.md", 		"fntgrpjosephknightcom.pre" }, 		/* 29 */ 
   { "ChristinaAntoinetteNeofotistou", "fntgrpchristinaneofotistou", "../../../../u8g2.wiki/fntgrpchristinaneofotistou.md", 		"fntgrpchristinaneofotistou.pre" }, 		/* 30 */ 
   { "Geoff", "fntgrpgeoff", "../../../../u8g2.wiki/fntgrpgeoff.md", 		"fntgrpgeoff.pre" }, 		/* 31 */ 
+  { "Tulamide", "fntgrptulamide", "../../../../u8g2.wiki/fntgrptulamide.md", 		"fntgrptulamide.pre" }, 		/* 32 */ 
+  { "GilesBooth", "fntgrpgilesbooth", "../../../../u8g2.wiki/fntgrpgilesbooth.md", 		"fntgrpgilesbooth.pre" }, 		/* 33 */ 
+  { "bitfontmaker2", "fntgrpbitfontmaker2", "../../../../u8g2.wiki/fntgrpbitfontmaker2.md", 		"fntgrpbitfontmaker2.pre" }, 		/* 34 */ 
+  { "JapanYoshi", "fntgrpjapanyoshi", "../../../../u8g2.wiki/fntgrpjapanyoshi.md", 		"fntgrpjapanyoshi.pre" }, 		/* 35 */ 
 
   
   
@@ -203,7 +207,7 @@ struct groupinfo gi[] = {
 #define MM_N	8	/* numbers */
 #define MM_C	16	/* custom */
 #define MM_M	32	/* map file */
-#define MM_E	64	/* extended 32-701,7838	 */
+#define MM_E	64	/* extended 32-701,7838 fb00..fb07	 */
 
 
 /*
@@ -537,26 +541,66 @@ Greek Extended	1F00–1FFF
 
   /* ChristinaAntoinetteNeofotistou, 30 */
   { 0,  "-r 72 -p 16", "JinxedWizards.ttf",	"jinxedwizards",	30, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "LastPriestess.ttf",	"lastpriestess",		30, 0, BM_T, FM_C, MM_N|MM_U|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "LastPriestess.ttf",	"lastpriestess",		30, 0, BM_T, FM_C, MM_U|MM_R, "", "" },
 
   /* Geoff, 31 */
-  { 0,  "-r 72 -p 16", "BitCasual.ttf",			"BitCasual",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
-  { 0,  "-r 72 -p 16", "BitCasual.ttf",			"BitCasual",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0,  "-r 72 -p 16", "Koleeko.ttf",			"Koleeko",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
-  { 0,  "-r 72 -p 16", "TenFatGuys.ttf",		"TenFatGuys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
-  { 0,  "-r 72 -p 16", "TenFatGuys.ttf",		"TenFatGuys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0,  "-r 72 -p 16", "TenStamps.ttf",		"TenStamps",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
-  { 0,  "-r 72 -p 16", "TenThinGuys.ttf",		"TenThinGuys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
-  { 0,  "-r 72 -p 16", "TenThinGuys.ttf",		"TenThinGuys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"TenThinnerGuys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
-  { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"TenThinnerGuys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0,  "-r 72 -p 16", "TwelveDings.ttf",		"TwelveDings",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "BitCasual.ttf",			"bitcasual",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "BitCasual.ttf",			"bitcasual",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "Koleeko.ttf",			"koleeko",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenFatGuys.ttf",		"tenfatguys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenFatGuys.ttf",		"tenfatguys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "TenStamps.ttf",		"tenstamps",	31, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenThinGuys.ttf",		"tenthinguys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenThinGuys.ttf",		"tenthinguys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"tenthinnerguys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"tenthinnerguys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "TwelveDings.ttf",		"twelvedings",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+
+  /* tulamide, 32 */
+  { 0,  "-r 72 -p 16", "Fewture.ttf",			"fewture",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "Halftone.ttf",			"halftone",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "Nerhoe.ttf",			"nerhoe",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "Oskool.ttf",			"oskool",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TinyTim.ttf",			"tinytim",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "TooseOrnament.ttf",	"tooseornament",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  
+  /* GilesBooth, 33*/
+  { 0,  "-r 72 -p 16", "Bauhaus2015.ttf",			"bauhaus2015",	33, 0, BM_T, FM_C, MM_N|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "FindersKeepers.ttf",			"finderskeepers",	33, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "SirClivetheBold.ttf",			"sirclivethebold",	33, 0, BM_T, FM_C, MM_N|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "SirClive.ttf",				"sirclive",	33, 0, BM_T, FM_C, MM_N|MM_R, "", "" },
+  
+  /* bm2, 34*/
+  { 0,  "-r 72 -p 16", "Adventurer.ttf",			"adventurer",	34, 0, BM_T, FM_C, MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "Adventurer.ttf",			"adventurer",	34, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "BracketedBabies.ttf",		"bracketedbabies",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "CosmonazisSerif.ttf",		"cosmonazisserif",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Frikativ.ttf",				"frikativ",	34, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Frikativ.ttf",				"frikativ",	34, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "FancyPixels.ttf",			"fancypixels",	34, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "HEAVYBOTTOM.ttf",			"heavybottom",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "IconQuadPix.ttf",			"iconquadpix",	34, 0, BM_M, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "LastApprenticeBold.ttf",		"lastapprenticebold",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "LastApprenticeThin.ttf",		"lastapprenticethin",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Tallpix.ttf",				"tallpix",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+
+  /* JapanYoshi, 35*/
+  { 0,  "-r 72 -p 16", "BBSesque.ttf",			"BBSesque",			35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Born2bSportySlab.ttf",		"Born2bSportySlab",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Born2bSportySlab.ttf",		"Born2bSportySlab",	35, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "Born2bSportyV2.ttf",		"Born2bSportyV2",		35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "CursivePixel.ttf",			"CursivePixel",	35, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Engrish.ttf",				"Engrish",	35, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "ImpactBits.ttf",			"ImpactBits",	35, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "IPAandRUSLCD.ttf",			"IPAandRUSLCD",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
 
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
   { 0,  0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
   { 0,  0, "etl16-thai.bdf", 		"etl16thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
   { 0,  0, "etl24-thai.bdf", 		"etl24thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
+
 
   
   
@@ -1494,7 +1538,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   if ( mm == MM_R ) strcat(bdf_cmd, " -m '32-127>32'");
   if ( mm == MM_N ) strcat(bdf_cmd, " -m '32,42-58>42'");
   if ( mm == MM_U ) strcat(bdf_cmd, " -m '32-95>32'");
-  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838'");
+  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,64256-64263'");
   if ( mm == MM_C ) 
   {
     strcat(bdf_cmd, " -m '");

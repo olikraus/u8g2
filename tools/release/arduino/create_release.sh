@@ -120,6 +120,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/SpaceTrash/*.ino ../../../../U8g2_Ardui
 
 # full buffer
 
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/UpdateArea
+cp ../../../sys/arduino/u8g2_full_buffer/UpdateArea/*.ino ../../../../U8g2_Arduino/examples/full_buffer/UpdateArea/.
+
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/IconMenu
 cp ../../../sys/arduino/u8g2_full_buffer/IconMenu/*.ino ../../../../U8g2_Arduino/examples/full_buffer/IconMenu/.
 
