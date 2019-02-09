@@ -31,23 +31,14 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
   
-  27 Oct 2018:
+  This example shows how to print Devanagari glyphs.
+  A new function "u8g2_draw_unifont_devanagari" is introduced here,
+  which will modify the glyph position for proper display of a word.
   
-  U8G2_SSD1306_128X64_NONAME_1_4W_HW_SPI u8g2
-  make -f Makefile.184.uno
+  This function is incomplete and will not work for all available gylphs.
+  Please extend the function by yourself. I would be happy to hear about
+  new, improved versions of "u8g2_draw_unifont_devanagari".
   
-   text	   
-   8732	    					default, all active
-   8500	    -232	    -2.65%		no U8G2_WITH_CLIP_WINDOW_SUPPORT
-   8316	    -416	    -4.76%		no U8G2_WITH_FONT_ROTATION
-   8606	    -126	    -1.44%	 	no U8G2_WITH_UNICODE
-   8692	    -40	    -0.45%		no U8G2_WITH_INTERSECTION
-   8328	    -404	    -4.62%	  	no U8G2_WITH_INTERSECTION  no U8G2_WITH_CLIP_WINDOW_SUPPORT
-   8718	    -14	    -4.86%		no U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
-   8026	    -706	    -8.08%		no U8G2_WITH_FONT_ROTATION   no U8G2_WITH_INTERSECTION  no U8G2_WITH_CLIP_WINDOW_SUPPORT
-   
-   Some flags depend on each other: `U8G2_WITH_INTERSECTION` is required for `U8G2_WITH_CLIP_WINDOW_SUPPORT`, so `U8G2_WITH_INTERSECTION` is partly active as long
-   as `U8G2_WITH_CLIP_WINDOW_SUPPORT` is requested.
    
 */
 
@@ -349,8 +340,7 @@ void loop(void) {
 
   u8g2.firstPage();
   do {
-    u8g2_draw_unifont_devanagari(0,24,"नमस्ते दुनिया");	
-    u8g2_draw_unifont_devanagari(0,48,"दुनिया");	// \0x0926 \0x0941 \0x0928 \0x093f \0x092f \0x093e
+    u8g2_draw_unifont_devanagari(0,24,"नमस्ते दुनिया");	// Hello World
   } while ( u8g2.nextPage() );
   //delay(1000);
 }
