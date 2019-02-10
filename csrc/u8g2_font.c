@@ -1043,6 +1043,33 @@ void u8g2_SetFont(u8g2_t *u8g2, const uint8_t  *font)
 
 /*===============================================*/
 
+static uint8_t u8g2_is_all_valid(u8g2_t *u8g2, const char *str) U8G2_NOINLINE;
+static uint8_t u8g2_is_all_valid(u8g2_t *u8g2, const char *str)
+{
+  uint16_t e;
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
+  for(;;)
+  {
+    e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    if ( e == 0x0ffff )
+      break;
+    str++;
+    if ( e != 0x0fffe )
+    {
+      if ( u8g2_font_get_glyph_data(u8g2, e) == NULL )
+	return 0;
+    }
+  }
+  return 1;
+}
+
+uint8_t u8g2_IsAllValidUTF8(u8g2_t *u8g2, const char *str)
+{
+  u8g2->u8x8.next_cb = u8x8_utf8_next;
+  return u8g2_is_all_valid(u8g2, str);
+}
+
+
 /* string calculation is stilll not 100% perfect as it addes the initial string offset to the overall size */
 static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)

@@ -31,6 +31,8 @@ char box_word[BOX_LIST_MAX][64];
 const uint8_t *box_font[BOX_LIST_MAX];
 int box_cnt = 0;
 
+int box_index[BOX_LIST_MAX];
+
 #define PLACE_OPTION_MAX 100
 int place_option_cnt = 0;
 pos_t place_option_list[PLACE_OPTION_MAX];
@@ -371,22 +373,130 @@ void do_best_place(int box_idx)
 }
 
 
-
-
-
+/*
+  Linear Congruential Generator (LCG)
+  z = (a*z + c) % m;  
+  m = 256 (8 Bit)
   
-u8g2_t u8g2;
+  for period:
+  a-1: dividable by 2
+  a-1: multiple of 4
+  c: not dividable by 2
+  
+  c = 17
+  a-1 = 64 --> a = 65
+*/
+uint8_t cloud_z = 127;	// start value
+uint8_t cloud_rnd(void) {
+  cloud_z = (uint8_t)((uint16_t)65*(uint16_t)cloud_z + (uint16_t)17);
+  return (uint8_t)cloud_z;
+}
 
 
-void cloud_add(const uint8_t *font, char *word)
+//u8g2_IsAllValidUTF8
+
+char *cloud_utf8[] = 
+{
+  "µC"
+  "Numérique"
+  "像素",
+  "屏幕",
+  "图形",
+  "Ψηφιακή",
+  "Οθόνη",
+   "Γραφικά",
+   "アイコン、",
+   "ビットマップ",
+   "キャラクター、",  
+  "전자", "엔지니어", "장치", "하드웨어",
+   "Ingeniør", "Skærm",
+  "Gerät",
+  "Sprzęt",
+  "Računar", "Ugrađen",
+  "Grafică", 
+  "экран",
+   "Графика",
+   "Значок",
+   "Фонт", "екран", "рачунар", "уграђен",
+   "พิกเซล",
+   "หน้าจอ",
+   "กราฟิก",
+   "Gömülü"
+};
+
+char *cloud_str[] = 
+{
+  "Pixel",
+  "Screen",
+  "Graphics",
+  "Icon",
+  "Bitmap",
+  "Character",
+  "Glyph",
+  "Font",
+  "Display",
+  "Computer",
+  "Embedded",
+  "Electronics", 
+  "Engineer",
+  "Device",
+  "Hardware",
+  "Software",
+  "Science",
+  "Digital",
+  "Arduino"
+};
+
+char *cloud_simple[] = 
+{
+  "Abcdef",
+  "012345",
+  "Abc",
+  "XYZ",
+  "A",
+  "X"
+};
+
+
+
+void cloud_add(u8g2_t *u8g2, const uint8_t *font, char *word)
 {
   u8g2_uint_t extra = 8;
-  u8g2_SetFont(&u8g2, font);
-  box_list[box_cnt].w = u8g2_GetStrWidth(&u8g2, word) + extra; 
-  box_list[box_cnt].h = u8g2_GetAscent(&u8g2) - u8g2_GetDescent(&u8g2) + extra;
+  u8g2_SetFont(u8g2, font);
+  box_list[box_cnt].w = u8g2_GetUTF8Width(u8g2, word) + extra; 
+  box_list[box_cnt].h = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) + extra;
   strcpy(box_word[box_cnt], word); 
+  puts(word);
   box_font[box_cnt] = font;
   box_cnt++;
+}
+
+void cloud_auto_add(u8g2_t *u8g2, const uint8_t *font)
+{
+  int i, n;
+  
+  u8g2_SetFont(u8g2, font);
+  
+  n = sizeof(cloud_utf8)/sizeof(*cloud_utf8);
+  printf("n=%d\n", n);
+  for( i = 0; i < n; i++ )
+  {
+    if ( u8g2_IsAllValidUTF8(u8g2, cloud_utf8[i]) != 0 )
+    {
+      break;
+    }
+  }
+  if ( i < n )
+  {
+    cloud_add(u8g2, font, cloud_utf8[i]);
+    return;
+  }
+  
+  n = sizeof(cloud_str)/sizeof(*cloud_str);
+  printf("n=%d\n", n);
+  i = cloud_rnd() % n;
+  cloud_add(u8g2, font, cloud_str[i]);
+  
 }
 
 void cloud_init(void)
@@ -394,20 +504,55 @@ void cloud_init(void)
   init();  
 }
 
-void cloud_calculate(void)
+void cloud_calculate(uint8_t z)
 {
   int i;
-
-  for( i = 2; i < box_cnt; i++ )
-    do_best_place(i);
+  int a, b, t;
   
+  cloud_z = z;
+  
+  for( i = 0; i < box_cnt; i++ )
+  {
+    box_index[i] = i;
+  }
+  
+  for ( i = 0; i < box_cnt / 2; i++ )
+  {
+    a = cloud_rnd() % (box_cnt-2);
+    a += 2;
+    b = cloud_rnd() % (box_cnt-2);
+    b += 2;
+    t = box_index[a];
+    box_index[a] = box_index[b];
+    box_index[b] = t;
+  }
+  
+  for( i = 2; i < box_cnt; i++ )
+    do_best_place(box_index[i]);  
 }
+
+
+void cloud_draw(u8g2_t *u8g2)
+{
+  int i;
+  for( i = 2; i < placed_box_cnt; i++ )
+  {
+
+	u8g2_SetFont(u8g2, box_font[placed_box_list[i].box_idx]);
+	u8g2_DrawUTF8(u8g2, 
+	  placed_box_list[i].pos.x, 
+	  placed_box_list[i].pos.y, 
+	  box_word[placed_box_list[i].box_idx]);	
+  }
+}
+
+u8g2_t u8g2;
+
 
 
 
 int main(void)
 {
-  int i;
 
   u8g2_SetupBuffer_TGA_DESC(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -416,27 +561,40 @@ int main(void)
   u8g2_SetFontPosTop(&u8g2);
   
   cloud_init();
-  cloud_add(u8g2_font_helvR24_tr, "ABC");
-  cloud_add(u8g2_font_helvB24_tr, "XYZ");
-  cloud_add(u8g2_font_helvR12_tr, "Embedded");
-  cloud_add(u8g2_font_helvB12_tr, "Electronics");
-  cloud_add(u8g2_font_helvR14_tr, "Arduino");
-  cloud_add(u8g2_font_helvB14_tr, "Font");
-  cloud_add(u8g2_font_helvR18_tr, "Controller");
-  cloud_add(u8g2_font_helvB18_tr, "U8g2");
-  cloud_calculate();
+  /*
+  cloud_add(&u8g2, u8g2_font_helvR12_tr, "Embedded");
+  cloud_add(&u8g2, u8g2_font_helvB12_tr, "Electronics");
+  cloud_add(&u8g2, u8g2_font_helvR14_tr, "Arduino");
+  cloud_add(&u8g2, u8g2_font_helvB14_tr, "Font");
+  cloud_add(&u8g2, u8g2_font_helvR18_tr, "Controller");
+  cloud_add(&u8g2, u8g2_font_helvB18_tr, "U8g2");
+  cloud_add(&u8g2, u8g2_font_helvR24_tr, "ABC");
+  cloud_add(&u8g2, u8g2_font_helvB24_tr, "XYZ");
+  */
+  cloud_auto_add(&u8g2, u8g2_font_helvR12_tr);
+  cloud_auto_add(&u8g2, u8g2_font_helvB12_tr);
+  cloud_auto_add(&u8g2, u8g2_font_helvR14_tr);
+  cloud_auto_add(&u8g2, u8g2_font_helvB14_tr);
+  cloud_auto_add(&u8g2, u8g2_font_helvR18_tr);
+  cloud_auto_add(&u8g2, u8g2_font_helvB18_tr);
+  
+  cloud_auto_add(&u8g2, u8g2_font_gb16st_t_3);
+  cloud_auto_add(&u8g2, u8g2_font_wqy12_t_gb2312);
+  cloud_auto_add(&u8g2, u8g2_font_wqy14_t_gb2312);
+  cloud_auto_add(&u8g2, u8g2_font_b10_t_japanese2);
+  cloud_auto_add(&u8g2, u8g2_font_b16_b_t_japanese3);
+  cloud_auto_add(&u8g2, u8g2_font_cu12_t_greek);
+  cloud_auto_add(&u8g2, u8g2_font_cu12_t_cyrillic);
+  cloud_auto_add(&u8g2, u8g2_font_unifont_t_korean2);
+  cloud_auto_add(&u8g2, u8g2_font_unifont_t_polish);
+  
+  cloud_calculate(4);
   
     
     u8g2_FirstPage(&u8g2);
     do
     {
-      for( i = 2; i < placed_box_cnt; i++ )
-      {
-	u8g2_SetFont(&u8g2, box_font[placed_box_list[i].box_idx]);
-	u8g2_DrawStr(&u8g2, 
-	  placed_box_list[i].pos.x, 
-	  placed_box_list[i].pos.y, 
-	  box_word[placed_box_list[i].box_idx]);	
+      cloud_draw(&u8g2);
 	/*
 	u8g2_DrawFrame(&u8g2,
 	  placed_box_list[i].pos.x, 
@@ -444,9 +602,8 @@ int main(void)
 	  box_list[placed_box_list[i].box_idx].w, 
 	  box_list[placed_box_list[i].box_idx].h);
 	*/
-      }
       
-    u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
+    //u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
      // u8g2_DrawStr(&u8g2, 20, 20, "abc");
       
     } while( u8g2_NextPage(&u8g2) );
