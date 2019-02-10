@@ -574,7 +574,6 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Adventurer.ttf",			"adventurer",	34, 0, BM_T, FM_C, MM_R|MM_F, "", "" },
   { 0,  "-r 72 -p 16", "Adventurer.ttf",			"adventurer",	34, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "BracketedBabies.ttf",		"bracketedbabies",	34, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "CosmonazisSerif.ttf",		"cosmonazisserif",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Frikativ.ttf",				"frikativ",	34, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Frikativ.ttf",				"frikativ",	34, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "FancyPixels.ttf",			"fancypixels",	34, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
