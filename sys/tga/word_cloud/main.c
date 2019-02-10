@@ -421,7 +421,11 @@ char *cloud_utf8[] =
    "พิกเซล",
    "หน้าจอ",
    "กราฟิก",
-   "Gömülü"
+   "Gömülü",
+   "ĂăĚěŇň",
+   "ÄäÖöÜü",
+   "Ææ",
+   "E=mc²"
 };
 
 char *cloud_str[] = 
@@ -466,26 +470,48 @@ void cloud_add(u8g2_t *u8g2, const uint8_t *font, char *word)
   box_list[box_cnt].w = u8g2_GetUTF8Width(u8g2, word) + extra; 
   box_list[box_cnt].h = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) + extra;
   strcpy(box_word[box_cnt], word); 
-  puts(word);
+  //puts(word);
   box_font[box_cnt] = font;
   box_cnt++;
 }
 
 void cloud_auto_add(u8g2_t *u8g2, const uint8_t *font)
 {
-  int i, n;
+  int i, n, cnt;
   
   u8g2_SetFont(u8g2, font);
   
   n = sizeof(cloud_utf8)/sizeof(*cloud_utf8);
-  printf("n=%d\n", n);
+  //printf("n=%d\n", n);
+  
+  cnt = 0;
   for( i = 0; i < n; i++ )
   {
     if ( u8g2_IsAllValidUTF8(u8g2, cloud_utf8[i]) != 0 )
     {
-      break;
+      cnt++;
     }
   }
+  
+  if ( cnt > 0 )
+  {
+    cnt = cloud_rnd() % cnt;
+    
+    for( i = 0; i < n; i++ )
+    {
+      if ( u8g2_IsAllValidUTF8(u8g2, cloud_utf8[i]) != 0 )
+      {
+	if ( cnt == 0 )
+	  break;
+	cnt--;
+      }
+    }
+  }
+  else
+  {
+    i = n;
+  }
+  
   if ( i < n )
   {
     cloud_add(u8g2, font, cloud_utf8[i]);
@@ -493,7 +519,7 @@ void cloud_auto_add(u8g2_t *u8g2, const uint8_t *font)
   }
   
   n = sizeof(cloud_str)/sizeof(*cloud_str);
-  printf("n=%d\n", n);
+  //printf("n=%d\n", n);
   i = cloud_rnd() % n;
   cloud_add(u8g2, font, cloud_str[i]);
   
