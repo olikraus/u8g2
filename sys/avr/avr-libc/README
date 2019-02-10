@@ -1,4 +1,4 @@
-This directory contains code that can be shared across all AVR uC.
+This directory contains code that can be shared across all AVR uC, when developing with https://www.nongnu.org/avr-libc/.
 
 Please refer to https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform to understand what is here.
 
