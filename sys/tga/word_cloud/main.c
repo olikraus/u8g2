@@ -5,6 +5,28 @@
 #include <string.h>
 #include <assert.h>
 
+#define WORD_CLOUD_MAX_X 600
+
+extern uint8_t tga_is_transparent;
+
+extern uint8_t tga_desc_fg_r;
+extern uint8_t tga_desc_fg_g;
+extern uint8_t tga_desc_fg_b;
+
+extern uint8_t tga_desc_bg_r;
+extern uint8_t tga_desc_bg_g;
+extern uint8_t tga_desc_bg_b;
+
+extern uint8_t tga_lcd_fg_r;
+extern uint8_t tga_lcd_fg_g;
+extern uint8_t tga_lcd_fg_b;
+
+extern uint8_t tga_lcd_bg_r;
+extern uint8_t tga_lcd_bg_g;
+extern uint8_t tga_lcd_bg_b;
+
+extern void tga_save_png(const char *name);
+
 
 struct _box_t 
 {
@@ -133,8 +155,12 @@ uint32_t placed_box_calculate_max_area(void)
       placed_box_area_max_x = placed_box_list[i].pos.x + box_list[placed_box_list[i].box_idx].w;
   }
   
-  // weight of y is higher, so this should give a more wider picture
-  placed_box_area_value = placed_box_area_max_x + placed_box_area_max_y * 3;
+  if ( placed_box_area_max_x > WORD_CLOUD_MAX_X )
+    // weight of y is higher, so this should give a more wider picture
+    placed_box_area_value = placed_box_area_max_x*5 + placed_box_area_max_y ;
+  else
+    // weight of y is higher, so this should give a more wider picture
+    placed_box_area_value = placed_box_area_max_x + placed_box_area_max_y *5;
   return placed_box_area_value;
 }
 
@@ -336,9 +362,18 @@ void do_best_place(int box_idx)
       // place the box at the position
       pbox = placed_box_push(place_option_list+i, box_idx);
       value = placed_box_calculate_max_area();
-      value *= 8;
-      value += pbox->pos.x;
-      value += pbox->pos.y;
+      /*
+      if ( value == 0x0ffffffff )
+      {
+	value = pbox->pos.y;
+      }
+      else
+      */
+      {
+	value *= 8;
+	value += pbox->pos.x;
+	value += pbox->pos.y;
+      }
       
       // greedy algorithm: We search for the lowest area increase
       if ( lowest_value > value )
@@ -448,17 +483,17 @@ char *cloud_str[] =
   "Software",
   "Science",
   "Digital",
-  "Arduino"
+  "Arduino",
+  "U8g2"
 };
 
 char *cloud_simple[] = 
 {
-  "Abcdef",
-  "012345",
+  "U8g2",
   "Abc",
   "XYZ",
-  "A",
-  "X"
+  "Aa",
+  "Xy"
 };
 
 
@@ -480,6 +515,43 @@ void cloud_auto_add(u8g2_t *u8g2, const uint8_t *font)
   int i, n, cnt;
   
   u8g2_SetFont(u8g2, font);
+  
+  
+  if ( u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) > 30 )
+  {
+    n = sizeof(cloud_simple)/sizeof(*cloud_simple);
+    
+    cnt = 0;
+    for( i = 0; i < n; i++ )
+    {
+      if ( u8g2_IsAllValidUTF8(u8g2, cloud_simple[i]) != 0 )
+      {
+	cnt++;
+      }
+    }
+    
+    if ( cnt > 0 )
+    {
+      cnt = cloud_rnd() % cnt;
+      
+      for( i = 0; i < n; i++ )
+      {
+	if ( u8g2_IsAllValidUTF8(u8g2, cloud_simple[i]) != 0 )
+	{
+	  if ( cnt == 0 )
+	    break;
+	  cnt--;
+	}
+      }
+    }
+    
+    if ( i < n )
+    {
+      cloud_add(u8g2, font, cloud_simple[i]);
+      return;
+    }
+    
+  }
   
   n = sizeof(cloud_utf8)/sizeof(*cloud_utf8);
   //printf("n=%d\n", n);
@@ -580,6 +652,14 @@ u8g2_t u8g2;
 int main(void)
 {
 
+  tga_desc_fg_r = 0;
+  tga_desc_fg_g = 0;
+  tga_desc_fg_b = 0;
+
+  tga_desc_bg_r = 255;
+  tga_desc_bg_g = 255;
+  tga_desc_bg_b = 255;
+
   u8g2_SetupBuffer_TGA_DESC(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
@@ -613,7 +693,21 @@ int main(void)
   cloud_auto_add(&u8g2, u8g2_font_cu12_t_cyrillic);
   cloud_auto_add(&u8g2, u8g2_font_unifont_t_korean2);
   cloud_auto_add(&u8g2, u8g2_font_unifont_t_polish);
+
+  cloud_auto_add(&u8g2, u8g2_font_logisoso54_tf);
   
+  cloud_auto_add(&u8g2, u8g2_font_gb16st_t_3);
+  cloud_auto_add(&u8g2, u8g2_font_wqy12_t_gb2312);
+  cloud_auto_add(&u8g2, u8g2_font_wqy14_t_gb2312);
+  cloud_auto_add(&u8g2, u8g2_font_b10_t_japanese2);
+  cloud_auto_add(&u8g2, u8g2_font_b16_b_t_japanese3);
+  cloud_auto_add(&u8g2, u8g2_font_cu12_t_greek);
+  cloud_auto_add(&u8g2, u8g2_font_cu12_t_cyrillic);
+  cloud_auto_add(&u8g2, u8g2_font_unifont_t_korean2);
+  cloud_auto_add(&u8g2, u8g2_font_unifont_t_polish);
+  cloud_auto_add(&u8g2, u8g2_font_logisoso58_tf);
+
+
   cloud_calculate(4);
   
     
@@ -633,8 +727,9 @@ int main(void)
      // u8g2_DrawStr(&u8g2, 20, 20, "abc");
       
     } while( u8g2_NextPage(&u8g2) );
-  tga_save("u8g2.tga");
-  
+  //tga_save("u8g2.tga");
+  tga_save_png("u8g2.png");
+
   return 0;
 }
 

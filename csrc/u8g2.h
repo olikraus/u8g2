@@ -1935,7 +1935,6 @@ extern const uint8_t u8g2_font_adventurer_tf[] U8G2_FONT_SECTION("u8g2_font_adve
 extern const uint8_t u8g2_font_adventurer_tr[] U8G2_FONT_SECTION("u8g2_font_adventurer_tr");
 extern const uint8_t u8g2_font_adventurer_t_all[] U8G2_FONT_SECTION("u8g2_font_adventurer_t_all");
 extern const uint8_t u8g2_font_bracketedbabies_tr[] U8G2_FONT_SECTION("u8g2_font_bracketedbabies_tr");
-extern const uint8_t u8g2_font_cosmonazisserif_tr[] U8G2_FONT_SECTION("u8g2_font_cosmonazisserif_tr");
 extern const uint8_t u8g2_font_frikativ_tf[] U8G2_FONT_SECTION("u8g2_font_frikativ_tf");
 extern const uint8_t u8g2_font_frikativ_tr[] U8G2_FONT_SECTION("u8g2_font_frikativ_tr");
 extern const uint8_t u8g2_font_frikativ_t_all[] U8G2_FONT_SECTION("u8g2_font_frikativ_t_all");

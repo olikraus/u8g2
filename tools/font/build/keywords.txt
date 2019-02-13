@@ -785,7 +785,6 @@ u8g2_font_adventurer_tf	LITERAL1
 u8g2_font_adventurer_tr	LITERAL1
 u8g2_font_adventurer_t_all	LITERAL1
 u8g2_font_bracketedbabies_tr	LITERAL1
-u8g2_font_cosmonazisserif_tr	LITERAL1
 u8g2_font_frikativ_tf	LITERAL1
 u8g2_font_frikativ_tr	LITERAL1
 u8g2_font_frikativ_t_all	LITERAL1
