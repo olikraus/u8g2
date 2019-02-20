@@ -62,6 +62,10 @@ class U8G2 : public Print
     U8G2(void) { cpp_next_cb = u8x8_ascii_next; home(); }
     u8x8_t *getU8x8(void) { return u8g2_GetU8x8(&u8g2); }
     u8g2_t *getU8g2(void) { return &u8g2; }
+    
+    void sendF(const char *fmt, ...) 
+      { va_list va; va_start(va, fmt); u8x8_cad_vsendf(u8g2_GetU8x8(&u8g2), fmt, va); va_end(va); }
+
 
     uint32_t getBusClock(void) { return u8g2_GetU8x8(&u8g2)->bus_clock; }
     void setBusClock(uint32_t clock_speed) { u8g2_GetU8x8(&u8g2)->bus_clock = clock_speed; }
@@ -122,6 +126,8 @@ class U8G2 : public Print
       
     void setDisplayRotation(const u8g2_cb_t *u8g2_cb) {
       u8g2_SetDisplayRotation(&u8g2, u8g2_cb); }
+      
+    
 
     
     bool begin(void) {

@@ -109,6 +109,7 @@
 
 
 #include <stdint.h>
+#include <stdarg.h>
 #include <stddef.h>
 #include <limits.h>
 
@@ -599,6 +600,8 @@ uint8_t u8x8_cad_SendMultipleArg(u8x8_t *u8x8, uint8_t cnt, uint8_t arg) U8X8_NO
 uint8_t u8x8_cad_SendData(u8x8_t *u8x8, uint8_t cnt, uint8_t *data) U8X8_NOINLINE;
 uint8_t u8x8_cad_StartTransfer(u8x8_t *u8x8) U8X8_NOINLINE;
 uint8_t u8x8_cad_EndTransfer(u8x8_t *u8x8) U8X8_NOINLINE;
+void u8x8_cad_vsendf(u8x8_t * u8x8, const char *fmt, va_list va);
+void u8x8_SendF(u8x8_t * u8x8, const char *fmt, ...);
 
 /*
 #define U8X8_C(c0)				(0x04), (c0)

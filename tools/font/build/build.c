@@ -1575,10 +1575,15 @@ void do_best_place(int box_idx)
 */
 uint8_t cloud_z = 127;	// start value
 uint8_t cloud_rnd(void) {
+/*
   cloud_z++;
   cloud_z = (uint8_t)((uint16_t)65*(uint16_t)cloud_z + (uint16_t)17);
   return (uint8_t)cloud_z;
+  */
+  return rand() & 255;
 }
+
+
 
 
 //u8g2_IsAllValidUTF8
@@ -1613,7 +1618,27 @@ char *cloud_utf8[] =
    "ĂăĚěŇň",
    "ÄäÖöÜü",
    "Ææ",
-   "E=mc²"
+   "E=mc²",
+  "Pixel",
+  "Screen",
+  "Graphics",
+  "Icon",
+  "Bitmap",
+  "Character",
+  "Glyph",
+  "Font",
+  "Display",
+  "Computer",
+  "Embedded",
+  "Electronics", 
+  "Engineer",
+  "Device",
+  "Hardware",
+  "Software",
+  "Science",
+  "Digital",
+  "Arduino",
+  "U8g2"
 };
 
 char *cloud_str[] = 
@@ -1762,6 +1787,7 @@ void cloud_calculate(uint8_t z)
   int a, b, t;
   
   cloud_z = z;
+  srand(z);
   
   for( i = 0; i < box_cnt; i++ )
   {
@@ -1790,7 +1816,9 @@ void cloud_draw(u8g2_t *u8g2)
   for( i = 2; i < placed_box_cnt; i++ )
   {
 
+
 	u8g2_SetFont(u8g2, box_font[placed_box_list[i].box_idx]);
+	u8g2_SetFontMode(u8g2, 1);
 	u8g2_DrawUTF8(u8g2, 
 	  placed_box_list[i].pos.x, 
 	  placed_box_list[i].pos.y, 
@@ -2361,7 +2389,7 @@ void generate_font_group_word_cloud(int i, int fm, char *fms, int bm, char *bms,
       //u8g2_font_list[u8g2_fnt_cnt]
       cloud_auto_add(&u8g2, u8g2_font_list[u8g2_fnt_cnt]);
 
-      printf( "%d: group %s, %s, font %s %s %d %s\n", i, gi[current_font_group_index].groupname, gi[current_font_group_index].reference, fi[i].name, target_font_identifier, u8g2_fnt_cnt, u8g2_font_names[u8g2_fnt_cnt]);
+      //printf( "%d: group %s, %s, font %s %s %d %s\n", i, gi[current_font_group_index].groupname, gi[current_font_group_index].reference, fi[i].name, target_font_identifier, u8g2_fnt_cnt, u8g2_font_names[u8g2_fnt_cnt]);
     }
     
     _i = i;
@@ -2585,11 +2613,11 @@ int main(void)
 #ifdef BUILD2
   u8g2_fnt_cnt = 0;
   u8x8_fnt_cnt = 0;
-  //do_font_loop(overviewpic);
+  do_font_loop(overviewpic);
   u8g2_fnt_cnt = 0;
   u8x8_fnt_cnt = 0;
-  //do_font_loop(overviewshortpic);
-  //do_font_list(generate_font_list);
+  do_font_loop(overviewshortpic);
+  do_font_list(generate_font_list);
 
   do_font_groups_wc(generate_font_group_word_cloud);
   

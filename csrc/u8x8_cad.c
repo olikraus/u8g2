@@ -120,6 +120,32 @@ uint8_t u8x8_cad_EndTransfer(u8x8_t *u8x8)
   return u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
 }
 
+void u8x8_cad_vsendf(u8x8_t * u8x8, const char *fmt, va_list va)
+{
+  uint8_t d;
+  u8x8_cad_StartTransfer(u8x8);
+  while( *fmt != '\0' )
+  {
+    d = (uint8_t)va_arg(va, int);
+    switch(*fmt)
+    {
+      case 'a':  u8x8_cad_SendArg(u8x8, d); break;
+      case 'c':  u8x8_cad_SendCmd(u8x8, d); break;
+      case 'd':  u8x8_cad_SendData(u8x8, 1, &d); break;
+    }
+    fmt++;
+  }
+  u8x8_cad_EndTransfer(u8x8);
+}
+
+void u8x8_SendF(u8x8_t * u8x8, const char *fmt, ...)
+{
+  va_list va;
+  va_start(va, fmt);
+  u8x8_cad_vsendf(u8x8, fmt, va);
+  va_end(va);
+}
+
 /*
   21 c		send command c
   22 a		send arg a
