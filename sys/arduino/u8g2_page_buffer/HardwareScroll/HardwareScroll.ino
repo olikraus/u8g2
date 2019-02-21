@@ -272,19 +272,39 @@ void setup(void) {
   //pinMode(6, OUTPUT);
   //digitalWrite(6, 0);	
 
+
   u8g2.begin();  
-  u8g2.firstPage();
-  do {
-    u8g2.setFont(u8g2_font_ncenB10_tr);
-    u8g2.drawStr(0,24,"Hello World!");
-  } while ( u8g2.nextPage() );
+  
 }
 
+// SSD1306 scroll command
 void loop(void) {
-  delay(1000);
-  u8g2.sendF("c", 0x0a7);
-  delay(1000);
-  u8g2.sendF("c", 0x0a6);
+
+  u8g2.sendF("c", 0x02e);		// disable scroll
+
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_ncenB12_tr);
+    u8g2.drawStr(0,15,"U8g2 Demo 1");
+    u8g2.drawStr(0,50,"HW Scroll");
+  } while ( u8g2.nextPage() );
+
+  // horizontal scroll to the left
+  u8g2.sendF("caaaaaac", 0x027, 0, 3, 0, 7, 0, 255, 0x2f);	// configure & start scroll
+  delay(8000);
+
+  u8g2.sendF("c", 0x02e);		// disable scroll
+
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_ncenB12_tr);
+    u8g2.drawStr(0,15,"U8g2 Demo 2");
+    u8g2.drawStr(0,50,"HW Scroll");
+  } while ( u8g2.nextPage() );
+
+  // vertical up and horizontal left scroll 
+  u8g2.sendF("caaaaac", 0x029, 0, 0, 0, 7, 1, 0x2f);	// configure & start scroll
+  delay(8000);
   
 }
 

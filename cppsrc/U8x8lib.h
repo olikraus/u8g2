@@ -161,6 +161,9 @@ class U8X8 : public Print
   
     U8X8(void) { home();  }
     u8x8_t *getU8x8(void) { return &u8x8; }
+
+    void sendF(const char *fmt, ...) 
+      { va_list va; va_start(va, fmt); u8x8_cad_vsendf(&u8x8, fmt, va); va_end(va); }
     
     uint32_t getBusClock(void) { return u8x8.bus_clock; }
     void setBusClock(uint32_t clock_speed) { u8x8.bus_clock = clock_speed; }
