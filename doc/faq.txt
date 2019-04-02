@@ -254,8 +254,8 @@ A: The sequence is: Start transfer, send data and args, close transfer. Note tha
 this is not portable, because these commands are specific to the display controller.
 The following C++/Arduino code will send one command with one argument to the
 display:
-  u8x8_cad_StartTransfer(u8g2.GetU8x8());
-  u8x8_cad_SendCmd( u8g2.GetU8x8(), <display command>);
-  u8x8_cad_SendArg( u8g2.GetU8x8(), <display-command-arg>);  
-  u8x8_cad_EndTransfer(u8g2.GetU8x8());
+  u8x8_cad_StartTransfer(u8g2.getU8x8());
+  u8x8_cad_SendCmd( u8g2.getU8x8(), <display command>);
+  u8x8_cad_SendArg( u8g2.getU8x8(), <display-command-arg>);  
+  u8x8_cad_EndTransfer(u8g2.getU8x8());
 

@@ -1039,6 +1039,12 @@ extern const uint8_t u8x8_font_7x14_1x2_n[] U8X8_FONT_SECTION("u8x8_font_7x14_1x
 extern const uint8_t u8x8_font_7x14B_1x2_f[] U8X8_FONT_SECTION("u8x8_font_7x14B_1x2_f");
 extern const uint8_t u8x8_font_7x14B_1x2_r[] U8X8_FONT_SECTION("u8x8_font_7x14B_1x2_r");
 extern const uint8_t u8x8_font_7x14B_1x2_n[] U8X8_FONT_SECTION("u8x8_font_7x14B_1x2_n");
+extern const uint8_t u8x8_font_open_iconic_arrow_1x1[] U8X8_FONT_SECTION("u8x8_font_open_iconic_arrow_1x1");
+extern const uint8_t u8x8_font_open_iconic_check_1x1[] U8X8_FONT_SECTION("u8x8_font_open_iconic_check_1x1");
+extern const uint8_t u8x8_font_open_iconic_embedded_1x1[] U8X8_FONT_SECTION("u8x8_font_open_iconic_embedded_1x1");
+extern const uint8_t u8x8_font_open_iconic_play_1x1[] U8X8_FONT_SECTION("u8x8_font_open_iconic_play_1x1");
+extern const uint8_t u8x8_font_open_iconic_thing_1x1[] U8X8_FONT_SECTION("u8x8_font_open_iconic_thing_1x1");
+extern const uint8_t u8x8_font_open_iconic_weather_1x1[] U8X8_FONT_SECTION("u8x8_font_open_iconic_weather_1x1");
 extern const uint8_t u8x8_font_open_iconic_arrow_2x2[] U8X8_FONT_SECTION("u8x8_font_open_iconic_arrow_2x2");
 extern const uint8_t u8x8_font_open_iconic_check_2x2[] U8X8_FONT_SECTION("u8x8_font_open_iconic_check_2x2");
 extern const uint8_t u8x8_font_open_iconic_embedded_2x2[] U8X8_FONT_SECTION("u8x8_font_open_iconic_embedded_2x2");

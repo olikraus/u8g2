@@ -348,6 +348,13 @@ Greek Extended	1F00–1FFF
   { 0,  0, "open_iconic_weather_1x.bdf", "open_iconic_weather_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
   { 0,  0, "open_iconic_www_1x.bdf", "open_iconic_www_1x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },
 
+  { "-th 1 -tv 1",  0, "open_iconic_arrow_1x.bdf",		"open_iconic_arrow_1x1",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 1 -tv 1",  0, "open_iconic_check_1x.bdf",		"open_iconic_check_1x1",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 1 -tv 1",  0, "open_iconic_embedded_1x.bdf",	"open_iconic_embedded_1x1",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 1 -tv 1",  0, "open_iconic_play_1x.bdf",		"open_iconic_play_1x1",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 1 -tv 1",  0, "open_iconic_thing_1x.bdf",		"open_iconic_thing_1x1",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+  { "-th 1 -tv 1",  0, "open_iconic_weather_1x.bdf",		"open_iconic_weather_1x1",	22, 0, BM_8, FM_8, MM_C, "32-255", "" },  
+
   
   { 0,  0, "open_iconic_all_2x.bdf", "open_iconic_all_2x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
   { 0,  0, "open_iconic_app_2x.bdf", "open_iconic_app_2x",  22, 0, BM_T, FM_C, MM_C, "32-300", "" },

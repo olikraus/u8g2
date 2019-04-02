@@ -1139,6 +1139,75 @@ const uint8_t u8x8_font_7x14B_1x2_n[436] U8X8_FONT_SECTION("u8x8_font_7x14B_1x2_
   "\37\0\0\0\0p\370\210\210\370p\0\0\16\37\21\21\37\16\0\0\360\370\10\10\370\360\0\0\14\35\21"
   "\31\17\7\0\0\0\0``\0\0\0\0\0\0\14\14\0\0";
 /*
+  Fontname: open_iconic_arrow_1x
+  Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
+  Glyphs: 28/28
+  BBX Build Mode: 3
+*/
+const uint8_t u8x8_font_open_iconic_arrow_1x1[229] U8X8_FONT_SECTION("u8x8_font_open_iconic_arrow_1x1") = 
+  "@[\1\1\0 `\377` \0\0\10\34>\10\10\10\10\10\10\10\10\10\10>\34\10\0\4\6\377"
+  "\6\4\0\0<n\317\201\201\317n<<f\303\201\347\347f<<f\347\347\201\303f<<v\363\201"
+  "\201\363v<\0\0 \177\377 \0\0\20\30<\30\30\30\30\30\30\30\30\30\30<\34\10\0\0\6\377"
+  "\376\4\0\0\0\4\14\34\34\14\4\0\0\0\0\30<~\0\0\0\0~<\30\0\0\0\0 \60\70"
+  "\70\60 \0\4\16\34\70\70\34\16\4\0\0\30<fB\0\0\0B\347~<\30\0\0\0\60\30\14"
+  "\14\30\60\0\200\200\210\237\237\210\200\200\1\1\21\371\371\21\1\1&r\42\42\42\42'\62\20<\26\2"
+  "@h<\10\20\373\221\201\201\211\337\10Bf<\30$B\347B\60\30\14\14\14\37\16\4\177AAD"
+  "Ff\6\2";
+/*
+  Fontname: open_iconic_check_1x
+  Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
+  Glyphs: 5/5
+  BBX Build Mode: 3
+*/
+const uint8_t u8x8_font_open_iconic_check_1x1[45] U8X8_FONT_SECTION("u8x8_font_open_iconic_check_1x1") = 
+  "@D\1\1\20\70pp\70\34\16\4<~\357\357\347\363~<<~\333\347\347\333~<\177AAI"
+  "IDr\0B\347~<<~\347B";
+/*
+  Fontname: open_iconic_embedded_1x
+  Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
+  Glyphs: 17/17
+  BBX Build Mode: 3
+*/
+const uint8_t u8x8_font_open_iconic_embedded_1x1[140] U8X8_FONT_SECTION("u8x8_font_open_iconic_embedded_1x1") = 
+  "@P\1\1~BBBBB~\30 \60>\277\277>\60 \30~~\347\347~~\30\0\0dg"
+  "=\4\0\0\0|~\37\37~|\0\300\340p\70\30\0\2\0\20\60<\16\70\30\20\20\300\370\376\247"
+  "\376\360\300\0\300\340p>\37\30\30\10~~~~~~~\30\0$<\333Z$\0\0<~\377\377"
+  "\201\201B<\357\357\357\357\357\257\357\0\0\12*\277\65\24\0\0\70D\200\217\200D\70\0<B\201\201"
+  "\201\205\6\6\2\1\11\311\311\1\2";
+/*
+  Fontname: open_iconic_play_1x
+  Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
+  Glyphs: 18/18
+  BBX Build Mode: 3
+*/
+const uint8_t u8x8_font_open_iconic_play_1x1[148] U8X8_FONT_SECTION("u8x8_font_open_iconic_play_1x1") = 
+  "@Q\1\1\30\0~\0\377\0<\0\14\34|\36\36\0\77\0\320\330\334\336\336\334\330\320p~\3\1"
+  "\1\3~p\0~~\0\0~~\0\0~<<\30\30\0\0\0<~~~~<\0\0\30<~"
+  "\0\30<~~<\30\0~<\30\0~~\0\30\30<~\0~<\30\30\0~~\0\0~~~"
+  "~~~\0\0\34\260\257\357\260\34\0\340\340\376\3\3ss\177<~\377\303\347\377~<<<~\377"
+  "\0Zf<\0<<~\377\0\30\0\0\0<<~\377\0";
+/*
+  Fontname: open_iconic_thing_1x
+  Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
+  Glyphs: 19/19
+  BBX Build Mode: 3
+*/
+const uint8_t u8x8_font_open_iconic_thing_1x1[156] U8X8_FONT_SECTION("u8x8_font_open_iconic_thing_1x1") = 
+  "@R\1\1\10\370\234\373\373\234\370\10\334\334\337\335\335\337\334\334zZzZzzzz\300\360\370>"
+  "\77\31\31\16\0\360\362\361\361\376\360\0p\310\264\242Q\11\6\0\374\374\77\77\374\374\60\60\200\340\360p"
+  "\14\16\6\1\0x\334\276\376\374x\0`~bBBb~`\34\42AAAb\374\300\0\377\301\301"
+  "\301\377\0\0\0\6\6\377\14\14\0\0T|~\17~|T\0p\374\77\216\340\370\360\0\0x~y"
+  "y~x\0\77\241\241\341\341\241\241\77\10\11\17\177\17\11\10\0\377\301\301\301\301\301\377";
+/*
+  Fontname: open_iconic_weather_1x
+  Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
+  Glyphs: 6/6
+  BBX Build Mode: 3
+*/
+const uint8_t u8x8_font_open_iconic_weather_1x1[52] U8X8_FONT_SECTION("u8x8_font_open_iconic_weather_1x1") = 
+  "@E\1\1\60x|~~~|pf\367\373\375\374\374\370\340<~~\360\340``\0\30\334\16\357"
+  "\17\337\36\70\0\10x<<x\10\0\0B\30<<\30B";
+/*
   Fontname: open_iconic_arrow_2x
   Copyright: https://github.com/iconic/open-iconic, SIL OPEN FONT LICENSE
   Glyphs: 28/28
