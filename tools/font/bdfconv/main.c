@@ -470,27 +470,35 @@ int main(int argc, char **argv)
 
   if ( bf_desc_font != NULL )
   {
-    tga_init(1024, 1024*12);
-    if ( target_fontname[0] != '\0' )
-      y = tga_draw_font(0, target_fontname, bf_desc_font, bf, cmdline_glyphs_per_line);
-    else
-      y = tga_draw_font(0, bdf_filename, bf_desc_font, bf, cmdline_glyphs_per_line);
-    
-    if ( runtime_test != 0 )
+    if ( font_format == 2 )
     {
-      long i;
-      clock_t c = clock();
-      fd_t fd;
-      fd_init(&fd);
-      fd_set_font(&fd, bf->target_data);
-      for( i = 0; i < 10000; i++ )
-	fd_draw_string(&fd, left_margin, y, "Woven silk pyjamas exchanged for blue quartz.");
-      bf_Log(bf, "Runtime test: %.2lf sec", (double)(clock()-c)/(double)CLOCKS_PER_SEC);
+      bf_Log(bf, "Note: Overview Picture not possible for font format 2, option -d ignored.");
     }
-    
-    tga_set_pixel(1, 1, 0, 0, 0);
+    else
+    {
+      
+      tga_init(1024, 1024*12);
+      if ( target_fontname[0] != '\0' )
+	y = tga_draw_font(0, target_fontname, bf_desc_font, bf, cmdline_glyphs_per_line);
+      else
+	y = tga_draw_font(0, bdf_filename, bf_desc_font, bf, cmdline_glyphs_per_line);
+      
+      if ( runtime_test != 0 )
+      {
+	long i;
+	clock_t c = clock();
+	fd_t fd;
+	fd_init(&fd);
+	fd_set_font(&fd, bf->target_data);
+	for( i = 0; i < 10000; i++ )
+	  fd_draw_string(&fd, left_margin, y, "Woven silk pyjamas exchanged for blue quartz.");
+	bf_Log(bf, "Runtime test: %.2lf sec", (double)(clock()-c)/(double)CLOCKS_PER_SEC);
+      }
+      
+      tga_set_pixel(1, 1, 0, 0, 0);
 
-    tga_save("bdf.tga");
+      tga_save("bdf.tga");
+    }
   }
 
   
