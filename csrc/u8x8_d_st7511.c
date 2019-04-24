@@ -40,7 +40,7 @@
 
 static const uint8_t u8x8_d_st7511_320x240_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x013, 0x0a5),		/* display on */
+  U8X8_CA(0x015, 0x0a5),		/* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -55,16 +55,14 @@ static const uint8_t u8x8_d_st7511_320x240_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_st7511_320x240_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_CAAAA(0x24, 0x01, 0xa5, 0xa5, 0xa5),		/* memory control directions */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_st7511_320x240_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
+  U8X8_CAAAA(0x24, 0x02, 0xa5, 0xa5, 0xa5),		/* memory control directions */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -102,32 +100,20 @@ static const uint8_t u8x8_d_st7511_320x240_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  U8X8_C(0x0e2),            			/* soft reset */
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_C(0x040),		                /* set display start line to 0 */
-  
-  U8X8_C(0x0a1),		                /* ADC set to reverse */
-  U8X8_C(0x0c0),		                /* common output mode */
-  // Flipmode
-  //U8X8_C(0x0a0),		                /* ADC set to reverse */
-  //U8X8_C(0x0c8),		                /* common output mode */
-  
-  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
-  U8X8_C(0x0a3),		                /* LCD bias 1/7 */
-  /* power on sequence from paxinstruments */
-  U8X8_C(0x028|4),		                /* all power  control circuits on */
+  U8X8_CA(0xae, 0xa5),						/* SW Reset */
+  U8X8_CAAAA(0x61, 0x0f, 0x04, 0x02, 0xa5),	/* all power on */
+  U8X8_CAAAA(0x62, 0x0a, 0x06, 0x0f, 0xa5),	/* electronic volumne set 1 */
+  U8X8_CAAAA(0x63, 0x0f, 0x0f, 0xa5, 0xa5),		/* electronic volumne set 2 */
+  U8X8_CAAAA(0x66, 0x00, 0xa5, 0xa5, 0xa5),		/* electronic volumne set 2 */
+  U8X8_CA(0x12, 0xa5),						/* SLeeP OUT */
   U8X8_DLY(50),
-  U8X8_C(0x028|6),		                /* all power  control circuits on */
-  U8X8_DLY(50),
-  U8X8_C(0x028|7),		                /* all power  control circuits on */
+  // skiping display on here, deviation from https://github.com/olikraus/u8g2/issues/876
+  // will be called later in u8x8_d_st7511_320x240_powersave0_seq
+  U8X8_CAAAA(0x22, 0x00, 0xa5, 0xa5, 0xa5),		/* monochrome display */
+  U8X8_CAAAA(0x24, 0x01, 0xa5, 0xa5, 0xa5),		/* memory control directions */
+
   U8X8_DLY(50),
   
-  U8X8_C(0x026),		                /* v0 voltage resistor ratio */
-  U8X8_CA(0x081, 0x027),		/* set contrast, contrast value*/
-  
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
-   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -190,6 +176,10 @@ uint8_t u8x8_d_st7511_avd_320x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       u8x8_cad_SendArg(u8x8, (x&255) );
       u8x8_cad_SendArg(u8x8, 0x002);
       u8x8_cad_SendArg(u8x8, 0x07f);
+
+      // start data transfer
+      u8x8_cad_SendCmd(u8x8, 0x02c);
+      u8x8_cad_SendArg(u8x8, 0x0a5 );
 
       do
       {
