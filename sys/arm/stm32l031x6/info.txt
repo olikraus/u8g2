@@ -271,4 +271,21 @@ Processor: SAMD21G18
 ---------------
 Ausgabe, ob gerade winter oder sommerzeit aktiv ist.
 
+  ========================0
   
+  https://stackoverflow.com/questions/50151897/arm-gcc-conflicting-cpu-architectures
+  
+  ARM GCC: Conflicting CPU architectures
+  
+
+    So you should remove gcc-arm-none-eabi and binutils-arm-none-eabi:
+
+    sudo apt-get remove binutils-arm-none-eabi
+    sudo apt-get remove gcc-arm-none-eabi
+
+    Now install from the PPA:
+
+    sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa
+    sudo apt-get update
+    sudo apt-get install gcc-arm-embedded
+
