@@ -569,3 +569,89 @@ uint8_t u8x8_d_ssd1327_midas_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   }
   return 0;
 }
+
+
+/*=============================================*/
+/*  
+  Waveshare 128x128 Module 
+  https://www.waveshare.com/w/upload/8/80/1.5inch_OLED_Module_User_Manual_EN.pdf
+  https://github.com/olikraus/u8g2/issues/880
+
+  This is mostly a takeover of the EA display.
+*/
+
+/*  https://github.com/SeeedDocument/Grove_OLED_1.12/raw/master/resources/LY120-096096.pdf */
+/*  http://www.seeedstudio.com/wiki/index.php?title=Twig_-_OLED_96x96 */
+/* values from u8glib */
+/*
+  Re-map setting in Graphic Display Data RAM, command 0x0a0
+    Bit 0: Column Address Re-map
+    Bit 1: Nibble Re-map
+    Bit 2: Horizontal/Vertical Address Increment
+    Bit 3: Not used, must be 0
+    
+    Bit 4: COM Re-map
+    Bit 5: Not used, must be 0
+    Bit 6: COM Split Odd Even
+    Bit 7: Not used, must be 0
+*/
+
+/* takeover from https://github.com/olikraus/u8g2/issues/880 */
+static const uint8_t u8x8_d_ssd1327_ws_128x128_init_seq[] = {
+    
+    U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+    U8X8_C(0x0ae), //--turn off oled panel
+    U8X8_CAA(0x015, 0x000, 0x07f),    //set column address, start column 0, end column 127
+    U8X8_CAA(0x075, 0x000, 0x07f),    //set row address, start row 0, end row 127
+    U8X8_CA(0x081, 0x080),    //set contrast control
+    U8X8_CA(0x0a0, 0x051),    //gment remap, 51
+    U8X8_CA(0x0a1, 0x000),    //start line
+    U8X8_CA(0x0a2, 0x000),    //display offset
+    U8X8_CAA(0x0a4, 0x0a8, 0x07f),    //rmal display, set multiplex ratio
+    U8X8_CA(0x0b1, 0x0f1),    //set phase leghth
+    U8X8_CA(0x0b3, 0x000),    //set dclk, 80Hz:0xc1 90Hz:0xe1   100Hz:0x00   110Hz:0x30 120Hz:0x50   130Hz:0x70     01
+    U8X8_CA(0x0ab, 0x001),    //
+    U8X8_CA(0x0b6, 0x00f),    //set phase leghth
+    U8X8_CA(0x0be, 0x00f),
+    U8X8_CA(0x0bc, 0x008),
+    U8X8_CA(0x0d5, 0x062),
+    U8X8_CA(0x0fd, 0x012),
+
+    U8X8_END_TRANSFER(),             	/* disable chip */
+    U8X8_END()             			/* end of sequence */
+  };
+
+
+uint8_t u8x8_d_ssd1327_ws_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call the 96x96 procedure at the moment */
+  if ( u8x8_d_ssd1327_96x96_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+  {
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1327_ea_w128128_display_info);
+    return 1;
+  }
+  else if ( msg == U8X8_MSG_DISPLAY_INIT )
+  {
+    u8x8_d_helper_display_init(u8x8);
+    u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_ws_128x128_init_seq); 
+    return 1;
+  }
+  else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
+  {
+    if ( arg_int == 0 )
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_ea_w128128_flip0_seq);
+      u8x8->x_offset = u8x8->display_info->default_x_offset;
+    }
+    else
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_ea_w128128_flip1_seq);
+      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+    }
+    return 1;
+  }
+  return 0;
+}
