@@ -537,20 +537,49 @@ static const u8x8_display_info_t u8x8_uc1611_cg160160_display_info =
   /* pixel_height = */ 160
 };
 
+/*
+System Reset: E2H 	--> DONE
+Set Temp. Compensation: 24H --> DONE
+Set up LCD format specific parameters MX,MY,etc(double-byte command): C0H,04H  --> FLIP0
+Set line rate: A3H --> DONE
+Set Pump Control (internal Vlcd): 2FH --> DONE
+Set Isolation Clock Front (3 bytes command): 82H, 13H, 01H  --> DONE
+Set Isolation Clock Back (3 bytes command): 82H, 14H, 00H  --> DONE
+Set LCD Bias Ratio: EAH 
+LCD Specific Operation Voltage Setting (double-byte command): 81H, 90H --> DONE
+Set RAM Address Control: 80H --> DOES NOT MAKE SENSE
+Set Page Addr. MSB: 72H 		--> DONE
+Set Page Addr. LSB : 60H 		--> DONE
+Set Column Addr. LSB: 00H 		--> DONE
+Set Column Addr.MSB: 10H 		--> DONE
+Window Program Enable : F8H 		--> NOT REQURED
+Window Starting Column (double-byte command): F4H , 00H --> NOT REQURED
+Window Ending Column (double-byte command): F6H, 9FH --> NOT REQURED
+Set one bit for one pixel: D1H 		--> DONE
+Set Display Enable: A9H 
+*/
+
 static const uint8_t u8x8_d_uc1611_cg160160_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0e2),				/* system reset */
+  U8X8_DLY(2),
+  U8X8_C(0x024),            			/* Temp. Compensation to 0 = -0.05%/ Grad C */
+  U8X8_C(0x0a3),            			/* line rate */  
   U8X8_C(0x02f),            			/* internal pump control */
-  U8X8_CA(0x0f1, 63),			/* set COM end */
-  U8X8_CA(0x0f2, 0x000),		/* display line start */
-  U8X8_CA(0x0f3, 63),			/* display line end */
-  U8X8_C(0x0a3),            			/* line rate */
-  U8X8_CA(0x081, 0x0a4),		/* set contrast, EA default: 0x0b7 */
+  U8X8_CAA(0x082, 0x013, 0x001), /* Isolation front clock, "1" is the default value */
+  U8X8_CAA(0x082, 0x014, 0x000), /* Isolation back clock, "0" is the default value */
+  U8X8_C(0x0ea),            			/* bias ratio, default: 0x0ea */
+  U8X8_CA(0x081, 0x090),		/* set contrast, CG160160: 0x090 */
+  
+  //U8X8_CA(0x0f1, 159),			/* set COM end */
+  //U8X8_CA(0x0f2, 0),			/* display line start */
+  //U8X8_CA(0x0f3, 159),			/* display line end */
   
   //U8X8_C(0x0a9),            			/* display enable */
 
+  U8X8_C(0x089),            			/* RAM Address Control: auto increment */
   U8X8_C(0x0d1),            			/* display pattern */  
-  U8X8_C(0x089),            			/* auto increment */
   U8X8_CA(0x0c0, 0x004),            	/* LCD Mapping */
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  
