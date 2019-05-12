@@ -996,6 +996,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "jlx256128" },
+      { "wo256x128" },
       { NULL }
     },
   },
@@ -1007,6 +1008,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "jlx256128" },
+      { "wo256x128" },
       { NULL }
     }
   },  
