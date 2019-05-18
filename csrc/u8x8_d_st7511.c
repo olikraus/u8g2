@@ -189,7 +189,7 @@ uint8_t u8x8_d_st7511_avd_320x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 	
 	while ( c > 128 )
 	{
-	  u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes */
+	  u8x8_cad_SendData(u8x8, 128, ptr);	/* note: SendData can not handle more than 255 bytes */
 	  c -= 128;
 	  ptr += 128;
 	}
