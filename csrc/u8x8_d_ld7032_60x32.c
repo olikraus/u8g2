@@ -40,7 +40,7 @@
 
 /* testboard U8GLIB_LD7032_60x32 u8g(11, 12, 9, 10, 8);	// SPI Com: SCK = 11, MOSI = 12, CS = 9, A0 = 10, RST = 8  (SW SPI Nano Board) */
 /* http://www.seeedstudio.com/document/pdf/0.5OLED%20SPEC.pdf */
-static const uint8_t u8x8_d_ld7032_60x32_init_seq[] = {
+static const uint8_t u8x8_d_ld7032_60x32_init_seq_old[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
@@ -62,6 +62,40 @@ static const uint8_t u8x8_d_ld7032_60x32_init_seq[] = {
   //U8X8_CA(0x002, 0x001),		/* Dot Matrix Display ON */
   
     
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+/* new sequence https://github.com/olikraus/u8g2/issues/865 */
+static const uint8_t u8x8_d_ld7032_60x32_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  U8X8_CA(0x02, 0x00),		  		/* Dot Matrix Display OFF */
+  U8X8_CA(0x14, 0x00),		  		/* Stand-by OFF, OSCA Start */
+  U8X8_CA(0x1a, 0x04),		  		/* Dot Matrix Frame Rate,  special value for this OLED from manual 4 => 120Hz*/
+  U8X8_CA(0x1d, 0x00),		  		/* Graphics Memory Writing Direction: reset default (right down, horizontal) */
+  U8X8_CA(0x09, 0x00),	      		/* Display Direction:  reset default (x,y: min --> max) */
+  U8X8_CAA(0x30, 0x00, 0x3B),  		/* Display Size X, Column Start - End 0-0x3b(59)*/
+  U8X8_CAA(0x32, 0x00, 0x1F),  		/* Display Size Y, Row Start - End 0-0x1f(31)*/
+  U8X8_CA(0x34, 0x00),				/* Data Reading/Writing Box X start */
+  U8X8_CA(0x35, 0x07),				/* Data Reading/Writing Box X end */
+  U8X8_CA(0x36, 0x00),				/* Data Reading/Writing Box Y start */
+  U8X8_CA(0x37, 0x1F),				/* Data Reading/Writing Box Y end */
+  U8X8_CA(0x38, 0x00),        		/* Display Start Address X */
+  U8X8_CA(0x39, 0x00),        		/* Display Start Address Y */
+  U8X8_CA(0x10, 0x00),		  		/* Peak Pulse Width Set: 0 SCLK */
+  U8X8_CA(0x16, 0x00),		  		/* Peak Pulse Delay Set: 0 SCLK */
+  U8X8_CA(0x12, 0x40),		  		/* 0x32, 0x50 or 0x40 Dot Matrix Current Level Set: 0x050 * 1 uA = 80 uA */
+  U8X8_CA(0x18, 0x03),		  		/* Pre-Charge Pulse Width: 3 SCLK */
+  U8X8_CA(0x44, 0x02),		  		/* Pre-Charge Mode: Every Time */
+  U8X8_CA(0x48, 0x03),		  		/* Row overlap timing: Pre-Charge + Peak Delay + Peak boot Timing */
+  U8X8_CA(0x17, 0x00),          	/* Row Scan */
+  U8X8_CA(0x13, 0x00),          	/* Row Scan Sequence Setting */
+  U8X8_CA(0x1C, 0x00),          	/* Data Reverse */
+  U8X8_CA(0x3f, 0x11),		  		/* VCC_R_SEL: Internal Regulator enabled(D4=1) and VCC_R=VCC_C*0.7(D0=1) */
+  U8X8_CA(0x3d, 0x00),		  		/* VSS selection: 2.8V */
+
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
