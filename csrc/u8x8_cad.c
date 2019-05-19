@@ -606,6 +606,8 @@ uint8_t u8x8_cad_st75256_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 }
 
 /* cad i2c procedure for the ld7032 controller */
+/* Issue https://github.com/olikraus/u8g2/issues/865 mentiones, that I2C does not work */
+/* Workaround is to remove the while loop (or increase the value in the condition) */
 uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   static uint8_t in_transfer = 0;
