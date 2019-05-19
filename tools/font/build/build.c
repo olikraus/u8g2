@@ -191,6 +191,7 @@ struct groupinfo gi[] = {
   { "GilesBooth", "fntgrpgilesbooth", "../../../../u8g2.wiki/fntgrpgilesbooth.md", 		"fntgrpgilesbooth.pre" }, 		/* 33 */ 
   { "bitfontmaker2", "fntgrpbitfontmaker2", "../../../../u8g2.wiki/fntgrpbitfontmaker2.md", 		"fntgrpbitfontmaker2.pre" }, 		/* 34 */ 
   { "JapanYoshi", "fntgrpjapanyoshi", "../../../../u8g2.wiki/fntgrpjapanyoshi.md", 		"fntgrpjapanyoshi.pre" }, 		/* 35 */ 
+  { "Pentacom", "fntgrppentacom", "../../../../u8g2.wiki/fntgrppentacom.md", 		"fntgrppentacom.pre" }, 		/* 36 */ 
 
   
   
@@ -602,6 +603,14 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "ImpactBits.ttf",			"ImpactBits",	35, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "IPAandRUSLCD.ttf",			"IPAandRUSLCD",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
 
+  /* Pentacom, 36*/
+  { 0,  "-r 72 -p 16", "HelvetiPixel.ttf",			"HelvetiPixel",			36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "TimesNewPixel.ttf",			"TimesNewPixel",		36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "BitTypeWriter.ttf",			"BitTypeWriter",		36, 0, BM_T, FM_C, MM_R	|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Georgia7px.ttf",			"Georgia7px",			36, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Wizzard.ttf",				"Wizzard",			36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "HelvetiPixelOutline.ttf",		"HelvetiPixelOutline",	36, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Untitled16PixelSansSerifBitmapTestFont.ttf",	"Untitled16PixelSansSerifBitmap",	36, 0, BM_T, FM_C, MM_R, "", "" },
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
   { 0,  0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
