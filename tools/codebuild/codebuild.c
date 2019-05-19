@@ -531,6 +531,7 @@ struct controller controller_list[] =
     {
       { "ea_w128128" },
       { "midas_128x128" },
+      { "ws_128x128" },
       { NULL }
     }
   },  
