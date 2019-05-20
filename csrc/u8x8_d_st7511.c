@@ -31,6 +31,11 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+
+  20 May 2019:
+  https://github.com/olikraus/u8g2/issues/876
+  Probably HW Flip does not work 
+
   
 */
 #include "u8x8.h"
