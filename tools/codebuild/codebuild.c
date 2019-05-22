@@ -873,6 +873,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "ea_dogm128" },
+      { "lm6063" },	/* https://github.com/olikraus/u8g2/issues/893 */
       { "64128n" },       
       { "zolen_128x64" },
       { "lm6059" },
