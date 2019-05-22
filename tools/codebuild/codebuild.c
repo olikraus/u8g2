@@ -72,7 +72,7 @@ struct controller
   unsigned com;
   char *note;
   unsigned is_generate_u8g2_class;	/* currently not used, instead conrolled by COM_UART */
-  struct display display_list[10];	/* usually not used completly, but space does not matter much here */  
+  struct display display_list[16];	/* usually not used completly, but space does not matter much here */  
 };
 
 /* issue #649 */
