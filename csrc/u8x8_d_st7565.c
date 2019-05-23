@@ -267,7 +267,7 @@ static const uint8_t u8x8_d_st7565_lm6063_init_seq[] = {
   U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
   U8X8_CA(0x0f8, 0x000),		/* set booster ratio to 4x */
   U8X8_C(0x027),		                /* set V0 voltage resistor ratio to max  */
-  U8X8_CA(0x081, 50),		/* set contrast, contrast value, 40..60 seems to be good */
+  U8X8_CA(0x081, 50/4),		/* set contrast, contrast value, 40..60 seems to be good */
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
