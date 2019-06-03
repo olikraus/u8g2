@@ -14,18 +14,14 @@ CFLAGS = \
 	-fdata-sections \
 	-I$(U8G2_SRC)/ \
 	-I../lib/ \
-	-DAVR_USE_HW_SPI \
-	-DSCK_DDR=DDRB \
-	-DSCK_BIT=5 \
-	-DMOSI_DDR=DDRB \
-	-DMOSI_BIT=3
+	-DAVR_USE_HW_I2C 
 LDFLAGS = \
 	-Wl,--gc-sections \
 	-mmcu=$(MCU)
 AVRDUDE=avrdude
 PORT=/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4008fhY-if00-port0
 
-SRC = $(shell ls $(U8G2_SRC)/*.c) $(shell ls ../lib/*.c) $(shell ls ./*.c)
+SRC = $(shell ls $(U8G2_SRC)/*.c) $(shell ls ../lib/*.c) $(shell ls ../lib/avr-hw-i2c/*.c) $(shell ls ./*.c)
 
 OBJ = $(SRC:.c=.o)
 
