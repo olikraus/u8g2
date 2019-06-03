@@ -14,6 +14,7 @@ CFLAGS = \
 	-fdata-sections \
 	-I$(U8G2_SRC)/ \
 	-I../lib/ \
+	-DAVR_USE_HW_SPI \
 	-DSCK_DDR=DDRB \
 	-DSCK_BIT=1 \
 	-DMOSI_DDR=DDRB \
