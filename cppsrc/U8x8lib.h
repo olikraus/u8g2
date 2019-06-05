@@ -63,6 +63,14 @@
 
 #ifdef ARDUINO_AVR_DIGISPARK
 
+#ifdef KENDRYTE_K210
+
+#ifdef U8X8_HAVE_HW_SPI
+#undef U8X8_HAVE_HW_SPI
+#endif 
+
+#endif
+
 #ifdef U8X8_HAVE_HW_SPI
 #undef U8X8_HAVE_HW_SPI
 #endif 
