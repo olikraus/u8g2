@@ -178,6 +178,9 @@ Q: There is no visible output output. What is can be done?
   u8g2_DrawStr(&u8g2, 0, 0, “Hello world!”); will not display anything. Instead use
   u8g2_DrawStr(&u8g2, 0, 20, “Hello world!”);
 
+Q: Only a small fraction of the display is visible. Why?
+A: With a "_1_" constructor, ensure to use the firstPage/nextPage loop.
+
 Q: U8g2 output is corrupted. What are possible causes?
 - Do not change the output inside the firstPage/nextPage loop: 
 Do *not* call digitalRead/analogRead inside the firstPage/nextPage loop.

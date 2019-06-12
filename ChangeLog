@@ -224,4 +224,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for CG160160 UC1611 (issue 884)
   * Support for LM6063 128x64 ST7565  (issue 893)
   * Added fonts from pentacom (issue 810)
+  * Support for ST7511 (issue 876)
+  
   
