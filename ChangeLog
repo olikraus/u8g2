@@ -225,5 +225,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for LM6063 128x64 ST7565  (issue 893)
   * Added fonts from pentacom (issue 810)
   * Support for ST7511 (issue 876)
-  
+  * Support for SSD1316 132x32 (issue 919)
   
