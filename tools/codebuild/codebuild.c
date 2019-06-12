@@ -407,6 +407,25 @@ struct controller controller_list[] =
     }
   },
 
+  /* https://github.com/olikraus/u8g2/issues/919 */
+  {
+    "ssd1316", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x32" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1316", 	16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x32" },
+      { NULL }
+    }
+  },
+  
+
   {
     "ssd1317", 	12, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
