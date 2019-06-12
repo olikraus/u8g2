@@ -217,7 +217,7 @@ static const u8x8_display_info_t u8x8_ssd1316_128x32_display_info =
 uint8_t u8x8_d_ssd1316_128x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
-  if ( u8x8_d_ssd1317_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+  if ( u8x8_d_ssd1316_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
     return 1;
   
   switch(msg)
