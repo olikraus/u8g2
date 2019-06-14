@@ -135,6 +135,8 @@ static uint8_t u8x8_d_st75320_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
       u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos)); 
 
 
+      u8x8_cad_SendCmd(u8x8, 0x01d );		// write data 
+    
       do
       {
         c = ((u8x8_tile_t *)arg_ptr)->cnt;
@@ -168,7 +170,6 @@ static const uint8_t u8x8_d_st75320_jlx320240_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  U8X8_C()
   U8X8_C(0xAE), //Display OFF
   U8X8_CA(0xEA, 0x00), //Power Discharge Control, Discharge OFF
   U8X8_C(0xA8), //sleep out
@@ -176,7 +177,7 @@ static const uint8_t u8x8_d_st75320_jlx320240_init_seq[] = {
   U8X8_C(0x69), //Temperature Detection ON
   U8X8_C(0x4E), //TC Setting
   U8X8_A8(0xff, 0x44, 0x12, 0x11,  0x11, 0x11, 0x22, 0x23),
-  U8X8_CA(0x39, 0x00, 0x00), //TC Flag
+  U8X8_CAA(0x39, 0x00, 0x00), //TC Flag
   
   
   U8X8_CA(0x2B, 0x00), //Frame Rate Level
@@ -196,22 +197,22 @@ static const uint8_t u8x8_d_st75320_jlx320240_init_seq[] = {
   U8X8_C(0xE4), //N-Line On
   U8X8_CA(0xE7, 0x19), //LCD Drive Method //NLFR=1//
 
-  U8X8_CAA(0x81, 0x4f, 0x01); //OX81: Set EV=64h, 0..255, 0..3
-  U8X8_CA(0xA2, 0x0a); //BIAS //1/16 BIAS
-  U8X8_CA(0x25, 0x020); //Power Control //AVDD ON
-  U8X8_DLY(10);
-  U8X8_CA(0x25, 0x60); //Power Control//AVDD, MV3 & NAVDD ON
-  U8X8_DLY(10);
-  U8X8_CA(0x25, 0x70); //Power Control //AVDD, MV3, NAVDD & V3 ON
-  U8X8_DLY(10);
-  U8X8_CA(0x25, 0x78); //Power Control//AVDD, MV3, NAVDD, V3 & VPF ON
-  U8X8_DLY(10);
-  U8X8_CA(0x25, 0x7c); //Power Control//AVDD, MV3, NAVDD, V3, VPF & VNF ON
-  U8X8_DLY(10);  
-  U8X8_CA(0x25, 0x7e); //Power Control//VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
-  U8X8_DLY(10);
-  U8X8_CA(0x25, 0x7f); //Power Control/VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
-  U8X8_DLY(10);
+  U8X8_CAA(0x81, 0x4f, 0x01), //OX81: Set EV=64h, 0..255, 0..3
+  U8X8_CA(0xA2, 0x0a), //BIAS //1/16 BIAS
+  U8X8_CA(0x25, 0x020), //Power Control //AVDD ON
+  U8X8_DLY(10),
+  U8X8_CA(0x25, 0x60), //Power Control//AVDD, MV3 & NAVDD ON
+  U8X8_DLY(10),
+  U8X8_CA(0x25, 0x70), //Power Control //AVDD, MV3, NAVDD & V3 ON
+  U8X8_DLY(10),
+  U8X8_CA(0x25, 0x78), //Power Control//AVDD, MV3, NAVDD, V3 & VPF ON
+  U8X8_DLY(10),
+  U8X8_CA(0x25, 0x7c), //Power Control//AVDD, MV3, NAVDD, V3, VPF & VNF ON
+  U8X8_DLY(10),
+  U8X8_CA(0x25, 0x7e), //Power Control//VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
+  U8X8_DLY(10),
+  U8X8_CA(0x25, 0x7f), //Power Control/VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
+  U8X8_DLY(10),
   //U8X8_C(0xaf); //Display ON  
   
     
