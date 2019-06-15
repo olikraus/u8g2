@@ -57,6 +57,8 @@ static const uint8_t u8x8_d_st75320_jlx320240_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_st75320_jlx320240_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0xC4, 0x02), 			/* COM Output Status, Bits 0 & 1 */
+  U8X8_C(0xA1), 				/* Column Address Direction: Bit 0 */
   //U8X8_C(0x0a1),				/* segment remap a0/a1*/
   //U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -67,6 +69,8 @@ static const uint8_t u8x8_d_st75320_jlx320240_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   //U8X8_C(0x0a0),				/* segment remap a0/a1*/
   //U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  U8X8_CA(0xC4, 0x03), 			/* COM Output Status, Bits 0 & 1 */
+  U8X8_C(0xA0), 				/* Column Address Direction: Bit 0 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -170,51 +174,49 @@ static const uint8_t u8x8_d_st75320_jlx320240_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  U8X8_C(0xAE), //Display OFF
-  U8X8_CA(0xEA, 0x00), //Power Discharge Control, Discharge OFF
-  U8X8_C(0xA8), //sleep out
-  U8X8_C(0xAB), //OSC ON
-  U8X8_C(0x69), //Temperature Detection ON
-  U8X8_C(0x4E), //TC Setting
+  U8X8_C(0xAE), 				// Display OFF
+  U8X8_CA(0xEA, 0x00), 			// Power Discharge Control, Discharge OFF
+  U8X8_C(0xA8), 				// sleep out
+  U8X8_C(0xAB), 				// OSC ON
+  U8X8_C(0x69), 				// Temperature Detection ON
+  U8X8_C(0x4E), 				// TC Setting
   U8X8_A8(0xff, 0x44, 0x12, 0x11,  0x11, 0x11, 0x22, 0x23),
-  U8X8_CAA(0x39, 0x00, 0x00), //TC Flag
+  U8X8_CAA(0x39, 0x00, 0x00), 	//TC Flag
   
   
-  U8X8_CA(0x2B, 0x00), //Frame Rate Level
-  U8X8_CAA(0x5F, 0x66, 0x66), //Set Frame Frequency, fFR=80Hz in all temperature range
-  U8X8_CAAA(0xEC, 0x19, 0x64, 0x6e), //FR Compensation Temp. Range, TA = -15 degree, TB = 60 degree, TC = 70 degree
-  U8X8_CAA(0xED, 0x04, 0x04), //Temp. Hysteresis Value (thermal sensitivity)
-  U8X8_C(0xA6), //Display Inverse OFF
-  U8X8_C(0xA4), //Disable Display All Pixel ON
+  U8X8_CA(0x2B, 0x00), 			// Frame Rate Level
+  U8X8_CAA(0x5F, 0x66, 0x66), 	// Set Frame Frequency, fFR=80Hz in all temperature range
+  U8X8_CAAA(0xEC, 0x19, 0x64, 0x6e), // FR Compensation Temp. Range, TA = -15 degree, TB = 60 degree, TC = 70 degree
+  U8X8_CAA(0xED, 0x04, 0x04), 	// Temp. Hysteresis Value (thermal sensitivity)
+  U8X8_C(0xA6), 				// Display Inverse OFF
+  U8X8_C(0xA4), 				// Disable Display All Pixel ON
 
-  U8X8_CA(0xC4, 0x02), //COM Output Status
+  U8X8_CA(0xC4, 0x02), 			// COM Output Status  
+  U8X8_C(0xA1), 				// Column Address Direction: MX=0
   
-  //Interlace mode, MY=0
-  U8X8_C(0xA1), //Column Address Direction: MX=0
-  U8X8_CAA(0x6D, 0x07, 0x00), //Display Area, Duty = 1/240 duty, Start Group = 1
-  U8X8_C(0x84), //Display Data Input Direction: Column
-  U8X8_CA(0x36, 0x1e), //Set N-Line
-  U8X8_C(0xE4), //N-Line On
-  U8X8_CA(0xE7, 0x19), //LCD Drive Method //NLFR=1//
+  U8X8_CAA(0x6D, 0x07, 0x00), 	// Display Area, Duty = 1/240 duty, Start Group = 1
+  U8X8_C(0x84), 				// Display Data Input Direction: Column
+  U8X8_CA(0x36, 0x1e), 			// Set N-Line
+  U8X8_C(0xE4), 				// N-Line On
+  U8X8_CA(0xE7, 0x19), 			// LCD Drive Method //NLFR=1//
 
-  U8X8_CAA(0x81, 0x4f, 0x01), //OX81: Set EV=64h, 0..255, 0..3
-  U8X8_CA(0xA2, 0x0a), //BIAS //1/16 BIAS
-  U8X8_CA(0x25, 0x020), //Power Control //AVDD ON
+  U8X8_CAA(0x81, 0x4f, 0x01), 	// OX81: Set EV=64h, 0..255, 0..3
+  U8X8_CA(0xA2, 0x0a), 			// BIAS //1/16 BIAS
+  U8X8_CA(0x25, 0x020), 		// Power Control //AVDD ON
   U8X8_DLY(10),
-  U8X8_CA(0x25, 0x60), //Power Control//AVDD, MV3 & NAVDD ON
+  U8X8_CA(0x25, 0x60), 			// Power Control//AVDD, MV3 & NAVDD ON
   U8X8_DLY(10),
-  U8X8_CA(0x25, 0x70), //Power Control //AVDD, MV3, NAVDD & V3 ON
+  U8X8_CA(0x25, 0x70), 			// Power Control //AVDD, MV3, NAVDD & V3 ON
   U8X8_DLY(10),
-  U8X8_CA(0x25, 0x78), //Power Control//AVDD, MV3, NAVDD, V3 & VPF ON
+  U8X8_CA(0x25, 0x78), 			// Power Control//AVDD, MV3, NAVDD, V3 & VPF ON
   U8X8_DLY(10),
-  U8X8_CA(0x25, 0x7c), //Power Control//AVDD, MV3, NAVDD, V3, VPF & VNF ON
+  U8X8_CA(0x25, 0x7c), 			// Power Control//AVDD, MV3, NAVDD, V3, VPF & VNF ON
   U8X8_DLY(10),
-  U8X8_CA(0x25, 0x7e), //Power Control//VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
+  U8X8_CA(0x25, 0x7e), 			// Power Control//VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
   U8X8_DLY(10),
-  U8X8_CA(0x25, 0x7f), //Power Control/VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
+  U8X8_CA(0x25, 0x7f), 			// Power Control/VOUT, AVDD, MV3, NAVDD, V3, VPF & VNF ON
   U8X8_DLY(10),
   //U8X8_C(0xaf); //Display ON  
-  
     
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()           			/* end of sequence */
