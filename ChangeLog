@@ -226,4 +226,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added fonts from pentacom (issue 810)
   * Support for ST7511 (issue 876)
   * Support for SSD1316 132x32 (issue 919)
+  * Support for ST75320 (issue 921)
   
