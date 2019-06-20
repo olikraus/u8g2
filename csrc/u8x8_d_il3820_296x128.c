@@ -295,8 +295,8 @@ static const uint8_t u8x8_d_il3820_296x128_init_seq[] = {
 
   U8X8_CA(0x11, 0x07),	/* Define data entry mode, x&y inc, x first*/
 
-  U8X8_CAA(0x44, 0, 29),	/* RAM x start & end, 32*4=128 */
-  U8X8_CAAAA(0x45, 0, 0, 295&255, 295>>8),	/* RAM y start & end, 0..295 */
+  U8X8_CAA(0x44, 0, 29),	/* RAM x start & end, issue 920: end should be (128/8)-1=15. */
+  U8X8_CAAAA(0x45, 0, 0, 295&255, 295>>8),	/* RAM y start & end */
   
   //U8X8_CA(0x4e, 0),	/* set x pos, 0..29? */
   //U8X8_CAA(0x4f, 0, 0),	/* set y pos, 0...320??? */
