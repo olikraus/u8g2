@@ -200,6 +200,10 @@ wqy: bdfconv
 ncenR24: bdfconv
 	./bdfconv  -v -f 1 -b 0 -m '32-701>32,7838' ../bdf/ncenR24.bdf -n u8g2_font_ncenR24_te -o test.c 
 
+profont12v2: bdfconv
+	#./bdfconv  -v -f 1 -b 0 -m '32-701>32,7838' ../bdf/profont12v2.bdf -n u8g2_font_profont12v2_te -o test.c 
+	./bdfconv  -v -f 1 -b 0 -m '32-127' ../bdf/profont12v2.bdf -n u8g2_font_profont12v2_tr -o test.c 
+
 	
 #	http://stackoverflow.com/questions/713397/what-is-a-minimal-set-of-unicode-characters-for-reasonable-japanese-support
 
