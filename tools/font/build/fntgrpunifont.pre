@@ -5,9 +5,14 @@
 
 Name: **GNU Unifont**
 
+Unifont version updated to 12.1.02 in U8g2 version 2.26. 
+
 Download location: [ftp://ftp.gnu.org/gnu/unifont/unifont-12.1.02/](ftp://ftp.gnu.org/gnu/unifont/unifont-12.1.02/)
 
 The Unifont project page is here: https://savannah.gnu.org/projects/unifont.
+
+Note: Plane 1 fonts added with U8g2 version 2.26. All plane 1 glyphs are mapped into
+ASCII range, starting with 0x20.
 
 # Copyright
 

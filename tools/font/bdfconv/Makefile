@@ -137,19 +137,22 @@ fub20x: bdfconv
 	./bdfconv -v -f 1 -m '32-127,8364' tmp.bdf -o u8g2_font_fub20_tx.c  -n u8g2_font_fub20_tx -d ../bdf/helvB18.bdf 
 
 unifont_emoticon: bdfconv
-	./bdfconv -v -f 1 -m '$$01f600-$$01f64f>$$20, $$01f910-$$01f92f>$$70, $$01f970-$$01f971>$$90, $$01f973-$$01f976>$$92,$$01f97a>$$96, $$01f9b8-$$01f9b9>$$97, $$01f9d0-$$01f9d6>$$99' ../hex/unifont_upper.bdf -o u8g2_font_unifont_emoticon.c  -n u8g2_font_unifont_emoticon_tx -d ../bdf/helvB18.bdf 
+	./bdfconv -v -f 1 -m '$$01f600-$$01f64f>$$20, $$01f910-$$01f92f>$$70, $$01f970-$$01f971>$$90, $$01f973-$$01f976>$$92,$$01f97a>$$96, $$01f9b8-$$01f9b9>$$97, $$01f9d0-$$01f9d6>$$99' ../bdf/unifont_upper.bdf -o u8g2_font_unifont_emoticon.c  -n u8g2_font_unifont_emoticon_tx -d ../bdf/helvB18.bdf 
 
 unifont_misc_sym_and_pic: bdfconv
-	./bdfconv -v -f 1 -m '$$01f300-$$01f5ff>$$f300' ../hex/unifont_upper.bdf -o u8g2_font_unifont_misc_sym_and_pic.c  -n u8g2_font_unifont_misc_sym_and_pic_tx -d ../bdf/helvB18.bdf 
+	./bdfconv -v -f 1 -m '$$01f300-$$01f5ff>$$f300' ../bdf/unifont_upper.bdf -o u8g2_font_unifont_misc_sym_and_pic.c  -n u8g2_font_unifont_misc_sym_and_pic_tx -d ../bdf/helvB18.bdf 
 
 unifont_animals: bdfconv
-	./bdfconv -v -f 1 -m '$$01f400-$$01f43f>$$20,$$01f980-$$01f9af>$$60' ../hex/unifont_upper.bdf -o u8g2_font_unifont_animal.c  -n u8g2_font_unifont_animal_tx -d ../bdf/helvB18.bdf 
+	./bdfconv -v -f 1 -m '$$01f400-$$01f43f>$$20,$$01f980-$$01f9af>$$60' ../bdf/unifont_upper.bdf -o u8g2_font_unifont_animal.c  -n u8g2_font_unifont_animal_tx -d ../bdf/helvB18.bdf 
 
 unifont_domino: bdfconv
-	./bdfconv -v -f 1 -m '$$01f030-$$01f093>$$20' ../hex/unifont_upper.bdf -o u8g2_font_unifont_domino.c  -n u8g2_font_unifont_domino_tx -d ../bdf/helvB18.bdf 
+	./bdfconv -v -f 1 -m '$$01f030-$$01f093>$$20' ../bdf/unifont_upper.bdf -o u8g2_font_unifont_domino.c  -n u8g2_font_unifont_domino_tx -d ../bdf/helvB18.bdf 
 
 unifont_cards: bdfconv
-	./bdfconv -v -f 1 -m '$$01f0a0-$$01f0f5>$$20' ../hex/unifont_upper.bdf -o u8g2_font_unifont_cards.c  -n u8g2_font_unifont_cards_tx -d ../bdf/helvB18.bdf 
+	./bdfconv -v -f 1 -m '$$01f0a0-$$01f0f5>$$20' ../bdf/unifont_upper.bdf -o u8g2_font_unifont_cards.c  -n u8g2_font_unifont_cards_tx -d ../bdf/helvB18.bdf 
+
+unifont_weather: bdfconv
+	./bdfconv -v -f 1 -m '$$01f310-$$01f32c>$$20' ../bdf/unifont_upper.bdf -o u8g2_font_unifont_weather.c  -n u8g2_font_unifont_weather_tx -d ../bdf/helvB18.bdf 
 
 
 climacons: bdfconv

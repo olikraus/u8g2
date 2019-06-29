@@ -657,6 +657,7 @@ Greek Extended	1F00–1FFF
   { 0,  0, "cu12.bdf", 			"cu12", 			3, 0, BM_T, FM_C, MM_C, "32-128,$590-$5ff,$fb1d-$fb4f", "_hebrew" },
   { 0,  0, "cu12.bdf", 			"cu12", 			3, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
   
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },  
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-255", "_latin" },
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-701", "_extended" },
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$370-$3ff", "_greek" },
@@ -671,7 +672,31 @@ Greek Extended	1F00–1FFF
   
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
 
+  /*
+    $20a0-$20bf currency symbols
+    $2103 Circle C-
+    $2109 Circle F
+    $2126 Ohm
+    $2190-$21bb single arrow
+    $21d0-$21d9 double arrow
+    $21e6-$21e9 double arrow
+    $23e9-$23fa  music player symbols
+    $2580-$261f  various symbols
+    $2654-$2667 chess and cards
+    $2680-$2685 dice
+    $2713-$2718 yes/no
+    $274f-$2752 3d box
+    $1f600-$1f64f emoticons
+  */
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T|BM_H, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
+  
+  { 0,  0, "unifont_upper.bdf", 	"unifont", 		6, 0, BM_T, FM_C, MM_C, "$01f600-$01f64f>$20, $01f910-$01f92f>$70, $01f970-$01f971>$90, $01f973-$01f976>$92,$01f97a>$96, $01f9b8-$01f9b9>$97, $01f9d0-$01f9d6>$99", "_emoticons" },
+  { 0,  0, "unifont_upper.bdf", 	"unifont", 		6, 0, BM_T, FM_C, MM_C, "$01f400-$01f43f>$20,$01f980-$01f9af>$60", "_animals" },
+  { 0,  0, "unifont_upper.bdf", 	"unifont", 		6, 0, BM_T, FM_C, MM_C, "$01f030-$01f093>$20", "_domino" },
+  { 0,  0, "unifont_upper.bdf", 	"unifont", 		6, 0, BM_T, FM_C, MM_C, "$01f0a0-$01f0f5>$20", "_cards" },
+  { 0,  0, "unifont_upper.bdf", 	"unifont", 		6, 0, BM_T, FM_C, MM_C, "$01f310-$01f32c>$20", "_weather" },
 
+  
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
@@ -775,24 +800,6 @@ Greek Extended	1F00–1FFF
   { 0,  0, "f16_b.bdf", 			"f16_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
   
-  
-  /*
-    $20a0-$20bf currency symbols
-    $2103 Circle C-
-    $2109 Circle F
-    $2126 Ohm
-    $2190-$21bb single arrow
-    $21d0-$21d9 double arrow
-    $21e6-$21e9 double arrow
-    $23e9-$23fa  music player symbols
-    $2580-$261f  various symbols
-    $2654-$2667 chess and cards
-    $2680-$2685 dice
-    $2713-$2718 yes/no
-    $274f-$2752 3d box
-    $1f600-$1f64f emoticons
-  */
-  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T|BM_H, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   
 
   { 0,  0, "ArtosSans-8.bdf",			"artossans8",			7, 0, BM_8, FM_C|FM_8, MM_R|MM_U|MM_N, "" , ""},
