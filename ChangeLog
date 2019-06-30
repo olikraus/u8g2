@@ -215,10 +215,10 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for SSD1318 (issue 784)
   * Partial display update with updateDisplayArea (issue 736)
   * Several new decorative and fancy fonts from pentacom.jp (issue 801)
-2019-xx-xx	v2.26.x  olikraus@gmail.com
+2019-06-30	v2.26.14  olikraus@gmail.com
   * Support for Pimoroni 128x128 OLED SH1107 (issue 803)
   * Support for Grove 128x128 OLED SH1107 (issue 877)
-  * Support for Winstar 256x128 ST75256 (issue 891)
+  * Support for Winstar 256x128 ST75256 (ST75256_WO256X128, issue 891)
   * Bugfix: Open Iconic 1x for U8x8 (issue 828)
   * Added sendF command for direct communication with the display (issues 822, 878, 896)
   * Support for CG160160 UC1611 (issue 884)
@@ -227,5 +227,8 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for ST7511 (issue 876)
   * Support for SSD1316 132x32 (issue 919)
   * Support for ST75320 (issue 921)
+  * Added JLX256160M for mirrored version of the JLX256160 display (issue 930)
   * Unifont update to 12.1.02, added several plane 1 fonts (issue 931)
+  * bdfconv.exe: Windows exe created, bugfix with -d option (issue 833)
+  
   
