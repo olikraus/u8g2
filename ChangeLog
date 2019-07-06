@@ -230,5 +230,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added JLX256160M for mirrored version of the JLX256160 display (issue 930)
   * Unifont update to 12.1.02, added several plane 1 fonts (issue 931)
   * bdfconv.exe: Windows exe created, bugfix with -d option (issue 833)
-  
+2019-xx-xx	v2.27.x	olikraus@gmail.com
+
   

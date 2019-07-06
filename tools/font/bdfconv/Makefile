@@ -116,6 +116,11 @@ logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
 
+tpss: bdfconv
+	-../otf2bdf/otf2bdf -r 72 -p 8 -o tmp.bdf ../ttf/TEACPSS_.TTF
+	./bdfconv -v -f 1 -m '32-255' tmp.bdf -o u8g2_font_tpss_tf.c  -n u8g2_font_tpss_tn -d ../bdf/helvR10.bdf 
+
+
 q_pixia: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 13 -o tmp.bdf q_pixia.ttf
 	./bdfconv -v -f 1 -m '32-65534' tmp.bdf -o u8g2_font_q_pixia.c  -n u8g2_font_q_pixia -d ../bdf/helvB18.bdf 
