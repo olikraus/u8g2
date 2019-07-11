@@ -92,7 +92,7 @@
     Page Buffer Examples: firstPage/nextPage. Less RAM usage, should work with all Arduino boards.
     U8x8 Text Only Example: No RAM usage, direct communication with display controller. No graphics, 8x8 Text only.
     
-  This is a page buffer example.    
+  This is a full frame buffer example.    
 */
 
 // Please UNCOMMENT one of the contructor lines below
