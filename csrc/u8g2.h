@@ -345,6 +345,7 @@ struct u8g2_struct
 };
 
 #define u8g2_GetU8x8(u8g2) ((u8x8_t *)(u8g2))
+//#define u8g2_GetU8x8(u8g2) (&((u8g2)->u8x8))
 
 #ifdef U8X8_WITH_USER_PTR
 #define u8g2_GetUserPtr(u8g2) ((u8g2_GetU8x8(u8g2))->user_ptr)
