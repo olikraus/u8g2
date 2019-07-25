@@ -171,6 +171,10 @@ class U8G2 : public Print
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
     
+    #ifdef U8G2_USE_DYNAMIC_ALLOC
+    void setBufferPtr(uint8_t *buf) { u8g2_SetBufferPtr(&u8g2, buf); }
+    uint16_t getBufferSize() { u8g2_GetBufferSize(&u8g2); }
+    #endif
     uint8_t *getBufferPtr(void) { return u8g2_GetBufferPtr(&u8g2); }
     uint8_t getBufferTileHeight(void) { return u8g2_GetBufferTileHeight(&u8g2); }
     uint8_t getBufferTileWidth(void) { return u8g2_GetBufferTileWidth(&u8g2); }

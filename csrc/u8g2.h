@@ -60,6 +60,13 @@
 
 #include "u8x8.h"
 
+/*
+  The following macro switches the library into dynamic display buffer allocation mode.
+  Defining this constant will disable all static memory allocation for device memory buffer and thus allows the user to allocate device buffers statically.
+  Before using any display functions, the dynamic buffer *must* be assigned to the u8g2 struct using the u8g2_SetBufferPtr function.
+  When using dynamic allocation, the stack size must be increased by u8g2_GetBufferSize bytes.
+ */
+//#define U8G2_USE_DYNAMIC_ALLOC
 
 /*
   The following macro enables 16 Bit mode. 
@@ -277,7 +284,7 @@ struct u8g2_struct
   const u8g2_cb_t *cb;		/* callback drawprocedures, can be replaced for rotation */
   
   /* the following variables must be assigned during u8g2 setup */
-  uint8_t *tile_buf_ptr;	/* ptr to memory area with u8g2.display_info->tile_width * 8 * tile_buf_height bytes */
+  uint8_t *tile_buf_ptr;	/* ptr to memory area with u8x8.display_info->tile_width * 8 * tile_buf_height bytes */
   uint8_t tile_buf_height;	/* height of the tile memory area in tile rows */
   uint8_t tile_curr_row;	/* current row for picture loop */
   
@@ -1134,6 +1141,10 @@ void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row) U8G2_NOINLINE;
 void u8g2_FirstPage(u8g2_t *u8g2);
 uint8_t u8g2_NextPage(u8g2_t *u8g2);
 
+#ifdef U8G2_USE_DYNAMIC_ALLOC
+#define u8g2_SetBufferPtr(u8g2, buf) ((u8g2)->tile_buf_ptr = buf);
+#define u8g2_GetBufferSize(u8g2) ((u8g2)->u8x8.display_info->tile_width * 8 * (u8g2)->tile_buf_height)
+#endif
 #define u8g2_GetBufferPtr(u8g2) ((u8g2)->tile_buf_ptr)
 #define u8g2_GetBufferTileHeight(u8g2)	((u8g2)->tile_buf_height)
 #define u8g2_GetBufferTileWidth(u8g2)	(u8g2_GetU8x8(u8g2)->display_info->tile_width)
