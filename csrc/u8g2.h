@@ -1142,7 +1142,7 @@ void u8g2_FirstPage(u8g2_t *u8g2);
 uint8_t u8g2_NextPage(u8g2_t *u8g2);
 
 #ifdef U8G2_USE_DYNAMIC_ALLOC
-#define u8g2_SetBufferPtr(u8g2, buf) ((u8g2)->tile_buf_ptr = buf);
+#define u8g2_SetBufferPtr(u8g2, buf) ((u8g2)->tile_buf_ptr = (buf));
 #define u8g2_GetBufferSize(u8g2) ((u8g2)->u8x8.display_info->tile_width * 8 * (u8g2)->tile_buf_height)
 #endif
 #define u8g2_GetBufferPtr(u8g2) ((u8g2)->tile_buf_ptr)

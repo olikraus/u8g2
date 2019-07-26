@@ -132,7 +132,15 @@ class U8G2 : public Print
     
     bool begin(void) {
       /* note: call to u8x8_utf8_init is not required here, this is done in the setup procedures before */
-      initDisplay(); clearDisplay(); setPowerSave(0); return 1;}
+      #ifndef U8G2_USE_DYNAMIC_ALLOC
+      initDisplay(); 
+      clearDisplay(); 
+      setPowerSave(0); 
+      return 1;
+      #else
+      return 0;
+      #endif
+    }
 
     void beginSimple(void) {
       /* does not clear the display and does not wake up the display */
