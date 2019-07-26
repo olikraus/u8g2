@@ -1922,9 +1922,14 @@ void do_controller_buffer_code(int idx, const char *postfix, int buf_len, int ro
     //FILE *fp = stdout;
     fprintf(buf_code_fp, "uint8_t *%s(uint8_t *page_cnt)\n", s);
     fprintf(buf_code_fp, "{\n");
+    fprintf(buf_code_fp, "  #ifdef U8G2_USE_DYNAMIC_ALLOC\n");
+    fprintf(buf_code_fp, "  *page_cnt = %d;\n", rows);
+    fprintf(buf_code_fp, "  return 0;\n");
+    fprintf(buf_code_fp, "  #else\n");
     fprintf(buf_code_fp, "  static uint8_t buf[%d];\n", buf_len);
     fprintf(buf_code_fp, "  *page_cnt = %d;\n", rows);
     fprintf(buf_code_fp, "  return buf;\n");
+    fprintf(buf_code_fp, "  #endif\n");
     fprintf(buf_code_fp, "}\n");
     
     fprintf(buf_header_fp, "uint8_t *%s(uint8_t *page_cnt);\n", s);
@@ -1980,7 +1985,7 @@ void do_md_display(int controller_idx, int display_idx)
 
     fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
     fprintf(fp, "Display \"%s\" | ", controller_list[controller_idx].display_list[display_idx].name);
-    fprintf(fp, "Descirption |\n");
+    fprintf(fp, "Description |\n");
     fprintf(fp, "|---|---|\n");
   }
   else
