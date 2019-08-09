@@ -203,6 +203,9 @@ A5: For SW I2C and AVR architectures: Uncomment
 in U8x8lib.h. This will increase speed a lot for I2C on all AVR uC. However the I2C
 bus is always driven by this implementation. Other I2C devices will not work on
 the same pins.
+A6: For HW I2C the default speed for some controllers is set 100KHz. However these
+controller often work with higher speed (200KHz or 400KHz). Suggestion is
+to test whether "u8g2.setBusClock(400000);" still works.
 
 Q: Umlaut chars or other chars with a unicode value greater than 127 do not 
 appear on the displays. What is wrong?
