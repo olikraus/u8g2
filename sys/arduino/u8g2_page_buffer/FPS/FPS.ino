@@ -613,7 +613,6 @@ void show_result(const char *s, uint16_t fps) {
 }
 
 void setup(void) {
-u8g2.setBusClock(400000);
 
   /* U8g2 Project: SSD1306 Test Board */
   //pinMode(10, OUTPUT);
