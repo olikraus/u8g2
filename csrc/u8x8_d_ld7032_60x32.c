@@ -40,6 +40,7 @@
 
 /* testboard U8GLIB_LD7032_60x32 u8g(11, 12, 9, 10, 8);	// SPI Com: SCK = 11, MOSI = 12, CS = 9, A0 = 10, RST = 8  (SW SPI Nano Board) */
 /* http://www.seeedstudio.com/document/pdf/0.5OLED%20SPEC.pdf */
+#ifdef OBSOLETE
 static const uint8_t u8x8_d_ld7032_60x32_init_seq_old[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -65,6 +66,7 @@ static const uint8_t u8x8_d_ld7032_60x32_init_seq_old[] = {
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
+#endif
 
 /* new sequence https://github.com/olikraus/u8g2/issues/865 */
 static const uint8_t u8x8_d_ld7032_60x32_init_seq[] = {
