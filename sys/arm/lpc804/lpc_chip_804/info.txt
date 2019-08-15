@@ -1,0 +1,6 @@
+Source: LPC804-EX-CODE-MCUXPRESSO.zip from nxp.com
+ 
+ the file inc/chip_setup.h might depend on then project, but should
+ be a good starting point.
+ 
+ 
