@@ -41,7 +41,7 @@ void Disable_Periph_Clock(uint32_t slot) {
 // Function: Do_Periph_Reset
 // Use like this: Do_Periph_Reset(RESET_SPI0);
 //
-void Do_Periph_Reset(unsigned int slot) {
+void Do_Periph_Reset(uint32_t slot) {
   if (slot < 32) {
     LPC_SYSCON->PRESETCTRL[0] &= ~(1<<slot);
     LPC_SYSCON->PRESETCTRL[0] |=  (1<<slot);

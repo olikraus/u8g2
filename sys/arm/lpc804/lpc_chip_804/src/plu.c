@@ -30,7 +30,6 @@
 #include "LPC8xx.h"
 #include "core_cm0plus.h"
 #include "syscon.h"
-#include "utilities.h"
 #include "plu.h"
 #include <stdarg.h>
 

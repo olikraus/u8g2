@@ -5,6 +5,8 @@
  *      Author: 
  */
 
+#include <stdint.h>
+
 #ifndef LPC8XX_SYSCON_H_
 #define LPC8XX_SYSCON_H_
 
@@ -205,11 +207,11 @@ typedef enum {
 
 
 
-void Enable_Periph_Clock(unsigned int slot);
-void Disable_Periph_Clock(unsigned int slot);
-void Do_Periph_Reset(unsigned int slot);
-void Config_Syspll(unsigned int which_clock, unsigned int pll_ctrl_value);
-void Config_Fclksel_Mux(unsigned int to_which_periph, unsigned int which_clock);
+void Enable_Periph_Clock(uint32_t slot);
+void Disable_Periph_Clock(uint32_t slot);
+void Do_Periph_Reset(uint32_t slot);
+//void Config_Syspll(unsigned int which_clock, unsigned int pll_ctrl_value);
+void Config_Fclksel_Mux(uint32_t to_which_periph, uint32_t which_clock);
 
 
 

@@ -21,7 +21,7 @@
 #ifndef lpc8xx_I2C_H_
 #define lpc8xx_I2C_H_
 
-#include "lpc8xx.h"
+#include "LPC8xx.h"
 
 #define RD_BIT            0x01
 

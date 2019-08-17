@@ -23,6 +23,7 @@
 #define lpc8xx_SPI_H_
 
 #include "LPC8xx.h"
+#include "swm.h"
 
 #define SPI_FLASH_CS1()    (LPC_GPIO_PORT->SET[0] = 1<<P0_16)				/* Use for LPC804 */
 #define SPI_FLASH_CS0()    (LPC_GPIO_PORT->CLR[0] = 1<<P0_16)				/* Use for LPC804 */

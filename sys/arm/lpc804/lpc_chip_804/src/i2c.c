@@ -6,7 +6,7 @@
  */
 
 #include "LPC8xx.h"
-#include "utilities.h"
+//#include "utilities.h"
 #include "i2c.h"
 
 /*****************************************************************************

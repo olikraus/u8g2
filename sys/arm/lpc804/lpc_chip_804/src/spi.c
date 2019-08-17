@@ -6,7 +6,7 @@
  */
 
 #include "LPC8xx.h"
-#include "utilities.h"
+//#include "utilities.h"
 #include "spi.h"
 
 uint32_t SPI_RXCount, SPI_TXCount;
