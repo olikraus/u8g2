@@ -49,14 +49,13 @@ int __attribute__ ((noinline)) main(void)
   Enable_Periph_Clock(CLK_SWM);
   
 
-  //Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 15, IOCON_FUNC1);	/* RxD */  
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 0, 15);	
+  GPIOSetDir( PORT0, 15, OUTPUT);
 
   for(;;)
   {
-    Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, 0, 15);
+    GPIOSetBitValue(PORT0, 15, 1);
     delay_micro_seconds(1000000);
-    Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, 0, 15);
+    GPIOSetBitValue(PORT0, 15, 0);
     delay_micro_seconds(1000000);
   }
 }

@@ -1,4 +1,12 @@
+There seems to be no LPCOpen library for the LPC804:
+https://www.nxp.com/design/microcontrollers-developer-resources/lpcopen-libraries-and-examples/lpcopen-software-development-platform-lpc8xx:LPCOPEN-SOFTWARE-FOR-LPC8XX
+
+
 Source: LPC804-EX-CODE-MCUXPRESSO.zip from nxp.com
+available from here:
+https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc800-cortex-m0-plus-/low-cost-microcontrollers-mcus-based-on-arm-cortex-m0-plus-core:LPC80X?tab=Design_Tools_Tab#t749
+"LPC804 Example Code Bundle MCUXpresso"
+
  
  the file inc/chip_setup.h might depend on then project, but should
  be a good starting point.
