@@ -11,6 +11,12 @@
   ToDo:
     Consider https://github.com/ChristianVisintin/termiWin for Win compatibility
 
+  Other Tools:
+    - https://sourceforge.net/projects/lpc21isp/    	Last version from 2014, LPC804 not supported
+    - http://www.windscooting.com/softy/mxli.html	not tested, not sure whether LPC804 is supported
+    - http://www.flashmagictool.com/				GUI
+    - http://git.techno-innov.fr/?p=lpctools			LPC804 not part of the definitions, but could be added
+
 */
 
 #include <stdio.h>
@@ -487,6 +493,7 @@ const char *lpc_error_string[] =
 /* uart connection  */
 
 int uart_fd = 0;
+int uart_show_isp_cmd = 0;
 struct termios uart_io;
 /* in_buf should be large enough to read a complete sector with some additional overhead */
 #define UART_IN_BUF_LEN (1024*48)
@@ -772,6 +779,8 @@ int uart_send_cnt_bytes(int cnt, unsigned char data)
 
 int uart_send_str(const char *str)
 {
+  if ( uart_show_isp_cmd )
+    printf("ISP Cmd:%s", str);
   return uart_send_bytes(strlen(str), (const unsigned char *)str);
   
 /*  
@@ -1068,11 +1077,11 @@ lpc_struct lpc_list[] = {
 // RAM end is at 0x10001000, so probably ram_size could be 0x0200 or 0x0400
 
 
-{"LPC804M101JBD64", 0x00008040, 	0x00000000, 	0x8000,	0x0400,	0x10000400,	0x0100 },
-{"LPC804M101JDH20", 0x00008041, 	0x00000000, 	0x8000,	0x0400,	0x10000400,	0x0100 },
-{"LPC804M101JDH24", 0x00008042, 	0x00000000, 	0x8000,	0x0400,	0x10000400,	0x0100 },
-{"LPC804M111JDH24", 0x00008043, 	0x00000000, 	0x8000,	0x0400,	0x10000400,	0x0100 },
-{"LPC804M101JHI33", 0x00008044, 	0x00000000, 	0x8000,	0x0400,	0x10000400,	0x0100 }
+{"LPC804M101JBD64", 0x00008040, 	0x00000000, 	0x8000,	0x0400,	0x10000500,	0x0400 },
+{"LPC804M101JDH20", 0x00008041, 	0x00000000, 	0x8000,	0x0400,	0x10000500,	0x0400 },
+{"LPC804M101JDH24", 0x00008042, 	0x00000000, 	0x8000,	0x0400,	0x10000500,	0x0400 },
+{"LPC804M111JDH24", 0x00008043, 	0x00000000, 	0x8000,	0x0400,	0x10000500,	0x0400 },
+{"LPC804M101JHI33", 0x00008044, 	0x00000000, 	0x8000,	0x0400,	0x10000500,	0x0400 }
 
 
 };
@@ -1375,6 +1384,10 @@ int lpc_page_write_flash_verify(unsigned long size, unsigned char *buf, unsigned
   /* calculate the number of the sector, later used for the prepare command */
   sector = dest_adr / lpc_part->sector_size;
 
+  /* prepare the sector */
+  if ( lpc_prepare_sectors(sector, sector) == 0 )
+    return 0;
+
   /* download the page (a fraction of the sector) to RAM */
   if ( lpc_page_download_to_ram(size, buf) == 0 )
     return 0;
@@ -1382,6 +1395,7 @@ int lpc_page_write_flash_verify(unsigned long size, unsigned char *buf, unsigned
   /* prepare the sector */
   if ( lpc_prepare_sectors(sector, sector) == 0 )
     return 0;
+
 
   /* flash the page into the prepared sector */
   if ( lpc_page_flash(dest_adr) == 0 )
@@ -1613,7 +1627,8 @@ void help(void)
   printf("-x        Execute ARM reset handler after upload\n");
   printf("          Note: Reset handler must set the stack pointer and restore SYSMEMREMAP\n");
   printf("-p <port> Use UART at <port> (default: '/dev/ttyUSB0')\n");
-  printf("-s <n>    Set UART transfer speed, 0=9600 (default), 1=19200, 2=57600\n");
+  printf("-s <n>    Set UART transfer speed, 0=9600 (default), 1=19200, 2=57600, 3=115200\n");
+  printf("-i        Show ISP commands sent to the device\n");
 }
 
 /*================================================*/
@@ -1649,6 +1664,10 @@ int main(int argc, char **argv)
     {
       is_execute = 1;
     }
+    else if ( is_arg(&argv, 'i') != 0 )
+    {
+      uart_show_isp_cmd = 1;
+    }
     else if ( get_num_arg(&argv, 's', &speed) != 0 )
     {
     }
@@ -1672,6 +1691,7 @@ int main(int argc, char **argv)
     case 0: baud = B9600; break;
     case 1: baud = B19200; break;
     case 2: baud = B57600; break;
+    case 3: baud = B115200; break;
   }
   
   //fmem_show();

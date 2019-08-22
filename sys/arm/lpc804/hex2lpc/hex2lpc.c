@@ -11,6 +11,12 @@
   ToDo:
     Consider https://github.com/ChristianVisintin/termiWin for Win compatibility
 
+  Other Tools:
+    - https://sourceforge.net/projects/lpc21isp/    	Last version from 2014, LPC804 not supported
+    - http://www.windscooting.com/softy/mxli.html	not tested, not sure whether LPC804 is supported
+    - http://www.flashmagictool.com/				GUI
+    - http://git.techno-innov.fr/?p=lpctools			LPC804 not part of the definitions, but could be added
+
 */
 
 #include <stdio.h>
