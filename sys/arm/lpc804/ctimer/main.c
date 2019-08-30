@@ -30,6 +30,24 @@ void __attribute__ ((interrupt)) SysTick_Handler(void)
 }
 
 /*=======================================================================*/
+/* 
+  replacement for ConfigSWM(uint32_t func, uint32_t port_pin) 
+  
+  Args:
+    fn: A function number, e.g. T0_MAT0, see swm.h
+    port: A port number for the GPIO port (0..30)
+
+*/
+void mapFunctionToPort(uint32_t fn, uint32_t port)
+{
+  /* first reset the pin assignment to 0xff (this is also the reset value */
+  LPC_SWM->PINASSIGN[fn/4] |= ((0xffUL)<<(8*(fn%4)));
+  /* then write the destination pin to it */
+  LPC_SWM->PINASSIGN[fn/4] &= ~((port^255UL)<<(8*(fn%4)));
+}
+
+
+/*=======================================================================*/
 /*
   setup the hardware and start interrupts.
   called by "Reset_Handler"
@@ -61,14 +79,23 @@ int __attribute__ ((noinline)) main(void)
   LPC_CTIMER0->MR[3] = 15000000;  /* PWM cycle length: one second with 15MHz AHB clock */
   LPC_CTIMER0->MCR |= 1<<MR3R;		/* Use MR3 value to reset the counter: MR3 is the upper value and sets the PWM cycle */
   
-  LPC_CTIMER0->MR[0] = 5000000;  /* PWM duty cycle in MR0 */
+  LPC_CTIMER0->MR[0] = 14000000;  /* PWM duty cycle in MR0 */
   LPC_CTIMER0->PWMC |= 1<<PWMEN0;  /* PWM mode for MR0 */
   
   /* first reset the pin assignment to 0xff (this is also the reset value */
-  LPC_SWM->PINASSIGN[T0_MAT0/4] |= ((0xffUL)<<(8*(T0_MAT0%4)));
+  //LPC_SWM->PINASSIGN[T0_MAT0/4] |= ((0xffUL)<<(8*(T0_MAT0%4)));
   /* then write the destination pin to it */
-  LPC_SWM->PINASSIGN[T0_MAT0/4] &= ~((15UL^255UL)<<(8*(T0_MAT0%4)));
-  
+  //LPC_SWM->PINASSIGN[T0_MAT0/4] &= ~((15UL^255UL)<<(8*(T0_MAT0%4)));
+
+  /* first reset the pin assignment to 0xff (this is also the reset value */
+  //LPC_SWM->PINASSIGN[T0_MAT0/4] |= ((0xffUL)<<(8*(T0_MAT0%4)));
+  /* then write the destination pin to it */
+  //LPC_SWM->PINASSIGN[T0_MAT0/4] &= ~((15UL^255UL)<<(8*(T0_MAT0%4)));
+
+  mapFunctionToPort(T0_MAT0, 30);
+  mapFunctionToPort(LVLSHFT_IN0, 30);
+  mapFunctionToPort(LVLSHFT_OUT0, 15);
+
   LPC_CTIMER0->TCR |= 1<<CEN;		/* enalble the timer */
 
 }
