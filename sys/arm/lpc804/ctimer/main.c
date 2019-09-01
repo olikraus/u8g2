@@ -4,6 +4,7 @@
 
 
 #include <LPC8xx.h>
+#include <iocon.h>
 #include <syscon.h>
 #include <gpio.h>
 #include <swm.h>
@@ -92,9 +93,13 @@ int __attribute__ ((noinline)) main(void)
   /* then write the destination pin to it */
   //LPC_SWM->PINASSIGN[T0_MAT0/4] &= ~((15UL^255UL)<<(8*(T0_MAT0%4)));
 
+  /* invert output, will only work with PIO0_30, not with PIO0_15 */
+  LPC_IOCON->PIO0_30 |= 1<<IOCON_INV;  
+
   mapFunctionToPort(T0_MAT0, 30);
-  mapFunctionToPort(LVLSHFT_IN0, 30);
+  mapFunctionToPort(LVLSHFT_IN0, 30);  
   mapFunctionToPort(LVLSHFT_OUT0, 15);
+
 
   LPC_CTIMER0->TCR |= 1<<CEN;		/* enalble the timer */
 
