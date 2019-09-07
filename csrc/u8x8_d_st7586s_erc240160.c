@@ -1,7 +1,10 @@
 /*
   u8x8_d_st7586s_erc240160.c
+  
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+  
   Copyright (c) 2018, olikraus@gmail.com
+  
   All rights reserved.
   Redistribution and use in source and binary forms, with or without modification, 
   are permitted provided that the following conditions are met:
