@@ -867,6 +867,26 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
+
+  {
+    "st7528", 		20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "nhd_c160100" },
+      { NULL }
+    }
+  },
+  {
+    "st7528", 		20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "nhd_c160100" },
+      { NULL }
+    }
+  },
+
+  
+
   
 #ifdef NOTUSED
   {
@@ -957,7 +977,7 @@ struct controller controller_list[] =
       { NULL }
     }
   },
-  
+
   {
     "st7567", 		8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
