@@ -1144,6 +1144,7 @@ void u8g2_ClearBuffer(u8g2_t *u8g2);
 
 void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row) U8G2_NOINLINE;
 
+uint8_t u8g2_CustomPage(u8g2_t * const u8g2, uint8_t const page);
 void u8g2_FirstPage(u8g2_t *u8g2);
 uint8_t u8g2_NextPage(u8g2_t *u8g2);
 
