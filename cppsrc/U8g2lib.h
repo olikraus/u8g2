@@ -175,7 +175,8 @@ class U8G2 : public Print
     /* u8g2_buffer.c */
     void sendBuffer(void) { u8g2_SendBuffer(&u8g2); }
     void clearBuffer(void) { u8g2_ClearBuffer(&u8g2); }    
-    
+
+    uint8_t customPage(uint8_t page) { return u8g2_CustomPage(&u8g2, page); }
     void firstPage(void) { u8g2_FirstPage(&u8g2); }
     uint8_t nextPage(void) { return u8g2_NextPage(&u8g2); }
     
