@@ -112,7 +112,7 @@ uint8_t u8g2_PageFirstRow(u8g2_t const * const u8g2, uint8_t const page)
 uint8_t u8g2_CustomPage(u8g2_t * const u8g2, uint8_t const page)
 {
   uint8_t const row = u8g2_PageFirstRow(u8g2, page);
-  if ( row >= u8g2_GetU8x8(u8g2)->display_info->tile_height )
+  if ( row > ( u8g2_GetU8x8(u8g2)->display_info->tile_height - u8g2->tile_buf_height ) )
   {
     return 0;
   }
