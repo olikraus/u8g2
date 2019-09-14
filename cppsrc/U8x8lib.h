@@ -128,6 +128,12 @@
 #endif
 #endif
 
+/*ISSUE #991 */
+#ifdef BOARD_NR_SPI
+  #if BOARD_NR_SPI > 1
+    #define U8X8_HAVE_2ND_HW_SPI
+  #endif
+#endif
 
 extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_arduino_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);

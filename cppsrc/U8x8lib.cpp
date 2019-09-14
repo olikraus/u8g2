@@ -45,6 +45,15 @@
 #include <Wire.h>
 #endif
 
+/* ISSUE #991 */
+#if defined(STM32F1) || defined(STM32F1xx) || defined(STM32F4) || defined(STM32F4xx)
+SPIClass U8G2_SPI2(2);
+bool First_Time = true;
+#else
+SPIClass U8G2_SPI2 = SPI2;
+#endif
+
+
 /*=============================================*/
 
 size_t U8X8::write(uint8_t v) 
@@ -814,6 +823,14 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
 #ifdef U8X8_HAVE_2ND_HW_SPI
+  /* ISSUE #991 */
+  #ifdef SPI_RESET_FUNC 
+  if(First_Time) {
+    U8G2_SPI2.resetSettings(2);
+    First_Time = false;
+  }
+  #endif
+
   uint8_t *data;
   uint8_t internal_spi_mode;
  
@@ -829,7 +846,7 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
       {
-	SPI1.transfer((uint8_t)*data);
+	U8G2_SPI2.transfer((uint8_t)*data);
 	data++;
 	arg_int--;
       }
@@ -842,13 +859,13 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
       /* no wait required here */
       
-      /* for SPI1: setup correct level of the clock signal */
+      /* for U8G2_SPI2: setup correct level of the clock signal */
       // removed, use SPI.begin() instead: pinMode(11, OUTPUT);
       // removed, use SPI.begin() instead: pinMode(13, OUTPUT);
       // removed, use SPI.begin() instead: digitalWrite(13, u8x8_GetSPIClockPhase(u8x8));
       
       /* setup hardware with SPI.begin() instead of previous digitalWrite() and pinMode() calls */
-      SPI1.begin();	
+      U8G2_SPI2.begin();	
 
       break;
       
@@ -857,7 +874,7 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       break;
       
     case U8X8_MSG_BYTE_START_TRANSFER:
-      /* SPI1 mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
+      /* U8G2_SPI2 mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
       internal_spi_mode =  0;
       switch(u8x8->display_info->spi_mode)
       {
@@ -868,18 +885,18 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       }
       
 #if ARDUINO >= 10600
-      SPI1.beginTransaction(SPISettings(u8x8->bus_clock, MSBFIRST, internal_spi_mode));
+      U8G2_SPI2.beginTransaction(SPISettings(u8x8->bus_clock, MSBFIRST, internal_spi_mode));
 #else
-      SPI1.begin();
+      U8G2_SPI2.begin();
       
       if ( u8x8->display_info->sck_pulse_width_ns < 70 )
-	SPI1.setClockDivider( SPI_CLOCK_DIV2 );
+	U8G2_SPI2.setClockDivider( SPI_CLOCK_DIV2 );
       else if ( u8x8->display_info->sck_pulse_width_ns < 140 )
-	SPI1.setClockDivider( SPI_CLOCK_DIV4 );
+	U8G2_SPI2.setClockDivider( SPI_CLOCK_DIV4 );
       else
-	SPI1.setClockDivider( SPI_CLOCK_DIV8 );
-      SPI1.setDataMode(internal_spi_mode);
-      SPI1.setBitOrder(MSBFIRST);
+	U8G2_SPI2.setClockDivider( SPI_CLOCK_DIV8 );
+      U8G2_SPI2.setDataMode(internal_spi_mode);
+      U8G2_SPI2.setBitOrder(MSBFIRST);
 #endif
       
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
@@ -891,19 +908,18 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_spi(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
 
 #if ARDUINO >= 10600
-      SPI1.endTransaction();
+      U8G2_SPI2.endTransaction();
 #else
-      SPI1.end();
+      U8G2_SPI2.end();
 #endif
 
       break;
     default:
       return 0;
   }
-  
 #else
 #endif
-  return 1;
+return 1;
 }
 
 /*=============================================*/
