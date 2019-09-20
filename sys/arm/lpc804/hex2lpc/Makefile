@@ -2,7 +2,7 @@
 # hex2lpc: Linux flash utility for LPC8xx devices
 # 
 
-CFLAGS = -g  -Wall 
+CFLAGS = -g  -pg -Wall 
 #CFLAGS = -O4 -Wall
 
 SRC = hex2lpc.c

@@ -494,6 +494,7 @@ const char *lpc_error_string[] =
 
 int uart_fd = 0;
 int uart_show_isp_cmd = 0;
+int is_verify = 0;
 struct termios uart_io;
 /* in_buf should be large enough to read a complete sector with some additional overhead */
 #define UART_IN_BUF_LEN (1024*48)
@@ -1401,15 +1402,17 @@ int lpc_page_write_flash_verify(unsigned long size, unsigned char *buf, unsigned
   if ( lpc_page_flash(dest_adr) == 0 )
     return 0;
   
-  /* check the content of the controller RAM with the newly flashed area */
-  if ( lpc_page_quick_compare(dest_adr) == 0 )
-    return 0;
-  
-  /* check, whether the page has been written correctly, by reading the data back to the PC */
-  /* this is not required any more */
-  if ( lpc_page_compare(dest_adr, size, buf) == 0 )
-    return 0;
-
+  if ( is_verify )
+  {
+    /* check the content of the controller RAM with the newly flashed area */
+    if ( lpc_page_quick_compare(dest_adr) == 0 )
+      return 0;
+    
+    /* check, whether the page has been written correctly, by reading the data back to the PC */
+    /* this is not required any more */
+    if ( lpc_page_compare(dest_adr, size, buf) == 0 )
+      return 0;
+  }
   return 1;
 }
 
@@ -1624,6 +1627,7 @@ void help(void)
 {
   printf("-h        Display this help\n");
   printf("-f <file> Load data from intel hex <file>\n");
+  printf("-v        Verify flash upload\n");
   printf("-x        Execute ARM reset handler after upload\n");
   printf("          Note: Reset handler must set the stack pointer and restore SYSMEMREMAP\n");
   printf("-p <port> Use UART at <port> (default: '/dev/ttyUSB0')\n");
@@ -1664,6 +1668,10 @@ int main(int argc, char **argv)
     {
       is_execute = 1;
     }
+    else if ( is_arg(&argv, 'v') != 0 )
+    {
+      is_verify = 1;
+    }
     else if ( is_arg(&argv, 'i') != 0 )
     {
       uart_show_isp_cmd = 1;
@@ -1692,6 +1700,7 @@ int main(int argc, char **argv)
     case 1: baud = B19200; break;
     case 2: baud = B57600; break;
     case 3: baud = B115200; break;
+    case 4: baud = B230400; break;
   }
   
   //fmem_show();
