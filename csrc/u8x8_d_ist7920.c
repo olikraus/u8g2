@@ -42,16 +42,14 @@
 
 static const uint8_t u8x8_d_ist7920_128x128_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  //U8X8_C(0x0a4),		                /* all pixel off, issue 142 */
-  //U8X8_C(0x0af),		                /* display on */
+  U8X8_C(0x03d),		                /* display on */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ist7920_128x128_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  //U8X8_C(0x0ae),		                /* display off */
-  //U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
+  U8X8_C(0x03c),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -78,23 +76,23 @@ static const u8x8_display_info_t u8x8_ist7920_128x128_display_info =
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
   
-  /* post_chip_enable_wait_ns = */ 150,	/* IST3020 datasheet, page 56 */
-  /* pre_chip_disable_wait_ns = */ 150,	/* IST3020 datasheet, page 56 */
+  /* post_chip_enable_wait_ns = */ 90,	/* IST7920 datasheet, page 48 */
+  /* pre_chip_disable_wait_ns = */ 90,	/* IST7920 datasheet, page 48 */
   /* reset_pulse_width_ms = */ 10,		 
   /* post_reset_wait_ms = */ 20, 		/* IST7920 Startup Seq.. */
-  /* sda_setup_time_ns = */ 100,		/* IST3020 datasheet, page 56 */
-  /* sck_pulse_width_ns = */ 100,	/* IST3020 datasheet, page 56 */
-  /* sck_clock_hz = */ 4000000UL,	/* */
-  /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 4,
-  /* data_setup_time_ns = */ 40,	/* IST3020 datasheet, page 54 */
-  /* write_pulse_width_ns = */ 60,	/* IST3020 datasheet, page 54 */
-  /* tile_width = */ 24,		/* width of 24*8=192 pixel */
-  /* tile_hight = */ 8,
+  /* sda_setup_time_ns = */ 45,		/* IST7920 datasheet, page 48 */
+  /* sck_pulse_width_ns = */ 130,	/* IST7920 datasheet, page 48 */
+  /* sck_clock_hz = */ 3000000UL,	/* IST7920 datasheet: 260ns */
+  /* spi_mode = */ 0,		/* active high, rising edge (not verified) */
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400kHz according to IST7920 datasheet */
+  /* data_setup_time_ns = */ 60,	/* IST7920 datasheet, page 47 */
+  /* write_pulse_width_ns = */ 150,	/* IST7920 datasheet, page 47 */
+  /* tile_width = */ 16,		/* width of 16*8=128 pixel */
+  /* tile_hight = */ 16,
   /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 64,
-  /* pixel_width = */ 192,
-  /* pixel_height = */ 64
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 128
 };
 
 /* 1/128 Duty, 1/10 Bias */
@@ -102,27 +100,34 @@ static const uint8_t u8x8_d_ist7920_128x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
+  U8X8_C(0x076),				/* Software Reset */
+  U8X8_DLY(50),
+  U8X8_C(0x03c),				/* display off */
+  
+  
+  U8X8_CA(0x090, 128),			/* Set Duty */
+  //U8X8_CAA(0x0b2, 0x011, 0x00),	/* Set Frame Control */  
 
-  
-/* Set RR(B1H/RR) */
-  U8X8_CA(0x0b1, 0x011),		/* Set RR*/  
-/* Set BIAS(30H/00H) */
-  U8X8_CA(0x030, 16),		/* Set Bias 0: 1/8, 8: 1/9, 16: 1/10, 24: 1/11, 48: 1/12 ... */  
-  U8X8_CA(0x031, 0x011),		/* Set voltage generate clock(31H/11H) */  
-  U8X8_CA(0x033, 0x02f),		/* Power Control ??? */
-  U8X8_CA(0x090, 128),		/* Set Duty */
-  
-/* Set Power On (33H/2DH~2FH*) */
-  
-/* Wait 100ms   */
-
+  U8X8_CA(0x030, 16),			/* Set Bias 0: 1/8, 8: 1/9, 16: 1/10, 24: 1/11, 48: 1/12 ... */  
+  U8X8_CA(0x031, 0x03f),		/* Set voltage generate clock(31H/11H) */  
+  //U8X8_CA(0x032, 0x015),		/* Temperature compensation */  
+  U8X8_CA(0x033, 0x020),		/* Power Control */
   U8X8_DLY(100),
-
-  U8X8_C(0x0ff), 	/* SET BT(FCH) */
-  U8X8_DLY(40),	/* Wait 40ms   */
-
+  U8X8_CA(0x033, 0x02c),		/* Power Control */
+  U8X8_DLY(100),
+  U8X8_C(0xfd),				/* set booster */
+  U8X8_DLY(100),
+  U8X8_CA(0x033, 0x02f),		/* Power Control */
+  U8X8_DLY(200),
   
-   
+  U8X8_C(0x060),				/* Display Ctrl: Bit3: SHL 2:ADC 1:EON, 0:REV */
+
+  U8X8_CAA(0x074, 0x000, 0x00f),	/* AY Window */  
+  U8X8_CAA(0x075, 0x000, 0x07f),	/* AX Window */  
+
+  U8X8_CA(0x0b1, 127),			/* electronic volume */  
+
+
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -161,8 +166,8 @@ uint8_t u8x8_d_ist7920_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int >> 2 );	/* st7567 has range from 0 to 63 */
+      u8x8_cad_SendCmd(u8x8, 0x0b1 );
+      u8x8_cad_SendArg(u8x8, arg_int );	/* st7920 has range from 0 to 255 */
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
@@ -172,9 +177,10 @@ uint8_t u8x8_d_ist7920_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendCmd(u8x8, 0x0c0 );
+      u8x8_cad_SendArg(u8x8, x );
+      u8x8_cad_SendCmd(u8x8, 0x001 );
+      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos) );
     
       c = ((u8x8_tile_t *)arg_ptr)->cnt;
       c *= 8;
