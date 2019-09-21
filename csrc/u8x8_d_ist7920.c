@@ -93,7 +93,7 @@ static const u8x8_display_info_t u8x8_ist7920_128x128_display_info =
   /* pixel_height = */ 128
 };
 
-/* 1/128 Duty, 1/10 Bias */
+/* 1/128 Duty, 1/10 Bias, 128x128 round display */
 static const uint8_t u8x8_d_ist7920_128x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -122,6 +122,8 @@ static const uint8_t u8x8_d_ist7920_128x128_init_seq[] = {
 
   U8X8_CAA(0x074, 0x000, 0x00f),	/* AY Window */  
   U8X8_CAA(0x075, 0x000, 0x07f),	/* AX Window */  
+  
+  U8X8_CA(0x040, 64);			/* Start line at 64 */
 
   U8X8_CA(0x0b1, 127),			/* electronic volume */  
 
