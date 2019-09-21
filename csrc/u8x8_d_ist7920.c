@@ -125,7 +125,7 @@ static const uint8_t u8x8_d_ist7920_128x128_init_seq[] = {
   
   U8X8_CA(0x040, 64);			/* Start line at 64 */
 
-  U8X8_CA(0x0b1, 127),			/* electronic volume */  
+  U8X8_CA(0x0b1, 100),			/* electronic volume */  
 
 
   U8X8_END_TRANSFER(),             	/* disable chip */
