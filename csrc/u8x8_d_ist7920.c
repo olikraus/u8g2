@@ -80,8 +80,8 @@ static const u8x8_display_info_t u8x8_ist7920_128x128_display_info =
   
   /* post_chip_enable_wait_ns = */ 150,	/* IST3020 datasheet, page 56 */
   /* pre_chip_disable_wait_ns = */ 150,	/* IST3020 datasheet, page 56 */
-  /* reset_pulse_width_ms = */ 1, 
-  /* post_reset_wait_ms = */ 1, 
+  /* reset_pulse_width_ms = */ 10,		 
+  /* post_reset_wait_ms = */ 20, 		/* IST7920 Startup Seq.. */
   /* sda_setup_time_ns = */ 100,		/* IST3020 datasheet, page 56 */
   /* sck_pulse_width_ns = */ 100,	/* IST3020 datasheet, page 56 */
   /* sck_clock_hz = */ 4000000UL,	/* */
@@ -97,37 +97,31 @@ static const u8x8_display_info_t u8x8_ist7920_128x128_display_info =
   /* pixel_height = */ 64
 };
 
+/* 1/128 Duty, 1/10 Bias */
 static const uint8_t u8x8_d_ist7920_128x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+
   
-  U8X8_C(0x0e2),            			/* soft reset */
-  U8X8_C(0x0ab),            			/* build in osc on, used in ER code, but not mentioned in data sheet */
-  U8X8_C(0x0ae),		                /* display off */
+/* Set RR(B1H/RR) */
+  U8X8_CA(0x0b1, 0x011),		/* Set RR*/  
+/* Set BIAS(30H/00H) */
+  U8X8_CA(0x030, 16),		/* Set Bias 0: 1/8, 8: 1/9, 16: 1/10, 24: 1/11, 48: 1/12 ... */  
+  U8X8_CA(0x031, 0x011),		/* Set voltage generate clock(31H/11H) */  
+  U8X8_CA(0x033, 0x02f),		/* Power Control ??? */
+  U8X8_CA(0x090, 128),		/* Set Duty */
   
-  U8X8_C(0x040),		                /* set display start line to 0 */
+/* Set Power On (33H/2DH~2FH*) */
   
-  U8X8_C(0x0a0),		                /* ADC set to reverse */
-  U8X8_C(0x0c8),		                /* common output mode */
-  // Flipmode
-  //U8X8_C(0x0a0),		                /* ADC set to reverse */
-  //U8X8_C(0x0c8),		                /* common output mode */
+/* Wait 100ms   */
+
+  U8X8_DLY(100),
+
+  U8X8_C(0x0ff), 	/* SET BT(FCH) */
+  U8X8_DLY(40),	/* Wait 40ms   */
+
   
-  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
-  U8X8_C(0x0a3),		                /* FIX: LCD bias 1/7, old value was 1/9 (0x0a2) */
-  
-  U8X8_C(0x028|4),		                /* all power  control circuits on */
-  U8X8_DLY(50),
-  U8X8_C(0x028|6),		                /* all power  control circuits on */
-  U8X8_DLY(50),
-  U8X8_C(0x028|7),		                /* all power  control circuits on */
-  U8X8_DLY(50),
-  
-  U8X8_C(0x020),		                /* v0 voltage resistor ratio */
-  U8X8_CA(0x081, 0x019),		/* set contrast, contrast value (from ER code: 45) */
-  
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
    
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
