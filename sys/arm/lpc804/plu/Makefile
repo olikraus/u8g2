@@ -118,7 +118,7 @@ upload: $(DISNAME) $(HEXNAME) $(ELFNAME)
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJ) $(HEXNAME) $(ELFNAME) $(LIBNAME) $(DISNAME) $(MAPNAME) libssp.a libssp_nonshared.a
+	$(RM) $(OBJ) $(HEXNAME) $(ELFNAME) $(LIBNAME) $(DISNAME) $(MAPNAME) libssp.a libssp_nonshared.a plu.c
 
 # implicit rules
 .elf.hex:
@@ -128,8 +128,8 @@ clean:
 
 # explicit rules
 
-plu.c: Makefile 
-	./pluc 'PIO0_22 <= LVLSHFT_OUT0; LVLSHFT_IN0 <= PIO0_10;' 'PIO0_9 <= !PIO0_2 & !PIO0_22; '  -oc plu.c
+plu.c: Makefile plu.bex plu.bms
+	./pluc plu.bex plu.bms  -oc plu.c
 
 $(ELFNAME): $(LIBNAME)($(OBJ)) libssp.a libssp_nonshared.a plu.c
 	$(LINK.o) $(LFLAGS) $(LIBNAME) $(LDLIBS) -o $@

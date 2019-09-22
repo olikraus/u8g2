@@ -1,0 +1,12 @@
+#
+#
+
+name muller_c
+input PIO0_2 0
+input PIO0_22 0
+output PIO0_9 0
+
+0 1 PIO0_2+ PIO0_22+ | PIO0_9+
+1 0 PIO0_2- PIO0_22- | PIO0_9-
+
+

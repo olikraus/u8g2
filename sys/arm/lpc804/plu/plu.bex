@@ -1,0 +1,13 @@
+# plu.bex
+# 
+# switches are at PIO0_10 and PIO0_2
+# Because only PIO0_10 or PIO0_2 can be used as input for PLU,
+# PIO0_10 is routed via LVLSHFT0 path to PIO0_22
+
+PIO0_22 <= LVLSHFT_OUT0; 
+
+LVLSHFT_IN0 <= PIO0_10; 
+
+#PIO0_9 <= !PIO0_2 & !PIO0_22; 
+
+PLU_CLKIN <= CLKOUT;
