@@ -231,5 +231,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Unifont update to 12.1.02, added several plane 1 fonts (issue 931)
   * bdfconv.exe: Windows exe created, bugfix with -d option (issue 833)
 2019-xx-xx	v2.27.x	olikraus@gmail.com
+  * Support for IST7920 (issue 999). Note: IST7920 has nothing todo with ST7920
 
   
