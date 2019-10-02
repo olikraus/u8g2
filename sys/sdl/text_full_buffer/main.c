@@ -102,6 +102,9 @@ int main(void)
     if ( k == 'c' ) 
       u8g2_WritePBM(&u8g2, stdout_string);
 
+    if ( k == 'b' ) 
+      u8g2_WriteXBM(&u8g2, stdout_string);
+
 
     //if ( k == 't' ) 
     //  u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2), "screenshot.tga");

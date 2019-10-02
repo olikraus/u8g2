@@ -187,3 +187,9 @@ void u8g2_WritePBM(u8g2_t *u8g2, void (*out)(const char *s))
 {
   u8x8_capture_WritePBM(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
 }
+
+void u8g2_WriteXBM(u8g2_t *u8g2, void (*out)(const char *s))
+{
+  u8x8_capture_WriteXBM(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
+}
+

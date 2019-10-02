@@ -1166,6 +1166,7 @@ void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, u
 void u8g2_UpdateDisplay(u8g2_t *u8g2);
 
 void u8g2_WritePBM(u8g2_t *u8g2, void (*out)(const char *s));
+void u8g2_WriteXBM(u8g2_t *u8g2, void (*out)(const char *s));
 
 
 /*==========================================*/
