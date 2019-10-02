@@ -97,7 +97,7 @@ uint8_t u8x8_capture_GetPixel2(u8x8_capture_t *capture, uint16_t x, uint16_t y)
     return 0;
   dest_ptr += y*capture->tile_width;
   dest_ptr += x>>3;
-  if ( (*dest_ptr & (128>>x)) == 0 )
+  if ( (*dest_ptr & (128>>(x&7))) == 0 )
     return 0;
   return 1;
 }
