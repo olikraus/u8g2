@@ -5,6 +5,11 @@
 
 u8g2_t u8g2;
 
+void stdout_string(const char *s)
+{
+  printf("%s", s);
+}
+
 int main(void)
 {
   int x, y;
@@ -44,7 +49,7 @@ int main(void)
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x1-1, u8g2.user_y1-1, 1, 0);
 	u8g2_DrawHVLine(&u8g2, u8g2.user_x1-1, u8g2.user_y0, 1, 0);
     
-     u8g2_DrawFilledEllipse(&u8g2, x, y, 23, 27, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_LOWER_LEFT);
+     //u8g2_DrawFilledEllipse(&u8g2, x, y, 23, 27, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_LOWER_LEFT);
     
     u8g2_SendBuffer(&u8g2);
 /*    
@@ -93,6 +98,9 @@ int main(void)
     if ( k == 's' ) x -= 1;
     if ( k == 'd' ) x += 1;
     if ( k == 'q' ) break;
+
+    if ( k == 'c' ) 
+      u8g2_WritePBM(&u8g2, stdout_string);
 
 
     //if ( k == 't' ) 

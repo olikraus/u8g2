@@ -1165,6 +1165,8 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
 void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th);
 void u8g2_UpdateDisplay(u8g2_t *u8g2);
 
+void u8g2_WritePBM(u8g2_t *u8g2, void (*out)(const char *s));
+
 
 /*==========================================*/
 /* u8g2_ll_hvline.c */

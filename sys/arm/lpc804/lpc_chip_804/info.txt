@@ -8,12 +8,10 @@ https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontroller
 "LPC804 Example Code Bundle MCUXpresso"
 
  
- the file inc/chip_setup.h might depend on then project, but should
- be a good starting point.
  
 Toplevel include should be "LPC8xx.h". 
 The name "LPC8xx.h" might be misleading: This file is specific to the LPC804, but
-i decided to to change the name, but keep the orginal file name from the above zip
+I decided not to change the name, but keep the orginal file name from the above zip
 folder. In  fact plan is not to modify any of the files in lpc_chip_804 so that they can 
 be overwritten at any time with the original files (maybe chip_setup.h is an exception).
 
@@ -27,7 +25,7 @@ While working in the code, I saw, that there are some issues in "lpc_chip_804":
  - Alligned "unsigned int" with "uint32_t" declarations in syscon.h and .c 
  - Change the inclusion of "lpc8xx.h" to "LPC8xx.h" in i2c.h
  
- As a conclusion, I had to change the following files:
+ As a conclusion, I had to change the following files compared to the original zip content:
  i2c.h syscon.h syscon.c i2c.c spi.c spi.h plu.c
  
  

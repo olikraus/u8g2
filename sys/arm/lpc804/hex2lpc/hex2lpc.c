@@ -2,11 +2,38 @@
 
   hex2lpc.c
   
+  BSD 2-Clause License
+
+  Copyright (c) 2019, olikraus
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this
+     list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  
   Upload Intel Hex File to LPC8xx devices
   
   Features:
     - Calculates the checksum at 0x001c in the vector table
     - Part ID detection (if no hex file is specified on the commandline)
+    - Autostart of the uploaded hex file
 
   ToDo:
     Consider https://github.com/ChristianVisintin/termiWin for Win compatibility
@@ -33,6 +60,8 @@
 #include <unistd.h>
 
 #include <time.h>
+
+#define VERSION "1.0"
 
 /* this defines the number of bytes, which should be sent before any further read happens */
 /* it seems that there is a echo with the LPC devices, so that all data sent to the LPC */
@@ -1625,13 +1654,14 @@ int is_arg(char ***argv, int c)
 /*================================================*/
 void help(void)
 {
+  printf("Version " VERSION);
   printf("-h        Display this help\n");
   printf("-f <file> Load data from intel hex <file>\n");
   printf("-v        Verify flash upload\n");
   printf("-x        Execute ARM reset handler after upload\n");
   printf("          Note: Reset handler must set the stack pointer and restore SYSMEMREMAP\n");
   printf("-p <port> Use UART at <port> (default: '/dev/ttyUSB0')\n");
-  printf("-s <n>    Set UART transfer speed, 0=9600 (default), 1=19200, 2=57600, 3=115200\n");
+  printf("-s <n>    Set UART transfer speed, 0=9600 (default), 1=19200, 2=57600, 3=115200, 4=230400\n");
   printf("-i        Show ISP commands sent to the device\n");
 }
 

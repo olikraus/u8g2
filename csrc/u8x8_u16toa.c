@@ -66,3 +66,12 @@ const char *u8x8_u16toa(uint16_t v, uint8_t d)
   return u8x8_u16toap(buf, v) + d;
 }
 
+const char *u8x8_utoa(uint16_t v)
+{
+  const char *s = u8x8_u16toa(v, 5);
+  while( *s == '0' )
+    s++;
+  if ( *s == '\0' )
+    s--;
+  return s;
+}
