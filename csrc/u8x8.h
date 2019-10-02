@@ -1006,6 +1006,8 @@ uint8_t u8x8_UserInterfaceMessage(u8x8_t *u8x8, const char *title1, const char *
 
 void u8x8_capture_WritePBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s));
 void u8x8_capture_WriteXBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s));
+void u8x8_capture_WritePBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s));
+void u8x8_capture_WriteXBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s));
 
 
 /*==========================================*/
