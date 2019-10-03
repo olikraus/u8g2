@@ -186,27 +186,28 @@ void u8g2_UpdateDisplay(u8g2_t *u8g2)
 /* vertical_top memory architecture */
 void u8g2_WriteBufferPBM(u8g2_t *u8g2, void (*out)(const char *s))
 {
-  //u8x8_capture_WritePBM(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
-  u8x8_capture_write_pbm_pre(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), out);
+  u8x8_capture_write_pbm_pre(u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
   u8x8_capture_write_pbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_1, out);
-
 }
 
 void u8g2_WriteBufferXBM(u8g2_t *u8g2, void (*out)(const char *s))
 {
-  u8x8_capture_WriteXBM(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
+  u8x8_capture_write_xbm_pre(u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
+  u8x8_capture_write_xbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_1, out);
 }
+
 
 /* horizontal right memory architecture */
 /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
 void u8g2_WriteBufferPBM2(u8g2_t *u8g2, void (*out)(const char *s))
 {
-  u8x8_capture_write_pbm_pre(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), out);
+  u8x8_capture_write_pbm_pre(u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
   u8x8_capture_write_pbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_2, out);
 }
 
 void u8g2_WriteBufferXBM2(u8g2_t *u8g2, void (*out)(const char *s))
 {
-  u8x8_capture_WriteXBM2(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
+  u8x8_capture_write_xbm_pre(u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
+  u8x8_capture_write_xbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_2, out);
 }
 

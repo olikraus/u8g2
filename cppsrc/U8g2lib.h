@@ -346,8 +346,10 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
     int8_t getMaxCharWidth(void) { return u8g2_GetMaxCharWidth(&u8g2); }
     u8g2_uint_t getHeight() { return u8g2_GetDisplayHeight(&u8g2); }
     u8g2_uint_t getWidth() { return u8g2_GetDisplayWidth(&u8g2); }
-    
 };
+
+void u8g2_print_callback(const char *s);  /* U8g2lib.cpp */
+
 
 class U8G2LOG : public Print
 {
