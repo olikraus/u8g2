@@ -2,7 +2,7 @@
 
   u8x8_capture.c
   
-  Screen capture feature
+  Screen capture funcion
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -34,54 +34,21 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 
-  Warning: This will use global variables
-
 */
 
 #include "u8x8.h"
 
-struct _u8x8_capture_struct
-{
-  u8x8_msg_cb old_cb;
-  uint8_t *buffer;	/* tile_width*tile_height*8 bytes */
-  uint8_t tile_width;
-  uint8_t tile_height;
-};
-typedef struct _u8x8_capture_struct u8x8_capture_t;
-
 /*========================================================*/
 
-u8x8_capture_t u8x8_capture;
-
-/*========================================================*/
-
-static void u8x8_capture_memory_copy(uint8_t *dest, uint8_t *src, uint16_t cnt)
-{
-  while( cnt > 0 )
-  {
-    *dest++ = *src++;
-    cnt--;
-  }
-}
-
-static void u8x8_capture_DrawTiles(u8x8_capture_t *capture, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
-{
-  uint8_t *dest_ptr = capture->buffer;
-  //printf("tile pos: %d %d, cnt=%d\n", tx, ty, tile_cnt);
-  if ( dest_ptr == NULL )
-    return;
-  dest_ptr += (uint16_t)ty*capture->tile_width*8;
-  dest_ptr += (uint16_t)tx*8;
-  u8x8_capture_memory_copy(dest_ptr, tile_ptr, tile_cnt*8);
-}
 
 /* vertical top lsb memory architecture */
-uint8_t u8x8_capture_GetPixel(u8x8_capture_t *capture, uint16_t x, uint16_t y)
+uint8_t u8x8_capture_get_pixel_1(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width)
 {
-  uint8_t *dest_ptr = capture->buffer;
-  if ( dest_ptr == NULL )
-    return 0;
-  dest_ptr += (y/8)*capture->tile_width*8;
+  //uint8_t *dest_ptr = capture->buffer;
+  //if ( dest_ptr == NULL )
+    //return 0;
+  //dest_ptr += (y/8)*capture->tile_width*8;
+  dest_ptr += (y/8)*tile_width*8;
   y &= 7;
   dest_ptr += x;
   if ( (*dest_ptr & (1<<y)) == 0 )
@@ -91,22 +58,32 @@ uint8_t u8x8_capture_GetPixel(u8x8_capture_t *capture, uint16_t x, uint16_t y)
 
 /* horizontal right lsb memory architecture */
 /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
-uint8_t u8x8_capture_GetPixel2(u8x8_capture_t *capture, uint16_t x, uint16_t y)
+uint8_t u8x8_capture_get_pixel_2(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width)
 {
-  uint8_t *dest_ptr = capture->buffer;
-  if ( dest_ptr == NULL )
-    return 0;
-  dest_ptr += y*capture->tile_width;
+  //uint8_t *dest_ptr = capture->buffer;
+  //if ( dest_ptr == NULL )
+  //  return 0;
+  //dest_ptr += y*capture->tile_width;
+  y *= tile_width;
+  dest_ptr += y;
   dest_ptr += x>>3;
   if ( (*dest_ptr & (128>>(x&7))) == 0 )
     return 0;
   return 1;
 }
 
-
-void u8x8_capture_WritePBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s))
+void u8x8_capture_write_pbm_pre(uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s))
 {
-  u8x8_capture_t capture;
+  out("P1\n");
+  out(u8x8_utoa((uint16_t)tile_width*8));
+  out("\n");
+  out(u8x8_utoa((uint16_t)tile_height*8));
+  out("\n");
+}
+
+
+void u8x8_capture_write_pbm_buffer(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, uint8_t (*get_pixel)(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width), void (*out)(const char *s))
+{
   uint16_t x, y;
   uint16_t w, h;
 
@@ -114,24 +91,13 @@ void u8x8_capture_WritePBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_hei
   w *= 8;
   h = tile_height;
   h *= 8;
-  
-  out("P1\n");
-  out(u8x8_utoa(w));
-  out("\n");
-  out(u8x8_utoa(h));
-  out("\n");
-  
-  
-  capture.buffer = buffer;
-  capture.tile_width = tile_width;
-  capture.tile_height = tile_height;
 
     
   for( y = 0; y < h; y++)
   {
     for( x = 0; x < w; x++)
     {
-      if ( u8x8_capture_GetPixel(&capture, x, y) )
+      if ( get_pixel(x, y, buffer, tile_width) )
 	out("1");
       else
 	out("0"); 	  
@@ -142,7 +108,7 @@ void u8x8_capture_WritePBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_hei
 
 void u8x8_capture_WriteXBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s))
 {
-  u8x8_capture_t capture;
+  //u8x8_capture_t capture;
   uint16_t x, y;
   uint16_t w, h;
   uint8_t v, b;
@@ -163,9 +129,9 @@ void u8x8_capture_WriteXBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_hei
   
   out("static unsigned char xbm_bits[] = {\n");
   
-  capture.buffer = buffer;
-  capture.tile_width = tile_width;
-  capture.tile_height = tile_height;
+  //capture.buffer = buffer;
+  //capture.tile_width = tile_width;
+  //capture.tile_height = tile_height;
 
   y = 0;
   for(;;)
@@ -177,7 +143,7 @@ void u8x8_capture_WriteXBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_hei
       for( b = 0; b < 8; b++ )
       {
 	v <<= 1;
-	if ( u8x8_capture_GetPixel(&capture, x+7-b, y) )
+	if ( u8x8_capture_get_pixel_2(x+7-b, y, buffer, tile_width) )
 	  v |= 1;
       }
       out("0x");
@@ -210,32 +176,21 @@ void u8x8_capture_WriteXBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_hei
 
 void u8x8_capture_WritePBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s))
 {
-  u8x8_capture_t capture;
   uint16_t x, y;
   uint16_t w, h;
 
+  u8x8_capture_write_pbm_pre(tile_width, tile_height, out);
+  
   w = tile_width;
   w *= 8;
   h = tile_height;
   h *= 8;
   
-  out("P1\n");
-  out(u8x8_utoa(w));
-  out("\n");
-  out(u8x8_utoa(h));
-  out("\n");
-  
-  
-  capture.buffer = buffer;
-  capture.tile_width = tile_width;
-  capture.tile_height = tile_height;
-
-    
   for( y = 0; y < h; y++)
   {
     for( x = 0; x < w; x++)
     {
-      if ( u8x8_capture_GetPixel2(&capture, x, y) )
+      if ( u8x8_capture_get_pixel_1(x, y, buffer, tile_width) )
 	out("1");
       else
 	out("0"); 	  
@@ -246,7 +201,7 @@ void u8x8_capture_WritePBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_he
 
 void u8x8_capture_WriteXBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s))
 {
-  u8x8_capture_t capture;
+  //u8x8_capture_t capture;
   uint16_t x, y;
   uint16_t w, h;
   uint8_t v, b;
@@ -267,9 +222,9 @@ void u8x8_capture_WriteXBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_he
   
   out("static unsigned char xbm_bits[] = {\n");
   
-  capture.buffer = buffer;
-  capture.tile_width = tile_width;
-  capture.tile_height = tile_height;
+  //capture.buffer = buffer;
+  //capture.tile_width = tile_width;
+  //capture.tile_height = tile_height;
 
   y = 0;
   for(;;)
@@ -281,7 +236,7 @@ void u8x8_capture_WriteXBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_he
       for( b = 0; b < 8; b++ )
       {
 	v <<= 1;
-	if ( u8x8_capture_GetPixel2(&capture, x+7-b, y) )
+	if ( u8x8_capture_get_pixel_2(x+7-b, y, buffer, tile_width) )
 	  v |= 1;
       }
       out("0x");
@@ -314,6 +269,41 @@ void u8x8_capture_WriteXBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_he
 
 
 /*========================================================*/
+
+#ifdef NOT_YET_IMPLEMENTED_U8X8_SCREEN_CAPTURE
+
+struct _u8x8_capture_struct
+{
+  u8x8_msg_cb old_cb;
+  uint8_t *buffer;	/* tile_width*tile_height*8 bytes */
+  uint8_t tile_width;
+  uint8_t tile_height;
+};
+typedef struct _u8x8_capture_struct u8x8_capture_t;
+
+
+u8x8_capture_t u8x8_capture;
+
+
+static void u8x8_capture_memory_copy(uint8_t *dest, uint8_t *src, uint16_t cnt)
+{
+  while( cnt > 0 )
+  {
+    *dest++ = *src++;
+    cnt--;
+  }
+}
+
+static void u8x8_capture_DrawTiles(u8x8_capture_t *capture, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
+{
+  uint8_t *dest_ptr = capture->buffer;
+  //printf("tile pos: %d %d, cnt=%d\n", tx, ty, tile_cnt);
+  if ( dest_ptr == NULL )
+    return;
+  dest_ptr += (uint16_t)ty*capture->tile_width*8;
+  dest_ptr += (uint16_t)tx*8;
+  u8x8_capture_memory_copy(dest_ptr, tile_ptr, tile_cnt*8);
+}
 
 uint8_t u8x8_d_capture(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -354,3 +344,4 @@ void u8x8_ConnectCapture(u8x8_t *u8x8, uint8_t tile_width, uint8_t tile_height, 
   return;
 }
 
+#endif
