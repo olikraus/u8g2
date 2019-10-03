@@ -51,7 +51,7 @@ void u8g2_print_callback(const char *s)
 void U8G2::writeBufferPBM(Print &p)
 {
   u8g2_print_for_screenshot = &p;
-  u8g2_WriteBufferXBM(getU8g2(), u8g2_print_callback);
+  u8g2_WriteBufferPBM(getU8g2(), u8g2_print_callback);
 }
 
 void U8G2::writeBufferXBM(Print &p)
@@ -63,13 +63,13 @@ void U8G2::writeBufferXBM(Print &p)
 void U8G2::writeBufferPBM2(Print &p)
 {
   u8g2_print_for_screenshot = &p;
-  u8g2_WriteBufferXBM(getU8g2(), u8g2_print_callback);
+  u8g2_WriteBufferPBM2(getU8g2(), u8g2_print_callback);
 }
 
 void U8G2::writeBufferXBM2(Print &p)
 {
   u8g2_print_for_screenshot = &p;
-  u8g2_WriteBufferXBM(getU8g2(), u8g2_print_callback);
+  u8g2_WriteBufferXBM2(getU8g2(), u8g2_print_callback);
 }
 
 
