@@ -1165,8 +1165,11 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2);
 void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th);
 void u8g2_UpdateDisplay(u8g2_t *u8g2);
 
-void u8g2_WritePBM(u8g2_t *u8g2, void (*out)(const char *s));
-void u8g2_WriteXBM(u8g2_t *u8g2, void (*out)(const char *s));
+void u8g2_WriteBufferPBM(u8g2_t *u8g2, void (*out)(const char *s));
+void u8g2_WriteBufferXBM(u8g2_t *u8g2, void (*out)(const char *s));
+/* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
+void u8g2_WriteBufferPBM2(u8g2_t *u8g2, void (*out)(const char *s));
+void u8g2_WriteBufferXBM2(u8g2_t *u8g2, void (*out)(const char *s));
 
 
 /*==========================================*/

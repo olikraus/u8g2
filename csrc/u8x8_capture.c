@@ -90,6 +90,7 @@ uint8_t u8x8_capture_GetPixel(u8x8_capture_t *capture, uint16_t x, uint16_t y)
 }
 
 /* horizontal right lsb memory architecture */
+/* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
 uint8_t u8x8_capture_GetPixel2(u8x8_capture_t *capture, uint16_t x, uint16_t y)
 {
   uint8_t *dest_ptr = capture->buffer;
@@ -131,9 +132,9 @@ void u8x8_capture_WritePBM(uint8_t *buffer, uint8_t tile_width, uint8_t tile_hei
     for( x = 0; x < w; x++)
     {
       if ( u8x8_capture_GetPixel(&capture, x, y) )
-	out("1 ");
+	out("1");
       else
-	out("0 "); 	  
+	out("0"); 	  
     }
     out("\n");
   }
@@ -235,9 +236,9 @@ void u8x8_capture_WritePBM2(uint8_t *buffer, uint8_t tile_width, uint8_t tile_he
     for( x = 0; x < w; x++)
     {
       if ( u8x8_capture_GetPixel2(&capture, x, y) )
-	out("1 ");
+	out("1");
       else
-	out("0 "); 	  
+	out("0"); 	  
     }
     out("\n");
   }
