@@ -55,8 +55,8 @@
 */
 
 
-#ifndef _U8G2_H
-#define _U8G2_H
+#ifndef U8G2_H
+#define U8G2_H
 
 #include "u8x8.h"
 

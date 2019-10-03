@@ -42,8 +42,8 @@
 */
 
 
-#ifndef _U8G2LIB_HH
-#define _U8G2LIB_HH
+#ifndef U8G2LIB_HH
+#define U8G2LIB_HH
 
 #include <Arduino.h>
 #include <Print.h>

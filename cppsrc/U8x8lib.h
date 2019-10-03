@@ -36,8 +36,8 @@
 
 */
 
-#ifndef _U8X8LIB_HH
-#define _U8X8LIB_HH
+#ifndef U8X8LIB_HH
+#define U8X8LIB_HH
 
 #include <Arduino.h>
 #include <Print.h>

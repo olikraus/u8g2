@@ -82,8 +82,8 @@
     U8X8_MSG_DELAY_NANO
 */
 
-#ifndef _U8X8_H
-#define _U8X8_H
+#ifndef U8X8_H
+#define U8X8_H
 
 /*==========================================*/
 /* Global Defines */
