@@ -153,6 +153,9 @@ cp ../../../sys/arduino/u8g2_full_buffer/GraphicsTest/*.ino ../../../../U8g2_Ard
 mkdir ../../../../U8g2_Arduino/examples/full_buffer/FPS
 cp ../../../sys/arduino/u8g2_full_buffer/FPS/*.ino ../../../../U8g2_Arduino/examples/full_buffer/FPS/.
 
+mkdir ../../../../U8g2_Arduino/examples/full_buffer/ScreenShot
+cp ../../../sys/arduino/u8g2_full_buffer/ScreenShot/*.ino ../../../../U8g2_Arduino/examples/full_buffer/ScreenShot/.
+
 # u8x8
 
 mkdir ../../../../U8g2_Arduino/examples/u8x8/16x16Font
