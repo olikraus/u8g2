@@ -274,7 +274,7 @@ void loop(void) {
   // Copy and paste the output from the Arduino serial monitor into a file.
   // Depending on the display controller use u8g2.writeBufferXBM() or u8g2.writeBufferXBM2()
   // For SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0?
-  // use u8g2.writeBufferXBM2(), for all others use u8g2.writeBufferXBM2()
+  // use u8g2.writeBufferXBM2(), for all others use u8g2.writeBufferXBM()
   u8g2.writeBufferXBM(Serial);			// Write XBM image to serial out
   
   delay(1000);  
