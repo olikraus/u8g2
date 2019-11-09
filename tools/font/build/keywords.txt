@@ -49,6 +49,10 @@ enableUTF8Print	KEYWORD2
 firstPage	KEYWORD2
 getAscent	KEYWORD2
 getDescent	KEYWORD2
+getDisplayHeight	KEYWORD2
+getDisplayWidth	KEYWORD2
+getMaxCharHeight	KEYWORD2
+getMaxCharWidth	KEYWORD2
 getMenuEvent	KEYWORD2
 getStrWidth	KEYWORD2
 getUTF8Width	KEYWORD2
@@ -59,6 +63,8 @@ print	KEYWORD2
 sendBuffer	KEYWORD2
 setAutoPageClear	KEYWORD2
 setBitmapMode	KEYWORD2
+setBusClock	KEYWORD2
+setClipWindow	KEYWORD2
 setContrast	KEYWORD2
 setCursor	KEYWORD2
 setDisplayRotation	KEYWORD2
@@ -75,12 +81,26 @@ setFontRefHeightAll	KEYWORD2
 setFontRefHeightExtendedText	KEYWORD2
 setFontRefHeightText	KEYWORD2
 setI2CAddress	KEYWORD2
+setMaxClipWindow	KEYWORD2
 setPowerSave	KEYWORD2
+updateDisplay	KEYWORD2
+updateDisplayArea	KEYWORD2
+writeBufferPBM	KEYWORD2
+writeBufferXBM	KEYWORD2
+writeBufferPBM2	KEYWORD2
+writeBufferXBM2	KEYWORD2
+
 userInterfaceInputValue	KEYWORD2
 userInterfaceMessage	KEYWORD2
 userInterfaceSelectionList	KEYWORD2
 
-
+getBufferSize	KEYWORD2
+setBufferPtr	KEYWORD2
+getBufferPtr	KEYWORD2
+getBufferTileHeight	KEYWORD2
+getBufferTileWidth	KEYWORD2
+getBufferCurrTileRow	KEYWORD2
+setBufferCurrTileRow	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
@@ -1471,6 +1491,15 @@ u8x8_font_inr33_3x6_n	LITERAL1
 u8x8_font_inr46_4x8_f	LITERAL1
 u8x8_font_inr46_4x8_r	LITERAL1
 u8x8_font_inr46_4x8_n	LITERAL1
+u8g2_font_inr24_t_cyrillic	LITERAL1
+u8g2_font_inr27_t_cyrillic	LITERAL1
+u8g2_font_inr30_t_cyrillic	LITERAL1
+u8g2_font_inr33_t_cyrillic	LITERAL1
+u8g2_font_inr38_t_cyrillic	LITERAL1
+u8g2_font_inr42_t_cyrillic	LITERAL1
+u8g2_font_inr46_t_cyrillic	LITERAL1
+u8g2_font_inr49_t_cyrillic	LITERAL1
+u8g2_font_inr53_t_cyrillic	LITERAL1
 u8g2_font_inb16_mf	LITERAL1
 u8g2_font_inb16_mr	LITERAL1
 u8g2_font_inb16_mn	LITERAL1

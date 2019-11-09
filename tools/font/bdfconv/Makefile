@@ -112,6 +112,10 @@ old16x16: bdfconv
 
 
 
+analecta: bdfconv
+	-../otf2bdf/otf2bdf -a  -p 20 -o analecta.bdf Analecta.otf
+	./bdfconv -v -f 1 -m '32-65535' analecta.bdf -o u8g2_font_analecta.c  -n u8g2_font_analecta -d ../bdf/helvB18.bdf 
+
 logisoso: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
 	./bdfconv -v -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_logisoso_tn.c  -n u8g2_font_logisoso_tn -d ../bdf/helvB18.bdf 
@@ -127,7 +131,7 @@ q_pixia: bdfconv
 
 inr: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 33 -o tmp.bdf ../ttf/inr.otf
-	./bdfconv -v -b 2 -f 1 -m '32,42-57' tmp.bdf -o u8g2_font_inr_m.c  -n u8g2_font_inr_m -d ../bdf/helvB18.bdf 
+	./bdfconv -v -b 2 -f 1 -m '32-128,$$400-$$52f' tmp.bdf -o u8g2_font_inr_m.c  -n u8g2_font_inr_m -d ../bdf/helvB18.bdf 
 
 logisoso92x: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
@@ -199,6 +203,9 @@ bengali: bdfconv
 
 urdu: bdfconv
 	./bdfconv -v -f 1 -m '32-128,$$600-$$6ff,$$750-$$77f,$$fb50-$$fdff,$$fe70-$$feff' ../bdf/unifont.bdf -o u8g2_urdu.c  -n u8g2_urdu -d ../bdf/helvB12.bdf 
+
+malayalam: bdfconv
+	./bdfconv -v -f 1 -m '32-128,$$d00-$$d7f' ../bdf/unifont.bdf -o u8g2_malayalam.c  -n u8g2_font_malayalam -d ../bdf/helvB12.bdf 
 
 lubr24: bdfconv
 	./bdfconv -f 1 -m '32-255' -p 10 lubR24.bdf -o lubR24.c -n u8g2_font_lubR24 -d ../bdf/helvB12.bdf 
@@ -317,3 +324,18 @@ chinese: bdfconv
 	convert bdf.tga -trim u8g2_font_gb24st_t_2.png
 	./bdfconv ../bdf/gb24st.bdf -b 0 -f 1 -M ../build/chinese3.map -d ../bdf/7x13.bdf -n u8g2_font_gb24st_t_3
 	convert bdf.tga -trim u8g2_font_gb24st_t_3.png
+
+malayalam: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 16 -o malayalam.bdf malayalam.ttf
+	./bdfconv -v -f 1 -m '$$21-$$7e,$$d02-$$d6f,$$ece3-$$ed59' malayalam.bdf -o u8g2_font_malayalam_tn.c  -n u8g2_font_malayalam_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga malayalam.png
+
+gayathri: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 24 -o gayathri.bdf Gayatri.ttf
+	./bdfconv -v -f 1 -m '$$21-$$1fd,$$d00-$$d7f,$$200c-$$20b9,$$10003-$$102bc>$$e003' gayathri.bdf -o u8g2_font_gayathri_tn.c  -n u8g2_font_gayathri_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga gayathri.png
+
+meera: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 24 -o meera.bdf Meera.ttf
+	./bdfconv -v -f 1 -m '$$21-$$2dc,$$d02-$$d6f,$$200c-$$2215,$$10003-$$1043f>$$e003' meera.bdf -o u8g2_font_meera_tn.c  -n u8g2_font_meera_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga meera.png

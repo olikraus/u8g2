@@ -4,8 +4,8 @@
   
   Markdown TOC Generator
 
-  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
-
+  LPC804 PLU Project
+  
   Copyright (c) 2015, olikraus@gmail.com
   All rights reserved.
 

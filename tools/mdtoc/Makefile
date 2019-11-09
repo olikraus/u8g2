@@ -4,7 +4,7 @@
 # 
 # works within ubuntu and min-gw (win7) environment
 
-CFLAGS = -g -DBUILD2 -Wall -I../../../csrc/
+CFLAGS = -g 
 #CFLAGS = -O4 -Wall
 
 SRC = mdtoc.c

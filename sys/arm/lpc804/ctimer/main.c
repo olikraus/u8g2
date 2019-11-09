@@ -65,11 +65,10 @@ int __attribute__ ((noinline)) main(void)
   /* set systick and start systick interrupt */
   SysTick_Config(main_clk/1000UL*(unsigned long)SYS_TICK_PERIOD_IN_MS);
   
-  /* */
+  /* init GPIOs */
   GPIOInit();
   
   /* enable clock for several subsystems */
-
   Enable_Periph_Clock(CLK_IOCON);
   Enable_Periph_Clock(CLK_SWM);
   Enable_Periph_Clock(CLK_CTIMER0);
@@ -83,24 +82,17 @@ int __attribute__ ((noinline)) main(void)
   LPC_CTIMER0->MR[0] = 14000000;  /* PWM duty cycle in MR0 */
   LPC_CTIMER0->PWMC |= 1<<PWMEN0;  /* PWM mode for MR0 */
   
-  /* first reset the pin assignment to 0xff (this is also the reset value */
-  //LPC_SWM->PINASSIGN[T0_MAT0/4] |= ((0xffUL)<<(8*(T0_MAT0%4)));
-  /* then write the destination pin to it */
-  //LPC_SWM->PINASSIGN[T0_MAT0/4] &= ~((15UL^255UL)<<(8*(T0_MAT0%4)));
-
-  /* first reset the pin assignment to 0xff (this is also the reset value */
-  //LPC_SWM->PINASSIGN[T0_MAT0/4] |= ((0xffUL)<<(8*(T0_MAT0%4)));
-  /* then write the destination pin to it */
-  //LPC_SWM->PINASSIGN[T0_MAT0/4] &= ~((15UL^255UL)<<(8*(T0_MAT0%4)));
-
   /* invert output, will only work with PIO0_30, not with PIO0_15 */
   LPC_IOCON->PIO0_30 |= 1<<IOCON_INV;  
 
+  /* connect subsystems to the GPIOs */
+  /* Just for testing: The signal is routed via PIN0_30 */
   mapFunctionToPort(T0_MAT0, 30);
   mapFunctionToPort(LVLSHFT_IN0, 30);  
   mapFunctionToPort(LVLSHFT_OUT0, 15);
 
 
-  LPC_CTIMER0->TCR |= 1<<CEN;		/* enalble the timer */
+  /* enable the timer */
+  LPC_CTIMER0->TCR |= 1<<CEN;		
 
 }

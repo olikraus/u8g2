@@ -1058,7 +1058,16 @@ inconsolata
   { "-y -1 -x 2 -th 3 -tv 6",  "-a -r 72 -p 44", "inr.otf",	"inr33_3x6",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   { "-y 0 -x 3 -th 4 -tv 8",  "-a -r 72 -p 62", "inr.otf",		"inr46_4x8",	11, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   
-  
+  { 0,  "-a -r 72 -p 33", "inr.otf",	"inr24",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 36", "inr.otf",	"inr27",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 40", "inr.otf",	"inr30",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 44", "inr.otf",	"inr33",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 51", "inr.otf",	"inr38",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 57", "inr.otf",	"inr42",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 62", "inr.otf",	"inr46",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 67", "inr.otf",	"inr49",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+  { 0,  "-a -r 72 -p 72", "inr.otf",	"inr53",	11, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
+ 
 /*
 
 ./do_fontsize_a_mono_v2.sh 22 ../ttf/in/inb.otf inb16
