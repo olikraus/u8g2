@@ -399,6 +399,10 @@ static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const ch
 {
   uint16_t e;
   uint8_t cnt = 0;
+  uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+  
+  th <<= 1;
+  
   u8x8_utf8_init(u8x8);
   for(;;)
   {
@@ -409,7 +413,7 @@ static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const ch
     if ( e != 0x0fffe )
     {
       u8x8_Draw2x2Glyph(u8x8, x, y, e);
-      x+=2;
+      x+=th;
       cnt++;
     }
   }
@@ -433,9 +437,10 @@ uint8_t u8x8_Draw2x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
 
 static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
 static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
-{
+{  
   uint16_t e;
   uint8_t cnt = 0;
+  uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
   u8x8_utf8_init(u8x8);
   for(;;)
   {
@@ -446,7 +451,7 @@ static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const ch
     if ( e != 0x0fffe )
     {
       u8x8_Draw1x2Glyph(u8x8, x, y, e);
-      x++;
+      x+=th;
       cnt++;
     }
   }
