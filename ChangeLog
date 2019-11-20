@@ -233,5 +233,6 @@ https://github.com/olikraus/u8g2 ChangeLog
 2019-xx-xx	v2.27.x	olikraus@gmail.com
   * Support for IST7920 (issue 999). Note: IST7920 has nothing todo with ST7920
   * Added screenshot/screencapture for full buffer mode (issue 1005)
+  * Bugfix for draw 1x2 and 2x2 procedures for big 8x8 fonts (issue 1054)
 
   
