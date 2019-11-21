@@ -199,7 +199,7 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
     return u8x8_byte_3wire_sw_spi(u8x8, msg,arg_int, arg_ptr);
   }
 
-#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6
+#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
 /* this function completly replaces u8x8_byte_4wire_sw_spi*/
 extern "C" uint8_t u8x8_byte_arduino_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -383,7 +383,7 @@ extern "C" uint8_t u8x8_byte_arduino_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
     return u8x8_byte_4wire_sw_spi(u8x8, msg,arg_int, arg_ptr);
   }
 
-#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6
+#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
 /* this function completly replaces u8x8_byte_4wire_sw_spi*/
 extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -926,7 +926,7 @@ extern "C" uint8_t u8x8_byte_arduino_sw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
     return u8x8_byte_sw_i2c(u8x8, msg,arg_int, arg_ptr);
 }
 
-#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6
+#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
 
 /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
@@ -1240,7 +1240,7 @@ extern "C" uint8_t u8x8_byte_arduino_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, ui
   return u8x8_byte_8bit_8080mode(u8x8, msg,arg_int, arg_ptr);
 }
 
-#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6
+#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
 /* this function completly replaces u8x8_byte_8bit_8080mode*/
 extern "C" uint8_t u8x8_byte_arduino_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -1371,7 +1371,7 @@ extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t a
   return u8x8_byte_ks0108(u8x8, msg,arg_int, arg_ptr);
 }
 
-#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6
+#elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
 /* this function completly replaces u8x8_byte_ks0108*/
 extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
