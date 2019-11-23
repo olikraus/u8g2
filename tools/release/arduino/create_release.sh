@@ -111,6 +111,8 @@ cp ../../../sys/arduino/u8g2_page_buffer/XBM/*.ino ../../../../U8g2_Arduino/exam
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest
 cp ../../../sys/arduino/u8g2_page_buffer/PowerSaveTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD 
+cp ../../../sys/arduino/u8g2_page_buffer/LoadFromSD/*.ino ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD/.
 
 
 # games
