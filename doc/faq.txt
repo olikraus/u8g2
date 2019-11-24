@@ -134,8 +134,12 @@ Workaround:
 Q: What is the meaning of the F/1/2 in the U8g2 constructor name?
 A: "F" means full buffer mode. The entire display is rendered in RAM. Use
 "sendBuffer" to transfer this RAM buffer to the display. "1"  and "2" constructors
-will store one or two pages of the display in RAM only. Use the firstPage/nextPage 
-loop to create the image for the display.
+will store one or two pages of the display in RAM only.
+Use the firstPage/nextPage  loop to create the image for the display. 
+There are also two different sets of examples for both modes.
+Conclusion: 
+"F" mode: Faster, but requires more RAM
+"1"/"2" modes: User lesser RAM, but slower draw speed.
 
 Q: What is the meaning of "SW"/"HW" in the U8g2 constructor name?
 A: "SW" means, that the protocol is emulated by software. For example 
@@ -216,7 +220,17 @@ Does the font include the expected char? Fonts with a 'n' (numbers),
 'u' (uppercase) or 'r' (restricted) at the end of the fontname do only 
 include glyphs with unicode lower than 128.
 
-Q: How can I generate my own font.
+Q: How can I read a bitmap from SD card?
+A: There is an example, which includes a function "drawFile" which reads a bitmap
+from SD Card and writes the same to a u8g2 display:
+Example: 
+https://github.com/olikraus/u8g2/blob/master/sys/arduino/u8g2_page_buffer/LoadFromSD/LoadFromSD.ino
+The example also includes a function which writes to the SD card, but there is also
+a commandline tool which converts PNG to the format which is accepted by "drawFile":
+https://github.com/olikraus/u8g2/tree/master/tools/png2bin
+
+
+Q: How can I generate my own font?
 A: The font must be available in bdf file format. Then use bdfconv to generate
 the font data. The font data can be pasted into an existing file of your project.
 There is also a nice Windows Bitmap Font Editor "Fony" (http://hukka.ncn.fi/?fony) 
