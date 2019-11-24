@@ -5,8 +5,12 @@
   Demonstrate how to read a XBM file from SD card.
   This example will write a XBM image to SD card as a preparation during setup ("u8g2.bin").
   The written file content will be displayed.
+  
+  There is also an external conversion tool, which generates the expected binary from a PNG file:
+    https://github.com/olikraus/u8g2/tree/master/tools/png2bin
 
-  Remember to adjust SD.begin(SD_CS) argument
+  Remember to adjust SD.begin(SD_CS) argument.
+
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
