@@ -228,8 +228,8 @@ static const u8x8_display_info_t u8x8_ssd1327_winstar_96x64_display_info =
   /* write_pulse_width_ns = */ 60,	
   /* tile_width = */ 12,
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,		
+  /* default_x_offset = */ 16,		/* changed to 16, issue 1050 */
+  /* flipmode_x_offset = */ 16,		/* changed to 16, issue 1050 */
   /* pixel_width = */ 96,
   /* pixel_height = */ 64
 };
@@ -280,7 +280,7 @@ static const uint8_t u8x8_d_ssd1327_winstar_96x64_init_seq[] = {
   U8X8_CA(0x0a1, 0x000),		/* display start line */  
   U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   
-  U8X8_CA(0x0a8, 63),		/* multiplex ratio: 63* 1/64 duty */
+  U8X8_CA(0x0a8, 0x063),		/* multiplex ratio: 63* 1/64 duty */ /* changed to hex, issue 1050 */
   
   U8X8_CA(0x0ab, 0x001),		/* Enable internal VDD regulator (RESET) */
   U8X8_CA(0x081, 0x053),		/* contrast, brightness, 0..128 */
