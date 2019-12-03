@@ -2044,11 +2044,17 @@ void do_md_display(int controller_idx, int display_idx)
 	fprintf(fp, "## %s ", struppercase(controller_list[controller_idx].name));    
 	fprintf(fp, "%s", struppercase(controller_list[controller_idx].display_list[display_idx].name));    
 	fprintf(fp, "\n");    
+#ifdef MD_TABLES
 
     fprintf(fp, "| Controller \"%s\", ", controller_list[controller_idx].name);
     fprintf(fp, "Display \"%s\" | ", controller_list[controller_idx].display_list[display_idx].name);
     fprintf(fp, "Description |\n");
     fprintf(fp, "|---|---|\n");
+#else
+    fprintf(fp, "Controller \"%s\", ", controller_list[controller_idx].name);
+    fprintf(fp, "Display \"%s\"  ", controller_list[controller_idx].display_list[display_idx].name);
+    fprintf(fp, "[Description]\n");
+#endif
   }
   else
   {
@@ -2070,12 +2076,8 @@ void do_md_display(int controller_idx, int display_idx)
 void do_md_display_interface_buffer(int controller_idx, int display_idx, int interface_idx, char *postfix, int size, int rows)
 {
   FILE *fp = md_fp;
-  /*
-  fprintf(fp, "%s:", controller_list[controller_idx].name);
-  fprintf(fp, "%s:", controller_list[controller_idx].display_list[display_idx].name);
-  fprintf(fp, "%s:", prefix);
-  fprintf(fp, "%s\n", interface_list[interface_idx].interface_name);
-  */
+  
+#ifdef MD_TABLES
   if ( is_u8g2 ) 
   {
     if ( is_arduino_cpp )
@@ -2099,12 +2101,6 @@ void do_md_display_interface_buffer(int controller_idx, int display_idx, int int
     else
     {
       fprintf(fp, "| ");
-      /*
-      fprintf(fp, "u8g2_Setup_");
-      fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
-      fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
-      fprintf(fp, "%s", strlowercase(postfix));
-      */
       fprintf(fp, "%s", get_setup_function_name(controller_idx, display_idx, postfix));
       fprintf(fp, "(u8g2, ");
       fprintf(fp, "rotation, ");
@@ -2120,7 +2116,46 @@ void do_md_display_interface_buffer(int controller_idx, int display_idx, int int
       }
     }
   }
-  
+#else
+  if ( is_u8g2 ) 
+  {
+    if ( is_arduino_cpp )
+    {
+      fprintf(fp, " * U8G2_");
+      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].name));
+      fprintf(fp, "%s_", struppercase(controller_list[controller_idx].display_list[display_idx].name));
+      fprintf(fp, "%s", struppercase(postfix));
+      if ( interface_list[interface_idx].interface_name[0] != '\0' )
+	fprintf(fp, "_%s", struppercase(interface_list[interface_idx].interface_name));
+      fprintf(fp, "(rotation, %s)", interface_list[interface_idx].pins_md_plain);
+      if ( postfix[0] == 'f' )
+      {
+	fprintf(fp, " [full framebuffer, size = %d bytes]\n", size);
+      }
+      else
+      {
+	fprintf(fp, " [page buffer, size = %d bytes]\n", size);
+      }
+    }
+    else
+    {
+      fprintf(fp, " * ");
+      fprintf(fp, "%s", get_setup_function_name(controller_idx, display_idx, postfix));
+      fprintf(fp, "(u8g2, ");
+      fprintf(fp, "rotation, ");
+      fprintf(fp, "%s, ", interface_list[interface_idx].generic_com_procedure);  
+      fprintf(fp, "%s)", "uC specific");  
+      if ( postfix[0] == 'f' )
+      {
+	fprintf(fp, " [full framebuffer, size = %d bytes]\n", size);
+      }
+      else
+      {
+	fprintf(fp, " [page buffer, size = %d bytes]\n", size);
+      }
+    }
+  }
+#endif
 }
 
 void do_md_display_interface(int controller_idx, int display_idx, int interface_idx)
