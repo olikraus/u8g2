@@ -283,7 +283,7 @@ void setup(void) {
   u8g2.drawStr(0,12,"UpdateDisplayArea");	// write something to the internal memory
   
   // draw a frame, only the content within the frame will be updated
-  // the frame is never drawn again, bit will stay on the display
+  // the frame is never drawn again, but will stay on the display
   u8g2.drawBox(pixel_area_x_pos-1, pixel_area_y_pos-1, pixel_area_width+2, pixel_area_height+2);
   
   u8g2.sendBuffer();					// transfer internal memory to the display
