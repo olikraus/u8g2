@@ -1008,6 +1008,7 @@ struct controller controller_list[] =
       { "jlx12864" },
       { "enh_dg128064" },
       { "enh_dg128064i" },
+      { "os12864" },
       { NULL }
     }
   },
