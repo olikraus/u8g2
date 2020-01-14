@@ -588,6 +588,24 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
+  
+  {
+    "ssd1327", 	16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "visionox_128x96" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1327", 	16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "visionox_128x96" },
+      { NULL }
+    }
+  },  
+  
 
   {
     "ssd1329", 	16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
