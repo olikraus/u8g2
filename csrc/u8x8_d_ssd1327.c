@@ -812,6 +812,7 @@ uint8_t u8x8_d_ssd1327_ws_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 /*  
 Visonox VGM128096A4W10 128x96 COB 
 https://github.com/olikraus/u8g2/files/4052919/M02289_VGM128096A4W10_Y02.pdf
+https://github.com/olikraus/u8g2/issues/1090
 */
 
 
