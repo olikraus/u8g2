@@ -909,7 +909,7 @@ static const uint8_t u8x8_d_ssd1327_128x96_flip0_seq[] = {
 
 static const uint8_t u8x8_d_ssd1327_128x96_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0x0a2, 0x020),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a2, 0x060),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a0, 0x042),		/* remap configuration */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
