@@ -181,7 +181,7 @@ class U8G2 : public Print
     
     #ifdef U8G2_USE_DYNAMIC_ALLOC
     void setBufferPtr(uint8_t *buf) { u8g2_SetBufferPtr(&u8g2, buf); }
-    uint16_t getBufferSize() { u8g2_GetBufferSize(&u8g2); }
+    uint16_t getBufferSize() { return u8g2_GetBufferSize(&u8g2); }
     #endif
     uint8_t *getBufferPtr(void) { return u8g2_GetBufferPtr(&u8g2); }
     uint8_t getBufferTileHeight(void) { return u8g2_GetBufferTileHeight(&u8g2); }
