@@ -1287,6 +1287,10 @@ uint8_t u8g2_GetKerningByTable(u8g2_t *u8g2, const uint16_t *kt, uint16_t e1, ui
 /*==========================================*/
 /* u8g2_font.c */
 
+u8g2_uint_t u8g2_add_vector_y(u8g2_uint_t dy, int8_t x, int8_t y, uint8_t dir) U8G2_NOINLINE;
+u8g2_uint_t u8g2_add_vector_x(u8g2_uint_t dx, int8_t x, int8_t y, uint8_t dir) U8G2_NOINLINE;
+
+
 size_t u8g2_GetFontSize(const uint8_t *font_arg);
 
 #define U8G2_FONT_HEIGHT_MODE_TEXT 0
