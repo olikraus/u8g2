@@ -239,3 +239,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added "LoadFromSD" example to demonstrate reading XBM binary from SD card (issue #1059)
   * Added png to XBM binary conversion tool (https://github.com/olikraus/u8g2/tree/master/tools/png2bin)
   * Support for SSD1306 72x40 (issue 1047)
+  * Bugfix for print() and setFontDirection() (issue 963)
