@@ -61,14 +61,6 @@
 #include "u8x8.h"
 
 /*
-  The following macro switches the library into dynamic display buffer allocation mode.
-  Defining this constant will disable all static memory allocation for device memory buffer and thus allows the user to allocate device buffers statically.
-  Before using any display functions, the dynamic buffer *must* be assigned to the u8g2 struct using the u8g2_SetBufferPtr function.
-  When using dynamic allocation, the stack size must be increased by u8g2_GetBufferSize bytes.
- */
-//#define U8G2_USE_DYNAMIC_ALLOC
-
-/*
   The following macro enables 16 Bit mode. 
   Without defining this macro all calulations are done with 8 Bit (1 Byte) variables.
   Especially on AVR architecture, this will save some space. 
@@ -77,6 +69,15 @@
   direction.
 */
 //#define U8G2_16BIT
+
+
+/*
+  The following macro switches the library into dynamic display buffer allocation mode.
+  Defining this constant will disable all static memory allocation for device memory buffer and thus allows the user to allocate device buffers statically.
+  Before using any display functions, the dynamic buffer *must* be assigned to the u8g2 struct using the u8g2_SetBufferPtr function.
+  When using dynamic allocation, the stack size must be increased by u8g2_GetBufferSize bytes.
+ */
+//#define U8G2_USE_DYNAMIC_ALLOC
 
 
 /* U8g2 feature selection, see also https://github.com/olikraus/u8g2/wiki/u8g2optimization */
@@ -110,6 +111,8 @@
 /*
   The following macro enables all four drawing directions for glyphs and strings.
   If this macro is not defined, than a string can be drawn only in horizontal direction.
+  
+  Jan 2020: Disabling this macro will save up to 600 bytes on AVR 
 */
 #define U8G2_WITH_FONT_ROTATION
 

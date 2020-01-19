@@ -299,7 +299,37 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
       uint16_t e = cpp_next_cb(&(u8g2.u8x8), v);
       
       if ( e < 0x0fffe )
-	tx += u8g2_DrawGlyph(&u8g2, tx, ty, e);
+      {
+	u8g2_uint_t delta = u8g2_DrawGlyph(&u8g2, tx, ty, e);
+	
+#ifdef U8G2_WITH_FONT_ROTATION
+	switch(u8g2.font_decode.dir)
+	{
+	  case 0:
+	    tx += delta;
+	    break;
+	  case 1:
+	    ty += delta;
+	    break;
+	  case 2:
+	    tx -= delta;
+	    break;
+	  case 3:
+	    ty -= delta;
+	    break;
+	}
+	
+	// requires 10 bytes more on avr
+	//tx = u8g2_add_vector_x(tx, delta, 0, u8g2.font_decode.dir);
+	//ty = u8g2_add_vector_y(ty, delta, 0, u8g2.font_decode.dir);
+
+#else
+	tx += delta;
+#endif
+	
+	
+	
+      }
       return 1;
      }
 

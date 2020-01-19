@@ -332,6 +332,36 @@ u8g2_uint_t u8g2_add_vector_x(u8g2_uint_t dx, int8_t x, int8_t y, uint8_t dir)
   }
   return dx;
 }
+
+/*
+// does not make sense, 50 bytes more required on avr
+void u8g2_add_vector(u8g2_uint_t *xp, u8g2_uint_t *yp, int8_t x, int8_t y, uint8_t dir)
+{
+  u8g2_uint_t x_ = *xp;
+  u8g2_uint_t y_ = *yp;
+  switch(dir)
+  {
+    case 0:
+      y_ += y;
+      x_ += x;
+      break;
+    case 1:
+      y_ += x;
+      x_ -= y;
+      break;
+    case 2:
+      y_ -= y;
+      x_ -= x;
+      break;
+    default:
+      y_ -= x;
+      x_ += y;
+      break;      
+  }
+  *xp = x_;
+  *yp = y_;
+}
+*/
 #endif
 
 
@@ -397,8 +427,12 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
 
     /* apply rotation */
 #ifdef U8G2_WITH_FONT_ROTATION
+    
     x = u8g2_add_vector_x(x, lx, ly, decode->dir);
     y = u8g2_add_vector_y(y, lx, ly, decode->dir);
+    
+    //u8g2_add_vector(&x, &y, lx, ly, decode->dir);
+    
 #else
     x += lx;
     y += ly;
@@ -502,6 +536,9 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
 #ifdef U8G2_WITH_FONT_ROTATION
     decode->target_x = u8g2_add_vector_x(decode->target_x, x, -(h+y), decode->dir);
     decode->target_y = u8g2_add_vector_y(decode->target_y, x, -(h+y), decode->dir);
+    
+    //u8g2_add_vector(&(decode->target_x), &(decode->target_y), x, -(h+y), decode->dir);
+
 #else
     decode->target_x += x;
     decode->target_y -= h+y;
@@ -785,6 +822,13 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
 	  y -= delta;
 	  break;
       }
+      
+      /*
+      // requires 10 bytes more on avr
+      x = u8g2_add_vector_x(x, delta, 0, u8g2->font_decode.dir);
+      y = u8g2_add_vector_y(y, delta, 0, u8g2->font_decode.dir);
+      */
+
 #else
       x += delta;
 #endif
@@ -1243,4 +1287,5 @@ void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
   u8g2->font_decode.dir = dir;
 #endif
 }
+
 
