@@ -192,6 +192,7 @@ struct groupinfo gi[] = {
   { "bitfontmaker2", "fntgrpbitfontmaker2", "../../../../u8g2.wiki/fntgrpbitfontmaker2.md", 		"fntgrpbitfontmaker2.pre" }, 		/* 34 */ 
   { "JapanYoshi", "fntgrpjapanyoshi", "../../../../u8g2.wiki/fntgrpjapanyoshi.md", 		"fntgrpjapanyoshi.pre" }, 		/* 35 */ 
   { "Pentacom", "fntgrppentacom", "../../../../u8g2.wiki/fntgrppentacom.md", 		"fntgrppentacom.pre" }, 		/* 36 */ 
+  { "dafont", "fntgrpdafont", "../../../../u8g2.wiki/fntgrpdafont.md", 		"fntgrpdafont.pre" }, 		/* 37 */ 
 
   
   
@@ -226,7 +227,7 @@ Greek Extended	1F00–1FFF
 struct fontinfo fi[] ={
 	
   { 0,  0, "u8glib_4.bdf", 		"u8glib_4", 		0, 0, BM_T|BM_H, FM_C, MM_F|MM_R, "", "" },
-  
+
   
   { 0,  0, "m2icon_5.bdf", 		"m2icon_5", 		0, 0, BM_T, FM_C, MM_F, "", ""},
   { 0,  0, "m2icon_7.bdf", 		"m2icon_7", 		0, 0, BM_T, FM_C, MM_F, "", ""},
@@ -603,6 +604,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "ImpactBits.ttf",			"ImpactBits",	35, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "IPAandRUSLCD.ttf",			"IPAandRUSLCD",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
 
+
   /* Pentacom, 36*/
   { 0,  "-r 72 -p 16", "HelvetiPixel.ttf",			"HelvetiPixel",			36, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "TimesNewPixel.ttf",			"TimesNewPixel",		36, 0, BM_T, FM_C, MM_R, "", "" },
@@ -611,6 +613,19 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Wizzard.ttf",				"Wizzard",			36, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HelvetiPixelOutline.ttf",		"HelvetiPixelOutline",	36, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "Untitled16PixelSansSerifBitmapTestFont.ttf",	"Untitled16PixelSansSerifBitmap",	36, 0, BM_T, FM_C, MM_R, "", "" },
+
+//#endif   /* TMP */
+
+  /* dafont, 37*/
+  { 0,  "-r 72 -p 8", "nokiafc22.ttf",			"nokiafc22",		37, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-a -r 72 -p 20", "VCR_OSD_MONO_1.001.ttf",	"VCR_OSD",		37, 0, BM_T|BM_M, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
+  { 0,  "-r 72 -p 16", "Pixellari.ttf",				"Pixellari",		37, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 10", "pixelpoiiz.ttf",				"pixelpoiiz",		37, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "DigitalDisco-Thin.ttf",		"DigitalDiscoThin",	37, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "DigitalDisco.ttf",			"DigitalDisco",		37, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "pearfont.ttf",				"pearfont",		37, 0, BM_T, FM_C, MM_R, "", "" },
+
+//#ifdef TMP  
   
   /* thai fonts are not unicode encoded, so map the thai chars to their correct unicode position 128-255>3552 */
   { 0,  0, "etl14-thai.bdf", 		"etl14thai", 		17, 0, BM_T, FM_C, MM_C, "32-127,128-255>3552", "" },
@@ -770,7 +785,6 @@ Greek Extended	1F00–1FFF
   { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312a.map", "_gb2312a" },
   { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
-//#endif   /* TMP */
   { 0,  0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0,  0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 //#ifdef TMP

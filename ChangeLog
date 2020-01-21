@@ -240,3 +240,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added png to XBM binary conversion tool (https://github.com/olikraus/u8g2/tree/master/tools/png2bin)
   * Support for SSD1306 72x40 (issue 1047)
   * Bugfix for print() and setFontDirection() (issue 963)
+  * Support for Visionox SSD1327 128x96 OLED (issue 1090)
+  * Support for Open-Smart ST7567 128x64 LCD (issue 1088)

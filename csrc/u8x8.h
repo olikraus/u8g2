@@ -340,7 +340,7 @@ struct u8x8_struct
 					/* i2c_address is the address for writing data to the display */
 					/* usually, the lowest bit must be zero for a valid address */
   uint8_t i2c_started;	/* for i2c interface */
-  uint8_t device_address;	/* OBSOLETE???? - this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
+  //uint8_t device_address;	/* OBSOLETE???? - this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
   uint8_t utf8_state;		/* number of chars which are still to scan */
   uint8_t gpio_result;	/* return value from the gpio call (only for MENU keys at the moment) */ 
   uint8_t debounce_default_pin_state;
