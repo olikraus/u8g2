@@ -208,7 +208,7 @@ malayalam: bdfconv
 	./bdfconv -v -f 1 -m '32-128,$$d00-$$d7f' ../bdf/unifont.bdf -o u8g2_malayalam.c  -n u8g2_font_malayalam -d ../bdf/helvB12.bdf 
 
 lubr24: bdfconv
-	./bdfconv -f 1 -m '32-255' -p 10 lubR24.bdf -o lubR24.c -n u8g2_font_lubR24 -d ../bdf/helvB12.bdf 
+	./bdfconv -f 1 -m '32-65500' -p 10 lubR24.bdf -o lubR24.c -n u8g2_font_lubR24 -d ../bdf/helvB12.bdf 
 
 lurs24: bdfconv
 	./bdfconv -f 1 -m '32-255' -p 10 luRS24.bdf -o luRS24.c -n u8g2_font_luRS24 -d ../bdf/helvB12.bdf 
