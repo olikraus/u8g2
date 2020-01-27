@@ -230,7 +230,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added JLX256160M for mirrored version of the JLX256160 display (issue 930)
   * Unifont update to 12.1.02, added several plane 1 fonts (issue 931)
   * bdfconv.exe: Windows exe created, bugfix with -d option (issue 833)
-2020-xx-xx	v2.27.x	olikraus@gmail.com
+2020-01-27	v2.27.6	olikraus@gmail.com
   * Support for IST7920 (issue 999). Note: IST7920 has nothing todo with ST7920
   * Added screenshot/screencapture for full buffer mode (issue 1005)
       See: https://github.com/olikraus/u8g2/wiki/u8g2reference#writebufferpbm
@@ -244,3 +244,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Support for Open-Smart ST7567 128x64 LCD (issue 1088)
   * Added Lucida X11 fonts (issue 271)
   * Added several fonts from dafont.com (issue 1093)
+  * Added 3-wire HW SPI (issue 1041)

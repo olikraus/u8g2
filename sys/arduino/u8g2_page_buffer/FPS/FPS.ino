@@ -257,6 +257,10 @@
   U8G2_SH1107_SEEED_128X128_1_HW_I2C		Uno			Clip=4.9 Box=5.4  @=1.2 Pix=2.0		This is much faster than the older U8G2_SSD1327_SEEED_96X96_1_HW_I2C
 
 
+  27 Jan 2020, Arduino 1.8.4
+  U8G2_SSD1306_128X64_NONAME_1_3W_SW_SPI	Uno			Clip=23.9 Box=41.6  @=4.3 Pix=7.5
+  U8G2_SSD1306_128X64_NONAME_1_3W_HW_SPI	Uno			Clip=28.4 Box=58.4  @=4.4 Pix=7.9
+
 */
 
 
