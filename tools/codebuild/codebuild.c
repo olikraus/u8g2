@@ -1517,9 +1517,9 @@ struct interface interface_list[] =
   /* 5 */
   {
     "3W_HW_SPI",
-    "",
-    "",
-    "",   
+    "u8x8_SetPin_3Wire_HW_SPI",
+    "u8x8_byte_arduino_3wire_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
     "cs, reset",
     "cs [, reset]",
@@ -1952,7 +1952,7 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   if ( controller_list[controller_idx].com & COM_3WSPI )
   {
     do_display_interface(controller_idx, display_idx, postfix, 4);		/* 3wire SW SPI */
-    //do_display_interface(controller_idx, display_idx, postfix, 5);		/* 3wire HW SPI (not implemented) */
+    do_display_interface(controller_idx, display_idx, postfix, 5);		/* 3wire HW SPI (not implemented) */
   }
   if ( controller_list[controller_idx].com & COM_6800 )
   {
@@ -2236,7 +2236,7 @@ void do_md_controller_list(void)
       if ( controller_list[controller_idx].com & COM_3WSPI )
       {
 	do_md_display_interface(controller_idx, display_idx, 4);		/* 3wire SW SPI */
-	//do_md_display_interface(controller_idx, display_idx, 5);		/* 3wire HW SPI (not implemented) */
+	do_md_display_interface(controller_idx, display_idx, 5);		/* 3wire HW SPI (not implemented) */
       }
       if ( controller_list[controller_idx].com & COM_6800 )
       {
