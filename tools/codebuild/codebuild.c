@@ -1436,6 +1436,7 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+#ifdef NOT_POSSIBLE
   {
     "max7219", 	2, 	2, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_4WSPI,
     "", /* is_generate_u8g2_class= */ 1,
@@ -1444,6 +1445,7 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+#endif
   {
     "max7219", 	1, 	1, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_4WSPI,
     "", /* is_generate_u8g2_class= */ 1,
