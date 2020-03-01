@@ -1437,6 +1437,14 @@ struct controller controller_list[] =
     }
   },
   {
+    "max7219", 	2, 	2, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_4WSPI,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "16x16" },
+      { NULL }
+    }
+  },
+  {
     "max7219", 	1, 	1, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_4WSPI,
     "", /* is_generate_u8g2_class= */ 1,
     {
