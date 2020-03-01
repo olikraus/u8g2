@@ -46,6 +46,7 @@
 #endif
 
 U8G2_MAX7219_32X8_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 10, /* dc=*/ U8X8_PIN_NONE, /* reset=*/ U8X8_PIN_NONE);
+//U8G2_MAX7219_16X16_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 10, /* dc=*/ U8X8_PIN_NONE, /* reset=*/ U8X8_PIN_NONE);
   
 
 void setup(void) {
@@ -57,6 +58,7 @@ void loop(void) {
   u8g2.clearBuffer();					// clear the internal memory
   u8g2.setFont(u8g2_font_victoriabold8_8r);	// choose a suitable font
   u8g2.drawStr(0,7,"U8g2");			// write something to the internal memory
+  u8g2.drawStr(0,7+8,"abcd");		// write something to the internal memory
   u8g2.sendBuffer();					// transfer internal memory to the display
   delay(1000);  
 }
