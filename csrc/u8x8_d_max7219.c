@@ -239,6 +239,13 @@ static const u8x8_display_info_t u8x8_max7219_16x16_display_info =
   /* pixel_height = */ 16
 };
 
+/*
+  Multiple page rows are not supported, so 16x16 will not work.
+  Due to the hardware structure of such displays all tiles of the display
+  must be written at once. 
+  This is not possible with the current u8g2 structure.
+  So u8x8_d_max7219_16x16 will not work.
+*/
 
 uint8_t u8x8_d_max7219_16x16(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
