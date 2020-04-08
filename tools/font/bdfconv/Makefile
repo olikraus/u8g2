@@ -37,6 +37,18 @@ helvb18: bdfconv
 helvb18n: bdfconv
 	./bdfconv -v -f 1 -m '32,48-57' ../bdf/helvB18.bdf -o helvb18_tn.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 
+dseg7: bdfconv
+	./bdfconv -v -f 1 -m '32-65000' dseg7_classic_regular.bdf -o u8g2_font_dseg7_classic_regular_all.c  -n u8g2_font_dseg7_classic_regular_all -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_dseg7_classic_regular_all.png
+
+dseg7cr: bdfconv
+	./bdfconv -v -f 1 -b 2 -m '48-57,65-90,97-122' dseg7_classic_regular.bdf -o u8g2_font_dseg7_cr.c  -n u8g2_font_dseg7_cr -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_dseg7_cr.png
+
+dseg14cr: bdfconv
+	./bdfconv -v -f 1 -b 2 -m '32-255' dseg14_classic_regular.bdf -o u8g2_font_dseg14_cr.c  -n u8g2_font_dseg14_cr -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_dseg14_cr.png
+
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
 
