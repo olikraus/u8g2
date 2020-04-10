@@ -2,7 +2,7 @@
 
   u8g22_polygon.c
 
-*/	
+*/
 
 
 #include "u8g2.h"
@@ -30,7 +30,7 @@ struct pg_edge_struct
   pg_word_t height;
   pg_word_t current_x_offset;
   pg_word_t error_offset;
-  
+
   /* --- line loop --- */
   pg_word_t current_y;
   pg_word_t max_y;
@@ -79,15 +79,15 @@ static uint8_t pge_Next(struct pg_edge_struct *pge)
 {
   if ( pge->current_y >= pge->max_y )
     return 0;
-  
+
   pge->current_x += pge->current_x_offset;
   pge->error += pge->error_offset;
   if ( pge->error > 0 )
   {
     pge->current_x += pge->x_direction;
     pge->error -= pge->height;
-  }  
-  
+  }
+
   pge->current_y++;
   return 1;
 }
@@ -115,7 +115,7 @@ static void pge_Init(struct pg_edge_struct *pge, pg_word_t x1, pg_word_t y1, pg_
     width = -dx;
     pge->error = 1 - pge->height;
   }
-  
+
   pge->current_x_offset = dx / pge->height;
   pge->error_offset = width % pge->height;
 }
@@ -134,7 +134,7 @@ static uint8_t pg_inc(pg_struct *pg, uint8_t i)
 static uint8_t pg_dec(pg_struct *pg, uint8_t i)
 {
     i--;
-    if ( i >= pg->cnt )
+    if ( i < 0 )
       i = pg->cnt-1;
     return i;
 }
@@ -146,7 +146,7 @@ static void pg_expand_min_y(pg_struct *pg, pg_word_t min_y, uint8_t pge_idx)
   {
     i = pg->pge[pge_idx].next_idx_fn(pg, i);
     if ( pg->list[i].y != min_y )
-      break;	
+      break;
     pg->pge[pge_idx].curr_idx = i;
   }
 }
@@ -160,7 +160,7 @@ static uint8_t pg_prepare(pg_struct *pg)
   /* setup the next index procedures */
   pg->pge[PG_RIGHT].next_idx_fn = pg_inc;
   pg->pge[PG_LEFT].next_idx_fn = pg_dec;
-  
+
   /* search for highest and lowest point */
   max_y = pg->list[0].y;
   min_y = pg->list[0].y;
@@ -181,16 +181,16 @@ static uint8_t pg_prepare(pg_struct *pg)
   /* calculate total number of scan lines */
   pg->total_scan_line_cnt = max_y;
   pg->total_scan_line_cnt -= min_y;
-  
+
   /* exit if polygon height is zero */
   if ( pg->total_scan_line_cnt == 0 )
     return 0;
-  
+
   /* if the minimum y side is flat, try to find the lowest and highest x points */
-  pg->pge[PG_RIGHT].curr_idx = pg->pge[PG_LEFT].curr_idx;  
+  pg->pge[PG_RIGHT].curr_idx = pg->pge[PG_LEFT].curr_idx;
   pg_expand_min_y(pg, min_y, PG_RIGHT);
   pg_expand_min_y(pg, min_y, PG_LEFT);
-  
+
   /* check if the min side is really flat (depends on the x values) */
   pg->is_min_y_not_flat = 1;
   if ( pg->list[pg->pge[PG_LEFT].curr_idx].x != pg->list[pg->pge[PG_RIGHT].curr_idx].x )
@@ -213,7 +213,7 @@ static void pg_hline(pg_struct *pg, u8g2_t *u8g2)
   x1 = pg->pge[PG_LEFT].current_x;
   x2 = pg->pge[PG_RIGHT].current_x;
   y = pg->pge[PG_RIGHT].current_y;
-  
+
   if ( y < 0 )
     return;
   if ( y >= u8g2_GetDisplayHeight(u8g2) )  // does not work for 256x64 display???
@@ -247,20 +247,20 @@ static void pg_hline(pg_struct *pg, u8g2_t *u8g2)
 static void pg_line_init(pg_struct * const pg, uint8_t pge_index)
 {
   struct pg_edge_struct  *pge = pg->pge+pge_index;
-  uint8_t idx;  
+  uint8_t idx;
   pg_word_t x1;
   pg_word_t y1;
   pg_word_t x2;
   pg_word_t y2;
 
-  idx = pge->curr_idx;  
+  idx = pge->curr_idx;
   y1 = pg->list[idx].y;
   x1 = pg->list[idx].x;
   idx = pge->next_idx_fn(pg, idx);
   y2 = pg->list[idx].y;
-  x2 = pg->list[idx].x; 
+  x2 = pg->list[idx].x;
   pge->curr_idx = idx;
-  
+
   pge_Init(pge, x1, y1, x2, y2);
 }
 
@@ -269,12 +269,12 @@ static void pg_exec(pg_struct *pg, u8g2_t *u8g2)
   pg_word_t i = pg->total_scan_line_cnt;
 
   /* first line is skipped if the min y line is not flat */
-  pg_line_init(pg, PG_LEFT);		
+  pg_line_init(pg, PG_LEFT);
   pg_line_init(pg, PG_RIGHT);
-  
+
   if ( pg->is_min_y_not_flat != 0 )
   {
-    pge_Next(&(pg->pge[PG_LEFT])); 
+    pge_Next(&(pg->pge[PG_LEFT]));
     pge_Next(&(pg->pge[PG_RIGHT]));
   }
 
@@ -343,4 +343,3 @@ void u8g2_DrawTriangle(u8g2_t *u8g2, int16_t x0, int16_t y0, int16_t x1, int16_t
   u8g2_AddPolygonXY(u8g2, x2, y2);
   u8g2_DrawPolygon(u8g2);
 }
-
