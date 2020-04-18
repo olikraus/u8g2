@@ -13154,6 +13154,24 @@ class U8G2_ST7567_64X32_1_2ND_HW_I2C : public U8G2 {
     u8x8_SetPin_HW_I2C(getU8x8(), reset);
   }
 };
+class U8G2_ST7567_HEM6432_1_SW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_1_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_1(&u8g2, rotation, u8x8_byte_arduino_sw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_SW_I2C(getU8x8(), clock,  data,  reset);
+  }
+};
+class U8G2_ST7567_HEM6432_1_HW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_1_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_1(&u8g2, rotation, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
+  }
+};
+class U8G2_ST7567_HEM6432_1_2ND_HW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_1_2ND_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_1(&u8g2, rotation, u8x8_byte_arduino_2nd_hw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+  }
+};
 class U8G2_ST7567_64X32_2_SW_I2C : public U8G2 {
   public: U8G2_ST7567_64X32_2_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
     u8g2_Setup_st7567_i2c_64x32_2(&u8g2, rotation, u8x8_byte_arduino_sw_i2c, u8x8_gpio_and_delay_arduino);
@@ -13172,6 +13190,24 @@ class U8G2_ST7567_64X32_2_2ND_HW_I2C : public U8G2 {
     u8x8_SetPin_HW_I2C(getU8x8(), reset);
   }
 };
+class U8G2_ST7567_HEM6432_2_SW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_2_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_2(&u8g2, rotation, u8x8_byte_arduino_sw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_SW_I2C(getU8x8(), clock,  data,  reset);
+  }
+};
+class U8G2_ST7567_HEM6432_2_HW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_2_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_2(&u8g2, rotation, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
+  }
+};
+class U8G2_ST7567_HEM6432_2_2ND_HW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_2_2ND_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_2(&u8g2, rotation, u8x8_byte_arduino_2nd_hw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+  }
+};
 class U8G2_ST7567_64X32_F_SW_I2C : public U8G2 {
   public: U8G2_ST7567_64X32_F_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
     u8g2_Setup_st7567_i2c_64x32_f(&u8g2, rotation, u8x8_byte_arduino_sw_i2c, u8x8_gpio_and_delay_arduino);
@@ -13187,6 +13223,24 @@ class U8G2_ST7567_64X32_F_HW_I2C : public U8G2 {
 class U8G2_ST7567_64X32_F_2ND_HW_I2C : public U8G2 {
   public: U8G2_ST7567_64X32_F_2ND_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
     u8g2_Setup_st7567_i2c_64x32_f(&u8g2, rotation, u8x8_byte_arduino_2nd_hw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset);
+  }
+};
+class U8G2_ST7567_HEM6432_F_SW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_F_SW_I2C(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_f(&u8g2, rotation, u8x8_byte_arduino_sw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_SW_I2C(getU8x8(), clock,  data,  reset);
+  }
+};
+class U8G2_ST7567_HEM6432_F_HW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_F_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_f(&u8g2, rotation, u8x8_byte_arduino_hw_i2c, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_HW_I2C(getU8x8(), reset, clock, data);
+  }
+};
+class U8G2_ST7567_HEM6432_F_2ND_HW_I2C : public U8G2 {
+  public: U8G2_ST7567_HEM6432_F_2ND_HW_I2C(const u8g2_cb_t *rotation, uint8_t reset = U8X8_PIN_NONE) : U8G2() {
+    u8g2_Setup_st7567_i2c_hem6432_f(&u8g2, rotation, u8x8_byte_arduino_2nd_hw_i2c, u8x8_gpio_and_delay_arduino);
     u8x8_SetPin_HW_I2C(getU8x8(), reset);
   }
 };
