@@ -52,6 +52,9 @@ dseg14cr: bdfconv
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
 
+ded: bdfconv
+	./bdfconv -v -b 0 -f 1  ./F16_DED.bdf -o ded.c  -n ded -d ../bdf/helvB12.bdf 
+
 old16x16: bdfconv
 	-../otf2bdf/otf2bdf -r 72 -p 16 -o tmp.bdf ../ttf/Px437_Wyse700a.ttf
 	./bdfconv -x 0 -y 8 -v -f 2 -m '32-59' tmp.bdf -o u8x8_font_px437wyse700a_ul_n.c  -n u8x8_font_px437wyse700a_ul_n

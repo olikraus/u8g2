@@ -273,16 +273,9 @@ uint8_t u8x8_d_uc1610_ea_dogxl160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	
-	
 	do
 	{
-	  
-	  
-	  
 	  u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_uc1610(ptr));
-
-	  
 	  ptr += 8;
 	  x += 8;
 	  c--;

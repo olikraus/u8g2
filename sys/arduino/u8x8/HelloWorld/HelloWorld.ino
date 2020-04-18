@@ -219,6 +219,7 @@
 //U8X8_IL3820_V2_296X128_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// eInk/ePaper Display, optimized (lesser screen flicker)
 //U8X8_ST7511_AVD_320X240_8080 u8x8(13, 11, 2, 3, 4, 5, 6, A4, /*enable/WR=*/ 7, /*cs=*/ 10, /*dc=*/ 9, /*reset=*/ 8); // Connect RD pin with 3.3V/5V
 
+U8X8_UC1617_JLX128128_4W_SW_SPI u8x8( /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 
 // End of constructor list
 
@@ -245,7 +246,7 @@ void setup(void)
 void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
-  u8x8.drawString(0,0,"Hello World!");
+  u8x8.drawString(0,1,"Hello World!");
   u8x8.refreshDisplay();		// only required for SSD1606/7  
   delay(2000);
 }

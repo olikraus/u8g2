@@ -55,17 +55,36 @@ static const uint8_t u8x8_d_uc1617_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_uc1617_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c4),            	/* LCD Mapping */
+  //U8X8_C(0x0c2),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1617_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c2),            	/* LCD Mapping */
+  //U8X8_C(0x0c4),            	/* LCD Mapping */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
+
+static uint8_t *u8x8_convert_tile_for_uc1617(uint8_t *t)
+{
+  uint8_t i;
+  uint16_t r;
+  static uint8_t buf[16];
+  uint8_t *pbuf = buf;
+
+  for( i = 0; i < 8; i++ )
+  {
+    r = u8x8_upscale_byte(*t++);
+    *pbuf = r & 255;
+    r >>= 8;
+    pbuf+=8;
+    *pbuf = r;
+    pbuf-=7;
+  }
+  return buf;
+}
 
 
 uint8_t u8x8_d_uc1617_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -80,22 +99,58 @@ uint8_t u8x8_d_uc1617_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
-   
-      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
-      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-    
+
+
       y = ((u8x8_tile_t *)arg_ptr)->y_pos;
-      u8x8_cad_SendCmd(u8x8, 0x060 | (y&15));
-      u8x8_cad_SendCmd(u8x8, 0x070 | (y>>4));
+      y*=2;
+
     
+      do
+      {
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	do
+	{
+
+      u8x8_cad_SendCmd(u8x8, 0x060 | (x&15));
+      u8x8_cad_SendCmd(u8x8, 0x070 | (x>>4));    
+    
+      u8x8_cad_SendCmd(u8x8, 0x00 | (y));
+
+      u8x8_cad_SendCmd(u8x8, 0xf8 );	/* disable window */
+
+      u8x8_cad_SendCmd(u8x8, 0xf4 );	/* page start */
+      u8x8_cad_SendCmd(u8x8, y );	
+      u8x8_cad_SendCmd(u8x8, 0xf5 );	/* x start */
+      u8x8_cad_SendCmd(u8x8, x );	
+    
+      u8x8_cad_SendCmd(u8x8, 0xf6 );	/* page end */
+      u8x8_cad_SendCmd(u8x8, y+1 );	
+      u8x8_cad_SendCmd(u8x8, 0xf7 );	/* x end */
+      u8x8_cad_SendCmd(u8x8, x+7 );	
+    
+      u8x8_cad_SendCmd(u8x8, 0xf9 );	/* enable window  */
+	  
+	  u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_uc1617(ptr));
+	  ptr += 8;
+	  x += 8;
+	  c--;
+	} while( c > 0 );
+	
+	arg_int--;
+      } while( arg_int > 0 );
+    
+    
+    /*
       c = ((u8x8_tile_t *)arg_ptr)->cnt;
       c *= 8;
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
       do
       {
-	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes */
+	u8x8_cad_SendData(u8x8, c, ptr);	
 	arg_int--;
       } while( arg_int > 0 );
+      */
       
       u8x8_cad_EndTransfer(u8x8);
       break;
@@ -147,7 +202,7 @@ static const uint8_t u8x8_d_uc1617_jlx128128_init_seq[] = {
   
   U8X8_C(0x02f),            			/* internal pump control */
   U8X8_C(0x0eb),            			/* bias=1/11 */
-  U8X8_CA(0x081, 0x066),		/* set contrast */
+  U8X8_CA(0x081, 0x036),		/* set contrast */
   //U8X8_C(0x0a9),            			/* used in display datasheet, but cmd not described in controller datasheet */
   
   U8X8_CA(0x0f1, 0x07f),			/* set COM end */
@@ -158,18 +213,19 @@ static const uint8_t u8x8_d_uc1617_jlx128128_init_seq[] = {
   U8X8_C(0x0d3),            			/* */
   U8X8_C(0x0d7),            			/* */
   
-  U8X8_C(0x0ad),            			/* display enable BW Mode*/
-  //U8X8_C(0x0af),            			/* display enable GS Mode*/
+  //U8X8_C(0x0ad),            			/* display enable BW Mode*/
+  U8X8_C(0x0af),            			/* display enable GS Mode*/
 
   //U8X8_C(0x0a5),            			/* all pixel on */
 
   //U8X8_C(0x0d1),            			/* display pattern */  
-  U8X8_C(0x089),            			/* auto increment */
-  U8X8_C(0x0c4),            	/* LCD Mapping */
+  U8X8_C(0x08b),            			/* auto increment */
+  U8X8_C(0x0c0),            	/* LCD Mapping */
   U8X8_C(0x000),		                /* column  */
   U8X8_C(0x060),		                /* page adr low */
   U8X8_C(0x070),		                /* page adr high */
 
+/*
   U8X8_D1(0x0ff),
   U8X8_D1(0x0ff),
   U8X8_D1(0x0ff),
@@ -187,6 +243,7 @@ static const uint8_t u8x8_d_uc1617_jlx128128_init_seq[] = {
   U8X8_D1(0x0ff),
   U8X8_D1(0x0ff),
   U8X8_D1(0x0ff),
+  */
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -230,8 +287,6 @@ uint8_t u8x8_d_uc1617_jlx128128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1617_jlx128128_init_seq);
-	for(;;)
-	  ;
 	break;
       default:
 	return 0;		/* msg unknown */
