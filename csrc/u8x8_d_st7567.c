@@ -764,7 +764,7 @@ static const uint8_t u8x8_st7567_hem6432_init_seq[] = {
   U8X8_DLY(50),
   
   U8X8_C(0x024),		                /* v0 voltage resistor ratio, taken from issue 657 */
-  U8X8_CA(0x081, 225),			/* set contrast, contrast value as suggested inissue 1159 */
+  U8X8_CA(0x081, 225/4),		/* set contrast, contrast value as suggested inissue 1159 */
   
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe: all pixel on, issue 142 */
