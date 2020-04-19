@@ -245,3 +245,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added Lucida X11 fonts (issue 271)
   * Added several fonts from dafont.com (issue 1093)
   * Added 3-wire HW SPI (issue 1041)
+2020-xx-xx	v2.28.x	olikraus@gmail.com
+  * Added support for UC1617 JLX128128 (issue 1151)
