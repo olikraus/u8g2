@@ -436,12 +436,11 @@ static const uint8_t u8x8_d_uc1608_dem240064_init_seq[] = {
   U8X8_C(0x02f),            			/* power on, Bit 2 PC2=1 (internal charge pump), Bits 0/1: cap of panel */
   U8X8_DLY(50),
   
-  U8X8_C(0x040),            			/* set display start line to 0 */
-  U8X8_C(0x090),            			/* no fixed lines */
+  U8X8_C(0x07f),            			/* set display start line*/
+  U8X8_C(0x094),            			/* fixed lines */
   U8X8_C(0x089),            			/* RAM access control */
   
-  //U8X8_CA(0x081, 46),			/* set contrast, 46 according to  DemoCode.txt */
-  U8X8_CA(0x081, 80),			/* */
+  U8X8_CA(0x081, 160),			/* issue 1164 */
   
   U8X8_C(0x000),		                /* column low nibble */
   U8X8_C(0x010),		                /* column high nibble */  
@@ -452,9 +451,47 @@ static const uint8_t u8x8_d_uc1608_dem240064_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+static const uint8_t u8x8_d_uc1608_dem240064_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0c8),            			/* LCD Mapping */
+  U8X8_C(0x07f),            			/* set display start line*/
+  U8X8_C(0x094),            			/* fixed lines */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_uc1608_dem240064_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0c4),            			/* LCD Mapping */
+  U8X8_C(0x040),            			/* set display start line*/
+  U8X8_C(0x090),            			/* fixed lines */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
 uint8_t u8x8_d_uc1608_dem240064(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  /* call common procedure first and handle messages there */
+  
+  /* checking for the flip mode cmd first */
+  if ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
+  {
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1608_dem240064_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1608_dem240064_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }	
+      return 1;
+  }
+  /* call the common procedure, this now leads to the effect, that the flip code is executed again */
+  /* maybe we should paste the common code here to avoid this */
+  
+  
   if ( u8x8_d_uc1608_common(u8x8, msg, arg_int, arg_ptr) == 0 )
   {
     /* msg not handled, then try here */
