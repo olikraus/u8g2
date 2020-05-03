@@ -115,6 +115,11 @@ void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value)
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_CONTRAST, value, NULL);  
 }
 
+void u8x8_SetBacklightColor(u8x8_t *u8x8, uint32_t color)
+{
+  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_BACKLIGHT_COLOR, 0, &color);
+}
+
 void u8x8_RefreshDisplay(u8x8_t *u8x8)
 {
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_REFRESH, 0, NULL);  

@@ -63,6 +63,7 @@ static const u8x8_display_info_t u8x8_e3keys_sb6432_display_info =
 
 
 #define E3KEYS_AT_CMD_SET_DISPLAY_ADDR_WRITE_DATA 0x40
+#define E3KEYS_AT_CMD_SET_RGB_COLOR 0x42
 #define E3KEYS_AT_CMD_END_TRANSMISSION 0x43
 
 #define E3KEYS_AT_EXT_CMD_START 0x47
@@ -105,6 +106,10 @@ static const uint8_t u8x8_d_e3keys_sb6432_powersave1_seq[] = {
 
 uint8_t u8x8_d_e3keys_sb6432(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
+#ifdef U8X8_WITH_SET_BACKLIGHT_COLOR
+  uint32_t color;
+  uint8_t color_bytes[3];
+#endif
   const u8x8_display_info_t *d_info = u8x8->display_info;
   u8x8_tile_t *tile;
   const uint16_t y_addr_offset = d_info->pixel_height / 8;
@@ -124,6 +129,26 @@ uint8_t u8x8_d_e3keys_sb6432(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       else
         u8x8_cad_SendSequence(u8x8, u8x8_d_e3keys_sb6432_powersave0_seq);
       break;
+#ifdef U8X8_WITH_SET_BACKLIGHT_COLOR
+    case U8X8_MSG_DISPLAY_SET_BACKLIGHT_COLOR:
+      color = *((uint32_t *) arg_ptr);
+      /*
+       * Set RGB Color command data layout:
+       * Red:   0 D_6 D_5 D_4 D_3 D_2 D_1 D_0
+       * Green: 0 D_6 D_5 D_4 D_3 D_2 D_1 D_0
+       * Blue:  0 D_6 D_5 D_4 D_3 D_2 D_1 D_0
+       */
+      color_bytes[0] = (color >> 16) & 0x7f; /* red */
+      color_bytes[1] = (color >> 8) & 0x7f; /* green */
+      color_bytes[2] = color & 0x7f; /* blue */
+
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, E3KEYS_AT_CMD_SET_RGB_COLOR);
+      u8x8_cad_SendData(u8x8, 3, color_bytes);
+      u8x8_cad_SendCmd(u8x8, E3KEYS_AT_CMD_END_TRANSMISSION);
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       tile = (u8x8_tile_t *)arg_ptr;
 

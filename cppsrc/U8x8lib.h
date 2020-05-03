@@ -247,6 +247,9 @@ class U8X8 : public Print
     void setContrast(uint8_t value) {
       u8x8_SetContrast(&u8x8, value); }
 
+    void setBacklightColor(uint32_t value) {
+      u8x8_SetBacklightColor(&u8x8, value); }
+
     void setInverseFont(uint8_t value) {
       u8x8_SetInverseFont(&u8x8, value); }
 

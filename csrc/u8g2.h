@@ -375,6 +375,7 @@ struct u8g2_struct
 #define u8g2_SetPowerSave(u8g2, is_enable) u8x8_SetPowerSave(u8g2_GetU8x8(u8g2), (is_enable))
 #define u8g2_SetFlipMode(u8g2, mode) u8x8_SetFlipMode(u8g2_GetU8x8(u8g2), (mode))
 #define u8g2_SetContrast(u8g2, value) u8x8_SetContrast(u8g2_GetU8x8(u8g2), (value))
+#define u8g2_SetBacklightColor(u8g2, value) u8x8_SetBacklightColor(u8g2_GetU8x8(u8g2), (value))
 //#define u8g2_ClearDisplay(u8g2) u8x8_ClearDisplay(u8g2_GetU8x8(u8g2))  obsolete, can not be used in all cases
 void u8g2_ClearDisplay(u8g2_t *u8g2);
 

@@ -124,6 +124,9 @@ class U8G2 : public Print
     void setContrast(uint8_t value) {
       u8g2_SetContrast(&u8g2, value); }
       
+    void setBacklightColor(uint32_t value) {
+      u8g2_SetBacklightColor(&u8g2, value); }
+      
     void setDisplayRotation(const u8g2_cb_t *u8g2_cb) {
       u8g2_SetDisplayRotation(&u8g2, u8g2_cb); }
       
