@@ -214,7 +214,7 @@ struct u8x8_tile_struct
   uint8_t *tile_ptr;	/* pointer to one or more tiles... should be "const" */
   uint8_t cnt;		/* number of tiles */
   uint8_t x_pos;	/* tile x position */
-  uint8_t y_pos;	/* tile x position */
+  uint8_t y_pos;	/* tile y position */
 };
 
 
