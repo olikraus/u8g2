@@ -34,7 +34,7 @@ int main (void)
 
 	u8g2_SetFontPosTop(&u8g2);
 
-	u8g2_DrawStr(&u8g2, 0, 15, "u8g2 Linux I2C");
+	u8g2_DrawStr(&u8g2, 0, 0, "u8g2 Linux I2C");
 
 	u8g2_SendBuffer(&u8g2);
 
