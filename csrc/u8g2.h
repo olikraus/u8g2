@@ -385,6 +385,12 @@ void u8g2_ClearDisplay(u8g2_t *u8g2);
 #define u8g2_SetI2CAddress(u8g2, address) ((u8g2_GetU8x8(u8g2))->i2c_address = (address))
 #define u8g2_GetI2CAddress(u8g2)   u8x8_GetI2CAddress(u8g2_GetU8x8(u8g2))
 
+/* Used for linux-i2c */
+#define u8g2_SetI2CBus(u8g2, bus_num) ((u8g2_GetU8x8(u8g2))->i2c_bus_num = (bus_num))
+#define u8g2_GetI2CBus(u8g2)   u8x8_GetI2CBus(u8g2_GetU8x8(u8g2))
+
+
+
 #ifdef U8X8_USE_PINS 
 #define u8g2_SetMenuSelectPin(u8g2, val) u8x8_SetMenuSelectPin(u8g2_GetU8x8(u8g2), (val)) 
 #define u8g2_SetMenuNextPin(u8g2, val) u8x8_SetMenuNextPin(u8g2_GetU8x8(u8g2), (val))

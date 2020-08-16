@@ -257,7 +257,7 @@ struct u8x8_display_info_struct
   /* == I2C == */
   uint8_t i2c_bus_clock_100kHz;		/* UC1601: 1000000000/275 = 37 *100k */
 
-  
+	
   /* == 8 bit interface == */
   
   /* how long to wait after all data line are set */
@@ -339,6 +339,8 @@ struct u8x8_struct
   uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something usefull during DISPLAY_INIT */
 					/* i2c_address is the address for writing data to the display */
 					/* usually, the lowest bit must be zero for a valid address */
+  uint8_t i2c_bus_num;   /* i2c linux needs to know which i2c bus to use*/
+
   uint8_t i2c_started;	/* for i2c interface */
   //uint8_t device_address;	/* OBSOLETE???? - this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
   uint8_t utf8_state;		/* number of chars which are still to scan */
@@ -363,8 +365,15 @@ struct u8x8_struct
 
 #define u8x8_GetCols(u8x8) ((u8x8)->display_info->tile_width)
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
+
 #define u8x8_GetI2CAddress(u8x8) ((u8x8)->i2c_address)
 #define u8x8_SetI2CAddress(u8x8, address) ((u8x8)->i2c_address = (address))
+
+
+/* Used for linux-i2c */
+#define u8x8_GetI2CBus(u8x8) ((u8x8)->i2c_bus_num)
+#define u8x8_SetI2CBus(u8x8, bus_num) ((u8x8)->i2c_bus_num = (bus_num))
+
 
 #define u8x8_SetGPIOResult(u8x8, val) ((u8x8)->gpio_result = (val))
 #define u8x8_GetSPIClockPhase(u8x8) ((u8x8)->display_info->spi_mode & 0x01)  /* 0 means rising edge */
