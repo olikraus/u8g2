@@ -354,3 +354,14 @@ gess: bdfconv
 	./bdfconv -v -f 1 -m '$$20-$$ffff,~1588,~65010,~65205,~65206' GESSTwoBold-Bold-75.bdf -o u8g2_font_gess.c  -n u8g2_font_gess -d ../bdf/helvB18.bdf 
 	convert bdf.tga u8g2_font_gess.png
 
+CARSYMBOL: bdfconv
+	./bdfconv -v -f 1 -m '$$20-$$ffff' CARSYMBOL.bdf -o u8g2_font_carsymbol.c  -n u8g2_font_carsymbol -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_carsymbol.png
+
+Aurebesh: bdfconv
+	./bdfconv -v -f 1 -m '$$20-$$ff' Aurebesh.bdf -o u8g2_font_aurebesh.c  -n u8g2_font_aurebesh -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_aurebesh.png
+
+aurebesh_small: bdfconv
+	./bdfconv -v -f 1 -m '$$20-$$ff' aurebesh_small.bdf -o u8g2_font_aurebesh_small.c  -n u8g2_font_aurebesh_small -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_aurebesh_small.png
