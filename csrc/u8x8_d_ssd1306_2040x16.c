@@ -195,8 +195,7 @@ static const u8x8_display_info_t u8x8_ssd1306_2040x16_display_info =
 /* pixel_width = */2040,
 /* pixel_height = */16 };
 
-uint8_t u8x8_d_ssd1306_2040x16(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
-    void *arg_ptr)
+uint8_t u8x8_d_ssd1306_2040x16(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   if (msg == U8X8_MSG_DISPLAY_SETUP_MEMORY)
   {
