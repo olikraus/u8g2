@@ -117,6 +117,13 @@
 #define U8G2_WITH_FONT_ROTATION
 
 /*
+  The following macro enables scrolling for glyphs.
+  
+  Sept 2020: Disabling this macro will save up to ??? bytes on AVR 
+*/
+#define U8G2_WITH_FONT_SCROLLING
+
+/*
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
   The following macro activates this support. Deactivation would save some ROM.
   This definition also defines the behavior of the expected string encoding.
@@ -242,7 +249,15 @@ struct _u8g2_font_decode_t
   
   u8g2_uint_t target_x;
   u8g2_uint_t target_y;
-  
+#ifdef U8G2_WITH_FONT_SCROLLING
+  int8_t target_x_offset;
+  int8_t target_y_offset;
+  int8_t target_delta;
+  int8_t scroll_x;
+  int8_t scroll_y;
+  uint8_t gap; /* gap in pixel scrolling rotation */
+#endif
+
   int8_t x;						/* local coordinates, (0,0) is upper left */
   int8_t y;
   int8_t glyph_width;	
@@ -1335,6 +1350,7 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 int8_t u8g2_GetStrX(u8g2_t *u8g2, const char *s);	/* for u8g compatibility */
 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
+void u8g2_SetFontScroll(u8g2_t *u8g2, int8_t x, int8_t y, uint8_t gap);
 u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 u8g2_uint_t u8g2_DrawExtendedUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t to_left, u8g2_kerning_t *kerning, const char *str);

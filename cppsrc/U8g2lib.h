@@ -251,6 +251,7 @@ class U8G2 : public Print
     void setFont(const uint8_t  *font) {u8g2_SetFont(&u8g2, font); }
     void setFontMode(uint8_t  is_transparent) {u8g2_SetFontMode(&u8g2, is_transparent); }
     void setFontDirection(uint8_t dir) {u8g2_SetFontDirection(&u8g2, dir); }
+    void setFontScroll(int8_t x, int8_t y, uint8_t gap=0) {u8g2_SetFontScroll(&u8g2, x, y, gap); }
 
     int8_t getAscent(void) { return u8g2_GetAscent(&u8g2); }
     int8_t getDescent(void) { return u8g2_GetDescent(&u8g2); }
