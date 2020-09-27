@@ -418,9 +418,9 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
   ly -= decode->target_y_offset; /*offset so zero points to top edge of glyph*/
   sy = decode->scroll_y;
   if( (sy!=0)&&(sh!=0) ){
-    sy %= sh; /*scroll inbounds*/
+    sy %= sh; /*scroll within bounds*/
     if(ly<-sy) /*(sy+ly<0)*/
-      sy += sh; /*bring point up into scroll box*/
+      sy += sh; /*shift point down into scroll box*/
   }
 #endif
   for(;;)
@@ -446,11 +446,11 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
     sx = decode->scroll_x;
     lx += decode->target_x_offset; /*offset so zero points to right edge of glyph*/
     if( (sx!=0)&&(sw!=0) ){
-      sx %= sw; /*scroll inbounds*/
+      sx %= sw; /*scroll within bounds*/
       if(lx<-sx){ /*(sx+lx<0)*/
-        sx += sw; /*bring point up into scroll box*/
+        sx += sw; /*shift point right into scroll box*/
       }else if( (sx+lx)>=sw )
-        sx -= sw; /*bring point down into scroll box*/
+        sx -= sw; /*shift point left into scroll box*/
     }
     lx +=sx; /*x position within scroll box*/
     srem = sw;
@@ -466,7 +466,7 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
     }
     if( (sy>0)&&(sh!=0) )
       if( (sy+ly)>=sh )
-        sy -= sh; /*bring point down into scroll box*/
+        sy -= sh; /*shift point up into scroll box*/
     ly +=sy; /*y position within scroll box*/
 #endif
     /* apply rotation */
