@@ -528,6 +528,7 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
     lx = 0;
     ly++; 
 #ifdef U8G2_WITH_FONT_SCROLLING
+    }else{
       /*reached scroll box right edge, still more to draw*/
       cnt -= srem;
       lx += srem;
