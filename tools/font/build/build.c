@@ -211,7 +211,7 @@ struct groupinfo gi[] = {
 #define MM_N	8	/* numbers */
 #define MM_C	16	/* custom */
 #define MM_M	32	/* map file */
-#define MM_E	64	/* extended 32-701,7838 fb00..fb07	 */
+#define MM_E	64	/* extended 32-701,7838,8364 fb00..fb07	 */ /* added euro sign */
 
 
 /*
@@ -2323,7 +2323,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   if ( mm == MM_R ) strcat(bdf_cmd, " -m '32-127>32'");
   if ( mm == MM_N ) strcat(bdf_cmd, " -m '32,42-58>42'");
   if ( mm == MM_U ) strcat(bdf_cmd, " -m '32-95>32'");
-  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,64256-64263'");
+  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,8364,64256-64263'");
   if ( mm == MM_C ) 
   {
     strcat(bdf_cmd, " -m '");
