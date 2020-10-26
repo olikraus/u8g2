@@ -977,6 +977,7 @@ struct controller controller_list[] =
       { "64128n" },       
       { "zolen_128x64" },
       { "lm6059" },
+      { "ks0713" },	/* KS0713 chip, which seems to be almost compatible to ST7565 */
       { "lx12864" },
       { "erc12864" },
       { "erc12864_alt" },	/* issue 790 */
