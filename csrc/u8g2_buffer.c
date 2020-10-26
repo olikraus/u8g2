@@ -162,7 +162,12 @@ void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, u
   page_size = u8g2->pixel_buf_width;  /* 8*u8g2->u8g2_GetU8x8(u8g2)->display_info->tile_width */
     
   ptr = u8g2_GetBufferPtr(u8g2);
-  ptr += tx*8;
+
+  if(u8g2->ll_hvline == u8g2_ll_hvline_vertical_top_lsb){
+    ptr += tx*8; /* 8 bytes across per tile, stacked vertically */
+  }else{
+    ptr += tx; /* 1 byte across per tile, stacked horizontally */
+  }
   ptr += page_size*ty;
   
   while( th > 0 )

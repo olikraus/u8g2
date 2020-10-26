@@ -404,6 +404,25 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
   /* get the local position */
   lx = decode->x;
   ly = decode->y;
+
+#ifdef U8G2_WITH_FONT_SCROLLING
+  u8g2_int_t sx,sy;
+  uint8_t sh = decode->gap; /*scroll gap*/
+  uint8_t sw = sh;
+  uint8_t srem;
+  sh += u8g2->font_ref_ascent;
+  sh -= u8g2->font_ref_descent; /*scroll box height=current font (all character) used height+scroll gap*/
+  sw += decode->target_delta; /*scroll box width=current font (per character) used width+scroll gap*/
+  ly += u8g2->font_ref_ascent;
+  ly -= decode->glyph_height;
+  ly -= decode->target_y_offset; /*offset so zero points to top edge of glyph*/
+  sy = decode->scroll_y;
+  if( (sy!=0)&&(sh!=0) ){
+    sy %= sh; /*scroll inbounds*/
+    if(ly<-sy) /*(sy+ly<0)*/
+      sy += sh; /*bring point up into scroll box*/
+  }
+#endif
   
   for(;;)
   {
@@ -417,27 +436,54 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
     if ( cnt < rem )
       current = cnt;
     
-    
     /* now draw the line, but apply the rotation around the glyph target position */
     //u8g2_font_decode_draw_pixel(u8g2, lx,ly,current, is_foreground);
 
     /* get target position */
     x = decode->target_x;
     y = decode->target_y;
-
+#ifdef U8G2_WITH_FONT_SCROLLING
+    /* apply scrolling */
+    sx = decode->scroll_x;
+    lx += decode->target_x_offset; /*offset so zero points to right edge of glyph*/
+    if( (sx!=0)&&(sw!=0) ){
+      sx %= sw; /*scroll inbounds*/
+      if(lx<-sx){ /*(sx+lx<0)*/
+        sx += sw; /*bring point up into scroll box*/
+      }else if( (sx+lx)>=sw )
+        sx -= sw; /*bring point down into scroll box*/
+    }
+    lx +=sx; /*x position within scroll box*/
+    srem = sw;
+    srem -= lx; /*pixels to right of scroll box*/
+    if(current<=srem)
+      srem = 0; /*all draw line within scroll area*/
+    /* otherwise srem = pixels to edge */
+    if(lx > decode->target_delta){
+      current = 0; /*start of line beyond right edge of font box*/
+    }else if((lx+current) > decode->target_delta){
+      current = decode->target_delta; /*shorten end of draw line to right edge of font box*/
+      current -= lx;
+    }
+    if( (sy>0)&&(sh!=0) )
+      if( (sy+ly)>=sh )
+        sy -= sh; /*bring point down into scroll box*/
+    ly +=sy; /*y position within scroll box*/
+#endif
     /* apply rotation */
 #ifdef U8G2_WITH_FONT_ROTATION
-    
     x = u8g2_add_vector_x(x, lx, ly, decode->dir);
     y = u8g2_add_vector_y(y, lx, ly, decode->dir);
-    
     //u8g2_add_vector(&x, &y, lx, ly, decode->dir);
-    
+
 #else
     x += lx;
     y += ly;
 #endif
     
+#ifdef U8G2_WITH_FONT_SCROLLING
+    if( (ly < (u8g2->font_ref_ascent - u8g2->font_ref_descent)) && (lx < decode->target_delta) ){ /*dont draw if outside viewable font box*/
+#endif
     /* draw foreground and background (if required) */
     if ( is_foreground )
     {
@@ -467,16 +513,38 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
 #endif
       );   
     }
-    
+#ifdef U8G2_WITH_FONT_SCROLLING
+    }
+    lx -=sx;
+    lx -= decode->target_x_offset; /*remove offset, restores back to zero points to left edge of font box*/
+    ly -=sy; /*restore*/
+    if(srem==0){  /*line drawn complet or to glyph right edge*/
+      /* check, whether the end of the run length code has been reached */
+      if ( cnt < rem )
+        break;
+      cnt -= rem;
+      lx = 0;
+      ly++;      
+    }else{ /*reached scroll box right edge, still more to draw*/
+      cnt -= srem;
+      lx += srem;
+    }
+#else     
     /* check, whether the end of the run length code has been reached */
     if ( cnt < rem )
       break;
     cnt -= rem;
     lx = 0;
     ly++;
+#endif
   }
   lx += cnt;
   
+#ifdef U8G2_WITH_FONT_SCROLLING
+    ly -= u8g2->font_ref_ascent;
+    ly += decode->glyph_height;
+    ly += decode->target_y_offset; /*remove offset, restores back to zero points to ascent top edge of font box*/
+#endif
   decode->x = lx;
   decode->y = ly;
   
@@ -533,17 +601,30 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   
   if ( decode->glyph_width > 0 )
   {
-#ifdef U8G2_WITH_FONT_ROTATION
+#ifdef U8G2_WITH_FONT_SCROLLING
+    decode->target_x_offset = x;
+    decode->target_y_offset = y;
+    decode->target_delta = d;
+ #ifdef U8G2_WITH_FONT_ROTATION /*point to top left of font ascent box*/
+    decode->target_x = u8g2_add_vector_x(decode->target_x, 0, -u8g2->font_ref_ascent, decode->dir);
+    decode->target_y = u8g2_add_vector_y(decode->target_y, 0, -u8g2->font_ref_ascent, decode->dir);
+    //u8g2_add_vector(&(decode->target_x), &(decode->target_y), 0, -u8g2->font_ref_ascent, decode->dir);
+
+ #else
+//    decode->target_x += 0;
+    decode->target_y -= u8g2->font_ref_ascent;
+ #endif
+#else
+ #ifdef U8G2_WITH_FONT_ROTATION /*point to top left of glyph box*/
     decode->target_x = u8g2_add_vector_x(decode->target_x, x, -(h+y), decode->dir);
     decode->target_y = u8g2_add_vector_y(decode->target_y, x, -(h+y), decode->dir);
-    
     //u8g2_add_vector(&(decode->target_x), &(decode->target_y), x, -(h+y), decode->dir);
 
-#else
+ #else
     decode->target_x += x;
     decode->target_y -= h+y;
+ #endif
 #endif
-    //u8g2_add_vector(&(decode->target_x), &(decode->target_y), x, -(h+y), decode->dir);
 
 #ifdef U8G2_WITH_INTERSECTION
     {
@@ -1288,4 +1369,12 @@ void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
 #endif
 }
 
+void u8g2_SetFontScroll(u8g2_t *u8g2, int8_t x, int8_t y, uint8_t gap)
+{
+#ifdef U8G2_WITH_FONT_SCROLLING  
+  u8g2->font_decode.scroll_x = x;
+  u8g2->font_decode.scroll_y = y;
+  u8g2->font_decode.gap = gap;
+#endif
+}
 

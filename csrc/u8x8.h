@@ -89,6 +89,9 @@
 /* Global Defines */
 
 /* Undefine this to remove u8x8_SetContrast function */
+#define U8X8_WITH_SET_GREY
+
+/* Undefine this to remove u8x8_SetContrast function */
 #define U8X8_WITH_SET_CONTRAST
 
 /* Define this for an additional user pointer inside the u8x8 data struct */
@@ -103,6 +106,11 @@
 /* Note: Not all display types support a mirror functon for the frame buffer */
 /* 26 May 2016: Obsolete */
 //#define U8X8_DEFAULT_FLIP_MODE 0
+/*==========================================*/
+/* Parent class of display controller */
+
+#define u8x8_parent_class 0
+#define u8g2_parent_class 1
 
 /*==========================================*/
 /* Includes */
@@ -435,9 +443,9 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 
 /*
   Name: 	U8X8_MSG_DISPLAY_INIT
-  Args:	None
+  Args:	arg_int: 0: U8X8 parent class, 1: U8G2 parent class
   Tasks:
-
+    1) send display controller parent class arg_int
     2) put interface into default state: 
 	  execute u8x8_gpio_Init for port directions
 	  execute u8x8_cad_Init for default port levels
@@ -456,6 +464,15 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
     In power save mode, it must be possible to modify the RAM content.
 */
 #define U8X8_MSG_DISPLAY_SET_POWER_SAVE 11
+
+/*
+  Name: 	U8X8_MSG_DISPLAY_SET_GREY
+  Args: arg_int: 0..255 grey value
+  Tasks:
+    Sets display controllers pixel grey level
+    thoughts:- May upgrade with u8x8.h structure pointer for levels(RGBW[]), interactions(I[]) and draw layers(display buff[]). Idea is draw layers of different levels and interaction(solid,transparent,xor,or,sum) between lower(back) to higher layers(front). Only active layers need updating by user program, but all are needed for display controller when refreshing display. Possible levels & interaction for both foreground and background.
+*/
+#define U8X8_MSG_DISPLAY_SET_GREY 12
 
 /*
   Name: 	U8X8_MSG_DISPLAY_SET_FLIP_MODE
@@ -550,10 +567,11 @@ void u8x8_SetupMemory(u8x8_t *u8x8);
   It will init the display, but keep display in power save mode. 
   Usually this command must be followed by u8x8_SetPowerSave() 
 */
-void u8x8_InitDisplay(u8x8_t *u8x8);
+void u8x8_InitDisplay(u8x8_t *u8x8, uint8_t parent_class);
 /* wake up display from power save mode */
 void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable);
 void u8x8_SetFlipMode(u8x8_t *u8x8, uint8_t mode);
+void u8x8_SetGrey(u8x8_t *u8x8, uint8_t value);
 void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value);
 void u8x8_ClearDisplayWithTile(u8x8_t *u8x8, const uint8_t *buf)  U8X8_NOINLINE;
 void u8x8_ClearDisplay(u8x8_t *u8x8);	// this does not work for u8g2 in some cases
@@ -900,6 +918,7 @@ uint8_t u8x8_d_ssd1327_ws_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 uint8_t u8x8_d_ssd1327_visionox_128x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ssd1326_er_256x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ssd1329_128x96_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_d_ssd1362_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_uc1601_128x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_uc1604_jlx19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_uc1608_erc24064(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);

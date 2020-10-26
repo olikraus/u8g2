@@ -117,6 +117,13 @@
 #define U8G2_WITH_FONT_ROTATION
 
 /*
+  The following macro enables scrolling for glyphs.
+  
+  Sept 2020: Disabling this macro will save up to ??? bytes on AVR 
+*/
+#define U8G2_WITH_FONT_SCROLLING
+
+/*
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
   The following macro activates this support. Deactivation would save some ROM.
   This definition also defines the behavior of the expected string encoding.
@@ -242,6 +249,14 @@ struct _u8g2_font_decode_t
   
   u8g2_uint_t target_x;
   u8g2_uint_t target_y;
+#ifdef U8G2_WITH_FONT_SCROLLING
+  int8_t target_x_offset;
+  int8_t target_y_offset;
+  int8_t target_delta;
+  int8_t scroll_x;
+  int8_t scroll_y;
+  uint8_t gap; /* gap in pixel scrolling rotation */
+#endif
   
   int8_t x;						/* local coordinates, (0,0) is upper left */
   int8_t y;
@@ -371,9 +386,10 @@ struct u8g2_struct
 #define u8g2_SetupDisplay(u8g2, display_cb, cad_cb, byte_cb, gpio_and_delay_cb) \
   u8x8_Setup(u8g2_GetU8x8(u8g2), (display_cb), (cad_cb), (byte_cb), (gpio_and_delay_cb))
 
-#define u8g2_InitDisplay(u8g2) u8x8_InitDisplay(u8g2_GetU8x8(u8g2))
+#define u8g2_InitDisplay(u8g2, class) u8x8_InitDisplay(u8g2_GetU8x8(u8g2), (class))
 #define u8g2_SetPowerSave(u8g2, is_enable) u8x8_SetPowerSave(u8g2_GetU8x8(u8g2), (is_enable))
 #define u8g2_SetFlipMode(u8g2, mode) u8x8_SetFlipMode(u8g2_GetU8x8(u8g2), (mode))
+#define u8g2_SetGrey(u8g2, value) u8x8_SetGrey(u8g2_GetU8x8(u8g2), (value))
 #define u8g2_SetContrast(u8g2, value) u8x8_SetContrast(u8g2_GetU8x8(u8g2), (value))
 //#define u8g2_ClearDisplay(u8g2) u8x8_ClearDisplay(u8g2_GetU8x8(u8g2))  obsolete, can not be used in all cases
 void u8g2_ClearDisplay(u8g2_t *u8g2);
@@ -832,6 +848,12 @@ void u8g2_Setup_ssd1327_i2c_visionox_128x96_f(u8g2_t *u8g2, const u8g2_cb_t *rot
 void u8g2_Setup_ssd1329_128x96_noname_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ssd1329_128x96_noname_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ssd1329_128x96_noname_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_ssd1362_256x64_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_ssd1362_256x64_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_ssd1362_256x64_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_ssd1362_i2c_256x64_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_ssd1362_i2c_256x64_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+void u8g2_Setup_ssd1362_i2c_256x64_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ld7032_60x32_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ld7032_60x32_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
 void u8g2_Setup_ld7032_60x32_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
@@ -1344,6 +1366,7 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 int8_t u8g2_GetStrX(u8g2_t *u8g2, const char *s);	/* for u8g compatibility */
 
 void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir);
+void u8g2_SetFontScroll(u8g2_t *u8g2, int8_t x, int8_t y, uint8_t gap);
 u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str);
 u8g2_uint_t u8g2_DrawExtendedUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t to_left, u8g2_kerning_t *kerning, const char *str);
