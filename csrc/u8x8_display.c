@@ -95,7 +95,7 @@ void u8x8_SetupMemory(u8x8_t *u8x8)
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SETUP_MEMORY, 0, NULL);  
 }
 
-void u8x8_InitDisplay(u8x8_t *u8x8)
+void u8x8_InitDisplay(u8x8_t *u8x8, uint8_t parent_class)
 {
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_INIT, 0, NULL);  
 }
@@ -107,7 +107,12 @@ void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable)
 
 void u8x8_SetFlipMode(u8x8_t *u8x8, uint8_t mode)
 {
-  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_FLIP_MODE, mode, NULL);  
+  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_INIT, parent_class, NULL);
+}
+
+void u8x8_SetGrey(u8x8_t *u8x8, uint8_t value)
+{
+  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_GREY, value, NULL);  
 }
 
 void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value)
