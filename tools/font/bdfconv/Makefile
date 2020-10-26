@@ -41,6 +41,10 @@ dseg7: bdfconv
 	./bdfconv -v -f 1 -m '32-65000' dseg7_classic_regular.bdf -o u8g2_font_dseg7_classic_regular_all.c  -n u8g2_font_dseg7_classic_regular_all -d ../bdf/helvR12.bdf 
 	convert bdf.tga -trim u8g2_font_dseg7_classic_regular_all.png
 
+nmv1: bdfconv
+	./bdfconv -v -f 1 -m '32-65000' NMV1.bdf -o u8g2_font_nmv1.c  -n u8g2_font_nmv1 -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_nmv1.png
+
 dseg7cr: bdfconv
 	./bdfconv -v -f 1 -b 2 -m '48-57,65-90,97-122' dseg7_classic_regular.bdf -o u8g2_font_dseg7_cr.c  -n u8g2_font_dseg7_cr -d ../bdf/helvR12.bdf 
 	convert bdf.tga -trim u8g2_font_dseg7_cr.png

@@ -781,6 +781,62 @@ uint8_t u8x8_d_st7565_lm6059(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 }
 
 /*================================================*/
+/* https://github.com/olikraus/u8g2/issues/1314 */
+/* KS0713 controller, takeover from LM6059 */
+
+static const uint8_t u8x8_d_st7565_ks0713_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             /* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x0e2),            			 /* soft reset */
+  U8X8_C(0x0a3),		                /* LCD bias 1/9 */
+  U8X8_C(0x0a0),		                /* ADC set to reverse */
+  U8X8_C(0x0c0),		                /* common output mode */
+  U8X8_C(0x02f),		                /* all power  control circuits on (regulator, booster and follower) */
+  U8X8_C(0x026),		                /* set V0 voltage resistor ratio to max  */
+  U8X8_C(0x0a6),		                /* display normal, bit val 0: LCD pixel off. */
+  U8X8_CA(0x081, 0x010),		       /* set contrast, contrast value, EA default: 0x016 */
+  U8X8_C(0x0af),		                /* display on */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_st7565_ks0713(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call common procedure first and handle messages there */
+  if ( u8x8_d_st7565_common(u8x8, msg, arg_int, arg_ptr) == 0 )
+  {
+    /* msg not handled, then try here */
+    switch(msg)
+    {
+      case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7565_lm6059_display_info);
+	break;
+      case U8X8_MSG_DISPLAY_INIT:
+	u8x8_d_helper_display_init(u8x8);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_ks0713_init_seq);
+	break;
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+	if ( arg_int == 0 )
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
+	  u8x8->x_offset = u8x8->display_info->default_x_offset;
+	}
+	else
+	{
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+	}	
+	break;
+      default:
+	return 0;		/* msg unknown */
+    }
+  }
+  return 1;
+}
+
+
+/*================================================*/
 /* LX12864 issue 576 */
 
 static const uint8_t u8x8_d_st7565_lx12864_init_seq[] = {
