@@ -247,3 +247,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added 3-wire HW SPI (issue 1041)
 2020-xx-xx	v2.28.x	olikraus@gmail.com
   * Added support for UC1617 JLX128128 (issue 1151)
+  * Added support for Raystar SSD1305 (issue 1111)
+  * Added support for KS0713 controller (issue 1314)
+  
