@@ -104,6 +104,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_adafruit" },
+      { "128x64_raystar" },
       { NULL }
     }
   },
@@ -112,6 +113,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_adafruit" },
+      { "128x64_raystar" },
       { NULL }
     }
   },
