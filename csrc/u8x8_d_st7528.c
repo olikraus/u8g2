@@ -45,92 +45,6 @@
 #include "u8x8.h"
 
 
-/* NHD C160100 */
-static const uint8_t u8x8_d_st7528_nhd_c160100_init_seq[] = {
-    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-
-  
-/*
-    I2C_out(0x48);//partial display duty ratio
-    I2C_out(0x64);// 1/100 duty
-    I2C_out(0xA0);//ADC select
-    I2C_out(0xC8);//SHL select
-    I2C_out(0x44);//initial Com0 register
-    I2C_out(0x00);//scan from Com0
-    I2C_out(0xAB);//OSC on
-    I2C_out(0x26);//
-    I2C_out(0x81);	//set electronic volume
-    I2C_out(0x15);//vopcode=0x1C
-    I2C_out(0x56);//set 1/11 bias
-    I2C_out(0x64);//3x
-    delay(2);
-    I2C_out(0x2C);//
-    I2C_out(0x66);//5x
-    delay(2);
-    I2C_out(0x2E);//
-    delay(2);
-    I2C_out(0x2F);//power control
-    I2C_out(0xF3);//bias save circuit
-    I2C_out(0x00);//
-    I2C_out(0x96);//frc and pwm
-    I2C_out(0x38);//external mode
-    I2C_out(0x75);//
-    I2C_out(0x97);//3frc, 45 pwm			THIS IS A MODE0 CMD, IT IS USELESS HERE
-    I2C_out(0x80);//start 16-level grayscale settings
-*/
-  U8X8_CA(0x048, 0x064),		/* partial display duty ratio, 1/100 duty*/
-  U8X8_C(0x0a0),		                /* ADC */
-  U8X8_C(0x0c8),		                /* SHL */
-  U8X8_CA(0x044, 0x000),		/* initial Com0 */
-  U8X8_C(0x0ab),		                /* start oscillator */
-  U8X8_C(0x026),		                /* Select the internal resistance ratio of the regulator resistor */
-  U8X8_CA(0x081, 0x015),		/* volumn */
-  U8X8_C(0x056),		                /* LCD Bias */
-  U8X8_C(0x064),		                /* DC DC step up */
-  U8X8_DLY(2),
-  U8X8_C(0x02c),		                /* Power Control */
-  U8X8_C(0x066),		                /* DC DC step up */
-  U8X8_DLY(2),
-  U8X8_C(0x02e),		                /* Power Control */
-  U8X8_DLY(2),
-  U8X8_C(0x02f),		                /* Power Control */
-  U8X8_CA(0x0f3, 0x000),		/* bias power save */
-  U8X8_C(0x096),		                /* frc and pwm */
-
-  U8X8_CA(0x038, 0x075),		/* ext mode 1*/
-
-  /* graylevel setup */
-  
-  U8X8_CA(0x80, 0x00), U8X8_CA(0x81, 0x00), U8X8_CA(0x82, 0x00), U8X8_CA(0x83, 0x00),
-  U8X8_CA(0x84, 0x06), U8X8_CA(0x85, 0x06), U8X8_CA(0x86, 0x06), U8X8_CA(0x87, 0x06),
-  U8X8_CA(0x88, 0x0b), U8X8_CA(0x89, 0x0b), U8X8_CA(0x8a, 0x0b), U8X8_CA(0x8b, 0x0b),
-  U8X8_CA(0x8c, 0x10), U8X8_CA(0x8d, 0x10), U8X8_CA(0x8e, 0x10), U8X8_CA(0x8f, 0x10),
-
-  U8X8_CA(0x90, 0x15), U8X8_CA(0x91, 0x15), U8X8_CA(0x92, 0x15), U8X8_CA(0x93, 0x15),
-  U8X8_CA(0x94, 0x1a), U8X8_CA(0x95, 0x1a), U8X8_CA(0x96, 0x1a), U8X8_CA(0x97, 0x1a),
-  U8X8_CA(0x98, 0x1e), U8X8_CA(0x99, 0x1e), U8X8_CA(0x9a, 0x1e), U8X8_CA(0x9b, 0x1e),
-  U8X8_CA(0x9c, 0x23), U8X8_CA(0x9d, 0x23), U8X8_CA(0x9e, 0x23), U8X8_CA(0x9f, 0x23),
-
-  U8X8_CA(0xa0, 0x27), U8X8_CA(0xa1, 0x27), U8X8_CA(0xa2, 0x27), U8X8_CA(0xa3, 0x27),
-  U8X8_CA(0xa4, 0x2b), U8X8_CA(0xa5, 0x2b), U8X8_CA(0xa6, 0x2b), U8X8_CA(0xa7, 0x2b),
-  U8X8_CA(0xa8, 0x2f), U8X8_CA(0xa9, 0x2f), U8X8_CA(0xaa, 0x2f), U8X8_CA(0xab, 0x2f),
-  U8X8_CA(0xac, 0x32), U8X8_CA(0xad, 0x32), U8X8_CA(0xae, 0x32), U8X8_CA(0xaf, 0x32),
-
-  U8X8_CA(0xb0, 0x35), U8X8_CA(0xb1, 0x35), U8X8_CA(0xb2, 0x35), U8X8_CA(0xb3, 0x35),
-  U8X8_CA(0xb4, 0x38), U8X8_CA(0xb5, 0x38), U8X8_CA(0xb6, 0x38), U8X8_CA(0xb7, 0x38),
-  U8X8_CA(0xb8, 0x3a), U8X8_CA(0xb9, 0x3a), U8X8_CA(0xba, 0x3a), U8X8_CA(0xbb, 0x3a),
-  U8X8_CA(0xbc, 0x3c), U8X8_CA(0xbd, 0x3c), U8X8_CA(0xbe, 0x3c), U8X8_CA(0xbf, 0x3c),
-  
-
-  U8X8_CA(0x038, 0x074),		/* ext mode 0*/
-  
-  
-
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
-
 static const uint8_t u8x8_d_st7528_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x038, 0x074),		/* ext mode 0*/
@@ -149,12 +63,16 @@ static const uint8_t u8x8_d_st7528_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_st7528_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a0),		                /* ADC */
+  U8X8_C(0x0c8),		                /* SHL */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_st7528_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a1),		                /* ADC */
+  U8X8_C(0x0c0),		                /* SHL */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -169,42 +87,9 @@ static const uint8_t u8x8_d_st7528_flip1_seq[] = {
 
 static uint8_t u8x8_st7528_8to32_dest_buf[32];
 
-static uint8_t *xu8x8_st7528_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
-{
-  uint8_t v;
-  uint8_t a,b;
-  uint8_t i, j;
-  uint8_t *dest;
-  
-  for( j = 0; j < 4; j++ )
-  {
-    dest = u8x8_st7528_8to32_dest_buf;
-    dest += j;
-    a =*ptr;
-    ptr++;
-    b = *ptr;
-    ptr++;
-    for( i = 0; i < 8; i++ )
-    {
-      v = 0;
-      if ( a&1 ) v |= 0xf0;
-      if ( b&1 ) v |= 0x0f;
-      *dest = v;
-      dest+=4;
-      a >>= 1;
-      b >>= 1;
-    }
-  }
-  
-  return u8x8_st7528_8to32_dest_buf;
-}
-
-
 static uint8_t *u8x8_st7528_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 {
-  uint8_t v;
-  uint8_t a,b;
-  uint8_t i, j;
+  uint8_t j;
   uint8_t *dest;
   
   dest = u8x8_st7528_8to32_dest_buf;
@@ -286,11 +171,9 @@ static uint8_t u8x8_d_st7528_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
           u8x8_cad_SendData(u8x8, 32, u8x8_st7528_8to32(u8x8, ptr));
           
 	  ptr += 8;
-	  x += 4;
+	  x += 8;
 	  c--;
-	} while( c > 0 );
-	
-	x += 4;
+	} while( c > 0 );	
 	arg_int--;
       } while( arg_int > 0 );
       
@@ -301,6 +184,84 @@ static uint8_t u8x8_d_st7528_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   }
   return 1;
 }
+
+
+static void u8x8_d_st7528_graylevel_init(u8x8_t *u8x8, uint8_t mode0)
+{
+  uint8_t i;
+  
+  u8x8_cad_StartTransfer(u8x8);
+  u8x8_cad_SendCmd(u8x8, 0x38 );
+  u8x8_cad_SendArg(u8x8, mode0+1 );
+  for( i = 0; i < 64; i++ )
+  {
+          u8x8_cad_SendCmd(u8x8, i+0x080 );
+          u8x8_cad_SendArg(u8x8, i & 0xfc);
+  }
+  u8x8_cad_SendCmd(u8x8, 0x38 );
+  u8x8_cad_SendArg(u8x8, mode0 );
+  u8x8_cad_EndTransfer(u8x8);
+}
+
+/*===============================================================*/
+/* NHD C160100 */
+static const uint8_t u8x8_d_st7528_nhd_c160100_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  
+/*
+    I2C_out(0x48);//partial display duty ratio
+    I2C_out(0x64);// 1/100 duty
+    I2C_out(0xA0);//ADC select
+    I2C_out(0xC8);//SHL select
+    I2C_out(0x44);//initial Com0 register
+    I2C_out(0x00);//scan from Com0
+    I2C_out(0xAB);//OSC on
+    I2C_out(0x26);//
+    I2C_out(0x81);	//set electronic volume
+    I2C_out(0x15);//vopcode=0x1C
+    I2C_out(0x56);//set 1/11 bias
+    I2C_out(0x64);//3x
+    delay(2);
+    I2C_out(0x2C);//
+    I2C_out(0x66);//5x
+    delay(2);
+    I2C_out(0x2E);//
+    delay(2);
+    I2C_out(0x2F);//power control
+    I2C_out(0xF3);//bias save circuit
+    I2C_out(0x00);//
+    I2C_out(0x96);//frc and pwm
+    I2C_out(0x38);//external mode
+    I2C_out(0x75);//
+    I2C_out(0x97);//3frc, 45 pwm			THIS IS A MODE0 CMD, IT IS USELESS HERE
+    I2C_out(0x80);//start 16-level grayscale settings
+*/
+  U8X8_CA(0x038, 0x064),		/* ext mode 0*/
+  U8X8_CA(0x048, 0x064),		/* partial display duty ratio, 1/100 duty*/
+  U8X8_C(0x0a0),		                /* ADC */
+  U8X8_C(0x0c8),		                /* SHL */
+  U8X8_CA(0x044, 0x000),		/* initial Com0 */
+  U8X8_C(0x0ab),		                /* start oscillator */
+  U8X8_C(0x026),		                /* Select the internal resistance ratio of the regulator resistor */
+  U8X8_CA(0x081, 0x015),		/* volumn */
+  U8X8_C(0x056),		                /* LCD Bias */
+  U8X8_C(0x064),		                /* DC DC step up */
+  U8X8_DLY(2),
+  U8X8_C(0x02c),		                /* Power Control */
+  U8X8_C(0x066),		                /* DC DC step up */
+  U8X8_DLY(2),
+  U8X8_C(0x02e),		                /* Power Control */
+  U8X8_DLY(2),
+  U8X8_C(0x02f),		                /* Power Control */
+  U8X8_CA(0x0f3, 0x000),		/* bias power save */
+  U8X8_C(0x096),		                /* frc and pwm */
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 
 
 static const u8x8_display_info_t u8x8_st7528_160x100_display_info =
@@ -339,6 +300,7 @@ uint8_t u8x8_d_st7528_nhd_c160100(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
     {
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_st7528_nhd_c160100_init_seq);    
+      u8x8_d_st7528_graylevel_init(u8x8, 0x074);
       return 1;
     }    
     return u8x8_d_st7528_generic(u8x8, msg, arg_int, arg_ptr);
@@ -437,7 +399,7 @@ static const uint8_t u8x8_d_st7528_erc16064_init_seq[] = {
   U8X8_C(0x054),		                /* LCD Bias, ERC16064: 0x054 */
   U8X8_CA(0x048, 0x040),		/* partial display duty ratio */  
   U8X8_C(0x026),		                /* Select the internal resistance ratio of the regulator resistor */  
-  U8X8_CA(0x081, 0x00b),		/* volumn */
+  U8X8_CA(0x081, 0x00b),		/* contrast,  ERC16064: 0x00b */
   
   U8X8_C(0x02c),		                /* Power Control */
   U8X8_DLY(2),
@@ -447,32 +409,6 @@ static const uint8_t u8x8_d_st7528_erc16064_init_seq[] = {
   U8X8_DLY(2),
   U8X8_C(0x092),		                /* frc and pwm, ERC160624: 0x092 */
 
-  U8X8_CA(0x038, 0x065),		/* ext mode 1*/
-
-  /* graylevel setup */
-  
-  U8X8_CA(0x80, 0x00), U8X8_CA(0x81, 0x00), U8X8_CA(0x82, 0x00), U8X8_CA(0x83, 0x00),
-  U8X8_CA(0x84, 0x06), U8X8_CA(0x85, 0x06), U8X8_CA(0x86, 0x06), U8X8_CA(0x87, 0x06),
-  U8X8_CA(0x88, 0x0b), U8X8_CA(0x89, 0x0b), U8X8_CA(0x8a, 0x0b), U8X8_CA(0x8b, 0x0b),
-  U8X8_CA(0x8c, 0x10), U8X8_CA(0x8d, 0x10), U8X8_CA(0x8e, 0x10), U8X8_CA(0x8f, 0x10),
-
-  U8X8_CA(0x90, 0x15), U8X8_CA(0x91, 0x15), U8X8_CA(0x92, 0x15), U8X8_CA(0x93, 0x15),
-  U8X8_CA(0x94, 0x1a), U8X8_CA(0x95, 0x1a), U8X8_CA(0x96, 0x1a), U8X8_CA(0x97, 0x1a),
-  U8X8_CA(0x98, 0x1e), U8X8_CA(0x99, 0x1e), U8X8_CA(0x9a, 0x1e), U8X8_CA(0x9b, 0x1e),
-  U8X8_CA(0x9c, 0x23), U8X8_CA(0x9d, 0x23), U8X8_CA(0x9e, 0x23), U8X8_CA(0x9f, 0x23),
-
-  U8X8_CA(0xa0, 0x27), U8X8_CA(0xa1, 0x27), U8X8_CA(0xa2, 0x27), U8X8_CA(0xa3, 0x27),
-  U8X8_CA(0xa4, 0x2b), U8X8_CA(0xa5, 0x2b), U8X8_CA(0xa6, 0x2b), U8X8_CA(0xa7, 0x2b),
-  U8X8_CA(0xa8, 0x2f), U8X8_CA(0xa9, 0x2f), U8X8_CA(0xaa, 0x2f), U8X8_CA(0xab, 0x2f),
-  U8X8_CA(0xac, 0x32), U8X8_CA(0xad, 0x32), U8X8_CA(0xae, 0x32), U8X8_CA(0xaf, 0x32),
-
-  U8X8_CA(0xb0, 0x35), U8X8_CA(0xb1, 0x35), U8X8_CA(0xb2, 0x35), U8X8_CA(0xb3, 0x35),
-  U8X8_CA(0xb4, 0x38), U8X8_CA(0xb5, 0x38), U8X8_CA(0xb6, 0x38), U8X8_CA(0xb7, 0x38),
-  U8X8_CA(0xb8, 0x3a), U8X8_CA(0xb9, 0x3a), U8X8_CA(0xba, 0x3a), U8X8_CA(0xbb, 0x3a),
-  U8X8_CA(0xbc, 0x3c), U8X8_CA(0xbd, 0x3c), U8X8_CA(0xbe, 0x3c), U8X8_CA(0xbf, 0x3c),
-  
-
-  U8X8_CA(0x038, 0x064),		/* ext mode 0*/
   
 
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -517,6 +453,7 @@ uint8_t u8x8_d_st7528_erc16064(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
     {
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_st7528_erc16064_init_seq);    
+      u8x8_d_st7528_graylevel_init(u8x8, 0x064);
       return 1;
     }    
     return u8x8_d_st7528_generic(u8x8, msg, arg_int, arg_ptr);
