@@ -35,6 +35,10 @@
   https://github.com/olikraus/u8g2/issues/986
   I2C Address: 0x03f (0x7e)
   
+  
+  ERC16004
+  https://www.buydisplay.com/default/2-inch-lcd-160x64-graphic-module-serial-spi-display-st7528-black-on-white
+  
 */
 
 
@@ -97,6 +101,7 @@ static const uint8_t u8x8_d_st7528_nhd_c160100_init_seq[] = {
   U8X8_CA(0x038, 0x075),		/* ext mode 1*/
 
   /* graylevel setup */
+  
   U8X8_CA(0x80, 0x00), U8X8_CA(0x81, 0x00), U8X8_CA(0x82, 0x00), U8X8_CA(0x83, 0x00),
   U8X8_CA(0x84, 0x06), U8X8_CA(0x85, 0x06), U8X8_CA(0x86, 0x06), U8X8_CA(0x87, 0x06),
   U8X8_CA(0x88, 0x0b), U8X8_CA(0x89, 0x0b), U8X8_CA(0x8a, 0x0b), U8X8_CA(0x8b, 0x0b),
@@ -116,8 +121,11 @@ static const uint8_t u8x8_d_st7528_nhd_c160100_init_seq[] = {
   U8X8_CA(0xb4, 0x38), U8X8_CA(0xb5, 0x38), U8X8_CA(0xb6, 0x38), U8X8_CA(0xb7, 0x38),
   U8X8_CA(0xb8, 0x3a), U8X8_CA(0xb9, 0x3a), U8X8_CA(0xba, 0x3a), U8X8_CA(0xbb, 0x3a),
   U8X8_CA(0xbc, 0x3c), U8X8_CA(0xbd, 0x3c), U8X8_CA(0xbe, 0x3c), U8X8_CA(0xbf, 0x3c),
+  
 
   U8X8_CA(0x038, 0x074),		/* ext mode 0*/
+  
+  
 
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -161,7 +169,7 @@ static const uint8_t u8x8_d_st7528_flip1_seq[] = {
 
 static uint8_t u8x8_st7528_8to32_dest_buf[32];
 
-static uint8_t *u8x8_st7528_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
+static uint8_t *xu8x8_st7528_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 {
   uint8_t v;
   uint8_t a,b;
@@ -192,11 +200,31 @@ static uint8_t *u8x8_st7528_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 }
 
 
+static uint8_t *u8x8_st7528_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
+{
+  uint8_t v;
+  uint8_t a,b;
+  uint8_t i, j;
+  uint8_t *dest;
+  
+  dest = u8x8_st7528_8to32_dest_buf;
+  for( j = 0; j < 8; j++ )
+  {
+    *dest++ =*ptr;
+    *dest++ =*ptr;
+    *dest++ =*ptr;
+    *dest++ =*ptr;
+    ptr++;
+  }
+  return u8x8_st7528_8to32_dest_buf;
+}
+
 
 
 static uint8_t u8x8_d_st7528_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, y, c;
+  uint8_t x;
+  uint8_t y, c;
   uint8_t *ptr;
   switch(msg)
   {
@@ -204,10 +232,10 @@ static uint8_t u8x8_d_st7528_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7528_display_info);
       break;
-    */
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_st7528_nhd_c160100_init_seq);    
+    */
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
@@ -238,7 +266,7 @@ static uint8_t u8x8_d_st7528_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_cad_StartTransfer(u8x8);
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
-      x *= 4;  // not clear
+      x *= 8;  // not clear
       
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);
       
@@ -262,7 +290,7 @@ static uint8_t u8x8_d_st7528_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 	  c--;
 	} while( c > 0 );
 	
-	//x += 4;
+	x += 4;
 	arg_int--;
       } while( arg_int > 0 );
       
@@ -307,6 +335,190 @@ uint8_t u8x8_d_st7528_nhd_c160100(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7528_160x100_display_info);
       return 1;
     }
+    if ( msg == U8X8_MSG_DISPLAY_INIT )
+    {
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7528_nhd_c160100_init_seq);    
+      return 1;
+    }    
+    return u8x8_d_st7528_generic(u8x8, msg, arg_int, arg_ptr);
+}
+
+/*===============================================================*/
+/* ERC16064, https://www.buydisplay.com/2-inch-lcd-160x64-graphic-module-serial-spi-display-st7528-black-on-white */
+
+/*
+
+#define	ModeSet				0x38
+#define	ModeSetP1			0x64	//EXT=0
+#define	ModeSetP2			0x65	//EXT=1
+
+#define Display_on 			0xaf
+#define Display_off 		0xae
+
+#define Regulator			0x26
+#define Contrast_level		0x81
+#define PowerControll_on1	0x2c
+#define PowerControll_on2	0x2e
+#define PowerControll_on3	0x2f
+
+#define	LcdBias_9			0x54
+#define	InterOsc_on			0xab
+#define	EntireDisp_on		0xa5
+#define	EntireDisp_off		0xa4
+#define BoostLevel_5		0x66
+#define	Duty_set			0x48
+#define	Duty_setP			0x40
+#define Start_columnlsb		0x00
+#define Start_columnmsb		0x10
+#define Start_page			0xb0
+#define	StartLine_set		0x40
+//#define	StartLine_setP		0x00
+#define Set_Initial_COM0	0x44
+#define Set_Initial_COM0P	0x12
+
+
+#define Entire_Displa_ON	0xA5
+#define Entire_Displa_OFF	0xA4
+
+#define FrcPwm_set			0x92
+#define NLineInversion_on	0x4c
+#define NLineInversion_onP	0x1f
+#define NLineInversion_off	0xe4	
+#define ReverseDisp_on		0xa7
+#define ReverseDisp_off		0xa6
+#define AdcSelect			0xa0
+#define ComScanDirection	0xc8
+
+	Write_command(ModeSet);		0x38, 0x64
+	Write_command(ModeSetP1);	
+	Write_command(InterOsc_on);	0xab
+	Write_command(Set_Initial_COM0);	0x44, 0x12
+	Write_command(Set_Initial_COM0P);
+
+	Write_command(AdcSelect);		0xa0
+	Write_command(ComScanDirection);	0xc8
+	Write_command(BoostLevel_5);		0x66
+	Delay(1000);
+	Write_command(LcdBias_9);	0x54
+	Write_command(Duty_set);		0x48, 0x40
+	Write_command(Duty_setP);
+	Write_command(Regulator);	0x26
+	Write_command(Contrast_level);		0x81, 0x0b
+	Write_command(Contrast_levelP);
+	Write_command(PowerControll_on1);	0x2c
+	Delay(10000);
+	Write_command(PowerControll_on2);	0x2e
+	Delay(1000);
+	Write_command(PowerControll_on3);	0x2f
+	Delay(1000);	
+	Write_command(FrcPwm_set);	0x92
+
+	Write_command(ModeSet);
+	Write_command(ModeSetP2);
+	for(i=0;i<64;i++)
+		{
+		Write_command(0x80+i);
+		Write_command(Gray_Parameters[i]);
+		}
+	Write_command(ModeSet);
+	Write_command(ModeSetP1);
+*/
+
+static const uint8_t u8x8_d_st7528_erc16064_init_seq[] = {    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x038, 0x064),		/* ext mode 0*/
+  U8X8_C(0x0ab),		                /* start oscillator */
+  U8X8_CA(0x044, 0x012),		/* initial Com0 */
+  U8X8_C(0x0a0),		                /* ADC */
+  U8X8_C(0x0c8),		                /* SHL */  
+  U8X8_C(0x066),		                /* boost level, ERC16064: 0x066 */
+  U8X8_DLY(1),
+  U8X8_C(0x054),		                /* LCD Bias, ERC16064: 0x054 */
+  U8X8_CA(0x048, 0x040),		/* partial display duty ratio */  
+  U8X8_C(0x026),		                /* Select the internal resistance ratio of the regulator resistor */  
+  U8X8_CA(0x081, 0x00b),		/* volumn */
+  
+  U8X8_C(0x02c),		                /* Power Control */
+  U8X8_DLY(2),
+  U8X8_C(0x02e),		                /* Power Control */
+  U8X8_DLY(2),
+  U8X8_C(0x02f),		                /* Power Control */
+  U8X8_DLY(2),
+  U8X8_C(0x092),		                /* frc and pwm, ERC160624: 0x092 */
+
+  U8X8_CA(0x038, 0x065),		/* ext mode 1*/
+
+  /* graylevel setup */
+  
+  U8X8_CA(0x80, 0x00), U8X8_CA(0x81, 0x00), U8X8_CA(0x82, 0x00), U8X8_CA(0x83, 0x00),
+  U8X8_CA(0x84, 0x06), U8X8_CA(0x85, 0x06), U8X8_CA(0x86, 0x06), U8X8_CA(0x87, 0x06),
+  U8X8_CA(0x88, 0x0b), U8X8_CA(0x89, 0x0b), U8X8_CA(0x8a, 0x0b), U8X8_CA(0x8b, 0x0b),
+  U8X8_CA(0x8c, 0x10), U8X8_CA(0x8d, 0x10), U8X8_CA(0x8e, 0x10), U8X8_CA(0x8f, 0x10),
+
+  U8X8_CA(0x90, 0x15), U8X8_CA(0x91, 0x15), U8X8_CA(0x92, 0x15), U8X8_CA(0x93, 0x15),
+  U8X8_CA(0x94, 0x1a), U8X8_CA(0x95, 0x1a), U8X8_CA(0x96, 0x1a), U8X8_CA(0x97, 0x1a),
+  U8X8_CA(0x98, 0x1e), U8X8_CA(0x99, 0x1e), U8X8_CA(0x9a, 0x1e), U8X8_CA(0x9b, 0x1e),
+  U8X8_CA(0x9c, 0x23), U8X8_CA(0x9d, 0x23), U8X8_CA(0x9e, 0x23), U8X8_CA(0x9f, 0x23),
+
+  U8X8_CA(0xa0, 0x27), U8X8_CA(0xa1, 0x27), U8X8_CA(0xa2, 0x27), U8X8_CA(0xa3, 0x27),
+  U8X8_CA(0xa4, 0x2b), U8X8_CA(0xa5, 0x2b), U8X8_CA(0xa6, 0x2b), U8X8_CA(0xa7, 0x2b),
+  U8X8_CA(0xa8, 0x2f), U8X8_CA(0xa9, 0x2f), U8X8_CA(0xaa, 0x2f), U8X8_CA(0xab, 0x2f),
+  U8X8_CA(0xac, 0x32), U8X8_CA(0xad, 0x32), U8X8_CA(0xae, 0x32), U8X8_CA(0xaf, 0x32),
+
+  U8X8_CA(0xb0, 0x35), U8X8_CA(0xb1, 0x35), U8X8_CA(0xb2, 0x35), U8X8_CA(0xb3, 0x35),
+  U8X8_CA(0xb4, 0x38), U8X8_CA(0xb5, 0x38), U8X8_CA(0xb6, 0x38), U8X8_CA(0xb7, 0x38),
+  U8X8_CA(0xb8, 0x3a), U8X8_CA(0xb9, 0x3a), U8X8_CA(0xba, 0x3a), U8X8_CA(0xbb, 0x3a),
+  U8X8_CA(0xbc, 0x3c), U8X8_CA(0xbd, 0x3c), U8X8_CA(0xbe, 0x3c), U8X8_CA(0xbf, 0x3c),
+  
+
+  U8X8_CA(0x038, 0x064),		/* ext mode 0*/
+  
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+static const u8x8_display_info_t u8x8_st7528_erc16064_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 5, 	
+  /* post_reset_wait_ms = */ 5, 		/**/
+  /* sda_setup_time_ns = */ 20,		/* st7528  */
+  /* sck_pulse_width_ns = */ 25,	/* st7528 */
+  /* sck_clock_hz = */ 8000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+      /* st7528 actually allows 20MHz according to the datasheet */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 80,	/* st7528 */
+  /* tile_width = */ 20,
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,		/* x_offset is used as y offset for the ssd1326 */
+  /* flipmode_x_offset = */ 0,		/* x_offset is used as y offset for the ssd1326 */
+  /* pixel_width = */ 160,
+  /* pixel_height = */ 64
+};
+
+
+uint8_t u8x8_d_st7528_erc16064(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+    {
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7528_erc16064_display_info);
+      return 1;
+    }
+    if ( msg == U8X8_MSG_DISPLAY_INIT )
+    {
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7528_erc16064_init_seq);    
+      return 1;
+    }    
     return u8x8_d_st7528_generic(u8x8, msg, arg_int, arg_ptr);
 }
 

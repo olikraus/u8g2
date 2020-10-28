@@ -228,6 +228,7 @@
 
 // End of constructor list
 
+U8X8_ST7528_ERC16064_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 
 
 void setup(void)
@@ -252,6 +253,7 @@ void loop(void)
 {
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.drawString(0,1,"Hello World!");
+  u8x8.drawString(0,6,"2nd Line901234567890");
   u8x8.refreshDisplay();		// only required for SSD1606/7  
   delay(2000);
 }
