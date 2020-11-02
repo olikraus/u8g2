@@ -79,8 +79,10 @@ class U8G2 : public Print
     /* u8x8 interface */
     uint8_t getCols(void) { return u8x8_GetCols(u8g2_GetU8x8(&u8g2)); }
     uint8_t getRows(void) { return u8x8_GetRows(u8g2_GetU8x8(&u8g2)); }
-    void drawTile(uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr) {
-      u8x8_DrawTile(u8g2_GetU8x8(&u8g2), x, y, cnt, tile_ptr); }
+    void drawTile(uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t *tile_ptr) { /* for legacy compatiablity */
+      u8x8_DrawTile(u8g2_GetU8x8(&u8g2), tx, ty, tile_cnt, 1/*copies*/, tile_cnt/*tile_buffer_width*/, tile_ptr); }
+    void drawTile(uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t copies, uint8_t tile_buffer_width, uint8_t *tile_ptr) {
+      u8x8_DrawTile(u8g2_GetU8x8(&u8g2), tx, ty, tile_cnt, copies, tile_buffer_width, tile_ptr); }
 
 #ifdef U8X8_WITH_USER_PTR
       void *getUserPtr() { return u8g2_GetUserPtr(&u8g2); }
