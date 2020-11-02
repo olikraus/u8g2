@@ -201,7 +201,8 @@ static void u8x8_capture_memory_copy(uint8_t *dest, uint8_t *src, uint16_t cnt)
   }
 }
 
-static void u8x8_capture_DrawTiles(u8x8_capture_t *capture, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
+/* vertical top lsb memory architecture */
+static void u8x8_capture_DrawTiles_1(u8x8_capture_t *capture, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t tile_buffer_width, uint8_t *tile_ptr)
 {
   uint8_t *dest_ptr = capture->buffer;
   //printf("tile pos: %d %d, cnt=%d\n", tx, ty, tile_cnt);
@@ -212,22 +213,44 @@ static void u8x8_capture_DrawTiles(u8x8_capture_t *capture, uint8_t tx, uint8_t 
   u8x8_capture_memory_copy(dest_ptr, tile_ptr, tile_cnt*8);
 }
 
+/* horizontal right lsb memory architecture */
+/* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
+static void u8x8_capture_DrawTiles_2(u8x8_capture_t *capture, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t tile_buffer_width, uint8_t *tile_ptr)
+{
+  uint8_t *dest_ptr = capture->buffer;
+  //printf("tile pos: %d %d, cnt=%d\n", tx, ty, tile_cnt);
+  if ( dest_ptr == NULL )
+    return;
+  dest_ptr += (uint16_t)ty*capture->tile_width*8;
+  dest_ptr += (uint16_t)tx;
+  for(int i=0;i<8;i++){ /* 8x copy = 8x pixel rows per tile */
+    u8x8_capture_memory_copy(dest_ptr, tile_ptr, tile_cnt);
+    dest_ptr += capture->tile_width;
+    tile_ptr += tile_buffer_width;
+  }
+}
 uint8_t u8x8_d_capture(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   if (  msg ==  U8X8_MSG_DISPLAY_DRAW_TILE )
   {
-    uint8_t x, y, c;
+    uint8_t tx, ty, tc, tw, arg;
     uint8_t *ptr;
-    x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
-    y = ((u8x8_tile_t *)arg_ptr)->y_pos;
-    c = ((u8x8_tile_t *)arg_ptr)->cnt;
+    tx = ((u8x8_tile_t *)arg_ptr)->x_pos;
+    ty = ((u8x8_tile_t *)arg_ptr)->y_pos;
+    tc = ((u8x8_tile_t *)arg_ptr)->cnt;
+    tw = ((u8x8_tile_t *)arg_ptr)->buffer_width;
     ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+    arg = arg_int;
     do
     {
-      u8x8_capture_DrawTiles(&u8x8_capture, x, y, c, ptr);
+      if(u8x8->ll_hvtile == u8x8_ll_hvtile_vertical_top_lsb){
+        u8x8_capture_DrawTiles_1(&u8x8_capture, tx, ty, tc, tw, ptr);
+      }else{
+        u8x8_capture_DrawTiles_2(&u8x8_capture, tx, ty, tc, tw, ptr);
+      }
       x += c;
-      arg_int--;
-    } while( arg_int > 0 );
+      arg--;
+    } while( arg > 0 ); /* arg_int = number of copies of tile pattern */
   }
   return u8x8_capture.old_cb(u8x8, msg, arg_int, arg_ptr);
 }
