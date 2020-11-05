@@ -1,6 +1,6 @@
 /*
 
-  u8x8_d_sh1122.c
+  u8x8_d_sh1122_256x64.c
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -38,21 +38,21 @@
 #include "u8x8.h"
 
 #ifdef U8X8_WITH_SET_GREY
-static uint8_t u8x8_d_sh1122_grey_level=0xff;  /* 2px 16 grey levels */
+static uint8_t u8x8_d_sh1122_256x64_grey_level=0xff;  /* 2px 16 grey levels */
 #endif
 /*=========================================================*/
-static uint8_t u8x8_d_sh1122_8px_byte_conversion(u8x8_t *u8x8, uint8_t pixel_byte, uint8_t *buf){ /* input: one byte 8px; output: four bytes 8px 4bit grey */
+static uint8_t u8x8_d_sh1122_256x64_8px_byte_conversion(u8x8_t *u8x8, uint8_t pixel_byte, uint8_t *buf){ /* input: one byte 8px; output: four bytes 8px 4bit grey */
 #ifdef U8X8_WITH_SET_GREY
-  buf[0] = u8x8_d_sh1122_grey_level;
+  buf[0] = u8x8_d_sh1122_256x64_grey_level;
   if( !(pixel_byte&128) ) buf[0] &= 0x0f;
   if( !(pixel_byte&64) )  buf[0] &= 0xf0;
-  buf[1] = u8x8_d_sh1122_grey_level;
+  buf[1] = u8x8_d_sh1122_256x64_grey_level;
   if( !(pixel_byte&32) )  buf[1] &= 0x0f;
   if( !(pixel_byte&16) )  buf[1] &= 0xf0;
-  buf[2] = u8x8_d_sh1122_grey_level;
+  buf[2] = u8x8_d_sh1122_256x64_grey_level;
   if( !(pixel_byte&8) )   buf[2] &= 0x0f;
   if( !(pixel_byte&4) )   buf[2] &= 0xf0;
-  buf[3] = u8x8_d_sh1122_grey_level;
+  buf[3] = u8x8_d_sh1122_256x64_grey_level;
   if( !(pixel_byte&2) )   buf[3] &= 0x0f;
   if( !(pixel_byte&1) )   buf[3] &= 0xf0;
 #else
@@ -72,7 +72,7 @@ static uint8_t u8x8_d_sh1122_8px_byte_conversion(u8x8_t *u8x8, uint8_t pixel_byt
   return 4;
 }
 
-uint8_t u8x8_d_sh1122_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr){
+uint8_t u8x8_d_sh1122_256x64_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr){
   uint8_t col, row, tile_buffer_width, tile_cnt, copies, i;
   uint8_t *ptr;
   static uint8_t buf[4]; /* 4 bytes for a tile - 8px columns  */
@@ -82,8 +82,6 @@ uint8_t u8x8_d_sh1122_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr){
   col += u8x8->x_offset;
   row = (((u8x8_tile_t *)arg_ptr)->y_pos);
   row *= 8; /* 1px per row - 8px per tile = 8 rows */
-//  tile_cnt = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles to send to display */
-//  ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* buffer pointer to 1st tile to send to display */
   tile_buffer_width = ((u8x8_tile_t *)arg_ptr)->buffer_width;	/* tile width of buffer */
 
   u8x8_cad_StartTransfer(u8x8);
@@ -97,7 +95,7 @@ uint8_t u8x8_d_sh1122_draw_tile(u8x8_t *u8x8, uint8_t arg_int, void *arg_ptr){
       tile_cnt = ((u8x8_tile_t *)arg_ptr)->cnt; /* number of tiles to send */
       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr + i * tile_buffer_width;	/* loads at start and when tiles repeats */
       while ( tile_cnt > 0){ 
-        u8x8_d_sh1122_8px_byte_conversion(u8x8, *ptr, buf); /* 1 byte mono to 4 byte grey */
+        u8x8_d_sh1122_256x64_8px_byte_conversion(u8x8, *ptr, buf); /* 1 byte mono to 4 byte grey */
         u8x8_cad_SendData(u8x8, 4, buf);
         tile_cnt--;
         ptr++;
@@ -132,14 +130,14 @@ static const u8x8_display_info_t u8x8_sh1122_256x64_display_info = {
   /* pixel_height = */ 64
 };
 
-static const uint8_t u8x8_d_sh1122_powersave0_seq[] = {
+static const uint8_t u8x8_d_sh1122_256x64_powersave0_seq[] = {
   U8X8_START_TRANSFER(),    /* enable chip, delay is part of the transfer start */
   U8X8_C(0xaf),		          /* display on - normal mode */
   U8X8_END_TRANSFER(),      /* disable chip */
   U8X8_END()             		/* end of sequence */
 };
 
-static const uint8_t u8x8_d_sh1122_powersave1_seq[] = {
+static const uint8_t u8x8_d_sh1122_256x64_powersave1_seq[] = {
   U8X8_START_TRANSFER(),    /* enable chip, delay is part of the transfer start */
   U8X8_C(0xae),		          /* display off - some commands only work when display off! */
   U8X8_END_TRANSFER(),      /* disable chip */
@@ -170,13 +168,13 @@ static const uint8_t u8x8_d_sh1122_256x64_midas_init_seq[] = {
   U8X8_START_TRANSFER(),    /* enable chip, delay is part of the transfer start */
   U8X8_DLY(1),
 
-  U8X8_C(0xae),		          /*POR 0xae; 0/1; display off - some commands only work when display off! */
+  U8X8_C(0xae),		          /*POR 0xae; 0/1; display off - some setup commands only work when display off! */
 ///  U8X8_C(0xaf),		          /* display on - normal mode */
   U8X8_C(0x00),             /*POR 0x00; 0x0n 0..15 Nn=N*16+n=0..127; column RAM address */
   U8X8_C(0x10),             /*POR 0x10; 0x1N 0..7  Nn=N*16+n=0..127; column RAM address */
   U8X8_CA(0xb0, 0x00),      /*POR 0x00; 0..63; row RAM address */
   U8X8_CA(0xd3, 0x00),			/*POR 0x00; 0..63; set display offset - COM vertical shift */
-#if(1) /* removed as setFlipMode(0) in .begin constructor(s), otherwise display flicks about when processor reset and using u8g2.beginSimple() for silent resets */
+#if(1) /* #if(0) to remove and put setFlipMode(0) after begin constructor, stops display flicks when processor reset and using u8g2.beginSimple() for silent resets */
   U8X8_C(0x40),				      /*POR 0x40; 0..63; display start line - RAM vertical shift */
   U8X8_C(0xa0),		          /*POR 0xa0; 0/1; enable right rotation */
 ///  U8X8_C(0xa1),		          /* enable left rotation */
@@ -213,13 +211,13 @@ static const uint8_t u8x8_d_sh1122_256x64_midas_init_seq[] = {
   U8X8_END()             	  /* end of sequence */
 };
 /*=========================================================*/
-uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) {
+uint8_t u8x8_d_sh1122_256x64_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) {
   switch(msg) {
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1122_powersave0_seq);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1122_256x64_powersave0_seq);
       else
-        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1122_powersave1_seq);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_sh1122_256x64_powersave1_seq);
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
@@ -231,12 +229,12 @@ uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 #endif
 #ifdef U8X8_WITH_SET_GREY
     case U8X8_MSG_DISPLAY_SET_GREY:
-      u8x8_d_sh1122_grey_level = arg_int>>4; /* device's pixel grey level range from 0 to 15 */
-      u8x8_d_sh1122_grey_level |= (u8x8_d_sh1122_grey_level<<4); /* 2 pixel mask */
+      u8x8_d_sh1122_256x64_grey_level = arg_int>>4; /* device's pixel grey level range from 0 to 15 */
+      u8x8_d_sh1122_256x64_grey_level |= (u8x8_d_sh1122_256x64_grey_level<<4); /* 2 pixel mask */
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-      u8x8_d_sh1122_draw_tile(u8x8, arg_int, arg_ptr);
+      u8x8_d_sh1122_256x64_draw_tile(u8x8, arg_int, arg_ptr);
       break;
     default:
       return 0;
@@ -245,8 +243,6 @@ uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 }
 /*=========================================================*/
 uint8_t u8x8_d_sh1122_256x64_midas(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) {
-  if (u8x8_d_sh1122_common(u8x8, msg, arg_int, arg_ptr) != 0)
-    return 1;
 
   switch(msg) {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
@@ -266,7 +262,7 @@ uint8_t u8x8_d_sh1122_256x64_midas(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
       }
       break;
     default:
-      return 0;
+      return u8x8_d_sh1122_256x64_common(u8x8, msg, arg_int, arg_ptr);
   }
   return 1;
 }
