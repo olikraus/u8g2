@@ -23,3 +23,4 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
    * Writes directly to the display. No buffer in the microcontroller required.
 
 [Setup Guide and Reference Manual](https://github.com/olikraus/u8g2/wiki)
+
