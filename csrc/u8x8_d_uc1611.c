@@ -690,6 +690,8 @@ static const u8x8_display_info_t u8x8_uc1611_256x128_display_info =
 /* UC1611s 256x128 display */
 uint8_t u8x8_d_uc1611_ids4073(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
+  uint8_t x, y, c;
+  uint8_t *ptr;
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_DRAW_TILE:
