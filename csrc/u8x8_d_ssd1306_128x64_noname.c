@@ -50,7 +50,7 @@ static const uint8_t u8x8_d_ssd1306_128x64_noname_init_seq[] = {
   U8X8_CA(0x0d3, 0x000),		/* display offset */
   U8X8_C(0x040),		                /* set display start line to 0 */
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable, SSD1306 only, should be removed for SH1106 */
-  U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
@@ -87,7 +87,7 @@ static const uint8_t u8x8_d_ssd1306_128x64_vcomh0_init_seq[] = {
   U8X8_CA(0x0d3, 0x000),		/* display offset */
   U8X8_C(0x040),		                /* set display start line to 0 */
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable */
-  U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
@@ -123,7 +123,7 @@ static const uint8_t u8x8_d_ssd1306_128x64_alt0_init_seq[] = {
   U8X8_CA(0x0d3, 0x000),		/* display offset */
   U8X8_C(0x040),		                /* set display start line to 0 */
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable, SSD1306 only, should be removed for SH1106 */
-  U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */

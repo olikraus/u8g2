@@ -173,7 +173,7 @@ static const uint8_t u8x8_d_ssd1316_128x32_init_seq[] = {
   U8X8_CA(0x08d, 0x015),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable, */
   
   //U8X8_CA(0x0a2, 0x000),		/* set display start line to 0 */
-  //U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  //U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   
   
   // Flipmode

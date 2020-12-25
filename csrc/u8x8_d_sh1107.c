@@ -164,7 +164,7 @@ static const uint8_t u8x8_d_sh1107_64x128_noname_init_seq[] = {
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0dc, 0x000),		/* start line */
   U8X8_CA(0x081, 0x02f), 		/* [2] set contrast control */
-  U8X8_C(0x020),		                /* use page addressing mode */
+  U8X8_C(0x020),		                /* addressing mode */
 
   // U8X8_C(0x0a1),				/* segment remap a0/a1*/
   // U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
@@ -246,7 +246,7 @@ static const uint8_t u8x8_d_sh1107_seeed_96x96_init_seq[] = {
   //U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio */
   U8X8_CA(0x0d3, 0x000),		/* display offset */
   U8X8_CA(0x0dc, 0x000),		/* start line */
-  //U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  //U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */

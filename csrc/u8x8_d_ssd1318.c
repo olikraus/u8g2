@@ -82,7 +82,7 @@ static const uint8_t u8x8_d_ssd1318_128x96_icp_init_seq[] = {
   U8X8_CA(0x0db, 0x030), 		/* vcomh deselect level, value from issue 784 example code  */  
   
   
-  //U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  //U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   //U8X8_C(0x02e),				/* Deactivate scroll */ 
   
   U8X8_C(0x0a4),				/* output ram to display */
@@ -127,7 +127,7 @@ static const uint8_t u8x8_d_ssd1318_128x96_xcp_init_seq[] = {
   U8X8_CA(0x0db, 0x030), 		/* vcomh deselect level, value from issue 784 example code  */  
   
   
-  //U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  //U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   //U8X8_C(0x02e),				/* Deactivate scroll */ 
   
   U8X8_C(0x0a4),				/* output ram to display */

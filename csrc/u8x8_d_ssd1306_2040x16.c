@@ -50,7 +50,7 @@ U8X8_START_TRANSFER(), /* enable chip, delay is part of the transfer start */
     /// according to the datasheet, 0x00 is NOT page addressing mode, but horizontal addressing mode;
     /// so it looks like u8g2 expects horizontal addressing (and the inline comment is wrong) while the Winstar example
     /// actually uses page addressing (which is the reset default)
-    U8X8_CA(0x020, 0x000), /* page addressing mode */
+    U8X8_CA(0x020, 0x000), /* horizontal addressing mode */
 
     U8X8_C(0x0a1), /* segment remap a0/a1, 0.71 OLED  */
     U8X8_C(0x0c8), /* c0: scan dir normal, c8: reverse, 0.71 OLED  */

@@ -50,7 +50,7 @@ static const uint8_t u8x8_d_ssd1306_96x16_er_init_seq[] = {
   U8X8_CA(0x0d3, 0x000),		/* display offset, 0.69 OLED  */
   U8X8_C(0x040),		                /* set display start line to 0, 0.69 OLED */
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable, 0.66 OLED  0x14*/
-  U8X8_CA(0x020, 0x000),		/* page addressing mode */
+  U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
   
   U8X8_C(0x0a1),				/* segment remap a0/a1, 0.66 OLED  */
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse, 0.66 OLED  */
