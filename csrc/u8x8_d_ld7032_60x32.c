@@ -241,3 +241,58 @@ uint8_t u8x8_d_ld7032_60x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 }
 
 
+
+/* alternative version, issue #1189 */
+
+/* new sequence https://github.com/olikraus/u8g2/issues/1189 */
+static const uint8_t u8x8_d_ld7032_60x32_alt_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  U8X8_CA(0x02, 0x00),		  		
+  U8X8_CA(0x14, 0x00),		  		
+  U8X8_CA(0x1A, 0x05),		  		
+  U8X8_CA(0x1D, 0x00),		  	
+  U8X8_CA(0x09, 0x00),	      		
+  U8X8_CAA(0x30, 0x00, 0x3F),
+  U8X8_CAA(0x32, 0x08, 0x27),
+  U8X8_CA(0x34, 0x00),				
+  U8X8_CA(0x35, 0x07),		
+  U8X8_CA(0x36, 0x08),	
+  U8X8_CA(0x37, 0x27),			
+  U8X8_CA(0x38, 0x00),        
+  U8X8_CA(0x39, 0x20),       
+  U8X8_CA(0x10, 0x05),		  	
+  U8X8_CA(0x16, 0x00),		  	
+  U8X8_CA(0x18, 0x08),		  		
+  U8X8_CA(0x12, 0x2F),		  	
+  U8X8_CA(0x3D, 0x01),		  	
+  U8X8_CA(0x3F, 0x10),		  		
+  U8X8_CA(0x44, 0x02),		  		
+  U8X8_CA(0x48, 0x03),		  	
+  U8X8_CA(0x17, 0x00),         
+  U8X8_CA(0x13, 0x01),        
+  U8X8_CA(0x3F, 0x11),
+  U8X8_CA(0x3D, 0x00),
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */};
+
+uint8_t u8x8_d_ld7032_60x32_alt(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+    {
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ld7032_60x32_display_info);
+      return 1;
+    }
+
+    if ( msg ==U8X8_MSG_DISPLAY_INIT )
+    {
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_60x32_alt_init_seq);    
+      return 1;
+    }
+    
+    return u8x8_d_ld7032_generic(u8x8, msg, arg_int, arg_ptr);
+}
+
