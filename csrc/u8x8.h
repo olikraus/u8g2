@@ -43,6 +43,7 @@
     U8X8_MSG_DISPLAY_SET_FLIP_MODE
     U8X8_MSG_DISPLAY_SET_POWER_SAVE
     U8X8_MSG_DISPLAY_SET_CONTRAST
+    U8X8_MSG_DISPLAY_SET_BACKLIGHT_COLOR
     U8X8_MSG_DISPLAY_DRAW_TILE
 
   A display driver may decided to breakdown these messages to a lower level interface or
@@ -90,6 +91,9 @@
 
 /* Undefine this to remove u8x8_SetContrast function */
 #define U8X8_WITH_SET_CONTRAST
+
+/* Undefine this to remove u8x8_SetBacklightColor function */
+#define U8X8_WITH_SET_BACKLIGHT_COLOR
 
 /* Define this for an additional user pointer inside the u8x8 data struct */
 //#define U8X8_WITH_USER_PTR
@@ -472,6 +476,15 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 #define U8X8_MSG_DISPLAY_SET_CONTRAST 14
 
 /*
+  Name: 	U8X8_MSG_DISPLAY_SET_BACKLIGHT_COLOR
+  Args:	arg_ptr: color: 24-bit RGB
+  Tasks:
+    Set the color of the backlight. The dsplay driver might transform the given
+    24-bit RGB color into the more limited color space of the backlight.
+ */
+#define U8X8_MSG_DISPLAY_SET_BACKLIGHT_COLOR 15
+
+/*
   Name: 	U8X8_MSG_DISPLAY_DRAW_TILE
   Args:	
     arg_int: How often to repeat this tile pattern
@@ -498,7 +511,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
     ABABAB. Totally, cnt*arg_int tiles will be drawn. 
         
 */
-#define U8X8_MSG_DISPLAY_DRAW_TILE 15
+#define U8X8_MSG_DISPLAY_DRAW_TILE 16
 
 
 /*
@@ -515,7 +528,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
     void u8x8_RefreshDisplay(u8x8_t *u8x8)
   to send the message to the display handler.
 */
-#define U8X8_MSG_DISPLAY_REFRESH 16
+#define U8X8_MSG_DISPLAY_REFRESH 17
 
 /*==========================================*/
 /* u8x8_setup.c */
@@ -555,6 +568,7 @@ void u8x8_InitDisplay(u8x8_t *u8x8);
 void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable);
 void u8x8_SetFlipMode(u8x8_t *u8x8, uint8_t mode);
 void u8x8_SetContrast(u8x8_t *u8x8, uint8_t value);
+void u8x8_SetBacklightColor(u8x8_t *u8x8, uint32_t color);
 void u8x8_ClearDisplayWithTile(u8x8_t *u8x8, const uint8_t *buf)  U8X8_NOINLINE;
 void u8x8_ClearDisplay(u8x8_t *u8x8);	// this does not work for u8g2 in some cases
 void u8x8_FillDisplay(u8x8_t *u8x8);
@@ -941,6 +955,7 @@ uint8_t u8x8_d_max7219_64x8(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 uint8_t u8x8_d_max7219_32x8(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_max7219_16x16(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_max7219_8x8(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_d_e3keys_sb6432(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 
