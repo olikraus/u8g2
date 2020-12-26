@@ -50,7 +50,7 @@ static const uint8_t u8x8_d_st7586s_sleep_off[] = {
   U8X8_END()                  /* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7586s_erc240160_flip0_seq[] = {
+static const uint8_t u8x8_d_st7586s_ymc240160_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x036),  /* Scan Direction Setting */
   U8X8_A(0x080),	/* COM159 -> COM0 SEG383 -> SEG0 */
@@ -60,7 +60,7 @@ static const uint8_t u8x8_d_st7586s_erc240160_flip0_seq[] = {
   U8X8_END()           	/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7586s_erc240160_flip1_seq[] = {
+static const uint8_t u8x8_d_st7586s_ymc240160_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x036),  /* Scan Direction Setting */
   U8X8_A(0x000),  /* COM0 -> COM159 SEG0 -> SEG383 */
@@ -70,7 +70,7 @@ static const uint8_t u8x8_d_st7586s_erc240160_flip1_seq[] = {
   U8X8_END()            /* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7586s_erc240160_init_seq[] = {
+static const uint8_t u8x8_d_st7586s_ymc240160_init_seq[] = {
   U8X8_END_TRANSFER(),/* disable chip */
  // U8G_ESC_RST(1), /* hardware reset */
   U8X8_DLY(60),   /* Delay 60 ms */
@@ -127,7 +127,7 @@ static const uint8_t u8x8_d_st7586s_erc240160_init_seq[] = {
   U8X8_END()  /* end of sequence */
 };
 
-static const u8x8_display_info_t u8x8_st7586s_erc240160_display_info =
+static const u8x8_display_info_t u8x8_st7586s_ymc240160_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -152,11 +152,9 @@ static const u8x8_display_info_t u8x8_st7586s_erc240160_display_info =
   /* pixel_height = */ 160
 };
 
-/*******************************************************************************
- * st7586s_erc240160 driver. ST7586 based display from buydisplay.com
- ******************************************************************************/
-uint8_t u8x8_d_st7586s_erc240160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) {
-  
+/*  takeover from https://github.com/olikraus/u8g2/issues/1183 */
+uint8_t u8x8_d_st7586s_ymc240160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) 
+{  
   uint8_t c;
   uint8_t *ptr;
   uint8_t i, byte;
@@ -177,7 +175,8 @@ uint8_t u8x8_d_st7586s_erc240160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
     c *= 8;
     ptr = ((u8x8_tile_t *) arg_ptr)->tile_ptr;  //
 
-    while (c > 0) {
+    while (c > 0) 
+    {
       input = (((uint32_t)ptr[0] << 16) | ((uint32_t)ptr[1] << 8) | (uint32_t)ptr[2]);
       for (i=0; i<8; i++)
       {
@@ -199,20 +198,20 @@ uint8_t u8x8_d_st7586s_erc240160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
     break;
   case U8X8_MSG_DISPLAY_INIT:
     u8x8_d_helper_display_init(u8x8);
-    u8x8_cad_SendSequence(u8x8, u8x8_d_st7586s_erc240160_init_seq);
+    u8x8_cad_SendSequence(u8x8, u8x8_d_st7586s_ymc240160_init_seq);
     break;
   case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7586s_erc240160_display_info);
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7586s_ymc240160_display_info);
     break;
   case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
   	if ( arg_int == 0 )
     {
-       u8x8_cad_SendSequence(u8x8, u8x8_d_st7586s_erc240160_flip0_seq);
+       u8x8_cad_SendSequence(u8x8, u8x8_d_st7586s_ymc240160_flip0_seq);
        u8x8->x_offset = u8x8->display_info->default_x_offset;
     }
     else
     {
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7586s_erc240160_flip1_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7586s_ymc240160_flip1_seq);
       u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
     }	
     break;
