@@ -248,6 +248,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2020-xx-xx	v2.28.x	olikraus@gmail.com
   * Added support for ST7528 (issue 986) 
   * Added support for UC1617 JLX128128 (issue 1151)
+  * Added support for SH1106 Visionox 128X32 (issue 1250)
   * Added support for Raystar SSD1305 (issue 1111)
   * Added support for KS0713 controller (issue 1314)
   * U8g2 16 Bit Mode enabled by default for ARM and ESP Systems (issue 1222)
