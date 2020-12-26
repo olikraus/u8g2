@@ -1131,6 +1131,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "erc240160" },
+      { "ymc240160" },
       { NULL }
     },
   },
