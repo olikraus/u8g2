@@ -71,6 +71,13 @@
 //#define U8G2_16BIT
 
 
+/* always enable U8G2_16BIT on 32bit environments, see issue https://github.com/olikraus/u8g2/issues/1222 */
+#ifndef U8G2_16BIT
+#if defined(unix) || defined(__arm__) || defined(__xtensa__) || defined(xtensa) || defined(__arc__) || defined(ESP8266) || defined(ESP_PLATFORM)
+#define U8G2_16BIT
+#endif
+#endif
+
 /*
   The following macro switches the library into dynamic display buffer allocation mode.
   Defining this constant will disable all static memory allocation for device memory buffer and thus allows the user to allocate device buffers statically.

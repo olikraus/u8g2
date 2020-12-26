@@ -250,4 +250,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for UC1617 JLX128128 (issue 1151)
   * Added support for Raystar SSD1305 (issue 1111)
   * Added support for KS0713 controller (issue 1314)
+  * U8g2 16 Bit Mode enabled by default for ARM and ESP Systems (issue 1222)
   
