@@ -1,11 +1,11 @@
 /*
   Fontname: -Adobe-New Century Schoolbook-Medium-R-Normal--14-100-100-100-P-82-ISO10646-1
   Copyright: Copyright (c) 1984, 1987 Adobe Systems Incorporated. All Rights Reserved. Copyright (c) 1988, 1991 Digital Equipment Corporation. All Rights Reserved.
-  Glyphs: 446/756
+  Glyphs: 447/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_ncenR10_te[9094] U8G2_FONT_SECTION("u8g2_font_ncenR10_te") = 
-  "\276\0\3\2\5\5\4\5\6\22\27\376\373\13\375\13\376\1\312\4g\15\25 \6\0`$\1!\10a"
+const uint8_t u8g2_font_ncenR10_te[9120] U8G2_FONT_SECTION("u8g2_font_ncenR10_te") = 
+  "\277\0\3\2\5\5\4\5\6\22\27\376\373\13\375\13\376\1\312\4g\15\25 \6\0`$\1!\10a"
   "%\34qP\4\42\10\203\344-\221\270\4#\27h!D\27\205Q\30E\303\20\25\243\60\212\206!*"
   "Fa\224\1$\27\306\245C\25\16III\226l\34\302-Y\22)I\206\60\215\0%\32k!d"
   "e\214\224\254\22fI\30%\261\24\251Q\61\311JY\251\26J\0&\32k%l\267\3R\234\305J"
@@ -289,4 +289,4 @@ const uint8_t u8g2_font_ncenR10_te[9094] U8G2_FONT_SECTION("u8g2_font_ncenR10_te
   "\2\214\16\347 D\27\247I\230d\245,\71\2\215\20\353 dW\316\322\244\61ik\312*\17\2\216"
   "\21G!D+&a\32\247I\230d\245,\71\2\236\31h!K\61$\213\226I\341\220&a\24\15"
   "I\16\344@\16\344\200\0\2\273\11\202\344%\243$\2\2\274\12\202\344%\241$\12\0\2\275\11\202\344"
-  "%\261D\1\0";
+  "%\261D\1 \254\32j!\134\71$\221(\305\303 %\71\224#\303\20\312Q\34\211\351\20\1\0";

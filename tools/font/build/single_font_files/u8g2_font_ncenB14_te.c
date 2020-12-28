@@ -1,11 +1,11 @@
 /*
   Fontname: -Adobe-New Century Schoolbook-Bold-R-Normal--20-140-100-100-P-113-ISO10646-1
   Copyright: Copyright (c) 1984, 1987 Adobe Systems Incorporated. All Rights Reserved. Copyright (c) 1988, 1991 Digital Equipment Corporation. All Rights Reserved.
-  Glyphs: 446/756
+  Glyphs: 447/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_ncenB14_te[12106] U8G2_FONT_SECTION("u8g2_font_ncenB14_te") = 
-  "\276\0\4\3\5\5\4\5\6\30 \375\370\16\374\16\376\2\210\5\327\21\252 \6\0`,\1!\21\304"
+const uint8_t u8g2_font_ncenB14_te[12140] U8G2_FONT_SECTION("u8g2_font_ncenB14_te") = 
+  "\277\0\4\3\5\5\4\5\6\30 \375\370\16\374\16\376\2\210\5\327\21\252 \6\0`,\1!\21\304"
   "%\64C\342\340\300BD\231\304A\204\4\0\42\11\245dFA\202\27\2#\37\213adIBLB"
   "LB\346`\342`FBLB\346`\342`FBLBLB\10\0$#I\246[)\60\254F\42"
   "\242$\242$\244\42\310\346 \344 \306(\242$\244\42\244\42B\246,\60\10\0%,\356\341{eF"
@@ -383,4 +383,5 @@ const uint8_t u8g2_font_ncenB14_te[12106] U8G2_FONT_SECTION("u8g2_font_ncenB14_t
   "L\320\314H\320\314\304HE\1\2\216\35\253!do.b*F*rp.b,b*f(f"
   "&j$jb\246\0\2\236\32\314\341j\301\242\202f\206d\210b\352Lb,dHf\244dr\227"
   "\4\2\273\16\344\340-'$\311\304A\204\4\0\2\274\15\344\340-C\342 b$\33\0\2\275\14\344"
-  "\340-C\342\200$(\1\0";
+  "\340-C\342\200$(\1 \254\42\316\31t\255$\210\204fLf\354\200\350`(dv\362@\352@"
+  "(f.f,\212F\256\6\0\0";

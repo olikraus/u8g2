@@ -1,11 +1,11 @@
 /*
   Fontname: -Adobe-New Century Schoolbook-Medium-R-Normal--25-180-100-100-P-136-ISO10646-1
   Copyright: Copyright (c) 1984, 1987 Adobe Systems Incorporated. All Rights Reserved. Copyright (c) 1988, 1991 Digital Equipment Corporation. All Rights Reserved.
-  Glyphs: 446/756
+  Glyphs: 447/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_ncenR18_te[14706] U8G2_FONT_SECTION("u8g2_font_ncenR18_te") = 
-  "\276\0\4\3\5\5\4\5\6\33%\376\370\22\373\22\375\3\12\7\62\25\337 \6\0`<\1!\16C"
+const uint8_t u8g2_font_ncenR18_te[14747] U8G2_FONT_SECTION("u8g2_font_ncenR18_te") = 
+  "\277\0\4\3\5\5\4\5\6\33%\376\370\22\373\22\375\3\12\7\62\25\337 \6\0`<\1!\16C"
   "*<#\342\340\3\211\220D\7\2\42\11\306(WA\204O\4#%\15f|IFLFLFL"
   "FLF\346\240F\231\214\230\214\230\214\314A\215\62\31\61\31\61\31\61\31!\0$-\313\246k+\64"
   "\260H$B&\211\204L\210\204L\304\204L\204\310H\224\331\263\262\220\11\221\230\222\30\232\30\232$\42"
@@ -464,4 +464,5 @@ const uint8_t u8g2_font_ncenR18_te[14706] U8G2_FONT_SECTION("u8g2_font_ncenR18_t
   "\242(%%$\6\2\216#-\36d\221Pb.F,\70V)e\204d\304\234\210\134\314\224\220T"
   "\224T\324L\234\310\24\5\0\2\236 N\246z\301\304dJjHlFnDpB\262RBPD"
   "NFLH\310DX\217\11\2\273\16\344\344\66'$\211\310A\204\4\0\2\274\15\344\344\66C\342 "
-  "D$\33\0\2\275\14\344\344\66C\342`&(\1\0";
+  "D$\33\0\2\275\14\344\344\66C\342`&(\1 \254)R\32\214\361$l\212jPJ\64h\64"
+  "H\366\300\354\240r\36`\370\240\354\240T\66h\64JRj\60nj\362\6\0\0";

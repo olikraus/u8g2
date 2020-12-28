@@ -246,11 +246,14 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added several fonts from dafont.com (issue 1093)
   * Added 3-wire HW SPI (issue 1041)
 2020-xx-xx	v2.28.x	olikraus@gmail.com
+  * Added Euro Symbol to _te fonts (issue 1321) 
   * Added support for ST7528 (issue 986) 
+  * Added support for ST7571 (issue 1298) 
   * Added support for ST7586 YMC240160 (issue 1183)
   * Added support for UC1617 JLX128128 (issue 1151)
   * Added support for SH1106 Visionox 128X32 (issue 1250)
   * Added support for Raystar SSD1305 (issue 1111)
   * Added support for KS0713 controller (issue 1314)
+  * Added support for ST7567_HEM6432 (issue 1159)
   * U8g2 16 Bit Mode enabled by default for ARM and ESP Systems (issue 1222)
   
