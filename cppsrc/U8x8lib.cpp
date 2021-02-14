@@ -42,10 +42,11 @@
 #include <SPI.h>
 #endif 
 #ifdef U8X8_HAVE_HW_I2C
+#ifdef U8X8_HAVE_HW_I2C_TEENSY3
+#include <i2c_t3.h>
+#else
 #include <Wire.h>
 #endif
-#ifdef U8X8_HAVE_HW_I2C_T3
-#include <i2c_t3.h>
 #endif
 
 
