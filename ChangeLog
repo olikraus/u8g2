@@ -245,7 +245,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added Lucida X11 fonts (issue 271)
   * Added several fonts from dafont.com (issue 1093)
   * Added 3-wire HW SPI (issue 1041)
-2020-xx-xx	v2.28.x	olikraus@gmail.com
+2020-12-28	v2.28.10	olikraus@gmail.com
   * Added Euro Symbol to _te fonts (issue 1321) 
   * Added support for ST7528 (issue 986) 
   * Added support for ST7571 (issue 1298) 
