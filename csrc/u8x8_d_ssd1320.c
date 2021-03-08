@@ -177,10 +177,124 @@ uint8_t u8x8_d_ssd1320_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 }
 
 /*=========================================================*/
+/* 160x32 */
+
+static const uint8_t u8x8_d_ssd1320_cs1_160x32_nhd_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a0),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1320_cs1_160x32_nhd_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a1),		/* remap */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_d_ssd1320_cs1_160x32_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* ssd1320: 2 us */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 50,		/* ssd1320: 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* ssd1320: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 10000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215), 10 MHz (issue 301) */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 10,
+  /* write_pulse_width_ns = */ 150,	/* ssd1320: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 20,		/* 160 pixel, so we require 20 bytes for this */
+  /* tile_hight = */ 4,
+  /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 160,
+  /* pixel_height = */ 32
+};
+
+// initialisation sequence from the Arduino Library
+// (see https://github.com/sparkfun/SparkFun_SSD1320_OLED_Arduino_Library)
+static const uint8_t u8x8_d_ssd1320_cs1_160x32_init_seq[] = {
+    
+    U8X8_DLY(1),
+    U8X8_START_TRANSFER(),    /* enable chip, delay is part of the transfer start */
+    U8X8_DLY(1),
+    
+    U8X8_C(0xae),		          /* display off */
+    U8X8_CA(0xd5, 0xC2),			/* set display clock divide ratio/oscillator frequency (set clock as 80 frames/sec)  */  
+    U8X8_CA(0xa8, 0x1f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
+    U8X8_CA(0xa2, 0x00),			/* display start line */  
+
+    U8X8_C(0xa0),	                /* Set Segment Re-Map: column address 0 mapped to SEG0  CS1 */ 
+    // U8X8_C(0xa1),	                /* Set Segment Re-Map: column address 0 mapped to SEG0  CS2 */ 
+
+    U8X8_C(0xc8),	             /* Set COM Output Scan Direction: normal mode CS1 */
+    // U8X8_C(0xc0),			        /* Set COM Output Scan Direction: normal mode CS2 */
+  
+    U8X8_CA(0xd3, 0x72),        /* CS1 */
+    // U8X8_CA(0xd3, 0x92),        /* CS2 */
+    
+    U8X8_CA(0xda, 0x12),	    /* Set SEG Pins Hardware Configuration:  */  
+    U8X8_CA(0x81, 0x5a),			/* contrast */  
+    U8X8_CA(0xd9, 0x22),			/* Set Phase Length */  
+    U8X8_CA(0xdb, 0x30),		  /* VCOMH Deselect Level */
+    U8X8_CA(0xad, 0x10),			/* Internal IREF Enable */  
+    U8X8_CA(0x20, 0x00),	    /* Memory Addressing Mode: Horizontal */  
+    U8X8_CA(0x8d, 0x01),			/* disable internal charge pump 1 */  
+    U8X8_CA(0xac, 0x00),			/* disable internal charge pump 2 */  
+    U8X8_C(0xa4),		        	/* display on */  
+    U8X8_C(0xa6),		          /* normal display */
+
+    U8X8_DLY(1),					/* delay 2ms */
+
+    U8X8_END_TRANSFER(),             	/* disable chip */
+    U8X8_END()             			/* end of sequence */
+};
+
+
+uint8_t u8x8_d_ssd1320_160x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+        u8x8_d_helper_display_setup_memory(u8x8, &u8x8_d_ssd1320_cs1_160x32_display_info);
+      break;
+
+    case U8X8_MSG_DISPLAY_INIT:
+        u8x8_d_helper_display_init(u8x8);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_cs1_160x32_init_seq);
+      break;
+
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 ){
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_cs1_160x32_nhd_flip0_seq);
+        u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else{
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_cs1_160x32_nhd_flip1_seq);
+        u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+    
+    default:
+      return u8x8_d_ssd1320_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
+/*=========================================================*/
+/* 160x132 (actually 320x132) */
 
 static const uint8_t u8x8_d_ssd1320_cs1_160x132_nhd_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),		/* remap */
+  U8X8_C(0xc8),	             /* Set COM Output Scan Direction: normal mode CS1 */
+  U8X8_CA(0xd3, 0x0e),        /* CS1 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -188,6 +302,8 @@ static const uint8_t u8x8_d_ssd1320_cs1_160x132_nhd_flip0_seq[] = {
 static const uint8_t u8x8_d_ssd1320_cs1_160x132_nhd_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),		/* remap */
+  U8X8_C(0xc0),	             /* Set COM Output Scan Direction: normal mode CS1 */
+  U8X8_CA(0xd3, 0x92),        /* CS1 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -216,8 +332,47 @@ static const u8x8_display_info_t u8x8_d_ssd1320_cs1_160x132_display_info =
   /* pixel_height = */ 132
 };
 
-// initialisation sequence from the Arduino Library
-// (see https://github.com/sparkfun/SparkFun_SSD1320_OLED_Arduino_Library)
+/*
+OLED_WR_Byte(0xae,OLED_CMD);//Display OFF
+OLED_WR_Byte(0xfd,OLED_CMD);//Set Command Lock
+OLED_WR_Byte(0x12,OLED_CMD);
+OLED_WR_Byte(0x20,OLED_CMD);//Set Memory Addressing Mode
+OLED_WR_Byte(0x00,OLED_CMD);
+OLED_WR_Byte(0x25,OLED_CMD);//Set Portrait Addressing Mode
+OLED_WR_Byte(0x00,OLED_CMD);//Normal Addressing Mode
+OLED_WR_Byte(0x81,OLED_CMD);//Set Contrast Control
+OLED_WR_Byte(0x6b,OLED_CMD);
+OLED_WR_Byte1(0xa0,OLED_CMD,1);//Set Seg Remap LEFT DISPLAY
+OLED_WR_Byte1(0xa1,OLED_CMD,2);//Set Seg Remap RIGHT DISPLAY
+OLED_WR_Byte(0xa2,OLED_CMD);//Set Display Start Line
+OLED_WR_Byte(0x00,OLED_CMD);
+OLED_WR_Byte(0xa4,OLED_CMD);//Resume to RAM content display
+OLED_WR_Byte(0xa6,OLED_CMD);//Set Normal Display
+OLED_WR_Byte(0xa8,OLED_CMD);//Set MUX Ratio
+OLED_WR_Byte(0x83,OLED_CMD);//1/132 duty
+OLED_WR_Byte(0xad,OLED_CMD);//Select external or internal IREF
+OLED_WR_Byte(0x10,OLED_CMD);
+OLED_WR_Byte(0xbc,OLED_CMD);//Set Pre-charge voltage
+OLED_WR_Byte(0x1e,OLED_CMD);//
+OLED_WR_Byte(0xbf,OLED_CMD);//Linear LUT
+OLED_WR_Byte1(0xc8,OLED_CMD,1);//Set COM Output Scan Direction LEFT DISPLAY
+OLED_WR_Byte1(0xc0,OLED_CMD,2);//Set COM Output Scan Direction RIGHT DISPLAY
+OLED_WR_Byte(0xd3,OLED_CMD);//Set Display Offset
+OLED_WR_Byte1(0x0e,OLED_CMD,1); //LEFT DISPLAY
+OLED_WR_Byte1(0x92,OLED_CMD,2); // RIGHT DISPLAY
+OLED_WR_Byte(0xd5,OLED_CMD);//Set Display Clock Divide Ratio/Oscillator Frequency
+OLED_WR_Byte(0xc2,OLED_CMD);//85Hz
+OLED_WR_Byte(0xd9,OLED_CMD);//Set Pre-charge Period
+OLED_WR_Byte(0x72,OLED_CMD);//
+OLED_WR_Byte(0xda,OLED_CMD);//Set SEG Pins Hardware Configuration
+OLED_WR_Byte(0x32,OLED_CMD);
+OLED_WR_Byte(0xbd,OLED_CMD);//Set VP
+OLED_WR_Byte(0x03,OLED_CMD);
+OLED_WR_Byte(0xdb,OLED_CMD);//Set VCOMH
+OLED_WR_Byte(0x30,OLED_CMD);
+OLED_WR_Byte(0xaf,OLED_CMD);//Display on
+*/
+
 static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     
     U8X8_DLY(1),
@@ -226,7 +381,7 @@ static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     
     U8X8_C(0xae),		          /* display off */
     U8X8_CA(0xd5, 0xC2),			/* set display clock divide ratio/oscillator frequency (set clock as 80 frames/sec)  */  
-    U8X8_CA(0xa8, 0x1f),			/* multiplex ratio 1/64 Duty (0x0F~0x3F) */  
+    U8X8_CA(0xa8, 0x83),			/* multiplex ratio 1/132 Duty  */  
     U8X8_CA(0xa2, 0x00),			/* display start line */  
 
     U8X8_C(0xa0),	                /* Set Segment Re-Map: column address 0 mapped to SEG0  CS1 */ 
@@ -235,7 +390,7 @@ static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     U8X8_C(0xc8),	             /* Set COM Output Scan Direction: normal mode CS1 */
     // U8X8_C(0xc0),			        /* Set COM Output Scan Direction: normal mode CS2 */
   
-    U8X8_CA(0xd3, 0x72),        /* CS1 */
+    U8X8_CA(0xd3, 0x0e),        /* CS1 */
     // U8X8_CA(0xd3, 0x92),        /* CS2 */
     
     U8X8_CA(0xda, 0x12),	    /* Set SEG Pins Hardware Configuration:  */  
