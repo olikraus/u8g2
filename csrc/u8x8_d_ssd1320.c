@@ -235,7 +235,7 @@ static const uint8_t u8x8_d_ssd1320_cs1_160x32_init_seq[] = {
 
     U8X8_C(0xc8),	             /* Set COM Output Scan Direction: normal mode CS1 */
     // U8X8_C(0xc0),			        /* Set COM Output Scan Direction: normal mode CS2 */
-  
+    
     U8X8_CA(0xd3, 0x72),        /* CS1 */
     // U8X8_CA(0xd3, 0x92),        /* CS2 */
     
@@ -332,47 +332,8 @@ static const u8x8_display_info_t u8x8_d_ssd1320_cs1_160x132_display_info =
   /* pixel_height = */ 132
 };
 
-/*
-OLED_WR_Byte(0xae,OLED_CMD);//Display OFF
-OLED_WR_Byte(0xfd,OLED_CMD);//Set Command Lock
-OLED_WR_Byte(0x12,OLED_CMD);
-OLED_WR_Byte(0x20,OLED_CMD);//Set Memory Addressing Mode
-OLED_WR_Byte(0x00,OLED_CMD);
-OLED_WR_Byte(0x25,OLED_CMD);//Set Portrait Addressing Mode
-OLED_WR_Byte(0x00,OLED_CMD);//Normal Addressing Mode
-OLED_WR_Byte(0x81,OLED_CMD);//Set Contrast Control
-OLED_WR_Byte(0x6b,OLED_CMD);
-OLED_WR_Byte1(0xa0,OLED_CMD,1);//Set Seg Remap LEFT DISPLAY
-OLED_WR_Byte1(0xa1,OLED_CMD,2);//Set Seg Remap RIGHT DISPLAY
-OLED_WR_Byte(0xa2,OLED_CMD);//Set Display Start Line
-OLED_WR_Byte(0x00,OLED_CMD);
-OLED_WR_Byte(0xa4,OLED_CMD);//Resume to RAM content display
-OLED_WR_Byte(0xa6,OLED_CMD);//Set Normal Display
-OLED_WR_Byte(0xa8,OLED_CMD);//Set MUX Ratio
-OLED_WR_Byte(0x83,OLED_CMD);//1/132 duty
-OLED_WR_Byte(0xad,OLED_CMD);//Select external or internal IREF
-OLED_WR_Byte(0x10,OLED_CMD);
-OLED_WR_Byte(0xbc,OLED_CMD);//Set Pre-charge voltage
-OLED_WR_Byte(0x1e,OLED_CMD);//
-OLED_WR_Byte(0xbf,OLED_CMD);//Linear LUT
-OLED_WR_Byte1(0xc8,OLED_CMD,1);//Set COM Output Scan Direction LEFT DISPLAY
-OLED_WR_Byte1(0xc0,OLED_CMD,2);//Set COM Output Scan Direction RIGHT DISPLAY
-OLED_WR_Byte(0xd3,OLED_CMD);//Set Display Offset
-OLED_WR_Byte1(0x0e,OLED_CMD,1); //LEFT DISPLAY
-OLED_WR_Byte1(0x92,OLED_CMD,2); // RIGHT DISPLAY
-OLED_WR_Byte(0xd5,OLED_CMD);//Set Display Clock Divide Ratio/Oscillator Frequency
-OLED_WR_Byte(0xc2,OLED_CMD);//85Hz
-OLED_WR_Byte(0xd9,OLED_CMD);//Set Pre-charge Period
-OLED_WR_Byte(0x72,OLED_CMD);//
-OLED_WR_Byte(0xda,OLED_CMD);//Set SEG Pins Hardware Configuration
-OLED_WR_Byte(0x32,OLED_CMD);
-OLED_WR_Byte(0xbd,OLED_CMD);//Set VP
-OLED_WR_Byte(0x03,OLED_CMD);
-OLED_WR_Byte(0xdb,OLED_CMD);//Set VCOMH
-OLED_WR_Byte(0x30,OLED_CMD);
-OLED_WR_Byte(0xaf,OLED_CMD);//Display on
-*/
 
+/* the following sequence will work, but requires contrast to be very high */
 static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     
     U8X8_DLY(1),
@@ -410,6 +371,92 @@ static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     U8X8_END()             			/* end of sequence */
 };
 
+/*
+OLED_WR_Byte(0xae,OLED_CMD);//Display OFF
+OLED_WR_Byte(0xfd,OLED_CMD);//Set Command Lock
+OLED_WR_Byte(0x12,OLED_CMD);
+OLED_WR_Byte(0x20,OLED_CMD);//Set Memory Addressing Mode
+OLED_WR_Byte(0x00,OLED_CMD);
+OLED_WR_Byte(0x25,OLED_CMD);//Set Portrait Addressing Mode
+OLED_WR_Byte(0x00,OLED_CMD);//Normal Addressing Mode
+OLED_WR_Byte(0x81,OLED_CMD);//Set Contrast Control
+OLED_WR_Byte(0x6b,OLED_CMD);
+OLED_WR_Byte1(0xa0,OLED_CMD,1);//Set Seg Remap LEFT DISPLAY
+OLED_WR_Byte1(0xa1,OLED_CMD,2);//Set Seg Remap RIGHT DISPLAY
+OLED_WR_Byte(0xa2,OLED_CMD);//Set Display Start Line
+OLED_WR_Byte(0x00,OLED_CMD);
+OLED_WR_Byte(0xa4,OLED_CMD);//Resume to RAM content display
+OLED_WR_Byte(0xa6,OLED_CMD);//Set Normal Display
+
+OLED_WR_Byte(0xa8,OLED_CMD);//Set MUX Ratio
+OLED_WR_Byte(0x83,OLED_CMD);//1/132 duty
+
+OLED_WR_Byte(0xad,OLED_CMD);//Select external or internal IREF
+OLED_WR_Byte(0x10,OLED_CMD);
+OLED_WR_Byte(0xbc,OLED_CMD);//Set Pre-charge voltage
+OLED_WR_Byte(0x1e,OLED_CMD);//
+OLED_WR_Byte(0xbf,OLED_CMD);//Linear LUT
+OLED_WR_Byte1(0xc8,OLED_CMD,1);//Set COM Output Scan Direction LEFT DISPLAY
+OLED_WR_Byte1(0xc0,OLED_CMD,2);//Set COM Output Scan Direction RIGHT DISPLAY
+OLED_WR_Byte(0xd3,OLED_CMD);//Set Display Offset
+OLED_WR_Byte1(0x0e,OLED_CMD,1); //LEFT DISPLAY
+OLED_WR_Byte1(0x92,OLED_CMD,2); // RIGHT DISPLAY
+OLED_WR_Byte(0xd5,OLED_CMD);//Set Display Clock Divide Ratio/Oscillator Frequency
+OLED_WR_Byte(0xc2,OLED_CMD);//85Hz
+OLED_WR_Byte(0xd9,OLED_CMD);//Set Pre-charge Period
+OLED_WR_Byte(0x72,OLED_CMD);//
+OLED_WR_Byte(0xda,OLED_CMD);//Set SEG Pins Hardware Configuration
+OLED_WR_Byte(0x32,OLED_CMD);
+OLED_WR_Byte(0xbd,OLED_CMD);//Set VP
+OLED_WR_Byte(0x03,OLED_CMD);
+OLED_WR_Byte(0xdb,OLED_CMD);//Set VCOMH
+OLED_WR_Byte(0x30,OLED_CMD);
+OLED_WR_Byte(0xaf,OLED_CMD);//Display on
+*/
+static const uint8_t u8x8_d_ssd1320_160x132_init_seq[] = {
+    U8X8_DLY(1),
+    U8X8_START_TRANSFER(),    /* enable chip, delay is part of the transfer start */
+    U8X8_DLY(1),
+    
+    U8X8_C(0xae),		          /* display off */
+    U8X8_CA(0xd5, 0xC2),	/* set display clock divide ratio/oscillator frequency (set clock as 80 frames/sec)  */  
+    U8X8_CA(0xa8, 0x83),	/* multiplex ratio 1/132 Duty  */  
+    U8X8_CA(0xa2, 0x00),	/* display start line */  
+
+    U8X8_C(0xa0),	                /* Set Segment Re-Map: column address 0 mapped to SEG0  CS1 */ 
+    // U8X8_C(0xa1),	      	/* Set Segment Re-Map: column address 0 mapped to SEG0  CS2 */ 
+
+    U8X8_C(0xc8),	             	/* Set COM Output Scan Direction: normal mode CS1 */
+    // U8X8_C(0xc0),		/* Set COM Output Scan Direction: normal mode CS2 */
+
+    U8X8_CA(0xad, 0x10), 		/* select Iref: 0x00 external (reset default), 0x10 internal */
+    U8X8_CA(0xbc, 0x1e), 		/* pre-charge voltage level 0x00..0x1f, reset default: 0x1e */
+    U8X8_C(0xbf),		        	/* select linear LUT */  
+    U8X8_CA(0xd5, 0xc2), 		/* Bit 0..3: clock ratio 1, 2, 4, 8, ...256, reset=0x1, Bit 4..7: F_osc 0..15 */
+    U8X8_CA(0xd9, 0x72),		/* Set Phase 1&2 Length, Bit 0..3: Phase 1, Bit 4..7: Phase 2, reset default 0x72 */  
+    U8X8_CA(0xbd, 0x03), 		/* from the vendor init sequence */
+    U8X8_CA(0xdb, 0x30),		  /* VCOMH Deselect Level */
+
+  
+    U8X8_CA(0xd3, 0x0e),        /* CS1 */
+    // U8X8_CA(0xd3, 0x92),        /* CS2 */
+    
+    U8X8_CA(0xda, 0x12),	/* Set SEG Pins Hardware Configuration:  */  
+    U8X8_CA(0x81, 0x6b),			/* contrast */  
+    //U8X8_CA(0xd9, 0x22),			/* Set Phase Length */  
+    //U8X8_CA(0xdb, 0x30),		  /* VCOMH Deselect Level */
+    //U8X8_CA(0xad, 0x10),			/* Internal IREF Enable */  
+    U8X8_CA(0x20, 0x00),	    /* Memory Addressing Mode: Horizontal */  
+    //U8X8_CA(0x8d, 0x01),			/* unknown in SSD1320 datasheet, disable internal charge pump 1 */  
+    //U8X8_CA(0xac, 0x00),			/* unknown in SSD1320 datasheet, disable internal charge pump 2 */  
+    U8X8_C(0xa4),		        	/* display RAM on */  
+    U8X8_C(0xa6),		          /* normal display */
+
+    U8X8_DLY(1),					/* delay 2ms */
+
+    U8X8_END_TRANSFER(),             	/* disable chip */
+    U8X8_END()             			/* end of sequence */
+};
 
 uint8_t u8x8_d_ssd1320_160x132(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -417,11 +464,13 @@ uint8_t u8x8_d_ssd1320_160x132(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
         u8x8_d_helper_display_setup_memory(u8x8, &u8x8_d_ssd1320_cs1_160x132_display_info);
+    
       break;
 
     case U8X8_MSG_DISPLAY_INIT:
         u8x8_d_helper_display_init(u8x8);
-        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_cs1_160x132_init_seq);
+       // u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_cs1_160x132_init_seq);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_160x132_init_seq);
       break;
 
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
