@@ -40,6 +40,8 @@
   Adapted from u8x8_d_ssd1322.c with the command set of the SSD1320 controller
   "official" procedure is described here: https://github.com/olikraus/u8g2/wiki/internal
   
+  NOTE: U8x8 does NOT work!
+  
 */
 
 #include "u8x8.h"
