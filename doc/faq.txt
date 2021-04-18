@@ -245,6 +245,11 @@ A: "bdfconv -f 1 -m '32-255' -n fontname -o myfont.c myfont.bdf"
 "-o myfont.c": The font array will be stored in this file.
 "myfont.bdf": The input file with the font data (bdf format).
 
+Q: Is there any further help for the commandline options of bdfconv.exe?
+A: There is an online tool which helps you to derive the commandline options:
+https://stncrn.github.io/u8g2-unifont-helper/
+Many thanks to "stncrn" for making this available.
+
 Q: Where do I find bdfconv?
 A: A Windows executable is available here:
 https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv
