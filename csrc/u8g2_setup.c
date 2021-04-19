@@ -333,7 +333,7 @@ void u8g2_draw_mirror_vertical_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8
   u8g2_uint_t yy;
   yy = u8g2->height;
   yy -= y;
-  if ( (dir & 1) == 0 )
+  if ( (dir & 1) == 1 )
   {
     yy -= len;
   }
