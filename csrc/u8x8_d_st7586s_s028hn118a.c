@@ -1,7 +1,13 @@
 /*
   u8x8_d_st7586s_s028hn118a.c
+  
+  Display: 384x136 pixel
+  ST7586s: 384 x 160 x 2
+  
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+  
   Copyright (c) 2018, olikraus@gmail.com
+  
   All rights reserved.
   Redistribution and use in source and binary forms, with or without modification, 
   are permitted provided that the following conditions are met:

@@ -1,6 +1,9 @@
 /*
   u8x8_d_st7586s_ymc240160.c
-  
+
+  Display: 240x160 pixel
+  ST7586s: 384 x 160 x 2
+
   takeover from https://github.com/olikraus/u8g2/issues/1183
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
