@@ -185,4 +185,96 @@ uint8_t u8x8_d_uc1601_128x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   return 1;
 }
 
+/* issue https://github.com/olikraus/u8g2/issues/1501 */
+
+static const u8x8_display_info_t u8x8_uc1601_128x64_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 1,	/* uc1601 datasheet, page 46 */
+  /* pre_chip_disable_wait_ns = */ 5,	/* uc1601 datasheet, page 46 */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 6, 
+  /* sda_setup_time_ns = */ 12,		/* uc1601 datasheet, page 44 */
+  /* sck_pulse_width_ns = */ 15,	/* uc1601 datasheet, page 44 */
+  /* sck_clock_hz = */ 2000000UL,	/* */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 1,
+  /* data_setup_time_ns = */ 60,	/* uc1601 datasheet, page 43 */
+  /* write_pulse_width_ns = */ 80,	/* uc1601 datasheet, page 43 */
+  /* tile_width = */ 16,		
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 4,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 64
+};
+
+uint8_t u8x8_d_uc1601_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t x, c;
+  uint8_t *ptr;
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1601_128x64_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x32_init_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x32_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x32_powersave1_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x32_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x32_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }	
+      break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x081 );
+      u8x8_cad_SendArg(u8x8, arg_int );	/* uc1601 has range from 0 to 255 */
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_cad_StartTransfer(u8x8);
+    
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      x *= 8;
+      x += u8x8->x_offset;
+      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
+      u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+    
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      c *= 8;
+      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+      do
+      {
+	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes */
+	arg_int--;
+      } while( arg_int > 0 );
+      
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
 

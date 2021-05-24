@@ -130,6 +130,12 @@ old16x16: bdfconv
 	./bdfconv -y 0 -th 8 -tv 8 -v -f 2 -m '32-127' ../bdf/open_iconic_weather_8x.bdf -o u8x8_font_open_iconic_weather_8x8.c  -n u8x8_font_open_iconic_weather_8x8
 
 
+falconded: bdfconv
+	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf falconded.ttf
+	./bdfconv -v -f 1 -b 2 -a -m '32-96' falconded.bdf -o u8g2_font_falconded_mr.c  -n u8g2_font_falconded_mr -d ../bdf/helvR12.bdf 
+	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf falconded.ttf
+	./bdfconv -v -f 1 -b 1 -a -m '32-96' falconded.bdf -o u8g2_font_falconded_hr.c  -n u8g2_font_falconded_hr -d ../bdf/helvR12.bdf 
+
 
 analecta: bdfconv
 	-../otf2bdf/otf2bdf -a  -p 20 -o analecta.bdf Analecta.otf

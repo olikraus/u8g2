@@ -168,6 +168,18 @@ in "u8g2.h". Uncomment this line:
 The file "u8g2.h" is located in "/libraries/U8g2_Arduino/src/clib" inside your default
 sketch folder.
 
+Q: What will change in 16 Bit mode?
+A: U8x8 is unaffected: U8x8 will use a "tile" coordinate system (1 tile = 8x8 pixel). 
+As a result u8x8 can work with display dimensions of up to 2040x2040
+In U8g2 8 bit mode all pixel related calculations are done in 8 bit, which is faster 
+and produces smaller code on 8 bit architectures like ATMega AVR. 
+This will however restrict the display size to 255x255 (which is actually clipped at 240x240)
+In U8g2 16 bit mode the pixel related calculations are done in 16 bit. For 32 bit systems like ARM, 
+there will be not much a difference between 16 bit mode and 8 bit mode, this is also why 
+16 bit mode is now default on ARMs. The maximum display dimension is then 65000x65000, 
+however, because u8g2 just calls u8x8, the actual limit in 16 bit mode is 2040x2040 pixel.
+ 
+
 Q: U8g2 requires a lot of memory. How to reduce this?
 - Visit https://github.com/olikraus/u8g2/wiki/u8g2optimization
 - Disable U8g2 features if possible (see u8g2.h)
