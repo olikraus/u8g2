@@ -267,6 +267,10 @@ A: A Windows executable is available here:
 https://github.com/olikraus/u8g2/tree/master/tools/font/bdfconv
 Use the Makefile in this directory to create a Linux binary.
 
+Q: Are there any video-tutorials for bdfconv?
+A: This is what I found on youtube: https://www.youtube.com/watch?v=Igkb7ZmO31A
+The above video uses the -M option (instead of -m) to provide a map file with the unicodes.
+
 Q: How can I use multiple SPI Displays?
 A: For each additional display, separate CS (Chip select) is required.
 There are two options for the RST (Reset) line: 
