@@ -492,7 +492,7 @@ static const u8x8_display_info_t u8x8_ssd1329_96x96_display_info =
   /* pixel_height = */ 96
 };
 
-uint8_t u8x8_d_ssd1329_128x96_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_ssd1329_96x96_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
     {
