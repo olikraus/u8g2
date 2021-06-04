@@ -303,6 +303,8 @@ uint8_t u8x8_d_ssd1329_128x96_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 
 static const uint8_t u8x8_d_ssd1329_96x96_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0a0, 0x042),		/* remap */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -310,6 +312,8 @@ static const uint8_t u8x8_d_ssd1329_96x96_flip0_seq[] = {
 
 static const uint8_t u8x8_d_ssd1329_96x96_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0a0, 0x051),		/* remap */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -486,8 +490,8 @@ static const u8x8_display_info_t u8x8_ssd1329_96x96_display_info =
   /* write_pulse_width_ns = */ 60,	/* ssd1329 */
   /* tile_width = */ 12,
   /* tile_hight = */ 12,
-  /* default_x_offset = */ 32,		
-  /* flipmode_x_offset = */ 0,		
+  /* default_x_offset = */  0,          /* x offset for flip mode 0 */
+  /* flipmode_x_offset = */ 0,		/* x offset for flip mode 1 */ 
   /* pixel_width = */ 96,
   /* pixel_height = */ 96
 };
