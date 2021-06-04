@@ -486,8 +486,8 @@ static const u8x8_display_info_t u8x8_ssd1329_96x96_display_info =
   /* write_pulse_width_ns = */ 60,	/* ssd1329 */
   /* tile_width = */ 12,
   /* tile_hight = */ 12,
-  /* default_x_offset = */ 32,		/* x_offset is used as y offset for the ssd1329 */
-  /* flipmode_x_offset = */ 0,		/* x_offset is used as y offset for the ssd1329 */
+  /* default_x_offset = */ 32,		
+  /* flipmode_x_offset = */ 0,		
   /* pixel_width = */ 96,
   /* pixel_height = */ 96
 };
