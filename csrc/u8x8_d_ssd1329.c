@@ -484,11 +484,11 @@ static const u8x8_display_info_t u8x8_ssd1329_96x96_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 60,	/* ssd1329 */
-  /* tile_width = */ 16,
+  /* tile_width = */ 12,
   /* tile_hight = */ 12,
   /* default_x_offset = */ 32,		/* x_offset is used as y offset for the ssd1329 */
   /* flipmode_x_offset = */ 0,		/* x_offset is used as y offset for the ssd1329 */
-  /* pixel_width = */ 128,
+  /* pixel_width = */ 96,
   /* pixel_height = */ 96
 };
 
