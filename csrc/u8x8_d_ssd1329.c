@@ -495,7 +495,7 @@ static const u8x8_display_info_t u8x8_ssd1329_96x96_display_info =
   /* tile_width = */ 12,
   /* tile_hight = */ 12,
   /* default_x_offset = */  0,          /* x offset for flip mode 0 */
-  /* flipmode_x_offset = */ 0,		/* x offset for flip mode 1 */ 
+  /* flipmode_x_offset = */ 16,		/* x offset for flip mode 1 */ 
   /* pixel_width = */ 96,
   /* pixel_height = */ 96
 };
