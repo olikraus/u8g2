@@ -131,9 +131,9 @@ old16x16: bdfconv
 
 
 falconded: bdfconv
-	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf falconded.ttf
+	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf FalconDED2.ttf
 	./bdfconv -v -f 1 -b 2 -a -m '32-96' falconded.bdf -o u8g2_font_falconded_mr.c  -n u8g2_font_falconded_mr -d ../bdf/helvR12.bdf 
-	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf falconded.ttf
+	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf FalconDED2.ttf
 	./bdfconv -v -f 1 -b 1 -a -m '32-96' falconded.bdf -o u8g2_font_falconded_hr.c  -n u8g2_font_falconded_hr -d ../bdf/helvR12.bdf 
 
 
