@@ -299,6 +299,10 @@ uint8_t u8x8_d_ssd1329_128x96_noname(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 /* 
   SSD1329 with 96x96 
   For this display, the x_offset has been reverted to its original meaning!
+
+  https://github.com/olikraus/u8g2/issues/1511
+
+  FlipMode 1 probably does not work, see issue
 */
 
 static const uint8_t u8x8_d_ssd1329_96x96_flip0_seq[] = {
