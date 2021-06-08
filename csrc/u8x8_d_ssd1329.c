@@ -358,7 +358,7 @@ static const uint8_t u8x8_d_ssd1329_96x96_noname_init_seq[] = {
 
   U8X8_C(0x0b7),				/* set default gray scale table */
     
-  U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..128 */
+  U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..255 */
   U8X8_CA(0x0b2, 0x051),		/* frame frequency (row period) */
   U8X8_CA(0x0b1, 0x055),                    /* phase length */
   U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
