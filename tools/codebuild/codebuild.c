@@ -860,6 +860,24 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
+
+  {
+    "uc1638", 	24, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "192x96" },
+      { NULL }
+    }
+  },  
+  {
+    "uc1638", 	24, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "192x96" },
+      { NULL }
+    }
+  },  
+  
   //{
 	/* this device requires cd=1 for arguments, not clear whether the u8x8_cad_uc16xx_i2c works */
     //"uc1638", 	20, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C,
