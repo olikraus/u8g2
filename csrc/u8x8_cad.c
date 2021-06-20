@@ -835,7 +835,7 @@ uint8_t u8x8_cad_uc1638_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     case U8X8_MSG_CAD_INIT:
       /* apply default i2c adr if required so that the start transfer msg can use this */
       if ( u8x8->i2c_address == 255 )
-	u8x8->i2c_address = 0x070;
+	u8x8->i2c_address = 0x078;
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
     case U8X8_MSG_CAD_START_TRANSFER:
       in_transfer = 0;    

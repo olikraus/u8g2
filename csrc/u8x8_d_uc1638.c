@@ -187,7 +187,10 @@ static const uint8_t u8x8_d_uc1638_160x128_init_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
   U8X8_CA(0x0e1, 0x0e2),		/* software reset */    /* UC1638*/
+  U8X8_END_TRANSFER(),             	/* disable chip, requirement for I2C */
   U8X8_DLY(5),					/* 5 ms */	
+  
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
   U8X8_C(0x024),            		/*	 set temp comp*/
   U8X8_C(0x0c0),            		/*	mirror y and mirror x */  /* WAS: c2 */
