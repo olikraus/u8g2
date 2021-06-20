@@ -258,4 +258,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * U8g2 16 Bit Mode enabled by default for ARM and ESP Systems (issue 1222)
 2021-04-18	v2.28.11	mattnutsch@gmail.com
   * Added vertical mirror option for u8g2.
+  * Added support for UC1638 based 196x96 display (issue 371)
   
