@@ -870,7 +870,7 @@ struct controller controller_list[] =
     }
   },  
   {
-    "uc1638", 	24, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C,
+    "uc1638", 	24, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc1638_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "192x96" },
