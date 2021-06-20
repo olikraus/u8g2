@@ -31,6 +31,14 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+  
+  Support for the UC1638 controller
+  
+  20 Jun 2021: 
+    The u8x8_d_uc1638_192x96 is tested and works.
+    The u8x8_d_uc1638_160x128 will probably not work, there is no display to test this
+      WARNING; The u8x8_d_uc1638_160x128 also has an inverted CS signal !!!
+    Changed the SPI mode from 3 to 0, because it work nicely with mode 0
 
   
 */
@@ -56,14 +64,14 @@ static const uint8_t u8x8_d_uc1638_powersave1_seq[] = {
 
 static const uint8_t u8x8_d_uc1638_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c4),            	/* LCD Mapping */    /* UC1638*/
+  U8X8_C(0x0c2),            	/* LCD Mapping */    /* UC1638*/
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1638_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0c2),            	/* LCD Mapping */    /* UC1638*/
+  U8X8_C(0x0c4),            	/* LCD Mapping */    /* UC1638*/
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -79,14 +87,14 @@ uint8_t u8x8_d_uc1638_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       u8x8_cad_StartTransfer(u8x8);
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      x += u8x8->x_offset & 15;
       x *= 8;
 
       u8x8_cad_SendCmd(u8x8, 0x004);  /* UC1638 */
       u8x8_cad_SendArg(u8x8, x);
     
       y = ((u8x8_tile_t *)arg_ptr)->y_pos;
-      y += u8x8->x_offset;
-      y *= 2;		/* for B/W mode, use only every second page */
+      y += u8x8->x_offset >> 4;
 
       u8x8_cad_SendCmd(u8x8, 0x060 | (y&15));  /* UC1638 */
       u8x8_cad_SendCmd(u8x8, 0x070 | (y>>4));  /* UC1638 */
@@ -159,17 +167,17 @@ static const u8x8_display_info_t u8x8_uc1638_160x128_display_info =
   /* pre_chip_disable_wait_ns = */ 20,	/* */
   /* reset_pulse_width_ms = */ 5, 	/* */
   /* post_reset_wait_ms = */ 150, 	
-  /* sda_setup_time_ns = */ 30,		/* */
+  /* sda_setup_time_ns = */ 25,		/* */
   /* sck_pulse_width_ns = */ 65,	/* */
   /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 3,		/* active high, rising edge */
+  /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,	/*  */
   /* write_pulse_width_ns = */ 35,	/*  */
   /* tile_width = */ 20,		/* width of 20*8=160 pixel */
   /* tile_hight = */ 16,
-  /* default_x_offset = */ 0,	/*  */
-  /* flipmode_x_offset = */ 0,	/* */
+  /* default_x_offset = */ 0,	/* lower nibble: x offset, upper nibble: y offset */
+  /* flipmode_x_offset = */ 0,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 160,
   /* pixel_height = */ 128
 };
@@ -222,29 +230,28 @@ uint8_t u8x8_d_uc1638_160x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 
 /*================================================*/
 
-/* uc1638 192x96 */
+/* LG192962-DW-V33, uc1638 192x96, https://github.com/olikraus/u8g2/issues/371 */
 
-/* values taken from uc1608 */
 static const u8x8_display_info_t u8x8_uc1638_192x96_display_info =
 {
-  /* chip_enable_level = */ 1,	/* uc1638 has high active CS */
-  /* chip_disable_level = */ 0,
+  /* chip_enable_level = */ 0,	/* low active CS for this display */
+  /* chip_disable_level = */ 1,
   
   /* post_chip_enable_wait_ns = */ 10,	/* */
   /* pre_chip_disable_wait_ns = */ 20,	/* */
   /* reset_pulse_width_ms = */ 5, 	/* */
   /* post_reset_wait_ms = */ 150, 	
-  /* sda_setup_time_ns = */ 30,		/* */
+  /* sda_setup_time_ns = */ 25,		/* */
   /* sck_pulse_width_ns = */ 65,	/* */
-  /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 3,		/* active high, rising edge */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,	/*  */
   /* write_pulse_width_ns = */ 35,	/*  */
   /* tile_width = */ 24,		/* width of 24*8=192 pixel */
   /* tile_hight = */ 12,
-  /* default_x_offset = */ 0,	/*  */
-  /* flipmode_x_offset = */ 0,	/* */
+  /* default_x_offset = */ 8*16+0,	/* lower nibble: x offset, upper nibble: y offset */
+  /* flipmode_x_offset = */ 0*16+6,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 192,
   /* pixel_height = */ 96
 };
@@ -257,20 +264,17 @@ static const uint8_t u8x8_d_uc1638_192x96_init_seq[] = {
   U8X8_DLY(5),					/* 5 ms */	
 
   U8X8_C(0x024),            		/*	 set temp comp*/
-  U8X8_C(0x0c0),            		/*	mirror y and mirror x */  /* WAS: c2 */
+  U8X8_C(0x0c2),            		/*	mirror y and mirror x */ 
   U8X8_C(0x0a2),            		/*	line rate */
   U8X8_C(0x02d),            		/*	charge pump */
   U8X8_C(0x0ea),            		/*	 set bias*/
-  U8X8_CA(0x081, 93),            	/*	 set contrast */
-  U8X8_C(0x0d6),            		/*	gray scale 2 */
+  U8X8_CA(0x081, 160),            	/*	 set contrast */
+  //U8X8_C(0x0d6),            		/*	gray scale 2 */
   U8X8_C(0x095),            		/*	 set 1 bit per pixel, pattern 0*/
   U8X8_C(0x086),            		/*	 COM scan */
   U8X8_CA(0x0f1, 159),            	/*	 COM End*/
   U8X8_C(0x089),            		/*	 set auto increment, low bits are AC2 AC1 AC0 */  /* WAS 89 */
-
-
-  //U8X8_CA(0xc9, 0x0ad),		/* enable  */    /* UC1638*/
-  
+  //U8X8_C(0x086),            		/*	 scan function 0x86 or 0x87: no effect*/
   
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
@@ -289,7 +293,7 @@ uint8_t u8x8_d_uc1638_192x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 	break;
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1638_192x96_init_seq);
+          u8x8_cad_SendSequence(u8x8, u8x8_d_uc1638_192x96_init_seq);
 	break;
       default:
 	return 0;		/* msg unknown */
