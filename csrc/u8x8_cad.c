@@ -695,6 +695,7 @@ uint8_t u8x8_cad_uc16xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       }
       u8x8_byte_SendByte(u8x8, arg_int);
       in_transfer = 1;
+      // is_data = 0;  // 20 Jun 2021: I assume that this is missing here
       break;
     case U8X8_MSG_CAD_SEND_DATA:
       if ( in_transfer != 0 )
@@ -715,6 +716,7 @@ uint8_t u8x8_cad_uc16xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 	u8x8_byte_StartTransfer(u8x8);
       }
       in_transfer = 1;
+      // is_data = 1;  // 20 Jun 2021: I assume that this is missing here
       
       p = arg_ptr;
       while( arg_int > 24 )
@@ -778,11 +780,12 @@ uint8_t u8x8_cad_uc1638_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       }
       u8x8_byte_SendByte(u8x8, arg_int);
       in_transfer = 1;
+      is_data = 0;
       break;
     case U8X8_MSG_CAD_SEND_ARG:
       if ( in_transfer != 0 )
       {
-	if ( is_data != 0 )
+	if ( is_data == 0 )
 	{
 	  /* transfer mode is active, but data transfer */
 	  u8x8_byte_EndTransfer(u8x8); 
@@ -799,6 +802,7 @@ uint8_t u8x8_cad_uc1638_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       }
       u8x8_byte_SendByte(u8x8, arg_int);
       in_transfer = 1;
+      is_data = 1;
       break;
     case U8X8_MSG_CAD_SEND_DATA:
       if ( in_transfer != 0 )
@@ -819,6 +823,7 @@ uint8_t u8x8_cad_uc1638_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 	u8x8_byte_StartTransfer(u8x8);
       }
       in_transfer = 1;
+      is_data = 1;
       
       p = arg_ptr;
       while( arg_int > 24 )
@@ -835,7 +840,7 @@ uint8_t u8x8_cad_uc1638_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     case U8X8_MSG_CAD_INIT:
       /* apply default i2c adr if required so that the start transfer msg can use this */
       if ( u8x8->i2c_address == 255 )
-	u8x8->i2c_address = 0x078;
+	u8x8->i2c_address = 0x078;  /* see also https://github.com/olikraus/u8g2/issues/371 for a discussion on this value */
       return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
     case U8X8_MSG_CAD_START_TRANSFER:
       in_transfer = 0;    
