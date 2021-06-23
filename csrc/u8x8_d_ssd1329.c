@@ -330,8 +330,8 @@ static const uint8_t u8x8_d_ssd1329_96x96_noname_init_seq[] = {
   
   
   U8X8_C(0x0ae),		                /* display off */
-  U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
-  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x03f * 1/64 duty - changed by CREESOO, acc. to datasheet, 100317*/ 
+  U8X8_CA(0x0b3, 0x0f0),		/* set display clock divide ratio/oscillator frequency, see #1511*/
+  U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x03f * 1/64 duty */ 
   U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
   U8X8_CA(0x0a1, 0x000),		/* display start line */
   U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
@@ -359,12 +359,12 @@ static const uint8_t u8x8_d_ssd1329_96x96_noname_init_seq[] = {
   U8X8_C(0x0b7),				/* set default gray scale table */
     
   U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..255 */
-  U8X8_CA(0x0b2, 0x051),		/* frame frequency (row period) */
-  U8X8_CA(0x0b1, 0x055),                    /* phase length */
+  U8X8_CA(0x0b2, 0x023),		/* frame frequency (row period), see #1511 */
+  U8X8_CA(0x0b1, 0x021),                    /* phase length, see #1511 */
   U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
   U8X8_CA(0x0b4, 0x002),                    /* set pre-charge compensation level (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
   U8X8_CA(0x0b0, 0x028),                    /* enable pre-charge compensation (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
-  U8X8_CA(0x0be, 0x01c),                     /* VCOMH voltage */
+  U8X8_CA(0x0be, 0x01f),                     /* VCOMH voltage */
   U8X8_CA(0x0bf, 0x002|0x00d),           /* VSL voltage level (not documented in the SDD1325 datasheet, but used in the NHD init seq.) */
   U8X8_C(0x0a4),				/* normal display mode */
     
@@ -373,6 +373,8 @@ static const uint8_t u8x8_d_ssd1329_96x96_noname_init_seq[] = {
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
+
+
 
 static uint8_t u8x8_d_ssd1329_96x96_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
