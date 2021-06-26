@@ -117,7 +117,8 @@ void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
     do
     {
       u8x8_get_glyph_data(u8x8, encoding, buf, tile);
-      u8x8_DrawTile(u8x8, xx, y, 1, buf);
+      u8x8->draw_hvtile_cb(u8x8, xx, y, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf);
+//      u8x8_DrawTile(u8x8, xx, y, 1, buf);
       tile++;
       xx++;
     } while( xx < th );
@@ -191,16 +192,20 @@ static void u8x8_draw_2x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t e
       buf2[i] = t & 255;
   }
   u8x8_upscale_buf(buf2, buf);
-  u8x8_DrawTile(u8x8, x, y, 1, buf);
+  u8x8->draw_hvtile_cb(u8x8, x, y, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf);
+//  u8x8_DrawTile(u8x8, x, y, 1, buf);
   
   u8x8_upscale_buf(buf2+4, buf);
-  u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+  u8x8->draw_hvtile_cb(u8x8, x+1, y, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf);
+//  u8x8_DrawTile(u8x8, x+1, y, 1, buf);
   
   u8x8_upscale_buf(buf1, buf);
-  u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+  u8x8->draw_hvtile_cb(u8x8, x, y+1, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf);
+//  u8x8_DrawTile(u8x8, x, y+1, 1, buf);
   
   u8x8_upscale_buf(buf1+4, buf);
-  u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+  u8x8->draw_hvtile_cb(u8x8, x+1, y+1, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf);
+//  u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
 }
 
 
@@ -242,8 +247,10 @@ static void u8x8_draw_1x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t e
       buf1[i] = t >> 8;
       buf2[i] = t & 255;
   }
-  u8x8_DrawTile(u8x8, x,   y, 1, buf2);
-  u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+  u8x8->draw_hvtile_cb(u8x8, x, y, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf2);
+  u8x8->draw_hvtile_cb(u8x8, x, y+1, 1/*tile_cnt*/, 1/*copies*/, 1/*tile_buffer_width*/, buf1);
+//  u8x8_DrawTile(u8x8, x,   y, 1, buf2);
+//  u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
 }
 
 void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)

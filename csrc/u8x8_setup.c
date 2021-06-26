@@ -96,6 +96,7 @@ void u8x8_SetupDefaults(u8x8_t *u8x8)
 {
     u8x8->display_info = NULL;
     u8x8->display_cb = u8x8_dummy_cb;
+    u8x8->draw_hvtile_cb = u8x8_draw_hvtile_vertical_top_lsb;
     u8x8->cad_cb = u8x8_dummy_cb;
     u8x8->byte_cb = u8x8_dummy_cb;
     u8x8->gpio_and_delay_cb = u8x8_dummy_cb;
@@ -145,3 +146,15 @@ void u8x8_Setup(u8x8_t *u8x8, u8x8_msg_cb display_cb, u8x8_msg_cb cad_cb, u8x8_m
   u8x8_SetupMemory(u8x8);
 }
 
+/*============================================*/
+/*
+  This procedure is called after setting up the display (u8x8 structure).
+  --> This is the central init procedure for u8x8 object
+  draw_hvtile_cb:		one of:
+    u8x8_draw_hvtile_vertical_top_lsb
+    u8x8_draw_hvtile_horizontal_right_lsb
+*/
+void u8x8_SetupTile(u8x8_t *u8x8, u8x8_draw_hvtile_cb draw_hvtile_cb)
+{
+  u8x8->draw_hvtile_cb = draw_hvtile_cb;
+}

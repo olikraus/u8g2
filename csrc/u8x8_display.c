@@ -79,14 +79,16 @@ void u8x8_d_helper_display_init(u8x8_t *u8x8)
 /*==========================================*/
 /* official functions */
 
-uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr)
+uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t copies, uint8_t tile_buffer_width, uint8_t *tile_ptr)
 {
   u8x8_tile_t tile;
-  tile.x_pos = x;
-  tile.y_pos = y;
-  tile.cnt = cnt;
+  tile.x_pos = tx;
+  tile.y_pos = ty;
+  tile.cnt = tile_cnt;
+  tile.buffer_width = tile_buffer_width;
   tile.tile_ptr = tile_ptr;
-  return u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_DRAW_TILE, 1, (void *)&tile);
+
+  return u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_DRAW_TILE, copies, (void *)&tile);
 }
 
 /* should be implemented as macro */
@@ -122,20 +124,11 @@ void u8x8_RefreshDisplay(u8x8_t *u8x8)
 
 void u8x8_ClearDisplayWithTile(u8x8_t *u8x8, const uint8_t *buf)
 {
-  u8x8_tile_t tile;
-  uint8_t h;
-
-  tile.x_pos = 0;
-  tile.cnt = 1;
-  tile.tile_ptr = (uint8_t *)buf;		/* tile_ptr should be const, but isn't */
-  
-  h = u8x8->display_info->tile_height;
-  tile.y_pos = 0;
-  do
-  {
-    u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_DRAW_TILE, u8x8->display_info->tile_width, (void *)&tile);
-    tile.y_pos++;
-  } while( tile.y_pos < h );
+  uint8_t line=0;
+  do {
+    u8x8->draw_hvtile_cb(u8x8, 0/*tx*/, line/*ty*/, 1/*tile_cnt*/, u8x8->display_info->tile_width/*copies*/, 1/*tile_buffer_width*/, buf);
+    line++;
+  } while( line < u8x8->display_info->tile_height );
 }
 
 void u8x8_ClearDisplay(u8x8_t *u8x8)
@@ -156,10 +149,6 @@ void u8x8_ClearLine(u8x8_t *u8x8, uint8_t line)
   u8x8_tile_t tile;
   if ( line < u8x8->display_info->tile_height )
   {
-    tile.x_pos = 0;
-    tile.y_pos = line;
-    tile.cnt = 1;
-    tile.tile_ptr = (uint8_t *)buf;		/* tile_ptr should be const, but isn't */
-    u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_DRAW_TILE, u8x8->display_info->tile_width, (void *)&tile);
+    u8x8->draw_hvtile_cb(u8x8, 0/*tx*/, line/*ty*/, 1/*tile_cnt*/, u8x8->display_info->tile_width/*copies*/, 1/*tile_buffer_width*/, buf);
   }  
 }
