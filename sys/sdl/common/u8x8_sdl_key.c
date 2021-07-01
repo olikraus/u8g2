@@ -9,7 +9,7 @@ int u8g_sdl_get_key(void)
 #ifndef NO_SDL
 
   SDL_Event event;
-	/* http://www.libsdl.org/cgi/docwiki.cgi/SDL_PollEvent */
+  /* https://wiki.libsdl.org/SDL_PollEvent */
   if ( SDL_PollEvent(&event) != 0 )
   {
     switch (event.type) 
