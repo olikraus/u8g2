@@ -399,6 +399,7 @@ void u8g2_ClearDisplay(u8g2_t *u8g2);
 #define u8g2_SetMenuHomePin(u8g2, val) u8x8_SetMenuHomePin(u8g2_GetU8x8(u8g2), (val))
 #define u8g2_SetMenuUpPin(u8g2, val) u8x8_SetMenuUpPin(u8g2_GetU8x8(u8g2), (val))
 #define u8g2_SetMenuDownPin(u8g2, val) u8x8_SetMenuDownPin(u8g2_GetU8x8(u8g2), (val))
+#define u8g2_SetMenuLogic(u8g2, val) u8x8_SetMenuLogic(u8g2_GetU8x8(u8g2), (val))
 #endif
 
 /*==========================================*/

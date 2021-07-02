@@ -102,6 +102,8 @@ class U8G2 : public Print
       u8g2_SetMenuDownPin(&u8g2, val); }
     void setMenuHomePin(uint8_t val) {
       u8g2_SetMenuHomePin(&u8g2, val); }
+    void setMenuLogic(uint8_t val) {
+        u8g2_SetMenuLogic(&u8g2, val); }
 #endif
 
     /* return 0 for no event or U8X8_MSG_GPIO_MENU_SELECT, */
@@ -149,13 +151,14 @@ class U8G2 : public Print
       
 #ifdef U8X8_USE_PINS 
     /* use U8X8_PIN_NONE if a pin is not required */
-    bool begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE) {
+    bool begin(uint8_t menu_select_pin, uint8_t menu_next_pin, uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE, uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin = U8X8_PIN_NONE, uint8_t is_logic_inverted = 0) {
       setMenuSelectPin(menu_select_pin);
       setMenuNextPin(menu_next_pin);
       setMenuPrevPin(menu_prev_pin);
       setMenuUpPin(menu_up_pin);
       setMenuDownPin(menu_down_pin);
       setMenuHomePin(menu_home_pin);
+      setMenuLogic(is_logic_inverted);
       return begin(); }
 #endif
 

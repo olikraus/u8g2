@@ -342,6 +342,7 @@ struct u8x8_struct
   uint8_t i2c_started;	/* for i2c interface */
   //uint8_t device_address;	/* OBSOLETE???? - this is the device address, replacement for U8X8_MSG_CAD_SET_DEVICE */
   uint8_t utf8_state;		/* number of chars which are still to scan */
+  uint8_t is_logic_inverted;    /*determines weather or not to invert the logic on MENU button events*/
   uint8_t gpio_result;	/* return value from the gpio call (only for MENU keys at the moment) */ 
   uint8_t debounce_default_pin_state;
   uint8_t debounce_last_pin_state;
@@ -382,6 +383,7 @@ struct u8x8_struct
 #define u8x8_SetMenuHomePin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_HOME,(val))
 #define u8x8_SetMenuUpPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_UP,(val))
 #define u8x8_SetMenuDownPin(u8x8, val) u8x8_SetPin((u8x8),U8X8_PIN_MENU_DOWN,(val))
+#define u8x8_SetMenuLogic(u8x8, val) (u8x8)->is_logic_inverted = (val)
 #endif
 
 
