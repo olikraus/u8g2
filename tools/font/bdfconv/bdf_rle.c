@@ -56,8 +56,8 @@
 #define BDF_RLE_FONT_GLYPH_START 23
 
 /* max glyphs count is around 7500, 7500/100 = 75 */
-
-#define UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY 100
+/* changed 100 to 101 due to off by one error in the code and in order to keep the current binary data identical https://github.com/olikraus/u8g2/issues/1521 */
+#define UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY 101
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -654,6 +654,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   uint32_t unicode_last_target_cnt;
   unsigned unicode_lookup_table_pos;
   unsigned unicode_lookup_table_glyph_cnt;
+  uint32_t unicode_glyph_cnt = 0;
   
   idx_cap_a_ascent = 0;
   idx_cap_a = bf_GetIndexByEncoding(bf, 'A');
@@ -829,6 +830,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   unicode_lookup_table_glyph_cnt = 0;
   unicode_last_delta = bf->target_cnt-unicode_lookup_table_start;   /* should be 4 if unicode_lookup_table_len == 0 */
   unicode_last_target_cnt = bf->target_cnt;
+  unicode_glyph_cnt = 0;
   /* now write chars with code >= 256 from the BMP */
   /* assumes, that map_to is sorted */
   for( i = 0; i < bf->glyph_cnt; i++ )
@@ -849,10 +851,15 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
 	{
 	  bf_AddTargetData(bf, bg->target_data[j]);
 	}
+
+        // Debug output issue 1521
+        //bf_Log(bf, "RLE Compress: Unicode glyph pos=%d, lookup table=%d, glyph within lut=%d", unicode_glyph_cnt, unicode_lookup_table_pos, unicode_lookup_table_glyph_cnt);
+
 	
 	/* update the unicode lookup table entry counter */
 	unicode_lookup_table_glyph_cnt++;
-	if  ( unicode_lookup_table_glyph_cnt  > UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY )
+        
+	if  ( unicode_lookup_table_glyph_cnt  >= UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY )
 	{
 	  /* ensure, that there is a table entry available */
 	  if ( unicode_lookup_table_pos < unicode_lookup_table_len )
@@ -868,6 +875,10 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
 	    unicode_last_target_cnt = bf->target_cnt;
 	  }
 	}	
+        
+        
+        unicode_glyph_cnt++;
+        
       }
     }
   }
@@ -894,6 +905,9 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   bf_Log(bf, "RLE Compress: Unicode lookup table last entry: delta=%d, encoding=%d", 
     bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+0]*256+bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+1], 
     bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+2]*256+bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4-4+3]);
+  
+  bf_Log(bf, "RLE Compress: Unicode glyphs written=%d", unicode_glyph_cnt); 
+  
   
   assert(unicode_lookup_table_len == unicode_lookup_table_pos );		// ensure that all table entries are filled
   

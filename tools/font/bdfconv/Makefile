@@ -238,6 +238,11 @@ lubr24: bdfconv
 lurs24: bdfconv
 	./bdfconv -f 1 -m '32-255' -p 10 luRS24.bdf -o luRS24.c -n u8g2_font_luRS24 -d ../bdf/helvB12.bdf 
 
+luBS18: bdfconv
+	./bdfconv -v -f 1 -m '32-34,36-125,176>35,8364>126' -p 10 ../bdf/luBS18.bdf -o luBS18.c -n u8g2_font_luBS18 -d ../bdf/helvB12.bdf 
+
+
+
 
 
 siji: bdfconv
@@ -375,3 +380,7 @@ Aurebesh: bdfconv
 aurebesh_small: bdfconv
 	./bdfconv -v -f 1 -m '$$20-$$ff' aurebesh_small.bdf -o u8g2_font_aurebesh_small.c  -n u8g2_font_aurebesh_small -d ../bdf/helvB18.bdf 
 	convert bdf.tga u8g2_font_aurebesh_small.png
+
+issue_1521: bdfconv
+	./bdfconv -v -f 1 -m '$$0000-$$3B97' ../bdf/unifont.bdf -o unifont_custom.c -n unifont_custom  -d ../bdf/helvB18.bdf 
+	convert bdf.tga unifont_custom.png
