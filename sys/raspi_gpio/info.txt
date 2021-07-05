@@ -1,0 +1,8 @@
+GPIO only HAL functions for Raspberry Pi
+
+Manly based of the following (german) web sites:
+
+https://www.elektronik-kompendium.de/sites/raspberry-pi/2202101.htm
+
+http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_GPIO_C.html
+
