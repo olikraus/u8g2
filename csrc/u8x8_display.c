@@ -65,7 +65,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8x8)
 {
       /* 2) apply port directions to the GPIO lines and apply default values for the IO lines*/
       u8x8_gpio_Init(u8x8);
-      u8x8_cad_Init(u8x8);
+      u8x8_cad_Init(u8x8);              /* this will also call U8X8_MSG_BYTE_INIT, byte init will NOT call GPIO_INIT */
 
       /* 3) do reset */
       u8x8_gpio_SetReset(u8x8, 1);
@@ -95,6 +95,40 @@ void u8x8_SetupMemory(u8x8_t *u8x8)
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SETUP_MEMORY, 0, NULL);  
 }
 
+/*
+  This will just init the display interface, compared to InitDisplay, it will not issue a reset and also not upload the init code.
+  Comparison:
+  Call                                                  u8x8_InitInterface              u8x8_InitDisplay
+  Init Interface                                                yes                                     yes
+  Reset Display                                                 no                                      yes
+  Upload Display Init Code                              no                                      yes
+
+  u8x8_InitInterface() is an alternative function to u8x8_InitDisplay(). Do not call both.
+  
+*/
+void u8x8_InitInterface(u8x8_t *u8x8)
+{
+  u8x8_gpio_Init(u8x8);
+  u8x8_cad_Init(u8x8);              /* this will also call U8X8_MSG_BYTE_INIT, byte init will NOT call GPIO_INIT */
+}
+
+/*
+  This will sent the display init message to the display.
+  The display itself will then call u8x8_d_helper_display_init() from above. This includes:
+    GPIO Init (set port directions)
+    BYTE init (part of CAD init: which may set some levels)
+    CAD init (which will set things like I2C default address)
+    Issue a reset to the display: This will usually turn off the display
+  Additonally each display will set the init code to the display, which will also turn of the display in most cases (Arduino code disable power save mode later)
+
+  Actually this procedure should be better called InitInterfaceAndDisplay, because it actually does both.
+
+  InitDisplay is called by the Arduino begin() function.
+
+  In some cases it is not required to init the display (for example if the display is already running, but the controller comes out of deep sleep mode).
+  Then InitDisplay can be skipped, but u8x8_InitInterface()  (== u8x8_gpio_Init() and u8x8_cad_Init()) need to be executed.
+
+*/
 void u8x8_InitDisplay(u8x8_t *u8x8)
 {
   u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_INIT, 0, NULL);  
