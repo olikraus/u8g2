@@ -11,5 +11,5 @@ main: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o main
 
 clean:	
-	-rm $(OBJ)
+	-rm $(OBJ) main
 
