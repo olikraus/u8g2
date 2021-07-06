@@ -6,3 +6,6 @@ https://www.elektronik-kompendium.de/sites/raspberry-pi/2202101.htm
 
 http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_GPIO_C.html
 
+The bcm2835.[hc] files are under GPL v3 copyright.
+taken from here:
+http://www.airspayce.com/mikem/bcm2835/
