@@ -66,7 +66,8 @@ uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t ar
     case U8X8_MSG_GPIO_AND_DELAY_INIT:	// called once during init phase of u8g2/u8x8      
       if (!bcm2835_init())
         exit(1);
-      atexit(bcm2835_close);
+      
+      atexit((void (*) (void))bcm2835_close);
       for( i = 0; i < U8X8_PIN_CNT; i++ )
 	if ( u8x8->pins[i] != U8X8_PIN_NONE )
 	{
@@ -95,8 +96,9 @@ uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t ar
       delaynanoseconds((unsigned long)arg_int*1000000UL);
       break;
     case U8X8_MSG_DELAY_I2C:				// arg_int is the I2C speed in 100KHz, e.g. 4 = 400 KHz
-      //delaynanoseconds(1250UL*arg_int);
-      delaynanoseconds(1000UL*arg_int);
+      // correct value would be 10 for 100KHz, but we use 1
+      // delay seems to be huge by the rest of the system
+      bcm2835_delayMicroseconds(1);
       break;							// arg_int=1: delay by 5us, arg_int = 4: delay by 1.25us        
     
     case U8X8_MSG_GPIO_MENU_SELECT:
