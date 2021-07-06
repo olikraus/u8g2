@@ -8,6 +8,9 @@ See
 	https://github.com/olikraus/u8g2/wiki/fntgrp
 for detailed information on the licensing conditions for each font.
 
+The example code in sys/raspi_gpio/hal will use the bcm2835 lib from Mike McCauley
+which is licensed under GPL V3: http://www.airspayce.com/mikem/bcm2835/
+
 ============ X11 Fonts COUR, HELV, NCEN, TIM, SYMB ============
 
 For fonts derived from the following files, the license below applies.
