@@ -1,11 +1,14 @@
 GPIO only HAL functions for Raspberry Pi
 
-Manly based of the following (german) web sites:
-
-https://www.elektronik-kompendium.de/sites/raspberry-pi/2202101.htm
-
-http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_GPIO_C.html
+This example is based on the bcm2835 library from Mike McCauley
 
 The bcm2835.[hc] files are under GPL v3 copyright.
 taken from here:
 http://www.airspayce.com/mikem/bcm2835/
+
+The resulting code will work, bit will be slow because super user access is missing.
+To speed up the exection, run the result unter super user either with "sudo" or 
+by raising the rights of the generated executable:
+
+sudo chown root:root ./main
+sudo chmod u+s ./main

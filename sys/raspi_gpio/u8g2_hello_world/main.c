@@ -1,3 +1,16 @@
+/*
+
+  main.c
+
+  hello world example for raspberry pi
+
+  For speedup run this example as root, either wis
+    sudo ./main
+  or by setting the superuser bit:
+    sudo chown root:root ./main
+    sudo chmod u+s ./main
+
+*/
 
 #include "raspi_gpio_hal.h"
 
