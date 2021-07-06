@@ -11,7 +11,10 @@ int main(void)
   u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_I2C_DATA, 6);
   u8g2_InitDisplay(&u8g2); // send init sequence to the display, display is in sleep mode after this,
   u8g2_SetPowerSave(&u8g2, 0); // wake up display  
-  u8g2_SetFont(&u8g2, u8g2_font_6x12_tr);
-  u8g2_DrawStr(&u8g2, 0, 20, "Hello World!");
+  u8g2_ClearBuffer(&u8g2);
+  u8g2_SendBuffer(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_helvB24_tr);
+  u8g2_DrawStr(&u8g2, 0, 50, "Hello");
+  u8g2_DrawStr(&u8g2, 0, 100, "World!");
   u8g2_SendBuffer(&u8g2);
 }

@@ -72,6 +72,39 @@ int gpio_direction(int pin, int dir)
   return 1;
 }
 
+int gpio_fd[U8X8_PIN_CNT];
+
+int gpio_prepare_write(int msg, int pin)
+{
+  char path[256];
+  snprintf(path, 256, "/sys/class/gpio/gpio%d/value", pin);
+  gpio_fd[msg] = open(path, O_WRONLY);
+  if (gpio_fd[msg]  < 0)
+    return perror(path), 0;
+  printf("prepare write success '%s' fd %d msg %d\n", path, gpio_fd[msg], msg);
+  return 1;
+}
+
+int gpio_quick_write(int msg, int value)
+{
+  int res;
+  //printf("quick write fd %d msg %d\n", gpio_fd[msg], msg);
+  if ( msg > U8X8_PIN_OUTPUT_CNT )
+    exit(0);
+  
+  switch (value)
+  {
+    case 0 : res = write(gpio_fd[msg] ,"0",1); break;
+    default: res = write(gpio_fd[msg] ,"1",1); break;
+  }
+  
+  
+  
+  if (res < 0)
+    return perror("quick_write"), 0;
+  return 1;
+}
+
 int gpio_write(int pin, int value)
 {
   char path[256];
@@ -96,9 +129,12 @@ int gpio_write(int pin, int value)
 uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   int i;
+  //printf("msg %d\n", msg);
   switch(msg)
   {
     case U8X8_MSG_GPIO_I2C_CLOCK:		// arg_int=0: Output low at I2C clock pin
+        //printf("i2c clock msg %d %d\n", msg, U8X8_MSG_GPIO_I2C_CLOCK);
+    
     case U8X8_MSG_GPIO_I2C_DATA:			// arg_int=0: Output low at I2C data pin
     case U8X8_MSG_GPIO_D0:				// D0 or SPI clock pin: Output level in arg_int
     case U8X8_MSG_GPIO_D1:				// D1 or SPI data pin: Output level in arg_int
@@ -114,7 +150,12 @@ uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t ar
     case U8X8_MSG_GPIO_RESET:			// Reset pin: Output level in arg_int
     case U8X8_MSG_GPIO_CS1:				// CS1 (chip select) pin: Output level in arg_int
     case U8X8_MSG_GPIO_CS2:				// CS2 (chip select) pin: Output level in arg_int
-      gpio_write(u8x8_GetPinValue(u8x8, msg), arg_int);
+      if ( u8x8_GetPinValue(u8x8, msg) != U8X8_PIN_NONE )
+      {
+        //gpio_write(u8x8_GetPinValue(u8x8, msg), arg_int);
+        //printf("gpio msg %d\n", msg);
+        gpio_quick_write(u8x8_GetPinIndex(u8x8, msg), arg_int);
+      }
       break;
     
     case U8X8_MSG_GPIO_AND_DELAY_INIT:	// called once during init phase of u8g2/u8x8      
@@ -123,7 +164,9 @@ uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t ar
 	{
 	  if ( i < U8X8_PIN_OUTPUT_CNT )
 	  {
+            gpio_export(u8x8->pins[i]);
             gpio_direction(u8x8->pins[i], 1);
+            gpio_prepare_write(i, u8x8->pins[i]);
 	  }
 	  else
 	  {
@@ -163,7 +206,7 @@ uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t ar
       u8x8_SetGPIOResult(u8x8, /* get menu home pin state */ 0);
       break;
     default:
-      u8x8_SetGPIOResult(u8x8, 1);			// default return value
+      //u8x8_SetGPIOResult(u8x8, 1);			// default return value
       break;
   }
   return 1;
