@@ -139,6 +139,18 @@ void ep_cmd_text(u8g2_t *u8g2, const char **s)
   u8g2_DrawStr(u8g2, x, y, text);  
 }
 
+void ep_cmd_char(u8g2_t *u8g2, const char **s)
+{
+  u8g2_uint_t x;
+  u8g2_uint_t y;
+  uint16_t g;
+  
+  x = ep_get_integer(s);
+  y = ep_get_integer(s);
+  g = ep_get_integer(s);
+  u8g2_DrawGlyph(u8g2, x, y, g);  
+}
+
 void ep_cmd_font(u8g2_t *u8g2, const char **s)
 {
     const char *font = ep_get_identifier(s);
@@ -168,6 +180,14 @@ void ep_cmd_font(u8g2_t *u8g2, const char **s)
       u8g2_SetFont(u8g2, u8g2_font_helvB24_tf);
     else if ( strcmp(font, "helvR24") == 0 )
       u8g2_SetFont(u8g2, u8g2_font_helvR24_tf);
+    else if ( strcmp(font, "4x6") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_4x6_tf);
+    else if ( strcmp(font, "5x7") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_5x7_tf);
+    else if ( strcmp(font, "5x8") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_5x8_tf);
+    else if ( strcmp(font, "6x10") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_6x10_tf);
     else if ( strcmp(font, "6x13") == 0 )
       u8g2_SetFont(u8g2, u8g2_font_6x13_tf);
     else if ( strcmp(font, "6x13B") == 0 )
@@ -184,17 +204,97 @@ void ep_cmd_font(u8g2_t *u8g2, const char **s)
       u8g2_SetFont(u8g2, u8g2_font_7x13_tf);
     else if ( strcmp(font, "8x13B") == 0 )
       u8g2_SetFont(u8g2, u8g2_font_8x13B_tf);
-    else if ( strcmp(font, "4x6") == 0 )
-      u8g2_SetFont(u8g2, u8g2_font_4x6_tf);
-    else if ( strcmp(font, "5x7") == 0 )
-      u8g2_SetFont(u8g2, u8g2_font_5x7_tf);
-    else if ( strcmp(font, "5x8") == 0 )
-      u8g2_SetFont(u8g2, u8g2_font_5x8_tf);
-    else if ( strcmp(font, "6x10") == 0 )
-      u8g2_SetFont(u8g2, u8g2_font_6x10_tf);
+    
+    else if ( strcmp(font, "open_inconic_1x") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_open_iconic_all_1x_t);
+    else if ( strcmp(font, "open_inconic_2x") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_open_iconic_all_2x_t);
+    else if ( strcmp(font, "open_inconic_4x") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_open_iconic_all_4x_t);
+    else if ( strcmp(font, "open_inconic_6x") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_open_iconic_all_6x_t);
+    else if ( strcmp(font, "open_inconic_8x") == 0 )
+      u8g2_SetFont(u8g2, u8g2_font_open_iconic_all_8x_t);
+    
     else
       u8g2_SetFont(u8g2, u8g2_font_6x10_tf);      
 }
+
+void ep_cmd_color(u8g2_t *u8g2, const char **s)
+{  
+  uint8_t c = ep_get_integer(s);
+  u8g2_SetDrawColor(u8g2, c);
+}
+
+void ep_cmd_transparent(u8g2_t *u8g2, const char **s)
+{  
+  uint8_t v = ep_get_integer(s);
+  u8g2_SetFontMode(u8g2, v);
+}
+
+
+void ep_cmd_box(u8g2_t *u8g2, const char **s)
+{
+  u8g2_uint_t x;
+  u8g2_uint_t y;
+  u8g2_uint_t w;
+  u8g2_uint_t h;
+  x = ep_get_integer(s);
+  y = ep_get_integer(s);
+  w = ep_get_integer(s);
+  h = ep_get_integer(s);
+  u8g2_DrawBox(u8g2, x, y, w, h);  
+}
+
+void ep_cmd_rbox(u8g2_t *u8g2, const char **s)
+{
+  u8g2_uint_t x;
+  u8g2_uint_t y;
+  u8g2_uint_t w;
+  u8g2_uint_t h;
+  u8g2_uint_t r;
+  x = ep_get_integer(s);
+  y = ep_get_integer(s);
+  w = ep_get_integer(s);
+  h = ep_get_integer(s);
+  r = ep_get_integer(s);
+  u8g2_DrawRBox(u8g2, x, y, w, h, r);  
+}
+
+void ep_cmd_frame(u8g2_t *u8g2, const char **s)
+{
+  u8g2_uint_t x;
+  u8g2_uint_t y;
+  u8g2_uint_t w;
+  u8g2_uint_t h;
+  x = ep_get_integer(s);
+  y = ep_get_integer(s);
+  w = ep_get_integer(s);
+  h = ep_get_integer(s);
+  u8g2_DrawFrame(u8g2, x, y, w, h);  
+}
+
+void ep_cmd_rframe(u8g2_t *u8g2, const char **s)
+{
+  u8g2_uint_t x;
+  u8g2_uint_t y;
+  u8g2_uint_t w;
+  u8g2_uint_t h;
+  u8g2_uint_t r;
+  x = ep_get_integer(s);
+  y = ep_get_integer(s);
+  w = ep_get_integer(s);
+  h = ep_get_integer(s);
+  r = ep_get_integer(s);
+  u8g2_DrawRFrame(u8g2, x, y, w, h, r);
+}
+
+void ep_cmd_clear(u8g2_t *u8g2, const char **s)
+{
+    u8g2_ClearBuffer(u8g2);
+}
+
+
 
 void ep_cmd(u8g2_t *u8g2, const char **s)
 {
@@ -208,8 +308,24 @@ void ep_cmd(u8g2_t *u8g2, const char **s)
     //printf("cmd: %s %s\n", cmd, *s);
     if ( strcmp(cmd, "text") == 0 ) 
       ep_cmd_text(u8g2, s);
+    else if ( strcmp(cmd, "char") == 0 ) 
+      ep_cmd_char(u8g2, s);    
     else if ( strcmp(cmd, "font") == 0 ) 
       ep_cmd_font(u8g2, s);    
+    else if ( strcmp(cmd, "color") == 0 ) 
+      ep_cmd_color(u8g2, s);    
+    else if ( strcmp(cmd, "transparent") == 0 ) 
+      ep_cmd_transparent(u8g2, s);    
+    else if ( strcmp(cmd, "box") == 0 ) 
+      ep_cmd_box(u8g2, s);    
+    else if ( strcmp(cmd, "rbox") == 0 ) 
+      ep_cmd_rbox(u8g2, s);    
+    else if ( strcmp(cmd, "frame") == 0 ) 
+      ep_cmd_frame(u8g2, s);    
+    else if ( strcmp(cmd, "rframe") == 0 ) 
+      ep_cmd_rframe(u8g2, s);    
+    else if ( strcmp(cmd, "clear") == 0 ) 
+      ep_cmd_clear(u8g2, s);    
     ep_skip_new_line(s);
   }
 }
@@ -246,11 +362,18 @@ int main(void)
     i = 0;
     do
     {
-      char *s1 = 
+      const char *s1 = 
+      "transparent 1\n"
       "font 4x5\n"
       "text 0 14 Hello\n"
       "font helvB12\n"
       "text 10 28 World\n"
+      "box 0 0 10 2\n"
+      "rbox 40 0 10 6 2\n"
+      "frame 20 0 10 4\n"
+      "rframe 60 0 10 8 3\n"
+      "font open_inconic_8x\n"
+      "char 64 64 282\n"
       ;
       ep_cmd(&u8g2, &s1);
 

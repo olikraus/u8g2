@@ -1284,6 +1284,17 @@ FILE *current_md_file;
 int current_capital_A_size;
 const char *fntlistallpath = "../../../../u8g2.wiki/fntlistall.md";
 FILE *fntlistall;
+
+const char *fntlist8path = "../../../../u8g2.wiki/fntlist8.md";
+FILE *fntlist8;
+const char *fntlist12path = "../../../../u8g2.wiki/fntlist12.md";
+FILE *fntlist12;
+const char *fntlist16path = "../../../../u8g2.wiki/fntlist16.md";
+FILE *fntlist16;
+const char *fntlist99path = "../../../../u8g2.wiki/fntlist99.md";
+FILE *fntlist99;
+
+
 const char *fntlistmonopath = "../../../../u8g2.wiki/fntlistmono.md";
 FILE *fntlistmono;
 const char *fntlist8x8path = "../../../../u8g2.wiki/fntlist8x8.md";
@@ -2229,12 +2240,57 @@ void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, cha
 	if ( font_found_for_this_size == 0 ) 
 	{
 	  fprintf(fntlistall, "\n## %d Pixel Height\n\n", current_capital_A_size);
+          
+          if ( current_capital_A_size <= 8 )
+          {
+            fprintf(fntlist8, "\n## %d Pixel Height\n\n", current_capital_A_size);
+          }
+          else if ( current_capital_A_size <= 12 )
+          {
+            fprintf(fntlist12, "\n## %d Pixel Height\n\n", current_capital_A_size);
+          }
+          else if ( current_capital_A_size <= 16 )
+          {
+            fprintf(fntlist16, "\n## %d Pixel Height\n\n", current_capital_A_size);
+          }
+          else if ( current_capital_A_size <= 99 )
+          {
+            fprintf(fntlist99, "\n## %d Pixel Height\n\n", current_capital_A_size);
+          }
+          
 	  printf("listall: == %d ==\n", current_capital_A_size);
 	}
 	font_found_for_this_size = 1;
 	fprintf(fntlistall, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
 	fprintf(fntlistall, "%s ", target_font_identifier);
 	fprintf(fntlistall, " [%s](%s)\n\n", gi[fi[i].group].groupname, gi[fi[i].group].reference);
+        
+          if ( current_capital_A_size <= 8 )
+          {
+            fprintf(fntlist8, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
+            fprintf(fntlist8, "%s ", target_font_identifier);
+            fprintf(fntlist8, " [%s](%s)\n\n", gi[fi[i].group].groupname, gi[fi[i].group].reference);
+          }
+          else if ( current_capital_A_size <= 12 )
+          {
+            fprintf(fntlist12, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
+            fprintf(fntlist12, "%s ", target_font_identifier);
+            fprintf(fntlist12, " [%s](%s)\n\n", gi[fi[i].group].groupname, gi[fi[i].group].reference);
+          }
+          else if ( current_capital_A_size <= 16 )
+          {
+            fprintf(fntlist16, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
+            fprintf(fntlist16, "%s ", target_font_identifier);
+            fprintf(fntlist16, " [%s](%s)\n\n", gi[fi[i].group].groupname, gi[fi[i].group].reference);
+          }
+          else
+          {
+            fprintf(fntlist99, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
+            fprintf(fntlist99, "%s ", target_font_identifier);
+            fprintf(fntlist99, " [%s](%s)\n\n", gi[fi[i].group].groupname, gi[fi[i].group].reference);
+          }
+        
+        
 	//printf("%d: %s %s\n", current_capital_A_size, target_font_identifier, gi[fi[i].group].groupname);
       }
 	
@@ -2265,6 +2321,23 @@ void do_font_list(cbfn_t cb)
   file_copy("fntlistall.pre", fntlistallpath);
   fntlistall = fopen(fntlistallpath, "r+");
   fseek(fntlistall, 0L, SEEK_END);
+  
+  file_copy("fntlist8.pre", fntlist8path);
+  fntlist8 = fopen(fntlist8path, "r+");
+  fseek(fntlist8, 0L, SEEK_END);
+  
+  file_copy("fntlist12.pre", fntlist12path);
+  fntlist12 = fopen(fntlist12path, "r+");
+  fseek(fntlist12, 0L, SEEK_END);
+  
+  file_copy("fntlist16.pre", fntlist16path);
+  fntlist16 = fopen(fntlist16path, "r+");
+  fseek(fntlist16, 0L, SEEK_END);
+
+  file_copy("fntlist99.pre", fntlist99path);
+  fntlist99 = fopen(fntlist99path, "r+");
+  fseek(fntlist99, 0L, SEEK_END);
+
   fntlistmono = fopen(fntlistmonopath, "w");
   fntlist8x8 = fopen(fntlist8x8path, "w");
   fprintf(fntlistall, "# All U8g2 Fonts, Capital A Height\n\n");
@@ -2278,6 +2351,12 @@ void do_font_list(cbfn_t cb)
     u8g2_fnt_cnt = 0;
     do_font_loop(cb);
   }
+  
+  fclose(fntlist99);
+  fclose(fntlist16);
+  fclose(fntlist12);
+  fclose(fntlist8);
+  
   fclose(fntlistall);
   fclose(fntlistmono);
   fclose(fntlist8x8);

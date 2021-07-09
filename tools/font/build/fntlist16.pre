@@ -1,0 +1,29 @@
+
+# U8g2 Font List
+
+ * [Font List 3-8 Pixel Height](fntlist8)
+ * [Font List 9-12 Pixel Height](fntlist12)
+ * [Font List 13-16 Pixel Height](fntlist16)
+ * [Font List 17-99 Pixel Height](fntlist99)
+
+# U8g2 Font Names
+
+```
+<prefix> '_' <name> '_' <purpose> <char set>
+```
+
+| `<purpose>` | Description |
+|---------------------|---------------------|
+| `t` | Transparent font, Do not use a background color. |
+| `h` | All glyphs have common height. |
+| `m` | All glyphs have common height and width (monospace). |
+| `8` | All glyphs fit into a 8x8 pixel box. |
+
+| `<char set>` | Description |
+|---------------------|-----------------|
+| `f` | The font includes up to 256 glyphs. |
+| `r` | Only glyphs on the range of the ASCII codes 32 to 127 are included in the font. |
+| `u` | Only glyphs on the range of the ASCII codes 32 to 95 (uppercase chars) are included in the font. |
+| `n` | Only numbers and extra glyphs for writing date and time strings are included in the font. |
+|  ... | Other custom character list.
+
