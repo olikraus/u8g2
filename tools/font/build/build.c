@@ -2253,7 +2253,7 @@ void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, cha
           {
             fprintf(fntlist16, "\n## %d Pixel Height\n\n", current_capital_A_size);
           }
-          else if ( current_capital_A_size <= 99 )
+          else
           {
             fprintf(fntlist99, "\n## %d Pixel Height\n\n", current_capital_A_size);
           }
@@ -2261,7 +2261,7 @@ void generate_font_list(int i, int fm, char *fms, int bm, char *bms, int mm, cha
 	  printf("listall: == %d ==\n", current_capital_A_size);
 	}
 	font_found_for_this_size = 1;
-	fprintf(fntlistall, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
+	//fprintf(fntlistall, "![fntpic/%s_short.png](fntpic/%s_short.png) ", target_font_identifier, target_font_identifier);
 	fprintf(fntlistall, "%s ", target_font_identifier);
 	fprintf(fntlistall, " [%s](%s)\n\n", gi[fi[i].group].groupname, gi[fi[i].group].reference);
         
