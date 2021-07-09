@@ -1282,7 +1282,7 @@ int current_font_group_index;
 char current_font_name[256] = "";
 FILE *current_md_file;
 int current_capital_A_size;
-const char *fntlistallpath = "../../../../u8g2.wiki/fntlistall.md";
+const char *fntlistallpath = "../../../../u8g2.wiki/fntlistallplain.md";
 FILE *fntlistall;
 
 const char *fntlist8path = "../../../../u8g2.wiki/fntlist8.md";
