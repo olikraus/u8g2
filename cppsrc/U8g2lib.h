@@ -364,6 +364,8 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
     void noDisplay(void) { u8g2_SetPowerSave(&u8g2, 1); }
     void display(void) { u8g2_SetPowerSave(&u8g2, 0); }
     void setCursor(u8g2_uint_t x, u8g2_uint_t y) { tx = x; ty = y; }
+    u8g2_uint_t getCursorX() { return tx; }
+    u8g2_uint_t getCursorY() { return ty; }
  
     /* u8glib compatible functions */
     void sleepOn(void) { u8g2_SetPowerSave(&u8g2, 1); }
