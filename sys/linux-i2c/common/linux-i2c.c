@@ -21,8 +21,6 @@ uint8_t data[BUFSIZ_I2C]; // just to be sure
 int idx = 0;
 // almost certainly the wrong place for this state!
 int file = 1;
-uint8_t addr = 0x3c;
-int adapter_nr = 0; /* probably dynamically determined */
 
 
 uint8_t
@@ -43,18 +41,18 @@ u8x8_byte_linux_i2c(u8x8_t *u8x8,
 		break;
 	case U8X8_MSG_BYTE_INIT:
 		// ths open/setup? it seems to be a one-time setup
-		snprintf(filename, 19, "/dev/i2c-%d", adapter_nr);
+		snprintf(filename, 19, "/dev/i2c-%d", u8x8->i2c_bus_num);
 		file = open(filename, O_RDWR);
 		if (file < 0) {
-			fprintf(stderr, "can't open i2c\n");
+			fprintf(stderr, "can't open %s\n", filename);
 			return(errno); 
 		}
-		fprintf(stderr, "opened i2c file %d\n", file);
-		if (ioctl(file, I2C_SLAVE, addr) < 0) { // u8x8_GetI2CAddress(u8x8)
-			fprintf(stderr, "can't set addr %0x\n", addr);
+		fprintf(stderr, "opened i2c %s filenum %d\n", filename, file);
+		if (ioctl(file, I2C_SLAVE, u8x8->i2c_address) < 0) { 
+			fprintf(stderr, "can't set addr %0x\n", u8x8->i2c_address);
 			return(errno);
 		}
-		fprintf(stderr, "set i2c addr %0x\n", addr);
+		fprintf(stderr, "set i2c addr %0x\n", u8x8->i2c_address);
 		break;
 	case U8X8_MSG_BYTE_SET_DC:
 		/* ignored for i2c */

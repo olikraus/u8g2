@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #define SSD1306_ADDR  0x3c
+#define I2C_BUS_NUM 0
 
 u8g2_t u8g2;
 
@@ -10,7 +11,7 @@ int main (void)
 {
 //	u8g2_Setup_ssd1305_i2c_128x32_noname_1(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
 //	u8g2_Setup_ssd1305_i2c_128x32_adafruit_1(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
-        u8g2_Setup_ssd1306_i2c_128x32_univision_1(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
+//        u8g2_Setup_ssd1306_i2c_128x32_univision_1(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
 	
 //	u8g2_Setup_ssd1305_i2c_128x32_noname_2(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
 // 	u8g2_Setup_ssd1305_i2c_128x32_adafruit_2(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
@@ -18,8 +19,10 @@ int main (void)
 	
 // 	u8g2_Setup_ssd1305_i2c_128x32_noname_f(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
 // 	u8g2_Setup_ssd1305_i2c_128x32_adafruit_f(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
-//     u8g2_Setup_ssd1306_i2c_128x32_univision_f(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
+	u8g2_Setup_ssd1306_i2c_128x32_univision_f(&u8g2, U8G2_R0, u8x8_byte_linux_i2c, u8x8_linux_i2c_delay);
 
+	u8g2_SetI2CBus(&u8g2, I2C_BUS_NUM);
+	
 	u8g2_SetI2CAddress(&u8g2, SSD1306_ADDR);
 
 	u8g2_InitDisplay(&u8g2);
