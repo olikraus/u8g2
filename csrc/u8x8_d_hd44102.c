@@ -172,7 +172,9 @@ static const u8x8_display_info_t u8x8_hd44102_150x32_display_info =
   /* pixel_height = */ 32
 };
 
-uint8_t u8x8_d_hd44102_150x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+//uint8_t u8x8_d_hd44102_150x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+
+uint8_t u8x8_d_t7932_150x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t cs[4] = {1, 2, 4, 0};
   uint8_t i;
@@ -259,7 +261,7 @@ static const u8x8_display_info_t u8x8_hd44102_100x64_display_info =
   /* tile_hight = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 150,
+  /* pixel_width = */ 100,
   /* pixel_height = */ 64
 };
 

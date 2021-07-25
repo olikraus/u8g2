@@ -1406,6 +1406,26 @@ struct controller controller_list[] =
       { NULL }
     },
   },
+
+  {
+    "t7932", 		19, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "150x32" },     /* compatible with hd44102 */
+      { NULL }
+    },
+  },
+
+  {
+    "hd44102", 		13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "100x64" },     /* compatible with t7932 */
+      { NULL }
+    },
+  },
+  
+  
   {
     "lc7981", 	20, 	10, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800,
     "U8x8 not supported, no powerdown, no HW flip, no constrast", /* is_generate_u8g2_class= */ 1,
