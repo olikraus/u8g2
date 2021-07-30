@@ -2,7 +2,7 @@
 
   u8x8_d_hd44102.c 
   
-  Support for HD44102 and T7932 controller
+  Support for HD44102 and T7932 controller (https://github.com/olikraus/u8g2/issues/1492)
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -220,6 +220,8 @@ uint8_t u8x8_d_t7932_150x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       cnt = ((u8x8_tile_t *)arg_ptr)->cnt;
+      x*=8;
+      cnt*=8;
     
       do
       {
@@ -308,9 +310,11 @@ uint8_t u8x8_d_hd44102_100x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 //    case U8X8_MSG_DISPLAY_SET_CONTRAST:
 //      break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;      
       cnt = ((u8x8_tile_t *)arg_ptr)->cnt;
       page = ((u8x8_tile_t *)arg_ptr)->y_pos;
+      x*=8;
+      cnt*=8;
       if ( page < 4 )
       {
         do
@@ -320,7 +324,7 @@ uint8_t u8x8_d_hd44102_100x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
             cnt, 
             page, 
             x, 
-            7, 0, 2, 7);
+            7, 0, 1, 7);
           arg_int--;
           x += cnt;
         } while (arg_int > 0);
@@ -334,7 +338,7 @@ uint8_t u8x8_d_hd44102_100x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
             cnt, 
             page-4, 
             x, 
-            7, 1, 3, 7);
+            7, 2, 3, 7);
           arg_int--;
           x += cnt;
         } while (arg_int > 0);

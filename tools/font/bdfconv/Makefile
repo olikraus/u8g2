@@ -28,6 +28,14 @@ greek: bdfconv
 10x20greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/10x20.bdf -n 10x20_greek -o 10x20_greek.c -d ../bdf/7x13.bdf
 
+5x7: bdfconv
+	./bdfconv -b 4 -f 1 -a -v -m '32-255' ../bdf/5x7.bdf -n 5x7lcd -o 5x7lcd.c -d ../bdf/7x13.bdf
+
+ti83: bdfconv
+	-../otf2bdf/otf2bdf  -n -p 5 -o ../bdf/ti83.bdf ../ttf/ti83.ttf
+	./bdfconv -b 4 -f 1 -a -v -m '32-65000' ../bdf/ti83.bdf -n u8g2_ti83_5x7 -o ti83.c -d ../bdf/7x13.bdf
+
+
 polish: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$104-$$107,$$118-$$119,$$141-$$144,$$15a-$$15b,$$179-$$17c,$$d3,$$f3' ../bdf/unifont.bdf -n unifont_polish -o unifont_polish.c -d ../bdf/7x13.bdf
 

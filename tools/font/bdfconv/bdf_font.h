@@ -17,6 +17,7 @@
 #define BDF_BBX_MODE_HEIGHT 1
 #define BDF_BBX_MODE_MAX 2
 #define BDF_BBX_MODE_M8 3
+#define BDF_BBX_MODE_5X7 4
 
 struct _bdf_font_struct
 {
