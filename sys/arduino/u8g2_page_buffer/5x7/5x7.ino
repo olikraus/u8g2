@@ -31,7 +31,7 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
   
-  Demo code for the HD44102 (LM324 or LM234?) display.
+  Demo code for the HD44102 (LM234) display.
 
 
 
