@@ -134,6 +134,7 @@ static uint8_t u8x8_d_st7586s_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 }
 
 static const uint8_t u8x8_d_st7586s_s028hn118a_init_seq[] = {
+  U8X8_START_TRANSFER(),/* enable chip */
   U8X8_END_TRANSFER(),/* disable chip */
 //  U8G_ESC_RST(15), /* hardware reset */
   U8X8_DLY(60),   /* Delay 60 ms */
@@ -190,6 +191,7 @@ static const uint8_t u8x8_d_st7586s_s028hn118a_init_seq[] = {
   U8X8_A(0x00C), // issue in the US too
   
   U8X8_C(0x029), // Display ON
+  U8X8_END_TRANSFER(),/* disable chip */
   U8X8_END()  /* end of sequence */
 };
 
