@@ -102,6 +102,7 @@ uint8_t u8x8_gpio_and_delay_raspi_gpio_hal(u8x8_t *u8x8, uint8_t msg, uint8_t ar
       break;							// arg_int=1: delay by 5us, arg_int = 4: delay by 1.25us        
     
     case U8X8_MSG_GPIO_MENU_SELECT:
+      /* read pin level: uint8_t bcm2835_gpio_lev(uint8_t pin); */
       u8x8_SetGPIOResult(u8x8, /* get menu select pin state */ 0);
       break;
     case U8X8_MSG_GPIO_MENU_NEXT:
