@@ -112,6 +112,11 @@ class U8G2 : public Print
     void initDisplay(void) {
       u8g2_InitDisplay(&u8g2); }
       
+    /* call initInterface if the uC comes out of deep sleep mode and display is already running */
+    /* initInterface is part if initDisplay, do not call both use either initDisplay OR initInterface */       
+    void initInterface(void) {          
+      u8g2_InitInterface(&u8g2); }
+      
     void clearDisplay(void) {
       u8g2_ClearDisplay(&u8g2); }
       

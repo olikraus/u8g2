@@ -210,6 +210,11 @@ class U8X8 : public Print
       
     void initDisplay(void) {
       u8x8_InitDisplay(&u8x8); }
+
+    /* call initInterface if the uC comes out of deep sleep mode and display is already running */
+    /* initInterface is part if initDisplay, do not call both use either initDisplay OR initInterface */       
+    void initInterface(void) {          
+      u8x8_InitInterface(&u8x8); }
       
     void clearDisplay(void) {
       u8x8_ClearDisplay(&u8x8); }
