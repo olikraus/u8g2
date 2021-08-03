@@ -14,6 +14,6 @@ path   += [cwd + '/sys/rt-thread/port']
 
 LOCAL_CCFLAGS = ''
 
-group = DefineGroup('u8g2s', src, depend = [''], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+group = DefineGroup('u8g2s', src, depend = [''], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS, CPPDEFINES=['RTT_U8G2'])
 
 Return('group')
