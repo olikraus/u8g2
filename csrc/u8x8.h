@@ -188,6 +188,8 @@ uint8_t u8x8_pgm_read_esp(const uint8_t * addr);   /* u8x8_8x8.c */
 #define U8X8_USE_PINS
 #endif
 
+#define U8X8_USE_PINS
+
 /*==========================================*/
 /* U8X8 typedefs and data structures */
 
