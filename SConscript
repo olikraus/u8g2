@@ -1,4 +1,3 @@
-
 from building import *
 import rtconfig
 
@@ -52,6 +51,148 @@ else:
 
 	if GetDepend('U8G2_USING_I2C_YL40'):
 		src    += Glob('sys/rt-thread/examples/yl_40_example.c')
+
+
+	# Frame Buffer Examples
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_FONT_USAGE'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/FontUsage.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_FPS'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/FPS.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_GRAPHIC_TEST'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/GraphicsTest.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_HELLO_WORLD'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/HelloWorld.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_ICON_MENU'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/IconMenu.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_PRINT_UTF8'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/PrintUTF8.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_SELECTION_LIST'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/SelectionList.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_U8G2_LOGO'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/U8g2Logo.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_UPDATE_AREA'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/UpdateArea.cpp')
+
+	if GetDepend('U8G2_USING_FRAME_EXAMPLE_WEATHER'):
+		src    += Glob('sys/rt-thread/examples/full_buffer/Weather.cpp')
+
+
+	# Page Buffer Examples
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_CHINESE'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Chinese.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_CLIP_WINDOW'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/ClipWindow.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_CLOCK'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Clock.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_CONTRAST_TEST'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/ContrastTest.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_DEVANAGARI'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Devanagari.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_DIRECT_ACCESS'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/DirectAccess.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_DRAW_LOG'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/DrawLog.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_EXT_UTF8'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/ExtUTF8.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_FLIP_MODE'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/FlipMode_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_FPS'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/FPS_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_GRAPHIC_TEST'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/GraphicsTest_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_HELLO_WORLD'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/HelloWorld_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_ICON_MENU'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/IconMenu_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_JAPANESE'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Japanese.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_KOREAN'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Korean.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_POWER_SAVE_TEST'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/PowerSaveTest.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_PRINT_HELLO_WORLD'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/PrintHelloWorld.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_SCROLLING_TEXT'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/ScrollingText.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_SELECTION_LIST'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/SelectionList_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_SERIAL'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Serial.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_STATE_BUFFER_LOOP'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/StateBufferLoop.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_TERMINAL'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Terminal_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_U8G2_LOGO'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/U8g2Logo_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_UPDATE_PARTLY'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/UpdatePartly_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_WEATHER'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/Weather_pb.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_XBM'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/XBM.cpp')
+
+	if GetDepend('U8G2_USING_PAGE_EXAMPLE_XOR_TEST'):
+		src    += Glob('sys/rt-thread/examples/page_buffer/XORTest.cpp')
+
+
+	# U8x8 Examples
+	if GetDepend('U8G2_USING_U8x8_EXAMPLE_16x16_FONT'):
+		src    += Glob('sys/rt-thread/examples/u8x8/16x16Font.cpp')
+
+	if GetDepend('U8G2_USING_U8x8_EXAMPLE_FLIP_MODE'):
+		src    += Glob('sys/rt-thread/examples/u8x8/FlipMode.cpp')
+
+	if GetDepend('U8G2_USING_U8x8_EXAMPLE_GRAPHIC_TEST'):
+		src    += Glob('sys/rt-thread/examples/u8x8/GraphicsTest_8x8.cpp')
+
+	if GetDepend('U8G2_USING_U8x8_EXAMPLE_HELLO_WORLD'):
+		src    += Glob('sys/rt-thread/examples/u8x8/HelloWorld_8x8.cpp')
+
+	if GetDepend('U8G2_USING_U8x8_EXAMPLE_MESSAGE_BOX'):
+		src    += Glob('sys/rt-thread/examples/u8x8/MessageBox_8x8.cpp')
+
+	if GetDepend('U8G2_USING_U8x8_EXAMPLE_TERMINAL'):
+		src    += Glob('sys/rt-thread/examples/u8x8/Terminal_8x8.cpp')
+
+
+	# Game Examples
+	if GetDepend('U8G2_USING_GAME_EXAMPLE_SPACE_TRASH'):
+		src    += Glob('sys/rt-thread/examples/games/SpaceTrash.cpp')
+	if GetDepend('U8G2_USING_GAME_EXAMPLE_TREX'):
+		src    += Glob('sys/rt-thread/examples/games/TRex.cpp')
 
 path    = [cwd + '/sys/rt-thread/port']
 path   += [cwd + '/csrc']
