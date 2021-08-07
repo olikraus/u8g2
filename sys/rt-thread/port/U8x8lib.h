@@ -7,6 +7,7 @@
 #include <u8x8.h>
 
 #include "u8g2_port.h"
+#include "Print.h"
 
 extern "C" uint8_t u8x8_byte_rtthread_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 extern "C" uint8_t u8x8_byte_rtthread_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
@@ -25,7 +26,7 @@ void u8x8_SetPin_KS0108(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_
 void u8x8_SetPin_SED1520(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t dc, uint8_t e1, uint8_t e2, uint8_t reset);
 #endif
 
-class U8X8
+class U8X8: public Print
 {
   protected:
     u8x8_t u8x8;
@@ -187,7 +188,7 @@ class U8X8
 
 };
 
-class U8X8LOG
+class U8X8LOG: public Print
 {
 
   public:
