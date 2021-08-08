@@ -22,34 +22,58 @@ void sigtermhandler(int x)
 {
   puts("SIGTERM");
   bcm2835_close();
+  exit(0);
+}
+
+void siginthandler(int x)
+{
+  puts("SIGINT");
+  bcm2835_close();
+  exit(0);
 }
 
 
 int main(void)
 {
+  int i = 0;
+  int pins[4] = { 12, 13, 16, 17 };
 
   if (!bcm2835_init())
     exit(1);
 
   signal(SIGTERM, sigtermhandler);
+  signal(SIGINT, siginthandler);
 
   atexit((void (*) (void))bcm2835_close);
 
-  bcm2835_gpio_fsel(12, BCM2835_GPIO_FSEL_INPT);
-  bcm2835_gpio_fsel(13, BCM2835_GPIO_FSEL_INPT);
-  bcm2835_gpio_fsel(16, BCM2835_GPIO_FSEL_INPT);
-  bcm2835_gpio_fsel(17, BCM2835_GPIO_FSEL_INPT);
-  
+  for( i = 0; i < sizeof(pins)/sizeof(*pins); i++ )
+  {
+    bcm2835_gpio_fsel(pins[i], BCM2835_GPIO_FSEL_INPT);
+    
+    //bcm2835_gpio_hen(pins[i]);  // high level detect
+  }
   for(;;)
   {
     
-    delaynanoseconds(1000000UL);
+    delaynanoseconds(500000000UL);
     
-    printf("%d: %d  ", 12, bcm2835_gpio_lev(12));
-    printf("%d: %d  ", 13, bcm2835_gpio_lev(13));
-    printf("%d: %d  ", 16, bcm2835_gpio_lev(16));
-    printf("%d: %d  ", 17, bcm2835_gpio_lev(17));
+    printf("%07d  ", i);
+    for( i = 0; i < sizeof(pins)/sizeof(*pins); i++ )
+    {
+      printf("%d: %d  ", pins[i], bcm2835_gpio_lev(pins[i]));
+    }
     puts("");
     
+    /*
+    for( i = 0; i < sizeof(pins)/sizeof(*pins); i++ )
+    {
+      if ( bcm2835_gpio_eds(pins[i]) )  // event detected
+      {
+        bcm2835_gpio_set_eds(pins[i]);  // clear the event
+        printf("Event: %d\n", pins[i]);
+      }
+    }
+    */
+    i++;
   }
 }
