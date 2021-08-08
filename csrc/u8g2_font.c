@@ -1144,6 +1144,7 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   /* adjust the last glyph, check for issue #16: do not adjust if width is 0 */
   if ( u8g2->font_decode.glyph_width != 0 )
   {
+    //printf("string width adjust dx=%d glyph_width=%d x-offset=%d\n", dx, u8g2->font_decode.glyph_width, u8g2->glyph_x_offset);
     w -= dx;
     w += u8g2->font_decode.glyph_width;  /* the real pixel width of the glyph, sideeffect of GetGlyphWidth */
     /* issue #46: we have to add the x offset also */
