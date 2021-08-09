@@ -8,6 +8,7 @@ uint8_t uif_template(ui_t *ui, uint8_t msg)
 {
   //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
   //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
+  //uif_get_data(ui->uif)
   switch(msg)
   {
     case UIF_MSG_DRAW:
@@ -349,6 +350,48 @@ uint8_t uif_frame_button_bold_select_u8g2(ui_t *ui, uint8_t msg)
       break;
     case UIF_MSG_TOUCH_UP:
       break;    
+  }
+  return 0;
+}
+
+
+uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
+{
+  //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
+  //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  char buf[6];
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      if ( *value > 9 ) *value = 9;
+      buf[0] = (char)(*value + '0');
+      buf[1] = '\0';
+      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 2, 1, buf);
+      
+      break;
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      (*value)++;
+      if ( *value > 9 ) *value = 0;      
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;
   }
   return 0;
 }

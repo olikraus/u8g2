@@ -313,7 +313,7 @@ void ui_send_cursor_msg(ui_t *ui, uint8_t msg)
   {
     ui->fds = ui->cursor_focus_fds;
     ui_prepare_current_field(ui);
-    uif_get_cb(ui->uif)(ui, UIF_MSG_CURSOR_ENTER);    
+    uif_get_cb(ui->uif)(ui, msg);
   }
 }
 
@@ -381,3 +381,7 @@ void ui_PrevField(ui_t *ui)
 }
 
 
+void ui_SendSelect(ui_t *ui)
+{
+  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_SELECT);  
+}

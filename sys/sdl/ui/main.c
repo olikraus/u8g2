@@ -9,17 +9,21 @@
 u8g2_t u8g2;
 ui_t ui;
 
+uint8_t my_value = 2;
+
 uif_t uif_list[] = {
 UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_bold_select_u8g2),
 UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_bold_select_u8g2),
+UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
 UIF("FL",0,0,uif_label_u8g2)
 };
 
 fds_t fds = 
 UI_FORM("0")
 UI_LABEL(64,10, "Ag(1jm")
-UI_BUTTON("B1",32,40, "Ok")
-UI_BUTTON("B0",96,40, "Cancel")
+UI_FIELD("I1",10, 30)
+UI_BUTTON("B1",32,50, "Ok")
+UI_BUTTON("B0",96,50, "Cancel")
 ;
 
 
@@ -52,6 +56,7 @@ int main(void)
       u8g2_SetFont(&u8g2, u8g2_font_inb16_mf  );      
       u8g2_SetFont(&u8g2, u8g2_font_courB12_tr);      
       u8g2_SetFont(&u8g2, u8g2_font_timR12_tr);      
+      u8g2_SetFont(&u8g2, u8g2_font_helvR10_tr);      
       u8g2_SetFontMode(&u8g2, 1);
       //u8g2_SetFontPosTop(&u8g2);
       //u8g2_SetFontPosBottom(&u8g2);
@@ -74,14 +79,18 @@ int main(void)
     if ( k == 276 ) x -= 1;
     if ( k == 275 ) x += 1;
     
+    /*
     if ( k == 'e' ) y -= 1;
     if ( k == 'x' ) y += 1;
     if ( k == 's' ) x -= 1;
     if ( k == 'd' ) x += 1;
+    */
+    
     if ( k == 'q' ) break;
 
     if ( k == 'n' ) ui_NextField(&ui);
     if ( k == 'p' ) ui_PrevField(&ui);
+    if ( k == 's' ) ui_SendSelect(&ui);
 
     
     if ( x < 0 )

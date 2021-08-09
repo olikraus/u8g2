@@ -368,5 +368,6 @@ void ui_EnterForm(ui_t *ui);
 void ui_LeaveForm(ui_t *ui);
 void ui_NextField(ui_t *ui);
 void ui_PrevField(ui_t *ui);
+void ui_SendSelect(ui_t *ui);
 
 #endif /* UI_H */
