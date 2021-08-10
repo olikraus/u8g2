@@ -360,7 +360,7 @@ uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
   //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
   //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
   u8g2_t *u8g2 = ui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
+  u8g2_uint_t flags = U8G2_BTN_PADWIDTH;
   uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
   char buf[6];
   switch(msg)
@@ -373,7 +373,7 @@ uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 2, 1, buf);
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 9, 1, buf);
       
       break;
     case UIF_MSG_FORM_START:

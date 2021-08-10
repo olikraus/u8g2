@@ -75,8 +75,11 @@ struct ui_struct
   fds_t cursor_focus_fds;           // the element which has the current cursor focus
   fds_t touch_focus_fds;            // the element which has touch focus
   
+
+  fds_t token;             // current token position
   
   /* current field/style variables */
+  uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)
   uint8_t id0;
   uint8_t id1;
@@ -360,6 +363,12 @@ struct ui_struct
 #define UI_FIELD(id, x,y) "F" id UI_##x UI_##y
 /* button id must be two chars, but must be unique everywhere */
 #define UI_BUTTON(id, x,y, text) "B" id UI_##x UI_##y  "\xff" text "\xff"
+
+
+uint8_t ui_fds_first_token(ui_t *ui);
+uint8_t ui_fds_next_token(ui_t *ui);
+uint8_t ui_fds_get_nth_token(ui_t *ui, uint8_t n);
+uint8_t ui_fds_get_token_cnt(ui_t *ui);
 
 
 void ui_Init(ui_t *ui, fds_t fds, uif_t *uif_list, size_t uif_cnt);

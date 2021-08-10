@@ -50,20 +50,21 @@ size_t ui_fds_get_cmd_size_without_text(ui_t *ui, fds_t s)
 
 
 /*
-  s must point to the string delimiter start: first '|' for "B00ab|ok|"
+  s must point to the string delimiter start: first '/' for "B00ab/ok/"
+    - '/' actually is 0xff
     - return the total size of the string, including the delimiter
     - copies the content of the string ("ok") to the ui text buffer
 */
 size_t ui_fds_parse_text(ui_t *ui, fds_t s)
 {
   uint8_t i = 0;
-  uint8_t delimiter = ui_get_fds_char(s);
+  ui->delimiter = ui_get_fds_char(s);
   uint8_t c;
   fds_t t = s;
   
   //printf("ui_fds_parse_text del=%d\n", delimiter);
 #ifdef UI_CHECK_EOFDS
-  if ( delimiter == 0 )
+  if ( ui->delimiter == 0 )
     return 0;
 #endif 
   t++;
@@ -75,7 +76,7 @@ size_t ui_fds_parse_text(ui_t *ui, fds_t s)
     if ( c == 0 )
       break;
 #endif 
-    if ( c == delimiter )
+    if ( c == ui->delimiter )
     {
       t++;
       break;
@@ -89,6 +90,93 @@ size_t ui_fds_parse_text(ui_t *ui, fds_t s)
   ui->text[i] = '\0' ;
   return t-s;
 }
+
+/*
+  get the first token within a text argument.
+  The text argument may look like this:
+    "B00ab/banana|apple|peach|cherry/"
+  The outer delimiter "/" is not fixed and can be any char except "|" and "\0"
+  The inner delimiter "|" is fixed. It must be the pipe symbol.
+  This function will place "banana" into ui->text if the result is not 0
+
+  if ( ui_fds_first_token(ui) )
+  {
+    do 
+    {
+      // handle token in ui->text
+    } while ( ui_fds_next_token(ui) )
+  }
+
+*/
+uint8_t ui_fds_first_token(ui_t *ui)
+{
+  ui->token = ui->fds
+  ui->token += ui_fds_get_cmd_size_without_text(ui, ui->fds);
+  ui->delimiter = ui_get_fds_char(ui->token);
+  ui->token++;
+  return ui_fds_next_token(ui);
+}
+
+
+uint8_t ui_fds_next_token(ui_t *ui)
+{
+  uint8_t c;
+  uint8_t i = 0;
+  fds_t t = s;
+  for( ;; )
+  {
+    c = ui_get_fds_char(ui->token);
+#ifdef UI_CHECK_EOFDS
+    if ( c == 0 )
+      break;
+#endif 
+    if ( c == '|' || c == ui->delimiter )
+      break;
+    
+    if ( i < UI_MAX_TEXT_LEN )
+    {
+      ui->text[i++] = c;
+    }
+    
+    ui->token++;
+  }
+  ui->text[i] = '\0' ;
+  if ( i == 0 )
+    return 0;   // no further token found
+  return 1;  // token placed in ui->text
+}
+
+/*
+  find nth token, return 0 if n exceeds the number of tokens, 1 otherwise
+  the result is stored in ui->text
+*/
+uint8_t ui_fds_get_nth_token(ui_t *ui, uint8_t n)
+{  
+  if ( ui_fds_first_token(ui) )
+  {
+    do 
+    {
+      if ( n == 0 )
+        return ui->text;
+      n--;
+    } while ( ui_fds_next_token(ui) )
+  }
+  return NULL;
+}
+
+uint8_t ui_fds_get_token_cnt(ui_t *ui)
+{
+  uint8_t n = 0;
+  if ( ui_fds_first_token(ui) )
+  {
+    do 
+    {
+      n++;
+    } while ( ui_fds_next_token(ui) )
+  }
+  return n;
+}
+
 
 #define ui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' ? 0 : 1 )
 
