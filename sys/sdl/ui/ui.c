@@ -110,7 +110,7 @@ size_t ui_fds_parse_text(ui_t *ui, fds_t s)
 */
 uint8_t ui_fds_first_token(ui_t *ui)
 {
-  ui->token = ui->fds
+  ui->token = ui->fds;
   ui->token += ui_fds_get_cmd_size_without_text(ui, ui->fds);
   ui->delimiter = ui_get_fds_char(ui->token);
   ui->token++;
@@ -122,7 +122,6 @@ uint8_t ui_fds_next_token(ui_t *ui)
 {
   uint8_t c;
   uint8_t i = 0;
-  fds_t t = s;
   for( ;; )
   {
     c = ui_get_fds_char(ui->token);
@@ -157,11 +156,11 @@ uint8_t ui_fds_get_nth_token(ui_t *ui, uint8_t n)
     do 
     {
       if ( n == 0 )
-        return ui->text;
+        return 1;
       n--;
-    } while ( ui_fds_next_token(ui) )
+    } while ( ui_fds_next_token(ui) );
   }
-  return NULL;
+  return 0;
 }
 
 uint8_t ui_fds_get_token_cnt(ui_t *ui)
@@ -172,7 +171,7 @@ uint8_t ui_fds_get_token_cnt(ui_t *ui)
     do 
     {
       n++;
-    } while ( ui_fds_next_token(ui) )
+    } while ( ui_fds_next_token(ui) );
   }
   return n;
 }
