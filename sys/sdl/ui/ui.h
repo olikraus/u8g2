@@ -358,7 +358,7 @@ struct ui_struct
 #define UI_255 "\xff"
 
 /* form: one id only */
-#define UI_FORM(id) "U" id
+#define UI_FORM(n) "U" UI_##n
 #define UI_LABEL(x,y,text) "L" UI_##x UI_##y "\xff" text "\xff"
 #define UI_FIELD(id, x,y) "F" id UI_##x UI_##y
 /* button id must be two chars, but must be unique everywhere */

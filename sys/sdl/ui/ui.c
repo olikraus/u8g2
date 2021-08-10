@@ -4,10 +4,15 @@
   "Fiixy"  Generic field: Places field with id ii at x/y
   "Biixy|text|"   Buffon field (field if ii with a fixed text)
   "Lxy|labeltext|"  Places a text at the specified position, field with id FL
-  "Mxyv|labeltext|" 
-  "Jxyu|menutext|"  Jump button to user interface form u, current u is placed on a stack
-  "Xxy|menutext|"  Go to the u which is placed on the top of the stack
-  "Gxyu|menutext|"  Go to the specified menu without placing the user interface form on the stack
+  "Mxyv|labeltext|"             --> ID=FM
+  "Jxyu|menutext|"  Jump button to user interface form u, current u is placed on a stack        --> ID=FJ
+  "Xxy|menutext|"  Go to the u which is placed on the top of the stack  --> ID=FX
+  "Gxyu|menutext|"  Go to the specified menu without placing the user interface form on the stack       --> ID=FG
+  
+  
+  iixy
+  iixy/text/
+  iixya/text(
 */
 
 
@@ -113,7 +118,7 @@ uint8_t ui_fds_first_token(ui_t *ui)
   ui->token = ui->fds;
   ui->token += ui_fds_get_cmd_size_without_text(ui, ui->fds);
   ui->delimiter = ui_get_fds_char(ui->token);
-  ui->token++;
+  ui->token++;  // place ui->token on the first char of the token
   return ui_fds_next_token(ui);
 }
 
@@ -122,15 +127,22 @@ uint8_t ui_fds_next_token(ui_t *ui)
 {
   uint8_t c;
   uint8_t i = 0;
+  // printf("ui_fds_next_token: call, ui->token=%p\n", ui->token);
   for( ;; )
   {
     c = ui_get_fds_char(ui->token);
+    // printf("ui_fds_next_token: i=%d c=%c\n", i, c);
 #ifdef UI_CHECK_EOFDS
     if ( c == 0 )
       break;
 #endif 
-    if ( c == '|' || c == ui->delimiter )
+    if ( c == ui->delimiter )
       break;
+    if ( c == '|'  )
+    {
+      ui->token++;  // place ui->token on the first char of the next token
+      break;
+    }
     
     if ( i < UI_MAX_TEXT_LEN )
     {
@@ -151,15 +163,20 @@ uint8_t ui_fds_next_token(ui_t *ui)
 */
 uint8_t ui_fds_get_nth_token(ui_t *ui, uint8_t n)
 {  
+  // printf("ui_fds_get_nth_token: call, n=%d\n", n);
   if ( ui_fds_first_token(ui) )
   {
     do 
     {
       if ( n == 0 )
+      {
+        // printf("ui_fds_get_nth_token: found");
         return 1;
+      }
       n--;
     } while ( ui_fds_next_token(ui) );
   }
+  //printf("ui_fds_get_nth_token: NOT found\n");
   return 0;
 }
 

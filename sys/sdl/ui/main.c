@@ -10,18 +10,24 @@ u8g2_t u8g2;
 ui_t ui;
 
 uint8_t my_value = 2;
+uint8_t my_value2 = 2;
+
+uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg);
+
 
 uif_t uif_list[] = {
 UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_bold_select_u8g2),
 UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_bold_select_u8g2),
 UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
+UIF("I2",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,uif_single_line_option_invers_select_u8g2),
 UIF("FL",0,0,uif_label_u8g2)
 };
 
 fds_t fds = 
-UI_FORM("0")
-UI_LABEL(64,10, "Ag(1jm")
+UI_FORM(1)
+//UI_LABEL(64,10, "Ag(1jm")
 UI_FIELD("I1",10, 30)
+UI_BUTTON("I2",30, 30, "Banana|Apple|Peach")
 UI_BUTTON("B1",32,50, "Ok")
 UI_BUTTON("B0",96,50, "Cancel")
 ;
