@@ -81,11 +81,12 @@ struct ui_struct
   /* current field/style variables */
   uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)
-  uint8_t id0;
+  uint8_t id0;            // identifier of the field, manually provided or derived (G cmd has fixed id "FG")
   uint8_t id1;
-  uint8_t x;
+  uint8_t x;               // position of the field
   uint8_t y;
   uint8_t dflags;
+  uint8_t arg;          // extra argument of the field. For example the G: form is put here
   ssize_t len;          // length of the current command
   fds_t fds;             // current position, *fds = cmd
   uif_t *uif;                   // user interface field or style for the given id0 / id1
@@ -364,6 +365,7 @@ struct ui_struct
 /* button id must be two chars, but must be unique everywhere */
 #define UI_BUTTON(id, x,y,text) "B" id UI_##x UI_##y  "\xff" text "\xff"
 #define UI_GOTO(x,y,n,text) "G" UI_##x UI_##y UI_##n "\xff" text "\xff"
+#define UI_goto(x,y,n,text) "g" UI_##x UI_##y UI_##n "\xff" text "\xff"
 
 
 

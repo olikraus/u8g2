@@ -37,6 +37,7 @@ uint8_t ui_get_fds_char(fds_t s)
 size_t ui_fds_get_cmd_size_without_text(ui_t *ui, fds_t s)
 {
   uint8_t c = ui_get_fds_char(s);
+  c &= 0xdf; /* consider upper and lower case */
   switch(c)
   {
     case 'U': return 2;
@@ -263,62 +264,75 @@ ssize_t ui_find_uif(ui_t *ui, uint8_t id0, uint8_t id1)
 */
 void ui_prepare_current_field(ui_t *ui)
 {
-    ssize_t uif_idx;
-  
-    ui->uif = NULL;
-    ui->dflags = 0;    
-    ui->id0 = 0;
-    ui->id1 = 0;
+  ssize_t uif_idx;
 
-    /* calculate the length of the command and copy the text argument */
-    ui->len = ui_fds_get_cmd_size(ui, ui->fds); 
-  
-    //printf("ui_prepare_current_field text=%s\n", ui->text);
+  ui->uif = NULL;
+  ui->dflags = 0;    
+  ui->id0 = 0;
+  ui->id1 = 0;
+
+  /* calculate the length of the command and copy the text argument */
+  ui->len = ui_fds_get_cmd_size(ui, ui->fds); 
+
+  //printf("ui_prepare_current_field text=%s\n", ui->text);
+
+
   
   /* get the command and check whether end of form is reached */
-    ui->cmd = ui_get_fds_char(ui->fds);
-    if ( ui->cmd == 'U' || ui->cmd == 0 )
-      return;
+  ui->cmd = ui_get_fds_char(ui->fds);
+  
+  /* Copy the cmd also to second id value. This is required for some commands, others will overwrite this */
+  ui->id1 = ui->cmd;
+  
+  /* now make the command uppercase so that both, upper and lower case are considered */
+  ui->cmd &= 0xdf; /* consider upper and lower case */
+  
+  if ( ui->cmd == 'U' || ui->cmd == 0 )
+    return;
 
-    /* calculate the dynamic flags */
-    if ( ui->fds == ui->cursor_focus_fds )
-      ui->dflags |= UIF_DFLAG_IS_CURSOR_FOCUS;
-    if ( ui->fds == ui->touch_focus_fds )
-      ui->dflags |= UIF_DFLAG_IS_TOUCH_FOCUS;
-    
+  /* calculate the dynamic flags */
+  if ( ui->fds == ui->cursor_focus_fds )
+    ui->dflags |= UIF_DFLAG_IS_CURSOR_FOCUS;
+  if ( ui->fds == ui->touch_focus_fds )
+    ui->dflags |= UIF_DFLAG_IS_TOUCH_FOCUS;
+  
 
-    /* get the id0 and id1 values */
-    if  ( ui->cmd == 'F' || ui->cmd == 'B' )
-    {
-        ui->id0 = ui_get_fds_char(ui->fds+1);
-        ui->id1 = ui_get_fds_char(ui->fds+2);
-        ui->x = ui_get_fds_char(ui->fds+3);
-        ui->y = ui_get_fds_char(ui->fds+4);
-    }
-    else if ( ui->cmd == 'S' )
-    {
-        ui->id0 = 'S';
-        ui->id1 = ui_get_fds_char(ui->fds+1);
-    }
-    else
-    {
-        ui->id0 = 'F';
-        ui->id1 = ui->cmd;
-        ui->x = ui_get_fds_char(ui->fds+1);
-        ui->y = ui_get_fds_char(ui->fds+2);
-    }
-    
-    /* find the field and execute the task */
-    uif_idx = ui_find_uif(ui, ui->id0, ui->id1);
-    //printf("ui_prepare_current_field: uif_idx=%d\n", uif_idx);
-    if ( uif_idx >= 0 )
-    {
-      ui->uif = ui->uif_list + uif_idx;
-    }
-    else
-    {
-      printf("cmd %c field %c%c (%d, %d) not found\n", ui->cmd, ui->id0, ui->id1, ui->id0, ui->id1);
-    }
+  /* get the id0 and id1 values */
+  if  ( ui->cmd == 'F' || ui->cmd == 'B' )
+  {
+      ui->id0 = ui_get_fds_char(ui->fds+1);
+      ui->id1 = ui_get_fds_char(ui->fds+2);
+      ui->x = ui_get_fds_char(ui->fds+3);
+      ui->y = ui_get_fds_char(ui->fds+4);
+  }
+  else if ( ui->cmd == 'S' )
+  {
+      ui->id0 = 'S';
+      ui->id1 = ui_get_fds_char(ui->fds+1);
+  }
+  else
+  {
+      ui->id0 = 'F';
+      /* note that ui->id1 contains the original cmd value */
+      ui->x = ui_get_fds_char(ui->fds+1);
+      ui->y = ui_get_fds_char(ui->fds+2);
+      if ( ui->cmd == 'G' )  /* this is also true for 'g' */
+      {
+        ui->arg = ui_get_fds_char(ui->fds+3);
+      }
+  }
+  
+  /* find the field and execute the task */
+  uif_idx = ui_find_uif(ui, ui->id0, ui->id1);
+  //printf("ui_prepare_current_field: uif_idx=%d\n", uif_idx);
+  if ( uif_idx >= 0 )
+  {
+    ui->uif = ui->uif_list + uif_idx;
+  }
+  else
+  {
+    printf("cmd %c field %c%c (%d, %d) not found\n", ui->cmd, ui->id0, ui->id1, ui->id0, ui->id1);
+  }
   
 }
 
