@@ -315,6 +315,10 @@ void ui_prepare_current_field(ui_t *ui)
     {
       ui->uif = ui->uif_list + uif_idx;
     }
+    else
+    {
+      printf("cmd %c field %c%c (%d, %d) not found\n", ui->cmd, ui->id0, ui->id1, ui->id0, ui->id1);
+    }
   
 }
 
@@ -350,20 +354,23 @@ fds_t ui_find_form(ui_t *ui, uint8_t n)
 {
   fds_t fds = ui->root_fds;
   uint8_t cmd;
+  size_t len;
   
   for( ;; )
   {
-    cmd = ui_get_fds_char(ui->fds);
+    cmd = ui_get_fds_char(fds);
     if ( cmd == 0 )
       break;
     if ( cmd == 'U'  )
     {
       if (   ui_get_fds_char(fds+1) == n )
+      {
         return fds;
+      }
       /* not found, just coninue */
     }
     
-    fds += ui_fds_get_cmd_size(ui, fds);     
+    fds += ui_fds_get_cmd_size(ui, fds);
   }
   return NULL;
 }
@@ -526,3 +533,4 @@ void ui_SendSelect(ui_t *ui)
 {
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_SELECT);  
 }
+

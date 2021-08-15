@@ -355,6 +355,59 @@ uint8_t uif_frame_button_bold_select_u8g2(ui_t *ui, uint8_t msg)
 }
 
 /*
+  - Fixed width: Half of the display width -10
+  - Inverted if selected
+  - Reference Position: x=Center, y=Text Baseline
+*/
+uint8_t uif_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_uint_t flags = U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | 1;
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      //printf("DRAW fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
+      //u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
+      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_BW1 | U8G2_BTN_INV, 4, 1, ui->text);
+      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | U8G2_BTN_SHADOW2 | 2, 100, 1, ui->text);
+      //u8g2_DrawRButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER  | U8G2_BTN_INV | 3, 2, 1, ui->text);
+      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 1, ui->text);
+      break;
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;    
+  }
+  return 0;
+}
+
+uint8_t uif_goto_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case UIF_MSG_CURSOR_SELECT:
+      return ui_GotoForm(ui, ui_get_fds_char(ui->fds+3));
+  }
+  return uif_frame_button_invers_select_u8g2(ui, msg);
+}
+
+
+
+/*
   data: uint8_t *
 */
 uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)

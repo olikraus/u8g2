@@ -362,8 +362,12 @@ struct ui_struct
 #define UI_LABEL(x,y,text) "L" UI_##x UI_##y "\xff" text "\xff"
 #define UI_FIELD(id, x,y) "F" id UI_##x UI_##y
 /* button id must be two chars, but must be unique everywhere */
-#define UI_BUTTON(id, x,y, text) "B" id UI_##x UI_##y  "\xff" text "\xff"
+#define UI_BUTTON(id, x,y,text) "B" id UI_##x UI_##y  "\xff" text "\xff"
+#define UI_GOTO(x,y,n,text) "G" UI_##x UI_##y UI_##n "\xff" text "\xff"
 
+
+
+uint8_t ui_get_fds_char(fds_t s);
 
 uint8_t ui_fds_first_token(ui_t *ui);
 uint8_t ui_fds_next_token(ui_t *ui);
@@ -375,6 +379,7 @@ void ui_Init(ui_t *ui, fds_t fds, uif_t *uif_list, size_t uif_cnt);
 void ui_Draw(ui_t *ui);
 void ui_EnterForm(ui_t *ui);
 void ui_LeaveForm(ui_t *ui);
+uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id);
 void ui_NextField(ui_t *ui);
 void ui_PrevField(ui_t *ui);
 void ui_SendSelect(ui_t *ui);
