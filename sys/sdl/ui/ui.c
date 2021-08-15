@@ -343,6 +343,31 @@ void ui_loop_over_form(ui_t *ui, void (*task)(ui_t *ui))
   //printf("ui_loop_over_form ended\n");
 }
 
+/*
+  n is the form number
+*/
+fds_t ui_find_form(ui_t *ui, uint8_t n)
+{
+  fds_t fds = ui->root_fds;
+  uint8_t cmd;
+  
+  for( ;; )
+  {
+    cmd = ui_get_fds_char(ui->fds);
+    if ( cmd == 0 )
+      break;
+    if ( cmd == 'U'  )
+    {
+      if (   ui_get_fds_char(fds+1) == n )
+        return fds;
+      /* not found, just coninue */
+    }
+    
+    fds += ui_fds_get_cmd_size(ui, fds);     
+  }
+  return NULL;
+}
+
 /* === task procedures (arguments for ui_loop_over_form === */
 
 void ui_task_draw(ui_t *ui)
@@ -452,6 +477,18 @@ void ui_LeaveForm(ui_t *ui)
   
   /* inform all fields that we leave the form */
   ui_loop_over_form(ui, ui_task_form_end);  
+}
+
+/* 0: error, form not found */
+uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id)
+{
+  fds_t fds = ui_find_form(ui, form_id);
+  if ( fds == NULL )
+    return 0;
+  ui_LeaveForm(ui);
+  ui->current_form_fds = fds;
+  ui_EnterForm(ui);
+  return 1;
 }
 
 void ui_NextField(ui_t *ui)
