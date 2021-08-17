@@ -364,6 +364,7 @@ struct ui_struct
 #define UI_FIELD(id, x,y) "F" id UI_##x UI_##y
 /* button id must be two chars, but must be unique everywhere */
 #define UI_BUTTON(id, x,y,text) "B" id UI_##x UI_##y  "\xff" text "\xff"
+#define UI_A(id, x,y,a,text) "A" id UI_##x UI_##y  UI_##a "\xff" text "\xff"
 #define UI_GOTO(x,y,n,text) "G" UI_##x UI_##y UI_##n "\xff" text "\xff"
 #define UI_goto(x,y,n,text) "g" UI_##x UI_##y UI_##n "\xff" text "\xff"
 

@@ -1,6 +1,7 @@
 
 #include "ui.h"
 #include "u8g2.h"
+#include "ui_u8g2.h"
 
 /*
 
@@ -69,28 +70,6 @@ uint8_t uif_template(ui_t *ui, uint8_t msg)
   if padding_h is larger than or equal to half of the display width, then the button size is maximized to the display size
 */
 
-/* border width */
-#define U8G2_BTN_BW_POS 0
-#define U8G2_BTN_BW_MASK 7
-#define U8G2_BTN_BW0 0x00
-#define U8G2_BTN_BW1 0x01
-#define U8G2_BTN_BW2 0x02
-#define U8G2_BTN_BW3 0x03
-
-#define U8G2_BTN_SHADOW_POS 3
-#define U8G2_BTN_SHADOW_MASK 0x18
-#define U8G2_BTN_SHADOW0 0x08
-#define U8G2_BTN_SHADOW1 0x10
-#define U8G2_BTN_SHADOW2 0x18
-
-/* text is displayed inverted */
-#define U8G2_BTN_INV 0x20
-
-/* horizontal center */
-#define U8G2_BTN_HCENTER 0x40
-
-/* use padding_h value as total string width */
-#define U8G2_BTN_PADWIDTH 0x80
 
 
 void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t padding_h_or_width, u8g2_uint_t padding_v, const char *text)
@@ -181,6 +160,83 @@ void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t
   u8g2_DrawUTF8(u8g2, x,y, text);
   u8g2_SetDrawColor(u8g2, color_backup);
 }
+
+
+
+void nu8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text)
+{
+  u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+  
+  u8g2_uint_t xx, yy, ww, hh;
+  
+  u8g2_uint_t border_width = flags & U8G2_BTN_BW_MASK;
+  u8g2_uint_t text_x_offset = 0;        // used for U8G2_BTN_PADWIDTH mode
+
+  int8_t a = u8g2_GetAscent(u8g2);
+  int8_t d = u8g2_GetDescent(u8g2);
+  uint8_t color_backup = u8g2->draw_color;
+
+
+  if ( flags & U8G2_BTN_HCENTER )
+    x -= w/2;
+
+  if ( w < width )
+  {
+    if ( flags & U8G2_BTN_HCENTER )
+    {
+      text_x_offset = (width-w)/2;
+    }
+    w = width;
+  }
+  
+  
+  u8g2_SetFontMode(u8g2, 1);
+    
+  for(;;)
+  {
+
+    xx = x;
+    xx -= text_x_offset;
+    xx -= padding_h;
+    xx -= border_width;
+    ww = w+2*padding_h+2*border_width;
+    
+    yy = y;
+    yy += u8g2->font_calc_vref(u8g2);
+    yy -= a;
+    yy -= padding_v;
+    yy -= border_width;
+    hh = a-d+2*padding_v+2*border_width;
+    if ( border_width == 0 )
+      break;
+    u8g2_DrawFrame(u8g2, xx, yy, ww, hh);
+    
+    if ( flags & U8G2_BTN_SHADOW_MASK )
+    {
+      if ( border_width == (flags & U8G2_BTN_BW_MASK) )
+      {
+        u8g2_uint_t i;
+        u8g2_uint_t shadow_gap = (flags & U8G2_BTN_SHADOW_MASK) >> U8G2_BTN_SHADOW_POS;
+        shadow_gap--;
+        for( i = 0; i < border_width; i++ )
+        {
+          u8g2_DrawHLine(u8g2, xx+border_width+shadow_gap,yy+hh+i+shadow_gap,ww);
+          u8g2_DrawVLine(u8g2, xx+ww+i+shadow_gap,yy+border_width+shadow_gap,hh);
+        }
+      }
+    }
+    
+    border_width--;
+  }
+  if ( flags & U8G2_BTN_INV )
+  {
+    u8g2_DrawBox(u8g2, xx, yy, ww, hh);
+    u8g2_SetDrawColor(u8g2, 1-u8g2->draw_color);
+  }
+  u8g2_DrawUTF8(u8g2, x,y, text);
+  u8g2_SetDrawColor(u8g2, color_backup);
+}
+
 
 /*
   Shadow is not supported
@@ -467,6 +523,10 @@ uint8_t uif_goto_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 
 /*
   data: uint8_t *
+
+  Uses:
+    ui->arg     --> total field width
+
 */
 uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
@@ -486,7 +546,7 @@ uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 9, 1, buf);
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, ui->arg, 1, buf);
       
       break;
     case UIF_MSG_FORM_START:
@@ -518,8 +578,8 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
   //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
   //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
   u8g2_t *u8g2 = ui_get_U8g2(ui);
-  //u8g2_uint_t flags = U8G2_BTN_PADWIDTH;
-  u8g2_uint_t flags = 0;
+  u8g2_uint_t flags = U8G2_BTN_PADWIDTH;
+  //u8g2_uint_t flags = 0;
   uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
   switch(msg)
   {
@@ -533,7 +593,7 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 2, 1, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, ui->arg, 1, ui->text);
       
       break;
     case UIF_MSG_FORM_START:

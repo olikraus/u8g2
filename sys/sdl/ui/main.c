@@ -23,9 +23,9 @@ UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_invers_select_u8g2),
 UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
 UIF("I2",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,uif_single_line_option_invers_select_u8g2),
 UIF("TS",UIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,uif_single_line_option_invers_select_u8g2),
-UIF("FG",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
-UIF("Fg",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
-UIF("FL",0,0,uif_label_u8g2)
+UIF(".G",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
+UIF(".g",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
+UIF(".L",0,0,uif_label_u8g2)
 };
 
 fds_t fds = 
@@ -36,7 +36,7 @@ UI_goto(32,22,101, "Story")
 UI_FORM(2)
 //UI_LABEL(64,10, "Ag(1jm")
 UI_FIELD("I1",10, 30)
-UI_BUTTON("I2",30, 30, "Banana|Apple|Peach")
+UI_A("I2",30, 30, 60, "Banana|Apple|Peach")
 //UI_BUTTON("B1",32,50, "Ok")
 UI_GOTO(32,50,3, "Goto 2")
 UI_BUTTON("B0",96,50, "Cancel")
@@ -159,6 +159,9 @@ int main(void)
       //u8g2_SetFontPosBottom(&u8g2);
       //u8g2_SetFontPosCenter(&u8g2);
       u8g2_SetFontRefHeightExtendedText(&u8g2);
+
+      nu8g2_DrawButtonUTF8(&u8g2, 64, 50, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 120, /*ph*/ 3,  /*pv*/1, "Ag");
+
       
       //u8g2_DrawBox(&u8g2, 10, 10+y, 20, x);
       //u8g2_DrawFrame(&u8g2, 34, 10+y, 20, x);

@@ -1,18 +1,35 @@
 /*
-  "Ux" the interface
-  "Si" the style
-  "Fiixy"  Generic field: Places field with id ii at x/y
-  "Biixy|text|"   Buffon field (field if ii with a fixed text)
-  "Lxy|labeltext|"  Places a text at the specified position, field with id FL
-  "Mxyv|labeltext|"             --> ID=FM
-  "Jxyu|menutext|"  Jump button to user interface form u, current u is placed on a stack        --> ID=FJ
-  "Xxy|menutext|"  Go to the u which is placed on the top of the stack  --> ID=FX
-  "Gxyu|menutext|"  Go to the specified menu without placing the user interface form on the stack       --> ID=FG
+  c: cmd
+  i:  ID0
+  j: ID1
+  xy: Position (x and y)
+  /text/: some text. The text can start with any delimiter (except 0 and |), but also has to end with the same delimiter
+  a: Single char argument
+  u: Single char argument with the user interface form number
+
+  "Uu" the interface                                                    --> no ID
+  
+  Manual ID:
+  "Fijxy"  Generic field: Places field with id ii at x/y        --> ID=ij
+  "Bijxy/text/"   Generic field (Button) with Text   --> ID=ij
+  "Aiixya/text/"  Generic field with argument and text --> ID = ij
+  
+  Fixed ID:
+  "Si" the style                                                        --> ID=@i
+  "Lxy/labeltext/"  Places a text at the specified position, field with   -     -> ID=.L, .l
+  "Mxya/labeltext/"                                                                                             --> ID=.M
+  "Jxyu/menutext/"  Jump button to user interface form u, current u is placed on a stack                --> ID=.J
+  "Xxy/menutext/"  Go to the u which is placed on the top of the stack                                                  --> ID=.X
+  "Gxyu/menutext/"  Go to the specified menu without placing the user interface form on the stack       --> ID=.G, .g
   
   
-  iixy
-  iixy/text/
-  iixya/text(
+  cijxy
+  cijxy/text/
+  cijxya/text/
+  
+  cxy/text/
+  cxya/text/
+  
 */
 
 
@@ -44,6 +61,7 @@ size_t ui_fds_get_cmd_size_without_text(ui_t *ui, fds_t s)
     case 'S': return 2;
     case 'F': return 5;
     case 'B': return 5;
+    case 'A': return 6;
     case 'L': return 3;
     case 'M': return 4;
     case 'X': return 3;
@@ -215,26 +233,6 @@ size_t ui_fds_get_cmd_size(ui_t *ui, fds_t s)
   return l;
 }
 
-/*
-fds_t ui_get_field_text_start(ui_t *ui, fds_t s)
-{
-  uint8_t c;
-  
-  c = ui_get_fds_char(s);
-  switch(c)
-  {
-    case 'U': return NULL;
-    case 'S': return NULL;
-    case 'F': return NULL;
-    case 'B': return s+5;
-    case 'L': return s+3;
-    case 'X': return s+3;
-    case 'J': return s+4;
-    case 'G': return s+4;    
-  }
-  return NULL;
-}
-*/
 
 
 void ui_Init(ui_t *ui, fds_t fds, uif_t *uif_list, size_t uif_cnt)
@@ -270,6 +268,7 @@ void ui_prepare_current_field(ui_t *ui)
   ui->dflags = 0;    
   ui->id0 = 0;
   ui->id1 = 0;
+  ui->arg = 0;
 
   /* calculate the length of the command and copy the text argument */
   ui->len = ui_fds_get_cmd_size(ui, ui->fds); 
@@ -298,25 +297,29 @@ void ui_prepare_current_field(ui_t *ui)
   
 
   /* get the id0 and id1 values */
-  if  ( ui->cmd == 'F' || ui->cmd == 'B' )
+  if  ( ui->cmd == 'F' || ui->cmd == 'B' || ui->cmd == 'A' )
   {
       ui->id0 = ui_get_fds_char(ui->fds+1);
       ui->id1 = ui_get_fds_char(ui->fds+2);
       ui->x = ui_get_fds_char(ui->fds+3);
       ui->y = ui_get_fds_char(ui->fds+4);
+      if ( ui->cmd == 'A' )
+      {
+        ui->arg = ui_get_fds_char(ui->fds+5);
+      }
   }
   else if ( ui->cmd == 'S' )
   {
-      ui->id0 = 'S';
+      ui->id0 = '@';
       ui->id1 = ui_get_fds_char(ui->fds+1);
   }
   else
   {
-      ui->id0 = 'F';
+      ui->id0 = '.';
       /* note that ui->id1 contains the original cmd value */
       ui->x = ui_get_fds_char(ui->fds+1);
       ui->y = ui_get_fds_char(ui->fds+2);
-      if ( ui->cmd == 'G' )  /* this is also true for 'g' */
+      if ( ui->cmd == 'G' || ui->cmd == 'M' )  /* this is also true for 'g' or 'm' */
       {
         ui->arg = ui_get_fds_char(ui->fds+3);
       }
