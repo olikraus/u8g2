@@ -294,6 +294,13 @@ uint16_t u8x8_ascii_next(U8X8_UNUSED u8x8_t *u8x8, uint8_t b)
   return b;
 }
 
+uint16_t u8x8_ascii_next_pgm(U8X8_UNUSED u8x8_t *u8x8, uint8_t b_)
+{
+  uint8_t b = pgm_read_byte(b_);
+  if (b == 0 || b == '\n') /* '\n' terminates the string to support the ring ////list procedures */
+    return 0x0ffff;        /* end of string detected*/
+  return b;
+}
 /*
   pass a byte from an utf8 encoded string to the utf8 decoder state machine
   returns 

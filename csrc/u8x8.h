@@ -977,6 +977,7 @@ uint16_t u8x8_upscale_byte(uint8_t x) U8X8_NOINLINE;
 
 void u8x8_utf8_init(u8x8_t *u8x8);
 uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b);
+uint16_t u8x8_ascii_next_pgm(u8x8_t *u8x8, uint8_t b_);
 uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b);
 // the following two functions are replaced by the init/next functions 
 //uint16_t u8x8_get_encoding_from_utf8_string(const char **str);

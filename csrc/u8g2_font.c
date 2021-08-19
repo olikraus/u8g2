@@ -845,6 +845,12 @@ u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char 
   return u8g2_draw_string(u8g2, x, y, str);
 }
 
+u8g2_uint_t u8g2_DrawStr_P(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char*  ifsh)
+{
+  u8g2->u8x8.next_cb = u8x8_ascii_next_pgm;
+  PGM_P str = ifsh;
+  return u8g2_draw_string(u8g2, x, y, str);
+}
 /*
 source: https://en.wikipedia.org/wiki/UTF-8
 Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
