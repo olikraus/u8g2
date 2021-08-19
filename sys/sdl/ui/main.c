@@ -32,7 +32,9 @@ fds_t fds =
 
 UI_FORM(1)
 UI_goto(32,10,2, "Test 1")
-UI_goto(32,22,101, "Story")
+UI_goto(32,22,10, "Button Test")
+UI_goto(32,34,101, "Story")
+
 UI_FORM(2)
 //UI_LABEL(64,10, "Ag(1jm")
 UI_FIELD("I1",10, 30)
@@ -43,6 +45,28 @@ UI_BUTTON("B0",96,50, "Cancel")
 
 UI_FORM(3)
 UI_goto(32,50,2, "Goto 1")
+
+UI_FORM(10)
+UI_goto(10,11,11, "Btn 1")
+UI_goto(10,21,12, "Btn 2")
+UI_goto(10,31,13, "Btn 3")
+UI_goto(10,41,14, "Btn 4")
+UI_goto(10,51,15, "Btn 5")
+UI_goto(10,61,16, "Btn 6")
+
+UI_FORM(11)
+UI_goto(10,61,10, "Back")
+UI_FORM(12)
+UI_goto(10,61,10, "Back")
+UI_FORM(13)
+UI_goto(10,61,10, "Back")
+UI_FORM(14)
+UI_goto(10,61,10, "Back")
+UI_FORM(15)
+UI_goto(10,61,10, "Back")
+UI_FORM(16)
+UI_goto(10,61,10, "Back")
+
 
 UI_FORM(101)
 UI_LABEL(0, 10, "Robot enabled.")
@@ -160,7 +184,20 @@ int main(void)
       //u8g2_SetFontPosCenter(&u8g2);
       u8g2_SetFontRefHeightExtendedText(&u8g2);
 
-      nu8g2_DrawButtonUTF8(&u8g2, 64, 50, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 120, /*ph*/ 3,  /*pv*/1, "Ag");
+      if ( ui.current_form_fds[1] == 11 )
+      {
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 9, /*flags*/U8G2_BTN_HCENTER, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 35, /*flags*/U8G2_BTN_HCENTER, /*w*/ 128, /*ph*/ 0,  /*pv*/0, "Center W128");
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV, /*w*/ 128, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");
+      }
+      if ( ui.current_form_fds[1] == 12 )
+      {
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 9, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 126, /*ph*/ 0,  /*pv*/0, "Center W128");
+        nu8g2_DrawButtonUTF8(&u8g2, 63, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 126, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");
+      }
 
       
       //u8g2_DrawBox(&u8g2, 10, 10+y, 20, x);

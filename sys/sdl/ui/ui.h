@@ -72,8 +72,8 @@ struct ui_struct
   size_t uif_cnt;
   
   fds_t current_form_fds;         // the current form
-  fds_t cursor_focus_fds;           // the element which has the current cursor focus
-  fds_t touch_focus_fds;            // the element which has touch focus
+  fds_t cursor_focus_fds;           // the field which has the current cursor focus
+  fds_t touch_focus_fds;            // the field which has touch focus
   
 
   fds_t token;             // current token position
