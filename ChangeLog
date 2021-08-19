@@ -257,6 +257,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for ST7567_HEM6432 (issue 1159)
   * U8g2 16 Bit Mode enabled by default for ARM and ESP Systems (issue 1222)
 2021-xx-xx	v2.29.xx	olikraus@gmail.com
+  * Update for getStrWidth/getUTF8Width: The new value might be little bit larger (issue 1561)
   * Added vertical mirror option for u8g2 (mattnutsch@gmail.com).
   * Added support for UC1638 based 196x96 display (issue 371)
   * Added support for HD44102 and T7932 displays (issue 1492)

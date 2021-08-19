@@ -150,6 +150,19 @@
 #define U8G2_WITH_UNICODE
 
 
+/*
+  See issue https://github.com/olikraus/u8g2/issues/1561
+  The old behaviour of the StrWidth and UTF8Width functions returned an unbalanced string width, where
+  a small space was added to the left but not to the right of the string in some cases.
+  The new "balanced" procedure will assume the same gap on the left and the right side of the string
+  
+  Example: The string width of "C" with font u8g2_font_helvR08_tr was returned as 7.
+  A frame of width 9 would place the C a little bit more to the right (width of that "C" are 6 pixel).
+  If U8G2_BALANCED_STR_WIDTH_CALCULATION is defined, the width of "C" is returned as 8.
+  
+  Not defining U8G2_BALANCED_STR_WIDTH_CALCULATION would fall back to the old bahavior.
+*/
+#define U8G2_BALANCED_STR_WIDTH_CALCULATION
 
 
 /*==========================================*/
@@ -1451,7 +1464,7 @@ uint8_t u8g2_IsAllValidUTF8(u8g2_t *u8g2, const char *str);	// checks whether al
 
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
-u8g2_uint_t u8g2_GetExactStrWidth(u8g2_t *u8g2, const char *s);
+/*u8g2_uint_t u8g2_GetExactStrWidth(u8g2_t *u8g2, const char *s);*/ /*obsolete, see also https://github.com/olikraus/u8g2/issues/1561 */
 
 
 void u8g2_SetFontPosBaseline(u8g2_t *u8g2);
