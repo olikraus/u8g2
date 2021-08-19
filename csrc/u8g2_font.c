@@ -524,7 +524,7 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   int8_t h;
   u8g2_font_decode_t *decode = &(u8g2->font_decode);
     
-  u8g2_font_setup_decode(u8g2, glyph_data);
+  u8g2_font_setup_decode(u8g2, glyph_data);     /* set values in u8g2->font_decode data structure */
   h = u8g2->font_decode.glyph_height;
   
   x = u8g2_font_decode_get_signed_bits(decode, u8g2->font_info.bits_per_char_x);
@@ -1137,6 +1137,7 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
     if ( e != 0x0fffe )
     {
       dx = u8g2_GetGlyphWidth(u8g2, e);		/* delta x value of the glyph */
+      //printf("'%c' x=%d dx=%d  ", e, u8g2->glyph_x_offset, dx);
       w += dx;
     }
   }
@@ -1178,7 +1179,14 @@ int8_t u8g2_GetStrX(u8g2_t *u8g2, const char *s)
 }
 
 
+/*
+Warning: This function needs to be fixed. I think it was taken over from u8glib, but not fixed as of now 
+The main difference for this procedure compared to the normal get width, should be, that the initial
+offset is removed
 
+Idea: for the user interface it probably would be better to add the xoffset of the first char to the end, so that the overall word looks better.
+Maybe then the procedure should be called differently, maybe balanced width instead of exact width
+*/
 static u8g2_uint_t u8g2_calculate_exact_string_width(u8g2_t *u8g2, const char *str)
 {
 
@@ -1200,9 +1208,13 @@ static u8g2_uint_t u8g2_calculate_exact_string_width(u8g2_t *u8g2, const char *s
   
   if ( enc== 0x0ffff )
      return w;
+
+  /* 19 Aug 2021: WARNING: "str" needs to be reseted here, i think */
   
   /* get the glyph information of the first char. This must be valid, because we already checked for the empty string */
   /* if *s is not inside the font, then the cached parameters of the glyph are all zero */
+  
+  /* 19 Aug 2021: WARNING: I think enc is the last char, not the first char as it should be */
   u8g2_GetGlyphHorizontalProperties(u8g2, enc, &gw, &ox, &dx);  
 
   /* strlen(s) == 1:       width = width(s[0]) */
@@ -1231,7 +1243,7 @@ static u8g2_uint_t u8g2_calculate_exact_string_width(u8g2_t *u8g2, const char *s
   }
   
   /* finally calculate the width of the last char */
-  /* here is another exception, if the last char is a black, use the dx value instead */
+  /* here is another exception, if the last char is a blank, use the dx value instead */
   if ( enc != ' ' )
   {
     /* if g was not updated in the for loop (strlen() == 1), then the initial offset x gets removed */

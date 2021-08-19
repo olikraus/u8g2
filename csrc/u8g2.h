@@ -1451,6 +1451,8 @@ uint8_t u8g2_IsAllValidUTF8(u8g2_t *u8g2, const char *str);	// checks whether al
 
 u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
 u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
+u8g2_uint_t u8g2_GetExactStrWidth(u8g2_t *u8g2, const char *s);
+
 
 void u8g2_SetFontPosBaseline(u8g2_t *u8g2);
 void u8g2_SetFontPosBottom(u8g2_t *u8g2);

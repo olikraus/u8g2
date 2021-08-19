@@ -88,7 +88,7 @@ void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t
 
 
   if ( flags & U8G2_BTN_HCENTER )
-    x -= w/2;
+    x -= (w)/2;
 
   if ( flags & U8G2_BTN_PADWIDTH )
   {
@@ -178,7 +178,7 @@ void nu8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
 
 
   if ( flags & U8G2_BTN_HCENTER )
-    x -= w/2;
+    x -= (w+1)/2;
 
   if ( w < width )
   {
@@ -250,6 +250,7 @@ void nu8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
 void u8g2_DrawRButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t padding_h_or_width, u8g2_uint_t padding_v, u8g2_uint_t r, const char *text)
 {
   u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+  //u8g2_uint_t w = u8g2_GetExactStrWidth(u8g2, text);
   
   u8g2_uint_t xx, yy, ww, hh;
   
