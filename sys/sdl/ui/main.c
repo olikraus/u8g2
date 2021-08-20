@@ -31,9 +31,9 @@ UIF(".L",0,0,uif_label_u8g2)
 fds_t fds = 
 
 UI_FORM(1)
-UI_goto(32,10,2, "Test 1")
-UI_goto(32,22,10, "Button Test")
-UI_goto(32,34,101, "Story")
+UI_goto(12,10,2, "Test 1")
+UI_goto(12,22,10, "Button Test")
+UI_goto(12,34,101, "Story")
 
 UI_FORM(2)
 //UI_LABEL(64,10, "Ag(1jm")
@@ -186,17 +186,17 @@ int main(void)
 
       if ( ui.current_form_fds[1] == 11 )
       {
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 35, /*flags*/U8G2_BTN_HCENTER, /*w*/ 128, /*ph*/ 0,  /*pv*/0, "Center W128");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV, /*w*/ 128, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 35, /*flags*/U8G2_BTN_HCENTER, /*w*/ 128, /*ph*/ 0,  /*pv*/0, "Center W128");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV, /*w*/ 128, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");
       }
       if ( ui.current_form_fds[1] == 12 )
       {
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 126, /*ph*/ 0,  /*pv*/0, "Center W128");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 126, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 126, /*ph*/ 0,  /*pv*/0, "Center W128");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 126, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");
       }
 
       if ( ui.current_form_fds[1] == 13 )
@@ -208,21 +208,37 @@ int main(void)
         u8g2_DrawStr(&u8g2, x, y, "C");
         u8g2_DrawFrame(&u8g2, x-1,y-u8g2_GetAscent(&u8g2)-1, w+2, h+2);
         
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
-        nu8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
         
-        nu8g2_DrawButtonUTF8(&u8g2, 10, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "v");
-        nu8g2_DrawButtonUTF8(&u8g2, 10, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "v");
-        nu8g2_DrawButtonUTF8(&u8g2, 24, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "vd");
-        nu8g2_DrawButtonUTF8(&u8g2, 24, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "vd");
-        nu8g2_DrawButtonUTF8(&u8g2, 40, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "B");
-        nu8g2_DrawButtonUTF8(&u8g2, 40, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "B");
-        nu8g2_DrawButtonUTF8(&u8g2, 60, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "A");
-        nu8g2_DrawButtonUTF8(&u8g2, 60, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "A");
-        nu8g2_DrawButtonUTF8(&u8g2, 80, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Ab");
-        nu8g2_DrawButtonUTF8(&u8g2, 80, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Ab");
-        nu8g2_DrawButtonUTF8(&u8g2, 100, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Abg");
-        nu8g2_DrawButtonUTF8(&u8g2, 100, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Abg");
+        u8g2_DrawButtonUTF8(&u8g2, 10, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "v");
+        u8g2_DrawButtonUTF8(&u8g2, 10, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "v");
+        u8g2_DrawButtonUTF8(&u8g2, 24, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "vd");
+        u8g2_DrawButtonUTF8(&u8g2, 24, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "vd");
+        u8g2_DrawButtonUTF8(&u8g2, 40, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "B");
+        u8g2_DrawButtonUTF8(&u8g2, 40, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "B");
+        u8g2_DrawButtonUTF8(&u8g2, 60, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "A");
+        u8g2_DrawButtonUTF8(&u8g2, 60, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "A");
+        u8g2_DrawButtonUTF8(&u8g2, 80, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Ab");
+        u8g2_DrawButtonUTF8(&u8g2, 80, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Ab");
+        u8g2_DrawButtonUTF8(&u8g2, 100, 35, /*flags*/U8G2_BTN_HCENTER|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Abg");
+        u8g2_DrawButtonUTF8(&u8g2, 100, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Abg");
+      }
+
+      if ( ui.current_form_fds[1] == 14 )
+      {
+        u8g2_DrawButtonUTF8(&u8g2, 64, 9, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_SHADOW0|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 22, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|1, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 35, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_SHADOW0|1, /*w*/ 124, /*ph*/ 0,  /*pv*/0, "Center W128");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 48, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_INV|U8G2_BTN_SHADOW0|1, /*w*/ 124, /*ph*/ 0,  /*pv*/0, "Center W128 Inv");        
+      }
+
+      if ( ui.current_form_fds[1] == 15 )
+      {
+        u8g2_uint_t x = 24;
+        u8g2_DrawButtonUTF8(&u8g2, 8-8, 9, /*flags*/U8G2_BTN_INV, /*w*/ 112+8*2, /*ph*/ 0,  /*pv*/0, "Line");
+        u8g2_DrawButtonUTF8(&u8g2, 8-4, 22, /*flags*/U8G2_BTN_INV, /*w*/ 112+4*2, /*ph*/ 4,  /*pv*/0, "Line");
+        u8g2_DrawButtonUTF8(&u8g2, x, 35, /*flags*/U8G2_BTN_INV, /*w*/ 128-2*x, /*ph*/ x,  /*pv*/0, "Line");
       }
       
       //u8g2_DrawBox(&u8g2, 10, 10+y, 20, x);
