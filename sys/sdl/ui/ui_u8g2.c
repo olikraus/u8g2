@@ -60,105 +60,11 @@ uint8_t uif_template(ui_t *ui, uint8_t msg)
   
   Side effect: Font transparent mode is enabled setFontMode(1)
 
-  U8G2_BTN_PADWIDTH | padding_h_or_width >= u8g2_GetDisplayWidth(u8g2)/2 | Description
-    no          |  no | padding_h_or_width is the left and right gab between text and border
-    no          |  yes | the total width of the button is equal to the display width
-    yes         | - | The inner width of the button is equal to padding_h_or_width or the text width (whatever is larger)
-    
 
 
   if padding_h is larger than or equal to half of the display width, then the button size is maximized to the display size
 */
 
-
-void old_u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t padding_h_or_width, u8g2_uint_t padding_v, const char *text)
-{
-  u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
-  
-  u8g2_uint_t xx, yy, ww, hh;
-  
-  u8g2_uint_t border_width = flags & U8G2_BTN_BW_MASK;
-  u8g2_uint_t padding_h = padding_h_or_width;
-  u8g2_uint_t text_x_offset = 0;        // used for U8G2_BTN_PADWIDTH mode
-
-  int8_t a = u8g2_GetAscent(u8g2);
-  int8_t d = u8g2_GetDescent(u8g2);
-  uint8_t color_backup = u8g2->draw_color;
-
-
-  if ( flags & U8G2_BTN_HCENTER )
-    x -= (w)/2;
-
-  if ( flags & U8G2_BTN_PADWIDTH )
-  {
-    padding_h = 0;
-    if ( w < padding_h_or_width )
-    {
-      if ( flags & U8G2_BTN_HCENTER )
-      {
-        text_x_offset = (padding_h_or_width-w)/2;
-      }
-      w = padding_h_or_width;
-    }
-  }
-  
-  
-  u8g2_SetFontMode(u8g2, 1);
-    
-  for(;;)
-  {
-    if ( padding_h >= u8g2_GetDisplayWidth(u8g2)/2 )    // padding_h is zero if U8G2_BTN_PADWIDTH is set
-    {
-      xx = (flags & U8G2_BTN_BW_MASK) - border_width;
-      ww = u8g2_GetDisplayWidth(u8g2);
-      ww -= 2*((flags & U8G2_BTN_BW_MASK) - border_width);
-      //printf("xx=%d ww=%d\n", xx, ww);
-      //printf("clip_x1=%d clip_x0=%d\n", u8g2->clip_x1, u8g2->clip_x0);
-    }
-    else
-    {
-      xx = x;
-      xx -= text_x_offset;
-      xx -= padding_h;
-      xx -= border_width;
-      ww = w+2*padding_h+2*border_width;
-    }
-    
-    yy = y;
-    yy += u8g2->font_calc_vref(u8g2);
-    yy -= a;
-    yy -= padding_v;
-    yy -= border_width;
-    hh = a-d+2*padding_v+2*border_width;
-    if ( border_width == 0 )
-      break;
-    u8g2_DrawFrame(u8g2, xx, yy, ww, hh);
-    
-    if ( flags & U8G2_BTN_SHADOW_MASK )
-    {
-      if ( border_width == (flags & U8G2_BTN_BW_MASK) )
-      {
-        u8g2_uint_t i;
-        u8g2_uint_t shadow_gap = (flags & U8G2_BTN_SHADOW_MASK) >> U8G2_BTN_SHADOW_POS;
-        shadow_gap--;
-        for( i = 0; i < border_width; i++ )
-        {
-          u8g2_DrawHLine(u8g2, xx+border_width+shadow_gap,yy+hh+i+shadow_gap,ww);
-          u8g2_DrawVLine(u8g2, xx+ww+i+shadow_gap,yy+border_width+shadow_gap,hh);
-        }
-      }
-    }
-    
-    border_width--;
-  }
-  if ( flags & U8G2_BTN_INV )
-  {
-    u8g2_DrawBox(u8g2, xx, yy, ww, hh);
-    u8g2_SetDrawColor(u8g2, 1-u8g2->draw_color);
-  }
-  u8g2_DrawUTF8(u8g2, x,y, text);
-  u8g2_SetDrawColor(u8g2, color_backup);
-}
 
 
 /*
@@ -441,11 +347,11 @@ uint8_t uif_frame_button_bold_select_u8g2(ui_t *ui, uint8_t msg)
 uint8_t uif_half_width_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = ui_get_U8g2(ui);
-  u8g2_uint_t flags = U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | 1;
+  u8g2_uint_t flags = U8G2_BTN_HCENTER | 1;
   switch(msg)
   {
     case UIF_MSG_DRAW:
-      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      if ( ui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
@@ -500,7 +406,7 @@ uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
   switch(msg)
   {
     case UIF_MSG_DRAW:
-      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      if ( ui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
@@ -651,7 +557,7 @@ uint8_t uif_goto_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 
   Field definition string (fds):
     xy: Left position of the text (required)
-    arg: total width of the selectable option (optional), 
+    arg: not used 
     text: not used
     
 */
@@ -669,11 +575,12 @@ uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
       if ( *value > 9 ) *value = 9;
       buf[0] = (char)(*value + '0');
       buf[1] = '\0';
-      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      if ( ui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, ui->arg, 0, 1, buf);
+      
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
       
       break;
     case UIF_MSG_FORM_START:
@@ -737,7 +644,7 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
         *value = 0;
         ui_fds_get_nth_token(ui, *value);
       }      
-      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      if ( ui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }

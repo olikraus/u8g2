@@ -37,11 +37,11 @@ UI_goto(12,34,101, "Story")
 
 UI_FORM(2)
 //UI_LABEL(64,10, "Ag(1jm")
-UI_FIELD("I1",10, 30)
+UI_F("I1",10, 30)
 UI_A("I2",30, 30, 60, "Banana|Apple|Peach")
 //UI_BUTTON("B1",32,50, "Ok")
 UI_GOTO(32,50,3, "Goto 2")
-UI_BUTTON("B0",96,50, "Cancel")
+UI_GOTO(96,50,1, "Home")
 
 UI_FORM(3)
 UI_goto(32,50,2, "Goto 1")
@@ -52,7 +52,7 @@ UI_goto(10,21,12, "Btn 2")
 UI_goto(10,31,13, "Btn 3")
 UI_goto(10,41,14, "Btn 4")
 UI_goto(10,51,15, "Btn 5")
-UI_goto(10,61,16, "Btn 6")
+UI_goto(10,61,1, "Home")
 
 UI_FORM(11)
 UI_goto(10,61,10, "Back")
@@ -141,7 +141,7 @@ UI_goto(10,61,107, "Exit Scan")
 
 UI_FORM(110)
 UI_LABEL(0, 9, "Touchscreen.")
-UI_BUTTON("TS",0, 25, "Navigation|Energy|Damage|Robot|Security")
+UI_B("TS",0, 25, "Navigation|Energy|Damage|Robot|Security")
 UI_goto(10,61,108, "Exit Touchscreen")
 
 ;
@@ -160,7 +160,7 @@ int main(void)
   
   ui_Init(&ui, fds, uif_list, sizeof(uif_list)/sizeof(uif_t));
   ui.graphics_data = &u8g2;
-  ui_EnterForm(&ui);
+  ui_EnterForm(&ui, 0);
 
   puts(fds);
   

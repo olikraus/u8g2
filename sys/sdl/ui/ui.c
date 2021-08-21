@@ -334,7 +334,7 @@ void ui_prepare_current_field(ui_t *ui)
   }
   else
   {
-    printf("cmd %c field %c%c (%d, %d) not found\n", ui->cmd, ui->id0, ui->id1, ui->id0, ui->id1);
+    // printf("cmd %c field %c%c (%d, %d) not found\n", ui->cmd, ui->id0, ui->id1, ui->id0, ui->id1);
   }
   
 }
@@ -371,7 +371,6 @@ fds_t ui_find_form(ui_t *ui, uint8_t n)
 {
   fds_t fds = ui->root_fds;
   uint8_t cmd;
-  size_t len;
   
   for( ;; )
   {
@@ -477,8 +476,20 @@ void ui_Draw(ui_t *ui)
   ui_loop_over_form(ui, ui_task_draw);
 }
 
+void ui_next_field(ui_t *ui)
+{
+  ui_loop_over_form(ui, ui_task_find_next_cursor_uif);
+  ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
+  if ( ui->target_fds == NULL )
+  {
+    ui_loop_over_form(ui, ui_task_find_first_cursor_uif);
+    ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
+  }
+}
+
+
 /* input: current_form_fds */
-void ui_EnterForm(ui_t *ui)
+void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position)
 {
   /* clean focus fields */
   ui->touch_focus_fds = NULL;
@@ -489,6 +500,14 @@ void ui_EnterForm(ui_t *ui)
   
   /* assign initional cursor focus */
   ui_loop_over_form(ui, ui_task_find_first_cursor_uif);
+  
+  
+  while( initial_cursor_position > 0 )
+  {
+    ui_next_field(ui);
+    initial_cursor_position--;
+  }
+  
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
 }
@@ -511,22 +530,14 @@ uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id)
     return 0;
   ui_LeaveForm(ui);
   ui->current_form_fds = fds;
-  ui_EnterForm(ui);
+  ui_EnterForm(ui, 0);
   return 1;
 }
 
 void ui_NextField(ui_t *ui)
 {
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
-  
-  ui_loop_over_form(ui, ui_task_find_next_cursor_uif);
-  ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
-  if ( ui->target_fds == NULL )
-  {
-    ui_loop_over_form(ui, ui_task_find_first_cursor_uif);
-    ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
-  }
-  
+  ui_next_field(ui);
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
 }
 
