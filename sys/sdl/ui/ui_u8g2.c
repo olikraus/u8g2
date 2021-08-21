@@ -367,38 +367,12 @@ u8g2_t *ui_get_U8g2(ui_t *ui)
 }
 
 /*=========================================================================*/
-/* field functions */
+/* incomplete (draw only) field functions */
 
-uint8_t uif_label_u8g2(ui_t *ui, uint8_t msg)
-{
-  switch(msg)
-  {
-    case UIF_MSG_DRAW:
-      //printf("DRAW fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
-      u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_BW1 | U8G2_BTN_INV, 4, 1, ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | U8G2_BTN_SHADOW2 | 2, 100, 1, ui->text);
-      //u8g2_DrawRButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER  | U8G2_BTN_INV | 3, 2, 1, ui->text);
-      //u8g2_DrawRButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER   | 3, 2, 1, 8, ui->text);
-      break;
-    case UIF_MSG_FORM_START:
-      break;
-    case UIF_MSG_FORM_END:
-      break;
-    case UIF_MSG_CURSOR_ENTER:
-      break;
-    case UIF_MSG_CURSOR_SELECT:
-      break;
-    case UIF_MSG_CURSOR_LEAVE:
-      break;
-    case UIF_MSG_TOUCH_DOWN:
-      break;
-    case UIF_MSG_TOUCH_UP:
-      break;    
-  }
-  return 0;
-}
 
+/*
+  xy: yes, arg: no, text: yes
+*/
 uint8_t uif_frame_button_bold_select_u8g2(ui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = ui_get_U8g2(ui);
@@ -440,22 +414,37 @@ uint8_t uif_frame_button_bold_select_u8g2(ui_t *ui, uint8_t msg)
 }
 
 /*
-  - Fixed width: Half of the display width -10
-  - Inverted if selected
-  - Reference Position: x=Center, y=Text Baseline
+
+  uint8_t uif_half_width_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+  Description:
+    A button with size equal to display width / 2 - 10 pixel
+    The button has a one pixel frame around the text.
+    
+  Message Handling: DRAW
+
+  Style
+    No Selection: Text + Frame
+    Cursor Selection: Inverted text + Frame
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: not used
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: not used
+    text: Button label
+    
 */
-uint8_t uif_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+uint8_t uif_half_width_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = ui_get_U8g2(ui);
   u8g2_uint_t flags = U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | 1;
   switch(msg)
   {
     case UIF_MSG_DRAW:
-      //printf("DRAW fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
-      //u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_BW1 | U8G2_BTN_INV, 4, 1, ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | U8G2_BTN_SHADOW2 | 2, 100, 1, ui->text);
-      //u8g2_DrawRButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER  | U8G2_BTN_INV | 3, 2, 1, ui->text);
       if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
       {
         flags |= U8G2_BTN_INV;
@@ -481,10 +470,27 @@ uint8_t uif_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 }
 
 /*
-  - Fixed width: width of display width
-  - Inverted if selected
-  - Reference Position: x=lower left of text, y=Text Baseline
-  - Arg: not used
+
+  uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+  Description:
+    A full line button (covers complete width of the display).
+    
+  Message Handling: DRAW
+
+  Style
+    No Selection: Text only
+    Cursor Selection: Inverted text
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: not used
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: not used
+    text: Button label
+    
 */
 uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
@@ -494,18 +500,11 @@ uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
   switch(msg)
   {
     case UIF_MSG_DRAW:
-      //printf("DRAW fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
-      //u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_BW1 | U8G2_BTN_INV, 4, 1, ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | U8G2_BTN_SHADOW2 | 2, 100, 1, ui->text);
-      //u8g2_DrawRButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER  | U8G2_BTN_INV | 3, 2, 1, ui->text);
       if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
       {
         flags |= U8G2_BTN_INV;
       }
       u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)-ui_get_x(ui)*2, ui_get_x(ui) , 0, ui->text);
-      
-
       break;
     case UIF_MSG_FORM_START:
       break;
@@ -525,16 +524,99 @@ uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
   return 0;
 }
 
-uint8_t uif_goto_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+/*=========================================================================*/
+/* ready to use field functions */
+
+/*
+  xy: yes, arg: no, text: yes
+*/
+
+uint8_t uif_label_u8g2(ui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
+      break;
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;    
+  }
+  return 0;
+}
+
+/*
+
+  uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+  Description:
+    A button with size equal to display width / 2 - 10 pixel
+    The button has a one pixel frame around the text.
+    If the selected, then the form will change to the specified form number.
+    
+  Message Handling: DRAW, CURSOR_SELECT
+
+  Style
+    No Selection: Text + Frame
+    Cursor Selection: Inverted text + Frame
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: not used
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: not used
+    text: Button label
+    
+*/
+uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
     case UIF_MSG_CURSOR_SELECT:
       return ui_GotoForm(ui, ui->arg);
   }
-  return uif_frame_button_invers_select_u8g2(ui, msg);
+  return uif_half_width_frame_button_invers_select_u8g2(ui, msg);
 }
 
+
+/*
+
+  uint8_t uif_goto_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+  Description:
+    A full line button (covers complete width of the display).
+    If the selected, then the form will change to the specified form number.
+    
+  Message Handling: DRAW, CURSOR_SELECT
+
+  Style
+    No Selection: Text only
+    Cursor Selection: Inverted text
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: not used
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: If selected, the form will change to the form specified by this argument
+    text: Button label
+    
+*/
 
 uint8_t uif_goto_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
@@ -548,11 +630,30 @@ uint8_t uif_goto_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 
 
 /*
-  data: uint8_t *
 
-  Uses:
-    ui->arg     --> total field width
+  uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
 
+  Description:
+    Select a number between 0 and 9.
+    Only one number is visible.
+    The visible option is automatically the selected number.
+    The selected number is stored ad the target data location.
+
+  Message Handling: DRAW, SELECT
+
+  Style
+    No Selection: Number only
+    Cursor Selection: Inverted number
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: uint8_t *, pointer to a uint8_t variable, which contains the selected option 
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: total width of the selectable option (optional), 
+    text: not used
+    
 */
 uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
@@ -596,8 +697,29 @@ uint8_t uif_input_uint8_invers_select_u8g2(ui_t *ui, uint8_t msg)
 }
 
 /*
-  data: uint8_t *
-  will use options from FSD
+
+  uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+  Description:
+    Select one of several options. First option has value 0.
+    Only one option is visible.
+    The visible option is automatically the selected option.
+
+  Message Handling: DRAW, SELECT
+
+  Style
+    No Selection: Text only
+    Cursor Selection: Inverted text
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: uint8_t *, pointer to a uint8_t variable, which contains the selected option 
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: total width of the selectable option (optional), 
+    text: '|' separated list of options
+    
 */
 uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {

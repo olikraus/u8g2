@@ -18,12 +18,12 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg);
 
 
 uif_t uif_list[] = {
-UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_invers_select_u8g2),
-UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_frame_button_invers_select_u8g2),
+UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
+UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
 UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
 UIF("I2",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,uif_single_line_option_invers_select_u8g2),
 UIF("TS",UIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,uif_single_line_option_invers_select_u8g2),
-UIF(".G",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
+UIF(".G",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_half_width_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
 UIF(".g",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
 UIF(".L",0,0,uif_label_u8g2)
 };
