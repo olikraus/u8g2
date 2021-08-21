@@ -235,13 +235,14 @@ size_t ui_fds_get_cmd_size(ui_t *ui, fds_t s)
 
 
 
-void ui_Init(ui_t *ui, fds_t fds, uif_t *uif_list, size_t uif_cnt)
+void ui_Init(ui_t *ui, void *graphics_data, fds_t fds, uif_t *uif_list, size_t uif_cnt)
 {
   memset(ui, 0, sizeof(ui_t));
   ui->root_fds = fds;
   ui->current_form_fds = fds;
   ui->uif_list = uif_list;
   ui->uif_cnt = uif_cnt;
+  ui->graphics_data = graphics_data;
 }
 
 ssize_t ui_find_uif(ui_t *ui, uint8_t id0, uint8_t id1)
@@ -259,8 +260,12 @@ ssize_t ui_find_uif(ui_t *ui, uint8_t id0, uint8_t id1)
 
 /*
   assumes a valid position in ui->fds and calculates all the other variables
+  some fields are alway calculated like the ui->cmd and ui->len field
+  other member vars are calculated only if the return value is 1
+  will return 1 if the field id was found.
+  will return 0 if the field id was not found in uif or if ui->fds points to something else than a field
 */
-void ui_prepare_current_field(ui_t *ui)
+uint8_t ui_prepare_current_field(ui_t *ui)
 {
   ssize_t uif_idx;
 
@@ -273,21 +278,17 @@ void ui_prepare_current_field(ui_t *ui)
   /* calculate the length of the command and copy the text argument */
   ui->len = ui_fds_get_cmd_size(ui, ui->fds); 
 
-  //printf("ui_prepare_current_field text=%s\n", ui->text);
-
-
-  
   /* get the command and check whether end of form is reached */
   ui->cmd = ui_get_fds_char(ui->fds);
   
-  /* Copy the cmd also to second id value. This is required for some commands, others will overwrite this */
+  /* Copy the cmd also to second id value. This is required for some commands, others will overwrite this below */
   ui->id1 = ui->cmd;
   
   /* now make the command uppercase so that both, upper and lower case are considered */
   ui->cmd &= 0xdf; /* consider upper and lower case */
   
   if ( ui->cmd == 'U' || ui->cmd == 0 )
-    return;
+    return 0;
 
   /* calculate the dynamic flags */
   if ( ui->fds == ui->cursor_focus_fds )
@@ -325,23 +326,24 @@ void ui_prepare_current_field(ui_t *ui)
       }
   }
   
-  /* find the field and execute the task */
+  /* find the field  */
   uif_idx = ui_find_uif(ui, ui->id0, ui->id1);
   //printf("ui_prepare_current_field: uif_idx=%d\n", uif_idx);
   if ( uif_idx >= 0 )
   {
     ui->uif = ui->uif_list + uif_idx;
+    return 1;
   }
-  else
-  {
-    // printf("cmd %c field %c%c (%d, %d) not found\n", ui->cmd, ui->id0, ui->id1, ui->id0, ui->id1);
-  }
-  
+  return 0;
 }
 
 void ui_loop_over_form(ui_t *ui, void (*task)(ui_t *ui))
 {
   uint8_t cmd;
+  
+  if ( ui->current_form_fds == NULL )
+    return;
+  
   ui->fds = ui->current_form_fds;
   ui->target_fds = NULL;
   ui->tmp_fds = NULL;
@@ -354,11 +356,8 @@ void ui_loop_over_form(ui_t *ui, void (*task)(ui_t *ui))
     cmd = ui_get_fds_char(ui->fds);
     if ( cmd == 'U' || cmd == 0 )
       break;
-    ui_prepare_current_field(ui);
-    if ( ui->uif )
-    {
-      task(ui);
-    }
+    if ( ui_prepare_current_field(ui) )
+      task(ui);         /* call the task, which was provided as argument to this function */
     ui->fds += ui->len;
   }
   //printf("ui_loop_over_form ended\n");
@@ -437,6 +436,7 @@ void ui_task_find_last_cursor_uif(ui_t *ui)
 {
   if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
+    ui->cursor_focus_position++;
     ui->target_fds = ui->fds;
   }
 }
@@ -464,8 +464,8 @@ void ui_send_cursor_msg(ui_t *ui, uint8_t msg)
   if ( ui->cursor_focus_fds )
   {
     ui->fds = ui->cursor_focus_fds;
-    ui_prepare_current_field(ui);
-    uif_get_cb(ui->uif)(ui, msg);
+    if ( ui_prepare_current_field(ui) )
+      uif_get_cb(ui->uif)(ui, msg);
   }
 }
 
@@ -479,11 +479,13 @@ void ui_Draw(ui_t *ui)
 void ui_next_field(ui_t *ui)
 {
   ui_loop_over_form(ui, ui_task_find_next_cursor_uif);
+  ui->cursor_focus_position++;
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   if ( ui->target_fds == NULL )
   {
     ui_loop_over_form(ui, ui_task_find_first_cursor_uif);
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
+    ui->cursor_focus_position = 0;
   }
 }
 
@@ -520,6 +522,7 @@ void ui_LeaveForm(ui_t *ui)
   
   /* inform all fields that we leave the form */
   ui_loop_over_form(ui, ui_task_form_end);  
+  ui->current_form_fds = NULL;
 }
 
 /* 0: error, form not found */
@@ -534,6 +537,9 @@ uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id)
   return 1;
 }
 
+/*
+  updates "ui->cursor_focus_fds" and "ui->cursor_focus_position"
+*/
 void ui_NextField(ui_t *ui)
 {
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
@@ -541,15 +547,20 @@ void ui_NextField(ui_t *ui)
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
 }
 
+/*
+  updates "ui->cursor_focus_fds" and "ui->cursor_focus_position"
+*/
 void ui_PrevField(ui_t *ui)
 {
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
   
   ui_loop_over_form(ui, ui_task_find_prev_cursor_uif);
+  ui->cursor_focus_position--;
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   if ( ui->target_fds == NULL )
   {
-    ui_loop_over_form(ui, ui_task_find_last_cursor_uif);
+    ui->cursor_focus_position = 0;
+    ui_loop_over_form(ui, ui_task_find_last_cursor_uif); // ui_task_find_last_cursor_uif will also increment ui->cursor_focus_position
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   }
   

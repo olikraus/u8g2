@@ -71,14 +71,15 @@ struct ui_struct
   uif_t *uif_list;
   size_t uif_cnt;
   
-  fds_t current_form_fds;         // the current form
-  fds_t cursor_focus_fds;           // the field which has the current cursor focus
+  fds_t current_form_fds;         // the current form, NULL if the ui is not active at the moment
+  fds_t cursor_focus_fds;           // the field which has the current cursor focus, NULL if there is no current focus
   fds_t touch_focus_fds;            // the field which has touch focus
-  
 
   fds_t token;             // current token position
   
   /* current field/style variables */
+  uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for ui_EnterForm
+  
   uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)
   uint8_t id0;            // identifier of the field, manually provided or derived (G cmd has fixed id "FG")
@@ -94,7 +95,7 @@ struct ui_struct
 
   /* target  */
   fds_t tmp_fds;
-  fds_t target_fds;
+  fds_t target_fds;     // used by several task functions as a return / result value
 };
 
 #define ui_IsCursorFocus(ui) ((ui)->dflags & UIF_DFLAG_IS_CURSOR_FOCUS)
@@ -382,7 +383,7 @@ uint8_t ui_fds_get_nth_token(ui_t *ui, uint8_t n);
 uint8_t ui_fds_get_token_cnt(ui_t *ui);
 
 
-void ui_Init(ui_t *ui, fds_t fds, uif_t *uif_list, size_t uif_cnt);
+void ui_Init(ui_t *ui, void *graphics_data, fds_t fds, uif_t *uif_list, size_t uif_cnt);
 void ui_Draw(ui_t *ui);
 void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position);
 void ui_LeaveForm(ui_t *ui);

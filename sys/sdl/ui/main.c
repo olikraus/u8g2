@@ -158,8 +158,7 @@ int main(void)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   
-  ui_Init(&ui, fds, uif_list, sizeof(uif_list)/sizeof(uif_t));
-  ui.graphics_data = &u8g2;
+  ui_Init(&ui, &u8g2, fds, uif_list, sizeof(uif_list)/sizeof(uif_t));
   ui_EnterForm(&ui, 0);
 
   puts(fds);
