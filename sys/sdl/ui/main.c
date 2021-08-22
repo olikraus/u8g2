@@ -12,6 +12,7 @@ ui_t ui;
 uint8_t my_value = 2;
 uint8_t my_value2 = 2;
 uint8_t my_value3 = 0;
+uint8_t my_color = 0;
 
 uint8_t touchscreen_selection = 255;
 
@@ -23,7 +24,11 @@ UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_sel
 UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
 UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
 UIF("I2",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,uif_single_line_option_invers_select_u8g2),
-UIF("I3",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,uif_checkbox_u8g2),
+UIF("I3",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,uif_checkbox_invers_select_u8g2),
+UIF("I4",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,uif_show_option_goto_form_invers_select_u8g2),
+
+UIF("O4",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,uif_assign_arg_go_back_invers_select_u8g2),
+  
 UIF("TS",UIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,uif_single_line_option_invers_select_u8g2),
 UIF(".G",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_half_width_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
 UIF(".g",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
@@ -38,19 +43,29 @@ UI_goto(12,22,10, "Button Test")
 UI_goto(12,34,101, "Story")
 
 UI_FORM(2)
-UI_LABEL(0,12, "Number:")
-UI_F("I1",50, 12)
-UI_LABEL(0,28, "Fruit:")
-UI_A("I2",50, 28, 60, "Banana|Apple|Peach")
-UI_LABEL(0,44, "Check:")
+UI_LABEL(0,10, "Number:")
+UI_F("I1",50, 10)
+UI_LABEL(0,22, "Fruit:")
+UI_A("I2",50, 22, 60, "Banana|Apple|Peach")
+UI_LABEL(0,34, "Check:")
 //UI_B("I3",50, 44, "ABCxyz")
-UI_F("I3",50, 44)
+UI_F("I3",50, 34)
+
+UI_LABEL(0,46, "Color:")
+UI_A("I4",50, 46, 4, "red|green|blue")
+
+
 //UI_BUTTON("B1",32,50, "Ok")
 UI_GOTO(32,60,3, "Goto 2")
 UI_GOTO(96,60,1, "Home")
 
 UI_FORM(3)
 UI_goto(32,50,2, "Goto 1")
+
+UI_FORM(4)
+UI_A("O4", 2, 10, 0, "red")
+UI_A("O4", 2, 22, 1, "green")
+UI_A("O4", 2, 34, 2, "blue")
 
 UI_FORM(10)
 UI_goto(10,11,11, "Btn 1")

@@ -178,6 +178,46 @@ void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t
 }
 
 
+void u8g2_DrawCheckbox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t is_checked)
+{
+  u8g2_DrawFrame(u8g2, x, y-w, w, w);
+  if ( is_checked )
+  {
+    w-=4;
+    u8g2_DrawBox(u8g2, x+2, y-w-2, w, w);
+  }
+}
+
+void u8g2_DrawValueMark(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w)
+{
+  u8g2_DrawBox(u8g2, x, y-w, w, w);
+}
+
+
+#ifdef NOT_USED
+void u8g2_Draw4Pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w)
+{
+  u8g2_DrawPixel(u8g2, x,y-1);
+  u8g2_DrawPixel(u8g2, x+w-1,y-1);
+  u8g2_DrawPixel(u8g2, x+w-1,y-w);
+  u8g2_DrawPixel(u8g2, x,y-w);
+}
+
+void u8g2_DrawRadio(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t is_checked)
+{
+  uint8_t color_backup = u8g2->draw_color;
+  u8g2_DrawCheckbox(u8g2, x,y,w,is_checked);
+  u8g2_SetDrawColor(u8g2, 2);
+  u8g2_Draw4Pixel(u8g2, x,y,w);
+  if ( is_checked )
+  {
+    //u8g2_Draw4Pixel(u8g2, x+2,y-2,w-4);
+  }
+  
+  u8g2_SetDrawColor(u8g2, color_backup );
+}
+#endif
+ 
 
 
 /*
@@ -445,6 +485,58 @@ uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 }
 
 
+uint8_t uif_radio_mark_invers_select_u8g2(ui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  if ( value == NULL )
+    value = &(ui->selected_value);
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      if ( ui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
+        if ( *value == ui->arg )
+          u8g2_DrawValueMark(u8g2, ui_get_x(ui), ui_get_y(ui), a);
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, ui_get_x(ui)+a, ui_get_y(ui), ui->text);
+        }
+        
+        u8g2_DrawButtonFrame(u8g2, ui_get_x(ui), ui_get_y(ui), flags, w+a, 1, 1);
+      }
+      break;
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      *value = ui->arg;
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}
+
 /*=========================================================================*/
 /* ready to use field functions */
 
@@ -686,39 +778,77 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
   return 0;
 }
    
-void u8g2_DrawCheckbox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t is_checked)
+
+
+uint8_t uif_show_option_goto_form_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
-  u8g2_DrawFrame(u8g2, x, y-w, w, w);
-  if ( is_checked )
+  //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
+  //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  //u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  switch(msg)
   {
-    w-=4;
-    u8g2_DrawBox(u8g2, x+2, y-w-2, w, w);
+    case UIF_MSG_DRAW:
+      if ( ui_fds_get_nth_token(ui, *value) == 0 )
+      {
+        *value = 0;
+        ui_fds_get_nth_token(ui, *value);
+      }      
+      if ( ui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 0, 1, 1, ui->text);
+      
+      break;
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      ui_SaveForm(ui);          // store the current form and position so that the child can jump back
+      ui_GotoForm(ui, ui->arg, *value);  // assumes that the selectable values are at the top of the form
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;
   }
+  return 0;
 }
 
-void u8g2_Draw4Pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w)
-{
-  u8g2_DrawPixel(u8g2, x,y-1);
-  u8g2_DrawPixel(u8g2, x+w-1,y-1);
-  u8g2_DrawPixel(u8g2, x+w-1,y-w);
-  u8g2_DrawPixel(u8g2, x,y-w);
-}
 
-void u8g2_DrawRadio(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t is_checked)
-{
-  uint8_t color_backup = u8g2->draw_color;
-  u8g2_DrawCheckbox(u8g2, x,y,w,is_checked);
-  u8g2_SetDrawColor(u8g2, 2);
-  u8g2_Draw4Pixel(u8g2, x,y,w);
-  if ( is_checked )
-  {
-    //u8g2_Draw4Pixel(u8g2, x+2,y-2,w-4);
-  }
+/*
+
+  uint8_t uif_checkbox_invers_select_u8g2(ui_t *ui, uint8_t msg)
   
-  u8g2_SetDrawColor(u8g2, color_backup );
-}
-   
-uint8_t uif_checkbox_u8g2(ui_t *ui, uint8_t msg)
+  Description:
+    Checkbox with the values 0 (not selected) and 1 (selected). 
+
+  Message Handling: DRAW, SELECT
+
+  Style
+    No Selection: Plain checkbox and text
+    Cursor Selection: Checkbox and text is inverted
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: uint8_t *, pointer to a uint8_t variable, which contains the values 0 or 1
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: not used
+    text: Optional: Text will be printed after the checkbox with a small gap
+    
+*/
+
+uint8_t uif_checkbox_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = ui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
@@ -772,3 +902,61 @@ uint8_t uif_checkbox_u8g2(ui_t *ui, uint8_t msg)
   
 }
 
+uint8_t uif_assign_arg_invers_select_u8g2(ui_t *ui, uint8_t msg)
+{
+  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  if ( value == NULL )
+    value = &(ui->selected_value);
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      return uif_radio_mark_invers_select_u8g2(ui, msg);
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      *value = ui->arg;
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}
+
+uint8_t uif_assign_arg_go_back_invers_select_u8g2(ui_t *ui, uint8_t msg)
+{
+  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  if ( value == NULL )
+    value = &(ui->selected_value);
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      return uif_radio_mark_invers_select_u8g2(ui, msg);
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      *value = ui->arg;
+      ui_RestoreForm(ui);
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}

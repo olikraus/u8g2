@@ -79,6 +79,7 @@ struct ui_struct
 
   fds_t token;             // current token position
   
+  uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
   uint8_t tmp8;
   /* current field/style variables */
   //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for ui_EnterForm
