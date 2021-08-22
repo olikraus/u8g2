@@ -3,6 +3,7 @@
 #include "u8g2.h"
 #include "ui_u8g2.h"
 
+
 /*
 
 uint8_t uif_template(ui_t *ui, uint8_t msg)
@@ -91,40 +92,21 @@ uint8_t uif_template(ui_t *ui, uint8_t msg)
   Total size with U8G2_BTN_SHADOW2: width+2*padding_h+3*border+2
 */
 
-void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text)
+void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t text_width, u8g2_uint_t padding_h, u8g2_uint_t padding_v)
 {
-  u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+  u8g2_uint_t w = text_width;
   
   u8g2_uint_t xx, yy, ww, hh;
   
   u8g2_uint_t border_width = flags & U8G2_BTN_BW_MASK;
-  u8g2_uint_t text_x_offset = 0;        // used for U8G2_BTN_PADWIDTH mode
 
   int8_t a = u8g2_GetAscent(u8g2);
   int8_t d = u8g2_GetDescent(u8g2);
-  uint8_t color_backup = u8g2->draw_color;
-
-
-  if ( flags & U8G2_BTN_HCENTER )
-    x -= (w+1)/2;
-
-  if ( w < width )
-  {
-    if ( flags & U8G2_BTN_HCENTER )
-    {
-      text_x_offset = (width-w)/2;
-    }
-    w = width;
-  }
   
-  
-  u8g2_SetFontMode(u8g2, 1);
-    
   for(;;)
   {
 
     xx = x;
-    xx -= text_x_offset;
     xx -= padding_h;
     xx -= border_width;
     ww = w+2*padding_h+2*border_width;
@@ -153,17 +135,49 @@ void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t
         }
       }
     }
-    
     border_width--;
   }
   if ( flags & U8G2_BTN_INV )
   {
+    uint8_t color_backup = u8g2->draw_color;
+    u8g2_SetDrawColor(u8g2, 2);         /* XOR */
     u8g2_DrawBox(u8g2, xx, yy, ww, hh);
-    u8g2_SetDrawColor(u8g2, 1-u8g2->draw_color);
+    u8g2_SetDrawColor(u8g2, color_backup);
   }
-  u8g2_DrawUTF8(u8g2, x,y, text);
-  u8g2_SetDrawColor(u8g2, color_backup);
 }
+
+void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text)
+{
+  u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+  
+  //u8g2_uint_t xx, yy, ww, hh;
+  
+  u8g2_uint_t text_x_offset = 0;        // used for U8G2_BTN_PADWIDTH mode
+
+  //int8_t a = u8g2_GetAscent(u8g2);
+  //int8_t d = u8g2_GetDescent(u8g2);
+  //uint8_t color_backup = u8g2->draw_color;
+
+
+  if ( flags & U8G2_BTN_HCENTER )
+    x -= (w+1)/2;
+
+  if ( w < width )
+  {
+    if ( flags & U8G2_BTN_HCENTER )
+    {
+      text_x_offset = (width-w)/2;
+    }
+    w = width;
+  }
+  
+  u8g2_SetFontMode(u8g2, 1);    
+  u8g2_DrawUTF8(u8g2, x,y, text);
+  u8g2_DrawButtonFrame(u8g2, x-text_x_offset, y, flags, w, padding_h, padding_v);
+  
+}
+
+
 
 
 /*
@@ -493,7 +507,7 @@ uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(ui_t *ui, uint8_t ms
   switch(msg)
   {
     case UIF_MSG_CURSOR_SELECT:
-      return ui_GotoForm(ui, ui->arg);
+      return ui_GotoForm(ui, ui->arg, 0);
   }
   return uif_half_width_frame_button_invers_select_u8g2(ui, msg);
 }
@@ -529,7 +543,7 @@ uint8_t uif_goto_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
   switch(msg)
   {
     case UIF_MSG_CURSOR_SELECT:
-      return ui_GotoForm(ui, ui->arg);
+      return ui_GotoForm(ui, ui->arg, 0);
   }
   return uif_line_button_invers_select_u8g2(ui, msg);
 }
@@ -648,7 +662,7 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, ui->arg, 0, 1, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, ui->arg, 1, 1, ui->text);
       
       break;
     case UIF_MSG_FORM_START:
@@ -671,3 +685,90 @@ uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg)
   }
   return 0;
 }
+   
+void u8g2_DrawCheckbox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t is_checked)
+{
+  u8g2_DrawFrame(u8g2, x, y-w, w, w);
+  if ( is_checked )
+  {
+    w-=4;
+    u8g2_DrawBox(u8g2, x+2, y-w-2, w, w);
+  }
+}
+
+void u8g2_Draw4Pixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w)
+{
+  u8g2_DrawPixel(u8g2, x,y-1);
+  u8g2_DrawPixel(u8g2, x+w-1,y-1);
+  u8g2_DrawPixel(u8g2, x+w-1,y-w);
+  u8g2_DrawPixel(u8g2, x,y-w);
+}
+
+void u8g2_DrawRadio(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t is_checked)
+{
+  uint8_t color_backup = u8g2->draw_color;
+  u8g2_DrawCheckbox(u8g2, x,y,w,is_checked);
+  u8g2_SetDrawColor(u8g2, 2);
+  u8g2_Draw4Pixel(u8g2, x,y,w);
+  if ( is_checked )
+  {
+    //u8g2_Draw4Pixel(u8g2, x+2,y-2,w-4);
+  }
+  
+  u8g2_SetDrawColor(u8g2, color_backup );
+}
+   
+uint8_t uif_checkbox_u8g2(ui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  switch(msg)
+  {
+    case UIF_MSG_DRAW:
+      if ( *value > 1 ) *value = 1;
+      if ( ui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2);
+        if ( *value )
+          u8g2_DrawCheckbox(u8g2, ui_get_x(ui), ui_get_y(ui), a, 1);
+        else
+          u8g2_DrawCheckbox(u8g2, ui_get_x(ui), ui_get_y(ui), a, 0);
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, ui_get_x(ui)+a, ui_get_y(ui), ui->text);
+        }
+        
+        u8g2_DrawButtonFrame(u8g2, ui_get_x(ui), ui_get_y(ui), flags, w+a, 1, 1);
+      }
+      break;
+    case UIF_MSG_FORM_START:
+      break;
+    case UIF_MSG_FORM_END:
+      break;
+    case UIF_MSG_CURSOR_ENTER:
+      break;
+    case UIF_MSG_CURSOR_SELECT:
+      (*value)++;
+      if ( *value > 1 ) *value = 0;      
+      break;
+    case UIF_MSG_CURSOR_LEAVE:
+      break;
+    case UIF_MSG_TOUCH_DOWN:
+      break;
+    case UIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}
+

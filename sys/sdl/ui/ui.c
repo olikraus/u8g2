@@ -221,12 +221,14 @@ uint8_t ui_fds_get_token_cnt(ui_t *ui)
     The complete length of the command (including any text part)
   sideeffect:
     Any existing text part will be copied into ui->text
+    ui->text will be assigned to empty string if there is no text argument
 */
 size_t ui_fds_get_cmd_size(ui_t *ui, fds_t s)
 {
   size_t l = ui_fds_get_cmd_size_without_text(ui, s);
   uint8_t c = ui_get_fds_char(s);
-  if ( ui_fds_is_text(c) )
+ ui->text[0] = '\0' ;   /* always reset the text buffer */
+ if ( ui_fds_is_text(c) )
   {
     l += ui_fds_parse_text(ui, s+l);
   }
@@ -276,6 +278,7 @@ uint8_t ui_prepare_current_field(ui_t *ui)
   ui->arg = 0;
 
   /* calculate the length of the command and copy the text argument */
+  /* this will also clear the text in cases where there is no text argument */
   ui->len = ui_fds_get_cmd_size(ui, ui->fds); 
 
   /* get the command and check whether end of form is reached */
@@ -337,7 +340,7 @@ uint8_t ui_prepare_current_field(ui_t *ui)
   return 0;
 }
 
-void ui_loop_over_form(ui_t *ui, void (*task)(ui_t *ui))
+void ui_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui))
 {
   uint8_t cmd;
   
@@ -357,7 +360,8 @@ void ui_loop_over_form(ui_t *ui, void (*task)(ui_t *ui))
     if ( cmd == 'U' || cmd == 0 )
       break;
     if ( ui_prepare_current_field(ui) )
-      task(ui);         /* call the task, which was provided as argument to this function */
+      if ( task(ui) )         /* call the task, which was provided as argument to this function */
+        break;
     ui->fds += ui->len;
   }
   //printf("ui_loop_over_form ended\n");
@@ -391,57 +395,66 @@ fds_t ui_find_form(ui_t *ui, uint8_t n)
 }
 
 /* === task procedures (arguments for ui_loop_over_form === */
+/* ui->fds contains the current field */
 
-void ui_task_draw(ui_t *ui)
+uint8_t ui_task_draw(ui_t *ui)
 {
   //printf("ui_task_draw fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
   uif_get_cb(ui->uif)(ui, UIF_MSG_DRAW);
+  return 0;     /* continue with the loop */
 }
 
-void ui_task_form_start(ui_t *ui)
+uint8_t ui_task_form_start(ui_t *ui)
 {
   uif_get_cb(ui->uif)(ui, UIF_MSG_FORM_START);
+  return 0;     /* continue with the loop */
 }
 
-void ui_task_form_end(ui_t *ui)
+uint8_t ui_task_form_end(ui_t *ui)
 {
-  uif_get_cb(ui->uif)(ui, UIF_MSG_FORM_START);
+  uif_get_cb(ui->uif)(ui, UIF_MSG_FORM_END);
+  return 0;     /* continue with the loop */
 }
 
 
-void ui_task_find_prev_cursor_uif(ui_t *ui)
+uint8_t ui_task_find_prev_cursor_uif(ui_t *ui)
 {
   if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->fds == ui->cursor_focus_fds )
     {
       ui->target_fds = ui->tmp_fds;
+      return 1;         /* stop looping */
     }
     ui->tmp_fds = ui->fds;
   }
+  return 0;     /* continue with the loop */
 }
 
-void ui_task_find_first_cursor_uif(ui_t *ui)
+uint8_t ui_task_find_first_cursor_uif(ui_t *ui)
 {
   if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
-    if ( ui->target_fds == NULL )
-    {
+    // if ( ui->target_fds == NULL )
+    // {
       ui->target_fds = ui->fds;
-    }
+      return 1;         /* stop looping */
+    // }
   }
+  return 0;     /* continue with the loop */
 }
 
-void ui_task_find_last_cursor_uif(ui_t *ui)
+uint8_t ui_task_find_last_cursor_uif(ui_t *ui)
 {
   if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
-    ui->cursor_focus_position++;
+    //ui->cursor_focus_position++;
     ui->target_fds = ui->fds;
   }
+  return 0;     /* continue with the loop */
 }
 
-void ui_task_find_next_cursor_uif(ui_t *ui)
+uint8_t ui_task_find_next_cursor_uif(ui_t *ui)
 {
   if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
@@ -449,12 +462,25 @@ void ui_task_find_next_cursor_uif(ui_t *ui)
     {
       ui->target_fds = ui->fds;        
       ui->tmp_fds = NULL;
+      return 1;         /* stop looping */
     }
     if ( ui->fds == ui->cursor_focus_fds )
     {
       ui->tmp_fds = ui->fds;
     }
   }
+  return 0;     /* continue with the loop */
+}
+
+uint8_t ui_task_get_current_cursor_focus_position(ui_t *ui)
+{
+  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  {
+    if ( ui->fds == ui->cursor_focus_fds )
+      return 1;         /* stop looping */
+    ui->tmp8++;
+  }
+  return 0;     /* continue with the loop */
 }
 
 /* === utility functions for the user API === */
@@ -471,6 +497,20 @@ void ui_send_cursor_msg(ui_t *ui, uint8_t msg)
 
 /* === user API === */
 
+/* 
+  returns the field pos which has the current focus 
+  If the first selectable field has the focus, then 0 will be returned
+  Unselectable fields (for example labels) are skipped by this count.
+  If no fields are selectable, then 0 is returned
+*/
+uint8_t ui_GetCurrentCursorFocusPosition(ui_t *ui)
+{
+  ui->tmp8 = 0;
+  ui_loop_over_form(ui, ui_task_get_current_cursor_focus_position);
+  return ui->tmp8;
+}
+
+
 void ui_Draw(ui_t *ui)
 {
   ui_loop_over_form(ui, ui_task_draw);
@@ -479,18 +519,20 @@ void ui_Draw(ui_t *ui)
 void ui_next_field(ui_t *ui)
 {
   ui_loop_over_form(ui, ui_task_find_next_cursor_uif);
-  ui->cursor_focus_position++;
+  // ui->cursor_focus_position++;
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   if ( ui->target_fds == NULL )
   {
     ui_loop_over_form(ui, ui_task_find_first_cursor_uif);
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
-    ui->cursor_focus_position = 0;
+    // ui->cursor_focus_position = 0;
   }
 }
 
-
-/* input: current_form_fds */
+/* 
+  input: current_form_fds 
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
+*/
 void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position)
 {
   /* clean focus fields */
@@ -515,6 +557,9 @@ void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position)
 }
 
 /* input: current_form_fds */
+/*
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
+*/
 void ui_LeaveForm(ui_t *ui)
 {
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
@@ -526,19 +571,42 @@ void ui_LeaveForm(ui_t *ui)
 }
 
 /* 0: error, form not found */
-uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id)
+/*
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
+*/
+uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id, uint8_t initial_cursor_position)
 {
   fds_t fds = ui_find_form(ui, form_id);
   if ( fds == NULL )
     return 0;
   ui_LeaveForm(ui);
   ui->current_form_fds = fds;
-  ui_EnterForm(ui, 0);
+  ui_EnterForm(ui, initial_cursor_position);
   return 1;
 }
 
+void ui_SaveForm(ui_t *ui)
+{
+  if ( ui->current_form_fds == NULL )
+    return;
+
+  ui->last_form_id = ui_get_fds_char(ui->current_form_fds+1);
+  ui->last_form_cursor_focus_position = ui_GetCurrentCursorFocusPosition(ui);
+}
+
 /*
-  updates "ui->cursor_focus_fds" and "ui->cursor_focus_position"
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
+*/
+void ui_RestoreForm(ui_t *ui)
+{
+  ui_GotoForm(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
+}
+
+/*
+  updates "ui->cursor_focus_fds"
+*/
+/*
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
 void ui_NextField(ui_t *ui)
 {
@@ -548,19 +616,22 @@ void ui_NextField(ui_t *ui)
 }
 
 /*
-  updates "ui->cursor_focus_fds" and "ui->cursor_focus_position"
+  updates "ui->cursor_focus_fds"
+*/
+/*
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
 void ui_PrevField(ui_t *ui)
 {
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
   
   ui_loop_over_form(ui, ui_task_find_prev_cursor_uif);
-  ui->cursor_focus_position--;
+  //ui->cursor_focus_position--;
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   if ( ui->target_fds == NULL )
   {
-    ui->cursor_focus_position = 0;
-    ui_loop_over_form(ui, ui_task_find_last_cursor_uif); // ui_task_find_last_cursor_uif will also increment ui->cursor_focus_position
+    //ui->cursor_focus_position = 0;
+    ui_loop_over_form(ui, ui_task_find_last_cursor_uif);
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   }
   

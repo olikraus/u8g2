@@ -11,6 +11,7 @@ ui_t ui;
 
 uint8_t my_value = 2;
 uint8_t my_value2 = 2;
+uint8_t my_value3 = 0;
 
 uint8_t touchscreen_selection = 255;
 
@@ -22,6 +23,7 @@ UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_sel
 UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
 UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
 UIF("I2",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,uif_single_line_option_invers_select_u8g2),
+UIF("I3",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,uif_checkbox_u8g2),
 UIF("TS",UIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,uif_single_line_option_invers_select_u8g2),
 UIF(".G",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_half_width_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
 UIF(".g",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
@@ -36,12 +38,16 @@ UI_goto(12,22,10, "Button Test")
 UI_goto(12,34,101, "Story")
 
 UI_FORM(2)
-//UI_LABEL(64,10, "Ag(1jm")
-UI_F("I1",10, 30)
-UI_A("I2",30, 30, 60, "Banana|Apple|Peach")
+UI_LABEL(0,12, "Number:")
+UI_F("I1",50, 12)
+UI_LABEL(0,28, "Fruit:")
+UI_A("I2",50, 28, 60, "Banana|Apple|Peach")
+UI_LABEL(0,44, "Check:")
+//UI_B("I3",50, 44, "ABCxyz")
+UI_F("I3",50, 44)
 //UI_BUTTON("B1",32,50, "Ok")
-UI_GOTO(32,50,3, "Goto 2")
-UI_GOTO(96,50,1, "Home")
+UI_GOTO(32,60,3, "Goto 2")
+UI_GOTO(96,60,1, "Home")
 
 UI_FORM(3)
 UI_goto(32,50,2, "Goto 1")
@@ -245,6 +251,8 @@ int main(void)
       //u8g2_DrawStr(&u8g2, 10, 50, "XY");
       ui_Draw(&ui);
     } while( u8g2_NextPage(&u8g2) );
+    
+    // printf("ui_GetCurrentCursorFocusPosition=%d\n", ui_GetCurrentCursorFocusPosition(&ui));
     
     do
     {

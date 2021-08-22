@@ -59,6 +59,8 @@ struct uif_struct
 
 typedef const char *fds_t;      // form/field definition string
 
+uint8_t ui_get_fds_char(fds_t s);
+
 
 /* must be smaller than or equal to 255 */
 #define UI_MAX_TEXT_LEN 31
@@ -77,8 +79,9 @@ struct ui_struct
 
   fds_t token;             // current token position
   
+  uint8_t tmp8;
   /* current field/style variables */
-  uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for ui_EnterForm
+  //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for ui_EnterForm
   
   uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)
@@ -96,6 +99,10 @@ struct ui_struct
   /* target  */
   fds_t tmp_fds;
   fds_t target_fds;     // used by several task functions as a return / result value
+  
+  /* last form and field */
+  uint8_t last_form_id;
+  uint8_t last_form_cursor_focus_position;
 };
 
 #define ui_IsCursorFocus(ui) ((ui)->dflags & UIF_DFLAG_IS_CURSOR_FOCUS)
@@ -384,10 +391,13 @@ uint8_t ui_fds_get_token_cnt(ui_t *ui);
 
 
 void ui_Init(ui_t *ui, void *graphics_data, fds_t fds, uif_t *uif_list, size_t uif_cnt);
+uint8_t ui_GetCurrentCursorFocusPosition(ui_t *ui);
 void ui_Draw(ui_t *ui);
 void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position);
 void ui_LeaveForm(ui_t *ui);
-uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id);
+uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
+void ui_SaveForm(ui_t *ui);
+void ui_RestoreForm(ui_t *ui);
 void ui_NextField(ui_t *ui);
 void ui_PrevField(ui_t *ui);
 void ui_SendSelect(ui_t *ui);
