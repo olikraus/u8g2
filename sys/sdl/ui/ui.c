@@ -543,8 +543,8 @@ void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position)
   ui_loop_over_form(ui, ui_task_form_start);
   
   /* assign initional cursor focus */
-  ui_loop_over_form(ui, ui_task_find_first_cursor_uif);
-  
+  ui_loop_over_form(ui, ui_task_find_first_cursor_uif);  
+  ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   
   while( initial_cursor_position > 0 )
   {
@@ -552,7 +552,6 @@ void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position)
     initial_cursor_position--;
   }
   
-  ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
 }
 
