@@ -10,6 +10,14 @@
 
 #define UI_CHECK_EOFDS
 
+#ifdef __GNUC__
+#  define UI_NOINLINE __attribute__((noinline))
+#else
+#  define UI_NOINLINE
+#endif
+
+
+
 /*=== forward declarations ===*/
 typedef struct ui_struct ui_t;
 typedef struct uif_struct uif_t;

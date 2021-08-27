@@ -348,6 +348,8 @@ uint8_t ui_prepare_current_field(ui_t *ui)
   Usually do not call this function directly, instead use ui_loop_over_form
 
 */
+
+void ui_inner_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui)) UI_NOINLINE;
 void ui_inner_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui))
 {
   uint8_t cmd;
