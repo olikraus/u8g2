@@ -1,4 +1,39 @@
 /*
+
+  mui.c
+  
+  monochrome minimal user interface
+
+  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+
+  Copyright (c) 2016, olikraus@gmail.com
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without modification, 
+  are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright notice, this list 
+    of conditions and the following disclaimer.
+    
+  * Redistributions in binary form must reproduce the above copyright notice, this 
+    list of conditions and the following disclaimer in the documentation and/or other 
+    materials provided with the distribution.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+
+
   c: cmd
   i:  ID0
   j: ID1
@@ -17,9 +52,6 @@
   Fixed ID:
   "Si" the style                                                        --> ID=@i
   "Lxy/labeltext/"  Places a text at the specified position, field with   -     -> ID=.L, .l
-  "Mxya/labeltext/"                                                                                             --> ID=.M
-  "Jxyu/menutext/"  Jump button to user interface form u, current u is placed on a stack                --> ID=.J
-  "Xxy/menutext/"  Go to the u which is placed on the top of the stack                                                  --> ID=.X
   "Gxyu/menutext/"  Go to the specified menu without placing the user interface form on the stack       --> ID=.G, .g
   
   
@@ -64,9 +96,9 @@ size_t ui_fds_get_cmd_size_without_text(ui_t *ui, fds_t s)
     case 'T': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text (does not count here)
     case 'A': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text
     case 'L': return 3;
-    case 'M': return 4;
-    case 'X': return 3;
-    case 'J': return 4;
+    //case 'M': return 4;
+    //case 'X': return 3;
+    //case 'J': return 4;
     case 'G': return 4;  
     case 0: return 0;
   }
