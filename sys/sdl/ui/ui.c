@@ -59,9 +59,10 @@ size_t ui_fds_get_cmd_size_without_text(ui_t *ui, fds_t s)
   {
     case 'U': return 2;
     case 'S': return 2;
-    case 'F': return 5;
-    case 'B': return 5;
-    case 'A': return 6;
+    case 'F': return 5;         // CMD, ID (2 Bytes), X, Y
+    case 'B': return 5;         // CMD, ID (2 Bytes), X, Y, Text (does not count here)
+    case 'T': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text (does not count here)
+    case 'A': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text
     case 'L': return 3;
     case 'M': return 4;
     case 'X': return 3;
@@ -213,7 +214,7 @@ uint8_t ui_fds_get_token_cnt(ui_t *ui)
 }
 
 
-#define ui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' ? 0 : 1 )
+#define ui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' || (c) == 'A' ? 0 : 1 )
 
 /*
   s must point to a valid command within FDS
@@ -301,13 +302,13 @@ uint8_t ui_prepare_current_field(ui_t *ui)
   
 
   /* get the id0 and id1 values */
-  if  ( ui->cmd == 'F' || ui->cmd == 'B' || ui->cmd == 'A' )
+  if  ( ui->cmd == 'F' || ui->cmd == 'B' || ui->cmd == 'T' || ui->cmd == 'A' )
   {
       ui->id0 = ui_get_fds_char(ui->fds+1);
       ui->id1 = ui_get_fds_char(ui->fds+2);
       ui->x = ui_get_fds_char(ui->fds+3);
       ui->y = ui_get_fds_char(ui->fds+4);
-      if ( ui->cmd == 'A' )
+      if ( ui->cmd == 'A' || ui->cmd == 'T' )
       {
         ui->arg = ui_get_fds_char(ui->fds+5);
       }
@@ -340,16 +341,16 @@ uint8_t ui_prepare_current_field(ui_t *ui)
   return 0;
 }
 
-void ui_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui))
+/* 
+  assumes that ui->fds has been assigned correctly 
+  and that ui->target_fds and ui->tmp_fds had been cleared if required
+
+  Usually do not call this function directly, instead use ui_loop_over_form
+
+*/
+void ui_inner_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui))
 {
   uint8_t cmd;
-  
-  if ( ui->current_form_fds == NULL )
-    return;
-  
-  ui->fds = ui->current_form_fds;
-  ui->target_fds = NULL;
-  ui->tmp_fds = NULL;
   
   ui->fds += ui_fds_get_cmd_size(ui, ui->fds);      // skip the first entry, it is U always
   for(;;)
@@ -365,6 +366,18 @@ void ui_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui))
     ui->fds += ui->len;
   }
   //printf("ui_loop_over_form ended\n");
+}
+
+void ui_loop_over_form(ui_t *ui, uint8_t (*task)(ui_t *ui))
+{
+  if ( ui->current_form_fds == NULL )
+    return;
+  
+  ui->fds = ui->current_form_fds;
+  ui->target_fds = NULL;
+  ui->tmp_fds = NULL;
+  
+  ui_inner_loop_over_form(ui, task);  
 }
 
 /*
@@ -394,7 +407,7 @@ fds_t ui_find_form(ui_t *ui, uint8_t n)
   return NULL;
 }
 
-/* === task procedures (arguments for ui_loop_over_form === */
+/* === task procedures (arguments for ui_loop_over_form) === */
 /* ui->fds contains the current field */
 
 uint8_t ui_task_draw(ui_t *ui)
@@ -483,6 +496,18 @@ uint8_t ui_task_get_current_cursor_focus_position(ui_t *ui)
   return 0;     /* continue with the loop */
 }
 
+uint8_t ui_task_read_nth_seleectable_field(ui_t *ui)
+{
+  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  {
+    if ( ui->tmp8 == 0 )
+      return 1;         /* stop looping */
+    ui->tmp8--;
+  }
+  return 0;     /* continue with the loop */
+}
+
+
 /* === utility functions for the user API === */
 
 void ui_send_cursor_msg(ui_t *ui, uint8_t msg)
@@ -527,6 +552,32 @@ void ui_next_field(ui_t *ui)
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
     // ui->cursor_focus_position = 0;
   }
+}
+
+/*
+  this function will overwrite the ui field related member variables
+  nth_token can be 0 if the fiel text is not a option list
+  the result is stored in ui->text
+*/
+void ui_GetSelectableFieldTextOption(ui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
+{
+  fds_t fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
+  ssize_t len = ui->len;          // backup length of the current command
+
+  
+  ui->fds = ui_find_form(ui, form_id);          // search for the target form and overwrite the current fds
+
+  // use the inner_loop procedure, because ui->fds has been assigned already
+  ui->tmp8 = cursor_position;   // maybe we should also backup tmp8, but at the moment tmp8 is only used by ui_task_get_current_cursor_focus_position
+  ui_inner_loop_over_form(ui, ui_task_read_nth_seleectable_field);
+  // at this point ui->fds contains the field which was selected from above
+  
+  // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
+  ui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
+  
+  ui->fds = fds;                        // restore the previous fds position
+  ui->len = len;
+  // result is stored in ui->text
 }
 
 /* 

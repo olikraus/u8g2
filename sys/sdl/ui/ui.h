@@ -374,10 +374,12 @@ struct ui_struct
 /* form: one id only */
 #define UI_FORM(n) "U" UI_##n
 #define UI_LABEL(x,y,text) "L" UI_##x UI_##y "\xff" text "\xff"
-#define UI_F(id, x,y) "F" id UI_##x UI_##y
+#define UI_XY(id, x,y) "F" id UI_##x UI_##y
 /* button id must be two chars, but must be unique everywhere */
-#define UI_B(id, x,y,text) "B" id UI_##x UI_##y  "\xff" text "\xff"
-#define UI_A(id, x,y,a,text) "A" id UI_##x UI_##y  UI_##a "\xff" text "\xff"
+#define UI_XYT(id, x,y,text) "B" id UI_##x UI_##y  "\xff" text "\xff"
+#define UI_XYA(id, x,y,a) "A" id UI_##x UI_##y  UI_##a
+#define UI_XYAT(id, x,y,a,text) "T" id UI_##x UI_##y  UI_##a "\xff" text "\xff"
+
 #define UI_GOTO(x,y,n,text) "G" UI_##x UI_##y UI_##n "\xff" text "\xff"
 #define UI_goto(x,y,n,text) "g" UI_##x UI_##y UI_##n "\xff" text "\xff"
 
@@ -394,6 +396,7 @@ uint8_t ui_fds_get_token_cnt(ui_t *ui);
 void ui_Init(ui_t *ui, void *graphics_data, fds_t fds, uif_t *uif_list, size_t uif_cnt);
 uint8_t ui_GetCurrentCursorFocusPosition(ui_t *ui);
 void ui_Draw(ui_t *ui);
+void ui_GetSelectableFieldTextOption(ui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
 void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position);
 void ui_LeaveForm(ui_t *ui);
 uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);

@@ -44,15 +44,15 @@ UI_goto(12,34,101, "Story")
 
 UI_FORM(2)
 UI_LABEL(0,10, "Number:")
-UI_F("I1",50, 10)
+UI_XY("I1",50, 10)
 UI_LABEL(0,22, "Fruit:")
-UI_A("I2",50, 22, 60, "Banana|Apple|Peach")
+UI_XYAT("I2",50, 22, 60, "Banana|Apple|Peach")
 UI_LABEL(0,34, "Check:")
-//UI_B("I3",50, 44, "ABCxyz")
-UI_F("I3",50, 34)
+//UI_XYT("I3",50, 44, "ABCxyz")
+UI_XY("I3",50, 34)
 
 UI_LABEL(0,46, "Color:")
-UI_A("I4",50, 46, 4, "red|green|blue")
+UI_XYAT("I4",50, 46, 4, "red|green|blue")
 
 
 //UI_BUTTON("B1",32,50, "Ok")
@@ -63,9 +63,9 @@ UI_FORM(3)
 UI_goto(32,50,2, "Goto 1")
 
 UI_FORM(4)
-UI_A("O4", 2, 10, 0, "red")
-UI_A("O4", 2, 22, 1, "green")
-UI_A("O4", 2, 34, 2, "blue")
+UI_XYAT("O4", 2, 10, 0, "")
+UI_XYAT("O4", 2, 22, 1, "")
+UI_XYAT("O4", 2, 34, 2, "")
 
 UI_FORM(10)
 UI_goto(10,11,11, "Btn 1")
@@ -162,7 +162,7 @@ UI_goto(10,61,107, "Exit Scan")
 
 UI_FORM(110)
 UI_LABEL(0, 9, "Touchscreen.")
-UI_B("TS",0, 25, "Navigation|Energy|Damage|Robot|Security")
+UI_XYT("TS",0, 25, "Navigation|Energy|Damage|Robot|Security")
 UI_goto(10,61,108, "Exit Touchscreen")
 
 ;

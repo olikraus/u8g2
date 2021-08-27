@@ -485,6 +485,29 @@ uint8_t uif_line_button_invers_select_u8g2(ui_t *ui, uint8_t msg)
 }
 
 
+/*
+
+  uint8_t uif_radio_mark_invers_select_u8g2(ui_t *ui, uint8_t msg)
+
+  Description:
+    A selectable button with a rectangle in front of it, if arg is equal to the current value (*(uint8_t *)data)
+    
+  Message Handling: DRAW
+
+  Style
+    No Selection: Text only
+    Cursor Selection: Inverted text
+
+  User interface field list (uif):
+    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: uint8_t *, pointer to a uint8_t variable, which defines, whether there is a rectangle in front of the text
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: The number of this button, which is compared against *(uint8_t *)data (required)
+    text: Button label
+    
+*/
 uint8_t uif_radio_mark_invers_select_u8g2(ui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = ui_get_U8g2(ui);
@@ -503,18 +526,27 @@ uint8_t uif_radio_mark_invers_select_u8g2(ui_t *ui, uint8_t msg)
       {
         u8g2_uint_t w = 0;
         u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
+        u8g2_uint_t x = ui_get_x(ui);   // if ui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = ui_get_y(ui);  // if ui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
         if ( *value == ui->arg )
-          u8g2_DrawValueMark(u8g2, ui_get_x(ui), ui_get_y(ui), a);
+          u8g2_DrawValueMark(u8g2, x, y, a);
+
+        if ( ui->text[0] == '\0' )
+        {
+          /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
+          /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
+          ui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, ui->arg);
+        }
         
         if ( ui->text[0] != '\0' )
         {
           w =  u8g2_GetUTF8Width(u8g2, ui->text);
           u8g2_SetFontMode(u8g2, 1);
           a += 2;       /* add gap between the checkbox and the text area */
-          u8g2_DrawUTF8(u8g2, ui_get_x(ui)+a, ui_get_y(ui), ui->text);
+          u8g2_DrawUTF8(u8g2, x+a, y, ui->text);
         }
         
-        u8g2_DrawButtonFrame(u8g2, ui_get_x(ui), ui_get_y(ui), flags, w+a, 1, 1);
+        u8g2_DrawButtonFrame(u8g2, x, y, flags, w+a, 1, 1);
       }
       break;
     case UIF_MSG_FORM_START:
@@ -536,6 +568,9 @@ uint8_t uif_radio_mark_invers_select_u8g2(ui_t *ui, uint8_t msg)
   return 0;
   
 }
+
+
+
 
 /*=========================================================================*/
 /* ready to use field functions */
