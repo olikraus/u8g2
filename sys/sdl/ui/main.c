@@ -63,9 +63,9 @@ UI_FORM(3)
 UI_goto(32,50,2, "Goto 1")
 
 UI_FORM(4)
-UI_XYAT("O4", 2, 10, 0, "")
-UI_XYAT("O4", 2, 22, 1, "")
-UI_XYAT("O4", 2, 34, 2, "")
+UI_XYA("O4", 2, 10, 0)
+UI_XYA("O4", 2, 22, 1)
+UI_XYA("O4", 2, 34, 2)
 
 UI_FORM(10)
 UI_goto(10,11,11, "Btn 1")
