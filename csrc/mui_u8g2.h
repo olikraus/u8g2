@@ -63,6 +63,7 @@ uint8_t mui_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_radio_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_assign_arg_go_back_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 

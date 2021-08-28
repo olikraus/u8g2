@@ -409,6 +409,111 @@ uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
   
 }
 
+/* same as mui_radio_mark_invers_select_u8g2, but has different style */
+uint8_t mui_radio_checkbox_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2);
+        if ( *value == ui->arg )
+          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 1);
+        else
+          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 0);
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, mui_get_x(ui)+a, mui_get_y(ui), ui->text);
+        }
+        
+        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, 1);
+      }
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}
+
+uint8_t mui_checkbox_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( *value > 1 ) *value = 1;
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2);
+        if ( *value )
+          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 1);
+        else
+          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 0);
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, mui_get_x(ui)+a, mui_get_y(ui), ui->text);
+        }
+        
+        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, 1);
+      }
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}
+
+
 
 
 
@@ -761,37 +866,13 @@ uint8_t mui_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
+  //u8g2_uint_t flags = 0;
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      if ( *value > 1 ) *value = 1;
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-      }
-      
-      {
-        u8g2_uint_t w = 0;
-        u8g2_uint_t a = u8g2_GetAscent(u8g2);
-        if ( *value )
-          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 1);
-        else
-          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 0);
-        
-        if ( ui->text[0] != '\0' )
-        {
-          w =  u8g2_GetUTF8Width(u8g2, ui->text);
-          u8g2_SetFontMode(u8g2, 1);
-          a += 2;       /* add gap between the checkbox and the text area */
-          u8g2_DrawUTF8(u8g2, mui_get_x(ui)+a, mui_get_y(ui), ui->text);
-        }
-        
-        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, 1);
-      }
-      break;
+      return mui_checkbox_mark_invers_select_u8g2(ui, msg);
     case MUIF_MSG_FORM_START:
       break;
     case MUIF_MSG_FORM_END:
@@ -801,7 +882,6 @@ uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
       (*value)++;
       if ( *value > 1 ) *value = 0;      
-      break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -810,9 +890,38 @@ uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
       break;
   }
   return 0;
-  
 }
 
+/*
+  radio button style, arg is assigned as value
+*/
+uint8_t mui_radio_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      return mui_radio_checkbox_mark_invers_select_u8g2(ui, msg);
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      *value = ui->arg;
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;  
+}
+
+#ifdef OBSOLETE
 uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -839,8 +948,8 @@ uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
       break;
   }
   return 0;
-  
 }
+#endif
 
 uint8_t mui_assign_arg_go_back_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {

@@ -53,8 +53,8 @@ uint8_t number_input = 2;
 uint8_t fruit_input = 2;
 uint8_t my_value3 = 0;
 uint8_t color_input = 0;
-
-
+uint8_t checkbox_input = 0;
+uint8_t direction_input = 0;
 
 
 muif_t muif_list[] = {
@@ -76,12 +76,15 @@ muif_t muif_list[] = {
   /* input for a fruit (0..3), implements a selection, where the user can cycle through the options  */
   MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_single_line_option_invers_select_u8g2),
   
-  
-  MUIF("I3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,mui_checkbox_invers_select_u8g2),
+  /* radio style selection */
+  MUIF("CB",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&checkbox_input,mui_checkbox_invers_select_u8g2),
   
   /* the following two fields belong together and implement a single selection combo box to select a color */
   MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_show_option_goto_form_invers_select_u8g2),
   MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_assign_arg_go_back_invers_select_u8g2),
+    
+    
+  MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_radio_invers_select_u8g2),
     
   MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_half_width_frame_button_invers_select_u8g2),    /* MUI_GOTO has the id FG */
   MUIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u8g2),    /* MUI_goto has the id Fg */
@@ -95,36 +98,13 @@ MUI_STYLE(1)
 MUI_LABEL(0,10, "Main Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
-MUI_goto(12,30,2, "Test 1")
-MUI_goto(12,43,10, "Enter a number")
-MUI_goto(12,55,11, "Selection/Combo Box")
+MUI_goto(12,25,10, "Enter a number")
+MUI_goto(12,35,11, "Selection/Combo Box")
+MUI_goto(12,45,13, "Checkbox")
+MUI_goto(12,55,14, "Radio Selection")
 //MUI_goto(12,22,10, "Button Test")
 //MUI_goto(12,34,101, "Story")
 
-MUI_FORM(2)
-MUI_LABEL(0,10, "Number:")
-MUI_XY("IN",50, 10)
-MUI_LABEL(0,22, "Fruit:")
-MUI_XYAT("IF",50, 22, 60, "Banana|Apple|Peach")
-
-MUI_LABEL(0,34, "Check:")
-MUI_XY("I3",50, 34)
-
-MUI_LABEL(0,46, "Color:")
-MUI_XYAT("IC",50, 46, 4, "red|green|blue")
-
-
-//MUI_BUTTON("B1",32,50, "Ok")
-MUI_GOTO(32,60,3, "Goto 2")
-MUI_GOTO(96,60,1, "Home")
-
-MUI_FORM(3)
-MUI_goto(32,50,2, "Goto 1")
-
-MUI_FORM(4)
-MUI_XYA("OC", 2, 10, 0)
-MUI_XYA("OC", 2, 22, 1)
-MUI_XYAT("OC", 2, 34, 2, "blue color")  /* provide a different text for this option */
 
 /* number entry demo */
 MUI_FORM(10)
@@ -162,6 +142,33 @@ MUI_STYLE(0)
 MUI_XYA("OC", 5, 30, 0) /* takeover the selection text from calling field ("red") */
 MUI_XYA("OC", 5, 42, 1) /* takeover the selection text from calling field ("green") */
 MUI_XYAT("OC", 5, 54, 2, "blue")  /* just as a demo: provide a different text for this option */
+
+/* Checkbox demo */
+MUI_FORM(13)
+MUI_STYLE(1)
+MUI_LABEL(0,10, "Checkbox Menu")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,30, "Checkbox:")
+MUI_XY("CB",60, 30)
+
+MUI_XYAT("G1",64, 59, 1, " OK ")
+
+/* Radio selection demo */
+MUI_FORM(14)
+MUI_STYLE(1)
+MUI_LABEL(0,10, "Radio Selection Menu")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_XYAT("RS",10, 28,0,"North")
+MUI_XYAT("RS",10, 40,1,"South")
+
+MUI_XYAT("RS",65, 28,2,"East")
+MUI_XYAT("RS",65, 40,3,"West")
+
+MUI_XYAT("G1",64, 59, 1, " OK ")
 
 ;
 
