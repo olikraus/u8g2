@@ -2,8 +2,8 @@
 #include "u8g2.h"
 #include <stdio.h>
 #include <string.h>
-#include "ui.h"
-#include "ui_u8g2.h"
+#include "mui.h"
+#include "mui_u8g2.h"
 
   
 u8g2_t u8g2;

@@ -7,11 +7,11 @@ OBJ = $(SRC:.c=.o)
 u8g2_sdl: $(OBJ) 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) `sdl2-config --libs` -o u8g2_sdl
 
-ui.o: ui.h ui_u8g2.h
+mui.o: mui.h mui_u8g2.h
 
-ui_u8g2.o: ui.h ui_u8g2.h
+mui_u8g2.o: mui.h mui_u8g2.h
 
-main.o: ui.h ui_u8g2.h
+main.o: mui.h mui_u8g2.h
 
 
 clean:	
