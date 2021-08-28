@@ -48,8 +48,10 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 u8g2_t u8g2;
 mui_t ui;
 
-/* A variable where the user can input a number between 0 and 9 */
-uint8_t number_input = 2;
+/*
+  global variables which form the communication gateway between the user interface and the rest of the code
+*/
+uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t fruit_input = 2;
 uint8_t my_value3 = 0;
 uint8_t color_input = 0;
@@ -57,6 +59,23 @@ uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
 
 
+/* 
+
+  User interface fields list. Each entry is defined with the MUIF macro MUIF(id,cflags,data,cb)
+  Arguments are:
+    id: 
+      A string with exactly two characters. This is the unique "id" of the field, which is later used in the form definition string (fds)
+      There are some special id's: ".L" for text labels and ".G" for a goto form command. 
+    cflags: 
+      Flags, which define static (constant) properties of the field. Currently this is either 0 or MUIF_CFLAG_IS_CURSOR_SELECTABLE which marks the field as editable.
+    data: 
+      A pointer to a local variable, where the result of an editiable field is stored. Currently this is a pointer to uint8_t in most cases.
+      It depends in the callback function (cb) whether this is used or what kind of data is stored
+    cb:
+      A callback function.
+      The callback function will receive messages and have to react accordingly to the message. Some predefined callback functions are avilable in mui_u8g2.c    
+  
+*/
 muif_t muif_list[] = {
   /* normal text style */
   MUIF("S0",0,0,mui_style_helv_r_08),
@@ -80,7 +99,7 @@ muif_t muif_list[] = {
   MUIF("CB",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&checkbox_input,mui_checkbox_invers_select_u8g2),
   
   /* the following two fields belong together and implement a single selection combo box to select a color */
-  MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_show_option_goto_form_invers_select_u8g2),
+  MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_select_options_parent_invers_select_u8g2),
   MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_assign_arg_go_back_invers_select_u8g2),
     
   /* radio button style */
@@ -93,8 +112,15 @@ muif_t muif_list[] = {
   MUIF(".L",0,0,mui_label_u8g2)
 };
 
+/*
+  The form definition string (fds) which defines all forms and the fields on those forms.
+  A new form always starts with MUI_FORM(u). The form ends with the next MUI_FORM() or the end of the fds.
+  Inside the form use fields or the style command MUI_STYLE()
+*/
+
 fds_t fds = 
 
+/* top level main menu */
 MUI_FORM(1)
 MUI_STYLE(1)
 MUI_LABEL(0,10, "Main Menu")

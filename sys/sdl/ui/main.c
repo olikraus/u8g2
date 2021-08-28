@@ -25,9 +25,9 @@ MUIF("B1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_half_width_frame_button_invers_s
 MUIF("I1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,mui_input_uint8_invers_select_u8g2),
 MUIF("I2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,mui_single_line_option_invers_select_u8g2),
 MUIF("I3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,mui_checkbox_invers_select_u8g2),
-MUIF("I4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_show_option_goto_form_invers_select_u8g2),
+MUIF("I4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_select_options_parent_invers_select_u8g2),
 
-MUIF("O4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_assign_arg_go_back_invers_select_u8g2),
+MUIF("O4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_select_options_child_invers_select_u8g2),
   
 MUIF("TS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,mui_single_line_option_invers_select_u8g2),
 MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_half_width_frame_button_invers_select_u8g2),    /* MUI_GOTO has the id FG */

@@ -422,13 +422,13 @@ struct mui_struct
 #define MUI_STYLE(n) "S" #n
 
 
-#define MUI_LABEL(x,y,text) "L" MUI_##x MUI_##y "\xff" text "\xff"
 #define MUI_XY(id, x,y) "F" id MUI_##x MUI_##y
 /* button id must be two chars, but must be unique everywhere */
 #define MUI_XYT(id, x,y,text) "B" id MUI_##x MUI_##y  "\xff" text "\xff"
 #define MUI_XYA(id, x,y,a) "A" id MUI_##x MUI_##y  MUI_##a
 #define MUI_XYAT(id, x,y,a,text) "T" id MUI_##x MUI_##y  MUI_##a "\xff" text "\xff"
 
+#define MUI_LABEL(x,y,text) "L" MUI_##x MUI_##y "\xff" text "\xff"
 #define MUI_GOTO(x,y,n,text) "G" MUI_##x MUI_##y MUI_##n "\xff" text "\xff"
 #define MUI_goto(x,y,n,text) "g" MUI_##x MUI_##y MUI_##n "\xff" text "\xff"
 

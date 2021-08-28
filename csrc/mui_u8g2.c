@@ -796,7 +796,7 @@ uint8_t mui_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg)
    
 
 
-uint8_t mui_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t mui_select_options_parent_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
   //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
@@ -951,7 +951,7 @@ uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
 }
 #endif
 
-uint8_t mui_assign_arg_go_back_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t mui_select_options_child_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   //if ( value == NULL )
