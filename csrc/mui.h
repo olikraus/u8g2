@@ -75,12 +75,12 @@ struct muif_struct
 
 #define UIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb}
 
-#define muif_tget_id0(muif) ((muif)->id0)
-#define muif_tget_id1(muif) ((muif)->id1)
-#define muif_tget_cflags(muif) ((muif)->cflags)
-#define muif_tget_extra(muif) ((muif)->extra)
-#define muif_tget_data(muif) ((muif)->data)
-#define muif_tget_cb(muif) ((muif)->cb)
+#define muif_get_id0(muif) ((muif)->id0)
+#define muif_get_id1(muif) ((muif)->id1)
+#define muif_get_cflags(muif) ((muif)->cflags)
+#define muif_get_extra(muif) ((muif)->extra)
+#define muif_get_data(muif) ((muif)->data)
+#define muif_get_cb(muif) ((muif)->cb)
 
 #define MUIF_MSG_NONE 0
 #define MUIF_MSG_DRAW 1

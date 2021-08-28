@@ -458,26 +458,26 @@ fds_t mui_find_form(mui_t *ui, uint8_t n)
 uint8_t mui_task_draw(mui_t *ui)
 {
   //printf("mui_task_draw fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
-  muif_tget_cb(ui->uif)(ui, MUIF_MSG_DRAW);
+  muif_get_cb(ui->uif)(ui, MUIF_MSG_DRAW);
   return 0;     /* continue with the loop */
 }
 
 uint8_t mui_task_form_start(mui_t *ui)
 {
-  muif_tget_cb(ui->uif)(ui, MUIF_MSG_FORM_START);
+  muif_get_cb(ui->uif)(ui, MUIF_MSG_FORM_START);
   return 0;     /* continue with the loop */
 }
 
 uint8_t mui_task_form_end(mui_t *ui)
 {
-  muif_tget_cb(ui->uif)(ui, MUIF_MSG_FORM_END);
+  muif_get_cb(ui->uif)(ui, MUIF_MSG_FORM_END);
   return 0;     /* continue with the loop */
 }
 
 
 uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
 {
-  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->fds == ui->cursor_focus_fds )
     {
@@ -491,7 +491,7 @@ uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
 
 uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
 {
-  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     // if ( ui->target_fds == NULL )
     // {
@@ -504,7 +504,7 @@ uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
 
 uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
 {
-  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     //ui->cursor_focus_position++;
     ui->target_fds = ui->fds;
@@ -514,7 +514,7 @@ uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
 
 uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
 {
-  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->tmp_fds != NULL )
     {
@@ -532,7 +532,7 @@ uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
 
 uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
 {
-  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->fds == ui->cursor_focus_fds )
       return 1;         /* stop looping */
@@ -543,7 +543,7 @@ uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
 
 uint8_t mui_task_read_nth_seleectable_field(mui_t *ui)
 {
-  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->tmp8 == 0 )
       return 1;         /* stop looping */
@@ -561,7 +561,7 @@ void mui_send_cursor_msg(mui_t *ui, uint8_t msg)
   {
     ui->fds = ui->cursor_focus_fds;
     if ( mui_prepare_current_field(ui) )
-      muif_tget_cb(ui->uif)(ui, msg);
+      muif_get_cb(ui->uif)(ui, msg);
   }
 }
 
