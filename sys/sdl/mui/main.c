@@ -100,7 +100,7 @@ muif_t muif_list[] = {
   
   /* the following two fields belong together and implement a single selection combo box to select a color */
   MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_select_options_parent_invers_select_u8g2),
-  MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_assign_arg_go_back_invers_select_u8g2),
+  MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_select_options_child_invers_select_u8g2),
     
   /* radio button style */
   MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_radio_invers_select_u8g2),
@@ -113,9 +113,21 @@ muif_t muif_list[] = {
 };
 
 /*
-  The form definition string (fds) which defines all forms and the fields on those forms.
+  The form definition string (fds) defines all forms and the fields on those forms.
   A new form always starts with MUI_FORM(u). The form ends with the next MUI_FORM() or the end of the fds.
-  Inside the form use fields or the style command MUI_STYLE()
+  Inside the form use fields or the style command (MUI_STYLE)
+  The fields are define with
+    MUI_XY(id, x, y)                     Field 'id' without extra argument or text placed at the specified xy position
+    MUI_XYT(id, x, y, text)            Field 'id' with the specified test at position xy
+    MUI_XYA(id, x, y, a)                 Field 'id' with argument 'a' at position xy
+    MUI_XYAT(id, x, y, a, text)         Field 'id' with argument and text placed at position xy
+    MUI_LABEL(x,y,text)                 Field '.L' (usually some readonly text) placed at position xy
+    MUI_GOTO(x,y,n,text)                Field '.G', usually a button placed at xy, which activates form n 
+
+  Note:
+    MUI_LABEL(x,y,text) is the same as MUI_XYT(".L", x, y, text)
+    MUI_GOTO(x,y,text) is the same as MUI_XYAT(".G", x, y, n, text)
+    
 */
 
 fds_t fds = 
@@ -123,18 +135,18 @@ fds_t fds =
 /* top level main menu */
 MUI_FORM(1)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "Main Menu")
+MUI_LABEL(5,10, "Main Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
-MUI_GOTO(12,25,10, "Enter a number")
-MUI_GOTO(12,36,11, "Selection/Combo Box")
-MUI_GOTO(12,47,13, "Checkbox")
-MUI_GOTO(12,58,14, "Radio Selection")
+MUI_GOTO(5,25,10, "Enter a number")
+MUI_GOTO(5,36,11, "Selection/Combo Box")
+MUI_GOTO(5,47,13, "Checkbox")
+MUI_GOTO(5,58,14, "Radio Selection")
 
 /* number entry demo */
 MUI_FORM(10)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "Number 0..9 Menu")
+MUI_LABEL(5,10, "Number 0..9 Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
@@ -146,7 +158,7 @@ MUI_XYAT("G1",64, 59, 1, " OK ")
 /* selection / combo box */
 MUI_FORM(11)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "Selection/Combo Box")
+MUI_LABEL(5,10, "Selection/Combo Box")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
@@ -161,7 +173,7 @@ MUI_XYAT("G1",64, 59, 1, " OK ")
 /* combo box color selection */
 MUI_FORM(12)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "Color Selection")
+MUI_LABEL(5,10, "Color Selection")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_XYA("OC", 5, 30, 0) /* takeover the selection text from calling field ("red") */
@@ -171,7 +183,7 @@ MUI_XYAT("OC", 5, 54, 2, "blue")  /* just as a demo: provide a different text fo
 /* Checkbox demo */
 MUI_FORM(13)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "Checkbox Menu")
+MUI_LABEL(5,10, "Checkbox Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
@@ -183,7 +195,7 @@ MUI_XYAT("G1",64, 59, 1, " OK ")
 /* Radio selection demo */
 MUI_FORM(14)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "Radio Selection Menu")
+MUI_LABEL(5,10, "Radio Selection Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 

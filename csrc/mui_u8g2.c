@@ -110,8 +110,12 @@ u8g2_t *mui_get_U8g2(mui_t *ui)
   return (u8g2_t *)(ui->graphics_data);
 }
 
+
+
+
 /*=========================================================================*/
 /* incomplete (draw only) field functions */
+
 
 
 /*
@@ -331,6 +335,7 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
   Description:
     A selectable button with a rectangle in front of it, if arg is equal to the current value (*(uint8_t *)data)
+    If the text argument is empty, then this cb tries to get the text from the parent.
     
   Message Handling: DRAW
 
@@ -345,7 +350,7 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
   Field definition string (fds):
     xy: Left position of the text (required)
     arg: The number of this button, which is compared against *(uint8_t *)data (required)
-    text: Button label
+    text: Button label (optional, might be taken from previous field)
     
 */
 uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
@@ -409,7 +414,28 @@ uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
   
 }
 
-/* same as mui_radio_mark_invers_select_u8g2, but has different style */
+/*
+
+  uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
+
+  Description:
+    A selectable button with a checkbox in front of it. Selected, if arg is equal to the current value (*(uint8_t *)data)
+    
+  Message Handling: DRAW
+
+  Style
+    No Selection: Text only
+    Cursor Selection: Inverted text
+
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: uint8_t *, pointer to a uint8_t variable, which defines, whether there checkbox is checked or not
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: The number of this button, which is compared against *(uint8_t *)data (required)
+    text: Button label (usually required)
+    
+*/
 uint8_t mui_radio_checkbox_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -461,6 +487,28 @@ uint8_t mui_radio_checkbox_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
   
 }
 
+/*
+
+  uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
+
+  Description:
+    A selectable text with a checkbox in front of it. Selected, if *(uint8_t *)data is not 0.
+    
+  Message Handling: DRAW
+
+  Style
+    No Selection: Text only
+    Cursor Selection: Inverted text
+
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: uint8_t *, pointer to a uint8_t variable, which defines, whether there checkbox is checked or not
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: not used
+    text: Button label (optional)
+    
+*/
 uint8_t mui_checkbox_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);

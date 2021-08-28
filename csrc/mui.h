@@ -422,7 +422,7 @@ struct mui_struct
 #define MUI_STYLE(n) "S" #n
 
 
-#define MUI_XY(id, x,y) "F" id MUI_##x MUI_##y
+#define MUI_XY(id, x, y) "F" id MUI_##x MUI_##y
 /* button id must be two chars, but must be unique everywhere */
 #define MUI_XYT(id, x,y,text) "B" id MUI_##x MUI_##y  "\xff" text "\xff"
 #define MUI_XYA(id, x,y,a) "A" id MUI_##x MUI_##y  MUI_##a
