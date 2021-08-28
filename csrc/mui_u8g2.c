@@ -296,8 +296,8 @@ uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  if ( value == NULL )
-    value = &(ui->selected_value);
+  //if ( value == NULL )
+  //  value = &(ui->selected_value);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -723,8 +723,8 @@ uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
 uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  if ( value == NULL )
-    value = &(ui->selected_value);
+  //if ( value == NULL )
+  //  value = &(ui->selected_value);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -752,8 +752,8 @@ uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
 uint8_t mui_assign_arg_go_back_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  if ( value == NULL )
-    value = &(ui->selected_value);
+  //if ( value == NULL )
+  //  value = &(ui->selected_value);
   switch(msg)
   {
     case MUIF_MSG_DRAW:

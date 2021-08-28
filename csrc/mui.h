@@ -73,7 +73,7 @@ struct muif_struct
   muif_cb cb;                        // callback
 };
 
-#define UIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb}
+#define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb}
 
 #define muif_get_id0(muif) ((muif)->id0)
 #define muif_get_id1(muif) ((muif)->id1)
@@ -123,7 +123,7 @@ struct mui_struct
 
   fds_t token;             // current token position
   
-  uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
+  //uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
   uint8_t tmp8;
   /* current field/style variables */
   //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for mui_EnterForm
