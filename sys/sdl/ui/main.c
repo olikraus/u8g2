@@ -7,7 +7,7 @@
 
   
 u8g2_t u8g2;
-ui_t ui;
+mui_t ui;
 
 uint8_t my_value = 2;
 uint8_t my_value2 = 2;
@@ -16,10 +16,10 @@ uint8_t my_color = 0;
 
 uint8_t touchscreen_selection = 255;
 
-uint8_t uif_single_line_option_invers_select_u8g2(ui_t *ui, uint8_t msg);
+uint8_t uif_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 
-uif_t uif_list[] = {
+muif_t uif_list[] = {
 UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
 UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
 UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
@@ -179,7 +179,7 @@ int main(void)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   
-  ui_Init(&ui, &u8g2, fds, uif_list, sizeof(uif_list)/sizeof(uif_t));
+  ui_Init(&ui, &u8g2, fds, uif_list, sizeof(uif_list)/sizeof(muif_t));
   ui_EnterForm(&ui, 0);
 
   puts(fds);

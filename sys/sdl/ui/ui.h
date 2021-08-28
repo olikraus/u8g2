@@ -54,13 +54,13 @@
 
 
 /*=== forward declarations ===*/
-typedef struct ui_struct ui_t;
-typedef struct muif_struct uif_t;
+typedef struct ui_struct mui_t;
+typedef struct muif_struct muif_t;
 
 
 /*=== struct declarations === */
 
-typedef uint8_t (*uif_cb)(ui_t *ui, uint8_t msg);
+typedef uint8_t (*uif_cb)(mui_t *ui, uint8_t msg);
 
 struct muif_struct
 {
@@ -113,7 +113,7 @@ struct ui_struct
   void *graphics_data;
   fds_t root_fds;  
   
-  uif_t *uif_list;
+  muif_t *uif_list;
   size_t uif_cnt;
   
   fds_t current_form_fds;         // the current form, NULL if the ui is not active at the moment
@@ -137,7 +137,7 @@ struct ui_struct
   uint8_t arg;          // extra argument of the field. For example the G: form is put here
   ssize_t len;          // length of the current command
   fds_t fds;             // current position, *fds = cmd
-  uif_t *uif;                   // user interface field or style for the given id0 / id1
+  muif_t *uif;                   // user interface field or style for the given id0 / id1
   char text[UI_MAX_TEXT_LEN+1];
 
   /* target  */
@@ -429,24 +429,24 @@ struct ui_struct
 
 uint8_t ui_get_fds_char(fds_t s);
 
-uint8_t ui_fds_first_token(ui_t *ui);
-uint8_t ui_fds_next_token(ui_t *ui);
-uint8_t ui_fds_get_nth_token(ui_t *ui, uint8_t n);
-uint8_t ui_fds_get_token_cnt(ui_t *ui);
+uint8_t ui_fds_first_token(mui_t *ui);
+uint8_t ui_fds_next_token(mui_t *ui);
+uint8_t ui_fds_get_nth_token(mui_t *ui, uint8_t n);
+uint8_t ui_fds_get_token_cnt(mui_t *ui);
 
 
-void ui_Init(ui_t *ui, void *graphics_data, fds_t fds, uif_t *uif_list, size_t uif_cnt);
-uint8_t ui_GetCurrentCursorFocusPosition(ui_t *ui);
-void ui_Draw(ui_t *ui);
-void ui_GetSelectableFieldTextOption(ui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
-void ui_EnterForm(ui_t *ui, uint8_t initial_cursor_position);
-void ui_LeaveForm(ui_t *ui);
-uint8_t ui_GotoForm(ui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
-void ui_SaveForm(ui_t *ui);
-void ui_RestoreForm(ui_t *ui);
-void ui_NextField(ui_t *ui);
-void ui_PrevField(ui_t *ui);
-void ui_SendSelect(ui_t *ui);
+void ui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *uif_list, size_t uif_cnt);
+uint8_t ui_GetCurrentCursorFocusPosition(mui_t *ui);
+void ui_Draw(mui_t *ui);
+void ui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
+void ui_EnterForm(mui_t *ui, uint8_t initial_cursor_position);
+void ui_LeaveForm(mui_t *ui);
+uint8_t ui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
+void ui_SaveForm(mui_t *ui);
+void ui_RestoreForm(mui_t *ui);
+void ui_NextField(mui_t *ui);
+void ui_PrevField(mui_t *ui);
+void ui_SendSelect(mui_t *ui);
 
 #endif /* MUI_H */
 
