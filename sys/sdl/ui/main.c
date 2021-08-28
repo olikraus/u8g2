@@ -19,7 +19,7 @@ uint8_t touchscreen_selection = 255;
 uint8_t muif_tsingle_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 
-muif_t muif_tlist[] = {
+muif_t muif_list[] = {
 UIF("B0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_thalf_width_frame_button_invers_select_u8g2),
 UIF("B1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_thalf_width_frame_button_invers_select_u8g2),
 UIF("I1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,muif_tinput_uint8_invers_select_u8g2),
@@ -179,7 +179,7 @@ int main(void)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   
-  mui_Init(&ui, &u8g2, fds, muif_tlist, sizeof(muif_tlist)/sizeof(muif_t));
+  mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui_EnterForm(&ui, 0);
 
   puts(fds);

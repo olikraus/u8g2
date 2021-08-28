@@ -2,7 +2,7 @@
 
   mui.h
 
-  monochrome minimal user interface
+  Monochrome minimal user interface: Core library.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -34,6 +34,7 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 */
+
 #ifndef MMUI_H
 #define MMUI_H
 
@@ -102,7 +103,7 @@ struct muif_struct
 
 typedef const char *fds_t;      // form/field definition string
 
-uint8_t mui_get_fds_char(fds_t s);
+uint8_t mui_get_fds_char(fds_t s) MUI_NOINLINE;
 
 
 /* must be smaller than or equal to 255 */
@@ -427,12 +428,12 @@ struct mui_struct
 #define MUI_goto(x,y,n,text) "g" MUI_##x MUI_##y MUI_##n "\xff" text "\xff"
 
 
-uint8_t mui_get_fds_char(fds_t s);
+uint8_t mui_get_fds_char(fds_t s) MUI_NOINLINE;
 
-uint8_t mui_fds_first_token(mui_t *ui);
-uint8_t mui_fds_next_token(mui_t *ui);
-uint8_t mui_fds_get_nth_token(mui_t *ui, uint8_t n);
-uint8_t mui_fds_get_token_cnt(mui_t *ui);
+uint8_t mui_fds_first_token(mui_t *ui) MUI_NOINLINE;
+uint8_t mui_fds_next_token(mui_t *ui) MUI_NOINLINE;
+uint8_t mui_fds_get_nth_token(mui_t *ui, uint8_t n) MUI_NOINLINE;
+uint8_t mui_fds_get_token_cnt(mui_t *ui) MUI_NOINLINE;
 
 
 void mui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *muif_tlist, size_t muif_tcnt);

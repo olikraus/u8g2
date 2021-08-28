@@ -2,7 +2,7 @@
 
   mui.c
   
-  monochrome minimal user interface
+  Monochrome minimal user interface: Core library.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -33,6 +33,11 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+  
+
+  "mui.c" is a graphical user interface, developed as part of u8g2.
+  However "mui.c" is independent of u8g2 and can be used without u8g2 code.
+  The glue code between "mui.c" and u8g2 is located in "mui_u8g2.c"
 
   c: cmd
   i:  ID0
@@ -47,7 +52,8 @@
   Manual ID:
   "Fijxy"  Generic field: Places field with id ii at x/y        --> ID=ij
   "Bijxy/text/"   Generic field (Button) with Text   --> ID=ij
-  "Aiixya/text/"  Generic field with argument and text --> ID = ij
+  "Tiixya/text/"  Generic field with argument and text --> ID = ij
+  "Aiixya"
   
   Fixed ID:
   "Si" the style                                                        --> ID=@i
@@ -74,7 +80,8 @@
 
 //#define mui_get_fds_char(s) ((uint8_t)(*s))
 
-uint8_t mui_get_fds_char(fds_t s)
+
+uint8_t mui_get_fds_char(fds_t s)       
 {
   return (uint8_t)(*s);
 }
@@ -83,7 +90,8 @@ uint8_t mui_get_fds_char(fds_t s)
 /*
   s must point to a valid command within FDS
 */
-size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
+static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s) MUI_NOINLINE;
+static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
 {
   uint8_t c = mui_get_fds_char(s);
   c &= 0xdf; /* consider upper and lower case */
@@ -111,8 +119,9 @@ size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
     - '/' actually is 0xff
     - return the total size of the string, including the delimiter
     - copies the content of the string ("ok") to the ui text buffer
+
 */
-size_t mui_fds_parse_text(mui_t *ui, fds_t s)
+static size_t mui_fds_parse_text(mui_t *ui, fds_t s)
 {
   uint8_t i = 0;
   ui->delimiter = mui_get_fds_char(s);
@@ -165,6 +174,7 @@ size_t mui_fds_parse_text(mui_t *ui, fds_t s)
   }
 
 */
+
 uint8_t mui_fds_first_token(mui_t *ui)
 {
   ui->token = ui->fds;
@@ -256,7 +266,8 @@ uint8_t mui_fds_get_token_cnt(mui_t *ui)
     Any existing text part will be copied into ui->text
     ui->text will be assigned to empty string if there is no text argument
 */
-size_t mui_fds_get_cmd_size(mui_t *ui, fds_t s)
+static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t s) MUI_NOINLINE;
+static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t s)
 {
   size_t l = mui_fds_get_cmd_size_without_text(ui, s);
   uint8_t c = mui_get_fds_char(s);
