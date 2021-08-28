@@ -7,7 +7,7 @@
 
   
 u8g2_t u8g2;
-mmui_t ui;
+mui_t ui;
 
 uint8_t my_value = 2;
 uint8_t my_value2 = 2;
@@ -16,10 +16,10 @@ uint8_t my_color = 0;
 
 uint8_t touchscreen_selection = 255;
 
-uint8_t muif_tsingle_line_option_invers_select_u8g2(mmui_t *ui, uint8_t msg);
+uint8_t muif_tsingle_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 
-mmuif_tt muif_tlist[] = {
+muif_t muif_tlist[] = {
 UIF("B0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_thalf_width_frame_button_invers_select_u8g2),
 UIF("B1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_thalf_width_frame_button_invers_select_u8g2),
 UIF("I1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,muif_tinput_uint8_invers_select_u8g2),
@@ -30,140 +30,140 @@ UIF("I4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,muif_tshow_option_goto_form_i
 UIF("O4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,muif_tassign_arg_go_back_invers_select_u8g2),
   
 UIF("TS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,muif_tsingle_line_option_invers_select_u8g2),
-UIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_tgoto_half_width_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
-UIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_tgoto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
+UIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_tgoto_half_width_frame_button_invers_select_u8g2),    /* MUI_GOTO has the id FG */
+UIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_tgoto_line_button_invers_select_u8g2),    /* MUI_goto has the id Fg */
 UIF(".L",0,0,muif_tlabel_u8g2)
 };
 
 fds_t fds = 
 
-UI_FORM(1)
-UI_goto(12,10,2, "Test 1")
-UI_goto(12,22,10, "Button Test")
-UI_goto(12,34,101, "Story")
+MUI_FORM(1)
+MUI_goto(12,10,2, "Test 1")
+MUI_goto(12,22,10, "Button Test")
+MUI_goto(12,34,101, "Story")
 
-UI_FORM(2)
-UI_LABEL(0,10, "Number:")
-UI_XY("I1",50, 10)
-UI_LABEL(0,22, "Fruit:")
-UI_XYAT("I2",50, 22, 60, "Banana|Apple|Peach")
-UI_LABEL(0,34, "Check:")
-//UI_XYT("I3",50, 44, "ABCxyz")
-UI_XY("I3",50, 34)
+MUI_FORM(2)
+MUI_LABEL(0,10, "Number:")
+MUI_XY("I1",50, 10)
+MUI_LABEL(0,22, "Fruit:")
+MUI_XYAT("I2",50, 22, 60, "Banana|Apple|Peach")
+MUI_LABEL(0,34, "Check:")
+//MUI_XYT("I3",50, 44, "ABCxyz")
+MUI_XY("I3",50, 34)
 
-UI_LABEL(0,46, "Color:")
-UI_XYAT("I4",50, 46, 4, "red|green|blue")
-
-
-//UI_BUTTON("B1",32,50, "Ok")
-UI_GOTO(32,60,3, "Goto 2")
-UI_GOTO(96,60,1, "Home")
-
-UI_FORM(3)
-UI_goto(32,50,2, "Goto 1")
-
-UI_FORM(4)
-UI_XYA("O4", 2, 10, 0)
-UI_XYA("O4", 2, 22, 1)
-UI_XYAT("O4", 2, 34, 2, "blue color")  /* provide a different text for this option */
-
-UI_FORM(10)
-UI_goto(10,11,11, "Btn 1")
-UI_goto(10,21,12, "Btn 2")
-UI_goto(10,31,13, "Btn 3")
-UI_goto(10,41,14, "Btn 4")
-UI_goto(10,51,15, "Btn 5")
-UI_goto(10,61,1, "Home")
-
-UI_FORM(11)
-UI_goto(10,61,10, "Back")
-UI_FORM(12)
-UI_goto(10,61,10, "Back")
-UI_FORM(13)
-UI_goto(10,61,10, "Back")
-UI_FORM(14)
-UI_goto(10,61,10, "Back")
-UI_FORM(15)
-UI_goto(10,61,10, "Back")
-UI_FORM(16)
-UI_goto(10,61,10, "Back")
+MUI_LABEL(0,46, "Color:")
+MUI_XYAT("I4",50, 46, 4, "red|green|blue")
 
 
-UI_FORM(101)
-UI_LABEL(0, 10, "Robot enabled.")
-UI_LABEL(0, 20, "KI activated.")
-UI_GOTO(32,60,102, "Move Out")
-UI_GOTO(96,60,3, "Diagnostics")
+//MUI_BUTTON("B1",32,50, "Ok")
+MUI_GOTO(32,60,3, "Goto 2")
+MUI_GOTO(96,60,1, "Home")
 
-UI_FORM(102)
-UI_LABEL(0, 9, "Floor.")
-UI_LABEL(0, 19, "Robot holder in the wall.")
-UI_LABEL(0, 29, "")
-UI_goto(10,41,107, "Forward")
-UI_goto(10,51,103, "Backward")
-UI_goto(10,61,101, "Into Holder")
+MUI_FORM(3)
+MUI_goto(32,50,2, "Goto 1")
 
-UI_FORM(103)
-UI_LABEL(0, 9, "Floor.")
-UI_LABEL(0, 19, "")
-UI_LABEL(0, 29, "")
-UI_goto(10,41,102, "Forward")
-UI_goto(10,51,104, "Visual Scan")
-UI_goto(10,61,106, "Audio Scan")
+MUI_FORM(4)
+MUI_XYA("O4", 2, 10, 0)
+MUI_XYA("O4", 2, 22, 1)
+MUI_XYAT("O4", 2, 34, 2, "blue color")  /* provide a different text for this option */
 
-UI_FORM(104)
-UI_LABEL(0, 9, "Visual scan mode.")
-UI_LABEL(0, 19, "Floor to front.")
-UI_LABEL(0, 29, "Backside Window.")
-//UI_goto(10,41,102, "Forward")
-UI_goto(10,51,105, "Scan Window")
-UI_goto(10,61,103, "Exit Scan")
+MUI_FORM(10)
+MUI_goto(10,11,11, "Btn 1")
+MUI_goto(10,21,12, "Btn 2")
+MUI_goto(10,31,13, "Btn 3")
+MUI_goto(10,41,14, "Btn 4")
+MUI_goto(10,51,15, "Btn 5")
+MUI_goto(10,61,1, "Home")
 
-UI_FORM(105)
-UI_LABEL(0, 9, "Visual scan mode.")
-UI_LABEL(0, 19, "Window:")
-UI_LABEL(0, 29, "Black with white dots.")
-//UI_goto(10,41,102, "Forward")
-UI_goto(10,51,104, "Visual Scan")
-UI_goto(10,61,103, "Exit Scan")
+MUI_FORM(11)
+MUI_goto(10,61,10, "Back")
+MUI_FORM(12)
+MUI_goto(10,61,10, "Back")
+MUI_FORM(13)
+MUI_goto(10,61,10, "Back")
+MUI_FORM(14)
+MUI_goto(10,61,10, "Back")
+MUI_FORM(15)
+MUI_goto(10,61,10, "Back")
+MUI_FORM(16)
+MUI_goto(10,61,10, "Back")
 
-UI_FORM(106)
-UI_LABEL(0, 9, "Audio scan mode.")
-UI_LABEL(0, 19, "No audio.")
-//UI_LABEL(0, 29, "")
-//UI_goto(10,41,102, "Forward")
-//UI_goto(10,51,104, "Visual Scan")
-UI_goto(10,61,103, "Exit Scan")
 
-UI_FORM(107)
-UI_LABEL(0, 9, "Floor.")
-UI_LABEL(0, 19, "")
-//UI_LABEL(0, 29, "")
-//UI_goto(10,41,102, "Forward")
-UI_goto(10,51,108, "Visual Scan")
-UI_goto(10,61,102, "Backward")
+MUI_FORM(101)
+MUI_LABEL(0, 10, "Robot enabled.")
+MUI_LABEL(0, 20, "KI activated.")
+MUI_GOTO(32,60,102, "Move Out")
+MUI_GOTO(96,60,3, "Diagnostics")
 
-UI_FORM(108)
-UI_LABEL(0, 9, "Visual scan mode.")
-UI_LABEL(0, 19, "Touchscreen.")
-UI_LABEL(0, 29, "Door with button.")
-//UI_LABEL(0, 29, "")
-UI_goto(10,41,109, "Press Door Button")
-UI_goto(10,51,110, "Use Touchscreen")
-UI_goto(10,61,107, "Exit Scan")
+MUI_FORM(102)
+MUI_LABEL(0, 9, "Floor.")
+MUI_LABEL(0, 19, "Robot holder in the wall.")
+MUI_LABEL(0, 29, "")
+MUI_goto(10,41,107, "Forward")
+MUI_goto(10,51,103, "Backward")
+MUI_goto(10,61,101, "Into Holder")
 
-UI_FORM(109)
-UI_LABEL(0, 9, "Visual scan mode.")
-UI_LABEL(0, 19, "Door does not open.")
-//UI_LABEL(0, 29, "")
-//UI_goto(10,41,109, "Press Door Button")
-//UI_goto(10,51,110, "Use Touchscreen")
-UI_goto(10,61,107, "Exit Scan")
+MUI_FORM(103)
+MUI_LABEL(0, 9, "Floor.")
+MUI_LABEL(0, 19, "")
+MUI_LABEL(0, 29, "")
+MUI_goto(10,41,102, "Forward")
+MUI_goto(10,51,104, "Visual Scan")
+MUI_goto(10,61,106, "Audio Scan")
 
-UI_FORM(110)
-UI_LABEL(0, 9, "Touchscreen.")
-UI_XYT("TS",0, 25, "Navigation|Energy|Damage|Robot|Security")
-UI_goto(10,61,108, "Exit Touchscreen")
+MUI_FORM(104)
+MUI_LABEL(0, 9, "Visual scan mode.")
+MUI_LABEL(0, 19, "Floor to front.")
+MUI_LABEL(0, 29, "Backside Window.")
+//MUI_goto(10,41,102, "Forward")
+MUI_goto(10,51,105, "Scan Window")
+MUI_goto(10,61,103, "Exit Scan")
+
+MUI_FORM(105)
+MUI_LABEL(0, 9, "Visual scan mode.")
+MUI_LABEL(0, 19, "Window:")
+MUI_LABEL(0, 29, "Black with white dots.")
+//MUI_goto(10,41,102, "Forward")
+MUI_goto(10,51,104, "Visual Scan")
+MUI_goto(10,61,103, "Exit Scan")
+
+MUI_FORM(106)
+MUI_LABEL(0, 9, "Audio scan mode.")
+MUI_LABEL(0, 19, "No audio.")
+//MUI_LABEL(0, 29, "")
+//MUI_goto(10,41,102, "Forward")
+//MUI_goto(10,51,104, "Visual Scan")
+MUI_goto(10,61,103, "Exit Scan")
+
+MUI_FORM(107)
+MUI_LABEL(0, 9, "Floor.")
+MUI_LABEL(0, 19, "")
+//MUI_LABEL(0, 29, "")
+//MUI_goto(10,41,102, "Forward")
+MUI_goto(10,51,108, "Visual Scan")
+MUI_goto(10,61,102, "Backward")
+
+MUI_FORM(108)
+MUI_LABEL(0, 9, "Visual scan mode.")
+MUI_LABEL(0, 19, "Touchscreen.")
+MUI_LABEL(0, 29, "Door with button.")
+//MUI_LABEL(0, 29, "")
+MUI_goto(10,41,109, "Press Door Button")
+MUI_goto(10,51,110, "Use Touchscreen")
+MUI_goto(10,61,107, "Exit Scan")
+
+MUI_FORM(109)
+MUI_LABEL(0, 9, "Visual scan mode.")
+MUI_LABEL(0, 19, "Door does not open.")
+//MUI_LABEL(0, 29, "")
+//MUI_goto(10,41,109, "Press Door Button")
+//MUI_goto(10,51,110, "Use Touchscreen")
+MUI_goto(10,61,107, "Exit Scan")
+
+MUI_FORM(110)
+MUI_LABEL(0, 9, "Touchscreen.")
+MUI_XYT("TS",0, 25, "Navigation|Energy|Damage|Robot|Security")
+MUI_goto(10,61,108, "Exit Touchscreen")
 
 ;
 
@@ -179,7 +179,7 @@ int main(void)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   
-  mui_Init(&ui, &u8g2, fds, muif_tlist, sizeof(muif_tlist)/sizeof(mmuif_tt));
+  mui_Init(&ui, &u8g2, fds, muif_tlist, sizeof(muif_tlist)/sizeof(muif_t));
   mui_EnterForm(&ui, 0);
 
   puts(fds);

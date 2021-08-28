@@ -34,8 +34,8 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 */
-#ifndef MUI_H
-#define MUI_H
+#ifndef MMUI_H
+#define MMUI_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -43,24 +43,24 @@
 #include <string.h>
 #include <sys/types.h>
 
-#define UI_CHECK_EOFDS
+#define MUI_CHECK_EOFDS
 
 #ifdef __GNUC__
-#  define UI_NOINLINE __attribute__((noinline))
+#  define MUI_NOINLINE __attribute__((noinline))
 #else
-#  define UI_NOINLINE
+#  define MUI_NOINLINE
 #endif
 
 
 
 /*=== forward declarations ===*/
-typedef struct mui_struct mmui_t;
-typedef struct muif_struct mmuif_tt;
+typedef struct mui_struct mui_t;
+typedef struct muif_struct muif_t;
 
 
 /*=== struct declarations === */
 
-typedef uint8_t (*muif_cb)(mmui_t *ui, uint8_t msg);
+typedef uint8_t (*muif_cb)(mui_t *ui, uint8_t msg);
 
 struct muif_struct
 {
@@ -106,14 +106,14 @@ uint8_t mui_get_fds_char(fds_t s);
 
 
 /* must be smaller than or equal to 255 */
-#define UI_MAX_TEXT_LEN 31
+#define MUI_MAX_TEXT_LEN 31
 
 struct mui_struct
 {
   void *graphics_data;
   fds_t root_fds;  
   
-  mmuif_tt *muif_tlist;
+  muif_t *muif_tlist;
   size_t muif_tcnt;
   
   fds_t current_form_fds;         // the current form, NULL if the ui is not active at the moment
@@ -137,8 +137,8 @@ struct mui_struct
   uint8_t arg;          // extra argument of the field. For example the G: form is put here
   ssize_t len;          // length of the current command
   fds_t fds;             // current position, *fds = cmd
-  mmuif_tt *uif;                   // user interface field or style for the given id0 / id1
-  char text[UI_MAX_TEXT_LEN+1];
+  muif_t *uif;                   // user interface field or style for the given id0 / id1
+  char text[MUI_MAX_TEXT_LEN+1];
 
   /* target  */
   fds_t tmp_fds;
@@ -149,304 +149,304 @@ struct mui_struct
   uint8_t last_form_cursor_focus_position;
 };
 
-#define mui_IsCursorFocus(ui) ((ui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
-#define mui_IsTouchFocus(ui) ((ui)->dflags & MUIF_CFLAG_IS_TOUCH_SELECTABLE)
+#define mui_IsCursorFocus(mui) ((mui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
+#define mui_IsTouchFocus(mui) ((mui)->dflags & MUIF_CFLAG_IS_TOUCH_SELECTABLE)
 
 
 
 
 /*=== form string definitions ===*/
 
-#define UI_0 "\x00"
-#define UI_1 "\x01"
-#define UI_2 "\x02"
-#define UI_3 "\x03"
-#define UI_4 "\x04"
-#define UI_5 "\x05"
-#define UI_6 "\x06"
-#define UI_7 "\x07"
-#define UI_8 "\x08"
-#define UI_9 "\x09"
-#define UI_10 "\x0a"
-#define UI_11 "\x0b"
-#define UI_12 "\x0c"
-#define UI_13 "\x0d"
-#define UI_14 "\x0e"
-#define UI_15 "\x0f"
-#define UI_16 "\x10"
-#define UI_17 "\x11"
-#define UI_18 "\x12"
-#define UI_19 "\x13"
-#define UI_20 "\x14"
-#define UI_21 "\x15"
-#define UI_22 "\x16"
-#define UI_23 "\x17"
-#define UI_24 "\x18"
-#define UI_25 "\x19"
-#define UI_26 "\x1a"
-#define UI_27 "\x1b"
-#define UI_28 "\x1c"
-#define UI_29 "\x1d"
-#define UI_30 "\x1e"
-#define UI_31 "\x1f"
-#define UI_32 "\x20"
-#define UI_33 "\x21"
-#define UI_34 "\x22"
-#define UI_35 "\x23"
-#define UI_36 "\x24"
-#define UI_37 "\x25"
-#define UI_38 "\x26"
-#define UI_39 "\x27"
-#define UI_40 "\x28"
-#define UI_41 "\x29"
-#define UI_42 "\x2a"
-#define UI_43 "\x2b"
-#define UI_44 "\x2c"
-#define UI_45 "\x2d"
-#define UI_46 "\x2e"
-#define UI_47 "\x2f"
-#define UI_48 "\x30"
-#define UI_49 "\x31"
-#define UI_50 "\x32"
-#define UI_51 "\x33"
-#define UI_52 "\x34"
-#define UI_53 "\x35"
-#define UI_54 "\x36"
-#define UI_55 "\x37"
-#define UI_56 "\x38"
-#define UI_57 "\x39"
-#define UI_58 "\x3a"
-#define UI_59 "\x3b"
-#define UI_60 "\x3c"
-#define UI_61 "\x3d"
-#define UI_62 "\x3e"
-#define UI_63 "\x3f"
-#define UI_64 "\x40"
-#define UI_65 "\x41"
-#define UI_66 "\x42"
-#define UI_67 "\x43"
-#define UI_68 "\x44"
-#define UI_69 "\x45"
-#define UI_70 "\x46"
-#define UI_71 "\x47"
-#define UI_72 "\x48"
-#define UI_73 "\x49"
-#define UI_74 "\x4a"
-#define UI_75 "\x4b"
-#define UI_76 "\x4c"
-#define UI_77 "\x4d"
-#define UI_78 "\x4e"
-#define UI_79 "\x4f"
-#define UI_80 "\x50"
-#define UI_81 "\x51"
-#define UI_82 "\x52"
-#define UI_83 "\x53"
-#define UI_84 "\x54"
-#define UI_85 "\x55"
-#define UI_86 "\x56"
-#define UI_87 "\x57"
-#define UI_88 "\x58"
-#define UI_89 "\x59"
-#define UI_90 "\x5a"
-#define UI_91 "\x5b"
-#define UI_92 "\x5c"
-#define UI_93 "\x5d"
-#define UI_94 "\x5e"
-#define UI_95 "\x5f"
-#define UI_96 "\x60"
-#define UI_97 "\x61"
-#define UI_98 "\x62"
-#define UI_99 "\x63"
-#define UI_100 "\x64"
-#define UI_101 "\x65"
-#define UI_102 "\x66"
-#define UI_103 "\x67"
-#define UI_104 "\x68"
-#define UI_105 "\x69"
-#define UI_106 "\x6a"
-#define UI_107 "\x6b"
-#define UI_108 "\x6c"
-#define UI_109 "\x6d"
-#define UI_110 "\x6e"
-#define UI_111 "\x6f"
-#define UI_112 "\x70"
-#define UI_113 "\x71"
-#define UI_114 "\x72"
-#define UI_115 "\x73"
-#define UI_116 "\x74"
-#define UI_117 "\x75"
-#define UI_118 "\x76"
-#define UI_119 "\x77"
-#define UI_120 "\x78"
-#define UI_121 "\x79"
-#define UI_122 "\x7a"
-#define UI_123 "\x7b"
-#define UI_124 "\x7c"
-#define UI_125 "\x7d"
-#define UI_126 "\x7e"
-#define UI_127 "\x7f"
-#define UI_128 "\x80"
-#define UI_129 "\x81"
-#define UI_130 "\x82"
-#define UI_131 "\x83"
-#define UI_132 "\x84"
-#define UI_133 "\x85"
-#define UI_134 "\x86"
-#define UI_135 "\x87"
-#define UI_136 "\x88"
-#define UI_137 "\x89"
-#define UI_138 "\x8a"
-#define UI_139 "\x8b"
-#define UI_140 "\x8c"
-#define UI_141 "\x8d"
-#define UI_142 "\x8e"
-#define UI_143 "\x8f"
-#define UI_144 "\x90"
-#define UI_145 "\x91"
-#define UI_146 "\x92"
-#define UI_147 "\x93"
-#define UI_148 "\x94"
-#define UI_149 "\x95"
-#define UI_150 "\x96"
-#define UI_151 "\x97"
-#define UI_152 "\x98"
-#define UI_153 "\x99"
-#define UI_154 "\x9a"
-#define UI_155 "\x9b"
-#define UI_156 "\x9c"
-#define UI_157 "\x9d"
-#define UI_158 "\x9e"
-#define UI_159 "\x9f"
-#define UI_160 "\xa0"
-#define UI_161 "\xa1"
-#define UI_162 "\xa2"
-#define UI_163 "\xa3"
-#define UI_164 "\xa4"
-#define UI_165 "\xa5"
-#define UI_166 "\xa6"
-#define UI_167 "\xa7"
-#define UI_168 "\xa8"
-#define UI_169 "\xa9"
-#define UI_170 "\xaa"
-#define UI_171 "\xab"
-#define UI_172 "\xac"
-#define UI_173 "\xad"
-#define UI_174 "\xae"
-#define UI_175 "\xaf"
-#define UI_176 "\xb0"
-#define UI_177 "\xb1"
-#define UI_178 "\xb2"
-#define UI_179 "\xb3"
-#define UI_180 "\xb4"
-#define UI_181 "\xb5"
-#define UI_182 "\xb6"
-#define UI_183 "\xb7"
-#define UI_184 "\xb8"
-#define UI_185 "\xb9"
-#define UI_186 "\xba"
-#define UI_187 "\xbb"
-#define UI_188 "\xbc"
-#define UI_189 "\xbd"
-#define UI_190 "\xbe"
-#define UI_191 "\xbf"
-#define UI_192 "\xc0"
-#define UI_193 "\xc1"
-#define UI_194 "\xc2"
-#define UI_195 "\xc3"
-#define UI_196 "\xc4"
-#define UI_197 "\xc5"
-#define UI_198 "\xc6"
-#define UI_199 "\xc7"
-#define UI_200 "\xc8"
-#define UI_201 "\xc9"
-#define UI_202 "\xca"
-#define UI_203 "\xcb"
-#define UI_204 "\xcc"
-#define UI_205 "\xcd"
-#define UI_206 "\xce"
-#define UI_207 "\xcf"
-#define UI_208 "\xd0"
-#define UI_209 "\xd1"
-#define UI_210 "\xd2"
-#define UI_211 "\xd3"
-#define UI_212 "\xd4"
-#define UI_213 "\xd5"
-#define UI_214 "\xd6"
-#define UI_215 "\xd7"
-#define UI_216 "\xd8"
-#define UI_217 "\xd9"
-#define UI_218 "\xda"
-#define UI_219 "\xdb"
-#define UI_220 "\xdc"
-#define UI_221 "\xdd"
-#define UI_222 "\xde"
-#define UI_223 "\xdf"
-#define UI_224 "\xe0"
-#define UI_225 "\xe1"
-#define UI_226 "\xe2"
-#define UI_227 "\xe3"
-#define UI_228 "\xe4"
-#define UI_229 "\xe5"
-#define UI_230 "\xe6"
-#define UI_231 "\xe7"
-#define UI_232 "\xe8"
-#define UI_233 "\xe9"
-#define UI_234 "\xea"
-#define UI_235 "\xeb"
-#define UI_236 "\xec"
-#define UI_237 "\xed"
-#define UI_238 "\xee"
-#define UI_239 "\xef"
-#define UI_240 "\xf0"
-#define UI_241 "\xf1"
-#define UI_242 "\xf2"
-#define UI_243 "\xf3"
-#define UI_244 "\xf4"
-#define UI_245 "\xf5"
-#define UI_246 "\xf6"
-#define UI_247 "\xf7"
-#define UI_248 "\xf8"
-#define UI_249 "\xf9"
-#define UI_250 "\xfa"
-#define UI_251 "\xfb"
-#define UI_252 "\xfc"
-#define UI_253 "\xfd"
-#define UI_254 "\xfe"
-#define UI_255 "\xff"
+#define MUI_0 "\x00"
+#define MUI_1 "\x01"
+#define MUI_2 "\x02"
+#define MUI_3 "\x03"
+#define MUI_4 "\x04"
+#define MUI_5 "\x05"
+#define MUI_6 "\x06"
+#define MUI_7 "\x07"
+#define MUI_8 "\x08"
+#define MUI_9 "\x09"
+#define MUI_10 "\x0a"
+#define MUI_11 "\x0b"
+#define MUI_12 "\x0c"
+#define MUI_13 "\x0d"
+#define MUI_14 "\x0e"
+#define MUI_15 "\x0f"
+#define MUI_16 "\x10"
+#define MUI_17 "\x11"
+#define MUI_18 "\x12"
+#define MUI_19 "\x13"
+#define MUI_20 "\x14"
+#define MUI_21 "\x15"
+#define MUI_22 "\x16"
+#define MUI_23 "\x17"
+#define MUI_24 "\x18"
+#define MUI_25 "\x19"
+#define MUI_26 "\x1a"
+#define MUI_27 "\x1b"
+#define MUI_28 "\x1c"
+#define MUI_29 "\x1d"
+#define MUI_30 "\x1e"
+#define MUI_31 "\x1f"
+#define MUI_32 "\x20"
+#define MUI_33 "\x21"
+#define MUI_34 "\x22"
+#define MUI_35 "\x23"
+#define MUI_36 "\x24"
+#define MUI_37 "\x25"
+#define MUI_38 "\x26"
+#define MUI_39 "\x27"
+#define MUI_40 "\x28"
+#define MUI_41 "\x29"
+#define MUI_42 "\x2a"
+#define MUI_43 "\x2b"
+#define MUI_44 "\x2c"
+#define MUI_45 "\x2d"
+#define MUI_46 "\x2e"
+#define MUI_47 "\x2f"
+#define MUI_48 "\x30"
+#define MUI_49 "\x31"
+#define MUI_50 "\x32"
+#define MUI_51 "\x33"
+#define MUI_52 "\x34"
+#define MUI_53 "\x35"
+#define MUI_54 "\x36"
+#define MUI_55 "\x37"
+#define MUI_56 "\x38"
+#define MUI_57 "\x39"
+#define MUI_58 "\x3a"
+#define MUI_59 "\x3b"
+#define MUI_60 "\x3c"
+#define MUI_61 "\x3d"
+#define MUI_62 "\x3e"
+#define MUI_63 "\x3f"
+#define MUI_64 "\x40"
+#define MUI_65 "\x41"
+#define MUI_66 "\x42"
+#define MUI_67 "\x43"
+#define MUI_68 "\x44"
+#define MUI_69 "\x45"
+#define MUI_70 "\x46"
+#define MUI_71 "\x47"
+#define MUI_72 "\x48"
+#define MUI_73 "\x49"
+#define MUI_74 "\x4a"
+#define MUI_75 "\x4b"
+#define MUI_76 "\x4c"
+#define MUI_77 "\x4d"
+#define MUI_78 "\x4e"
+#define MUI_79 "\x4f"
+#define MUI_80 "\x50"
+#define MUI_81 "\x51"
+#define MUI_82 "\x52"
+#define MUI_83 "\x53"
+#define MUI_84 "\x54"
+#define MUI_85 "\x55"
+#define MUI_86 "\x56"
+#define MUI_87 "\x57"
+#define MUI_88 "\x58"
+#define MUI_89 "\x59"
+#define MUI_90 "\x5a"
+#define MUI_91 "\x5b"
+#define MUI_92 "\x5c"
+#define MUI_93 "\x5d"
+#define MUI_94 "\x5e"
+#define MUI_95 "\x5f"
+#define MUI_96 "\x60"
+#define MUI_97 "\x61"
+#define MUI_98 "\x62"
+#define MUI_99 "\x63"
+#define MUI_100 "\x64"
+#define MUI_101 "\x65"
+#define MUI_102 "\x66"
+#define MUI_103 "\x67"
+#define MUI_104 "\x68"
+#define MUI_105 "\x69"
+#define MUI_106 "\x6a"
+#define MUI_107 "\x6b"
+#define MUI_108 "\x6c"
+#define MUI_109 "\x6d"
+#define MUI_110 "\x6e"
+#define MUI_111 "\x6f"
+#define MUI_112 "\x70"
+#define MUI_113 "\x71"
+#define MUI_114 "\x72"
+#define MUI_115 "\x73"
+#define MUI_116 "\x74"
+#define MUI_117 "\x75"
+#define MUI_118 "\x76"
+#define MUI_119 "\x77"
+#define MUI_120 "\x78"
+#define MUI_121 "\x79"
+#define MUI_122 "\x7a"
+#define MUI_123 "\x7b"
+#define MUI_124 "\x7c"
+#define MUI_125 "\x7d"
+#define MUI_126 "\x7e"
+#define MUI_127 "\x7f"
+#define MUI_128 "\x80"
+#define MUI_129 "\x81"
+#define MUI_130 "\x82"
+#define MUI_131 "\x83"
+#define MUI_132 "\x84"
+#define MUI_133 "\x85"
+#define MUI_134 "\x86"
+#define MUI_135 "\x87"
+#define MUI_136 "\x88"
+#define MUI_137 "\x89"
+#define MUI_138 "\x8a"
+#define MUI_139 "\x8b"
+#define MUI_140 "\x8c"
+#define MUI_141 "\x8d"
+#define MUI_142 "\x8e"
+#define MUI_143 "\x8f"
+#define MUI_144 "\x90"
+#define MUI_145 "\x91"
+#define MUI_146 "\x92"
+#define MUI_147 "\x93"
+#define MUI_148 "\x94"
+#define MUI_149 "\x95"
+#define MUI_150 "\x96"
+#define MUI_151 "\x97"
+#define MUI_152 "\x98"
+#define MUI_153 "\x99"
+#define MUI_154 "\x9a"
+#define MUI_155 "\x9b"
+#define MUI_156 "\x9c"
+#define MUI_157 "\x9d"
+#define MUI_158 "\x9e"
+#define MUI_159 "\x9f"
+#define MUI_160 "\xa0"
+#define MUI_161 "\xa1"
+#define MUI_162 "\xa2"
+#define MUI_163 "\xa3"
+#define MUI_164 "\xa4"
+#define MUI_165 "\xa5"
+#define MUI_166 "\xa6"
+#define MUI_167 "\xa7"
+#define MUI_168 "\xa8"
+#define MUI_169 "\xa9"
+#define MUI_170 "\xaa"
+#define MUI_171 "\xab"
+#define MUI_172 "\xac"
+#define MUI_173 "\xad"
+#define MUI_174 "\xae"
+#define MUI_175 "\xaf"
+#define MUI_176 "\xb0"
+#define MUI_177 "\xb1"
+#define MUI_178 "\xb2"
+#define MUI_179 "\xb3"
+#define MUI_180 "\xb4"
+#define MUI_181 "\xb5"
+#define MUI_182 "\xb6"
+#define MUI_183 "\xb7"
+#define MUI_184 "\xb8"
+#define MUI_185 "\xb9"
+#define MUI_186 "\xba"
+#define MUI_187 "\xbb"
+#define MUI_188 "\xbc"
+#define MUI_189 "\xbd"
+#define MUI_190 "\xbe"
+#define MUI_191 "\xbf"
+#define MUI_192 "\xc0"
+#define MUI_193 "\xc1"
+#define MUI_194 "\xc2"
+#define MUI_195 "\xc3"
+#define MUI_196 "\xc4"
+#define MUI_197 "\xc5"
+#define MUI_198 "\xc6"
+#define MUI_199 "\xc7"
+#define MUI_200 "\xc8"
+#define MUI_201 "\xc9"
+#define MUI_202 "\xca"
+#define MUI_203 "\xcb"
+#define MUI_204 "\xcc"
+#define MUI_205 "\xcd"
+#define MUI_206 "\xce"
+#define MUI_207 "\xcf"
+#define MUI_208 "\xd0"
+#define MUI_209 "\xd1"
+#define MUI_210 "\xd2"
+#define MUI_211 "\xd3"
+#define MUI_212 "\xd4"
+#define MUI_213 "\xd5"
+#define MUI_214 "\xd6"
+#define MUI_215 "\xd7"
+#define MUI_216 "\xd8"
+#define MUI_217 "\xd9"
+#define MUI_218 "\xda"
+#define MUI_219 "\xdb"
+#define MUI_220 "\xdc"
+#define MUI_221 "\xdd"
+#define MUI_222 "\xde"
+#define MUI_223 "\xdf"
+#define MUI_224 "\xe0"
+#define MUI_225 "\xe1"
+#define MUI_226 "\xe2"
+#define MUI_227 "\xe3"
+#define MUI_228 "\xe4"
+#define MUI_229 "\xe5"
+#define MUI_230 "\xe6"
+#define MUI_231 "\xe7"
+#define MUI_232 "\xe8"
+#define MUI_233 "\xe9"
+#define MUI_234 "\xea"
+#define MUI_235 "\xeb"
+#define MUI_236 "\xec"
+#define MUI_237 "\xed"
+#define MUI_238 "\xee"
+#define MUI_239 "\xef"
+#define MUI_240 "\xf0"
+#define MUI_241 "\xf1"
+#define MUI_242 "\xf2"
+#define MUI_243 "\xf3"
+#define MUI_244 "\xf4"
+#define MUI_245 "\xf5"
+#define MUI_246 "\xf6"
+#define MUI_247 "\xf7"
+#define MUI_248 "\xf8"
+#define MUI_249 "\xf9"
+#define MUI_250 "\xfa"
+#define MUI_251 "\xfb"
+#define MUI_252 "\xfc"
+#define MUI_253 "\xfd"
+#define MUI_254 "\xfe"
+#define MUI_255 "\xff"
 
 /* form: one id only */
-#define UI_FORM(n) "U" UI_##n
-#define UI_LABEL(x,y,text) "L" UI_##x UI_##y "\xff" text "\xff"
-#define UI_XY(id, x,y) "F" id UI_##x UI_##y
+#define MUI_FORM(n) "U" MUI_##n
+#define MUI_LABEL(x,y,text) "L" MUI_##x MUI_##y "\xff" text "\xff"
+#define MUI_XY(id, x,y) "F" id MUI_##x MUI_##y
 /* button id must be two chars, but must be unique everywhere */
-#define UI_XYT(id, x,y,text) "B" id UI_##x UI_##y  "\xff" text "\xff"
-#define UI_XYA(id, x,y,a) "A" id UI_##x UI_##y  UI_##a
-#define UI_XYAT(id, x,y,a,text) "T" id UI_##x UI_##y  UI_##a "\xff" text "\xff"
+#define MUI_XYT(id, x,y,text) "B" id MUI_##x MUI_##y  "\xff" text "\xff"
+#define MUI_XYA(id, x,y,a) "A" id MUI_##x MUI_##y  MUI_##a
+#define MUI_XYAT(id, x,y,a,text) "T" id MUI_##x MUI_##y  MUI_##a "\xff" text "\xff"
 
-#define UI_GOTO(x,y,n,text) "G" UI_##x UI_##y UI_##n "\xff" text "\xff"
-#define UI_goto(x,y,n,text) "g" UI_##x UI_##y UI_##n "\xff" text "\xff"
+#define MUI_GOTO(x,y,n,text) "G" MUI_##x MUI_##y MUI_##n "\xff" text "\xff"
+#define MUI_goto(x,y,n,text) "g" MUI_##x MUI_##y MUI_##n "\xff" text "\xff"
 
 
 uint8_t mui_get_fds_char(fds_t s);
 
-uint8_t mui_fds_first_token(mmui_t *ui);
-uint8_t mui_fds_next_token(mmui_t *ui);
-uint8_t mui_fds_get_nth_token(mmui_t *ui, uint8_t n);
-uint8_t mui_fds_get_token_cnt(mmui_t *ui);
+uint8_t mui_fds_first_token(mui_t *ui);
+uint8_t mui_fds_next_token(mui_t *ui);
+uint8_t mui_fds_get_nth_token(mui_t *ui, uint8_t n);
+uint8_t mui_fds_get_token_cnt(mui_t *ui);
 
 
-void mui_Init(mmui_t *ui, void *graphics_data, fds_t fds, mmuif_tt *muif_tlist, size_t muif_tcnt);
-uint8_t mui_GetCurrentCursorFocusPosition(mmui_t *ui);
-void mui_Draw(mmui_t *ui);
-void mui_GetSelectableFieldTextOption(mmui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
-void mui_EnterForm(mmui_t *ui, uint8_t initial_cursor_position);
-void mui_LeaveForm(mmui_t *ui);
-uint8_t mui_GotoForm(mmui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
-void mui_SaveForm(mmui_t *ui);
-void mui_RestoreForm(mmui_t *ui);
-void mui_NextField(mmui_t *ui);
-void mui_PrevField(mmui_t *ui);
-void mui_SendSelect(mmui_t *ui);
+void mui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *muif_tlist, size_t muif_tcnt);
+uint8_t mui_GetCurrentCursorFocusPosition(mui_t *ui);
+void mui_Draw(mui_t *ui);
+void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
+void mui_EnterForm(mui_t *ui, uint8_t initial_cursor_position);
+void mui_LeaveForm(mui_t *ui);
+uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
+void mui_SaveForm(mui_t *ui);
+void mui_RestoreForm(mui_t *ui);
+void mui_NextField(mui_t *ui);
+void mui_PrevField(mui_t *ui);
+void mui_SendSelect(mui_t *ui);
 
-#endif /* MUI_H */
+#endif /* MMUI_H */
 
