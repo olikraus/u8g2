@@ -6,28 +6,28 @@
 
 /*
 
-uint8_t muif_template(mui_t *ui, uint8_t msg)
+uint8_t mmuif_ttemplate(mmui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
-  //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
-  //uif_get_data(ui->uif)
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //muif_tget_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  //muif_tget_data(ui->uif)
   switch(msg)
   {
-    case UIF_MSG_DRAW:
+    case MUIF_MSG_DRAW:
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;
@@ -311,17 +311,17 @@ void u8g2_DrawRButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
 /*=========================================================================*/
 /* helper function */
 
-u8g2_uint_t ui_get_x(mui_t *ui)
+u8g2_uint_t mui_get_x(mmui_t *ui)
 {
   return ui->x;
 }
 
-u8g2_uint_t ui_get_y(mui_t *ui)
+u8g2_uint_t mui_get_y(mmui_t *ui)
 {
   return ui->y;
 }
 
-u8g2_t *ui_get_U8g2(mui_t *ui)
+u8g2_t *mui_get_U8g2(mmui_t *ui)
 {
   return (u8g2_t *)(ui->graphics_data);
 }
@@ -333,19 +333,19 @@ u8g2_t *ui_get_U8g2(mui_t *ui)
 /*
   xy: yes, arg: no, text: yes
 */
-uint8_t uif_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tframe_button_bold_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH;
   switch(msg)
   {
-    case UIF_MSG_DRAW:
+    case MUIF_MSG_DRAW:
       //printf("DRAW fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
-      //u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_BW1 | U8G2_BTN_INV, 4, 1, ui->text);
-      //u8g2_DrawButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | U8G2_BTN_SHADOW2 | 2, 100, 1, ui->text);
-      //u8g2_DrawRButtonUTF8(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), U8G2_BTN_HCENTER  | U8G2_BTN_INV | 3, 2, 1, ui->text);
-      if ( ui->dflags & UIF_DFLAG_IS_CURSOR_FOCUS )
+      //u8g2_DrawStr(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), ui->text);
+      //u8g2_DrawButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_BW1 | U8G2_BTN_INV, 4, 1, ui->text);
+      //u8g2_DrawButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), U8G2_BTN_HCENTER | U8G2_BTN_PADWIDTH | U8G2_BTN_SHADOW2 | 2, 100, 1, ui->text);
+      //u8g2_DrawRButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), U8G2_BTN_HCENTER  | U8G2_BTN_INV | 3, 2, 1, ui->text);
+      if ( ui->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS )
       {
         flags |= 3;
       }
@@ -353,21 +353,21 @@ uint8_t uif_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
       {
         flags |= 1;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;    
   }
   return 0;
@@ -375,7 +375,7 @@ uint8_t uif_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t uif_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_thalf_width_frame_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     A button with size equal to display width / 2 - 10 pixel
@@ -387,8 +387,8 @@ uint8_t uif_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Text + Frame
     Cursor Selection: Inverted text + Frame
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: not used
 
   Field definition string (fds):
@@ -398,32 +398,32 @@ uint8_t uif_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
     
 */
 
-uint8_t uif_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_thalf_width_frame_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = U8G2_BTN_HCENTER | 1;
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      if ( ui_IsCursorFocus(ui) )
+    case MUIF_MSG_DRAW:
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;    
   }
   return 0;
@@ -431,7 +431,7 @@ uint8_t uif_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t uif_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tline_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     A full line button (covers complete width of the display).
@@ -442,8 +442,8 @@ uint8_t uif_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Text only
     Cursor Selection: Inverted text
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: not used
 
   Field definition string (fds):
@@ -452,33 +452,33 @@ uint8_t uif_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     text: Button label
     
 */
-uint8_t uif_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tline_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   //u8g2_uint_t flags = U8G2_BTN_HCENTER ;
   u8g2_uint_t flags = 0;
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      if ( ui_IsCursorFocus(ui) )
+    case MUIF_MSG_DRAW:
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)-ui_get_x(ui)*2, ui_get_x(ui) , 0, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui) , 0, ui->text);
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;    
   }
   return 0;
@@ -487,7 +487,7 @@ uint8_t uif_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t uif_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tradio_mark_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     A selectable button with a rectangle in front of it, if arg is equal to the current value (*(uint8_t *)data)
@@ -498,8 +498,8 @@ uint8_t uif_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Text only
     Cursor Selection: Inverted text
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: uint8_t *, pointer to a uint8_t variable, which defines, whether there is a rectangle in front of the text
 
   Field definition string (fds):
@@ -508,17 +508,17 @@ uint8_t uif_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     text: Button label
     
 */
-uint8_t uif_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tradio_mark_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
   if ( value == NULL )
     value = &(ui->selected_value);
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      if ( ui_IsCursorFocus(ui) )
+    case MUIF_MSG_DRAW:
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
@@ -526,8 +526,8 @@ uint8_t uif_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
       {
         u8g2_uint_t w = 0;
         u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
-        u8g2_uint_t x = ui_get_x(ui);   // if ui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
-        u8g2_uint_t y = ui_get_y(ui);  // if ui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
         if ( *value == ui->arg )
           u8g2_DrawValueMark(u8g2, x, y, a);
 
@@ -535,7 +535,7 @@ uint8_t uif_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
         {
           /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
           /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
-          ui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, ui->arg);
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, ui->arg);
         }
         
         if ( ui->text[0] != '\0' )
@@ -549,20 +549,20 @@ uint8_t uif_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
         u8g2_DrawButtonFrame(u8g2, x, y, flags, w+a, 1, 1);
       }
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       *value = ui->arg;
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;
@@ -579,26 +579,26 @@ uint8_t uif_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
   xy: yes, arg: no, text: yes
 */
 
-uint8_t uif_label_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tlabel_u8g2(mmui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      u8g2_DrawStr(ui_get_U8g2(ui), ui_get_x(ui), ui_get_y(ui), ui->text);
+    case MUIF_MSG_DRAW:
+      u8g2_DrawStr(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), ui->text);
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;    
   }
   return 0;
@@ -606,7 +606,7 @@ uint8_t uif_label_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tgoto_half_width_frame_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     A button with size equal to display width / 2 - 10 pixel
@@ -619,8 +619,8 @@ uint8_t uif_label_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Text + Frame
     Cursor Selection: Inverted text + Frame
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: not used
 
   Field definition string (fds):
@@ -629,20 +629,20 @@ uint8_t uif_label_u8g2(mui_t *ui, uint8_t msg)
     text: Button label
     
 */
-uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tgoto_half_width_frame_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
-    case UIF_MSG_CURSOR_SELECT:
-      return ui_GotoForm(ui, ui->arg, 0);
+    case MUIF_MSG_CURSOR_SELECT:
+      return mui_GotoForm(ui, ui->arg, 0);
   }
-  return uif_half_width_frame_button_invers_select_u8g2(ui, msg);
+  return muif_thalf_width_frame_button_invers_select_u8g2(ui, msg);
 }
 
 
 /*
 
-  uint8_t uif_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tgoto_line_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     A full line button (covers complete width of the display).
@@ -654,8 +654,8 @@ uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t m
     No Selection: Text only
     Cursor Selection: Inverted text
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: not used
 
   Field definition string (fds):
@@ -665,20 +665,20 @@ uint8_t uif_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t m
     
 */
 
-uint8_t uif_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tgoto_line_button_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
-    case UIF_MSG_CURSOR_SELECT:
-      return ui_GotoForm(ui, ui->arg, 0);
+    case MUIF_MSG_CURSOR_SELECT:
+      return mui_GotoForm(ui, ui->arg, 0);
   }
-  return uif_line_button_invers_select_u8g2(ui, msg);
+  return muif_tline_button_invers_select_u8g2(ui, msg);
 }
 
 
 /*
 
-  uint8_t uif_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tinput_uint8_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     Select a number between 0 and 9.
@@ -692,8 +692,8 @@ uint8_t uif_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Number only
     Cursor Selection: Inverted number
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: uint8_t *, pointer to a uint8_t variable, which contains the selected option 
 
   Field definition string (fds):
@@ -702,43 +702,43 @@ uint8_t uif_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     text: not used
     
 */
-uint8_t uif_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tinput_uint8_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
-  //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //muif_tget_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
   char buf[6];
   switch(msg)
   {
-    case UIF_MSG_DRAW:
+    case MUIF_MSG_DRAW:
       if ( *value > 9 ) *value = 9;
       buf[0] = (char)(*value + '0');
       buf[1] = '\0';
-      if ( ui_IsCursorFocus(ui) )
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
       
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
       
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       (*value)++;
       if ( *value > 9 ) *value = 0;      
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;
@@ -746,7 +746,7 @@ uint8_t uif_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t uif_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tsingle_line_option_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 
   Description:
     Select one of several options. First option has value 0.
@@ -759,8 +759,8 @@ uint8_t uif_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Text only
     Cursor Selection: Inverted text
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: uint8_t *, pointer to a uint8_t variable, which contains the selected option 
 
   Field definition string (fds):
@@ -769,45 +769,45 @@ uint8_t uif_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
     text: '|' separated list of options
     
 */
-uint8_t uif_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tsingle_line_option_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
-  //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //muif_tget_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
   //u8g2_uint_t flags = 0;
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      if ( ui_fds_get_nth_token(ui, *value) == 0 )
+    case MUIF_MSG_DRAW:
+      if ( mui_fds_get_nth_token(ui, *value) == 0 )
       {
         *value = 0;
-        ui_fds_get_nth_token(ui, *value);
+        mui_fds_get_nth_token(ui, *value);
       }      
-      if ( ui_IsCursorFocus(ui) )
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, ui->arg, 1, 1, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, ui->arg, 1, 1, ui->text);
       
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       (*value)++;
-      if ( ui_fds_get_nth_token(ui, *value) == 0 ) 
+      if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
         *value = 0;      
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;
@@ -815,44 +815,44 @@ uint8_t uif_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg)
    
 
 
-uint8_t uif_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tshow_option_goto_form_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          UIF_DFLAG_IS_CURSOR_FOCUS       UIF_DFLAG_IS_TOUCH_FOCUS
-  //uif_get_cflags(ui->uif)       UIF_CFLAG_IS_CURSOR_SELECTABLE
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //muif_tget_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
   //u8g2_uint_t flags = 0;
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      if ( ui_fds_get_nth_token(ui, *value) == 0 )
+    case MUIF_MSG_DRAW:
+      if ( mui_fds_get_nth_token(ui, *value) == 0 )
       {
         *value = 0;
-        ui_fds_get_nth_token(ui, *value);
+        mui_fds_get_nth_token(ui, *value);
       }      
-      if ( ui_IsCursorFocus(ui) )
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, ui_get_x(ui), ui_get_y(ui), flags, 0, 1, 1, ui->text);
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, 0, 1, 1, ui->text);
       
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
-      ui_SaveForm(ui);          // store the current form and position so that the child can jump back
-      ui_GotoForm(ui, ui->arg, *value);  // assumes that the selectable values are at the top of the form
+    case MUIF_MSG_CURSOR_SELECT:
+      mui_SaveForm(ui);          // store the current form and position so that the child can jump back
+      mui_GotoForm(ui, ui->arg, *value);  // assumes that the selectable values are at the top of the form
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;
@@ -861,7 +861,7 @@ uint8_t uif_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t uif_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
+  uint8_t muif_tcheckbox_invers_select_u8g2(mmui_t *ui, uint8_t msg)
   
   Description:
     Checkbox with the values 0 (not selected) and 1 (selected). 
@@ -872,8 +872,8 @@ uint8_t uif_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg)
     No Selection: Plain checkbox and text
     Cursor Selection: Checkbox and text is inverted
 
-  User interface field list (uif):
-    flags: UIF_CFLAG_IS_CURSOR_SELECTABLE
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
     data: uint8_t *, pointer to a uint8_t variable, which contains the values 0 or 1
 
   Field definition string (fds):
@@ -883,16 +883,16 @@ uint8_t uif_show_option_goto_form_invers_select_u8g2(mui_t *ui, uint8_t msg)
     
 */
 
-uint8_t uif_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tcheckbox_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = ui_get_U8g2(ui);
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = 0;
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
   switch(msg)
   {
-    case UIF_MSG_DRAW:
+    case MUIF_MSG_DRAW:
       if ( *value > 1 ) *value = 1;
-      if ( ui_IsCursorFocus(ui) )
+      if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
       }
@@ -901,95 +901,95 @@ uint8_t uif_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg)
         u8g2_uint_t w = 0;
         u8g2_uint_t a = u8g2_GetAscent(u8g2);
         if ( *value )
-          u8g2_DrawCheckbox(u8g2, ui_get_x(ui), ui_get_y(ui), a, 1);
+          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 1);
         else
-          u8g2_DrawCheckbox(u8g2, ui_get_x(ui), ui_get_y(ui), a, 0);
+          u8g2_DrawCheckbox(u8g2, mui_get_x(ui), mui_get_y(ui), a, 0);
         
         if ( ui->text[0] != '\0' )
         {
           w =  u8g2_GetUTF8Width(u8g2, ui->text);
           u8g2_SetFontMode(u8g2, 1);
           a += 2;       /* add gap between the checkbox and the text area */
-          u8g2_DrawUTF8(u8g2, ui_get_x(ui)+a, ui_get_y(ui), ui->text);
+          u8g2_DrawUTF8(u8g2, mui_get_x(ui)+a, mui_get_y(ui), ui->text);
         }
         
-        u8g2_DrawButtonFrame(u8g2, ui_get_x(ui), ui_get_y(ui), flags, w+a, 1, 1);
+        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, 1);
       }
       break;
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       (*value)++;
       if ( *value > 1 ) *value = 0;      
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
-      break;
-  }
-  return 0;
-  
-}
-
-uint8_t uif_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
-{
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
-  if ( value == NULL )
-    value = &(ui->selected_value);
-  switch(msg)
-  {
-    case UIF_MSG_DRAW:
-      return uif_radio_mark_invers_select_u8g2(ui, msg);
-    case UIF_MSG_FORM_START:
-      break;
-    case UIF_MSG_FORM_END:
-      break;
-    case UIF_MSG_CURSOR_ENTER:
-      break;
-    case UIF_MSG_CURSOR_SELECT:
-      *value = ui->arg;
-      break;
-    case UIF_MSG_CURSOR_LEAVE:
-      break;
-    case UIF_MSG_TOUCH_DOWN:
-      break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;
   
 }
 
-uint8_t uif_assign_arg_go_back_invers_select_u8g2(mui_t *ui, uint8_t msg)
+uint8_t muif_tassign_arg_invers_select_u8g2(mmui_t *ui, uint8_t msg)
 {
-  uint8_t *value = (uint8_t *)uif_get_data(ui->uif);
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
   if ( value == NULL )
     value = &(ui->selected_value);
   switch(msg)
   {
-    case UIF_MSG_DRAW:
-      return uif_radio_mark_invers_select_u8g2(ui, msg);
-    case UIF_MSG_FORM_START:
+    case MUIF_MSG_DRAW:
+      return muif_tradio_mark_invers_select_u8g2(ui, msg);
+    case MUIF_MSG_FORM_START:
       break;
-    case UIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:
       break;
-    case UIF_MSG_CURSOR_ENTER:
+    case MUIF_MSG_CURSOR_ENTER:
       break;
-    case UIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_CURSOR_SELECT:
       *value = ui->arg;
-      ui_RestoreForm(ui);
       break;
-    case UIF_MSG_CURSOR_LEAVE:
+    case MUIF_MSG_CURSOR_LEAVE:
       break;
-    case UIF_MSG_TOUCH_DOWN:
+    case MUIF_MSG_TOUCH_DOWN:
       break;
-    case UIF_MSG_TOUCH_UP:
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+  
+}
+
+uint8_t muif_tassign_arg_go_back_invers_select_u8g2(mmui_t *ui, uint8_t msg)
+{
+  uint8_t *value = (uint8_t *)muif_tget_data(ui->uif);
+  if ( value == NULL )
+    value = &(ui->selected_value);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      return muif_tradio_mark_invers_select_u8g2(ui, msg);
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      *value = ui->arg;
+      mui_RestoreForm(ui);
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
       break;
   }
   return 0;

@@ -7,7 +7,7 @@
 
   
 u8g2_t u8g2;
-mui_t ui;
+mmui_t ui;
 
 uint8_t my_value = 2;
 uint8_t my_value2 = 2;
@@ -16,23 +16,23 @@ uint8_t my_color = 0;
 
 uint8_t touchscreen_selection = 255;
 
-uint8_t uif_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t muif_tsingle_line_option_invers_select_u8g2(mmui_t *ui, uint8_t msg);
 
 
-muif_t uif_list[] = {
-UIF("B0",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
-UIF("B1",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_half_width_frame_button_invers_select_u8g2),
-UIF("I1",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,uif_input_uint8_invers_select_u8g2),
-UIF("I2",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,uif_single_line_option_invers_select_u8g2),
-UIF("I3",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,uif_checkbox_invers_select_u8g2),
-UIF("I4",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,uif_show_option_goto_form_invers_select_u8g2),
+mmuif_tt muif_tlist[] = {
+UIF("B0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_thalf_width_frame_button_invers_select_u8g2),
+UIF("B1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_thalf_width_frame_button_invers_select_u8g2),
+UIF("I1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,muif_tinput_uint8_invers_select_u8g2),
+UIF("I2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,muif_tsingle_line_option_invers_select_u8g2),
+UIF("I3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,muif_tcheckbox_invers_select_u8g2),
+UIF("I4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,muif_tshow_option_goto_form_invers_select_u8g2),
 
-UIF("O4",UIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,uif_assign_arg_go_back_invers_select_u8g2),
+UIF("O4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,muif_tassign_arg_go_back_invers_select_u8g2),
   
-UIF("TS",UIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,uif_single_line_option_invers_select_u8g2),
-UIF(".G",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_half_width_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
-UIF(".g",UIF_CFLAG_IS_CURSOR_SELECTABLE,0,uif_goto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
-UIF(".L",0,0,uif_label_u8g2)
+UIF("TS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,muif_tsingle_line_option_invers_select_u8g2),
+UIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_tgoto_half_width_frame_button_invers_select_u8g2),    /* UI_GOTO has the id FG */
+UIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,muif_tgoto_line_button_invers_select_u8g2),    /* UI_goto has the id Fg */
+UIF(".L",0,0,muif_tlabel_u8g2)
 };
 
 fds_t fds = 
@@ -179,8 +179,8 @@ int main(void)
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
   
-  ui_Init(&ui, &u8g2, fds, uif_list, sizeof(uif_list)/sizeof(muif_t));
-  ui_EnterForm(&ui, 0);
+  mui_Init(&ui, &u8g2, fds, muif_tlist, sizeof(muif_tlist)/sizeof(mmuif_tt));
+  mui_EnterForm(&ui, 0);
 
   puts(fds);
   
@@ -264,10 +264,10 @@ int main(void)
       //u8g2_DrawBox(&u8g2, 10, 10+y, 20, x);
       //u8g2_DrawFrame(&u8g2, 34, 10+y, 20, x);
       //u8g2_DrawStr(&u8g2, 10, 50, "XY");
-      ui_Draw(&ui);
+      mui_Draw(&ui);
     } while( u8g2_NextPage(&u8g2) );
     
-    // printf("ui_GetCurrentCursorFocusPosition=%d\n", ui_GetCurrentCursorFocusPosition(&ui));
+    // printf("mui_GetCurrentCursorFocusPosition=%d\n", mui_GetCurrentCursorFocusPosition(&ui));
     
     do
     {
@@ -288,9 +288,9 @@ int main(void)
     
     if ( k == 'q' ) break;
 
-    if ( k == 'n' ) ui_NextField(&ui);
-    if ( k == 'p' ) ui_PrevField(&ui);
-    if ( k == 's' ) ui_SendSelect(&ui);
+    if ( k == 'n' ) mui_NextField(&ui);
+    if ( k == 'p' ) mui_PrevField(&ui);
+    if ( k == 's' ) mui_SendSelect(&ui);
 
     
     if ( x < 0 )

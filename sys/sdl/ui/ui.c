@@ -72,9 +72,9 @@
 
 
 
-//#define ui_get_fds_char(s) ((uint8_t)(*s))
+//#define mui_get_fds_char(s) ((uint8_t)(*s))
 
-uint8_t ui_get_fds_char(fds_t s)
+uint8_t mui_get_fds_char(fds_t s)
 {
   return (uint8_t)(*s);
 }
@@ -83,9 +83,9 @@ uint8_t ui_get_fds_char(fds_t s)
 /*
   s must point to a valid command within FDS
 */
-size_t ui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
+size_t mui_fds_get_cmd_size_without_text(mmui_t *ui, fds_t s)
 {
-  uint8_t c = ui_get_fds_char(s);
+  uint8_t c = mui_get_fds_char(s);
   c &= 0xdf; /* consider upper and lower case */
   switch(c)
   {
@@ -112,14 +112,14 @@ size_t ui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
     - return the total size of the string, including the delimiter
     - copies the content of the string ("ok") to the ui text buffer
 */
-size_t ui_fds_parse_text(mui_t *ui, fds_t s)
+size_t mui_fds_parse_text(mmui_t *ui, fds_t s)
 {
   uint8_t i = 0;
-  ui->delimiter = ui_get_fds_char(s);
+  ui->delimiter = mui_get_fds_char(s);
   uint8_t c;
   fds_t t = s;
   
-  //printf("ui_fds_parse_text del=%d\n", delimiter);
+  //printf("mui_fds_parse_text del=%d\n", delimiter);
 #ifdef UI_CHECK_EOFDS
   if ( ui->delimiter == 0 )
     return 0;
@@ -127,8 +127,8 @@ size_t ui_fds_parse_text(mui_t *ui, fds_t s)
   t++;
   for( ;; )
   {
-    c = ui_get_fds_char(t);
-  //printf("ui_fds_parse_text i=%d, c=%c\n", i, c);
+    c = mui_get_fds_char(t);
+  //printf("mui_fds_parse_text i=%d, c=%c\n", i, c);
 #ifdef UI_CHECK_EOFDS
     if ( c == 0 )
       break;
@@ -156,34 +156,34 @@ size_t ui_fds_parse_text(mui_t *ui, fds_t s)
   The inner delimiter "|" is fixed. It must be the pipe symbol.
   This function will place "banana" into ui->text if the result is not 0
 
-  if ( ui_fds_first_token(ui) )
+  if ( mui_fds_first_token(ui) )
   {
     do 
     {
       // handle token in ui->text
-    } while ( ui_fds_next_token(ui) )
+    } while ( mui_fds_next_token(ui) )
   }
 
 */
-uint8_t ui_fds_first_token(mui_t *ui)
+uint8_t mui_fds_first_token(mmui_t *ui)
 {
   ui->token = ui->fds;
-  ui->token += ui_fds_get_cmd_size_without_text(ui, ui->fds);
-  ui->delimiter = ui_get_fds_char(ui->token);
+  ui->token += mui_fds_get_cmd_size_without_text(ui, ui->fds);
+  ui->delimiter = mui_get_fds_char(ui->token);
   ui->token++;  // place ui->token on the first char of the token
-  return ui_fds_next_token(ui);
+  return mui_fds_next_token(ui);
 }
 
 
-uint8_t ui_fds_next_token(mui_t *ui)
+uint8_t mui_fds_next_token(mmui_t *ui)
 {
   uint8_t c;
   uint8_t i = 0;
-  // printf("ui_fds_next_token: call, ui->token=%p\n", ui->token);
+  // printf("mui_fds_next_token: call, ui->token=%p\n", ui->token);
   for( ;; )
   {
-    c = ui_get_fds_char(ui->token);
-    // printf("ui_fds_next_token: i=%d c=%c\n", i, c);
+    c = mui_get_fds_char(ui->token);
+    // printf("mui_fds_next_token: i=%d c=%c\n", i, c);
 #ifdef UI_CHECK_EOFDS
     if ( c == 0 )
       break;
@@ -213,40 +213,40 @@ uint8_t ui_fds_next_token(mui_t *ui)
   find nth token, return 0 if n exceeds the number of tokens, 1 otherwise
   the result is stored in ui->text
 */
-uint8_t ui_fds_get_nth_token(mui_t *ui, uint8_t n)
+uint8_t mui_fds_get_nth_token(mmui_t *ui, uint8_t n)
 {  
-  // printf("ui_fds_get_nth_token: call, n=%d\n", n);
-  if ( ui_fds_first_token(ui) )
+  // printf("mui_fds_get_nth_token: call, n=%d\n", n);
+  if ( mui_fds_first_token(ui) )
   {
     do 
     {
       if ( n == 0 )
       {
-        // printf("ui_fds_get_nth_token: found");
+        // printf("mui_fds_get_nth_token: found");
         return 1;
       }
       n--;
-    } while ( ui_fds_next_token(ui) );
+    } while ( mui_fds_next_token(ui) );
   }
-  //printf("ui_fds_get_nth_token: NOT found\n");
+  //printf("mui_fds_get_nth_token: NOT found\n");
   return 0;
 }
 
-uint8_t ui_fds_get_token_cnt(mui_t *ui)
+uint8_t mui_fds_get_token_cnt(mmui_t *ui)
 {
   uint8_t n = 0;
-  if ( ui_fds_first_token(ui) )
+  if ( mui_fds_first_token(ui) )
   {
     do 
     {
       n++;
-    } while ( ui_fds_next_token(ui) );
+    } while ( mui_fds_next_token(ui) );
   }
   return n;
 }
 
 
-#define ui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' || (c) == 'A' ? 0 : 1 )
+#define mui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' || (c) == 'A' ? 0 : 1 )
 
 /*
   s must point to a valid command within FDS
@@ -256,37 +256,37 @@ uint8_t ui_fds_get_token_cnt(mui_t *ui)
     Any existing text part will be copied into ui->text
     ui->text will be assigned to empty string if there is no text argument
 */
-size_t ui_fds_get_cmd_size(mui_t *ui, fds_t s)
+size_t mui_fds_get_cmd_size(mmui_t *ui, fds_t s)
 {
-  size_t l = ui_fds_get_cmd_size_without_text(ui, s);
-  uint8_t c = ui_get_fds_char(s);
+  size_t l = mui_fds_get_cmd_size_without_text(ui, s);
+  uint8_t c = mui_get_fds_char(s);
  ui->text[0] = '\0' ;   /* always reset the text buffer */
- if ( ui_fds_is_text(c) )
+ if ( mui_fds_is_text(c) )
   {
-    l += ui_fds_parse_text(ui, s+l);
+    l += mui_fds_parse_text(ui, s+l);
   }
   return l;
 }
 
 
 
-void ui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *uif_list, size_t uif_cnt)
+void mui_Init(mmui_t *ui, void *graphics_data, fds_t fds, mmuif_tt *muif_tlist, size_t muif_tcnt)
 {
-  memset(ui, 0, sizeof(mui_t));
+  memset(ui, 0, sizeof(mmui_t));
   ui->root_fds = fds;
   ui->current_form_fds = fds;
-  ui->uif_list = uif_list;
-  ui->uif_cnt = uif_cnt;
+  ui->muif_tlist = muif_tlist;
+  ui->muif_tcnt = muif_tcnt;
   ui->graphics_data = graphics_data;
 }
 
-ssize_t ui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
+ssize_t mui_find_uif(mmui_t *ui, uint8_t id0, uint8_t id1)
 {
   ssize_t i;
-  for( i = 0; i < ui->uif_cnt; i++ )
+  for( i = 0; i < ui->muif_tcnt; i++ )
   {
-      if ( ui->uif_list[i].id0 == id0 )
-        if ( ui->uif_list[i].id1 == id1 )
+      if ( ui->muif_tlist[i].id0 == id0 )
+        if ( ui->muif_tlist[i].id1 == id1 )
           return i;
   }
   return -1;
@@ -300,9 +300,9 @@ ssize_t ui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
   will return 1 if the field id was found.
   will return 0 if the field id was not found in uif or if ui->fds points to something else than a field
 */
-uint8_t ui_prepare_current_field(mui_t *ui)
+uint8_t mui_prepare_current_field(mmui_t *ui)
 {
-  ssize_t uif_idx;
+  ssize_t muif_tidx;
 
   ui->uif = NULL;
   ui->dflags = 0;    
@@ -312,10 +312,10 @@ uint8_t ui_prepare_current_field(mui_t *ui)
 
   /* calculate the length of the command and copy the text argument */
   /* this will also clear the text in cases where there is no text argument */
-  ui->len = ui_fds_get_cmd_size(ui, ui->fds); 
+  ui->len = mui_fds_get_cmd_size(ui, ui->fds); 
 
   /* get the command and check whether end of form is reached */
-  ui->cmd = ui_get_fds_char(ui->fds);
+  ui->cmd = mui_get_fds_char(ui->fds);
   
   /* Copy the cmd also to second id value. This is required for some commands, others will overwrite this below */
   ui->id1 = ui->cmd;
@@ -328,46 +328,46 @@ uint8_t ui_prepare_current_field(mui_t *ui)
 
   /* calculate the dynamic flags */
   if ( ui->fds == ui->cursor_focus_fds )
-    ui->dflags |= UIF_DFLAG_IS_CURSOR_FOCUS;
+    ui->dflags |= MUIF_DFLAG_IS_CURSOR_FOCUS;
   if ( ui->fds == ui->touch_focus_fds )
-    ui->dflags |= UIF_DFLAG_IS_TOUCH_FOCUS;
+    ui->dflags |= MUIF_DFLAG_IS_TOUCH_FOCUS;
   
 
   /* get the id0 and id1 values */
   if  ( ui->cmd == 'F' || ui->cmd == 'B' || ui->cmd == 'T' || ui->cmd == 'A' )
   {
-      ui->id0 = ui_get_fds_char(ui->fds+1);
-      ui->id1 = ui_get_fds_char(ui->fds+2);
-      ui->x = ui_get_fds_char(ui->fds+3);
-      ui->y = ui_get_fds_char(ui->fds+4);
+      ui->id0 = mui_get_fds_char(ui->fds+1);
+      ui->id1 = mui_get_fds_char(ui->fds+2);
+      ui->x = mui_get_fds_char(ui->fds+3);
+      ui->y = mui_get_fds_char(ui->fds+4);
       if ( ui->cmd == 'A' || ui->cmd == 'T' )
       {
-        ui->arg = ui_get_fds_char(ui->fds+5);
+        ui->arg = mui_get_fds_char(ui->fds+5);
       }
   }
   else if ( ui->cmd == 'S' )
   {
       ui->id0 = '@';
-      ui->id1 = ui_get_fds_char(ui->fds+1);
+      ui->id1 = mui_get_fds_char(ui->fds+1);
   }
   else
   {
       ui->id0 = '.';
       /* note that ui->id1 contains the original cmd value */
-      ui->x = ui_get_fds_char(ui->fds+1);
-      ui->y = ui_get_fds_char(ui->fds+2);
+      ui->x = mui_get_fds_char(ui->fds+1);
+      ui->y = mui_get_fds_char(ui->fds+2);
       if ( ui->cmd == 'G' || ui->cmd == 'M' )  /* this is also true for 'g' or 'm' */
       {
-        ui->arg = ui_get_fds_char(ui->fds+3);
+        ui->arg = mui_get_fds_char(ui->fds+3);
       }
   }
   
   /* find the field  */
-  uif_idx = ui_find_uif(ui, ui->id0, ui->id1);
-  //printf("ui_prepare_current_field: uif_idx=%d\n", uif_idx);
-  if ( uif_idx >= 0 )
+  muif_tidx = mui_find_uif(ui, ui->id0, ui->id1);
+  //printf("mui_prepare_current_field: muif_tidx=%d\n", muif_tidx);
+  if ( muif_tidx >= 0 )
   {
-    ui->uif = ui->uif_list + uif_idx;
+    ui->uif = ui->muif_tlist + muif_tidx;
     return 1;
   }
   return 0;
@@ -377,32 +377,32 @@ uint8_t ui_prepare_current_field(mui_t *ui)
   assumes that ui->fds has been assigned correctly 
   and that ui->target_fds and ui->tmp_fds had been cleared if required
 
-  Usually do not call this function directly, instead use ui_loop_over_form
+  Usually do not call this function directly, instead use mui_loop_over_form
 
 */
 
-void ui_inner_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui)) UI_NOINLINE;
-void ui_inner_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
+void mui_inner_loop_over_form(mmui_t *ui, uint8_t (*task)(mmui_t *ui)) UI_NOINLINE;
+void mui_inner_loop_over_form(mmui_t *ui, uint8_t (*task)(mmui_t *ui))
 {
   uint8_t cmd;
   
-  ui->fds += ui_fds_get_cmd_size(ui, ui->fds);      // skip the first entry, it is U always
+  ui->fds += mui_fds_get_cmd_size(ui, ui->fds);      // skip the first entry, it is U always
   for(;;)
   {    
     //printf("fds=%p *fds=%d\n", ui->fds, ui->fds[0]);
     /* get the command and check whether end of form is reached */
-    cmd = ui_get_fds_char(ui->fds);
+    cmd = mui_get_fds_char(ui->fds);
     if ( cmd == 'U' || cmd == 0 )
       break;
-    if ( ui_prepare_current_field(ui) )
+    if ( mui_prepare_current_field(ui) )
       if ( task(ui) )         /* call the task, which was provided as argument to this function */
         break;
     ui->fds += ui->len;
   }
-  //printf("ui_loop_over_form ended\n");
+  //printf("mui_loop_over_form ended\n");
 }
 
-void ui_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
+void mui_loop_over_form(mmui_t *ui, uint8_t (*task)(mmui_t *ui))
 {
   if ( ui->current_form_fds == NULL )
     return;
@@ -411,62 +411,62 @@ void ui_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
   ui->target_fds = NULL;
   ui->tmp_fds = NULL;
   
-  ui_inner_loop_over_form(ui, task);  
+  mui_inner_loop_over_form(ui, task);  
 }
 
 /*
   n is the form number
 */
-fds_t ui_find_form(mui_t *ui, uint8_t n)
+fds_t mui_find_form(mmui_t *ui, uint8_t n)
 {
   fds_t fds = ui->root_fds;
   uint8_t cmd;
   
   for( ;; )
   {
-    cmd = ui_get_fds_char(fds);
+    cmd = mui_get_fds_char(fds);
     if ( cmd == 0 )
       break;
     if ( cmd == 'U'  )
     {
-      if (   ui_get_fds_char(fds+1) == n )
+      if (   mui_get_fds_char(fds+1) == n )
       {
         return fds;
       }
       /* not found, just coninue */
     }
     
-    fds += ui_fds_get_cmd_size(ui, fds);
+    fds += mui_fds_get_cmd_size(ui, fds);
   }
   return NULL;
 }
 
-/* === task procedures (arguments for ui_loop_over_form) === */
+/* === task procedures (arguments for mui_loop_over_form) === */
 /* ui->fds contains the current field */
 
-uint8_t mui_task_draw(mui_t *ui)
+uint8_t mmui_task_draw(mmui_t *ui)
 {
-  //printf("mui_task_draw fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
-  uif_get_cb(ui->uif)(ui, UIF_MSG_DRAW);
+  //printf("mmui_task_draw fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
+  muif_tget_cb(ui->uif)(ui, MUIF_MSG_DRAW);
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_form_start(mui_t *ui)
+uint8_t mmui_task_form_start(mmui_t *ui)
 {
-  uif_get_cb(ui->uif)(ui, UIF_MSG_FORM_START);
+  muif_tget_cb(ui->uif)(ui, MUIF_MSG_FORM_START);
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_form_end(mui_t *ui)
+uint8_t mmui_task_form_end(mmui_t *ui)
 {
-  uif_get_cb(ui->uif)(ui, UIF_MSG_FORM_END);
+  muif_tget_cb(ui->uif)(ui, MUIF_MSG_FORM_END);
   return 0;     /* continue with the loop */
 }
 
 
-uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
+uint8_t mmui_task_find_prev_cursor_uif(mmui_t *ui)
 {
-  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->fds == ui->cursor_focus_fds )
     {
@@ -478,9 +478,9 @@ uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
+uint8_t mmui_task_find_first_cursor_uif(mmui_t *ui)
 {
-  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     // if ( ui->target_fds == NULL )
     // {
@@ -491,9 +491,9 @@ uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
+uint8_t mmui_task_find_last_cursor_uif(mmui_t *ui)
 {
-  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     //ui->cursor_focus_position++;
     ui->target_fds = ui->fds;
@@ -501,9 +501,9 @@ uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
+uint8_t mmui_task_find_next_cursor_uif(mmui_t *ui)
 {
-  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->tmp_fds != NULL )
     {
@@ -519,9 +519,9 @@ uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
+uint8_t mmui_task_get_current_cursor_focus_position(mmui_t *ui)
 {
-  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->fds == ui->cursor_focus_fds )
       return 1;         /* stop looping */
@@ -530,9 +530,9 @@ uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_read_nth_seleectable_field(mui_t *ui)
+uint8_t mmui_task_read_nth_seleectable_field(mmui_t *ui)
 {
-  if ( uif_get_cflags(ui->uif) & UIF_CFLAG_IS_CURSOR_SELECTABLE )
+  if ( muif_tget_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   {
     if ( ui->tmp8 == 0 )
       return 1;         /* stop looping */
@@ -544,13 +544,13 @@ uint8_t mui_task_read_nth_seleectable_field(mui_t *ui)
 
 /* === utility functions for the user API === */
 
-void ui_send_cursor_msg(mui_t *ui, uint8_t msg)
+void mui_send_cursor_msg(mmui_t *ui, uint8_t msg)
 {
   if ( ui->cursor_focus_fds )
   {
     ui->fds = ui->cursor_focus_fds;
-    if ( ui_prepare_current_field(ui) )
-      uif_get_cb(ui->uif)(ui, msg);
+    if ( mui_prepare_current_field(ui) )
+      muif_tget_cb(ui->uif)(ui, msg);
   }
 }
 
@@ -562,27 +562,27 @@ void ui_send_cursor_msg(mui_t *ui, uint8_t msg)
   Unselectable fields (for example labels) are skipped by this count.
   If no fields are selectable, then 0 is returned
 */
-uint8_t ui_GetCurrentCursorFocusPosition(mui_t *ui)
+uint8_t mui_GetCurrentCursorFocusPosition(mmui_t *ui)
 {
   ui->tmp8 = 0;
-  ui_loop_over_form(ui, mui_task_get_current_cursor_focus_position);
+  mui_loop_over_form(ui, mmui_task_get_current_cursor_focus_position);
   return ui->tmp8;
 }
 
 
-void ui_Draw(mui_t *ui)
+void mui_Draw(mmui_t *ui)
 {
-  ui_loop_over_form(ui, mui_task_draw);
+  mui_loop_over_form(ui, mmui_task_draw);
 }
 
-void ui_next_field(mui_t *ui)
+void mui_next_field(mmui_t *ui)
 {
-  ui_loop_over_form(ui, mui_task_find_next_cursor_uif);
+  mui_loop_over_form(ui, mmui_task_find_next_cursor_uif);
   // ui->cursor_focus_position++;
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   if ( ui->target_fds == NULL )
   {
-    ui_loop_over_form(ui, mui_task_find_first_cursor_uif);
+    mui_loop_over_form(ui, mmui_task_find_first_cursor_uif);
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
     // ui->cursor_focus_position = 0;
   }
@@ -593,21 +593,21 @@ void ui_next_field(mui_t *ui)
   nth_token can be 0 if the fiel text is not a option list
   the result is stored in ui->text
 */
-void ui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
+void mui_GetSelectableFieldTextOption(mmui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
 {
   fds_t fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
   ssize_t len = ui->len;          // backup length of the current command
 
   
-  ui->fds = ui_find_form(ui, form_id);          // search for the target form and overwrite the current fds
+  ui->fds = mui_find_form(ui, form_id);          // search for the target form and overwrite the current fds
 
   // use the inner_loop procedure, because ui->fds has been assigned already
-  ui->tmp8 = cursor_position;   // maybe we should also backup tmp8, but at the moment tmp8 is only used by mui_task_get_current_cursor_focus_position
-  ui_inner_loop_over_form(ui, mui_task_read_nth_seleectable_field);
+  ui->tmp8 = cursor_position;   // maybe we should also backup tmp8, but at the moment tmp8 is only used by mmui_task_get_current_cursor_focus_position
+  mui_inner_loop_over_form(ui, mmui_task_read_nth_seleectable_field);
   // at this point ui->fds contains the field which was selected from above
   
   // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
-  ui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
+  mui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
   
   ui->fds = fds;                        // restore the previous fds position
   ui->len = len;
@@ -618,39 +618,39 @@ void ui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_
   input: current_form_fds 
   if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
-void ui_EnterForm(mui_t *ui, uint8_t initial_cursor_position)
+void mui_EnterForm(mmui_t *ui, uint8_t initial_cursor_position)
 {
   /* clean focus fields */
   ui->touch_focus_fds = NULL;
   ui->cursor_focus_fds = NULL;
   
   /* inform all fields that we start a new form */
-  ui_loop_over_form(ui, mui_task_form_start);
+  mui_loop_over_form(ui, mmui_task_form_start);
   
   /* assign initional cursor focus */
-  ui_loop_over_form(ui, mui_task_find_first_cursor_uif);  
+  mui_loop_over_form(ui, mmui_task_find_first_cursor_uif);  
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   
   while( initial_cursor_position > 0 )
   {
-    ui_next_field(ui);
+    mui_next_field(ui);
     initial_cursor_position--;
   }
   
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_ENTER);
 }
 
 /* input: current_form_fds */
 /*
   if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
-void ui_LeaveForm(mui_t *ui)
+void mui_LeaveForm(mmui_t *ui)
 {
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
   ui->cursor_focus_fds = NULL;
   
   /* inform all fields that we leave the form */
-  ui_loop_over_form(ui, mui_task_form_end);  
+  mui_loop_over_form(ui, mmui_task_form_end);  
   ui->current_form_fds = NULL;
 }
 
@@ -658,45 +658,32 @@ void ui_LeaveForm(mui_t *ui)
 /*
   if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
-uint8_t ui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position)
+uint8_t mui_GotoForm(mmui_t *ui, uint8_t form_id, uint8_t initial_cursor_position)
 {
-  fds_t fds = ui_find_form(ui, form_id);
+  fds_t fds = mui_find_form(ui, form_id);
   if ( fds == NULL )
     return 0;
-  ui_LeaveForm(ui);
+  mui_LeaveForm(ui);
   ui->current_form_fds = fds;
-  ui_EnterForm(ui, initial_cursor_position);
+  mui_EnterForm(ui, initial_cursor_position);
   return 1;
 }
 
-void ui_SaveForm(mui_t *ui)
+void mui_SaveForm(mmui_t *ui)
 {
   if ( ui->current_form_fds == NULL )
     return;
 
-  ui->last_form_id = ui_get_fds_char(ui->current_form_fds+1);
-  ui->last_form_cursor_focus_position = ui_GetCurrentCursorFocusPosition(ui);
+  ui->last_form_id = mui_get_fds_char(ui->current_form_fds+1);
+  ui->last_form_cursor_focus_position = mui_GetCurrentCursorFocusPosition(ui);
 }
 
 /*
   if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
-void ui_RestoreForm(mui_t *ui)
+void mui_RestoreForm(mmui_t *ui)
 {
-  ui_GotoForm(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
-}
-
-/*
-  updates "ui->cursor_focus_fds"
-*/
-/*
-  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
-*/
-void ui_NextField(mui_t *ui)
-{
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
-  ui_next_field(ui);
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
+  mui_GotoForm(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
 }
 
 /*
@@ -705,26 +692,39 @@ void ui_NextField(mui_t *ui)
 /*
   if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
 */
-void ui_PrevField(mui_t *ui)
+void mui_NextField(mmui_t *ui)
 {
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_LEAVE);
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
+  mui_next_field(ui);
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_ENTER);
+}
+
+/*
+  updates "ui->cursor_focus_fds"
+*/
+/*
+  if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
+*/
+void mui_PrevField(mmui_t *ui)
+{
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
   
-  ui_loop_over_form(ui, mui_task_find_prev_cursor_uif);
+  mui_loop_over_form(ui, mmui_task_find_prev_cursor_uif);
   //ui->cursor_focus_position--;
   ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   if ( ui->target_fds == NULL )
   {
     //ui->cursor_focus_position = 0;
-    ui_loop_over_form(ui, mui_task_find_last_cursor_uif);
+    mui_loop_over_form(ui, mmui_task_find_last_cursor_uif);
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
   }
   
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_ENTER);
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_ENTER);
 }
 
 
-void ui_SendSelect(mui_t *ui)
+void mui_SendSelect(mmui_t *ui)
 {
-  ui_send_cursor_msg(ui, UIF_MSG_CURSOR_SELECT);  
+  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_SELECT);  
 }
 

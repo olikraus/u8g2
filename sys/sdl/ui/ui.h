@@ -54,67 +54,67 @@
 
 
 /*=== forward declarations ===*/
-typedef struct ui_struct mui_t;
-typedef struct muif_struct muif_t;
+typedef struct mui_struct mmui_t;
+typedef struct muif_struct mmuif_tt;
 
 
 /*=== struct declarations === */
 
-typedef uint8_t (*uif_cb)(mui_t *ui, uint8_t msg);
+typedef uint8_t (*muif_cb)(mmui_t *ui, uint8_t msg);
 
 struct muif_struct
 {
   uint8_t id0;
   uint8_t id1;
-  uint8_t cflags;             // config flags e.g. UIF_CFLAG_IS_CURSOR_SELECTABLE, if so, then it will not receive any cursor/touch msgs
+  uint8_t cflags;             // config flags e.g. MUIF_CFLAG_IS_CURSOR_SELECTABLE, if so, then it will not receive any cursor/touch msgs
   uint8_t extra;
   void *data;                           // might be a pointer to a variable
-  uif_cb cb;                        // callback
+  muif_cb cb;                        // callback
 };
 
 #define UIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb}
 
-#define uif_get_id0(uif) ((uif)->id0)
-#define uif_get_id1(uif) ((uif)->id1)
-#define uif_get_cflags(uif) ((uif)->cflags)
-#define uif_get_extra(uif) ((uif)->extra)
-#define uif_get_data(uif) ((uif)->data)
-#define uif_get_cb(uif) ((uif)->cb)
+#define muif_tget_id0(muif) ((muif)->id0)
+#define muif_tget_id1(muif) ((muif)->id1)
+#define muif_tget_cflags(muif) ((muif)->cflags)
+#define muif_tget_extra(muif) ((muif)->extra)
+#define muif_tget_data(muif) ((muif)->data)
+#define muif_tget_cb(muif) ((muif)->cb)
 
-#define UIF_MSG_NONE 0
-#define UIF_MSG_DRAW 1
-#define UIF_MSG_FORM_START 2
-#define UIF_MSG_FORM_END 3
-#define UIF_MSG_CURSOR_ENTER 4
-#define UIF_MSG_CURSOR_SELECT 5
-#define UIF_MSG_CURSOR_LEAVE 6
-#define UIF_MSG_TOUCH_DOWN 7
-#define UIF_MSG_TOUCH_UP 8
+#define MUIF_MSG_NONE 0
+#define MUIF_MSG_DRAW 1
+#define MUIF_MSG_FORM_START 2
+#define MUIF_MSG_FORM_END 3
+#define MUIF_MSG_CURSOR_ENTER 4
+#define MUIF_MSG_CURSOR_SELECT 5
+#define MUIF_MSG_CURSOR_LEAVE 6
+#define MUIF_MSG_TOUCH_DOWN 7
+#define MUIF_MSG_TOUCH_UP 8
 
 
 /* dynamic flags */
-#define UIF_DFLAG_IS_CURSOR_FOCUS 0x01
-#define UIF_DFLAG_IS_TOUCH_FOCUS 0x02
+#define MUIF_DFLAG_IS_CURSOR_FOCUS 0x01
+#define MUIF_DFLAG_IS_TOUCH_FOCUS 0x02
   
 /* config flags */
-#define UIF_CFLAG_IS_CURSOR_SELECTABLE 0x01
-#define UIF_CFLAG_IS_TOUCH_SELECTABLE 0x02
+#define MUIF_CFLAG_IS_CURSOR_SELECTABLE 0x01
+#define MUIF_CFLAG_IS_TOUCH_SELECTABLE 0x02
 
 typedef const char *fds_t;      // form/field definition string
 
-uint8_t ui_get_fds_char(fds_t s);
+uint8_t mui_get_fds_char(fds_t s);
 
 
 /* must be smaller than or equal to 255 */
 #define UI_MAX_TEXT_LEN 31
 
-struct ui_struct
+struct mui_struct
 {
   void *graphics_data;
   fds_t root_fds;  
   
-  muif_t *uif_list;
-  size_t uif_cnt;
+  mmuif_tt *muif_tlist;
+  size_t muif_tcnt;
   
   fds_t current_form_fds;         // the current form, NULL if the ui is not active at the moment
   fds_t cursor_focus_fds;           // the field which has the current cursor focus, NULL if there is no current focus
@@ -125,7 +125,7 @@ struct ui_struct
   uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
   uint8_t tmp8;
   /* current field/style variables */
-  //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for ui_EnterForm
+  //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for mui_EnterForm
   
   uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)
@@ -137,7 +137,7 @@ struct ui_struct
   uint8_t arg;          // extra argument of the field. For example the G: form is put here
   ssize_t len;          // length of the current command
   fds_t fds;             // current position, *fds = cmd
-  muif_t *uif;                   // user interface field or style for the given id0 / id1
+  mmuif_tt *uif;                   // user interface field or style for the given id0 / id1
   char text[UI_MAX_TEXT_LEN+1];
 
   /* target  */
@@ -149,8 +149,8 @@ struct ui_struct
   uint8_t last_form_cursor_focus_position;
 };
 
-#define ui_IsCursorFocus(ui) ((ui)->dflags & UIF_DFLAG_IS_CURSOR_FOCUS)
-#define ui_IsTouchFocus(ui) ((ui)->dflags & UIF_CFLAG_IS_TOUCH_SELECTABLE)
+#define mui_IsCursorFocus(ui) ((ui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
+#define mui_IsTouchFocus(ui) ((ui)->dflags & MUIF_CFLAG_IS_TOUCH_SELECTABLE)
 
 
 
@@ -427,26 +427,26 @@ struct ui_struct
 #define UI_goto(x,y,n,text) "g" UI_##x UI_##y UI_##n "\xff" text "\xff"
 
 
-uint8_t ui_get_fds_char(fds_t s);
+uint8_t mui_get_fds_char(fds_t s);
 
-uint8_t ui_fds_first_token(mui_t *ui);
-uint8_t ui_fds_next_token(mui_t *ui);
-uint8_t ui_fds_get_nth_token(mui_t *ui, uint8_t n);
-uint8_t ui_fds_get_token_cnt(mui_t *ui);
+uint8_t mui_fds_first_token(mmui_t *ui);
+uint8_t mui_fds_next_token(mmui_t *ui);
+uint8_t mui_fds_get_nth_token(mmui_t *ui, uint8_t n);
+uint8_t mui_fds_get_token_cnt(mmui_t *ui);
 
 
-void ui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *uif_list, size_t uif_cnt);
-uint8_t ui_GetCurrentCursorFocusPosition(mui_t *ui);
-void ui_Draw(mui_t *ui);
-void ui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
-void ui_EnterForm(mui_t *ui, uint8_t initial_cursor_position);
-void ui_LeaveForm(mui_t *ui);
-uint8_t ui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
-void ui_SaveForm(mui_t *ui);
-void ui_RestoreForm(mui_t *ui);
-void ui_NextField(mui_t *ui);
-void ui_PrevField(mui_t *ui);
-void ui_SendSelect(mui_t *ui);
+void mui_Init(mmui_t *ui, void *graphics_data, fds_t fds, mmuif_tt *muif_tlist, size_t muif_tcnt);
+uint8_t mui_GetCurrentCursorFocusPosition(mmui_t *ui);
+void mui_Draw(mmui_t *ui);
+void mui_GetSelectableFieldTextOption(mmui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
+void mui_EnterForm(mmui_t *ui, uint8_t initial_cursor_position);
+void mui_LeaveForm(mmui_t *ui);
+uint8_t mui_GotoForm(mmui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
+void mui_SaveForm(mmui_t *ui);
+void mui_RestoreForm(mmui_t *ui);
+void mui_NextField(mmui_t *ui);
+void mui_PrevField(mmui_t *ui);
+void mui_SendSelect(mmui_t *ui);
 
 #endif /* MUI_H */
 
