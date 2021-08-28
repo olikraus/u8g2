@@ -67,7 +67,7 @@ muif_t muif_list[] = {
   /* horizontal line (hrule) */
   MUIF("HR",0,0,mui_hrule),
 
-  /* Button where the width is equal to the size of the text, spaces can be used to extend the size */
+  /* Goto Form Button where the width is equal to the size of the text, spaces can be used to extend the size */
   MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_frame_button_invers_select_u8g2),
   
   /* input for a number between 0 to 9 */
@@ -83,11 +83,13 @@ muif_t muif_list[] = {
   MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_show_option_goto_form_invers_select_u8g2),
   MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_assign_arg_go_back_invers_select_u8g2),
     
-    
+  /* radio button style */
   MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_radio_invers_select_u8g2),
-    
-  MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_half_width_frame_button_invers_select_u8g2),    /* MUI_GOTO has the id FG */
-  MUIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u8g2),    /* MUI_goto has the id Fg */
+
+  /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */
+  MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u8g2),    
+  
+  /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
   MUIF(".L",0,0,mui_label_u8g2)
 };
 
@@ -98,13 +100,10 @@ MUI_STYLE(1)
 MUI_LABEL(0,10, "Main Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
-MUI_goto(12,25,10, "Enter a number")
-MUI_goto(12,35,11, "Selection/Combo Box")
-MUI_goto(12,45,13, "Checkbox")
-MUI_goto(12,55,14, "Radio Selection")
-//MUI_goto(12,22,10, "Button Test")
-//MUI_goto(12,34,101, "Story")
-
+MUI_GOTO(12,25,10, "Enter a number")
+MUI_GOTO(12,36,11, "Selection/Combo Box")
+MUI_GOTO(12,47,13, "Checkbox")
+MUI_GOTO(12,58,14, "Radio Selection")
 
 /* number entry demo */
 MUI_FORM(10)
