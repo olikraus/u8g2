@@ -42,8 +42,9 @@
 
 /*
 
-uint8_t mui_emplate(mui_t *ui, uint8_t msg)
+uint8_t mui_template(mui_t *ui, uint8_t msg)
 {
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
   //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
   //muif_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
   //muif_get_data(ui->uif)
@@ -94,17 +95,17 @@ void u8g2_DrawValueMark(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t 
 /*=========================================================================*/
 /* helper function */
 
-static u8g2_uint_t mui_get_x(mui_t *ui)
+u8g2_uint_t mui_get_x(mui_t *ui)
 {
   return ui->x;
 }
 
-static u8g2_uint_t mui_get_y(mui_t *ui)
+u8g2_uint_t mui_get_y(mui_t *ui)
 {
   return ui->y;
 }
 
-static u8g2_t *mui_get_U8g2(mui_t *ui)
+u8g2_t *mui_get_U8g2(mui_t *ui)
 {
   return (u8g2_t *)(ui->graphics_data);
 }
@@ -158,6 +159,62 @@ uint8_t mui_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
 
 /*
 
+  uint8_t mui_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+
+  Description:
+    A button with size equal to the inner text width plus 1 pixel extra padding
+    The button has a one pixel frame around the text.
+    
+  Message Handling: DRAW
+
+  Style
+    No Selection: Text + Frame
+    Cursor Selection: Inverted text + Frame
+
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: not used
+
+  Field definition string (fds):
+    xy: Center position of the text (required)
+    arg: not used
+    text: Button label
+    
+*/
+
+uint8_t mui_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  u8g2_uint_t flags = U8G2_BTN_HCENTER | 1;
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, 0, 1, 1, ui->text);
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;    
+  }
+  return 0;
+}
+
+/*
+
   uint8_t mui_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
   Description:
@@ -175,7 +232,7 @@ uint8_t mui_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
     data: not used
 
   Field definition string (fds):
-    xy: Left position of the text (required)
+    xy: Center position of the text (required)
     arg: not used
     text: Button label
     
@@ -387,6 +444,42 @@ uint8_t mui_label_u8g2(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+
+/*
+
+  uint8_t mui_goto_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+
+  Description:
+    A button with size equal to button text plus one pixel padding
+    The button has a one pixel frame around the text.
+    If the selected, then the form will change to the specified form number.
+    
+  Message Handling: DRAW, CURSOR_SELECT
+
+  Style
+    No Selection: Text + Frame
+    Cursor Selection: Inverted text + Frame
+
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: not used
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: Form numner (required)
+    text: Button label
+    
+*/
+uint8_t mui_goto_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_CURSOR_SELECT:
+      return mui_GotoForm(ui, ui->arg, 0);
+  }
+  return mui_frame_button_invers_select_u8g2(ui, msg);
+}
+
 /*
 
   uint8_t mui_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
@@ -408,7 +501,7 @@ uint8_t mui_label_u8g2(mui_t *ui, uint8_t msg)
 
   Field definition string (fds):
     xy: Left position of the text (required)
-    arg: not used
+    arg: Form numner (required)
     text: Button label
     
 */

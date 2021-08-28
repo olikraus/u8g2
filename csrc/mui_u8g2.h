@@ -38,15 +38,24 @@
 #ifndef mui_u8g2_h
 #define mui_u8g2_h
 
+/* helper functions */
+
+u8g2_uint_t mui_get_x(mui_t *ui);
+u8g2_uint_t mui_get_y(mui_t *ui);
+u8g2_t *mui_get_U8g2(mui_t *ui);
+
+
 /* incomplete field functions */
 
 uint8_t mui_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 /* ready to use field functions */
 
 uint8_t mui_label_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_goto_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg);

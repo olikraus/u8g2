@@ -324,9 +324,11 @@ uint8_t mui_prepare_current_field(mui_t *ui)
   /* calculate the length of the command and copy the text argument */
   /* this will also clear the text in cases where there is no text argument */
   ui->len = mui_fds_get_cmd_size(ui, ui->fds); 
+  //printf("mui_prepare_current_field len=%d\n", ui->len);
 
   /* get the command and check whether end of form is reached */
   ui->cmd = mui_get_fds_char(ui->fds);
+  //printf("mui_prepare_current_field cmd='%c'\n", ui->cmd);
   
   /* Copy the cmd also to second id value. This is required for some commands, others will overwrite this below */
   ui->id1 = ui->cmd;
@@ -358,7 +360,7 @@ uint8_t mui_prepare_current_field(mui_t *ui)
   }
   else if ( ui->cmd == 'S' )
   {
-      ui->id0 = '@';
+      ui->id0 = 'S';
       ui->id1 = mui_get_fds_char(ui->fds+1);
   }
   else
@@ -400,7 +402,7 @@ void mui_inner_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
   ui->fds += mui_fds_get_cmd_size(ui, ui->fds);      // skip the first entry, it is U always
   for(;;)
   {    
-    //printf("fds=%p *fds=%d\n", ui->fds, ui->fds[0]);
+    //printf("fds=%p *fds='%c'\n", ui->fds, ui->fds[0]);
     /* get the command and check whether end of form is reached */
     cmd = mui_get_fds_char(ui->fds);
     if ( cmd == 'U' || cmd == 0 )

@@ -417,6 +417,11 @@ struct mui_struct
 
 /* form: one id only */
 #define MUI_FORM(n) "U" MUI_##n
+
+/* style: one id only */
+#define MUI_STYLE(n) "S" #n
+
+
 #define MUI_LABEL(x,y,text) "L" MUI_##x MUI_##y "\xff" text "\xff"
 #define MUI_XY(id, x,y) "F" id MUI_##x MUI_##y
 /* button id must be two chars, but must be unique everywhere */
