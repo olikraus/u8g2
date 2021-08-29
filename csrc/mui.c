@@ -282,12 +282,15 @@ static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t *s)
 }
 
 
-
+/*
+  mui_Init() will setup the menu system but will not activate or display anything.
+  Use mui_GotoForm() after this command, then use mui_Draw() to draw the menu on a display.
+*/
 void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, size_t muif_tcnt)
 {
   memset(ui, 0, sizeof(mui_t));
   ui->root_fds = fds;
-  ui->current_form_fds = fds;
+  //ui->current_form_fds = NULL;   // not required, because there was a memset before
   ui->muif_tlist = muif_tlist;
   ui->muif_tcnt = muif_tcnt;
   ui->graphics_data = graphics_data;
@@ -424,7 +427,7 @@ void mui_inner_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
 
 void mui_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
 {
-  if ( ui->current_form_fds == NULL )
+  if ( mui_IsFormActive(ui) == 0 )
     return;
   
   ui->fds = ui->current_form_fds;
@@ -635,14 +638,20 @@ void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor
 }
 
 /* 
-  input: current_form_fds 
   if called from a field function, then the current field variables are destroyed, so that call should be the last call in the field callback.
+  mui_EnterForm is similar to mui_GotoForm and differes only in the second argument (which is the form id instead of the fds pointer)
 */
-void mui_EnterForm(mui_t *ui, uint8_t initial_cursor_position)
+void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position)
 {
+  /* exit any previous form, will not do anything if there is no current form */
+  mui_LeaveForm(ui);
+  
   /* clean focus fields */
   ui->touch_focus_fds = NULL;
   ui->cursor_focus_fds = NULL;
+  
+  /* assign the form, which should be entered */
+  ui->current_form_fds = fds;
   
   /* inform all fields that we start a new form */
   mui_loop_over_form(ui, mui_task_form_start);
@@ -666,6 +675,9 @@ void mui_EnterForm(mui_t *ui, uint8_t initial_cursor_position)
 */
 void mui_LeaveForm(mui_t *ui)
 {
+  if ( mui_IsFormActive(ui) == 0 )
+    return;
+  
   mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
   ui->cursor_focus_fds = NULL;
   
@@ -683,17 +695,16 @@ uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position
   fds_t *fds = mui_find_form(ui, form_id);
   if ( fds == NULL )
     return 0;
-  mui_LeaveForm(ui);
-  ui->current_form_fds = fds;
-  mui_EnterForm(ui, initial_cursor_position);
+  /* EnterForm will also leave any previous form */
+  mui_EnterForm(ui, fds, initial_cursor_position);
   return 1;
 }
 
 void mui_SaveForm(mui_t *ui)
 {
-  if ( ui->current_form_fds == NULL )
+  if ( mui_IsFormActive(ui) == 0 )
     return;
-
+  
   ui->last_form_id = mui_get_fds_char(ui->current_form_fds+1);
   ui->last_form_cursor_focus_position = mui_GetCurrentCursorFocusPosition(ui);
 }

@@ -501,7 +501,7 @@ void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, si
 uint8_t mui_GetCurrentCursorFocusPosition(mui_t *ui);
 void mui_Draw(mui_t *ui);
 void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
-void mui_EnterForm(mui_t *ui, uint8_t initial_cursor_position);
+void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position);
 void mui_LeaveForm(mui_t *ui);
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
 void mui_SaveForm(mui_t *ui);
@@ -510,6 +510,7 @@ void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);
 
+#define mui_IsFormActive(ui) ((ui)->current_form_fds != NULL) 
 
 #ifdef __cplusplus
 }

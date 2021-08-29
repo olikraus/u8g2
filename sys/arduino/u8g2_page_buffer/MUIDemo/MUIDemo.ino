@@ -520,7 +520,7 @@ void setup(void) {
   //u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
   
   mui_Init(&ui, u8g2.getU8g2(), fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_EnterForm(&ui, 0);
+  mui_GotoForm(&ui, /* form_id= */ 1, /* initial_cursor_position= */ 0);
   
 }
 
@@ -528,31 +528,41 @@ uint8_t is_redraw = 1;
 
 void loop(void) {
 
-  /* draw the menu */
+  /* check whether the menu is active */
+  if ( mui_IsFormActive(&ui) )
+  {
 
-  if ( is_redraw ) {
-    u8g2.firstPage();
-    do {
-        mui_Draw(&ui);
-    } while( u8g2.nextPage() );
-    is_redraw = 0;
+    /* if so, then draw the menu */
+
+    if ( is_redraw ) {
+      u8g2.firstPage();
+      do {
+          mui_Draw(&ui);
+      } while( u8g2.nextPage() );
+      is_redraw = 0;
+    }
+    
+    /* handle events */
+    
+    switch(u8g2.getMenuEvent()) {
+      case U8X8_MSG_GPIO_MENU_SELECT:
+        mui_SendSelect(&ui);
+        is_redraw = 1;
+        break;
+      case U8X8_MSG_GPIO_MENU_NEXT:
+        mui_NextField(&ui);
+        is_redraw = 1;
+        break;
+      case U8X8_MSG_GPIO_MENU_PREV:
+        mui_PrevField(&ui);
+        is_redraw = 1;
+        break;
+    }
+    
   }
-  
-  /* handle events */
-  
-  switch(u8g2.getMenuEvent()) {
-    case U8X8_MSG_GPIO_MENU_SELECT:
-      mui_SendSelect(&ui);
-      is_redraw = 1;
-      break;
-    case U8X8_MSG_GPIO_MENU_NEXT:
-      mui_NextField(&ui);
-      is_redraw = 1;
-      break;
-    case U8X8_MSG_GPIO_MENU_PREV:
-      mui_PrevField(&ui);
-      is_redraw = 1;
-      break;
+  else
+  {
+    /* do something else, maybe clear the screen */
   }
 
 }
