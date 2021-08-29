@@ -35,8 +35,8 @@
 
 */
 
-#ifndef MMUI_H
-#define MMUI_H
+#ifndef MUI_H
+#define MUI_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -44,7 +44,26 @@
 #include <string.h>
 #include <sys/types.h>
 
+#if defined(__GNUC__) && defined(__AVR__)
+#include <avr/pgmspace.h>
+#endif 
+
+
+/*==========================================*/
+/* C++ compatible */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*==========================================*/
+/* defines */
+
 #define MUI_CHECK_EOFDS
+
+
+/*==========================================*/
+/* GNUC AVR PROGMEM interface */
 
 #ifdef __GNUC__
 #  define MUI_NOINLINE __attribute__((noinline))
@@ -53,15 +72,44 @@
 #endif
 
 
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_pgm_read(adr) pgm_read_byte_near(adr)
+#  define mui_pgm_wread(adr) pgm_read_word_near(adr) 
+#  define MUI_PROGMEM PROGMEM
+#endif
+
+
+#ifndef mui_pgm_read
+#  ifndef CHAR_BIT
+#  	define mui_pgm_read(adr) (*(const uint8_t *)(adr)) 
+#  else
+#	if CHAR_BIT > 8 
+#  	  define mui_pgm_read(adr) ((*(const uint8_t *)(adr)) & 0x0ff)
+#     else
+#  	  define mui_pgm_read(adr) (*(const uint8_t *)(adr)) 
+#     endif 
+#  endif
+#endif
+
+#ifndef mui_pgm_wread
+#  	define mui_pgm_wread(adr) (*(const uint16_t *)(adr)) 
+#endif
+
+#ifndef MUI_PROGMEM
+#  define MUI_PROGMEM
+#endif
+
 
 /*=== forward declarations ===*/
 typedef struct mui_struct mui_t;
-typedef struct muif_struct muif_t;
+typedef const struct muif_struct muif_t;
+typedef uint8_t (*muif_cb)(mui_t *ui, uint8_t msg);
+typedef const char fds_t;      // form/field definition string
+//typedef const char fds_t MUI_PROGMEM;      // will work but instead MUI_PROGMEM should be added explicitly
+
 
 
 /*=== struct declarations === */
-
-typedef uint8_t (*muif_cb)(mui_t *ui, uint8_t msg);
 
 struct muif_struct
 {
@@ -73,14 +121,26 @@ struct muif_struct
   muif_cb cb;                        // callback
 };
 
-#define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb}
+#define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb} 
 
-#define muif_get_id0(muif) ((muif)->id0)
-#define muif_get_id1(muif) ((muif)->id1)
-#define muif_get_cflags(muif) ((muif)->cflags)
-#define muif_get_extra(muif) ((muif)->extra)
-#define muif_get_data(muif) ((muif)->data)
-#define muif_get_cb(muif) ((muif)->cb)
+/* assumes that pointers are 16 bit so encapusalte the wread i another ifdef __AVR__ */
+#if defined(__GNUC__) && defined(__AVR__)
+#  define muif_get_id0(muif) mui_pgm_read(&((muif)->id0))
+#  define muif_get_id1(muif) mui_pgm_read(&((muif)->id1))
+#  define muif_get_cflags(muif) mui_pgm_read(&((muif)->cflags))
+#  define muif_get_extra(muif) mui_pgm_read(&((muif)->extra))
+#  define muif_get_data(muif) ((void *)mui_pgm_wread(&((muif)->data)))
+#  define muif_get_cb(muif) ((muif_cb)mui_pgm_wread(&((muif)->cb)))
+#else
+#  define muif_get_id0(muif) ((muif)->id0)
+#  define muif_get_id1(muif) ((muif)->id1)
+#  define muif_get_cflags(muif) ((muif)->cflags)
+#  define muif_get_extra(muif) ((muif)->extra)
+#  define muif_get_data(muif) ((muif)->data)
+#  define muif_get_cb(muif) ((muif)->cb)
+#endif
+
+
 
 #define MUIF_MSG_NONE 0
 #define MUIF_MSG_DRAW 1
@@ -101,10 +161,6 @@ struct muif_struct
 #define MUIF_CFLAG_IS_CURSOR_SELECTABLE 0x01
 #define MUIF_CFLAG_IS_TOUCH_SELECTABLE 0x02
 
-typedef const char *fds_t;      // form/field definition string
-
-uint8_t mui_get_fds_char(fds_t s) MUI_NOINLINE;
-
 
 /* must be smaller than or equal to 255 */
 #define MUI_MAX_TEXT_LEN 31
@@ -112,16 +168,16 @@ uint8_t mui_get_fds_char(fds_t s) MUI_NOINLINE;
 struct mui_struct
 {
   void *graphics_data;
-  fds_t root_fds;  
+  fds_t *root_fds;  
   
   muif_t *muif_tlist;
   size_t muif_tcnt;
   
-  fds_t current_form_fds;         // the current form, NULL if the ui is not active at the moment
-  fds_t cursor_focus_fds;           // the field which has the current cursor focus, NULL if there is no current focus
-  fds_t touch_focus_fds;            // the field which has touch focus
+  fds_t *current_form_fds;         // the current form, NULL if the ui is not active at the moment
+  fds_t *cursor_focus_fds;           // the field which has the current cursor focus, NULL if there is no current focus
+  fds_t *touch_focus_fds;            // the field which has touch focus
 
-  fds_t token;             // current token position
+  fds_t *token;             // current token position
   
   //uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
   uint8_t tmp8;
@@ -136,14 +192,14 @@ struct mui_struct
   uint8_t y;
   uint8_t dflags;
   uint8_t arg;          // extra argument of the field. For example the G: form is put here
-  ssize_t len;          // length of the current command
-  fds_t fds;             // current position, *fds = cmd
+  int len;          // length of the current command
+  fds_t *fds;             // current position, *fds = cmd
   muif_t *uif;                   // user interface field or style for the given id0 / id1
   char text[MUI_MAX_TEXT_LEN+1];
 
   /* target  */
-  fds_t tmp_fds;
-  fds_t target_fds;     // used by several task functions as a return / result value
+  fds_t *tmp_fds;
+  fds_t *target_fds;     // used by several task functions as a return / result value
   
   /* last form and field */
   uint8_t last_form_id;
@@ -433,7 +489,7 @@ struct mui_struct
 #define MUI_goto(x,y,n,text) "g" MUI_##x MUI_##y MUI_##n "\xff" text "\xff"
 
 
-uint8_t mui_get_fds_char(fds_t s) MUI_NOINLINE;
+uint8_t mui_get_fds_char(fds_t *s) MUI_NOINLINE;
 
 uint8_t mui_fds_first_token(mui_t *ui) MUI_NOINLINE;
 uint8_t mui_fds_next_token(mui_t *ui) MUI_NOINLINE;
@@ -441,7 +497,7 @@ uint8_t mui_fds_get_nth_token(mui_t *ui, uint8_t n) MUI_NOINLINE;
 uint8_t mui_fds_get_token_cnt(mui_t *ui) MUI_NOINLINE;
 
 
-void mui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *muif_tlist, size_t muif_tcnt);
+void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, size_t muif_tcnt);
 uint8_t mui_GetCurrentCursorFocusPosition(mui_t *ui);
 void mui_Draw(mui_t *ui);
 void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
@@ -454,5 +510,10 @@ void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);
 
-#endif /* MMUI_H */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* MUI_H */
 

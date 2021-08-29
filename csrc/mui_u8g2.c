@@ -39,7 +39,6 @@
 #include "u8g2.h"
 #include "mui_u8g2.h"
 
-
 /*
 
 uint8_t mui_template(mui_t *ui, uint8_t msg)
@@ -1026,5 +1025,4 @@ uint8_t mui_select_options_child_invers_select_u8g2(mui_t *ui, uint8_t msg)
       break;
   }
   return 0;
-  
 }

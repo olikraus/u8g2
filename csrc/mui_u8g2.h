@@ -35,8 +35,16 @@
 
 */
 
-#ifndef mui_u8g2_h
-#define mui_u8g2_h
+#ifndef MUI_U8G2_H
+#define MUI_U8G2_H
+
+/*==========================================*/
+/* C++ compatible */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 /* helper functions */
 
@@ -66,6 +74,10 @@ uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_radio_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_select_options_child_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
+#ifdef __cplusplus
+}
+#endif
 
-#endif /* mui_u8g2_h */
+
+#endif /* MUI_U8G2_H */
 

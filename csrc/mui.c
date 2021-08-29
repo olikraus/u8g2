@@ -81,17 +81,19 @@
 //#define mui_get_fds_char(s) ((uint8_t)(*s))
 
 
-uint8_t mui_get_fds_char(fds_t s)       
+
+uint8_t mui_get_fds_char(fds_t *s)
 {
-  return (uint8_t)(*s);
+  //return (uint8_t)(*s);
+  return (uint8_t)mui_pgm_read(s);
 }
 
 
 /*
   s must point to a valid command within FDS
 */
-static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s) MUI_NOINLINE;
-static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
+static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t *s) MUI_NOINLINE;
+static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t *s)
 {
   uint8_t c = mui_get_fds_char(s);
   c &= 0xdf; /* consider upper and lower case */
@@ -121,12 +123,12 @@ static size_t mui_fds_get_cmd_size_without_text(mui_t *ui, fds_t s)
     - copies the content of the string ("ok") to the ui text buffer
 
 */
-static size_t mui_fds_parse_text(mui_t *ui, fds_t s)
+static size_t mui_fds_parse_text(mui_t *ui, fds_t *s)
 {
   uint8_t i = 0;
   ui->delimiter = mui_get_fds_char(s);
   uint8_t c;
-  fds_t t = s;
+  fds_t *t = s;
   
   //printf("mui_fds_parse_text del=%d\n", delimiter);
 #ifdef MUI_CHECK_EOFDS
@@ -266,8 +268,8 @@ uint8_t mui_fds_get_token_cnt(mui_t *ui)
     Any existing text part will be copied into ui->text
     ui->text will be assigned to empty string if there is no text argument
 */
-static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t s) MUI_NOINLINE;
-static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t s)
+static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t *s) MUI_NOINLINE;
+static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t *s)
 {
   size_t l = mui_fds_get_cmd_size_without_text(ui, s);
   uint8_t c = mui_get_fds_char(s);
@@ -281,7 +283,7 @@ static size_t mui_fds_get_cmd_size(mui_t *ui, fds_t s)
 
 
 
-void mui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *muif_tlist, size_t muif_tcnt)
+void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, size_t muif_tcnt)
 {
   memset(ui, 0, sizeof(mui_t));
   ui->root_fds = fds;
@@ -291,13 +293,18 @@ void mui_Init(mui_t *ui, void *graphics_data, fds_t fds, muif_t *muif_tlist, siz
   ui->graphics_data = graphics_data;
 }
 
-ssize_t mui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
+int mui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
 {
-  ssize_t i;
+  int i;
   for( i = 0; i < ui->muif_tcnt; i++ )
   {
+    /*
       if ( ui->muif_tlist[i].id0 == id0 )
         if ( ui->muif_tlist[i].id1 == id1 )
+          return i;
+    */
+      if ( muif_get_id0(ui->muif_tlist+i) == id0 )
+        if ( muif_get_id1(ui->muif_tlist+i) == id1 )
           return i;
   }
   return -1;
@@ -313,7 +320,7 @@ ssize_t mui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
 */
 uint8_t mui_prepare_current_field(mui_t *ui)
 {
-  ssize_t muif_tidx;
+  int muif_tidx;
 
   ui->uif = NULL;
   ui->dflags = 0;    
@@ -430,9 +437,9 @@ void mui_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
 /*
   n is the form number
 */
-fds_t mui_find_form(mui_t *ui, uint8_t n)
+fds_t *mui_find_form(mui_t *ui, uint8_t n)
 {
-  fds_t fds = ui->root_fds;
+  fds_t *fds = ui->root_fds;
   uint8_t cmd;
   
   for( ;; )
@@ -608,8 +615,8 @@ void mui_next_field(mui_t *ui)
 */
 void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
 {
-  fds_t fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
-  ssize_t len = ui->len;          // backup length of the current command
+  fds_t *fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
+  int len = ui->len;          // backup length of the current command
 
   
   ui->fds = mui_find_form(ui, form_id);          // search for the target form and overwrite the current fds
@@ -673,7 +680,7 @@ void mui_LeaveForm(mui_t *ui)
 */
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position)
 {
-  fds_t fds = mui_find_form(ui, form_id);
+  fds_t *fds = mui_find_form(ui, form_id);
   if ( fds == NULL )
     return 0;
   mui_LeaveForm(ui);

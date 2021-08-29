@@ -130,7 +130,7 @@ muif_t muif_list[] = {
     
 */
 
-fds_t fds = 
+fds_t fds[] = 
 
 /* top level main menu */
 MUI_FORM(1)
@@ -222,7 +222,7 @@ int main(void)
   
   
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_EnterForm(&ui, 0);
+  mui_EnterForm(&ui, 1);
 
   //puts(fds);
   
