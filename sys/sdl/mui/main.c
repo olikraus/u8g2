@@ -1,5 +1,6 @@
 
 #include "u8g2.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "mui.h"
@@ -209,6 +210,24 @@ MUI_XYAT("G1",64, 59, 1, " OK ")
 
 ;
 
+int screenshot_n = 0;
+
+void do_screenshot(void)
+{
+  char s[4096];
+  u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2),  "screenshot.tga");
+  sprintf(  s, 
+  "convert -border 4 -bordercolor 'rgb(255,190,40)'"
+  " -fill 'rgb(255,170,0)' -opaque white"
+  "  -filter point -resize 200%%" 
+  " screenshot.tga pic%04d.png", screenshot_n);
+  system(s);
+  screenshot_n++;
+  /*
+  gif animation:
+  convert -delay 40 -loop 0 pic*.png animation.gif
+  */
+}
 
 int main(void)
 {
@@ -220,9 +239,10 @@ int main(void)
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
+  u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_EnterForm(&ui, 1);
+  mui_GotoForm(&ui, 1, 0);
 
   //puts(fds);
   
@@ -238,6 +258,7 @@ int main(void)
     {
       mui_Draw(&ui);
     } while( u8g2_NextPage(&u8g2) );
+    do_screenshot();
     
     // printf("mui_GetCurrentCursorFocusPosition=%d\n", mui_GetCurrentCursorFocusPosition(&ui));
     
@@ -260,10 +281,24 @@ int main(void)
     
     if ( k == 'q' ) break;
 
-    if ( k == 'n' ) mui_NextField(&ui);
-    if ( k == 'p' ) mui_PrevField(&ui);
-    if ( k == 's' ) mui_SendSelect(&ui);
+    if ( k == 'n' ) 
+    {
+      mui_NextField(&ui);
+    }
+    if ( k == 'p' ) 
+    {
+      mui_PrevField(&ui);
+    }
+    if ( k == 's' )
+    {
+      mui_SendSelect(&ui);
+    }
 
+    if ( k == 't' ) 
+    {
+      puts("screenshot");
+      do_screenshot();
+    }
     
     if ( x < 0 )
       x = 0;

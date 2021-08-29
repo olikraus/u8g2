@@ -35,8 +35,7 @@
 
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include <mui.h>
-#include <mui_u8g2.h>
+#include <MUIU8g2.h>
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -294,7 +293,7 @@ U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* res
 
 
 
-mui_t ui;
+MUIU8G2 mui;
 
 
 
@@ -519,9 +518,11 @@ void setup(void) {
   //u8g2.begin(/*Select=*/ A0, /*Right/Next=*/ 5, /*Left/Prev=*/ 9, /*Up=*/ 8, /*Down=*/ 10, /*Home/Cancel=*/ A1); // Arduboy DevKit
   //u8g2.begin(/*Select=*/ 7, /*Right/Next=*/ A1, /*Left/Prev=*/ A2, /*Up=*/ A0, /*Down=*/ A3, /*Home/Cancel=*/ 8); // Arduboy 10 (Production)
   
-  mui_Init(&ui, u8g2.getU8g2(), fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_GotoForm(&ui, /* form_id= */ 1, /* initial_cursor_position= */ 0);
   
+  mui.begin(u8g2, fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
+  mui.gotoForm(/* form_id= */ 1, /* initial_cursor_position= */ 0);
+  //mui_Init(&ui, u8g2.getU8g2(), fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
+  //mui_GotoForm(&ui, /* form_id= */ 1, /* initial_cursor_position= */ 0);
 }
 
 uint8_t is_redraw = 1;
@@ -529,7 +530,8 @@ uint8_t is_redraw = 1;
 void loop(void) {
 
   /* check whether the menu is active */
-  if ( mui_IsFormActive(&ui) )
+  //if ( mui_IsFormActive(&ui) )
+  if ( mui.isFormActive() )
   {
 
     /* if so, then draw the menu */
@@ -537,7 +539,7 @@ void loop(void) {
     if ( is_redraw ) {
       u8g2.firstPage();
       do {
-          mui_Draw(&ui);
+          mui.draw();
       } while( u8g2.nextPage() );
       is_redraw = 0;
     }
@@ -546,15 +548,15 @@ void loop(void) {
     
     switch(u8g2.getMenuEvent()) {
       case U8X8_MSG_GPIO_MENU_SELECT:
-        mui_SendSelect(&ui);
+        mui.sendSelect();
         is_redraw = 1;
         break;
       case U8X8_MSG_GPIO_MENU_NEXT:
-        mui_NextField(&ui);
+        mui.nextField();
         is_redraw = 1;
         break;
       case U8X8_MSG_GPIO_MENU_PREV:
-        mui_PrevField(&ui);
+        mui.prevField();
         is_redraw = 1;
         break;
     }
