@@ -667,6 +667,49 @@ uint8_t mui_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t m
   return mui_half_width_frame_button_invers_select_u8g2(ui, msg);
 }
 
+/*
+
+  uint8_t mui_leave_menu_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+
+  Description:
+    A button with size equal to button text plus one pixel padding
+    The button has a one pixel frame around the text.
+    If the selected, then the menu system will be closed.
+    The arg value will be stored at the specified data location (if not NULL).
+    The arg value can be used as an exit value of the button.
+    
+  Message Handling: DRAW, CURSOR_SELECT
+
+  Style
+    No Selection: Text + Frame
+    Cursor Selection: Inverted text + Frame
+
+  User interface field list (muif):
+    flags: MUIF_CFLAG_IS_CURSOR_SELECTABLE
+    data: Optionally points to uint8_t value which will receive the arg value of the field.
+
+  Field definition string (fds):
+    xy: Left position of the text (required)
+    arg: Value which will be stored at *data (optional)
+    text: Button label
+    
+*/
+uint8_t mui_leave_menu_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_CURSOR_SELECT:
+      {
+        uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+        if ( value != NULL )
+          *value = ui->arg;
+      }
+      mui_LeaveForm(ui);
+      return 1;
+  }
+  return mui_frame_button_invers_select_u8g2(ui, msg);
+}
+
 
 /*
 
