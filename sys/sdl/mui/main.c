@@ -110,7 +110,11 @@ muif_t muif_list[] = {
   MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u8g2),    
   
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
-  MUIF(".L",0,0,mui_label_u8g2)
+  MUIF(".L",0,0,mui_label_u8g2),
+
+  /* button for the minimal example */
+  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_leave_menu_frame_button_invers_select_u8g2)
+  
 };
 
 /*
@@ -208,6 +212,12 @@ MUI_XYAT("RS",65, 40,3,"West")
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
 
+
+/* minimal example */
+MUI_FORM(200)
+MUI_STYLE(0)
+MUI_XYT("BN",64, 30, " Select Me ")
+
 ;
 
 int screenshot_n = 0;
@@ -242,7 +252,7 @@ int main(void)
   u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_GotoForm(&ui, 1, 0);
+  mui_GotoForm(&ui, 200, 0);
 
   //puts(fds);
   
