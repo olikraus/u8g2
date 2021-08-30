@@ -372,7 +372,6 @@ muif_t muif_list[]  MUI_PROGMEM = {
 
 fds_t fds_data[] MUI_PROGMEM = 
 
-/* number entry */
 MUI_FORM(1)
 MUI_STYLE(0)
 MUI_LABEL(5,12, "Countdown Time")
