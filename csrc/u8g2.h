@@ -94,7 +94,9 @@
   It will consume about 40 bytes more in flash memory of the AVR.
   HVLine procedures are also used by the text drawing functions.
 */
+#ifndef U8G2_WITHOUT_HVLINE_SPEED_OPTIMIZATION
 #define U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
+#endif
 
 /*
   The following macro activates the early intersection check with the current visible area.
@@ -103,7 +105,9 @@
   With a full framebuffer in RAM and if most graphical elements are drawn within the visible area, then this
   macro can be commented to reduce code size.
 */
+#ifndef U8G2_WITHOUT_INTERSECTION
 #define U8G2_WITH_INTERSECTION
+#endif
 
 
 /*
@@ -113,7 +117,9 @@
   Setting a clip window will restrict all drawing to this window.
   Clip window support requires about 200 bytes flash memory on AVR systems
 */
+#ifndef U8G2_WITHOUT_CLIP_WINDOW_SUPPORT
 #define U8G2_WITH_CLIP_WINDOW_SUPPORT
+#endif
 
 /*
   The following macro enables all four drawing directions for glyphs and strings.
@@ -121,7 +127,9 @@
   
   Jan 2020: Disabling this macro will save up to 600 bytes on AVR 
 */
+#ifndef U8G2_WITHOUT_FONT_ROTATION
 #define U8G2_WITH_FONT_ROTATION
+#endif
 
 /*
   U8glib V2 contains support for unicode plane 0 (Basic Multilingual Plane, BMP).
@@ -147,7 +155,9 @@
       - C-Code Strings are assumbed to be ISO 8859-1/CP1252 encoded
       - Only character values 0 to 255 are supported in the font file.
 */
+#ifndef U8G2_WITHOUT_UNICODE
 #define U8G2_WITH_UNICODE
+#endif
 
 
 /*
@@ -162,7 +172,9 @@
   
   Not defining U8G2_BALANCED_STR_WIDTH_CALCULATION would fall back to the old bahavior.
 */
+#ifndef U8G2_NO_BALANCED_STR_WIDTH_CALCULATION 
 #define U8G2_BALANCED_STR_WIDTH_CALCULATION
+#endif
 
 
 /*==========================================*/
