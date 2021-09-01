@@ -54,10 +54,14 @@
 
 
 /* Assumption: All Arduino Boards have "SPI.h" */
+#ifndef U8X8_NO_HW_SPI
 #define U8X8_HAVE_HW_SPI
+#endif
 
 /* Assumption: All Arduino Boards have "Wire.h" */
+#ifndef U8X8_NO_HW_I2C
 #define U8X8_HAVE_HW_I2C
+#endif
 
 /* Undefine U8X8_HAVE_HW_SPI for those Boards without SPI.h */
 
