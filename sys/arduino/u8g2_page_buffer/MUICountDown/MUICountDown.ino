@@ -305,8 +305,7 @@ uint8_t number_input = 2;       // variable where the user can input a number be
 uint8_t exit_code = 0;                  // return value from the menu system
 
 extern "C" uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
-{
-  
+{  
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   switch(msg)
   {
@@ -412,8 +411,7 @@ long milliseconds = 0;
 void loop(void) {
 
   /* check whether the menu is active */
-  if ( mui.isFormActive() )
-  {
+  if ( mui.isFormActive() ) {
 
     /* if so, then draw the menu */
     if ( is_redraw ) {
@@ -444,19 +442,14 @@ void loop(void) {
     
     if ( mui.isFormActive() )
       milliseconds = ((long)number_input) * 1000;
-  }
-  else
-  {
+  } else {
   
     /* menu not active: show countdown */
     
-    if ( milliseconds <= 0 )
-    {
+    if ( milliseconds <= 0 ) {
       /* countdown reached 0: activate menu again */
       mui.gotoForm(/* form_id= */ 1, /* initial_cursor_position= */ 0);
-    }
-    else
-    {
+    } else {
       /* execute countdown */
       u8g2.setFont(U8G2_FONT);
       u8g2.firstPage();
@@ -467,9 +460,7 @@ void loop(void) {
       milliseconds -= 100;
       delay(100);
     }
-  
   }
-
 }
 
 

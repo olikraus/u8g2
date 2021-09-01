@@ -58,6 +58,7 @@ uint8_t my_value3 = 0;
 uint8_t color_input = 0;
 uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
+uint8_t exit_code = 0;
 
 
 /* 
@@ -113,8 +114,11 @@ muif_t muif_list[] = {
   MUIF(".L",0,0,mui_label_u8g2),
 
   /* button for the minimal example */
-  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_leave_menu_frame_button_invers_select_u8g2)
-  
+  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_leave_menu_frame_button_invers_select_u8g2),
+
+  /* Leave the menu system */
+  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_leave_menu_frame_button_invers_select_u8g2)
+
 };
 
 /*
@@ -218,6 +222,13 @@ MUI_FORM(200)
 MUI_STYLE(0)
 MUI_XYT("BN",64, 30, " Select Me ")
 
+MUI_FORM(201)
+MUI_STYLE(0)
+MUI_LABEL(5,12, "Countdown Time")
+MUI_LABEL(5,30, "Seconds:")
+MUI_XY("IN",60, 30)
+MUI_XYT("LV",64, 59, " OK ")
+
 ;
 
 int screenshot_n = 0;
@@ -252,10 +263,9 @@ int main(void)
   u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_GotoForm(&ui, 200, 0);
+  mui_GotoForm(&ui, 201, 0);
 
   //puts(fds);
-  
   
   x = 4;  // use as height for the box
   y = 0;
