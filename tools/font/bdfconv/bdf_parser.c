@@ -79,8 +79,11 @@ static const char *bf_get_string(bf_t *bf)
       break;
     if ( i >= BDF_LINE_LEN-2 )
       break;
-    buf[i++] = c;
-    buf[i] = '\0';
+    if ( c != '\r' && c != '\n' )    /* skip \r and \n, see https://github.com/olikraus/u8g2/pull/1361, https://github.com/olikraus/u8g2/issues/1379 */
+    {
+      buf[i++] = c;
+      buf[i] = '\0';
+    }
     bf_next(bf);
   }
   if ( bf_curr(bf) == '\"' )
