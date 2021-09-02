@@ -986,7 +986,10 @@ Greek Extended	1F00–1FFF
   { "-y 1 -th 2 -tv 2",  "-r 72 -p 32", "lucasarts-scumm-subtitle-roman-outline.ttf",	"lucasarts_scumm_subtitle_o_2x2",	2, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   { "-y 0 -th 2 -tv 2",  "-r 72 -p 16", "lucasarts-scumm-subtitle-roman.ttf",	"lucasarts_scumm_subtitle_r_2x2",	2, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   
-
+  { 0,  "-r 72 -p 24", "utopia24.ttf",			"utopia24",			2, 0, BM_T, FM_C, MM_F|MM_R|MM_N|MM_E, "", "" },
+  { 0,  "-r 72 -p 22", "m-c-kids-nes-credits-font.ttf", "m_c_kids_nes_credits_font",	2, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "chargen-92.ttf", "chargen_92",	2, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N|MM_E, "", "" },
+ 
 /*
   Free Universal Bold
   
