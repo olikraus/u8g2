@@ -35,6 +35,7 @@
   ST7571: 128x129 2-bit graylevel LCD
   
   https://github.com/olikraus/u8g2/issues/921
+  https://github.com/olikraus/u8g2/issues/1575          128x96
 
 */
 
@@ -251,6 +252,105 @@ uint8_t u8x8_d_st7571_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7571_128x128_display_info);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+
+
+/*===================================================*/
+/*
+  https://github.com/olikraus/u8g2/issues/1575
+  http://www.jlxlcd.cn/html/zh-detail-1211.html 
+*/
+static const uint8_t u8x8_d_st7571_128x96_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  
+  U8X8_C(0xAE), 				// Display OFF
+  U8X8_C(0x38), 				// Mode Set  
+  U8X8_C(0xB8), 				// FR=1011 (85Hz), BE[1:0]=10, level 3 booster
+  
+  
+  U8X8_C(0xA0), 				// ADC select
+  U8X8_C(0xC8), 				// SHL select
+  U8X8_CA(0x44, 0x00), 		// COM0 register  
+  U8X8_CA(0x40, 0x7f), 		// initial display line  (0x7f... strange but ok... maybe specific for the JLX128128)
+  
+  U8X8_C(0xAB), 				// OSC ON  
+  U8X8_C(0x25), 				// Voltage regulator
+  U8X8_CA(0x81, 0x33), 		// Volume
+  U8X8_C(0x54), 				// LCD Bias: 0x056=1/11 (1/11 according to JLX128128 datasheet), 0x054=1/9
+  U8X8_CA(0x44, 0x7f), 		// Duty 1/128
+  
+  U8X8_C(0x2C), 				// Power Control, VC: ON, VR: OFF, VF: OFF
+  U8X8_DLY(200),
+  U8X8_C(0x2E), 				// Power Control, VC: ON, VR: ON, VF: OFF
+  U8X8_DLY(200),
+  U8X8_C(0x2F), 				// Power Control, VC: ON, VR: ON, VF: ON
+  U8X8_DLY(10),
+
+  U8X8_C(0x7B), 				// command set 3
+  U8X8_C(0x11), 				// black white mode
+  U8X8_C(0x00), 				// exit command set 3
+
+
+  U8X8_C(0xA6), 				// Display Inverse OFF
+  U8X8_C(0xA4), 				// Disable Display All Pixel ON
+
+  //U8X8_C(0xAF), 				// Display on
+
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()           			/* end of sequence */
+};
+
+
+
+
+static const u8x8_display_info_t u8x8_st7571_128x96_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 5, 	
+  /* post_reset_wait_ms = */ 5, 		/**/
+  /* sda_setup_time_ns = */ 20,		/* */
+  /* sck_pulse_width_ns = */ 40,	/*  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
+  /* data_setup_time_ns = */ 15,
+  /* write_pulse_width_ns = */ 70,	
+  /* tile_width = */ 16,
+  /* tile_hight = */ 12,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 96
+};
+
+uint8_t u8x8_d_st7571_128x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    
+  if ( u8x8_d_st7571_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7571_128x96_init_seq); 
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7571_128x96_display_info);
       break;
     default:
       return 0;
