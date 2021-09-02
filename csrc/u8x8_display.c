@@ -122,8 +122,11 @@ void u8x8_InitInterface(u8x8_t *u8x8)
   Additonally each display will set the init code to the display, which will also turn of the display in most cases (Arduino code disable power save mode later)
 
   Actually this procedure should be better called InitInterfaceAndDisplay, because it actually does both.
+  (actually u8x8_InitInterface() is not called directly but only u8x8_gpio_Init and u8x8_cad_Init which
+  in turn is called by u8x8_InitInterface())
 
-  InitDisplay is called by the Arduino begin() function.
+
+  InitDisplay is called by the Arduino begin() function 
 
   In some cases it is not required to init the display (for example if the display is already running, but the controller comes out of deep sleep mode).
   Then InitDisplay can be skipped, but u8x8_InitInterface()  (== u8x8_gpio_Init() and u8x8_cad_Init()) need to be executed.
