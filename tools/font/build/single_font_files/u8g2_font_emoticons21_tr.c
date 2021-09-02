@@ -1,7 +1,6 @@
 /*
   Fontname: Emoticons21
   Copyright: public domain,
-
   Glyphs: 32/32
   BBX Build Mode: 0
 */
