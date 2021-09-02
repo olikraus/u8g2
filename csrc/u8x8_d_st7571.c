@@ -284,7 +284,7 @@ static const uint8_t u8x8_d_st7571_128x96_init_seq[] = {
   U8X8_CA(0x40, 0x00), 		// 128x96 datasheet
   
   U8X8_C(0xAB), 				// OSC ON  
-  U8X8_C(0x25), 				// Voltage regulator
+  U8X8_C(0x27), 				// 128x96: Voltage regulator
   U8X8_CA(0x81, 0x28), 		// 128x96: Volume
   U8X8_C(0x57), 				// 128x96: LCD Bias: 1/12 
   U8X8_CA(0x48, 0x61), 		// 128x96: Duty 1/96
