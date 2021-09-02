@@ -187,6 +187,30 @@ uint8_t u8x8_d_uc1601_128x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 /* issue https://github.com/olikraus/u8g2/issues/1501 */
 
+static const uint8_t u8x8_d_uc1601_128x64_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_C(0x0e2),            			/* soft reset */
+  U8X8_C(0x0eb),            			/* LCD Bias: 0xe8: 6, 0xe9: 7, 0xea: 8, 0xeb: 9 */
+  //U8X8_C(0x023),            			/* 0x020...0x023 only for UC1601, not for UC1601s */
+	
+
+  //U8X8_C(0x02e),            			/* LCD Load + Internal Charge Pump (default: 0x2e) */
+  U8X8_C(0x024),		                /* Temperature Compenstation, default: 0x24 */
+  U8X8_C(0x089),		                /* RAM address ctrl, default: 0x89 */
+  U8X8_C(0x0c4),		                /* RAM mapping ctrl */
+  U8X8_C(0x0a0),		                /* Frame Rate, 0x0a0 or 0x0a1 */
+  U8X8_CA(0x081, 0x0df),		/* set contrast */
+  U8X8_C(0x02e),            			/* LCD Load + Internal Charge Pump (default: 0x2e) */	
+  U8X8_C(0x040),		                /* set display start: See Issue 1501 */
+  
+  U8X8_C(0x0a6),		                /* normal display */
+   
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 static const u8x8_display_info_t u8x8_uc1601_128x64_display_info =
 {
   /* chip_enable_level = */ 0,
@@ -205,8 +229,8 @@ static const u8x8_display_info_t u8x8_uc1601_128x64_display_info =
   /* write_pulse_width_ns = */ 80,	/* uc1601 datasheet, page 43 */
   /* tile_width = */ 16,		
   /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 4,
+  /* default_x_offset = */ 2,
+  /* flipmode_x_offset = */ 4,  /* IS THIS CORRECT? */
   /* pixel_width = */ 128,
   /* pixel_height = */ 64
 };
@@ -222,7 +246,7 @@ uint8_t u8x8_d_uc1601_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x32_init_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1601_128x64_init_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )

@@ -263,5 +263,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for HD44102 and T7932 displays (issue 1492)
   * Added support for SSD1320 (issue 1351)
   * Added support for S1D15721 (issue 1473)
-  
+  * Added support for SSD1306 EA OLEDS102 (issue 1493)
   
