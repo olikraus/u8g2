@@ -182,12 +182,13 @@ static const uint8_t u8x8_d_st7571_128x128_init_seq[] = {
   U8X8_C(0xC8), 				// SHL select
   U8X8_CA(0x44, 0x00), 		// COM0 register  
   U8X8_CA(0x40, 0x7f), 		// initial display line  (0x7f... strange but ok... maybe specific for the JLX128128)
+                                                        // 2 sep 2021: maybe this also wrong because the 0x44 command is overwritten later.
   
   U8X8_C(0xAB), 				// OSC ON  
   U8X8_C(0x25), 				// Voltage regulator
   U8X8_CA(0x81, 0x33), 		// Volume
   U8X8_C(0x54), 				// LCD Bias: 0x056=1/11 (1/11 according to JLX128128 datasheet), 0x054=1/9
-  U8X8_CA(0x44, 0x7f), 		// Duty 1/128
+  U8X8_CA(0x44, 0x7f), 		// Duty 1/128   // 2 Sep 2021: Should this be 00x48???
   
   U8X8_C(0x2C), 				// Power Control, VC: ON, VR: OFF, VF: OFF
   U8X8_DLY(200),
@@ -274,19 +275,19 @@ static const uint8_t u8x8_d_st7571_128x96_init_seq[] = {
   
   U8X8_C(0xAE), 				// Display OFF
   U8X8_C(0x38), 				// Mode Set  
-  U8X8_C(0xB8), 				// FR=1011 (85Hz), BE[1:0]=10, level 3 booster
-  
+  //U8X8_C(0xB8), 				// FR=1011 (85Hz), BE[1:0]=10, level 3 booster
+  U8X8_C(0x94),                                 // 128x96: 75 Hz 
   
   U8X8_C(0xA0), 				// ADC select
   U8X8_C(0xC8), 				// SHL select
-  U8X8_CA(0x44, 0x00), 		// COM0 register  
-  U8X8_CA(0x40, 0x7f), 		// initial display line  (0x7f... strange but ok... maybe specific for the JLX128128)
+  U8X8_CA(0x44, 0x20), 		// 128x96: COM0 register  
+  U8X8_CA(0x40, 0x00), 		// 128x96 datasheet
   
   U8X8_C(0xAB), 				// OSC ON  
   U8X8_C(0x25), 				// Voltage regulator
-  U8X8_CA(0x81, 0x33), 		// Volume
-  U8X8_C(0x54), 				// LCD Bias: 0x056=1/11 (1/11 according to JLX128128 datasheet), 0x054=1/9
-  U8X8_CA(0x44, 0x7f), 		// Duty 1/128
+  U8X8_CA(0x81, 0x28), 		// 128x96: Volume
+  U8X8_C(0x57), 				// 128x96: LCD Bias: 1/12 
+  U8X8_CA(0x48, 0x61), 		// 128x96: Duty 1/96
   
   U8X8_C(0x2C), 				// Power Control, VC: ON, VR: OFF, VF: OFF
   U8X8_DLY(200),
