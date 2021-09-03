@@ -522,6 +522,142 @@ int main(void)
 
 
   /*=========================================*/
+  /* u8g2_button1.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+  u8g2_SetFont(&u8g2, u8g2_font_helvR08_tr);
+
+  {
+    char *s = "Btn";
+    u8g2_uint_t w = u8g2_GetStrWidth(&u8g2, s);
+    u8g2_uint_t h = u8g2_GetAscent(&u8g2)-u8g2_GetDescent(&u8g2);
+    u8g2_uint_t x = 62;
+    u8g2_uint_t y = 20;
+    
+    u8g2_SetFontPosBaseline(&u8g2);
+    u8g2_FirstPage(&u8g2);
+    do
+    {
+      u8g2_DrawButtonUTF8(&u8g2, x, y, U8G2_BTN_BW2, 0,  2,  2, s );
+    } while( u8g2_NextPage(&u8g2) );
+
+    tga_is_transparent = 1;
+    u8g2_FirstPage(&desc);
+    do
+    {
+      u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+      ra(x,y, "x=62, y=20");
+      u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+      /* descent usually is negative */
+      vm(x-1+w+2+4,y-9+h+2-1+1, h+4);
+      hm(x-2, y-8+h+2+3, w+4);
+      //hm(x, y-8+h+2+3, w);
+
+      //ra(60,40, "x=60, y=40");
+      //vm(60+16+2,40+9-1, 9);
+      //hm(60, 40+9+1, 16);
+      
+      //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+    } while( u8g2_NextPage(&desc) );
+
+  }
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_button1.png");
+  
+
+  /*=========================================*/
+  /* u8g2_button2.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+  u8g2_SetFont(&u8g2, u8g2_font_helvR08_tr);
+
+  {
+    char *s = "Btn";
+    u8g2_uint_t w = u8g2_GetStrWidth(&u8g2, s);
+    u8g2_uint_t h = u8g2_GetAscent(&u8g2)-u8g2_GetDescent(&u8g2);
+    u8g2_uint_t x = 62;
+    u8g2_uint_t y = 20;
+    
+    u8g2_SetFontPosBaseline(&u8g2);
+    u8g2_FirstPage(&u8g2);
+    do
+    {
+      u8g2_DrawButtonUTF8(&u8g2, x, y, U8G2_BTN_HCENTER|U8G2_BTN_BW2, 34,  2,  2, s );
+    } while( u8g2_NextPage(&u8g2) );
+
+    tga_is_transparent = 1;
+    u8g2_FirstPage(&desc);
+    do
+    {
+      u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+      ra(x,y, "x=62, y=20");
+      u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+      /* descent usually is negative */
+      vm(x-1+w+2+5,y-9+h+2-1+1, h+4);
+      hm(x-19, y-8+h+2+3,34+4);
+      //hm(x, y-8+h+2+3, w);
+
+      //ra(60,40, "x=60, y=40");
+      //vm(60+16+2,40+9-1, 9);
+      //hm(60, 40+9+1, 16);
+      
+      //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+    } while( u8g2_NextPage(&desc) );
+
+  }
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_button2.png");
+
+  /*=========================================*/
+  /* u8g2_button3.png */
+  
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+  u8g2_SetFont(&u8g2, u8g2_font_helvR08_tr);
+
+  {
+    char *s = "Btn";
+    u8g2_uint_t w = u8g2_GetStrWidth(&u8g2, s);
+    u8g2_uint_t h = u8g2_GetAscent(&u8g2)-u8g2_GetDescent(&u8g2);
+    u8g2_uint_t x = 62;
+    u8g2_uint_t y = 20;
+    
+    u8g2_SetFontPosBaseline(&u8g2);
+    u8g2_FirstPage(&u8g2);
+    do
+    {
+      u8g2_DrawButtonUTF8(&u8g2, x, y, U8G2_BTN_SHADOW1|U8G2_BTN_HCENTER|U8G2_BTN_BW2, 34,  2,  2, s );
+    } while( u8g2_NextPage(&u8g2) );
+
+    tga_is_transparent = 1;
+    u8g2_FirstPage(&desc);
+    do
+    {
+      u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+      ra(x,y, "x=62, y=20");
+      u8g2_SetFont(&u8g2, u8g2_font_ncenB18_tf);
+      /* descent usually is negative */
+      vm(x-1+w+2+8,y-9+h+2-1+1, h+4);
+      hm(x-19, y-8+h+2+6,34+4);
+      //hm(x, y-8+h+2+3, w);
+
+      //ra(60,40, "x=60, y=40");
+      //vm(60+16+2,40+9-1, 9);
+      //hm(60, 40+9+1, 16);
+      
+      //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+    } while( u8g2_NextPage(&desc) );
+
+  }
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+
+  tga_save_png("u8g2_button3.png");
+  
+  /*=========================================*/
   /* u8g2_ellipse.png */
   
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
@@ -547,7 +683,7 @@ int main(void)
     hm(20+1, 25+10+1, 15);
     hm(20-15, 25+10+1+11, 31);
 
-    
+  
     //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
   } while( u8g2_NextPage(&desc) );
   
