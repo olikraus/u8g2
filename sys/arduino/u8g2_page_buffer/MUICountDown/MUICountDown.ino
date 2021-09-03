@@ -373,14 +373,12 @@ muif_t muif_list[]  MUI_PROGMEM = {
 
 
 fds_t fds_data[] MUI_PROGMEM = 
-
 MUI_FORM(1)
 MUI_STYLE(0)
 MUI_LABEL(5,12, "Countdown Time")
 MUI_LABEL(5,30, "Seconds:")
 MUI_XY("IN",60, 30)
 MUI_XYT("LV",64, 59, " OK ")
-
 ;
 
 
@@ -445,6 +443,7 @@ void loop(void) {
     
     if ( mui.isFormActive() )
       milliseconds = ((long)number_input) * 1000;
+      
   } else {
   
     /* menu not active: show countdown */
