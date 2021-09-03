@@ -267,3 +267,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for SSD1306 EA OLEDS102 (issue 1493)
   * Added support for UC1601 128x64 (issue 1501)
   * Font Wiki page splitted into four sub-pages to avoid the GitHub 'abuse' message.
+2021-xx-xx	v2.30.xx	olikraus@gmail.com
