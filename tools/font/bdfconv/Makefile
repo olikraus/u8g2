@@ -25,6 +25,12 @@ test:	bdfconv
 greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/unifont.bdf -n unifont_greek -o unifont_greek.c -d ../bdf/7x13.bdf
 
+cyrillic: bdfconv
+	./bdfconv -f 1 -v -m '$$20-$$7E, $$410-$$44F' ../bdf/unifont.bdf -n unifont_cyrillic_44f -o unifont_cyrillic_44f.c -d ../bdf/7x13.bdf
+	convert bdf.tga unifont_cyrillic_44f.png
+	./bdfconv -f 1 -v -m '$$20-$$7E, $$400-$$4ff' ../bdf/unifont.bdf -n unifont_cyrillic_4ff -o unifont_cyrillic_4ff.c -d ../bdf/7x13.bdf
+	convert bdf.tga unifont_cyrillic_4ff.png
+
 battery19: bdfconv
 	./bdfconv -f 1 -v -m '32-127' ../bdf/battery19.bdf -n battery19 -o battery19.c -d ../bdf/7x13.bdf
 
