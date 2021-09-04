@@ -65,15 +65,17 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_label_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_goto_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_leave_menu_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
+
+uint8_t mui_leave_menu_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
+
 uint8_t mui_select_options_parent_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_select_options_child_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg);
 uint8_t mui_radio_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_select_options_child_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 #ifdef __cplusplus
 }
