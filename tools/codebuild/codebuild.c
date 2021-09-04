@@ -2442,7 +2442,7 @@ void do_md_display_interface(int controller_idx, int display_idx, int interface_
 	    else
 	    {
 	      
-	      fprintf(fp, "| u8x8_Setup(u8x8_d_");
+	      fprintf(fp, "| u8x8_Setup(u8x8, u8x8_d_");
 	      fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
 	      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
 	      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
