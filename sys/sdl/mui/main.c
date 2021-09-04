@@ -34,6 +34,19 @@ uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+uint8_t mui_style_monospaced(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      u8g2_SetFont(u8g2, u8g2_font_profont12_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_6x10_tr);
+      break;
+  }
+  return 0;
+}
+
 uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -86,6 +99,11 @@ muif_t muif_list[] = {
   /* bold text style */
   MUIF("S1",0,0,mui_style_helv_b_08),
 
+  /* monospaced font */
+  MUIF("S2",0,0,mui_style_monospaced),
+
+  
+  
   /* horizontal line (hrule) */
   MUIF("HR",0,0,mui_hrule),
 
@@ -240,10 +258,12 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
 MUI_LABEL(5,30, "Text:")
+MUI_STYLE(2)
 MUI_XY("T0",40, 30)
-MUI_XY("T1",50, 30)
-MUI_XY("T2",60, 30)
-MUI_XY("T3",70, 30)
+MUI_XY("T1",48, 30)
+MUI_XY("T2",56, 30)
+MUI_XY("T3",64, 30)
+MUI_STYLE(0)
 
 MUI_XYAT("G1",64, 59, 0, " OK ")
 

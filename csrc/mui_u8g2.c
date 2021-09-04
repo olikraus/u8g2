@@ -849,7 +849,8 @@ uint8_t mui_input_char_invers_select_u8g2(mui_t *ui, uint8_t msg)
           flags |= U8G2_BTN_XFRAME;
         }      
       }      
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "W"), 1, 1, buf);
+      
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetMaxCharWidth(u8g2), 1, 1, buf);
       break;
     case MUIF_MSG_FORM_START:
       break;
