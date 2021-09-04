@@ -12,3 +12,8 @@ At lib/u8x8_avr.h, you can find:
 This means, you have to write little code to support your own project.
 
 Please refer to the existing main.c and Makefile examples for details on how to use it.
+
+Note: The code https://github.com/olikraus/u8g2/blob/master/sys/avr/avr-libc/lib/u8x8_avr.c requires
+ * `AVR_USE_HW_I2C` and/or
+ * `AVR_USE_HW_SPI` 
+to be defined in your IDE or Makefile.
