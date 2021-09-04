@@ -58,6 +58,7 @@ uint8_t my_value3 = 0;
 uint8_t color_input = 0;
 uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
+uint8_t text_input[4] = { ' ',' ',' ',' '} ;
 uint8_t exit_code = 0;
 
 
@@ -93,6 +94,12 @@ muif_t muif_list[] = {
   
   /* input for a number between 0 to 9 */
   MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_input_uint8_invers_select_u8g2),
+
+  /* input for text with four chars  */
+  MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+0,mui_input_char_invers_select_u8g2),
+  MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+1,mui_input_char_invers_select_u8g2),
+  MUIF("T2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+2,mui_input_char_invers_select_u8g2),
+  MUIF("T3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+3,mui_input_char_invers_select_u8g2),
   
   /* input for a fruit (0..3), implements a selection, where the user can cycle through the options  */
   MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_single_line_option_invers_select_u8g2),
@@ -142,15 +149,24 @@ muif_t muif_list[] = {
 fds_t fds[] = 
 
 /* top level main menu */
-MUI_FORM(1)
+MUI_FORM(0)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu")
+MUI_LABEL(5,10, "Main Menu 1/2")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,10, "Enter a number")
 MUI_GOTO(5,36,11, "Selection/Combo Box")
 MUI_GOTO(5,47,13, "Checkbox")
-MUI_GOTO(5,58,14, "Radio Selection")
+MUI_GOTO(5,58,1, "More...")
+
+MUI_FORM(1)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Main Menu 2/2")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_GOTO(5,25,14, "Radio Selection")
+MUI_GOTO(5,36,15, "Text Input")
+MUI_GOTO(5,58,0, "Back...")
 
 /* number entry demo */
 MUI_FORM(10)
@@ -162,7 +178,7 @@ MUI_STYLE(0)
 MUI_LABEL(5,30, "Number:")
 MUI_XY("IN",50, 30)
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* selection / combo box */
 MUI_FORM(11)
@@ -177,7 +193,7 @@ MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
 MUI_LABEL(5,43, "Color:")
 MUI_XYAT("IC",50, 43, 12, "red|green|blue")     /* jump to sub form 12 */
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* combo box color selection */
 MUI_FORM(12)
@@ -199,7 +215,7 @@ MUI_STYLE(0)
 MUI_LABEL(5,30, "Checkbox:")
 MUI_XY("CB",60, 30)
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* Radio selection demo */
 MUI_FORM(14)
@@ -214,8 +230,22 @@ MUI_XYAT("RS",10, 40,1,"South")
 MUI_XYAT("RS",65, 28,2,"East")
 MUI_XYAT("RS",65, 40,3,"West")
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
+/* number entry demo */
+MUI_FORM(15)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Number 0..9 Menu")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,30, "Text:")
+MUI_XY("T0",40, 30)
+MUI_XY("T1",50, 30)
+MUI_XY("T2",60, 30)
+MUI_XY("T3",70, 30)
+
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* minimal example */
 MUI_FORM(200)
@@ -263,7 +293,8 @@ int main(void)
   u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_GotoForm(&ui, 201, 0);
+  //mui_GotoForm(&ui, 201, 0);
+  mui_GotoForm(&ui, 0, 0);
 
   //puts(fds);
   

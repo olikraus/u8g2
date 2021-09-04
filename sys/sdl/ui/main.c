@@ -35,12 +35,13 @@ MUIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u
 MUIF(".L",0,0,mui_label_u8g2)
 };
 
-fds_t fds = 
+fds_t *fds = 
 
 MUI_FORM(1)
 MUI_goto(12,10,2, "Test 1")
 MUI_goto(12,22,10, "Button Test")
-MUI_goto(12,34,101, "Story")
+MUI_goto(12,34,20, "Button Test 2")
+MUI_goto(12,46,101, "Story")
 
 MUI_FORM(2)
 MUI_LABEL(0,10, "Number:")
@@ -88,6 +89,9 @@ MUI_goto(10,61,10, "Back")
 MUI_FORM(16)
 MUI_goto(10,61,10, "Back")
 
+
+MUI_FORM(20)
+MUI_goto(10,61,10, "Back")
 
 MUI_FORM(101)
 MUI_LABEL(0, 10, "Robot enabled.")
@@ -180,7 +184,7 @@ int main(void)
   
   
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui_EnterForm(&ui, 0);
+  mui_GotoForm(&ui, 1, 0);
 
   puts(fds);
   
@@ -259,6 +263,12 @@ int main(void)
         u8g2_DrawButtonUTF8(&u8g2, 8-8, 9, /*flags*/U8G2_BTN_INV, /*w*/ 112+8*2, /*ph*/ 0,  /*pv*/0, "Line");
         u8g2_DrawButtonUTF8(&u8g2, 8-4, 22, /*flags*/U8G2_BTN_INV, /*w*/ 112+4*2, /*ph*/ 4,  /*pv*/0, "Line");
         u8g2_DrawButtonUTF8(&u8g2, x, 35, /*flags*/U8G2_BTN_INV, /*w*/ 128-2*x, /*ph*/ x,  /*pv*/0, "Line");
+      }
+
+      if ( ui.current_form_fds[1] == 20 )
+      {
+        u8g2_DrawButtonUTF8(&u8g2, 64, 12, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_XFRAME, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0");
+        u8g2_DrawButtonUTF8(&u8g2, 64, 28, /*flags*/U8G2_BTN_HCENTER|U8G2_BTN_XFRAME|U8G2_BTN_INV, /*w*/ 0, /*ph*/ 0,  /*pv*/0, "Center W0 Inv");
       }
       
       //u8g2_DrawBox(&u8g2, 10, 10+y, 20, x);

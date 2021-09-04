@@ -151,7 +151,8 @@ struct muif_struct
 #define MUIF_MSG_CURSOR_LEAVE 6
 #define MUIF_MSG_TOUCH_DOWN 7
 #define MUIF_MSG_TOUCH_UP 8
-
+#define MUIF_MSG_EVENT_NEXT 9
+#define MUIF_MSG_EVENT_PREV 10
 
 /* dynamic flags */
 #define MUIF_DFLAG_IS_CURSOR_FOCUS 0x01
@@ -181,6 +182,8 @@ struct mui_struct
   
   //uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
   uint8_t tmp8;
+  
+  uint8_t curr_focus_field_tmp;         // a temp variable which can be used by the field which has the current focus
   /* current field/style variables */
   //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for mui_EnterForm
   

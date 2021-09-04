@@ -567,14 +567,15 @@ uint8_t mui_task_read_nth_seleectable_field(mui_t *ui)
 
 /* === utility functions for the user API === */
 
-void mui_send_cursor_msg(mui_t *ui, uint8_t msg)
+uint8_t mui_send_cursor_msg(mui_t *ui, uint8_t msg)
 {
   if ( ui->cursor_focus_fds )
   {
     ui->fds = ui->cursor_focus_fds;
     if ( mui_prepare_current_field(ui) )
-      muif_get_cb(ui->uif)(ui, msg);
+      return muif_get_cb(ui->uif)(ui, msg);
   }
+  return 0; /* not called, msg not handled */
 }
 
 /* === user API === */
@@ -725,6 +726,8 @@ void mui_RestoreForm(mui_t *ui)
 */
 void mui_NextField(mui_t *ui)
 {
+  if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_NEXT) )
+    return;
   mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
   mui_next_field(ui);
   mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_ENTER);
@@ -738,6 +741,8 @@ void mui_NextField(mui_t *ui)
 */
 void mui_PrevField(mui_t *ui)
 {
+  if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_PREV) )
+    return;
   mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
   
   mui_loop_over_form(ui, mui_task_find_prev_cursor_uif);

@@ -790,10 +790,8 @@ uint8_t mui_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
       if ( mui_IsCursorFocus(ui) )
       {
         flags |= U8G2_BTN_INV;
-      }
-      
+      }      
       u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
-      
       break;
     case MUIF_MSG_FORM_START:
       break;
@@ -814,6 +812,91 @@ uint8_t mui_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg)
   }
   return 0;
 }
+
+uint8_t mui_is_valid_char(uint8_t c)
+{
+  if ( c == 32 )
+    return 1;
+  if ( c >= 'A' && c <= 'Z' )
+    return 1;
+  if ( c >= 'a' && c <= 'z' )
+    return 1;
+  if ( c >= '0' && c <= '9' )
+    return 1;
+  return 0;
+}
+
+uint8_t mui_input_char_invers_select_u8g2(mui_t *ui, uint8_t msg)
+{
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  char buf[6];
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      while( mui_is_valid_char(*value) == 0 )
+          (*value)++;
+      buf[0] = *value;
+      buf[1] = '\0';
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+        if ( ui->curr_focus_field_tmp )
+        {
+          flags |= U8G2_BTN_XFRAME;
+        }      
+      }      
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "W"), 1, 1, buf);
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      /* 0: normal mode, 1: capture next/prev mode */
+      ui->curr_focus_field_tmp = 0;
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      /* toggle between normal mode and capture next/prev mode */
+      if ( ui->curr_focus_field_tmp )
+        ui->curr_focus_field_tmp = 0;
+      else
+        ui->curr_focus_field_tmp = 1;
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( ui->curr_focus_field_tmp )
+      {
+        do {
+          (*value)++;
+        } while( mui_is_valid_char(*value) == 0 );
+        return 1;
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( ui->curr_focus_field_tmp )
+      {
+        do {
+          (*value)--;
+        } while( mui_is_valid_char(*value) == 0 );
+        return 1;
+      }
+      break;
+  }
+  return 0;
+}
+
+
+
+
 
 /*
 

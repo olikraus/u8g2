@@ -84,11 +84,15 @@
 
     U8G2_BTN_HCENTER 0x40
 
+    U8G2_BTN_XFRAME 0x80
 
   Total size without shadow: width+2*padding_h+2*border
   Total size with U8G2_BTN_SHADOW0: width+2*padding_h+3*border
   Total size with U8G2_BTN_SHADOW1: width+2*padding_h+3*border+1
   Total size with U8G2_BTN_SHADOW2: width+2*padding_h+3*border+2
+  
+  U8G2_BTN_XFRAME:
+    draw another one pixel frame with one pixel gap, will not look good with shadow
 */
 
 void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t text_width, u8g2_uint_t padding_h, u8g2_uint_t padding_v)
@@ -97,10 +101,24 @@ void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
   
   u8g2_uint_t xx, yy, ww, hh;
   
+  u8g2_uint_t gap_frame = U8G2_BTN_BW_MASK+1;
+    
   u8g2_uint_t border_width = flags & U8G2_BTN_BW_MASK;
 
   int8_t a = u8g2_GetAscent(u8g2);
   int8_t d = u8g2_GetDescent(u8g2);
+  
+  uint8_t color_backup = u8g2->draw_color;
+  
+  
+  if ( flags & U8G2_BTN_XFRAME )
+  {
+    border_width++;
+    gap_frame = border_width;
+    border_width++;
+  }
+  
+
   
   for(;;)
   {
@@ -118,7 +136,12 @@ void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
     hh = a-d+2*padding_v+2*border_width;
     if ( border_width == 0 )
       break;
+    if ( border_width == gap_frame )
+    {
+      u8g2_SetDrawColor(u8g2, color_backup == 0 ? 1 : 0);
+    }
     u8g2_DrawFrame(u8g2, xx, yy, ww, hh);
+    u8g2_SetDrawColor(u8g2, color_backup);
     
     if ( flags & U8G2_BTN_SHADOW_MASK )
     {
@@ -139,7 +162,6 @@ void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
   
   if ( flags & U8G2_BTN_INV )
   {
-    uint8_t color_backup = u8g2->draw_color;
     u8g2_SetDrawColor(u8g2, 2);         /* XOR */
     u8g2_DrawBox(u8g2, xx, yy, ww, hh);
     u8g2_SetDrawColor(u8g2, color_backup);
