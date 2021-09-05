@@ -212,7 +212,9 @@ MUI_STYLE(0)
 //MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
 
 MUI_LABEL(5,29, "Color:")
-MUI_XYAT("IC",50, 29, 12, "red|green|blue")     /* jump to sub form 12 */
+//MUI_XYAT("IC",50, 29, 12, "red|green|blue")     /* jump to sub form 12 */
+MUI_XYAT("IC",50, 29, 12, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")     /* jump to sub form 12 */
+/* red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose */
 
 MUI_XYAT("G1",64, 59, 0, " OK ")
 
@@ -224,7 +226,8 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_XYA("OC", 5, 30, 0) /* takeover the selection text from calling field ("red") */
 MUI_XYA("OC", 5, 42, 1) /* takeover the selection text from calling field ("green") */
-MUI_XYAT("OC", 5, 54, 2, "blue")  /* just as a demo: provide a different text for this option */
+MUI_XYA("OC", 5, 54, 2)  /* just as a demo: provide a different text for this option */
+
 
 /* Checkbox demo */
 MUI_FORM(13)

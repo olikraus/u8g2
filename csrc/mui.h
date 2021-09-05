@@ -187,6 +187,10 @@ struct mui_struct
   /* current field/style variables */
   //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for mui_EnterForm
   
+  uint8_t form_scroll_total;            // reserved for MUIF, not used by mui
+  uint8_t form_scroll_top;              // reserved for MUIF, not used by mui
+  uint8_t form_scroll_visible;          // reserved for MUIF, not used by mui
+  
   uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)
   uint8_t id0;            // identifier of the field, manually provided or derived (G cmd has fixed id "FG")
@@ -503,7 +507,10 @@ uint8_t mui_fds_get_token_cnt(mui_t *ui) MUI_NOINLINE;
 void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, size_t muif_tcnt);
 uint8_t mui_GetCurrentCursorFocusPosition(mui_t *ui);
 void mui_Draw(mui_t *ui);
+/* warning: The next function will overwrite the ui field variables like ui->arg, etc */
 void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token);
+/* warning: The next function will overwrite the ui field variables like ui->arg, etc */
+uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, uint8_t form_id, uint8_t cursor_position);
 void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position);
 void mui_LeaveForm(mui_t *ui);
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);

@@ -409,6 +409,8 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
     text: Button label (optional, might be taken from previous field)
     
 */
+
+#ifdef OBSOLETE
 uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -423,7 +425,6 @@ uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      
       {
         u8g2_uint_t w = 0;
         u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
@@ -445,8 +446,7 @@ uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
           u8g2_SetFontMode(u8g2, 1);
           a += 2;       /* add gap between the checkbox and the text area */
           u8g2_DrawUTF8(u8g2, x+a, y, ui->text);
-        }
-        
+        }        
         u8g2_DrawButtonFrame(u8g2, x, y, flags, w+a, 1, 1);
       }
       break;
@@ -467,8 +467,9 @@ uint8_t mui_radio_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
       break;
   }
   return 0;
-  
 }
+#endif
+
 
 /*
 
@@ -1253,21 +1254,58 @@ uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  //if ( value == NULL )
-  //  value = &(ui->selected_value);
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten
+  
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      return mui_radio_mark_invers_select_u8g2(ui, msg);
+      //return mui_radio_mark_invers_select_u8g2(ui, msg);
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
+        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        if ( *value == arg + ui->form_scroll_top )
+          u8g2_DrawValueMark(u8g2, x, y, a);
+
+        if ( ui->text[0] == '\0' )
+        {
+          /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
+          /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+        }
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, x+a, y, ui->text);
+        }        
+        u8g2_DrawButtonFrame(u8g2, x, y, flags, w+a, 1, 1);
+      }
+      break;
     case MUIF_MSG_FORM_START:
+      /* we can assume that the list starts at the top. It will be adjisted by cursor down events later */
+      ui->form_scroll_top = 0;
+      if ( ui->form_scroll_visible <= arg )
+        ui->form_scroll_visible = arg+1;
+      if ( ui->form_scroll_total == 0 )
+          ui->form_scroll_total = mui_GetSelectableFieldOptionCnt(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
       break;
     case MUIF_MSG_FORM_END:
       break;
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      *value = ui->arg;
+      *value = ui->form_scroll_top + arg;
       mui_RestoreForm(ui);
       break;
     case MUIF_MSG_CURSOR_LEAVE:
@@ -1275,6 +1313,35 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_TOUCH_DOWN:
       break;
     case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      //printf("MUIF_MSG_EVENT_NEXT: arg=%d form_scroll_visible=%d\n", arg, ui->form_scroll_visible);
+      if ( arg+1 == ui->form_scroll_visible )
+      {
+        if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
+        {
+          ui->form_scroll_top++;
+          return 1;
+        }
+        else
+        {
+          ui->form_scroll_top = 0;
+        }
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( arg == 0 )
+      {
+        if ( ui->form_scroll_top > 0 )
+        {
+          ui->form_scroll_top--;
+          return 1;
+        }
+        else
+        {
+          ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
+        }
+      }
       break;
   }
   return 0;
