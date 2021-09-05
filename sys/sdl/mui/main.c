@@ -108,41 +108,41 @@ muif_t muif_list[] = {
   MUIF("HR",0,0,mui_hrule),
 
   /* Goto Form Button where the width is equal to the size of the text, spaces can be used to extend the size */
-  MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_frame_button_invers_select_u8g2),
+  MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_wm_fi),
   
   /* input for a number between 0 to 9 */
-  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_input_uint8_invers_select_u8g2),
+  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
 
   /* input for text with four chars  */
-  MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+0,mui_input_char_invers_select_u8g2),
-  MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+1,mui_input_char_invers_select_u8g2),
-  MUIF("T2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+2,mui_input_char_invers_select_u8g2),
-  MUIF("T3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+3,mui_input_char_invers_select_u8g2),
+  MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+0,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+1,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+2,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+3,mui_u8g2_u8_char_wm_mud_pi),
   
   /* input for a fruit (0..3), implements a selection, where the user can cycle through the options  */
-  MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_single_line_option_invers_select_u8g2),
+  MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pi),
   
   /* radio style selection */
-  MUIF("CB",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&checkbox_input,mui_checkbox_invers_select_u8g2),
+  MUIF("CB",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&checkbox_input,mui_u8g2_u8_chkbox_wm_pi),
   
   /* the following two fields belong together and implement a single selection combo box to select a color */
-  MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_select_options_parent_invers_select_u8g2),
-  MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_select_options_child_invers_select_u8g2),
+  MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_parent_wa_mse_pi),
+  MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_wm_mse_pi),
     
   /* radio button style */
-  MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_radio_invers_select_u8g2),
+  MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_u8g2_u8_radio_wm_pi),
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */
-  MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u8g2),    
+  MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_w1_fi),    
   
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
-  MUIF(".L",0,0,mui_label_u8g2),
+  MUIF(".L",0,0,mui_u8g2_draw_text),
 
   /* button for the minimal example */
-  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_leave_menu_frame_button_invers_select_u8g2),
+  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_u8g2_btn_exit_wm_fi),
 
   /* Leave the menu system */
-  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_leave_menu_frame_button_invers_select_u8g2)
+  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_u8g2_btn_exit_wm_fi)
 
 };
 

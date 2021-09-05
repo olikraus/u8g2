@@ -300,7 +300,7 @@
 MUIU8G2 mui;
 
 muif_t muif_list[] MUI_PROGMEM = {  
-  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_leave_menu_frame_button_invers_select_u8g2),
+  MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_u8g2_btn_exit_wm_fi),
 };
 
 fds_t fds_data[] MUI_PROGMEM = 

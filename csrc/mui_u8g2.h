@@ -62,24 +62,24 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 
 /* ready to use field functions */
 
-uint8_t mui_label_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_goto_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_goto_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_goto_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_jmp_wm_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_jmp_w2_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_jmp_w1_fi(mui_t *ui, uint8_t msg);
 
-uint8_t mui_leave_menu_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);
 
-uint8_t mui_input_uint8_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_single_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_value_0_9_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg);
 
-uint8_t mui_select_options_parent_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_select_options_child_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_opt_parent_wa_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);
 
-uint8_t mui_checkbox_invers_select_u8g2(mui_t *ui, uint8_t msg);
-uint8_t mui_radio_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_chkbox_wm_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg);
 
 
-uint8_t mui_input_char_invers_select_u8g2(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);
 
 #ifdef __cplusplus
 }

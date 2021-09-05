@@ -22,17 +22,17 @@ uint8_t muif_tsingle_line_option_invers_select_u8g2(mui_t *ui, uint8_t msg);
 muif_t muif_list[] = {
 MUIF("B0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_half_width_frame_button_invers_select_u8g2),
 MUIF("B1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_half_width_frame_button_invers_select_u8g2),
-MUIF("I1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,mui_input_uint8_invers_select_u8g2),
-MUIF("I2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,mui_single_line_option_invers_select_u8g2),
-MUIF("I3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,mui_checkbox_invers_select_u8g2),
-MUIF("I4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_select_options_parent_invers_select_u8g2),
+MUIF("I1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value,mui_u8g2_u8_value_0_9_wm_mse_pi),
+MUIF("I2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value2,mui_u8g2_u8_opt_line_wa_mse_pi),
+MUIF("I3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_value3,mui_u8g2_u8_chkbox_wm_pi),
+MUIF("I4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_u8g2_u8_opt_parent_wa_mse_pi),
 
-MUIF("O4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_select_options_child_invers_select_u8g2),
+MUIF("O4",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&my_color,mui_u8g2_u8_opt_child_wm_mse_pi),
   
-MUIF("TS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,mui_single_line_option_invers_select_u8g2),
-MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_half_width_frame_button_invers_select_u8g2),    /* MUI_GOTO has the id FG */
-MUIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_goto_line_button_invers_select_u8g2),    /* MUI_goto has the id Fg */
-MUIF(".L",0,0,mui_label_u8g2)
+MUIF("TS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&touchscreen_selection,mui_u8g2_u8_opt_line_wa_mse_pi),
+MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_w2_fi),    /* MUI_GOTO has the id FG */
+MUIF(".g",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_w1_fi),    /* MUI_goto has the id Fg */
+MUIF(".L",0,0,mui_u8g2_draw_text)
 };
 
 fds_t *fds = 

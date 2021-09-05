@@ -344,13 +344,13 @@ muif_t muif_list[]  MUI_PROGMEM = {
   MUIF("S0",0,0,mui_style_helv_r_08),
   
   /* Leave the menu system */
-  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_leave_menu_frame_button_invers_select_u8g2),
+  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_u8g2_btn_exit_wm_fi),
   
   /* input for a number between 0 to 9 */
-  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_input_uint8_invers_select_u8g2),
+  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
   
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
-  MUIF(".L",0,0,mui_label_u8g2)
+  MUIF(".L",0,0,mui_u8g2_draw_text)
 };
 
 /*
