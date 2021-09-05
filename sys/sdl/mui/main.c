@@ -67,6 +67,7 @@ mui_t ui;
 */
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t fruit_input = 2;
+uint8_t fruit_input2 = 2;
 uint8_t my_value3 = 0;
 uint8_t color_input = 0;
 uint8_t checkbox_input = 0;
@@ -121,6 +122,7 @@ muif_t muif_list[] = {
   
   /* input for a fruit (0..3), implements a selection, where the user can cycle through the options  */
   MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pi),
+  MUIF("IG",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input2,mui_u8g2_u8_opt_line_wa_mud_pi),
   
   /* radio style selection */
   MUIF("CB",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&checkbox_input,mui_u8g2_u8_chkbox_wm_pi),
@@ -173,7 +175,7 @@ MUI_LABEL(5,10, "Main Menu 1/2")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,10, "Enter a number")
-MUI_GOTO(5,36,11, "Selection/Combo Box")
+MUI_GOTO(5,36,11, "Parent/Child Selection")
 MUI_GOTO(5,47,13, "Checkbox")
 MUI_GOTO(5,58,1, "More...")
 
@@ -184,6 +186,7 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,14, "Radio Selection")
 MUI_GOTO(5,36,15, "Text Input")
+MUI_GOTO(5,47,16, "Single Line Selection")
 MUI_GOTO(5,58,0, "Back...")
 
 /* number entry demo */
@@ -198,18 +201,18 @@ MUI_XY("IN",50, 30)
 
 MUI_XYAT("G1",64, 59, 0, " OK ")
 
-/* selection / combo box */
+/* parent / child selection */
 MUI_FORM(11)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Selection/Combo Box")
+MUI_LABEL(5,10, "Parent/Child Selection")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
-MUI_LABEL(5,29, "Fruit:")
-MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
+//MUI_LABEL(5,29, "Fruit:")
+//MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
 
-MUI_LABEL(5,43, "Color:")
-MUI_XYAT("IC",50, 43, 12, "red|green|blue")     /* jump to sub form 12 */
+MUI_LABEL(5,29, "Color:")
+MUI_XYAT("IC",50, 29, 12, "red|green|blue")     /* jump to sub form 12 */
 
 MUI_XYAT("G1",64, 59, 0, " OK ")
 
@@ -266,6 +269,27 @@ MUI_XY("T3",64, 30)
 MUI_STYLE(0)
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
+
+
+
+/* single line selection */
+MUI_FORM(16)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Single Line Selection")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,29, "Fruit [mse]:")
+MUI_XYAT("IF",60, 29, 60, "Banana|Apple|Melon|Cranberry")
+
+MUI_LABEL(5,43, "Fruit [mud]:")
+MUI_XYAT("IG",60, 43, 60, "Banana|Apple|Melon|Cranberry")
+
+MUI_XYAT("G1",64, 59, 1, " OK ")
+
+
+
+
 
 /* minimal example */
 MUI_FORM(200)

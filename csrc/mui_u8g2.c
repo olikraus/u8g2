@@ -1025,6 +1025,75 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
    
+uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
+{
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  u8g2_uint_t flags = 0;
+  //u8g2_uint_t flags = 0;
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_fds_get_nth_token(ui, *value) == 0 )
+      {
+        *value = 0;
+        mui_fds_get_nth_token(ui, *value);
+      }      
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+        if ( ui->curr_focus_field_tmp )
+        {
+          flags |= U8G2_BTN_XFRAME;
+        }      
+      }
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, ui->arg, 1, 1, ui->text);
+      
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      /* 0: normal mode, 1: capture next/prev mode */
+      ui->curr_focus_field_tmp = 0;
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      /* toggle between normal mode and capture next/prev mode */
+      if ( ui->curr_focus_field_tmp )
+        ui->curr_focus_field_tmp = 0;
+      else
+        ui->curr_focus_field_tmp = 1;
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( ui->curr_focus_field_tmp )
+      {
+        (*value)++;
+        if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
+          *value = 0;      
+        return 1;
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( ui->curr_focus_field_tmp )
+      {
+        if ( *value == 0 )
+          *value = mui_fds_get_token_cnt(ui);
+        (*value)--;
+        return 1;
+      }
+      break;
+  }
+  return 0;
+}
 
 
 uint8_t mui_u8g2_u8_opt_parent_wa_mse_pi(mui_t *ui, uint8_t msg)
