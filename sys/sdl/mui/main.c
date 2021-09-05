@@ -248,12 +248,12 @@ MUI_XYAT("RS",10, 40,1,"South")
 MUI_XYAT("RS",65, 28,2,"East")
 MUI_XYAT("RS",65, 40,3,"West")
 
-MUI_XYAT("G1",64, 59, 0, " OK ")
+MUI_XYAT("G1",64, 59, 1, " OK ")
 
-/* number entry demo */
+/* text demo */
 MUI_FORM(15)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Number 0..9 Menu")
+MUI_LABEL(5,10, "Enter Text Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
@@ -265,7 +265,7 @@ MUI_XY("T2",56, 30)
 MUI_XY("T3",64, 30)
 MUI_STYLE(0)
 
-MUI_XYAT("G1",64, 59, 0, " OK ")
+MUI_XYAT("G1",64, 59, 1, " OK ")
 
 /* minimal example */
 MUI_FORM(200)

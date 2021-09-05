@@ -6,7 +6,7 @@
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2021, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -34,6 +34,63 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 */
+
+/*
+
+  field function naming convention
+
+    action
+      draw_text:                        (rename from draw label)
+      draw_str:                      
+      btn_jmp   button jump to:                      a button which jumps to a specific form
+      btn_exit          button leave:                     a button which leaves the form and places an exit code into a uint8 variable
+      u8_value_0_9      
+      u8_chkbox
+      u8_radio
+      u8_opt_line       edit value options in the same line
+      u8_opt_parent       edit value options parent
+      u8_opt_child       edit value options child
+    
+    
+    field width (not for draw text/str)
+      wm                minimum width
+      wa                width can be provided via FDS argument
+      w1                full display width
+      w2                half display size (minus some pixel)
+      w3                one/third of the dispay width (minus some pixel)
+
+    edit mode  (not for draw text/str, buttons and checkbox)                  
+      mse       select: select event will increment the value or activate the field (buttons)
+      mud      up/down:  select will enter the up/down edit mode. Next/prev event will increment/decrement the value
+      
+    styles (not for draw text/str)
+      unselected                selected                        up/down edit
+      plain                          invers                             invers + gap + frame            pi
+      frame                         invers+frame        ?                                                       fi
+      
+      plain                          frame                              invers + frame                         pf
+      
+    mui_u8g2_[action]_[field_width]_[edit_mode]_[style]
+
+  mui _label_u8g2 --> mui_u8g2_draw_text
+  mui _goto_frame_button_invers_select_u8g2                              --> mui_u8g2_btn_jmp_wm_fi
+  mui _goto_half_width_frame_button_invers_select_u8g2           --> mui_u8g2_btn_jmp_w2_fi
+  mui _goto_line_button_invers_select_u8g2 -->  mui_u8g2_btn_jmp_w1_fi
+  mui _leave_menu_frame_button_invers_select_u8g2 --> mui_u8g2_btn_exit_wm_fi
+  
+  mui _input_uint8_invers_select_u8g2 --> mui_u8g2_u8_value_0_9_wm_mse_pi
+  mui _single_line_option_invers_select_u8g2     --> mui_u8g2_u8_opt_line_wa_mse_pi
+  mui _select_options_parent_invers_select_u8g2  --> mui_u8g2_u8_opt_parent_wa_mse_pi
+  mui _select_options_child_invers_select_u8g2  --> mui_u8g2_u8_opt_child_wm_mse_pi
+
+  mui _checkbox_invers_select_u8g2 --> mui_u8g2_u8_chkbox_wm_pi
+  mui _radio_invers_select_u8g2 --> mui_u8g2_u8_radio_wm_pi
+
+  mui _input_char_invers_select_u8g2 --> mui_u8g2_u8_char_wm_mse_pi
+
+*/
+
+
 
 #include "mui.h"
 #include "u8g2.h"
@@ -562,8 +619,6 @@ uint8_t mui_checkbox_mark_invers_select_u8g2(mui_t *ui, uint8_t msg)
 
 
 
-
-
 /*=========================================================================*/
 /* ready to use field functions */
 
@@ -825,6 +880,8 @@ uint8_t mui_is_valid_char(uint8_t c)
     return 1;
   return 0;
 }
+
+
 
 uint8_t mui_input_char_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
