@@ -144,7 +144,7 @@
 //U8G2_LD7032_60X32_ALT_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 9, /* dc=*/ 10, /* reset=*/ 8);	// SW SPI Nano Board
 //U8G2_LD7032_60X32_ALT_1_4W_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
 //U8G2_UC1701_EA_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_PCD8544_84X48_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Nokia 5110 Display
 //U8G2_PCD8544_84X48_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);						// Nokia 5110 Display
 //U8G2_PCF8812_96X65_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Could be also PCF8814
@@ -304,14 +304,18 @@ MUIU8G2 mui;
   global variables which form the communication gateway between the user interface and the rest of the code
 */
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
+uint8_t number_input2 = 100;       // variable where the user can input a number between 0 and 9
 uint8_t fruit_input = 2;
+uint8_t fruit_input2 = 2;
 uint8_t my_value3 = 0;
 uint8_t color_input = 0;
 uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
+uint8_t text_input[4] = { 'a','b','c','d'} ;
+uint8_t exit_code = 0;
 
 
-extern "C" uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
+uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
 {
   
   u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -325,7 +329,7 @@ extern "C" uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-extern "C" uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
+uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   switch(msg)
@@ -337,7 +341,20 @@ extern "C" uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-extern "C" uint8_t mui_hrule(mui_t *ui, uint8_t msg)
+uint8_t mui_style_monospaced(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      u8g2_SetFont(u8g2, u8g2_font_profont12_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_6x10_tr);
+      break;
+  }
+  return 0;
+}
+
+uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   switch(msg)
@@ -375,6 +392,11 @@ muif_t muif_list[]  MUI_PROGMEM = {
   /* bold text style */
   MUIF("S1",0,0,mui_style_helv_b_08),
 
+  /* monospaced font */
+  MUIF("S2",0,0,mui_style_monospaced),
+
+  
+  
   /* horizontal line (hrule) */
   MUIF("HR",0,0,mui_hrule),
 
@@ -383,9 +405,21 @@ muif_t muif_list[]  MUI_PROGMEM = {
   
   /* input for a number between 0 to 9 */
   MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
+
+  /* input for a number between 0 to 100 */
+  MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
+  
+  
+
+  /* input for text with four chars  */
+  MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+0,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+1,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+2,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+3,mui_u8g2_u8_char_wm_mud_pi),
   
   /* input for a fruit (0..3), implements a selection, where the user can cycle through the options  */
   MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pi),
+  MUIF("IG",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input2,mui_u8g2_u8_opt_line_wa_mud_pi),
   
   /* radio style selection */
   MUIF("CB",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&checkbox_input,mui_u8g2_u8_chkbox_wm_pi),
@@ -401,7 +435,8 @@ muif_t muif_list[]  MUI_PROGMEM = {
   MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_w1_fi),    
   
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
-  MUIF(".L",0,0,mui_u8g2_draw_text)
+  MUIF(".L",0,0,mui_u8g2_draw_text),
+
 };
 
 /*
@@ -426,42 +461,56 @@ muif_t muif_list[]  MUI_PROGMEM = {
 fds_t fds_data[] MUI_PROGMEM = 
 
 /* top level main menu */
-MUI_FORM(1)
+MUI_FORM(0)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu")
+MUI_LABEL(5,10, "Main Menu 1/2")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,10, "Enter a number")
-MUI_GOTO(5,36,11, "Selection/Combo Box")
+MUI_GOTO(5,36,11, "Parent/Child Selection")
 MUI_GOTO(5,47,13, "Checkbox")
-MUI_GOTO(5,58,14, "Radio Selection")
+MUI_GOTO(5,58,1, "More...")
+
+MUI_FORM(1)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Main Menu 2/2")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_GOTO(5,25,14, "Radio Selection")
+MUI_GOTO(5,36,15, "Text Input")
+MUI_GOTO(5,47,16, "Single Line Selection")
+MUI_GOTO(5,58,0, "Back...")
 
 /* number entry demo */
 MUI_FORM(10)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Number 0..9 Menu")
+MUI_LABEL(5,10, "Number Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
-MUI_LABEL(5,30, "Number:")
-MUI_XY("IN",50, 30)
+MUI_LABEL(5,27, "Number [mse]:")
+MUI_XY("IN",76, 27)
+MUI_LABEL(5,41, "Number [mud]:")
+MUI_XY("IH",76, 41)
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
-/* selection / combo box */
+/* parent / child selection */
 MUI_FORM(11)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Selection/Combo Box")
+MUI_LABEL(5,10, "Parent/Child Selection")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
-MUI_LABEL(5,29, "Fruit:")
-MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
+//MUI_LABEL(5,29, "Fruit:")
+//MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
 
-MUI_LABEL(5,43, "Color:")
-MUI_XYAT("IC",50, 43, 12, "red|green|blue")     /* jump to sub form 12 */
+MUI_LABEL(5,29, "Color:")
+//MUI_XYAT("IC",50, 29, 12, "red|green|blue")     /* jump to sub form 12 */
+MUI_XYAT("IC",50, 29, 12, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")     /* jump to sub form 12 */
+/* red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose */
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* combo box color selection */
 MUI_FORM(12)
@@ -471,7 +520,8 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_XYA("OC", 5, 30, 0) /* takeover the selection text from calling field ("red") */
 MUI_XYA("OC", 5, 42, 1) /* takeover the selection text from calling field ("green") */
-MUI_XYAT("OC", 5, 54, 2, "blue")  /* just as a demo: provide a different text for this option */
+MUI_XYA("OC", 5, 54, 2)  /* just as a demo: provide a different text for this option */
+
 
 /* Checkbox demo */
 MUI_FORM(13)
@@ -483,7 +533,7 @@ MUI_STYLE(0)
 MUI_LABEL(5,30, "Checkbox:")
 MUI_XY("CB",60, 30)
 
-MUI_XYAT("G1",64, 59, 1, " OK ")
+MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* Radio selection demo */
 MUI_FORM(14)
@@ -499,6 +549,41 @@ MUI_XYAT("RS",65, 28,2,"East")
 MUI_XYAT("RS",65, 40,3,"West")
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
+
+/* text demo */
+MUI_FORM(15)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Enter Text Menu")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,30, "Text:")
+MUI_STYLE(2)
+MUI_XY("T0",40, 30)
+MUI_XY("T1",48, 30)
+MUI_XY("T2",56, 30)
+MUI_XY("T3",64, 30)
+MUI_STYLE(0)
+
+MUI_XYAT("G1",64, 59, 1, " OK ")
+
+
+
+/* single line selection */
+MUI_FORM(16)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Single Line Selection")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,29, "Fruit [mse]:")
+MUI_XYAT("IF",60, 29, 60, "Banana|Apple|Melon|Cranberry")
+
+MUI_LABEL(5,43, "Fruit [mud]:")
+MUI_XYAT("IG",60, 43, 60, "Banana|Apple|Melon|Cranberry")
+
+MUI_XYAT("G1",64, 59, 1, " OK ")
+
 
 ;
 
@@ -523,9 +608,7 @@ void setup(void) {
   
   
   mui.begin(u8g2, fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  mui.gotoForm(/* form_id= */ 1, /* initial_cursor_position= */ 0);
-  //mui_Init(&ui, u8g2.getU8g2(), fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
-  //mui_GotoForm(&ui, /* form_id= */ 1, /* initial_cursor_position= */ 0);
+  mui.gotoForm(/* form_id= */ 0, /* initial_cursor_position= */ 0);
 }
 
 uint8_t is_redraw = 1;

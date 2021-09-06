@@ -52,6 +52,9 @@ u8g2_uint_t mui_get_x(mui_t *ui);
 u8g2_uint_t mui_get_y(mui_t *ui);
 u8g2_t *mui_get_U8g2(mui_t *ui);
 
+u8g2_uint_t mui_u8g2_get_draw_button_pi_flags(mui_t *ui) MUI_NOINLINE;
+void mui_u8g2_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text) MUI_NOINLINE;
+
 
 /* incomplete field functions */
 
@@ -70,6 +73,7 @@ uint8_t mui_u8g2_btn_jmp_w1_fi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);
 
 uint8_t mui_u8g2_u8_value_0_9_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_value_0_100_wm_mud_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg);
 

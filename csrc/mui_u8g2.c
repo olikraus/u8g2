@@ -166,6 +166,25 @@ u8g2_t *mui_get_U8g2(mui_t *ui)
   return (u8g2_t *)(ui->graphics_data);
 }
 
+u8g2_uint_t mui_u8g2_get_draw_button_pi_flags(mui_t *ui)
+{
+  u8g2_uint_t flags = 0;
+  if ( mui_IsCursorFocus(ui) )
+  {
+    flags |= U8G2_BTN_INV;
+    if ( ui->is_mud )
+    {
+      flags |= U8G2_BTN_XFRAME;
+    }      
+  }
+  return flags;
+}
+
+//void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text);
+void mui_u8g2_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text)
+{
+      u8g2_DrawButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), flags, width, padding_h, padding_v, text);
+}
 
 
 
@@ -197,7 +216,8 @@ uint8_t mui_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
       {
         flags |= 1;
       }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
+      mui_u8g2_draw_button_utf(ui, flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
       break;
     case MUIF_MSG_FORM_START:
       break;
@@ -244,7 +264,7 @@ uint8_t mui_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
 
 uint8_t mui_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
   u8g2_uint_t flags = U8G2_BTN_HCENTER | 1;
   switch(msg)
   {
@@ -253,7 +273,8 @@ uint8_t mui_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, 0, 1, 1, ui->text);
+      mui_u8g2_draw_button_utf(ui, flags, 0, 1, 1, ui->text);
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, 0, 1, 1, ui->text);
       break;
     case MUIF_MSG_FORM_START:
       break;
@@ -309,7 +330,8 @@ uint8_t mui_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
+      mui_u8g2_draw_button_utf(ui, flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
+      // u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, 1, ui->text);
       break;
     case MUIF_MSG_FORM_START:
       break;
@@ -355,7 +377,6 @@ uint8_t mui_half_width_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
-  //u8g2_uint_t flags = U8G2_BTN_HCENTER ;
   u8g2_uint_t flags = 0;
   switch(msg)
   {
@@ -364,6 +385,7 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }
+      //mui_u8g2_draw_button_utf(ui, flags, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui) , 0, ui->text);
       u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui) , 0, ui->text);
       break;
     case MUIF_MSG_FORM_START:
@@ -847,7 +869,8 @@ uint8_t mui_u8g2_u8_value_0_9_wm_mse_pi(mui_t *ui, uint8_t msg)
       {
         flags |= U8G2_BTN_INV;
       }      
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
+      mui_u8g2_draw_button_utf(ui, flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetStrWidth(u8g2, "9"), 1, 1, buf);
       break;
     case MUIF_MSG_FORM_START:
       break;
@@ -869,6 +892,67 @@ uint8_t mui_u8g2_u8_value_0_9_wm_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+#define MUI_U8G2_VALUE_MAX 100
+uint8_t mui_u8g2_u8_value_0_100_wm_mud_pi(mui_t *ui, uint8_t msg)
+{
+  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
+  //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( *value > MUI_U8G2_VALUE_MAX ) 
+        *value = MUI_U8G2_VALUE_MAX;
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetStrWidth(u8g2, "999")+1, 1, 1, u8x8_u8toa(*value, 3));
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetStrWidth(u8g2, "999")+1, 1, 1, u8x8_u8toa(*value, 3));
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      /* toggle between normal mode and capture next/prev mode */
+      ui->is_mud = !ui->is_mud;
+      /*
+      if ( ui->is_mud )
+        ui->is_mud = 0;
+      else
+        ui->is_mud = 1;
+      */
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( ui->is_mud )
+      {
+        (*value)++;
+        if ( *value > MUI_U8G2_VALUE_MAX )
+          *value = 0;
+        return 1;
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( ui->is_mud )
+      {
+        if ( *value == 0 )
+          *value = MUI_U8G2_VALUE_MAX;
+        else
+          (*value)--;
+        return 1;
+      }
+      break;
+  }
+  return 0;
+}
+
+static uint8_t mui_is_valid_char(uint8_t c) MUI_NOINLINE;
 uint8_t mui_is_valid_char(uint8_t c)
 {
   if ( c == 32 )
@@ -889,7 +973,6 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg)
   //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
   //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
   u8g2_t *u8g2 = mui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   char buf[6];
   switch(msg)
@@ -899,32 +982,25 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg)
           (*value)++;
       buf[0] = *value;
       buf[1] = '\0';
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-        if ( ui->curr_focus_field_tmp )
-        {
-          flags |= U8G2_BTN_XFRAME;
-        }      
-      }      
-      
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetMaxCharWidth(u8g2), 1, 1, buf);
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetMaxCharWidth(u8g2), 1, 1, buf);
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetMaxCharWidth(u8g2), 1, 1, buf);
       break;
     case MUIF_MSG_FORM_START:
       break;
     case MUIF_MSG_FORM_END:
       break;
     case MUIF_MSG_CURSOR_ENTER:
-      /* 0: normal mode, 1: capture next/prev mode */
-      ui->curr_focus_field_tmp = 0;
       break;
     case MUIF_MSG_CURSOR_SELECT:
       /* toggle between normal mode and capture next/prev mode */
-      if ( ui->curr_focus_field_tmp )
-        ui->curr_focus_field_tmp = 0;
+       ui->is_mud = !ui->is_mud;
+      /*
+      if ( ui->is_mud )
+        ui->is_mud = 0;
       else
-        ui->curr_focus_field_tmp = 1;
-      break;
+        ui->is_mud = 1;
+      */
+     break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -932,7 +1008,7 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_TOUCH_UP:
       break;
     case MUIF_MSG_EVENT_NEXT:
-      if ( ui->curr_focus_field_tmp )
+      if ( ui->is_mud )
       {
         do {
           (*value)++;
@@ -941,7 +1017,7 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg)
       }
       break;
     case MUIF_MSG_EVENT_PREV:
-      if ( ui->curr_focus_field_tmp )
+      if ( ui->is_mud )
       {
         do {
           (*value)--;
@@ -984,11 +1060,7 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg)
 */
 uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
-  //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
-  //u8g2_uint_t flags = 0;
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   switch(msg)
   {
@@ -998,11 +1070,8 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
         *value = 0;
         mui_fds_get_nth_token(ui, *value);
       }      
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-      }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, ui->arg, 1, 1, ui->text);
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, 1, ui->text);
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, 1, ui->text);
       
       break;
     case MUIF_MSG_FORM_START:
@@ -1028,11 +1097,7 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
    
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
-  //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
-  //u8g2_uint_t flags = 0;
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   switch(msg)
   {
@@ -1041,16 +1106,9 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
       {
         *value = 0;
         mui_fds_get_nth_token(ui, *value);
-      }      
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-        if ( ui->curr_focus_field_tmp )
-        {
-          flags |= U8G2_BTN_XFRAME;
-        }      
       }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, ui->arg, 1, 1, ui->text);
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, 1, ui->text);
+      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, 1, ui->text);
       
       break;
     case MUIF_MSG_FORM_START:
@@ -1058,16 +1116,17 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_FORM_END:
       break;
     case MUIF_MSG_CURSOR_ENTER:
-      /* 0: normal mode, 1: capture next/prev mode */
-      ui->curr_focus_field_tmp = 0;
       break;
     case MUIF_MSG_CURSOR_SELECT:
       /* toggle between normal mode and capture next/prev mode */
-      if ( ui->curr_focus_field_tmp )
-        ui->curr_focus_field_tmp = 0;
+       ui->is_mud = !ui->is_mud;
+      /*
+      if ( ui->is_mud )
+        ui->is_mud = 0;
       else
-        ui->curr_focus_field_tmp = 1;
-      break;
+        ui->is_mud = 1;
+      */
+     break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -1075,7 +1134,7 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_TOUCH_UP:
       break;
     case MUIF_MSG_EVENT_NEXT:
-      if ( ui->curr_focus_field_tmp )
+      if ( ui->is_mud )
       {
         (*value)++;
         if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
@@ -1084,7 +1143,7 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
       }
       break;
     case MUIF_MSG_EVENT_PREV:
-      if ( ui->curr_focus_field_tmp )
+      if ( ui->is_mud )
       {
         if ( *value == 0 )
           *value = mui_fds_get_token_cnt(ui);
@@ -1099,11 +1158,7 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
 
 uint8_t mui_u8g2_u8_opt_parent_wa_mse_pi(mui_t *ui, uint8_t msg)
 {
-  //ui->dflags                          MUIF_DFLAG_IS_CURSOR_FOCUS       MUIF_DFLAG_IS_TOUCH_FOCUS
-  //mui_get_cflags(ui->uif)       MUIF_CFLAG_IS_CURSOR_SELECTABLE
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
-  //u8g2_uint_t flags = 0;
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   switch(msg)
   {
@@ -1113,11 +1168,8 @@ uint8_t mui_u8g2_u8_opt_parent_wa_mse_pi(mui_t *ui, uint8_t msg)
         *value = 0;
         mui_fds_get_nth_token(ui, *value);
       }      
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-      }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, 0, 1, 1, ui->text);
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), 0, 1, 1, ui->text);
+      // u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), 0, 1, 1, ui->text);
       
       break;
     case MUIF_MSG_FORM_START:

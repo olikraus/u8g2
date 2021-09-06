@@ -66,6 +66,7 @@ mui_t ui;
   global variables which form the communication gateway between the user interface and the rest of the code
 */
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
+uint8_t number_input2 = 100;       // variable where the user can input a number between 0 and 9
 uint8_t fruit_input = 2;
 uint8_t fruit_input2 = 2;
 uint8_t my_value3 = 0;
@@ -114,11 +115,16 @@ muif_t muif_list[] = {
   /* input for a number between 0 to 9 */
   MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
 
+  /* input for a number between 0 to 100 */
+  MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
+  
+  
+
   /* input for text with four chars  */
-  MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+0,mui_u8g2_u8_char_wm_mud_pi),
-  MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+1,mui_u8g2_u8_char_wm_mud_pi),
-  MUIF("T2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+2,mui_u8g2_u8_char_wm_mud_pi),
-  MUIF("T3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&text_input+3,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+0,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+1,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T2",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+2,mui_u8g2_u8_char_wm_mud_pi),
+  MUIF("T3",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+3,mui_u8g2_u8_char_wm_mud_pi),
   
   /* input for a fruit (0..3), implements a selection, where the user can cycle through the options  */
   MUIF("IF",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pi),
@@ -192,12 +198,14 @@ MUI_GOTO(5,58,0, "Back...")
 /* number entry demo */
 MUI_FORM(10)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Number 0..9 Menu")
+MUI_LABEL(5,10, "Number Menu")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
-MUI_LABEL(5,30, "Number:")
-MUI_XY("IN",50, 30)
+MUI_LABEL(5,27, "Number [mse]:")
+MUI_XY("IN",76, 27)
+MUI_LABEL(5,41, "Number [mud]:")
+MUI_XY("IH",76, 41)
 
 MUI_XYAT("G1",64, 59, 0, " OK ")
 

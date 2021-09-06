@@ -129,6 +129,7 @@ clean:
 upload: $(HEXNAME)
 	stty -F $(AVRDUDE_PORT) hupcl
 	$(AVRDUDE) $(AVRDUDE_FLAGS)
+	$(SIZE) $(ELFNAME)
 
 # implicit rules
 .ino.cpp:
