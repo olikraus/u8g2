@@ -114,6 +114,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/PowerSaveTest/*.ino ../../../../U8g2_Ar
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD 
 cp ../../../sys/arduino/u8g2_page_buffer/LoadFromSD/*.ino ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD/.
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon 
+cp ../../../sys/arduino/u8g2_page_buffer/ButtonEmoticon/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon/.
+
 
 # games
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
