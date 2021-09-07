@@ -258,7 +258,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * U8g2 16 Bit Mode enabled by default for ARM and ESP Systems (issue 1222)
 2021-09-03	v2.29.11	olikraus@gmail.com
   * Update for getStrWidth/getUTF8Width: The new return value might be little bit larger (issue 1561)
-  * New draw procedure drawButtonUTF8: (issue 1577)
+  * New draw procedure drawButtonUTF8 (issue 1577)
   * Added vertical mirror option U8G2_MIRROR_VERTICAL for u8g2 (mattnutsch@gmail.com, issue 1474).
   * Added support for UC1638 based 196x96 display (issue 371)
   * Added support for HD44102 and T7932 displays (issue 1492)
@@ -267,4 +267,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for SSD1306 EA OLEDS102 (issue 1493)
   * Added support for UC1601 128x64 (issue 1501)
   * Font Wiki page splitted into four sub-pages to avoid the GitHub 'abuse' message.
-2021-xx-xx	v2.30.xx	olikraus@gmail.com
+2021-09-07	v2.30.1	olikraus@gmail.com
+  * Bugfix drawButtonUTF8 (added C++ code, issue 1577)
