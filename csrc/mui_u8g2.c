@@ -259,7 +259,7 @@ uint8_t mui_frame_button_bold_select_u8g2(mui_t *ui, uint8_t msg)
     xy: Center position of the text (required)
     arg: not used
     text: Button label
-    
+
 */
 
 uint8_t mui_frame_button_invers_select_u8g2(mui_t *ui, uint8_t msg)
@@ -1304,45 +1304,16 @@ uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
 }
 #endif
 
-uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
+
+uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  u8g2_uint_t flags = 0;
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten
   
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      //return mui_radio_mark_invers_select_u8g2(ui, msg);
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-      }
-      {
-        u8g2_uint_t w = 0;
-        u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
-        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
-        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
-        if ( *value == arg + ui->form_scroll_top )
-          u8g2_DrawValueMark(u8g2, x, y, a);
-
-        if ( ui->text[0] == '\0' )
-        {
-          /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
-          /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
-          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
-        }
-        
-        if ( ui->text[0] != '\0' )
-        {
-          w =  u8g2_GetUTF8Width(u8g2, ui->text);
-          u8g2_SetFontMode(u8g2, 1);
-          a += 2;       /* add gap between the checkbox and the text area */
-          u8g2_DrawUTF8(u8g2, x+a, y, ui->text);
-        }        
-        u8g2_DrawButtonFrame(u8g2, x, y, flags, w+a, 1, 1);
-      }
+      /* done by the calling function */
       break;
     case MUIF_MSG_FORM_START:
       /* we can assume that the list starts at the top. It will be adjisted by cursor down events later */
@@ -1398,3 +1369,102 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
   }
   return 0;
 }
+
+
+uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
+        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        uint8_t is_focus = mui_IsCursorFocus(ui);
+        if ( *value == arg + ui->form_scroll_top )
+          u8g2_DrawValueMark(u8g2, x, y, a);
+
+        if ( ui->text[0] == '\0' )
+        {
+          /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
+          /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+        }
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, x+a, y, ui->text);
+        }        
+        if ( is_focus )
+        {
+          u8g2_DrawButtonFrame(u8g2, x, y, U8G2_BTN_INV, w+a, 1, 1);
+        }
+      }
+      break;
+    default:
+      return mui_u8g2_u8_opt_child_mse_common(ui, msg);
+  }
+  return 0;
+}
+
+
+uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
+        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        uint8_t is_focus = mui_IsCursorFocus(ui);
+        
+        if ( *value == arg + ui->form_scroll_top )
+          u8g2_DrawValueMark(u8g2, x, y, a);
+
+        if ( ui->text[0] == '\0' )
+        {
+          /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
+          /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+        }
+        
+        if ( ui->text[0] != '\0' )
+        {
+          w =  u8g2_GetUTF8Width(u8g2, ui->text);
+          u8g2_SetFontMode(u8g2, 1);
+          a += 2;       /* add gap between the checkbox and the text area */
+          u8g2_DrawUTF8(u8g2, x+a, y, ui->text);
+        }        
+        if ( is_focus )
+        {
+          u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, 1);
+        }
+      }
+      break;
+    default:
+      return mui_u8g2_u8_opt_child_mse_common(ui, msg);
+  }
+  return 0;
+}
+
+/*
+      if ( mui_IsCursorFocus(ui) )
+      {
+        flags |= U8G2_BTN_INV;
+      }
+      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui) , 0, ui->text);
+*/
