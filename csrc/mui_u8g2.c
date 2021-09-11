@@ -943,6 +943,7 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg)
 
 /*===============================================================================*/
 
+#ifdef OBSOLETE
 static void mui_u8g2_u8_value_draw_min_max_wm_pi(mui_t *ui, uint8_t min, uint8_t max) MUI_NOINLINE;
 static void mui_u8g2_u8_value_draw_min_max_wm_pi(mui_t *ui, uint8_t min, uint8_t max)
 {
@@ -1095,6 +1096,7 @@ uint8_t mui_u8g2_u8_value_0_100_wm_mud_pi(mui_t *ui, uint8_t msg)
   return mui_u8g2_u8_value_min_max_wm_mud_pi(ui, msg, 0, 100);
 }
 
+#endif /* OBSOLETE */
 
 static uint8_t mui_is_valid_char(uint8_t c) MUI_NOINLINE;
 uint8_t mui_is_valid_char(uint8_t c)
