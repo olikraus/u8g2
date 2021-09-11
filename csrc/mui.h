@@ -104,8 +104,7 @@ extern "C" {
 typedef struct mui_struct mui_t;
 typedef const struct muif_struct muif_t;
 typedef uint8_t (*muif_cb)(mui_t *ui, uint8_t msg);
-typedef const char fds_t;      // form/field definition string
-//typedef const char fds_t MUI_PROGMEM;      // will work but instead MUI_PROGMEM should be added explicitly
+typedef const char fds_t MUI_PROGMEM;
 
 
 
@@ -119,7 +118,7 @@ struct muif_struct
   uint8_t extra;
   void *data;                           // might be a pointer to a variable
   muif_cb cb;                        // callback
-};
+} MUI_PROGMEM;
 
 #define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb} 
 
@@ -212,7 +211,7 @@ struct mui_struct
   /* last form and field */
   uint8_t last_form_id;
   uint8_t last_form_cursor_focus_position;
-};
+} ;
 
 #define mui_IsCursorFocus(mui) ((mui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
 #define mui_IsTouchFocus(mui) ((mui)->dflags & MUIF_CFLAG_IS_TOUCH_SELECTABLE)

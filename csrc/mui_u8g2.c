@@ -828,33 +828,41 @@ uint8_t mui_u8g2_btn_jmp_w1_pi(mui_t *ui, uint8_t msg)
 
 /*===============================================================================*/
 
+
 static void mui_u8g2_u8_vmm_draw_wm_pi(mui_t *ui) MUI_NOINLINE;
 static void mui_u8g2_u8_vmm_draw_wm_pi(mui_t *ui)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_u8_min_max_t *vmm= (mui_u8g2_u8_min_max_t *)muif_get_data(ui->uif);
-  uint8_t cnt = 3;
   char *s = "999";
-  if ( *(vmm->value) > vmm->max ) 
-    *(vmm->value) = vmm->max;
-  if ( *(vmm->value) <= vmm->min )
-    *(vmm->value) = vmm->min;
-  if ( vmm->max < 100 )
+  uint8_t *value = mui_u8g2_u8mm_get_valptr(vmm);
+  uint8_t min = mui_u8g2_u8mm_get_min(vmm);
+  uint8_t max = mui_u8g2_u8mm_get_max(vmm);
+  uint8_t cnt = 3;
+  
+  if ( *value > max ) 
+    *value = max;
+  if ( *value <= min )
+    *value = min;
+  if ( max < 100 )
   {
     s++;
     cnt--;
   }
-  if ( vmm->max < 10 )
+  if ( max < 10 )
   {
     s++;
     cnt--;
   }
-  mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetStrWidth(u8g2, s)+1, 1, MUI_U8G2_V_PADDING, u8x8_u8toa(*(vmm->value), cnt));
+  mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetStrWidth(u8g2, s)+1, 1, MUI_U8G2_V_PADDING, u8x8_u8toa(*value, cnt));
 }
 
 uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
   mui_u8g2_u8_min_max_t *vmm= (mui_u8g2_u8_min_max_t *)muif_get_data(ui->uif);
+  uint8_t *value = mui_u8g2_u8mm_get_valptr(vmm);
+  uint8_t min = mui_u8g2_u8mm_get_min(vmm);
+  uint8_t max = mui_u8g2_u8mm_get_max(vmm);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -867,9 +875,8 @@ uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      //printf("vmm->min %d, vmm->max %d\n", vmm->min, vmm->max);
-      (*(vmm->value))++;
-      if ( *(vmm->value) > vmm->max ) *(vmm->value) = vmm->min;
+      (*value)++;
+      if ( *value > max ) *value = min;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;

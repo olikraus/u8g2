@@ -95,7 +95,7 @@ uint8_t exit_code = 0;
   
 */
 #define COMMA ,
-muif_t muif_list[] = {
+muif_t muif_list[] MUI_PROGMEM = {
   /* normal text style */
   MUIF("S0",0,0,mui_style_helv_r_08),
   
@@ -115,7 +115,7 @@ muif_t muif_list[] = {
   
   /* input for a number between 0 to 9 */
   //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
-  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE, &(mui_u8g2_u8_min_max_t ) { &number_input COMMA 1 COMMA 8},mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE, ((mui_u8g2_u8_min_max_t [] ) {{ &number_input COMMA 1 COMMA 8}}), mui_u8g2_u8_min_max_wm_mse_pi),
 
   /* input for a number between 0 to 100 */
   MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
@@ -171,6 +171,7 @@ muif_t muif_list[] = {
     MUI_GOTO(x,y,text) is the same as MUI_XYAT(".G", x, y, n, text)
     
 */
+
 
 fds_t fds[] = 
 

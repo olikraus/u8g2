@@ -384,8 +384,8 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
   
 */
 
-
-muif_t muif_list[]  MUI_PROGMEM = {
+#define COMMA ,
+muif_t muif_list[] = {
   /* normal text style */
   MUIF("S0",0,0,mui_style_helv_r_08),
   
@@ -395,8 +395,6 @@ muif_t muif_list[]  MUI_PROGMEM = {
   /* monospaced font */
   MUIF("S2",0,0,mui_style_monospaced),
 
-  
-  
   /* horizontal line (hrule) */
   MUIF("HR",0,0,mui_hrule),
 
@@ -404,13 +402,13 @@ muif_t muif_list[]  MUI_PROGMEM = {
   MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_wm_fi),
   
   /* input for a number between 0 to 9 */
-  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
+  //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
+  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE, (void *)((mui_u8g2_u8_min_max_t   []  ) {{ &number_input COMMA 1 COMMA 8 }  }  ) , mui_u8g2_u8_min_max_wm_mse_pi),
+
 
   /* input for a number between 0 to 100 */
   MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
   
-  
-
   /* input for text with four chars  */
   MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+0,mui_u8g2_u8_char_wm_mud_pi),
   MUIF("T1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+1,mui_u8g2_u8_char_wm_mud_pi),
@@ -426,16 +424,17 @@ muif_t muif_list[]  MUI_PROGMEM = {
   
   /* the following two fields belong together and implement a single selection combo box to select a color */
   MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_parent_wa_mse_pi),
-  MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_wm_mse_pi),
+  MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
     
   /* radio button style */
   MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_u8g2_u8_radio_wm_pi),
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */
-  MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_w1_fi),    
+  MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_w1_pi),
   
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
   MUIF(".L",0,0,mui_u8g2_draw_text),
+
 
 };
 
@@ -460,6 +459,7 @@ muif_t muif_list[]  MUI_PROGMEM = {
 
 fds_t fds_data[] MUI_PROGMEM = 
 
+
 /* top level main menu */
 MUI_FORM(0)
 MUI_STYLE(1)
@@ -467,9 +467,9 @@ MUI_LABEL(5,10, "Main Menu 1/2")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,10, "Enter a number")
-MUI_GOTO(5,36,11, "Parent/Child Selection")
-MUI_GOTO(5,47,13, "Checkbox")
-MUI_GOTO(5,58,1, "More...")
+MUI_GOTO(5,37,11, "Parent/Child Selection")
+MUI_GOTO(5,49,13, "Checkbox")
+MUI_GOTO(5,61,1, "More...")
 
 MUI_FORM(1)
 MUI_STYLE(1)
@@ -477,9 +477,9 @@ MUI_LABEL(5,10, "Main Menu 2/2")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,14, "Radio Selection")
-MUI_GOTO(5,36,15, "Text Input")
-MUI_GOTO(5,47,16, "Single Line Selection")
-MUI_GOTO(5,58,0, "Back...")
+MUI_GOTO(5,37,15, "Text Input")
+MUI_GOTO(5,49,16, "Single Line Selection")
+MUI_GOTO(5,61,0, "Back...")
 
 /* number entry demo */
 MUI_FORM(10)
@@ -583,7 +583,6 @@ MUI_LABEL(5,43, "Fruit [mud]:")
 MUI_XYAT("IG",60, 43, 60, "Banana|Apple|Melon|Cranberry")
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
-
 
 ;
 

@@ -51,8 +51,20 @@ struct mui_u8g2_u8_min_max_struct
   uint8_t *value;
   uint8_t min;
   uint8_t max;
-};
-typedef struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
+} 
+MUI_PROGMEM ;
+
+typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
+
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_u8g2_u8mm_get_min(u8mm) mui_pgm_read(&((u8mm)->min))
+#  define mui_u8g2_u8mm_get_max(u8mm) mui_pgm_read(&((u8mm)->max))
+#  define mui_u8g2_u8mm_get_valptr(u8mm) ((uint8_t *)mui_pgm_wread(&((u8mm)->value)))
+#else
+#  define mui_u8g2_u8mm_get_min(u8mm) ((u8mm)->min)
+#  define mui_u8g2_u8mm_get_max(u8mm) ((u8mm)->max)
+#  define mui_u8g2_u8mm_get_valptr(u8mm) ((u8mm)->value)
+#endif
 
 
 /* helper functions */
