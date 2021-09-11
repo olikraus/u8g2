@@ -1033,35 +1033,6 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg)
   return 0;  
 }
 
-#ifdef OBSOLETE
-uint8_t mui_assign_arg_invers_select_u8g2(mui_t *ui, uint8_t msg)
-{
-  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  //if ( value == NULL )
-  //  value = &(ui->selected_value);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      return mui_radio_mark_invers_select_u8g2(ui, msg);
-    case MUIF_MSG_FORM_START:
-      break;
-    case MUIF_MSG_FORM_END:
-      break;
-    case MUIF_MSG_CURSOR_ENTER:
-      break;
-    case MUIF_MSG_CURSOR_SELECT:
-      *value = ui->arg;
-      break;
-    case MUIF_MSG_CURSOR_LEAVE:
-      break;
-    case MUIF_MSG_TOUCH_DOWN:
-      break;
-    case MUIF_MSG_TOUCH_UP:
-      break;
-  }
-  return 0;
-}
-#endif
 
 
 uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
@@ -1220,10 +1191,3 @@ uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-/*
-      if ( mui_IsCursorFocus(ui) )
-      {
-        flags |= U8G2_BTN_INV;
-      }
-      u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui) , 0, ui->text);
-*/
