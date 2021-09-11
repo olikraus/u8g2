@@ -121,6 +121,7 @@ struct muif_struct
 } MUI_PROGMEM;
 
 #define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb} 
+#define MUIF_STYLE(n,cb)  MUIF("S" #n, 0, 0, cb)  
 
 /* assumes that pointers are 16 bit so encapusalte the wread i another ifdef __AVR__ */
 #if defined(__GNUC__) && defined(__AVR__)

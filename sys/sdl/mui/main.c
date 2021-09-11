@@ -97,15 +97,13 @@ uint8_t exit_code = 0;
 #define COMMA ,
 muif_t muif_list[] MUI_PROGMEM = {
   /* normal text style */
-  MUIF("S0",0,0,mui_style_helv_r_08),
+  MUIF_STYLE(0, mui_style_helv_r_08),
   
   /* bold text style */
-  MUIF("S1",0,0,mui_style_helv_b_08),
+  MUIF_STYLE(1, mui_style_helv_b_08),
 
   /* monospaced font */
-  MUIF("S2",0,0,mui_style_monospaced),
-
-  
+  MUIF_STYLE(2, mui_style_monospaced),
   
   /* horizontal line (hrule) */
   MUIF("HR",0,0,mui_hrule),

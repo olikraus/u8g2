@@ -387,14 +387,15 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 //#define COMMA ,
 
 muif_t muif_list[] = {
+
   /* normal text style */
-  MUIF("S0",0,0,mui_style_helv_r_08),
+  MUIF_STYLE(0, mui_style_helv_r_08),
   
   /* bold text style */
-  MUIF("S1",0,0,mui_style_helv_b_08),
+  MUIF_STYLE(1, mui_style_helv_b_08),
 
   /* monospaced font */
-  MUIF("S2",0,0,mui_style_monospaced),
+  MUIF_STYLE(2, mui_style_monospaced),
 
   /* horizontal line (hrule) */
   MUIF("HR",0,0,mui_hrule),
@@ -403,13 +404,10 @@ muif_t muif_list[] = {
   MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_wm_fi),
   
   /* input for a number between 0 to 9 */
-  //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
-  //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE, (void *)((mui_u8g2_u8_min_max_t   []  ) {{ &number_input COMMA 1 COMMA 8 }  }  ) , mui_u8g2_u8_min_max_wm_mse_pi),
-  MUIF_U8G2_U8_MIN_MAX_WM_MSE_PI("IN", &number_input, 2, 7),
+  MUIF_U8G2_U8_MIN_MAX_WM_MSE_PI("IN", &number_input, 0, 9),
 
   /* input for a number between 0 to 100 */
-  //MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
-  MUIF_U8G2_U8_MIN_MAX_WM_MUD_PI("IH", &number_input2, 1, 101),
+  MUIF_U8G2_U8_MIN_MAX_WM_MUD_PI("IH", &number_input2, 0, 100),
   
   /* input for text with four chars  */
   MUIF("T0",MUIF_CFLAG_IS_CURSOR_SELECTABLE,text_input+0,mui_u8g2_u8_char_wm_mud_pi),
