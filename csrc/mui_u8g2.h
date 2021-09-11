@@ -66,6 +66,8 @@ typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
 #  define mui_u8g2_u8mm_get_valptr(u8mm) ((u8mm)->value)
 #endif
 
+#define MUI_U8G2_COMMA ,
+
 
 /* helper functions */
 
@@ -95,6 +97,20 @@ uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);
 
 
 uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);              // data: mui_u8g2_u8_min_max_t *
+/* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
+#define MUIF_U8G2_U8_MIN_MAX_WM_MSE_PI(id, valptr, min, max) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
+  mui_u8g2_u8_min_max_wm_mse_pi)
+
+uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  // data: mui_u8g2_u8_min_max_t *
+#define MUIF_U8G2_U8_MIN_MAX_WM_MUD_PI(id, valptr, min, max) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
+  mui_u8g2_u8_min_max_wm_mud_pi)
+
+
+
 
 uint8_t mui_u8g2_u8_value_0_9_wm_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_value_0_100_wm_mud_pi(mui_t *ui, uint8_t msg);

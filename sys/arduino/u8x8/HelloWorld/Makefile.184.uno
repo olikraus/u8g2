@@ -106,7 +106,8 @@ COMMON_FLAGS +=-ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objec
 COMMON_FLAGS +=$(INC_OPTS)
 CFLAGS:=$(COMMON_FLAGS) -std=gnu99 -Wstrict-prototypes  -Wall -Wextra
 CXXFLAGS:=$(COMMON_FLAGS) -std=gnu++11 -fpermissive -fno-exceptions
-LDFLAGS:=-g -Os  -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=$(MCU)
+LDFLAGS:=-g -Os  -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=$(MCU) -Wl,-Map=$(MAPNAME)
+ 
 LDLIBS:=-lm
 
 all: $(HEXNAME) $(DISNAME)
