@@ -363,7 +363,7 @@ static const uint8_t u8x8_d_lc7981_240x128_init_seq[] = {
   U8X8_CA(0x00, 0x32),			/* display on (bit 5), master mode on (bit 4), graphics mode on (bit 1) */
   U8X8_CA(0x01, 0x07),			/* character/bits per pixel pitch */
   U8X8_CA(0x02, 240/8-1),		/* number of chars/byte width of the screen */
-  U8X8_CA(0x03, 0x7f),			/* time division */
+  U8X8_CA(0x03, 128),			/* time division, issue https://github.com/olikraus/u8g2/issues/1581 */
   U8X8_CA(0x08, 0x00),			/* display start low */
   U8X8_CA(0x09, 0x00),			/* display start high */
 
