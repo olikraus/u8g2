@@ -184,6 +184,11 @@ struct mui_struct
   fds_t *touch_focus_fds;            // the field which has touch focus
 
   fds_t *token;             // current token position
+
+  uint16_t form_scroll_total;            // reserved for MUIF, not used by mui
+  uint16_t form_scroll_top;              // reserved for MUIF, not used by mui
+  uint8_t form_scroll_visible;          // reserved for MUIF, not used by mui
+  
   
   //uint8_t selected_value;   // This variable is not used by the user interface but can be used by any field function
   uint8_t tmp8;
@@ -192,10 +197,6 @@ struct mui_struct
   uint8_t is_mud;         // a temp variable for the MUIF function to store remember up down mode. This variable will be cleared before sending MUIF_MSG_CURSOR_ENTER
   /* current field/style variables */
   //uint8_t cursor_focus_position;        // the index of the field which has focus, can be used as last argument for mui_EnterForm
-  
-  uint8_t form_scroll_total;            // reserved for MUIF, not used by mui
-  uint8_t form_scroll_top;              // reserved for MUIF, not used by mui
-  uint8_t form_scroll_visible;          // reserved for MUIF, not used by mui
   
   uint8_t delimiter;    // outer delimiter of the text part of a field
   uint8_t cmd;          // current cmd or field (e.g. U or F)

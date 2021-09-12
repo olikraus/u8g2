@@ -128,26 +128,11 @@ uint8_t mui_u8g2_btn_jmp_w1_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);
 
 
-uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);              // data: mui_u8g2_u8_min_max_t *
-/* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
-#define MUIF_U8G2_U8_MIN_MAX_WM_MSE_PI(id, valptr, min, max) \
-  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
-  (void *)((mui_u8g2_u8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
-  mui_u8g2_u8_min_max_wm_mse_pi)
-
-uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  // data: mui_u8g2_u8_min_max_t *
-#define MUIF_U8G2_U8_MIN_MAX_WM_MUD_PI(id, valptr, min, max) \
-  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
-  (void *)((mui_u8g2_u8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
-  mui_u8g2_u8_min_max_wm_mud_pi)
-
-
-
 
 uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg);
 
-uint8_t mui_u8g2_u8_opt_parent_wa_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg);
 
@@ -157,12 +142,31 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg);
 
 uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);
 
-uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg);
-#define MUIF_U8G2_U16_LIST_LINE_WM_MUD_PI(id, valptr, topptr, dataptr, getcb, cntcb) \
+
+/*===== data = mui_u8g2_u8_min_max_t*  =====*/
+
+/* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
+#define MUIF_U8G2_U8_MIN_MAX(id, valptr, min, max, muif) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
+  (muif))
+
+uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);              // data: mui_u8g2_u8_min_max_t *
+uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  // data: mui_u8g2_u8_min_max_t *
+
+
+/*===== data = mui_u8g2_list_t*  =====*/
+#define MUIF_U8G2_U16_LIST(id, valptr, topptr, dataptr, getcb, cntcb, muif) \
   MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
   (void *)((mui_u8g2_list_t [] ) {{ (valptr) MUI_U8G2_COMMA (topptr) MUI_U8G2_COMMA (dataptr) MUI_U8G2_COMMA (getcb) MUI_U8G2_COMMA (cntcb)}}), \
-  mui_u8g2_u16_list_line_wa_mse_pi)
+  (muif))
+  
+uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg);
 
+
+uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg);
 
 
 #ifdef __cplusplus

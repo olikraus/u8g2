@@ -185,7 +185,9 @@ u8g2_uint_t mui_u8g2_get_draw_button_pi_flags(mui_t *ui)
 //void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text);
 void mui_u8g2_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text)
 {
-      u8g2_DrawButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), flags, width, padding_h, padding_v, text);
+  if ( text==NULL)
+    text = "";
+  u8g2_DrawButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), flags, width, padding_h, padding_v, text);
 }
 
 
@@ -831,12 +833,6 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
       /* toggle between normal mode and capture next/prev mode */
        ui->is_mud = !ui->is_mud;
-      /*
-      if ( ui->is_mud )
-        ui->is_mud = 0;
-      else
-        ui->is_mud = 1;
-      */
      break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -867,40 +863,6 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_parent_wa_mse_pi(mui_t *ui, uint8_t msg)
-{
-  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      if ( mui_fds_get_nth_token(ui, *value) == 0 )
-      {
-        *value = 0;
-        mui_fds_get_nth_token(ui, *value);
-      }      
-      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), 0, 1, MUI_U8G2_V_PADDING, ui->text);
-      // u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), 0, 1, MUI_U8G2_V_PADDING, ui->text);
-      
-      break;
-    case MUIF_MSG_FORM_START:
-      break;
-    case MUIF_MSG_FORM_END:
-      break;
-    case MUIF_MSG_CURSOR_ENTER:
-      break;
-    case MUIF_MSG_CURSOR_SELECT:
-      mui_SaveForm(ui);          // store the current form and position so that the child can jump back
-      mui_GotoForm(ui, ui->arg, *value);  // assumes that the selectable values are at the top of the form
-      break;
-    case MUIF_MSG_CURSOR_LEAVE:
-      break;
-    case MUIF_MSG_TOUCH_DOWN:
-      break;
-    case MUIF_MSG_TOUCH_UP:
-      break;
-  }
-  return 0;
-}
 
 
 /*
@@ -1034,6 +996,39 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg)
 }
 
 
+uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
+{
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_fds_get_nth_token(ui, *value) == 0 )
+      {
+        *value = 0;
+        mui_fds_get_nth_token(ui, *value);
+      }      
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), 0, 1, MUI_U8G2_V_PADDING, ui->text);
+      
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      mui_SaveForm(ui);          // store the current form and position so that the child can jump back
+      mui_GotoForm(ui, ui->arg, *value);  // assumes that the selectable values are at the beginning of the form definition
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+}
 
 uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
 {
@@ -1191,30 +1186,23 @@ uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-
+/*
+  data: mui_u8g2_list_t *
+*/
 uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg)
 {
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
   uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
-  uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
+  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
   void *data = mui_u8g2_list_get_data_ptr(list);
   mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
-  const char *s;
   
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      s = element_cb(data, *selection);
-      if ( s == NULL )
-      {
-        *selection = 0;
-        s = element_cb(data, *selection);
-        if ( s == NULL )
-          s = "";
-      }
-      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, s);      
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, element_cb(data, *selection));
       break;
     case MUIF_MSG_FORM_START:
       break;
@@ -1233,6 +1221,211 @@ uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_TOUCH_UP:
       break;
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg)
+{
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
+  mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
+  uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
+  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
+  void *data = mui_u8g2_list_get_data_ptr(list);
+  mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
+  mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, element_cb(data, *selection));
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      /* toggle between normal mode and capture next/prev mode */
+       ui->is_mud = !ui->is_mud;
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( ui->is_mud )
+      {
+        (*selection)++;
+        if ( *selection >= count_cb(data)  ) 
+          *selection = 0;      
+        return 1;
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( ui->is_mud )
+      {
+        if ( *selection == 0 )
+          *selection = count_cb(data);
+        (*selection)--;
+        return 1;
+      }
+      break;
+  }
+  return 0;
+}
+
+/*
+  MUIF: MUIF_U8G2_U16_LIST
+  FDS: MUI_XYA, arg=form id
+  data: mui_u8g2_list_t *
+*/
+uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
+{
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
+  mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
+  uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
+  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
+  void *data = mui_u8g2_list_get_data_ptr(list);
+  mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
+  //mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, element_cb(data, *selection));
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      mui_SaveForm(ui);          // store the current form and position so that the child can jump back
+      mui_GotoForm(ui, ui->arg, *selection);  // assumes that the selectable values are at the beginning of the form definition
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+}
+
+static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
+{
+  mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
+  uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
+  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
+  void *data = mui_u8g2_list_get_data_ptr(list);
+  //mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
+  mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
+
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten  
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      /* done by the calling function */
+      break;
+    case MUIF_MSG_FORM_START:
+      /* we can assume that the list starts at the top. It will be adjisted by cursor down events later */
+      ui->form_scroll_top = 0;
+      if ( ui->form_scroll_visible <= arg )
+        ui->form_scroll_visible = arg+1;
+      if ( ui->form_scroll_total == 0 )
+          ui->form_scroll_total = count_cb(data);
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      *selection = ui->form_scroll_top + arg;
+      mui_RestoreForm(ui);
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( arg+1 == ui->form_scroll_visible )
+      {
+        if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
+        {
+          ui->form_scroll_top++;
+          return 1;
+        }
+        else
+        {
+          ui->form_scroll_top = 0;
+        }
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( arg == 0 )
+      {
+        if ( ui->form_scroll_top > 0 )
+        {
+          ui->form_scroll_top--;
+          return 1;
+        }
+        else
+        {
+          ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
+        }
+      }
+      break;
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
+  uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
+  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
+  void *data = mui_u8g2_list_get_data_ptr(list);
+  mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
+  mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
+
+  uint16_t pos = ui->arg;        // remember the arg value, because it might be overwritten  
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      {
+        //u8g2_uint_t w = 0;
+        u8g2_uint_t a = u8g2_GetAscent(u8g2) - 2;
+        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        uint8_t is_focus = mui_IsCursorFocus(ui);
+
+        pos += ui->form_scroll_top;
+        
+        if ( *selection == pos )
+          u8g2_DrawValueMark(u8g2, x, y, a);
+
+        u8g2_SetFontMode(u8g2, 1);
+        a += 2;       /* add gap between the checkbox and the text area */
+        if ( pos < count_cb(data) )
+          u8g2_DrawUTF8(u8g2, x+a, y, element_cb(data, pos));
+        if ( is_focus )
+        {
+          u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, 1);
+        }
+      }
+      break;
+    default:
+      return mui_u8g2_u16_list_child_mse_common(ui, msg);
   }
   return 0;
 }
