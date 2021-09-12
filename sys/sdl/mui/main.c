@@ -80,6 +80,44 @@ uint16_t list_selection = 0;
 uint16_t list_selection2 = 0;
 uint16_t list_selection3 = 0;
 
+uint8_t array_pos = 0;
+uint8_t array_led_off_time[4] = { 10, 5, 3, 1};
+uint8_t led_off_time = 0;
+uint8_t array_led_on_time[4] = { 10, 5, 3, 1};
+uint8_t led_on_time = 0;
+
+
+uint8_t muif_array_pos_selection(mui_t *ui, uint8_t msg)
+{
+  uint8_t return_value = 0; 
+  switch(msg)
+  {
+    case MUIF_MSG_FORM_START:
+      led_off_time = array_led_off_time[array_pos];
+      led_on_time = array_led_on_time[array_pos];
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+      break;
+    case MUIF_MSG_FORM_END:
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_EVENT_NEXT:
+    case MUIF_MSG_EVENT_PREV:
+      array_led_off_time[array_pos] = led_off_time;
+      array_led_on_time[array_pos] = led_on_time;
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+      led_off_time = array_led_off_time[array_pos];
+      led_on_time = array_led_on_time[array_pos];
+      break;
+    default:
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+  }
+  return return_value;
+}
+
+
+
+
 uint16_t list_get_cnt(void *data)
 {
   return 17;    /* number of animals */
@@ -179,6 +217,13 @@ muif_t muif_list[] MUI_PROGMEM = {
   //MUIF(".L",0,0,mui_u8g2_draw_text),
   MUIF_LABEL(mui_u8g2_draw_text),
 
+  /* array example */
+  MUIF_U8G2_U8_MIN_MAX("AP", &array_pos, 0, 3, muif_array_pos_selection),
+  MUIF_U8G2_U8_MIN_MAX("AF", &led_off_time, 0, 20, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("AN", &led_on_time, 0, 20, mui_u8g2_u8_min_max_wm_mse_pi),
+
+
+
   /* button for the minimal example */
   MUIF("BN", MUIF_CFLAG_IS_CURSOR_SELECTABLE, 0, mui_u8g2_btn_exit_wm_fi),
 
@@ -236,6 +281,7 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,17, "List Line Selection")
 MUI_GOTO(5,37,18, "Parent/Child List")
+MUI_GOTO(5,49,20, "Array Edit")
 MUI_GOTO(5,61,0, "Back...")
 
 /* number entry demo */
@@ -369,6 +415,20 @@ MUI_XYA("LC", 5, 30, 0) /* takeover the selection text from calling field ("red"
 MUI_XYA("LC", 5, 42, 1) /* takeover the selection text from calling field ("green") */
 MUI_XYA("LC", 5, 54, 2)  /* */
 /* no ok required, clicking on the selection, will jump back */
+
+MUI_FORM(20)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Array Edit")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,24, "Position:")
+MUI_XY("AP",76, 24)
+MUI_LABEL(5,35, "LED off:")
+MUI_XY("AF",76, 35)
+MUI_LABEL(5,46, "LED on:")
+MUI_XY("AN",76, 46)
+MUI_XYAT("G1",64, 59, 2, " OK ")
 
 
 /* minimal example */
