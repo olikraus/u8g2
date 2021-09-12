@@ -1191,3 +1191,48 @@ uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+
+uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
+  uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
+  uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
+  void *data = mui_u8g2_list_get_data_ptr(list);
+  mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
+  mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
+  const char *s;
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      s = element_cb(data, *selection);
+      if ( s == NULL )
+      {
+        *selection = 0;
+        s = element_cb(data, *selection);
+        if ( s == NULL )
+          s = "";
+      }
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, s);      
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      (*selection)++;
+      if ( *selection >= count_cb(data) ) 
+        *selection = 0;
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+}

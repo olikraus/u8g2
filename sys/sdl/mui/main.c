@@ -59,6 +59,7 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+
 u8g2_t u8g2;
 mui_t ui;
 
@@ -75,7 +76,18 @@ uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
 uint8_t text_input[4] = { ' ',' ',' ',' '} ;
 uint8_t exit_code = 0;
+uint16_t list_selection = 0;
 
+uint16_t list_get_cnt(void *data)
+{
+  return 17;    /* number of animals */
+}
+
+const char *list_get_str(void *data, uint16_t index)
+{
+  static const char *animals[] = { "Bird", "Bison", "Cat", "Crow", "Dog", "Elephant", "Fish", "Gnu", "Horse", "Koala", "Lion", "Mouse", "Owl", "Rabbit", "Spider", "Turtle", "Zebra" };
+  return animals[index];
+}
 
 /* 
 
@@ -150,6 +162,9 @@ muif_t muif_list[] MUI_PROGMEM = {
   /* radio button style */
   //MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_u8g2_u8_radio_wm_pi),
   MUIF_VARIABLE("RS",&direction_input,mui_u8g2_u8_radio_wm_pi),
+  
+  MUIF_U8G2_U16_LIST_LINE_WM_MUD_PI("L1", &list_selection, NULL, NULL, list_get_str, list_get_cnt),
+  
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */  
   MUIF_GOTO(mui_u8g2_btn_jmp_w1_pi),
@@ -190,7 +205,7 @@ fds_t fds[] =
 /* top level main menu */
 MUI_FORM(0)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu 1/2")
+MUI_LABEL(5,10, "Main Menu 1/3")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,10, "Enter a number")
@@ -200,12 +215,20 @@ MUI_GOTO(5,61,1, "More...")
 
 MUI_FORM(1)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu 2/2")
+MUI_LABEL(5,10, "Main Menu 2/3")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,14, "Radio Selection")
 MUI_GOTO(5,37,15, "Text Input")
 MUI_GOTO(5,49,16, "Single Line Selection")
+MUI_GOTO(5,61,2, "More...")
+
+MUI_FORM(2)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Main Menu 2/3")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_GOTO(5,25,17, "List Line Selection")
 MUI_GOTO(5,61,0, "Back...")
 
 /* number entry demo */
@@ -294,8 +317,6 @@ MUI_STYLE(0)
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
 
-
-
 /* single line selection */
 MUI_FORM(16)
 MUI_STYLE(1)
@@ -311,8 +332,17 @@ MUI_XYAT("IG",60, 43, 60, "Banana|Apple|Melon|Cranberry")
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
 
+/* long list example with list callback functions */
+MUI_FORM(17)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "List Line Selection")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
 
+MUI_LABEL(5,29, "List [mse]:")
+MUI_XYA("L1",60, 29, 60)
 
+MUI_XYAT("G1",64, 59, 2, " OK ")
 
 
 /* minimal example */
