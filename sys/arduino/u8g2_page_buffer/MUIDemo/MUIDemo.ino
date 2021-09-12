@@ -311,8 +311,60 @@ uint8_t my_value3 = 0;
 uint8_t color_input = 0;
 uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
-uint8_t text_input[4] = { 'a','b','c','d'} ;
+uint8_t text_input[4] = { ' ',' ',' ',' '} ;
 uint8_t exit_code = 0;
+uint16_t list_selection = 0;
+uint16_t list_selection2 = 0;
+uint16_t list_selection3 = 0;
+
+uint8_t array_pos = 0;
+uint8_t array_led_off_time[4] = { 10, 5, 3, 1};
+uint8_t led_off_time = 0;
+uint8_t array_led_on_time[4] = { 10, 5, 3, 1};
+uint8_t led_on_time = 0;
+
+
+uint8_t muif_array_pos_selection(mui_t *ui, uint8_t msg)
+{
+  uint8_t return_value = 0; 
+  switch(msg)
+  {
+    case MUIF_MSG_FORM_START:
+      led_off_time = array_led_off_time[array_pos];
+      led_on_time = array_led_on_time[array_pos];
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+      break;
+    case MUIF_MSG_FORM_END:
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_EVENT_NEXT:
+    case MUIF_MSG_EVENT_PREV:
+      array_led_off_time[array_pos] = led_off_time;
+      array_led_on_time[array_pos] = led_on_time;
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+      led_off_time = array_led_off_time[array_pos];
+      led_on_time = array_led_on_time[array_pos];
+      break;
+    default:
+      return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);
+  }
+  return return_value;
+}
+
+
+
+
+uint16_t list_get_cnt(void *data)
+{
+  return 17;    /* number of animals */
+}
+
+const char *list_get_str(void *data, uint16_t index)
+{
+  static const char *animals[] = { "Bird", "Bison", "Cat", "Crow", "Dog", "Elephant", "Fish", "Gnu", "Horse", "Koala", "Lion", "Mouse", "Owl", "Rabbit", "Spider", "Turtle", "Zebra" };
+  return animals[index];
+}
 
 
 uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
@@ -384,7 +436,6 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
   
 */
 
-//#define COMMA ,
 
 muif_t muif_list[] = {
   /* normal text style */
@@ -406,11 +457,11 @@ muif_t muif_list[] = {
   /* input for a number between 0 to 9 */
   //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
   //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE, (void *)((mui_u8g2_u8_min_max_t   []  ) {{ &number_input COMMA 1 COMMA 8 }  }  ) , mui_u8g2_u8_min_max_wm_mse_pi),
-  MUIF_U8G2_U8_MIN_MAX_WM_MSE_PI("IN", &number_input, 2, 7),
+  MUIF_U8G2_U8_MIN_MAX("IN", &number_input, 0, 9, mui_u8g2_u8_min_max_wm_mse_pi),
 
   /* input for a number between 0 to 100 */
   //MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
-  MUIF_U8G2_U8_MIN_MAX_WM_MUD_PI("IH", &number_input2, 1, 101),
+  MUIF_U8G2_U8_MIN_MAX("IH", &number_input2, 0, 100, mui_u8g2_u8_min_max_wm_mud_pi),
   
   /* input for text with four chars  */
   /*
@@ -434,13 +485,20 @@ muif_t muif_list[] = {
   
   /* the following two fields belong together and implement a single selection combo box to select a color */
   //MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_parent_wa_mse_pi),
-  MUIF_VARIABLE("IC",&color_input,mui_u8g2_u8_opt_parent_wa_mse_pi),
+  MUIF_VARIABLE("IC",&color_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
   //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
   MUIF_VARIABLE("OC",&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
     
   /* radio button style */
   //MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_u8g2_u8_radio_wm_pi),
   MUIF_VARIABLE("RS",&direction_input,mui_u8g2_u8_radio_wm_pi),
+  
+  MUIF_U8G2_U16_LIST("L1", &list_selection, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_line_wa_mse_pi),
+  MUIF_U8G2_U16_LIST("L2", &list_selection2, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_line_wa_mud_pi),
+  
+  MUIF_U8G2_U16_LIST("LP", &list_selection3, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_parent_wm_mse_pi),
+  MUIF_U8G2_U16_LIST("LC", &list_selection3, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_child_w1_mse_pi),
+
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */  
   MUIF_GOTO(mui_u8g2_btn_jmp_w1_pi),
@@ -448,6 +506,11 @@ muif_t muif_list[] = {
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
   //MUIF(".L",0,0,mui_u8g2_draw_text),
   MUIF_LABEL(mui_u8g2_draw_text),
+
+  /* array example */
+  MUIF_U8G2_U8_MIN_MAX("AP", &array_pos, 0, 3, muif_array_pos_selection),
+  MUIF_U8G2_U8_MIN_MAX("AF", &led_off_time, 0, 20, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("AN", &led_on_time, 0, 20, mui_u8g2_u8_min_max_wm_mse_pi),
 
 
 };
@@ -471,13 +534,12 @@ muif_t muif_list[] = {
 */
 
 
-fds_t fds_data[] MUI_PROGMEM = 
-
+fds_t fds_data[] = 
 
 /* top level main menu */
 MUI_FORM(0)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu 1/2")
+MUI_LABEL(5,10, "Main Menu 1/3")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,10, "Enter a number")
@@ -487,12 +549,22 @@ MUI_GOTO(5,61,1, "More...")
 
 MUI_FORM(1)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu 2/2")
+MUI_LABEL(5,10, "Main Menu 2/3")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,14, "Radio Selection")
 MUI_GOTO(5,37,15, "Text Input")
 MUI_GOTO(5,49,16, "Single Line Selection")
+MUI_GOTO(5,61,2, "More...")
+
+MUI_FORM(2)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Main Menu 2/3")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_GOTO(5,25,17, "List Line Selection")
+MUI_GOTO(5,37,18, "Parent/Child List")
+MUI_GOTO(5,49,20, "Array Edit")
 MUI_GOTO(5,61,0, "Back...")
 
 /* number entry demo */
@@ -516,14 +588,8 @@ MUI_LABEL(5,10, "Parent/Child Selection")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
-//MUI_LABEL(5,29, "Fruit:")
-//MUI_XYAT("IF",50, 29, 60, "Banana|Apple|Melon|Cranberry")
-
 MUI_LABEL(5,29, "Color:")
-//MUI_XYAT("IC",50, 29, 12, "red|green|blue")     /* jump to sub form 12 */
 MUI_XYAT("IC",50, 29, 12, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")     /* jump to sub form 12 */
-/* red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose */
-
 MUI_XYAT("G1",64, 59, 0, " OK ")
 
 /* combo box color selection */
@@ -534,8 +600,8 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_XYA("OC", 5, 30, 0) /* takeover the selection text from calling field ("red") */
 MUI_XYA("OC", 5, 42, 1) /* takeover the selection text from calling field ("green") */
-MUI_XYA("OC", 5, 54, 2)  /* just as a demo: provide a different text for this option */
-
+MUI_XYA("OC", 5, 54, 2)  /* */
+/* no ok required, clicking on the selection, will jump back */
 
 /* Checkbox demo */
 MUI_FORM(13)
@@ -581,8 +647,6 @@ MUI_STYLE(0)
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
 
-
-
 /* single line selection */
 MUI_FORM(16)
 MUI_STYLE(1)
@@ -597,6 +661,58 @@ MUI_LABEL(5,43, "Fruit [mud]:")
 MUI_XYAT("IG",60, 43, 60, "Banana|Apple|Melon|Cranberry")
 
 MUI_XYAT("G1",64, 59, 1, " OK ")
+
+/* long list example with list callback functions */
+MUI_FORM(17)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "List Line Selection")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,29, "List [mse]:")
+MUI_XYA("L1",60, 29, 60)
+MUI_LABEL(5,43, "List [mud]:")
+MUI_XYA("L2",60, 43, 60)
+
+
+MUI_XYAT("G1",64, 59, 2, " OK ")
+
+/* parent / child selection */
+MUI_FORM(18)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Parent/Child List")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,29, "Animal:")
+MUI_XYA("LP",50, 29, 19)     /* jump to sub form 19 */
+MUI_XYAT("G1",64, 59, 2, " OK ")
+
+/* combo box color selection */
+MUI_FORM(19)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Animal Selection")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_XYA("LC", 5, 30, 0) /* takeover the selection text from calling field ("red") */
+MUI_XYA("LC", 5, 42, 1) /* takeover the selection text from calling field ("green") */
+MUI_XYA("LC", 5, 54, 2)  /* */
+/* no ok required, clicking on the selection, will jump back */
+
+MUI_FORM(20)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Array Edit")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+
+MUI_LABEL(5,24, "Position:")
+MUI_XY("AP",76, 24)
+MUI_LABEL(5,35, "LED off:")
+MUI_XY("AF",76, 35)
+MUI_LABEL(5,46, "LED on:")
+MUI_XY("AN",76, 46)
+MUI_XYAT("G1",64, 59, 2, " OK ")
+
 
 ;
 

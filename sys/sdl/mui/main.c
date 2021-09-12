@@ -146,7 +146,6 @@ const char *list_get_str(void *data, uint16_t index)
       The callback function will receive messages and have to react accordingly to the message. Some predefined callback functions are avilable in mui_u8g2.c    
   
 */
-#define COMMA ,
 muif_t muif_list[] MUI_PROGMEM = {
   /* normal text style */
   MUIF_STYLE(0, mui_style_helv_r_08),
@@ -203,11 +202,11 @@ muif_t muif_list[] MUI_PROGMEM = {
   //MUIF("RS",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&direction_input,mui_u8g2_u8_radio_wm_pi),
   MUIF_VARIABLE("RS",&direction_input,mui_u8g2_u8_radio_wm_pi),
   
-  MUIF_U8G2_U16_LIST("L1", &list_selection, NULL, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_line_wa_mse_pi),
-  MUIF_U8G2_U16_LIST("L2", &list_selection2, NULL, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_line_wa_mud_pi),
+  MUIF_U8G2_U16_LIST("L1", &list_selection, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_line_wa_mse_pi),
+  MUIF_U8G2_U16_LIST("L2", &list_selection2, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_line_wa_mud_pi),
   
-  MUIF_U8G2_U16_LIST("LP", &list_selection3, NULL, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_parent_wm_mse_pi),
-  MUIF_U8G2_U16_LIST("LC", &list_selection3, NULL, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_child_w1_mse_pi),
+  MUIF_U8G2_U16_LIST("LP", &list_selection3, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_parent_wm_mse_pi),
+  MUIF_U8G2_U16_LIST("LC", &list_selection3, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_child_w1_mse_pi),
 
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */  

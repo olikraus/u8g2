@@ -56,7 +56,6 @@ typedef uint16_t (*mui_u8g2_get_list_count_cb)(void *data);
 struct mui_u8g2_list_struct
 {
   uint16_t *selection;
-  uint16_t *top_element;
   void *data;
   mui_u8g2_get_list_element_cb get_list_element;
   mui_u8g2_get_list_count_cb get_list_count;  
@@ -66,13 +65,11 @@ typedef const struct mui_u8g2_list_struct mui_u8g2_list_t;
 
 #if defined(__GNUC__) && defined(__AVR__)
 #  define mui_u8g2_list_get_selection_ptr(list)         ((uint16_t *)mui_pgm_wread(&((list)->selection)))
-#  define mui_u8g2_list_get_top_element_ptr(list)   ((uint16_t *)mui_pgm_wread(&((list)->top_element)))
 #  define mui_u8g2_list_get_data_ptr(list)                ((void *)mui_pgm_wread(&((list)->data)))
 #  define mui_u8g2_list_get_element_cb(list)          ((mui_u8g2_get_list_element_cb)mui_pgm_wread(&((list)->get_list_element)))
 #  define mui_u8g2_list_get_count_cb(list)              ((mui_u8g2_get_list_count_cb)mui_pgm_wread(&((list)->get_list_count)))
 #else
 #  define mui_u8g2_list_get_selection_ptr(list)                 ((list)->selection)
-#  define mui_u8g2_list_get_top_element_ptr(list)            ((list)->top_element)
 #  define mui_u8g2_list_get_data_ptr(list)                         ((list)->data)
 #  define mui_u8g2_list_get_element_cb(list)                   ((list)->get_list_element)
 #  define mui_u8g2_list_get_count_cb(list)                      ((list)->get_list_count)
@@ -156,9 +153,9 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  // data: mui_u8g
 
 
 /*===== data = mui_u8g2_list_t*  =====*/
-#define MUIF_U8G2_U16_LIST(id, valptr, topptr, dataptr, getcb, cntcb, muif) \
+#define MUIF_U8G2_U16_LIST(id, valptr, dataptr, getcb, cntcb, muif) \
   MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
-  (void *)((mui_u8g2_list_t [] ) {{ (valptr) MUI_U8G2_COMMA (topptr) MUI_U8G2_COMMA (dataptr) MUI_U8G2_COMMA (getcb) MUI_U8G2_COMMA (cntcb)}}), \
+  (void *)((mui_u8g2_list_t [] ) {{ (valptr) MUI_U8G2_COMMA (dataptr) MUI_U8G2_COMMA (getcb) MUI_U8G2_COMMA (cntcb)}}), \
   (muif))
   
 uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg);

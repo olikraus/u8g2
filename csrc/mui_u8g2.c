@@ -1194,7 +1194,6 @@ uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg)
   //u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
   uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
-  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
   void *data = mui_u8g2_list_get_data_ptr(list);
   mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
@@ -1230,7 +1229,6 @@ uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg)
   //u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
   uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
-  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
   void *data = mui_u8g2_list_get_data_ptr(list);
   mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
@@ -1288,7 +1286,6 @@ uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
   //u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
   uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
-  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
   void *data = mui_u8g2_list_get_data_ptr(list);
   mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   //mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
@@ -1321,7 +1318,6 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
 {
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
   uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
-  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
   void *data = mui_u8g2_list_get_data_ptr(list);
   //mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
@@ -1392,7 +1388,6 @@ uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
   uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
-  //uint16_t *top_element = mui_u8g2_list_get_top_element_ptr(list);
   void *data = mui_u8g2_list_get_data_ptr(list);
   mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);

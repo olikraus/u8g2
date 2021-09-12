@@ -401,3 +401,7 @@ aurebesh_small: bdfconv
 issue_1521: bdfconv
 	./bdfconv -v -f 1 -m '$$0000-$$3B97' ../bdf/unifont.bdf -o unifont_custom.c -n unifont_custom  -d ../bdf/helvB18.bdf 
 	convert bdf.tga unifont_custom.png
+
+out: bdfconv
+	./bdfconv -v -f 1 -m '$$0000-$$3B97' out.bdf -o out.c -n out  -d ../bdf/helvR14.bdf 
+	convert bdf.tga out.png
