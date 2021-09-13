@@ -1,0 +1,414 @@
+STARTFONT 2.1
+FONT "streamline_interface_essential_circle_triangle"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "streamlinehq.com"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR streamline-interface-essential-alert-caution--interface-essential.png
+ENCODING 48
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+006000
+009000
+010800
+010800
+020400
+026400
+046200
+046200
+086100
+086100
+106080
+100080
+206040
+20f040
+40f020
+406020
+800010
+800010
+7fffe0
+000000
+ENDCHAR
+STARTCHAR streamline-interface-essential-alert-circle-1--interface-essential.png
+ENCODING 49
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+03fe00
+0fff80
+1f07c0
+3e13e0
+3e0be0
+7e0bf0
+7e0bf0
+fe03f8
+ff07f8
+ff07f8
+ff8ff8
+fffff8
+7f8ff0
+7f07f0
+3f07e0
+3f07e0
+1f8fc0
+0fff80
+03fe00
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-alert-circle-2--interface-essential.png
+ENCODING 50
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+107040
+20f820
+20f820
+40f810
+40f810
+80f808
+80f808
+807008
+807008
+800008
+407010
+40f810
+20f820
+20f820
+107040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-alert-triangle-1--interface-essential.png
+ENCODING 51
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+002000
+005000
+008800
+008800
+010400
+010400
+027200
+02da00
+04e900
+04e900
+08f880
+087080
+107040
+100040
+207020
+20f820
+40f810
+40f810
+807008
+800008
+7ffff0
+ENDCHAR
+STARTCHAR streamline-interface-essential-alert-triangle-2--interface-essential.png
+ENCODING 52
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+002000
+007000
+00f800
+00f800
+01fc00
+01fc00
+038e00
+032600
+071700
+071700
+0f0780
+0f8f80
+1f8fc0
+1fffc0
+3f8fe0
+3f07e0
+7f07f0
+7f07f0
+ff8ff8
+fffff8
+7ffff0
+ENDCHAR
+STARTCHAR streamline-interface-essential-blutooth--interface-essential.png
+ENCODING 53
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+103040
+203820
+242c20
+462610
+432310
+81a608
+80ec08
+807808
+80ec08
+81a608
+432310
+462610
+242c20
+203820
+103040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-clock--interface-essential.png
+ENCODING 54
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+102040
+202020
+202020
+402010
+402010
+802008
+807008
+80ff08
+807008
+802008
+400010
+400010
+200020
+200020
+100040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-information-circle-1--interface-essential.png
+ENCODING 55
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+107040
+20f820
+20f820
+40f810
+407010
+800008
+807008
+80f808
+80f808
+80f808
+40f810
+40f810
+20fc20
+20fe20
+107c40
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-information-circle-2--interface-essential.png
+ENCODING 56
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+03fe00
+0fff80
+1f8fc0
+3f07e0
+3f07e0
+7f07f0
+7f8ff0
+fffff8
+ff8ff8
+ff07f8
+ff07f8
+ff07f8
+7f07f0
+7f07f0
+3f03e0
+3f01e0
+1f83c0
+0fff80
+03fe00
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-navigation-left-circle-1--interface-essential.png
+ENCODING 57
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+03fe00
+0fff80
+1fffc0
+3fffe0
+3f7fe0
+7e7ff0
+7c01f0
+f800f8
+f00078
+f80078
+fc0078
+fe7878
+7f7c70
+7ff8f0
+3ff1e0
+3fffe0
+1fffc0
+0fff80
+03fe00
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-navigation-left-circle-2--interface-essential.png
+ENCODING 58
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+100040
+200020
+208020
+418010
+43fe10
+87ff08
+8fff88
+87ff88
+83ff88
+818788
+408390
+400710
+200c20
+200020
+100040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-navigation-right-circle-1--interface-essential.png
+ENCODING 59
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+03fe00
+0fff80
+1fffc0
+3fffe0
+3ff7e0
+7ff3f0
+7c01f0
+f800f8
+f00078
+f000f8
+f001f8
+f0f3f8
+71f7f0
+78fff0
+3c7fe0
+3fffe0
+1fffc0
+0fff80
+03fe00
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-navigation-right-circle-2--interface-essential.png
+ENCODING 60
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+100040
+200020
+200820
+400c10
+43fe10
+87ff08
+8fff88
+8fff08
+8ffe08
+8f0c08
+4e0810
+470010
+218020
+200020
+100040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-question-help-circle-1--interface-essential.png
+ENCODING 61
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+03fe00
+0f0780
+1e03c0
+3c01e0
+3860e0
+78f0f0
+78f0f0
+ffe1f8
+ffc3f8
+ff87f8
+ff8ff8
+fffff8
+7f8ff0
+7f07f0
+3f07e0
+3f07e0
+1f8fc0
+0fff80
+03fe00
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-question-help-circle-2--interface-essential.png
+ENCODING 62
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+10f840
+21fc20
+239e20
+430e10
+430e10
+801e08
+803c08
+807808
+807008
+800008
+407010
+40f810
+20f820
+20f820
+107040
+0c0180
+030600
+00f800
+ENDCHAR

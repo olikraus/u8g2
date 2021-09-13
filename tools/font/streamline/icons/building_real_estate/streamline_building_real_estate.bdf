@@ -1,0 +1,549 @@
+STARTFONT 2.1
+FONT "streamline_building_real_estate"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "streamlinehq.com"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR streamline-building-real-eastate-deal-documant--building-real-estate.png
+ENCODING 48
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3ffc00
+000600
+100700
+380780
+7c07c0
+fe07e0
+6c0020
+6c0020
+00fe20
+200020
+200000
+200060
+27f890
+200150
+200220
+200440
+27ca80
+200920
+200e20
+200020
+3fffe0
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-for-sale--building-real-estate.png
+ENCODING 49
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fffe0
+400010
+800008
+877608
+845508
+875608
+845508
+847508
+800008
+9dd1c8
+915108
+9dd188
+855108
+9d5dc8
+800008
+400010
+3fffe0
+0a0280
+0a0280
+1f07c0
+3f8fe0
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-house-1--building-real-estate.png
+ENCODING 50
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+09b0c0
+224920
+020890
+f9f060
+500000
+57ff00
+5e0080
+5f0040
+5b0040
+719e20
+719120
+60c890
+60c790
+c06008
+ce7ff8
+514010
+515dd0
+595550
+515dd0
+514010
+7ffff0
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-house-2--building-real-estate.png
+ENCODING 51
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+380000
+440000
+8220e0
+827110
+7cf908
+01dc88
+038e70
+073700
+0e0380
+1c61c0
+3b06e0
+300060
+107040
+1cf940
+10f840
+16b9c0
+10b840
+1cfb40
+10f840
+1fffc0
+000000
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-houses-location--building-real-estate.png
+ENCODING 52
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+007000
+00f800
+01dc00
+018c00
+01dc00
+00f800
+00f800
+007000
+042100
+0e0380
+1b26c0
+31fc60
+60d830
+c18c18
+cf0798
+560350
+567350
+528a50
+728a70
+028a00
+038e00
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-location--building-real-estate.png
+ENCODING 53
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+07ff00
+080080
+082080
+087080
+08f880
+09fc80
+ebfeb8
+09fc80
+09dc80
+e9dcb8
+080080
+078f00
+008800
+0a5280
+165340
+152540
+2a8aa0
+efffb8
+000000
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-project-blueprint--building-real-estate.png
+ENCODING 54
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+300000
+780000
+fbfff8
+f80008
+f80008
+faffc8
+f84048
+f84048
+f875c8
+fbc048
+f88048
+f88048
+f88648
+f88a48
+c09248
+8fe3c8
+800008
+400008
+3ffff8
+000000
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-sign-for-rent--building-real-estate.png
+ENCODING 55
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fffe0
+400010
+800008
+bbb088
+a2a9c8
+bab3e8
+a2ab68
+a3ab68
+800008
+b3a5c8
+aa3488
+b32c88
+aa2488
+aba488
+800008
+400010
+3fffe0
+0a0280
+0a0280
+1f07c0
+3f8fe0
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-sign-house-1--building-real-estate.png
+ENCODING 56
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+400000
+a08040
+bffff8
+a08040
+a08040
+a3ffe0
+a40010
+a80808
+a81c08
+a83e08
+a87708
+a8e388
+a9c1c8
+a980c8
+a89c88
+a89488
+a89488
+a8f788
+a80008
+a40010
+a3ffe0
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-sign-house-2--building-real-estate.png
+ENCODING 57
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+010000
+038000
+07c000
+0c6000
+183000
+339800
+628c00
+c38600
+c00600
+739c00
+545400
+745c00
+464000
+e41fe0
+1cd7b0
+031ff8
+009870
+005fe0
+002480
+001480
+000000
+ENDCHAR
+STARTCHAR streamline-building-real-eastate-storage--building-real-estate.png
+ENCODING 58
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00fc00
+030300
+047880
+080040
+11fe20
+200010
+3ffff0
+200010
+23ff10
+240090
+243e90
+242a90
+242290
+24ff90
+24aa90
+000890
+ff7ff0
+af0000
+8f0000
+8f0000
+ff0000
+ENDCHAR
+STARTCHAR streamline-construction-building-real-eastate--building-real-estate.png
+ENCODING 59
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+300000
+280000
+280000
+ffffc0
+440020
+47fff0
+380020
+280020
+280800
+290920
+29fde0
+290920
+2bdf78
+2a51c8
+2a7008
+2a0008
+2accc8
+2accc8
+2a0008
+2a3308
+2a3308
+ENDCHAR
+STARTCHAR streamline-real-estate-building-1--building-real-estate.png
+ENCODING 60
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+800208
+7ffff0
+400210
+5e7a10
+524a10
+565a10
+5e7a10
+5e7a10
+400210
+fffff8
+800208
+7ffff0
+400210
+5f7a10
+514a10
+515a10
+557a10
+517a10
+510210
+000000
+ENDCHAR
+STARTCHAR streamline-real-estate-building-2--building-real-estate.png
+ENCODING 61
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fffe0
+2aaaa0
+1fffc0
+100040
+177740
+155540
+177740
+177740
+100040
+177740
+155540
+177740
+177740
+100040
+1fffc0
+112440
+1f27c0
+112440
+112440
+112440
+7ffff0
+ENDCHAR
+STARTCHAR streamline-real-estate-building-3--building-real-estate.png
+ENCODING 62
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+002000
+302000
+485000
+845000
+79fc00
+00a860
+00a890
+01fd08
+0104f0
+015400
+010400
+015400
+010400
+015400
+710470
+fbfef8
+fa02f8
+fafaf8
+72aa70
+22fa20
+23fe20
+ENDCHAR
+STARTCHAR streamline-real-estate-building-4--building-real-estate.png
+ENCODING 63
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+006000
+005800
+044600
+045100
+1f4080
+20cf80
+4049c0
+554fc0
+7fc020
+4059a0
+554020
+7fc7e0
+4044e0
+5557e0
+404020
+557fe0
+404920
+7f79e0
+414920
+414920
+7fffe0
+ENDCHAR
+STARTCHAR streamline-real-estate-building-ad--building-real-estate.png
+ENCODING 64
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+7ff000
+401000
+525000
+401000
+7ff000
+104000
+104000
+7ff000
+401fe0
+5cd540
+401fe0
+5cd010
+401008
+401ff8
+5ef010
+52b6d0
+52f6d0
+521010
+521010
+fffff8
+b6d6d8
+ENDCHAR
+STARTCHAR streamline-real-estate-building-factory--building-real-estate.png
+ENCODING 65
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000680
+024900
+058000
+001c00
+0e3e00
+1f3e00
+1f2200
+113e00
+1f2200
+112200
+112200
+112200
+112200
+fffff8
+840008
+85fde8
+852528
+856d68
+85fde8
+840008
+000000
+ENDCHAR
+STARTCHAR streamline-real-estate-building-house--building-real-estate.png
+ENCODING 66
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+01ff80
+110080
+116680
+116680
+7d0080
+456080
+ff6480
+810e80
+811b80
+993180
+9960c0
+81c060
+818030
+9b3f98
+9b0018
+810e10
+811110
+991110
+991910
+811110
+fffff0
+ENDCHAR
+STARTCHAR streamline-real-estate-sign-building--building-real-estate.png
+ENCODING 67
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+400000
+a08040
+bffff8
+a08040
+a08040
+a3ffe0
+a40010
+a80c08
+a80a08
+a80908
+a8f888
+a90e48
+a96848
+a96f48
+a90f48
+a96848
+a96f48
+a90848
+a9ffc8
+a40010
+a3ffe0
+ENDCHAR

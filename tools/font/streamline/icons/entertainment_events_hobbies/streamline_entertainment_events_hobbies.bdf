@@ -1,0 +1,576 @@
+STARTFONT 2.1
+FONT "streamline_entertainment_events_hobbies"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "streamlinehq.com"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR streamline-entertainment-events-hobbies-board-game-dice--entertainment-events-hobbies.png
+ENCODING 48
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+006000
+019800
+060600
+180180
+206040
+5861e0
+4607e0
+419fe0
+587e60
+583fe0
+41bfe0
+41bfe0
+583fe0
+583fe0
+41b3e0
+21b3c0
+183f80
+063e00
+01b800
+006000
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-bomb--entertainment-events-hobbies.png
+ENCODING 49
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000080
+000490
+000220
+00e000
+011098
+010880
+07c720
+07c010
+1ff000
+3ff800
+7fdc00
+7fec00
+fff600
+fff600
+fff600
+fff600
+7ffc00
+7fdc00
+3ff800
+1ff000
+07c000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-card-game-card-club--entertainment-events-hobbies.png
+ENCODING 50
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3ffc00
+400200
+500200
+5003e0
+400210
+400210
+418210
+418210
+47e220
+47e220
+418220
+43c240
+400240
+400240
+400240
+400280
+400280
+400a80
+400a80
+400300
+3ffc00
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-chess-knight--entertainment-events-hobbies.png
+ENCODING 51
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+009000
+036800
+0f0400
+1b2400
+3e5200
+3c0100
+240480
+3c2080
+3c1100
+340e00
+1e0400
+0f0200
+030200
+020100
+040100
+040100
+0fff80
+100040
+100040
+0fff80
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-chess-pawn--entertainment-events-hobbies.png
+ENCODING 52
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+007000
+00f800
+01dc00
+01ec00
+01fc00
+00f800
+01fc00
+020200
+01fc00
+008800
+008800
+008800
+010400
+020200
+040100
+040100
+0fff80
+100040
+100040
+0fff80
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-chess-rook--entertainment-events-hobbies.png
+ENCODING 53
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+067300
+07ff00
+07ff00
+070700
+07ff00
+03fe00
+008800
+008800
+008800
+008800
+008800
+010400
+020200
+040100
+040100
+0fff80
+100040
+100040
+0fff80
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-film-camrea--entertainment-events-hobbies.png
+ENCODING 54
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+1f0000
+110000
+7fc000
+ffe000
+fffff0
+802008
+e0aaa8
+902008
+902008
+90a008
+90a008
+90a008
+92a008
+e2a9f0
+802200
+fffc00
+ffe000
+7fc000
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-film-player--entertainment-events-hobbies.png
+ENCODING 55
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+000000
+fffff8
+840108
+840108
+b40168
+b4c168
+84e108
+84f108
+b4f968
+b4f168
+84e108
+84c108
+b40168
+b40168
+840108
+840108
+fffff8
+000000
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-film-roll--entertainment-events-hobbies.png
+ENCODING 56
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+07fc00
+180300
+200080
+400040
+4c0640
+9e0f20
+9e0f20
+8c0620
+80e020
+80e020
+80e020
+8c0620
+9e0f20
+9e0f20
+4c0640
+400040
+200080
+180300
+07fd18
+000120
+0000c0
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-game-machines-arcade-1--entertainment-events-hobbies.png
+ENCODING 57
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fff80
+2a0140
+2a0120
+3fff10
+1fff88
+0800c8
+0fffc8
+0e01c8
+0e49c8
+0e01c8
+0e85c8
+0e79c8
+0e01c8
+0fffc8
+1b7f88
+36e308
+7ffe08
+800208
+800208
+803a08
+802a08
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-game-machines-arcade-2--entertainment-events-hobbies.png
+ENCODING 58
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fff80
+2a01c0
+2a0160
+3fffb0
+1000d8
+080068
+0bff68
+0a0168
+0a4968
+0a0168
+0a8578
+0a7978
+0a0178
+0bff78
+100078
+251cf8
+4001f8
+fffff8
+8003f8
+803bf8
+802bf8
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-game-pool-snooker-ball--entertainment-events-hobbies.png
+ENCODING 59
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0cf980
+130640
+2e73a0
+3c89e0
+7c89f0
+7c71f0
+fc89f8
+fc89f8
+fe73f8
+ff07f8
+fffff8
+7800f0
+700070
+200020
+200020
+100040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-glasses-3d--entertainment-events-hobbies.png
+ENCODING 60
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+000000
+010800
+029400
+049200
+090900
+120480
+240240
+480120
+900090
+fffff0
+800010
+bf9fd0
+a39c50
+a79e50
+af0f50
+be67d0
+809010
+7f0fe0
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-horror-ghost--entertainment-events-hobbies.png
+ENCODING 61
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+020020
+000070
+607c20
+918300
+520080
+140040
+e40040
+084120
+08e3a0
+884120
+081c20
+081420
+481c20
+b00010
+812090
+812090
+40c060
+200080
+100100
+0c0600
+03f800
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-popcorn--entertainment-events-hobbies.png
+ENCODING 62
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+038000
+0c5800
+302400
+460200
+4902e0
+400110
+202410
+221890
+180020
+09a1c0
+0edec0
+0cccc0
+0cccc0
+0cccc0
+0cccc0
+0cccc0
+06cd80
+06cd80
+06cd80
+06cd80
+03ff00
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-record-player--entertainment-events-hobbies.png
+ENCODING 63
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fffe0
+400010
+800008
+81e0e8
+87f8a8
+8fcca8
+9ff6e8
+9ffa48
+bffb48
+bf3f48
+bf3f48
+bfff48
+9ffe48
+9ffe88
+8fc708
+87f808
+81e008
+800148
+940148
+400010
+3fffe0
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-reward-winner-talent--entertainment-events-hobbies.png
+ENCODING 64
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+082080
+042100
+000000
+022200
+337660
+03fe00
+035600
+01fc00
+000000
+03fe00
+020200
+026200
+fe23f8
+822208
+ba22e8
+8a7228
+ba02e8
+a20228
+ba02e8
+820208
+000000
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-ticket--entertainment-events-hobbies.png
+ENCODING 65
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000300
+000c80
+003040
+00d040
+030880
+0c6880
+31e440
+7ffff0
+800108
+800108
+800108
+87f808
+487c10
+28fd20
+29fd20
+4bfc10
+87f808
+800108
+800108
+800108
+7ffff0
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-video-camera-film-1--entertainment-events-hobbies.png
+ENCODING 66
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+1e0f00
+211080
+4ca640
+9e4f20
+b359a0
+b359a0
+9e4f20
+4ca640
+21f080
+5e0f18
+8000a8
+8006c8
+800688
+9fc088
+a02088
+a02088
+ada088
+bfe0c8
+9fc0a8
+400118
+3ffe00
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-video-camera-film-2--entertainment-events-hobbies.png
+ENCODING 67
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+1e0f00
+211080
+4ca640
+9e4f20
+b359a0
+b359a0
+9e4f20
+4ca640
+21f080
+5e0f18
+8000a8
+8000c8
+ff0088
+808088
+808088
+808088
+ff0c88
+800cc8
+8000a8
+400118
+3ffe00
+ENDCHAR
+STARTCHAR streamline-entertainment-events-hobbies-video-camera-film-3--entertainment-events-hobbies.png
+ENCODING 68
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0000f0
+000308
+1f8508
+2048f0
+4f2800
+50a800
+7ffc30
+800248
+be0388
+a60288
+ae0288
+be0388
+805248
+800230
+807200
+800200
+7ffc00
+038000
+054000
+092000
+000000
+ENDCHAR

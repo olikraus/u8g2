@@ -1,0 +1,144 @@
+STARTFONT 2.1
+FONT "streamline_interface_essential_paginate"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "streamlinehq.com"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR streamline-interface-essential-paginate-filter-camera--interface-essential.png
+ENCODING 48
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fffe0
+100010
+100010
+700010
+d00010
+b1f890
+93fd90
+d3ff90
+b3ff90
+93ff90
+d3fd90
+b1f890
+900010
+d00010
+b00010
+900010
+cfffe0
+a49280
+924980
+7fff00
+000000
+ENDCHAR
+STARTCHAR streamline-interface-essential-paginate-filter-heart--interface-essential.png
+ENCODING 49
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fffe0
+100010
+100010
+700010
+d00010
+b0ee10
+91ff10
+d1ff10
+b1ff10
+90fe10
+d07c10
+b03810
+901010
+d00010
+b00010
+900010
+cfffe0
+a49280
+924980
+7fff00
+000000
+ENDCHAR
+STARTCHAR streamline-interface-essential-paginate-filter-music--interface-essential.png
+ENCODING 50
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fffe0
+100010
+100010
+700390
+d00c90
+b03090
+904090
+d04090
+b04090
+904390
+d1c790
+b3c790
+93c310
+d18010
+b00010
+900010
+cfffe0
+a49280
+924980
+7fff00
+000000
+ENDCHAR
+STARTCHAR streamline-interface-essential-paginate-filter-picture--interface-essential.png
+ENCODING 51
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fffe0
+100010
+13ff90
+740050
+d40350
+b40350
+940050
+d46050
+b491d0
+950a50
+d60450
+b40250
+93ff90
+d00010
+b00010
+900010
+cfffe0
+a49280
+924980
+7fff00
+000000
+ENDCHAR
+STARTCHAR streamline-interface-essential-paginate-filter-video--interface-essential.png
+ENCODING 52
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fffe0
+100010
+100010
+706010
+d07010
+b07810
+907c10
+d07e10
+b07f10
+907e10
+d07c10
+b07810
+907010
+d06010
+b00010
+900010
+cfffe0
+a49280
+924980
+7fff00
+000000
+ENDCHAR
