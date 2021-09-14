@@ -2057,7 +2057,7 @@ extern const uint8_t u8g2_font_streamline_photography_t[] U8G2_FONT_SECTION("u8g
 extern const uint8_t u8g2_font_streamline_romance_t[] U8G2_FONT_SECTION("u8g2_font_streamline_romance_t");
 extern const uint8_t u8g2_font_streamline_school_science_t[] U8G2_FONT_SECTION("u8g2_font_streamline_school_science_t");
 extern const uint8_t u8g2_font_streamline_shopping_shipping_t[] U8G2_FONT_SECTION("u8g2_font_streamline_shopping_shipping_t");
-extern const uint8_t u8g2_font_streamline_social-rewards_t[] U8G2_FONT_SECTION("u8g2_font_streamline_social-rewards_t");
+extern const uint8_t u8g2_font_streamline_social_rewards_t[] U8G2_FONT_SECTION("u8g2_font_streamline_social_rewards_t");
 extern const uint8_t u8g2_font_streamline_technology_t[] U8G2_FONT_SECTION("u8g2_font_streamline_technology_t");
 extern const uint8_t u8g2_font_streamline_transportation_t[] U8G2_FONT_SECTION("u8g2_font_streamline_transportation_t");
 extern const uint8_t u8g2_font_streamline_travel_wayfinding_t[] U8G2_FONT_SECTION("u8g2_font_streamline_travel_wayfinding_t");
