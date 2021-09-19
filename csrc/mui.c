@@ -717,6 +717,11 @@ void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position)
   ui->touch_focus_fds = NULL;
   ui->cursor_focus_fds = NULL;
   
+  /* reset all the scoll values */
+  ui->form_scroll_top = 0;
+  ui->form_scroll_visible = 0;
+  ui->form_scroll_total = 0;
+  
   /* assign the form, which should be entered */
   ui->current_form_fds = fds;
   

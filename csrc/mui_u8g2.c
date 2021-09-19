@@ -1042,13 +1042,14 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_FORM_START:
       /* we can assume that the list starts at the top. It will be adjisted by cursor down events later */
-      ui->form_scroll_top = 0;
+      /* ui->form_scroll_top = 0; */ /* done during mui_EnterForm() */
       if ( ui->form_scroll_visible <= arg )
         ui->form_scroll_visible = arg+1;
       if ( ui->form_scroll_total == 0 )
           ui->form_scroll_total = mui_GetSelectableFieldOptionCnt(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
+      //printf("MUIF_MSG_FORM_START: arg=%d visible=%d top=%d total=%d\n", arg, ui->form_scroll_visible, ui->form_scroll_top, ui->form_scroll_total);
       break;
-    case MUIF_MSG_FORM_END:
+    case MUIF_MSG_FORM_END:  
       break;
     case MUIF_MSG_CURSOR_ENTER:
       break;
@@ -1063,7 +1064,7 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_TOUCH_UP:
       break;
     case MUIF_MSG_EVENT_NEXT:
-      //printf("MUIF_MSG_EVENT_NEXT: arg=%d form_scroll_visible=%d\n", arg, ui->form_scroll_visible);
+      //printf("MUIF_MSG_EVENT_NEXT: arg=%d visible=%d top=%d total=%d\n", arg, ui->form_scroll_visible, ui->form_scroll_top, ui->form_scroll_total);
       if ( arg+1 == ui->form_scroll_visible )
       {
         if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
@@ -1201,7 +1202,10 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
         u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
         u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
         uint8_t flags = 0;
-        uint8_t is_focus = mui_IsCursorFocus(ui);
+        if ( mui_IsCursorFocus(ui) )
+        {
+          flags = U8G2_BTN_INV;
+        }
 
         if ( ui->text[0] == '\0' )
         {
@@ -1209,12 +1213,6 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
           /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
           mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
         }
-        
-        if ( is_focus )
-        {
-          flags = U8G2_BTN_INV;
-        }
-        
         if ( ui->text[0] != '\0' )
         {
           u8g2_DrawButtonUTF8(u8g2, x, y, flags, w, 1, 1, ui->text);

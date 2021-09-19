@@ -330,11 +330,11 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 
 MUI_LABEL(5,24, "Color:")
-MUI_XYAT("IC",50, 24, 12, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")     /* jump to sub form 12 */
+MUI_XYAT("IC",80, 24, 12, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")     /* jump to sub form 12 */
 
 MUI_LABEL(5,42, "We need:")
 MUI_STYLE(3)
-MUI_XYAT("ID",50, 48, 21, "\x30|\x31|\x32|\x33|\x34|\x35|\x36|\x37|\x38|\x39|\x40|\x41|\x42|\x43") 
+MUI_XYAT("ID",80, 49, 21, "\x30|\x31|\x32|\x33|\x34|\x35|\x36|\x37|\x38|\x39|\x40|\x41|\x42|\x43") 
 
 MUI_STYLE(0)
 MUI_XYAT("G1",64, 60, 0, " OK ")
