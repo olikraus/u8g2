@@ -203,7 +203,7 @@ typedef struct u8x8_display_info_struct u8x8_display_info_t;
 typedef struct u8x8_tile_struct u8x8_tile_t;
 
 typedef uint8_t (*u8x8_msg_cb)(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
-typedef uint16_t (*u8x8_char_cb)(u8x8_t *u8x8, uint8_t b);
+typedef uint32_t (*u8x8_char_cb)(u8x8_t *u8x8, uint8_t b);
 
 
 
@@ -339,7 +339,7 @@ struct u8x8_struct
   u8x8_msg_cb gpio_and_delay_cb;
   uint32_t bus_clock;	/* can be used by the byte function to store the clock speed of the bus */
   const uint8_t *font;
-  uint16_t encoding;		/* encoding result for utf8 decoder in next_cb */
+  uint32_t encoding;		/* encoding result for utf8 decoder in next_cb */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
   uint8_t is_font_inverse_mode; 	/* 0: normal, 1: font glyphs are inverted */
   uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something usefull during DISPLAY_INIT */
@@ -981,8 +981,8 @@ uint16_t u8x8_upscale_byte(uint8_t x) U8X8_NOINLINE;
 
 
 void u8x8_utf8_init(u8x8_t *u8x8);
-uint16_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b);
-uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b);
+uint32_t u8x8_ascii_next(u8x8_t *u8x8, uint8_t b);
+uint32_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b);
 // the following two functions are replaced by the init/next functions 
 //uint16_t u8x8_get_encoding_from_utf8_string(const char **str);
 //uint16_t u8x8_get_char_from_string(const char **str);
