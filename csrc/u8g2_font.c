@@ -624,7 +624,7 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   Return:
     Address of the glyph data or NULL, if the encoding is not avialable in the font.
 */
-const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint16_t encoding)
+const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint32_t encoding)
 {
   const uint8_t *font = u8g2->font;
   font += U8G2_FONT_DATA_STRUCT_SIZE;
@@ -711,7 +711,7 @@ const uint8_t *u8g2_font_get_glyph_data(u8g2_t *u8g2, uint16_t encoding)
   return NULL;
 }
 
-static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding)
+static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint32_t encoding)
 {
   u8g2_uint_t dx = 0;
   u8g2->font_decode.target_x = x;
@@ -728,7 +728,7 @@ static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t
 
 
 
-uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
+uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint32_t requested_encoding)
 {
   /* updated to new code */
   if ( u8g2_font_get_glyph_data(u8g2, requested_encoding) != NULL )
@@ -737,7 +737,7 @@ uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
 }
 
 /* side effect: updates u8g2->font_decode and u8g2->glyph_x_offset */
-int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding)
+int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint32_t requested_encoding)
 {
   const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, requested_encoding);
   if ( glyph_data == NULL )
@@ -765,7 +765,7 @@ void u8g2_SetFontMode(u8g2_t *u8g2, uint8_t is_transparent)
   u8g2->font_decode.is_transparent = is_transparent;		// new font procedures
 }
 
-u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding)
+u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint32_t encoding)
 {
 #ifdef U8G2_WITH_FONT_ROTATION
   switch(u8g2->font_decode.dir)
@@ -792,7 +792,7 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
-  uint16_t e;
+  uint32_t e;
   u8g2_uint_t delta, sum;
   u8x8_utf8_init(u8g2_GetU8x8(u8g2));
   sum = 0;
