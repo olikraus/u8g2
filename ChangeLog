@@ -269,5 +269,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Font Wiki page splitted into four sub-pages to avoid the GitHub 'abuse' message.
 2021-09-07	v2.30.1	olikraus@gmail.com
   * Bugfix drawButtonUTF8 (added C++ code, issue 1577)
-2021-xx-xx	v2.31.x	olikraus@gmail.com
+2021-09-19	v2.31.1	olikraus@gmail.com
   * Added icons from https://app.streamlinehq.com/icons/pixel (issue 1589)

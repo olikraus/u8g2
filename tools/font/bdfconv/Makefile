@@ -172,8 +172,11 @@ q_pixia: bdfconv
 	./bdfconv -v -f 1 -m '32-65534' tmp.bdf -o u8g2_font_q_pixia.c  -n u8g2_font_q_pixia -d ../bdf/helvB18.bdf 
 
 inr: bdfconv
-	-../otf2bdf/otf2bdf -a -r 72 -p 33 -o tmp.bdf ../ttf/inr.otf
-	./bdfconv -v -b 2 -f 1 -m '32-128,$$400-$$52f' tmp.bdf -o u8g2_font_inr_m.c  -n u8g2_font_inr_m -d ../bdf/helvB18.bdf 
+	-../otf2bdf/otf2bdf -a -r 72 -p 86 -o tmp.bdf ../ttf/inr.otf
+	./bdfconv -v -b 2 -f 1 -m '42-57' tmp.bdf -o u8g2_font_inr64_m.c  -n u8g2_font_inr64_m -d ../bdf/helvB18.bdf 
+	-../otf2bdf/otf2bdf -a -r 72 -p 43 -o tmp.bdf ../ttf/inr.otf
+	./bdfconv -v -b 2 -f 1 -m '42-57' tmp.bdf -o u8g2_font_inr32_m.c  -n u8g2_font_inr32_m -d ../bdf/helvB18.bdf 
+#	./bdfconv -v -b 2 -f 1 -m '32-128,$$400-$$52f' tmp.bdf -o u8g2_font_inr_m.c  -n u8g2_font_inr_m -d ../bdf/helvB18.bdf 
 
 logisoso92x: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 131 -o tmp.bdf ../ttf/Logisoso.ttf
