@@ -166,6 +166,8 @@ uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg);
 
+uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg);               /* first char of the string denotes the target form */
+
 
 #ifdef __cplusplus
 }

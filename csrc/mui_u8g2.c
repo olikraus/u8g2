@@ -782,7 +782,7 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
       {
         *value = 0;
         mui_fds_get_nth_token(ui, *value);
-      }      
+      }
       mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, ui->text);
       //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_draw_button_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, ui->text);
       
@@ -1042,7 +1042,7 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_FORM_START:
       /* we can assume that the list starts at the top. It will be adjisted by cursor down events later */
-      /* ui->form_scroll_top = 0; */ /* done during mui_EnterForm() */
+      /* ui->form_scroll_top = 0 and all other form_scroll values are set to 0 if a new form is entered in mui_EnterForm() */
       if ( ui->form_scroll_visible <= arg )
         ui->form_scroll_visible = arg+1;
       if ( ui->form_scroll_total == 0 )
@@ -1191,21 +1191,21 @@ uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg)
 uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
-  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  //uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten
   
   switch(msg)
   {
     case MUIF_MSG_DRAW:
       {
-        u8g2_uint_t w = 0;
+        //u8g2_uint_t w = 0;
         u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
         u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
-        uint8_t flags = 0;
-        if ( mui_IsCursorFocus(ui) )
-        {
-          flags = U8G2_BTN_INV;
-        }
+        uint8_t flags = mui_u8g2_get_draw_button_pi_flags(ui);
+        //if ( mui_IsCursorFocus(ui) )
+        //{
+        //  flags = U8G2_BTN_INV;
+        //}
 
         if ( ui->text[0] == '\0' )
         {
@@ -1215,7 +1215,7 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
         }
         if ( ui->text[0] != '\0' )
         {
-          u8g2_DrawButtonUTF8(u8g2, x, y, flags, w, 1, 1, ui->text);
+          u8g2_DrawButtonUTF8(u8g2, x, y, flags, 0, 1, MUI_U8G2_V_PADDING, ui->text);
         }        
       }
       break;
@@ -1458,6 +1458,34 @@ uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
           u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, 1);
         }
       }
+      break;
+    default:
+      return mui_u8g2_u16_list_child_mse_common(ui, msg);
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
+  uint16_t *selection =  mui_u8g2_list_get_selection_ptr(list);
+  void *data = mui_u8g2_list_get_data_ptr(list);
+  mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
+  //mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
+
+  uint16_t pos = ui->arg;        // remember the arg value, because it might be overwritten  
+  pos += ui->form_scroll_top;
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetDisplayWidth(u8g2), 1, MUI_U8G2_V_PADDING, element_cb(data, pos)+1);
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      if ( selection != NULL )
+        *selection = pos;
+      mui_GotoForm(ui, (uint8_t)element_cb(data, pos)[0], 0); 
       break;
     default:
       return mui_u8g2_u16_list_child_mse_common(ui, msg);

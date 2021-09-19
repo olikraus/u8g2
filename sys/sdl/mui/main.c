@@ -95,6 +95,7 @@ uint8_t exit_code = 0;
 uint16_t list_selection = 0;
 uint16_t list_selection2 = 0;
 uint16_t list_selection3 = 0;
+uint16_t list_selection4 = 0;
 
 uint8_t array_pos = 0;
 uint8_t array_led_off_time[4] = { 10, 5, 3, 1};
@@ -144,6 +145,33 @@ const char *list_get_str(void *data, uint16_t index)
   static const char *animals[] = { "Bird", "Bison", "Cat", "Crow", "Dog", "Elephant", "Fish", "Gnu", "Horse", "Koala", "Lion", "Mouse", "Owl", "Rabbit", "Spider", "Turtle", "Zebra" };
   return animals[index];
 }
+
+
+uint16_t menu_get_cnt(void *data)
+{
+  return 10;    /* number of menu entries */
+}
+
+const char *menu_get_str(void *data, uint16_t index)
+{
+  static const char *menu[] = 
+  { 
+    MUI_0 "Goto Main Menu",
+    MUI_10 "Enter a number",
+    MUI_11 "Parent/Child Selection",
+    MUI_13 "Checkbox",
+    MUI_14 "Radio Selection",
+    MUI_15 "Text Input",
+    MUI_16 "Single Line Selection",
+    MUI_17 "List Line Selection",
+    MUI_18 "Parent/Child List",
+    MUI_20 "Array Edit",
+  };
+  return menu[index];
+}
+
+
+
 
 /* 
 
@@ -233,6 +261,7 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_U16_LIST("LP", &list_selection3, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_parent_wm_mse_pi),
   MUIF_U8G2_U16_LIST("LC", &list_selection3, NULL, list_get_str, list_get_cnt, mui_u8g2_u16_list_child_w1_mse_pi),
 
+  MUIF_U8G2_U16_LIST("LG", &list_selection4, NULL, menu_get_str, menu_get_cnt, mui_u8g2_u16_list_goto_w1_mse_pi),
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */  
   MUIF_GOTO(mui_u8g2_btn_jmp_w1_pi),
@@ -246,6 +275,7 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_U8_MIN_MAX("AF", &led_off_time, 0, 20, mui_u8g2_u8_min_max_wm_mse_pi),
   MUIF_U8G2_U8_MIN_MAX("AN", &led_on_time, 0, 20, mui_u8g2_u8_min_max_wm_mse_pi),
 
+  
 
 
   /* button for the minimal example */
@@ -306,7 +336,18 @@ MUI_STYLE(0)
 MUI_GOTO(5,25,17, "List Line Selection")
 MUI_GOTO(5,37,18, "Parent/Child List")
 MUI_GOTO(5,49,20, "Array Edit")
-MUI_GOTO(5,61,0, "Back...")
+MUI_GOTO(5,61,3, "Alternative Menu")
+
+MUI_FORM(3)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Alternative Menu")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_XYA("LG", 5, 25, 0) 
+MUI_XYA("LG", 5, 37, 1) 
+MUI_XYA("LG", 5, 49, 2) 
+MUI_XYA("LG", 5, 61, 3) 
+
 
 /* number entry demo */
 MUI_FORM(10)
