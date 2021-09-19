@@ -1096,7 +1096,7 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -1141,7 +1141,7 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -1185,6 +1185,48 @@ uint8_t mui_u8g2_u8_opt_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   }
   return 0;
 }
+
+
+uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten
+  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      {
+        u8g2_uint_t w = 0;
+        u8g2_uint_t x = mui_get_x(ui);   // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        u8g2_uint_t y = mui_get_y(ui);  // if mui_GetSelectableFieldTextOption is called, then field vars are overwritten, so get the value
+        uint8_t flags = 0;
+        uint8_t is_focus = mui_IsCursorFocus(ui);
+
+        if ( ui->text[0] == '\0' )
+        {
+          /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
+          /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+        }
+        
+        if ( is_focus )
+        {
+          flags = U8G2_BTN_INV;
+        }
+        
+        if ( ui->text[0] != '\0' )
+        {
+          u8g2_DrawButtonUTF8(u8g2, x, y, flags, w, 1, 1, ui->text);
+        }        
+      }
+      break;
+    default:
+      return mui_u8g2_u8_opt_child_mse_common(ui, msg);
+  }
+  return 0;
+}
+
 
 /*
   data: mui_u8g2_list_t *

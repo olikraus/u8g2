@@ -218,7 +218,7 @@ muif_t muif_list[] MUI_PROGMEM = {
   //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
   //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
   //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
-  MUIF_VARIABLE("OC",&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
+  MUIF_VARIABLE("OC",&color_input,mui_u8g2_u8_opt_radio_child_w1_mse_pi),
 
   MUIF_VARIABLE("ID",&food_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
   MUIF_VARIABLE("OD",&food_input,mui_u8g2_u8_opt_child_wm_mse_pi),
@@ -468,9 +468,12 @@ MUI_STYLE(1)
 MUI_LABEL(5,10, "Food & Drink Selection")
 MUI_XY("HR", 0,13)
 MUI_STYLE(3)
-MUI_XYA("OD", 5, 30, 0)
-MUI_XYA("OD", 5, 42, 1)
-MUI_XYA("OD", 5, 54, 2)
+
+MUI_XYA("OD", 3, 45, 0)
+MUI_XYA("OD", 28, 45, 1)
+MUI_XYA("OD", 53, 45, 2)
+MUI_XYA("OD", 78, 45, 3)
+MUI_XYA("OD", 103, 45, 4)
 
 
 /* minimal example */
