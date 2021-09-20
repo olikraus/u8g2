@@ -271,4 +271,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix drawButtonUTF8 (added C++ code, issue 1577)
 2021-09-19	v2.31.1	olikraus@gmail.com
   * Added icons from https://app.streamlinehq.com/icons/pixel (issue 1589)
-2021-xx-x	v2.xx.xx	olikraus@gmail.com
+2021-09-20	v2.31.2	olikraus@gmail.com
+  * Bugfix release for include error (issues 1592 and 1594)
+  
