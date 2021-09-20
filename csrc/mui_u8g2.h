@@ -38,7 +38,7 @@
 #ifndef MUI_U8G2_H
 #define MUI_U8G2_H
 
-#include <mui.h>
+#include "mui.h"
 
 /*==========================================*/
 /* C++ compatible */
