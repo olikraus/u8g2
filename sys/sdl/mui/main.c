@@ -207,8 +207,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_RO("HR", mui_hrule),
 
   /* Goto Form Button where the width is equal to the size of the text, spaces can be used to extend the size */
-  //MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_jmp_wm_fi),
-  MUIF_BUTTON("G1", mui_u8g2_btn_jmp_wm_fi),
+  //MUIF("G1",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,mui_u8g2_btn_goto_wm_fi),
+  MUIF_BUTTON("G1", mui_u8g2_btn_goto_wm_fi),
   
   /* input for a number between 0 to 9 */
   //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
@@ -264,7 +264,7 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_U16_LIST("LG", &list_selection4, NULL, menu_get_str, menu_get_cnt, mui_u8g2_u16_list_goto_w1_mse_pi),
 
   /* MUI_GOTO uses the fixed ".G" id and is intended for goto buttons. This is a full display width style button */  
-  MUIF_GOTO(mui_u8g2_btn_jmp_w1_pi),
+  MUIF_GOTO(mui_u8g2_btn_goto_w1_pi),
   
   /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
   //MUIF(".L",0,0,mui_u8g2_draw_text),

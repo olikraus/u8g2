@@ -118,9 +118,9 @@ uint8_t mui_line_button_invers_select_u8g2(mui_t *ui, uint8_t msg);
 /* ready to use field functions */
 
 uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_btn_jmp_wm_fi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_btn_jmp_w2_fi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_btn_jmp_w1_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg);
 
 uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);
 

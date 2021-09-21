@@ -73,9 +73,9 @@
     mui_u8g2_[action]_[field_width]_[edit_mode]_[style]
 
   mui _label_u8g2 --> mui_u8g2_draw_text
-  mui _goto_frame_button_invers_select_u8g2                              --> mui_u8g2_btn_jmp_wm_fi
-  mui _goto_half_width_frame_button_invers_select_u8g2           --> mui_u8g2_btn_jmp_w2_fi
-  mui _goto_line_button_invers_select_u8g2 -->  mui_u8g2_btn_jmp_w1_fi
+  mui _goto_frame_button_invers_select_u8g2                              --> mui_u8g2_btn_goto_wm_fi
+  mui _goto_half_width_frame_button_invers_select_u8g2           --> mui_u8g2_btn_goto_w2_fi
+  mui _goto_line_button_invers_select_u8g2 -->  mui_u8g2_btn_goto_w1_fi
   mui _leave_menu_frame_button_invers_select_u8g2 --> mui_u8g2_btn_exit_wm_fi
   
   mui _input_uint8_invers_select_u8g2 --> mui_u8g2_u8_value_0_9_wm_mse_pi
@@ -402,7 +402,7 @@ uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t mui_u8g2_btn_jmp_wm_fi(mui_t *ui, uint8_t msg)
+  uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg)
 
   Description:
     A button with size equal to button text plus one pixel padding
@@ -425,7 +425,7 @@ uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg)
     text: Button label
     
 */
-uint8_t mui_u8g2_btn_jmp_wm_fi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
@@ -437,7 +437,7 @@ uint8_t mui_u8g2_btn_jmp_wm_fi(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t mui_u8g2_btn_jmp_w2_fi(mui_t *ui, uint8_t msg)
+  uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
 
   Description:
     A button with size equal to display width / 2 - 10 pixel
@@ -460,7 +460,7 @@ uint8_t mui_u8g2_btn_jmp_wm_fi(mui_t *ui, uint8_t msg)
     text: Button label
     
 */
-uint8_t mui_u8g2_btn_jmp_w2_fi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
@@ -516,7 +516,7 @@ uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg)
 
 /*
 
-  uint8_t mui_u8g2_btn_jmp_w1_pi(mui_t *ui, uint8_t msg)
+  uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg)
 
   Description:
     A full line button (covers complete width of the display).
@@ -539,7 +539,7 @@ uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg)
     
 */
 
-uint8_t mui_u8g2_btn_jmp_w1_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
@@ -919,7 +919,7 @@ uint8_t mui_u8g2_u8_chkbox_wm_pi(mui_t *ui, uint8_t msg)
           u8g2_DrawUTF8(u8g2, mui_get_x(ui)+a, mui_get_y(ui), ui->text);
         }
         
-        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, 1);
+        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, MUI_U8G2_V_PADDING);
       }
       break;
     case MUIF_MSG_FORM_START:
@@ -973,7 +973,7 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg)
           u8g2_DrawUTF8(u8g2, mui_get_x(ui)+a, mui_get_y(ui), ui->text);
         }
         
-        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, 1);
+        u8g2_DrawButtonFrame(u8g2, mui_get_x(ui), mui_get_y(ui), flags, w+a, 1, MUI_U8G2_V_PADDING);
       }
       break;
    case MUIF_MSG_FORM_START:
@@ -1131,7 +1131,7 @@ uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg)
         }        
         if ( is_focus )
         {
-          u8g2_DrawButtonFrame(u8g2, x, y, U8G2_BTN_INV, w+a, 1, 1);
+          u8g2_DrawButtonFrame(u8g2, x, y, U8G2_BTN_INV, w+a, 1, MUI_U8G2_V_PADDING);
         }
       }
       break;
@@ -1177,7 +1177,7 @@ uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg)
         }        
         if ( is_focus )
         {
-          u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, 1);
+          u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, MUI_U8G2_V_PADDING);
         }
       }
       break;
@@ -1431,9 +1431,7 @@ uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   void *data = mui_u8g2_list_get_data_ptr(list);
   mui_u8g2_get_list_element_cb element_cb =  mui_u8g2_list_get_element_cb(list);
   mui_u8g2_get_list_count_cb count_cb = mui_u8g2_list_get_count_cb(list);
-
   uint16_t pos = ui->arg;        // remember the arg value, because it might be overwritten  
-  
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -1455,7 +1453,7 @@ uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
           u8g2_DrawUTF8(u8g2, x+a, y, element_cb(data, pos));
         if ( is_focus )
         {
-          u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, 1);
+          u8g2_DrawButtonFrame(u8g2, 0, y, U8G2_BTN_INV, u8g2_GetDisplayWidth(u8g2), 0, MUI_U8G2_V_PADDING);
         }
       }
       break;
@@ -1480,7 +1478,7 @@ uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg)
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetDisplayWidth(u8g2), 1, MUI_U8G2_V_PADDING, element_cb(data, pos)+1);
+      mui_u8g2_draw_button_utf(ui, mui_u8g2_get_draw_button_pi_flags(ui), u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), MUI_U8G2_V_PADDING, element_cb(data, pos)+1);
       break;
     case MUIF_MSG_CURSOR_SELECT:
       if ( selection != NULL )
