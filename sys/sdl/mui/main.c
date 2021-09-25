@@ -213,11 +213,11 @@ muif_t muif_list[] MUI_PROGMEM = {
   /* input for a number between 0 to 9 */
   //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
   //MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE, (void *)((mui_u8g2_u8_min_max_t   []  ) {{ &number_input COMMA 1 COMMA 8 }  }  ) , mui_u8g2_u8_min_max_wm_mse_pi),
-  MUIF_U8G2_U8_MIN_MAX("IN", &number_input, 0, 9, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("IN", &number_input, 0, 9, mui_u8g2_u8_min_max_wm_mse_pf),
 
   /* input for a number between 0 to 100 */
   //MUIF("IH",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input2,mui_u8g2_u8_value_0_100_wm_mud_pi),
-  MUIF_U8G2_U8_MIN_MAX("IH", &number_input2, 0, 100, mui_u8g2_u8_min_max_wm_mud_pi),
+  MUIF_U8G2_U8_MIN_MAX("IH", &number_input2, 0, 100, mui_u8g2_u8_min_max_wm_mud_pf),
   
   /* input for text with four chars  */
   /*
@@ -330,7 +330,7 @@ MUI_GOTO(5,61,2, "More...")
 
 MUI_FORM(2)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "Main Menu 2/3")
+MUI_LABEL(5,10, "Main Menu 3/3")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_GOTO(5,25,17, "List Line Selection")
@@ -562,6 +562,7 @@ int main(void)
   
   u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
+  u8g2_SetFontMode(&u8g2, 1);
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   //mui_GotoForm(&ui, 201, 0);
   mui_GotoForm(&ui, 0, 0);
