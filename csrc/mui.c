@@ -850,12 +850,12 @@ void mui_RestoreForm(mui_t *ui)
 void mui_NextField(mui_t *ui)
 {
   do 
- {
+  {
     if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_NEXT) )
       return;
     mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
     mui_next_field(ui);
- } while ( mui_send_cursor_enter_msg(ui) == 255 );
+  } while ( mui_send_cursor_enter_msg(ui) == 255 );
 }
 
 /*

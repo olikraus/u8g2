@@ -242,6 +242,54 @@ void mui_u8g2_draw_button_pf(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h
 }
 
 
+static uint8_t mui_u8g2_handle_scroll_next_prev_events(mui_t *ui, uint8_t msg) MUI_NOINLINE;
+static uint8_t mui_u8g2_handle_scroll_next_prev_events(mui_t *ui, uint8_t msg)
+{
+  uint8_t arg = ui->arg;
+  switch(msg)
+  {
+    case MUIF_MSG_CURSOR_ENTER:
+      if ( (arg > 0) && (ui->form_scroll_top + arg >= ui->form_scroll_total) )
+        return 255;
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( arg+1 == ui->form_scroll_visible )
+      {
+        if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
+        {
+          ui->form_scroll_top++;
+          return 1;
+        }
+        else
+        {
+          ui->form_scroll_top = 0;
+        }
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( arg == 0 )
+      {
+        if ( ui->form_scroll_top > 0 )
+        {
+          ui->form_scroll_top--;
+          return 1;
+        }
+        else
+        {
+          if ( ui->form_scroll_total >  ui->form_scroll_visible  )
+          {
+            ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
+          }
+          else
+          {
+            ui->form_scroll_top = 0;
+          }
+        }
+      }
+      break;
+  }
+  return 0;
+}
 /*=========================================================================*/
 /* field functions */
 
@@ -1082,9 +1130,12 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_FORM_END:  
       break;
     case MUIF_MSG_CURSOR_ENTER:
-      if ( ui->form_scroll_top + arg >= ui->form_scroll_total )
+      return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
+    /*
+      if ( (arg > 0) && (ui->form_scroll_top + arg >= ui->form_scroll_total) )
         return 255;
       break;
+    */
     case MUIF_MSG_CURSOR_SELECT:
       if ( value != NULL )
         *value = ui->form_scroll_top + arg;
@@ -1097,7 +1148,8 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_TOUCH_UP:
       break;
     case MUIF_MSG_EVENT_NEXT:
-      //printf("MUIF_MSG_EVENT_NEXT: arg=%d visible=%d top=%d total=%d\n", arg, ui->form_scroll_visible, ui->form_scroll_top, ui->form_scroll_total);
+      return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
+    /*
       if ( arg+1 == ui->form_scroll_visible )
       {
         if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
@@ -1111,7 +1163,10 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
         }
       }
       break;
+    */
     case MUIF_MSG_EVENT_PREV:
+      return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
+      /*
       if ( arg == 0 )
       {
         if ( ui->form_scroll_top > 0 )
@@ -1121,10 +1176,18 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
         }
         else
         {
-          ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
+          if ( ui->form_scroll_total >  ui->form_scroll_visible  )
+          {
+            ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
+          }
+          else
+          {
+            ui->form_scroll_top = 0;
+          }
         }
       }
       break;
+      */
   }
   return 0;
 }
@@ -1470,7 +1533,7 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_FORM_END:
       break;
     case MUIF_MSG_CURSOR_ENTER:
-      break;
+      return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
     case MUIF_MSG_CURSOR_SELECT:
       if ( selection != NULL )
         *selection = ui->form_scroll_top + arg;
@@ -1483,6 +1546,8 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_TOUCH_UP:
       break;
     case MUIF_MSG_EVENT_NEXT:
+      return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
+      /*
       if ( arg+1 == ui->form_scroll_visible )
       {
         if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
@@ -1496,7 +1561,10 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
         }
       }
       break;
+    */
     case MUIF_MSG_EVENT_PREV:
+      return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
+    /*
       if ( arg == 0 )
       {
         if ( ui->form_scroll_top > 0 )
@@ -1510,6 +1578,7 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
         }
       }
       break;
+    */
   }
   return 0;
 }
