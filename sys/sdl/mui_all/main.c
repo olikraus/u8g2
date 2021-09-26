@@ -21,15 +21,15 @@ uint8_t number_input99 = 95;       // variable where the user can input a number
 uint8_t chkbox1_input = 0;
 uint8_t chkbox2_input = 0;
 uint8_t radio_input = 0;
+uint8_t fruit_input = 2;
+uint8_t color_input = 0;
+uint8_t food_input = 0;
 
 
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t number_input2 = 100;       // variable where the user can input a number between 0 and 9
-uint8_t fruit_input = 2;
 uint8_t fruit_input2 = 2;
 uint8_t my_value3 = 0;
-uint8_t color_input = 0;
-uint8_t food_input = 0;
 uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
 uint8_t text_input[4] = { ' ',' ',' ',' '} ;
@@ -96,7 +96,6 @@ uint8_t mui_style_streamline_food_drink(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       u8g2_SetFont(u8g2, u8g2_font_streamline_food_drink_t);
-      //u8g2_SetFont(u8g2, u8g2_font_6x10_tr);
       break;
   }
   return 0;
@@ -234,12 +233,12 @@ muif_t muif_list[] MUI_PROGMEM = {
   
   MUIF_STYLE(3, mui_style_streamline_interface_essential_login),
 
-  /* monospaced font */
-  //MUIF_STYLE(3, mui_style_monospaced),
   
   /* food and drink */
-  //MUIF_STYLE(4, mui_style_streamline_food_drink),
+  MUIF_STYLE(4, mui_style_streamline_food_drink),
   
+  /* monospaced font */
+  //MUIF_STYLE(3, mui_style_monospaced),
 
   /* horizontal line (hrule) */
   MUIF_RO("HR", mui_hrule),
@@ -266,6 +265,19 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_VARIABLE("C2",&chkbox2_input,mui_u8g2_u8_chkbox_wm_pi),
   MUIF_VARIABLE("RB",&radio_input,mui_u8g2_u8_radio_wm_pi),
 
+  /* Form 40: Cycle Option */
+  MUIF_VARIABLE("O1",&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pi),
+  MUIF_VARIABLE("O2",&fruit_input,mui_u8g2_u8_opt_line_wa_mud_pi),
+
+
+  /* Form 50: Parent/Child Option */
+  MUIF_VARIABLE("P1",&color_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
+  MUIF_VARIABLE("ca",&color_input,mui_u8g2_u8_opt_radio_child_w1_mse_pi),
+  
+  MUIF_VARIABLE("P2",&food_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
+  MUIF_VARIABLE("cf",&food_input,mui_u8g2_u8_opt_child_wm_mse_pi),
+
+
 };
 
 
@@ -278,10 +290,10 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_DATA("GP", 
     MUI_10 "Goto Buttons|"
-    MUI_20 "uint8 Input|"
-    MUI_30 "Checkbox/Radiobutton|"
-    MUI_13 "Checkbox|"
-    MUI_14 "Radio Selection|"
+    MUI_20 "uint8 Number|"
+    MUI_30 "uint8 Checkbox|"
+    MUI_40 "uint8 Cycle Options|"
+    MUI_50 "uint8 ParentChild Select|"
     MUI_15 "Text Input|"
     MUI_16 "Single Line Selection|"
     MUI_17 "List Line Selection|"
@@ -347,7 +359,7 @@ MUI_GOTO(64, 59, 10, " Ok ")
 
 MUI_FORM(20)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "uint8 Input")
+MUI_LABEL(5,10, "uint8 Number")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_DATA("GP", 
@@ -414,7 +426,7 @@ MUI_GOTO(64, 59, 20, " Ok ")
 
 MUI_FORM(30)
 MUI_STYLE(1)
-MUI_LABEL(5,10, "uint8 Input")
+MUI_LABEL(5,10, "uint8 Checkbox")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_DATA("GP", 
@@ -454,9 +466,133 @@ MUI_XYAT("RB", 1, 55, 2, "Radio 2")
 MUI_STYLE(3)
 MUI_GOTO(110, 54, 30, "\x31")
 
-  //MUIF_VARIABLE("C1",&chkbox1_input,mui_u8g2_u8_chkbox_wm_pi),
-  //MUIF_VARIABLE("C2",&chkbox2_input,mui_u8g2_u8_chkbox_wm_pi),
-  //MUIF_VARIABLE("RB",&radio_input,mui_u8g2_u8_radio_wm_pi),
+
+MUI_FORM(40)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "uint8 Cycle Options")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_41 "u8_opt_line_wa_mse_pi|" 
+  MUI_42 "u8_opt_line_wa_mud_pi|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(41)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_opt_line_wa_mse_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "Options forward cycle")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(5,40, "Fruit:")
+MUI_XYAT("O1",60, 40, 60, "Banana|Apple|Melon|Cranberry")
+MUI_STYLE(0)
+MUI_GOTO(64, 59, 40, " Ok ")
+
+
+MUI_FORM(42)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_opt_line_wa_mud_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "Options forward+backward cycle")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(5,40, "Fruit:")
+MUI_XYAT("O2",60, 40, 60, "Banana|Apple|Melon|Cranberry")
+MUI_STYLE(0)
+MUI_GOTO(64, 59, 40, " Ok ")
+
+
+
+
+MUI_FORM(50)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "uint8 ParentChild Select")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_51 "u8_opt_radio_child_w1_mse_pi|" 
+  MUI_53 "u8_opt_child_wm_mse_pi|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(51)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "..._u8_opt_parent_wm_mse_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "Parent: Show selected option")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(5,40, "Color:")
+MUI_XYAT("P1",60, 40, 52, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")
+MUI_STYLE(0)
+MUI_GOTO(64, 59, 50, " Ok ")
+
+MUI_FORM(52)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "..._u8_opt_radio_child_w1_mse_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYA")
+MUI_LABEL(1,25, "Child: Show selectable options")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_XYA("ca", 5, 38, 0) 
+MUI_XYA("ca", 5, 48, 1) 
+MUI_XYA("ca", 5, 58, 2) 
+
+MUI_FORM(53)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "..._u8_opt_parent_wm_mse_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "Parent: Show selected option")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(15,42, "We need:")
+MUI_STYLE(4)
+MUI_XYAT("P2",80, 49, 54, "\x30|\x31|\x32|\x33|\x34|\x35|\x36|\x37|\x38|\x39|\x40|\x41|\x42|\x43")
+MUI_STYLE(0)
+MUI_GOTO(64, 59, 50, " Ok ")
+
+MUI_FORM(54)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "..._u8_opt_child_wm_mse_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYA")
+MUI_LABEL(1,25, "Child: Show selectable options")
+MUI_XY("HR", 0,26)
+MUI_STYLE(4)
+MUI_XYA("cf", 3, 53, 0)
+MUI_XYA("cf", 28, 53, 1)
+MUI_XYA("cf", 53, 53, 2)
+MUI_XYA("cf", 78, 53, 3)
+MUI_XYA("cf", 103, 53, 4)
+
+/*
+  MUIF_VARIABLE("P1",&color_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
+  MUIF_VARIABLE("c1",&color_input,mui_u8g2_u8_opt_radio_child_w1_mse_pi),
+  
+  MUIF_VARIABLE("P2",&food_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
+  MUIF_VARIABLE("ca",&food_input,mui_u8g2_u8_opt_child_wm_mse_pi),
+
+
+MUI_LABEL(5,24, "Color:")
+MUI_XYAT("IC",80, 24, 12, "red|orange|yellow|green|cyan|azure|blue|violet|magenta|rose")     
+
+MUI_LABEL(5,42, "We need:")
+MUI_STYLE(3)
+MUI_XYAT("ID",80, 49, 21, "\x30|\x31|\x32|\x33|\x34|\x35|\x36|\x37|\x38|\x39|\x40|\x41|\x42|\x43") 
+*/
 
 ;
 
@@ -512,12 +648,8 @@ muif_t muif_list_old[] MUI_PROGMEM = {
   /* the following two fields belong together and implement a single selection combo box to select a color */
   //MUIF("IC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_parent_wa_mse_pi),
   MUIF_VARIABLE("IC",&color_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
-  //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
-  //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
-  //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
-  //MUIF("OC",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&color_input,mui_u8g2_u8_opt_child_w1_mse_pi),
   MUIF_VARIABLE("OC",&color_input,mui_u8g2_u8_opt_radio_child_w1_mse_pi),
-
+  
   MUIF_VARIABLE("ID",&food_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
   MUIF_VARIABLE("OD",&food_input,mui_u8g2_u8_opt_child_wm_mse_pi),
 
@@ -771,6 +903,7 @@ MUI_XY("AF",76, 35)
 MUI_LABEL(5,46, "LED on:")
 MUI_XY("AN",76, 46)
 MUI_XYAT("G1",64, 59, 2, " OK ")
+
 
 
 /* combo box Food & Drink Selection, called from form 11 */

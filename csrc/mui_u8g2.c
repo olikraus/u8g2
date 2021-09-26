@@ -1131,11 +1131,6 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_CURSOR_ENTER:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
-    /*
-      if ( (arg > 0) && (ui->form_scroll_top + arg >= ui->form_scroll_total) )
-        return 255;
-      break;
-    */
     case MUIF_MSG_CURSOR_SELECT:
       if ( value != NULL )
         *value = ui->form_scroll_top + arg;
@@ -1149,45 +1144,8 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_EVENT_NEXT:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
-    /*
-      if ( arg+1 == ui->form_scroll_visible )
-      {
-        if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
-        {
-          ui->form_scroll_top++;
-          return 1;
-        }
-        else
-        {
-          ui->form_scroll_top = 0;
-        }
-      }
-      break;
-    */
     case MUIF_MSG_EVENT_PREV:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
-      /*
-      if ( arg == 0 )
-      {
-        if ( ui->form_scroll_top > 0 )
-        {
-          ui->form_scroll_top--;
-          return 1;
-        }
-        else
-        {
-          if ( ui->form_scroll_total >  ui->form_scroll_visible  )
-          {
-            ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
-          }
-          else
-          {
-            ui->form_scroll_top = 0;
-          }
-        }
-      }
-      break;
-      */
   }
   return 0;
 }
@@ -1547,38 +1505,8 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_EVENT_NEXT:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
-      /*
-      if ( arg+1 == ui->form_scroll_visible )
-      {
-        if ( ui->form_scroll_visible + ui->form_scroll_top < ui->form_scroll_total )
-        {
-          ui->form_scroll_top++;
-          return 1;
-        }
-        else
-        {
-          ui->form_scroll_top = 0;
-        }
-      }
-      break;
-    */
     case MUIF_MSG_EVENT_PREV:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
-    /*
-      if ( arg == 0 )
-      {
-        if ( ui->form_scroll_top > 0 )
-        {
-          ui->form_scroll_top--;
-          return 1;
-        }
-        else
-        {
-          ui->form_scroll_top = ui->form_scroll_total - ui->form_scroll_visible;
-        }
-      }
-      break;
-    */
   }
   return 0;
 }
