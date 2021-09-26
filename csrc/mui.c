@@ -103,6 +103,7 @@ static size_t mui_fds_get_cmd_size_without_text(fds_t *s)
   {
     case 'U': return 2;
     case 'S': return 2;
+    case 'D': return 3;         // CMD, ID (2 Bytes), Text (does not count here)
     case 'F': return 5;         // CMD, ID (2 Bytes), X, Y
     case 'B': return 5;         // CMD, ID (2 Bytes), X, Y, Text (does not count here)
     case 'T': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text (does not count here)
@@ -370,6 +371,11 @@ static uint8_t mui_prepare_current_field(mui_t *ui)
       {
         ui->arg = mui_get_fds_char(ui->fds+5);
       }
+  }
+  else if ( ui->cmd == 'D' )
+  {
+      ui->id0 = mui_get_fds_char(ui->fds+1);
+      ui->id1 = mui_get_fds_char(ui->fds+2);
   }
   else if ( ui->cmd == 'S' )
   {
@@ -646,7 +652,9 @@ void mui_next_field(mui_t *ui)
   nth_token can be 0 if the fiel text is not a option list
   the result is stored in ui->text
 */
-void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
+/* OBSOLETE */
+#ifdef OBSOLETE
+void mui_GetSelectableFieldTextOptionByCursorPosition(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
 {
   fds_t *fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
   int len = ui->len;          // backup length of the current command
@@ -667,12 +675,30 @@ void mui_GetSelectableFieldTextOption(mui_t *ui, uint8_t form_id, uint8_t cursor
   ui->len = len;
   // result is stored in ui->text
 }
+#endif
+
+void mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_token)
+{
+  fds_t *fds_backup = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
+  int len = ui->len;          // backup length of the current command, 26 sep 2021: probably this is not required any more
+  
+  ui->fds = fds;
+  // at this point ui->fds contains the field which contains the tokens  
+  // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
+  mui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
+  
+  ui->fds = fds_backup;                        // restore the previous fds position
+  ui->len = len;
+  // result is stored in ui->text
+}
 
 /*
   this function will overwrite the ui field related member variables
   return the number of options in the referenced field
 */
-uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, uint8_t form_id, uint8_t cursor_position)
+/* OBSOLETE */
+#ifdef OBSOLETE
+uint8_t mui_GetSelectableFieldOptionCntByCursorPosition(mui_t *ui, uint8_t form_id, uint8_t cursor_position)
 {
   fds_t *fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
   int len = ui->len;          // backup length of the current command
@@ -690,6 +716,24 @@ uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, uint8_t form_id, uint8_t curs
   cnt = mui_fds_get_token_cnt(ui); 
   
   ui->fds = fds;                        // restore the previous fds position
+  ui->len = len;
+  // result is stored in ui->text
+  return cnt;
+}
+#endif
+
+uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds)
+{
+  fds_t *fds_backup = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
+  int len = ui->len;          // backup length of the current command   26 sep 2021: probably this is not required any more
+  uint8_t cnt = 0;
+  
+  ui->fds = fds;
+  // at this point ui->fds contains the field which contains the tokens  
+  // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
+  cnt = mui_fds_get_token_cnt(ui); 
+  
+  ui->fds = fds_backup;                        // restore the previous fds position
   ui->len = len;
   // result is stored in ui->text
   return cnt;
@@ -781,6 +825,7 @@ void mui_SaveForm(mui_t *ui)
   if ( mui_IsFormActive(ui) == 0 )
     return;
   
+  ui->last_form_fds = ui->cursor_focus_fds;
   ui->last_form_id = mui_get_fds_char(ui->current_form_fds+1);
   ui->last_form_cursor_focus_position = mui_GetCurrentCursorFocusPosition(ui);
 }

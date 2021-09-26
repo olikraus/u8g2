@@ -1059,6 +1059,7 @@ uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+
 uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -1075,7 +1076,7 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
       if ( ui->form_scroll_visible <= arg )
         ui->form_scroll_visible = arg+1;
       if ( ui->form_scroll_total == 0 )
-          ui->form_scroll_total = mui_GetSelectableFieldOptionCnt(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
+          ui->form_scroll_total = mui_GetSelectableFieldOptionCnt(ui, ui->last_form_fds);
       //printf("MUIF_MSG_FORM_START: arg=%d visible=%d top=%d total=%d\n", arg, ui->form_scroll_visible, ui->form_scroll_top, ui->form_scroll_total);
       break;
     case MUIF_MSG_FORM_END:  
@@ -1083,7 +1084,8 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      *value = ui->form_scroll_top + arg;
+      if ( value != NULL )
+        *value = ui->form_scroll_top + arg;
       mui_RestoreForm(ui);
       break;
     case MUIF_MSG_CURSOR_LEAVE:
@@ -1148,7 +1150,7 @@ uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg)
         {
           /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
           /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
-          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top);
         }
         
         if ( ui->text[0] != '\0' )
@@ -1194,7 +1196,7 @@ uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg)
         {
           /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
           /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
-          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top);
         }
         
         if ( ui->text[0] != '\0' )
@@ -1240,7 +1242,7 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
         {
           /* if the text is not provided, then try to get the text from the previous (saved) element, assuming that this contains the selection */
           /* this will overwrite all ui member functions, so we must not access any ui members (except ui->text) any more */
-          mui_GetSelectableFieldTextOption(ui, ui->last_form_id, ui->last_form_cursor_focus_position, arg + ui->form_scroll_top);
+          mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top);
         }
         if ( ui->text[0] != '\0' )
         {
@@ -1248,6 +1250,58 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
         }        
       }
       break;
+    default:
+      return mui_u8g2_u8_opt_child_mse_common(ui, msg);
+  }
+  return 0;
+}
+
+/* 
+  an invisible field (which will not show anything). It should also not be selectable 
+  it just provides the menu entries, see "mui_u8g2_u8_opt_child_mse_common" and friends 
+  as a consequence it does not have width, input mode and style
+*/
+uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      break;
+    case MUIF_MSG_FORM_START:
+      // store the field (and the corresponding elements) in the last_form_fds variable.
+      // last_form_fds is later used to access the elements (see mui_u8g2_u8_opt_child_mse_common and friends)
+      ui->last_form_fds = ui->fds;
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+}
+
+
+uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top);
+      mui_u8g2_draw_button_pi(ui, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), ui->text+1);
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top);
+      return mui_GotoForm(ui, (uint8_t)ui->text[0], 0);
     default:
       return mui_u8g2_u8_opt_child_mse_common(ui, msg);
   }
@@ -1414,7 +1468,8 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      *selection = ui->form_scroll_top + arg;
+      if ( selection != NULL )
+        *selection = ui->form_scroll_top + arg;
       mui_RestoreForm(ui);
       break;
     case MUIF_MSG_CURSOR_LEAVE:
