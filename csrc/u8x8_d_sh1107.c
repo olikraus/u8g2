@@ -435,7 +435,7 @@ static const uint8_t u8x8_d_sh1107_128x80_init_seq[] = {
 };
 
 
-static const u8x8_display_info_t u8x8_sh1107_128x128_display_info =
+static const u8x8_display_info_t u8x8_sh1107_128x80_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
