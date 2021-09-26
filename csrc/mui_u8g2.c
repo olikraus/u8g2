@@ -1082,6 +1082,8 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_FORM_END:  
       break;
     case MUIF_MSG_CURSOR_ENTER:
+      if ( ui->form_scroll_top + arg >= ui->form_scroll_total )
+        return 255;
       break;
     case MUIF_MSG_CURSOR_SELECT:
       if ( value != NULL )
@@ -1289,6 +1291,7 @@ uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg)
 }
 
 
+
 uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -1296,12 +1299,13 @@ uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top);
-      mui_u8g2_draw_button_pi(ui, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), ui->text+1);
+      if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top) )
+        mui_u8g2_draw_button_pi(ui, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), ui->text+1);
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top);
-      return mui_GotoForm(ui, (uint8_t)ui->text[0], 0);
+      if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
+        return mui_GotoForm(ui, (uint8_t)ui->text[0], 0);
+      break;
     default:
       return mui_u8g2_u8_opt_child_mse_common(ui, msg);
   }

@@ -96,8 +96,6 @@ typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
 #endif
 
 
-
-
 /* helper functions */
 
 u8g2_uint_t mui_get_x(mui_t *ui);

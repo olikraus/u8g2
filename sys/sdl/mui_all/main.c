@@ -16,6 +16,13 @@ mui_t ui;
 /*
   global variables which form the communication gateway between the user interface and the rest of the code
 */
+uint8_t number_input9 = 2;       // variable where the user can input a number between 0 and 9
+uint8_t number_input99 = 95;       // variable where the user can input a number between 0 and 99
+uint8_t chkbox1_input = 0;
+uint8_t chkbox2_input = 0;
+uint8_t radio_input = 0;
+
+
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t number_input2 = 100;       // variable where the user can input a number between 0 and 9
 uint8_t fruit_input = 2;
@@ -94,6 +101,35 @@ uint8_t mui_style_streamline_food_drink(mui_t *ui, uint8_t msg)
   }
   return 0;
 }
+
+uint8_t mui_style_small(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      u8g2_SetFont(u8g2, u8g2_font_blipfest_07_tr );
+      //u8g2_SetFont(u8g2, u8g2_font_u8glib_4_tr );
+      break;
+  }
+  return 0;
+}
+
+uint8_t mui_style_streamline_interface_essential_login(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      u8g2_SetFont(u8g2, u8g2_font_streamline_interface_essential_login_t);
+      //u8g2_SetFont(u8g2, u8g2_font_6x10_tr);
+      break;
+  }
+  return 0;
+}
+
+
+ 
 
 /*=================================================*/
 /* local mui functions */
@@ -192,21 +228,43 @@ muif_t muif_list[] MUI_PROGMEM = {
   /* bold text style */
   MUIF_STYLE(1, mui_style_helv_b_08),
 
+  /* very small font */
+  MUIF_STYLE(2, mui_style_small),
+
+  
+  MUIF_STYLE(3, mui_style_streamline_interface_essential_login),
+
   /* monospaced font */
-  MUIF_STYLE(2, mui_style_monospaced),
+  //MUIF_STYLE(3, mui_style_monospaced),
   
   /* food and drink */
-  MUIF_STYLE(3, mui_style_streamline_food_drink),
+  //MUIF_STYLE(4, mui_style_streamline_food_drink),
   
+
   /* horizontal line (hrule) */
   MUIF_RO("HR", mui_hrule),
 
   MUIF_LABEL(mui_u8g2_draw_text),
 
-  MUIF_U8G2_U16_LIST("LG", &list_selection4, NULL, menu_get_str, menu_get_cnt, mui_u8g2_u16_list_goto_w1_mse_pi),
-
   MUIF_RO("GP",mui_u8g2_goto_parent),
   MUIF_BUTTON("GC", mui_u8g2_goto_child_w1_mse_pi),
+
+  /* Form 10 */
+  MUIF_GOTO(mui_u8g2_btn_goto_wm_fi),
+  MUIF_BUTTON("G0", mui_u8g2_btn_goto_wm_fi),
+  MUIF_BUTTON("G1", mui_u8g2_btn_goto_w1_pi),
+  MUIF_BUTTON("G2", mui_u8g2_btn_goto_w2_fi),
+
+  /* Form 20 */
+  MUIF_U8G2_U8_MIN_MAX("N0", &number_input9, 0, 9, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("N1", &number_input99, 0, 99, mui_u8g2_u8_min_max_wm_mud_pi),
+  MUIF_U8G2_U8_MIN_MAX("N2", &number_input9, 0, 9, mui_u8g2_u8_min_max_wm_mse_pf),
+  MUIF_U8G2_U8_MIN_MAX("N3", &number_input99, 0, 99, mui_u8g2_u8_min_max_wm_mud_pf),
+
+  /* Form 30 */
+  MUIF_VARIABLE("C1",&chkbox1_input,mui_u8g2_u8_chkbox_wm_pi),
+  MUIF_VARIABLE("C2",&chkbox2_input,mui_u8g2_u8_chkbox_wm_pi),
+  MUIF_VARIABLE("RB",&radio_input,mui_u8g2_u8_radio_wm_pi),
 
 };
 
@@ -218,24 +276,189 @@ MUI_STYLE(1)
 MUI_LABEL(5,10, "MUI Elements")
 MUI_XY("HR", 0,13)
 MUI_STYLE(0)
-MUI_XYA("LG", 5, 25, 0) 
-MUI_XYA("LG", 5, 37, 1) 
-MUI_XYA("LG", 5, 49, 2) 
-MUI_XYA("LG", 5, 61, 3) 
-
-MUI_FORM(10)
-MUI_STYLE(1)
-MUI_LABEL(5,10, "U8 Input")
-MUI_XY("HR", 0,13)
-MUI_STYLE(0)
-MUI_DATA("GP", MUI_1 "aaa|" MUI_1 "bbb|" MUI_1 "ccc|" MUI_1 "ddd|" MUI_1 "eee" )
+MUI_DATA("GP", 
+    MUI_10 "Goto Buttons|"
+    MUI_20 "uint8 Input|"
+    MUI_30 "Checkbox/Radiobutton|"
+    MUI_13 "Checkbox|"
+    MUI_14 "Radio Selection|"
+    MUI_15 "Text Input|"
+    MUI_16 "Single Line Selection|"
+    MUI_17 "List Line Selection|"
+    MUI_18 "Parent/Child List|"
+    MUI_20 "Array Edit")
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
 MUI_XYA("GC", 5, 49, 2) 
 MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(10)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "Goto Buttons")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_11 "btn_goto_wm_fi|" 
+  MUI_12 "btn_goto_w1_pi|" 
+  MUI_13 "btn_goto_w2_fi|"
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(11)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_btn_goto_wm_fi")
+MUI_LABEL(1,12, "MUIF_GOTO, MUIF_BUTTON")
+MUI_LABEL(1,19, "MUI_GOTO, MUI_XYAT")
+MUI_LABEL(1,25, "Centered button, jumps to form")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_GOTO(64, 42, 10, "Button")
+MUI_GOTO(64, 59, 10, " Ok ")
+
+MUI_FORM(12)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_btn_goto_w1_pi")
+MUI_LABEL(1,12, "MUIF_GOTO, MUIF_BUTTON")
+MUI_LABEL(1,19, "MUI_GOTO, MUI_XYAT")
+MUI_LABEL(1,25, "Full width button without frame")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_XYAT("G1", 1, 42, 10, "Button")
+MUI_GOTO(64, 59, 10, " Ok ")
+
+MUI_FORM(13)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_btn_goto_w2_fi")
+MUI_LABEL(1,12, "MUIF_GOTO, MUIF_BUTTON")
+MUI_LABEL(1,19, "MUI_GOTO, MUI_XYAT")
+MUI_LABEL(1,25, "Centered half display width button")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_XYAT("G2", 32, 42, 10, "Btn 1")
+MUI_XYAT("G2", 96, 42, 10, "Btn 2")
+MUI_GOTO(64, 59, 10, " Ok ")
+
+
+
+
+
+MUI_FORM(20)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "uint8 Input")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_21 "u8_min_max_wm_mse_pi|" 
+  MUI_22 "u8_min_max_wm_mud_pi|" 
+  MUI_23 "u8_min_max_wm_mse_pf|" 
+  MUI_24 "u8_min_max_wm_mud_pf|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(21)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_min_max_wm_mse_pi")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for uint8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("N0",70, 40)
+MUI_GOTO(64, 59, 20, " Ok ")
+
+MUI_FORM(22)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_min_max_wm_mud_pi")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for uint8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("N1",70, 40)
+MUI_GOTO(64, 59, 20, " Ok ")
+
+MUI_FORM(23)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_min_max_wm_mse_pf")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for uint8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("N2",70, 40)
+MUI_GOTO(64, 59, 20, " Ok ")
+
+MUI_FORM(24)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_min_max_wm_mud_pf")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for uint8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("N3",70, 40)
+MUI_GOTO(64, 59, 20, " Ok ")
+
+
+
+
+MUI_FORM(30)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "uint8 Input")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_31 "u8_chkbox_wm_pi|" 
+  MUI_32 "u8_radio_wm_pi|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(31)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_chkbox_wm_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Checkbox, values 0 and 1, uint8_t)")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Checkbox 1: ")
+MUI_XY("C1",66, 40)
+MUI_LABEL(1,55, "Checkbox 2: ")
+MUI_XY("C2",66, 55)
+MUI_STYLE(3)
+MUI_GOTO(110, 54, 30, "\x31")
+
+MUI_FORM(32)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_radio_wm_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYA, MUI_XYAT")
+MUI_LABEL(1,25, "Radio buttons, assign arg to variable")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_XYAT("RB", 1, 40, 1, "Radio 1")
+MUI_XYAT("RB", 1, 55, 2, "Radio 2")
+MUI_STYLE(3)
+MUI_GOTO(110, 54, 30, "\x31")
+
+  //MUIF_VARIABLE("C1",&chkbox1_input,mui_u8g2_u8_chkbox_wm_pi),
+  //MUIF_VARIABLE("C2",&chkbox2_input,mui_u8g2_u8_chkbox_wm_pi),
+  //MUIF_VARIABLE("RB",&radio_input,mui_u8g2_u8_radio_wm_pi),
+
 ;
-
-
 
 muif_t muif_list_old[] MUI_PROGMEM = {
   /* normal text style */

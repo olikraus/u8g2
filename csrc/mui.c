@@ -101,22 +101,20 @@ static size_t mui_fds_get_cmd_size_without_text(fds_t *s)
   c &= 0xdf; /* consider upper and lower case */
   switch(c)
   {
-    case 'U': return 2;
-    case 'S': return 2;
-    case 'D': return 3;         // CMD, ID (2 Bytes), Text (does not count here)
-    case 'F': return 5;         // CMD, ID (2 Bytes), X, Y
-    case 'B': return 5;         // CMD, ID (2 Bytes), X, Y, Text (does not count here)
-    case 'T': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text (does not count here)
-    case 'A': return 6;         // CMD, ID (2 Bytes), X, Y, Arg, Text
-    case 'L': return 3;
-    //case 'M': return 4;
-    //case 'X': return 3;
-    //case 'J': return 4;
-    case 'G': return 4;  
+    case 'U': return 2;         // User Form: CMD  (1 Byte), Form-Id (1 Byte)
+    case 'S': return 2;         // Style: CMD (1 Byte), Style Id (1 Byte)
+    case 'D': return 3;         // Data within Text: CMD (1 Byte), ID (2 Bytes), Text (does not count here)
+    case 'F': return 5;         // Field without arg & text: CMD (1 Byte), ID (2 Bytes), X, Y
+    case 'B': return 5;         // Field with text: CMD (1 Byte), ID (2 Bytes), X, Y, Text (does not count here)
+    case 'T': return 6;         // Field with arg & text: CMD (1 Byte), ID (2 Bytes), X, Y, Arg, Text (does not count here)
+    case 'A': return 6;         // Field with arg (no text): CMD (1 Byte), ID (2 Bytes), X, Y, Arg, Text
+    case 'L': return 3;          // Text Label: CMD (1 Byte), X, Y (same as 'B' but with fixed ID '.L', MUIF_LABEL, MUI_LABEL)
+    case 'G': return 4;         // Goto Btutton: CMD (1Byte), X, Y, Arg, Text  (same as 'T' but with fixed ID '.G', MUIF_GOTO, MUI_GOTO)
     case 0: return 0;
   }
   return 1;
 }
+
 
 
 /*
@@ -677,19 +675,21 @@ void mui_GetSelectableFieldTextOptionByCursorPosition(mui_t *ui, uint8_t form_id
 }
 #endif
 
-void mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_token)
+uint8_t mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_token)
 {
   fds_t *fds_backup = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
   int len = ui->len;          // backup length of the current command, 26 sep 2021: probably this is not required any more
+  uint8_t is_found;
   
   ui->fds = fds;
   // at this point ui->fds contains the field which contains the tokens  
   // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
-  mui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
+  is_found = mui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
   
   ui->fds = fds_backup;                        // restore the previous fds position
   ui->len = len;
   // result is stored in ui->text
+  return is_found;
 }
 
 /*
@@ -742,10 +742,10 @@ uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds)
 
 
 //static void mui_send_cursor_enter_msg(mui_t *ui) MUI_NOINLINE;
-static void mui_send_cursor_enter_msg(mui_t *ui)
+static uint8_t mui_send_cursor_enter_msg(mui_t *ui)
 {
   ui->is_mud = 0;
-  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_ENTER);
+  return mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_ENTER);
 }
 
 /* 
@@ -785,7 +785,10 @@ void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position)
     initial_cursor_position--;
   }
   
-  mui_send_cursor_enter_msg(ui);
+  while( mui_send_cursor_enter_msg(ui) == 255 )
+  {
+    mui_NextField(ui);          // mui_next_field(ui) is not sufficient in case of scrolling
+  }
 }
 
 /* input: current_form_fds */
@@ -846,11 +849,13 @@ void mui_RestoreForm(mui_t *ui)
 */
 void mui_NextField(mui_t *ui)
 {
-  if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_NEXT) )
-    return;
-  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
-  mui_next_field(ui);
-  mui_send_cursor_enter_msg(ui);
+  do 
+ {
+    if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_NEXT) )
+      return;
+    mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
+    mui_next_field(ui);
+ } while ( mui_send_cursor_enter_msg(ui) == 255 );
 }
 
 /*
@@ -861,21 +866,21 @@ void mui_NextField(mui_t *ui)
 */
 void mui_PrevField(mui_t *ui)
 {
-  if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_PREV) )
-    return;
-  mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
-  
-  mui_loop_over_form(ui, mui_task_find_prev_cursor_uif);
-  //ui->cursor_focus_position--;
-  ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
-  if ( ui->target_fds == NULL )
+  do
   {
-    //ui->cursor_focus_position = 0;
-    mui_loop_over_form(ui, mui_task_find_last_cursor_uif);
+    if ( mui_send_cursor_msg(ui, MUIF_MSG_EVENT_PREV) )
+      return;
+    mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
+ 
+    mui_loop_over_form(ui, mui_task_find_prev_cursor_uif);
     ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
-  }
-  
-  mui_send_cursor_enter_msg(ui);
+    if ( ui->target_fds == NULL )
+    {
+      //ui->cursor_focus_position = 0;
+      mui_loop_over_form(ui, mui_task_find_last_cursor_uif);
+      ui->cursor_focus_fds = ui->target_fds;      // NULL is ok  
+    }
+  } while( mui_send_cursor_enter_msg(ui) == 255 );
 }
 
 

@@ -151,12 +151,15 @@ struct muif_struct
 #define MUIF_MSG_DRAW 1
 #define MUIF_MSG_FORM_START 2
 #define MUIF_MSG_FORM_END 3
+/* MUIF_MSG_CURSOR_ENTER return values: 255=skip this field, <255, continue*/
 #define MUIF_MSG_CURSOR_ENTER 4
 #define MUIF_MSG_CURSOR_SELECT 5
 #define MUIF_MSG_CURSOR_LEAVE 6
 #define MUIF_MSG_TOUCH_DOWN 7
 #define MUIF_MSG_TOUCH_UP 8
+/* MUIF_MSG_EVENT_NEXT return values: 0=not handled, 1=handled, do nothing */
 #define MUIF_MSG_EVENT_NEXT 9
+/* MUIF_MSG_EVENT_PREV return values: 0=not handled, 1=handled, do nothing */
 #define MUIF_MSG_EVENT_PREV 10
 
 /* dynamic flags */
@@ -169,7 +172,7 @@ struct muif_struct
 
 
 /* must be smaller than or equal to 255 */
-#define MUI_MAX_TEXT_LEN 31
+#define MUI_MAX_TEXT_LEN 41
 
 struct mui_struct
 {
@@ -516,7 +519,7 @@ void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, si
 uint8_t mui_GetCurrentCursorFocusPosition(mui_t *ui) ;
 void mui_Draw(mui_t *ui);
 /* warning: The next function will overwrite the ui field variables like ui->arg, etc. 26 sep 2021: only ui->text is modified */
-void mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_token);
+uint8_t mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_token);
 /* warning: The next function will overwrite the ui field variables like ui->arg, etc 26 sep 2021: only ui->text is modified*/
 uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds);
 void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position);
