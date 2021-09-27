@@ -399,40 +399,9 @@ uint8_t u8x8_d_sh1107_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 }
 
 /*==================================================*/
-/* 128x80 OLED, copyied from 128x128 oled,  this display has a very strange x offset */
+/* 128x80 OLED, copyied from SEEED 128x128 oled,  this display has a very strange x offset */
 /* https://github.com/olikraus/u8g2/issues/1598 */
-
-/* sequence taken over from 64x128 sequence, because it seems to work mostly */
-static const uint8_t u8x8_d_sh1107_128x80_init_seq[] = {
-    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
-  
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_CA(0x0dc, 24),		/* start line */
-  U8X8_CA(0x081, 0x02f), 		/* [2] set contrast control */
-  U8X8_C(0x020),		                /* use page addressing mode */
-
-  // U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  // U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
-  // Flipmode
-  U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
-  
-  U8X8_CA(0x0a8, 0x7f),		/* 0x03f multiplex ratio */
-  //U8X8_CA(0x0d3, 0x060),		/* display offset (removed, not in datasheet ) */
-  U8X8_CA(0x0d5, 0x050),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8), changed to 0x051, issue 501 */
-  U8X8_CA(0x0d9, 0x022), 		/* [2] pre-charge period 0x022/f1*/
-  U8X8_CA(0x0db, 0x035), 		/* vcomh deselect level */  
-  
-  U8X8_C(0x0b0), /* set page address */
-  U8X8_CA(0x0da, 0x012), /* set com pins */
-  U8X8_C(0x0a4),				/* output ram to display */
-  U8X8_C(0x0a6),				/* none inverted normal display mode */
-    
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
+/* this is actually a 80x128 display, but let's keep the 128x80 name */
 
 
 static const u8x8_display_info_t u8x8_sh1107_128x80_display_info =
@@ -451,12 +420,12 @@ static const u8x8_display_info_t u8x8_sh1107_128x80_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
-  /* tile_width = */ 16,
-  /* tile_hight = */ 10,
-  /* default_x_offset = */ 96,
-  /* flipmode_x_offset = */ 96,
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 80
+  /* tile_width = */ 10,
+  /* tile_hight = */ 16,
+  /* default_x_offset = */ 24,
+  /* flipmode_x_offset = */ 24,
+  /* pixel_width = */ 80,
+  /* pixel_height = */ 128
 };
 
 uint8_t u8x8_d_sh1107_128x80(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -469,7 +438,7 @@ uint8_t u8x8_d_sh1107_128x80(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   {
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x80_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1107_128x128_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1107_128x80_display_info);
