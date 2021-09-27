@@ -275,3 +275,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix release for include error (issues 1592 and 1594)
 2021-xx-xx      v2.32.x  olikraus@gmail.com
   * SH1107 128x80 (issue 1598)
+  * ST7920 256x32 (issue 1593)
+  
