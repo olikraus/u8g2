@@ -273,4 +273,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added icons from https://app.streamlinehq.com/icons/pixel (issue 1589)
 2021-09-20	v2.31.2	olikraus@gmail.com
   * Bugfix release for include error (issues 1592 and 1594)
-  
+2021-xx-xx      v2.32.x  olikraus@gmail.com
+  * SH1107 128x80 (issue 1598)
