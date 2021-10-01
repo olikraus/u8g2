@@ -127,10 +127,10 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg);        /* MUIF_VARIABLE
 uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg); /* MUIF_VARIABLE,MUI_XYAT */
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg); /* MUIF_VARIABLE,MUI_XYAT */
 
-uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg); /* like mui_u8g2_u8_opt_radio_child_wm_mse_pi, but without radio button */
+uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);       /* MUIF_VARIABLE, MUI_XYAT */
+uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg);        /* MUIF_VARIABLE, MUI_XYA */
+uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_VARIABLE, MUI_XYA */
+uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);                /* MUIF_VARIABLE, MUI_XYA */ 
 
 uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO */
 uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
