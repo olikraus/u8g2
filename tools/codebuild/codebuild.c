@@ -1734,7 +1734,7 @@ struct controller controller_list[] =
   },
 
   {
-    "gu800", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_110", "", COM_4WSPI|COM_6800|COM_8080,
+    "gu800", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_gu800_cad_110", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64" },
