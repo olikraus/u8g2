@@ -199,8 +199,6 @@ static const u8x8_display_info_t u8x8_d_gu800_128x64_display_info =
 
 uint8_t u8x8_d_gu800_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint8_t x, c;
-  uint8_t *ptr;
   
   if ( u8x8_d_gu800_common(u8x8, msg, arg_int, arg_ptr) )
     return 1;
@@ -219,5 +217,6 @@ uint8_t u8x8_d_gu800_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   }
   return 1;
 }
+
 
 
