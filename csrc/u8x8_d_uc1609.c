@@ -31,117 +31,90 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
-  
+
+  https://github.com/olikraus/u8g2/issues/1565
+
   cad001
+  
   
 */
 #include "u8x8.h"
 
 
-
-
-static const uint8_t u8x8_d_uc1609_erm19264_init_seq[] = {
+static const uint8_t u8x8_d_uc1609_19264_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
 
-  U8X8_CA(0x0f1, 0x067),		/* set COM end (display height-1) */
+  U8X8_CA(0x0f1, 63),		/* set COM end (display height-1) */
   U8X8_C(0x0c0),            			/* SEG & COM normal */
-  U8X8_C(0x040),            			/* set scroll line lsb to zero */
-  U8X8_C(0x050),            			/* set scroll line msb to zero */
-  U8X8_C(0x02b),            			/* set panelloading */
+  U8X8_C(0x040),            			/* set scroll line to zero */
+  U8X8_C(0x02e),            			/* chare pump */
   U8X8_C(0x0eb),            			/* set bias 1/2 */  
-  U8X8_CA(0x081, 0x05f),            	/* set contrast */
+  U8X8_CA(0x081, 0x08f),            	/* set contrast */
   
   /*
     AC0:	0: stop at boundary, 1: increment by one
     AC1: 	0: first column then page, 1: first page, then column increment
     AC2:	0: increment page adr, 1: decrement page adr.
   */
-  U8X8_C(0x08b),            			/* set auto increment, low bits are AC2 AC1 AC0 */
+  U8X8_C(0x088),            			/* set auto increment, low bits are AC2 AC1 AC0 */
+  U8X8_C(0x0a1),            			/* frame rate 95Hz */
+  
   
   /*
     LC0:	0
     MX:	Mirror X
     MY:	Mirror Y
   */  
-  U8X8_C(0x0c0),            			/* low bits are MY, MX, LC0 */
-  
-  U8X8_C(0x0f8),            			// window mode off
-  U8X8_C(0x010),		                // col high
-  U8X8_C(0x000),		                // col low
-  U8X8_C(0x0b0),		                // page
+  U8X8_C(0x0c4),            			/* low bits are MY, MX, LC0 */
   
   U8X8_C(0x0a6),            			/* set normal pixel mode (not inverse) */
   U8X8_C(0x0a4),            			/* set normal pixel mode (not all on) */
 
-  /* test code 
-  U8X8_C(0x0af),		                // display on 
-  U8X8_C(0x0f8),            			// window mode off
-  U8X8_CA(0x0f4, 0),			// set window
-  U8X8_CA(0x0f5, 0),
-  U8X8_CA(0x0f6, 4),
-  U8X8_CA(0x0f7, 1),
-  U8X8_C(0x0f9),            			// window mode on
-  U8X8_D1(0x03),
-  U8X8_D1(0x0c0),
-  U8X8_D1(0x0ff),
-  U8X8_D1(0x0ff),
-  U8X8_D1(0x0ff),
-  U8X8_D1(0x0ff),
-  U8X8_D1(0x0ff),
-  U8X8_D1(0x0ff),
-  */
-  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1609_erm19264_powersave0_seq[] = {
+static const uint8_t u8x8_d_uc1609_19264_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0af),		                /* display on, UC1610 */
+  U8X8_C(0x0af),		                /* display on, UC1609 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1609_erm19264_powersave1_seq[] = {
+static const uint8_t u8x8_d_uc1609_19264_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0ae),		                /* display off,  UC1610 */
+  U8X8_C(0x0ae),		                /* display off,  UC1609 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1609_erm19264_flip0_seq[] = {
+static const uint8_t u8x8_d_uc1609_19264_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   /*
     LC0:	0
     MX:	Mirror X
     MY:	Mirror Y
   */  
-  U8X8_C(0x0c0),            			/* low bits are MY, MX, LC0 */
+  U8X8_C(0x0c4),            			/* low bits are MY, MX, LC0 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_uc1609_erm19264_flip1_seq[] = {
+static const uint8_t u8x8_d_uc1609_19264_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   /*
     LC0:	0
     MX:	Mirror X
     MY:	Mirror Y
   */  
-  U8X8_C(0x0c6),            			/* low bits are MY, MX, LC0 */
+  U8X8_C(0x0c2),            			/* low bits are MY, MX, LC0 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 
-/* 
-  UC1610 has two chip select inputs (CS0 and CS1).
-  CS0 is low active, CS1 is high active. It will depend on the display
-  module whether the display has a is low or high active chip select.
-*/
-
-static const u8x8_display_info_t u8x8_uc1609_display_info =
+static const u8x8_display_info_t u8x8_uc1609_19264_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -157,52 +130,14 @@ static const u8x8_display_info_t u8x8_uc1609_display_info =
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
-  /* tile_width = */ 20,		
-  /* tile_hight = */ 13,		/* height of 13*8=104 pixel */
+  /* tile_width = */ 24,		
+  /* tile_hight = */ 8,		
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 194,
-  /* pixel_height = */ 92
+  /* pixel_width = */ 192,
+  /* pixel_height = */ 64
 };
 
-
-/*
-  RAM Organization:
-  D0  Pix0
-  D1
-  D2  Pix1
-  D3
-  D4  Pix2
-  D5
-  D6  Pix3
-  D7    
-  D0  Pix4
-  D1
-  D2  Pix5
-  D3
-  D4  Pix6
-  D5
-  D6  Pix7
-  D7    
-
-
-*/
-static uint8_t *u8x8_convert_tile_for_uc1609(uint8_t *t)
-{
-  uint8_t i;
-  uint16_t r;
-  static uint8_t buf[16];
-  uint8_t *pbuf = buf;
-
-  for( i = 0; i < 8; i++ )
-  {
-    r = u8x8_upscale_byte(*t++);
-    *pbuf++ = r & 255;
-    r >>= 8;
-    *pbuf++ = r;
-  }
-  return buf;
-}
 
 uint8_t u8x8_d_uc1609_slg19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -211,27 +146,27 @@ uint8_t u8x8_d_uc1609_slg19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
   switch(msg)
   {
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1609_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1609_19264_display_info);
       break;
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_erm19264_init_seq);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_19264_init_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_erm19264_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_19264_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_erm19264_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_19264_powersave1_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_erm19264_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_19264_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_erm19264_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_uc1609_19264_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }	
       break;
@@ -251,42 +186,20 @@ uint8_t u8x8_d_uc1609_slg19264(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       x += u8x8->x_offset;
     
       page = (((u8x8_tile_t *)arg_ptr)->y_pos);
-      page *= 2;
-
-      u8x8_cad_SendCmd(u8x8, 0x0f8 );	/* window disable */
       
-      //u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
-      //u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
-      //u8x8_cad_SendCmd(u8x8, 0x0b0 | page);
+      u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+      u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
+      u8x8_cad_SendCmd(u8x8, 0x0b0 | page);
 
-      u8x8_cad_SendCmd(u8x8, 0x0f4 );	/* window start column */
-      u8x8_cad_SendArg(u8x8, x);
-      u8x8_cad_SendCmd(u8x8, 0x0f5 );	/* window start page */
-      u8x8_cad_SendArg(u8x8, page);
-      u8x8_cad_SendCmd(u8x8, 0x0f6 );	/* window end column */
-      u8x8_cad_SendArg(u8x8, 159);		/* end of display */
-      u8x8_cad_SendCmd(u8x8, 0x0f7 );	/* window end page */
-      u8x8_cad_SendArg(u8x8, page+1);
-      u8x8_cad_SendCmd(u8x8, 0x0f9 );	/* window enable */
-    
       do
       {
 	c = ((u8x8_tile_t *)arg_ptr)->cnt;
 	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-	do
-	{
-	  u8x8_cad_SendData(u8x8, 16, u8x8_convert_tile_for_uc1609(ptr));
-	  ptr += 8;
-	  x += 8;
-	  c--;
-	} while( c > 0 );
-	
+        u8x8_cad_SendData(u8x8, c*8, ptr);
 	arg_int--;
       } while( arg_int > 0 );
-      
       u8x8_cad_EndTransfer(u8x8);
-
-    
+      
       break;
     default:
       return 0;
