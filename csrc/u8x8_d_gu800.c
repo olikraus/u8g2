@@ -107,16 +107,24 @@ uint8_t u8x8_d_gu800_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-      u8x8_cad_StartTransfer(u8x8);
     
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
+      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x064 );
+      u8x8_cad_EndTransfer(u8x8);
+      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendArg(u8x8, x );
+      u8x8_cad_EndTransfer(u8x8);
+      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x060 );
+      u8x8_cad_EndTransfer(u8x8);
+      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos) );
+      u8x8_cad_EndTransfer(u8x8);
     
+      u8x8_cad_StartTransfer(u8x8);
       do
       {
         c = ((u8x8_tile_t *)arg_ptr)->cnt;
@@ -145,24 +153,48 @@ static const uint8_t u8x8_d_gu800_128x64_init_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
   U8X8_C(0x05f),                                /* clear all RAM, clear address counters */
+  U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_DLY(1),                                  /* delay for 1 ms (see datasheet) */
   
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   /* configure all area as graphics RAM */
   U8X8_CA(0x62,0), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,1), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,2), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,3), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,4), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,5), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,6), U8X8_D1(0xff),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x62,7), U8X8_D1(0xff),
   
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x70, 0),                             /* horizontal shift */
   
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0xb0),                                 /* vertical shift */
   
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x4f),                                 /* max brightness */
 
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x84),                                 /* x increment */
   
   // U8X8_CA(0x024, 0x040)              /* display on */
