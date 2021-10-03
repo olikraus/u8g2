@@ -273,7 +273,7 @@ uint8_t u8x8_gu800_cad_110(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg
     case U8X8_MSG_CAD_SEND_DATA:
       u8x8_byte_SetDC(u8x8, 0);
       data = (uint8_t *)arg_ptr;
-      whle( arg_int > 0 )
+      while( arg_int > 0 )
       {
         u8x8_byte_StartTransfer(u8x8);
         u8x8_byte_SendByte(u8x8, *data);
