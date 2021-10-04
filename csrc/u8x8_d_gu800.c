@@ -36,7 +36,13 @@
 
   
  
-  cad110
+  u8x8_gu800_cad_110
+  
+  WARNING: DO NOT USE THIS FILE AS TEMPLATE:
+  
+  This code requires a special cad callback which includes the start
+  and end transfer code. As a consequence this code does not include any
+  start / end transfer calls.
   
 */
 #include "u8x8.h"
