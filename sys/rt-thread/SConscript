@@ -197,8 +197,6 @@ else:
 path    = [cwd + '/port']
 path   += [cwd + '/../../csrc']
 
-LOCAL_CCFLAGS = ''
-
-group = DefineGroup('U8G2', src, depend = ['PKG_USING_U8G2_OFFICIAL'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS, CPPDEFINES=['RTT_U8G2'])
+group = DefineGroup('u8g2', src, depend = ['PKG_USING_U8G2_OFFICIAL'], CPPPATH = path)
 
 Return('group')
