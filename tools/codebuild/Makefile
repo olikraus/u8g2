@@ -13,7 +13,7 @@ codebuild: $(SRC)
 	$(CC) -Wall -g $(LDFLAGS) $(SRC) -o codebuild
 
 clean:	
-	-rm ./codebuild codebuild.o
+	-rm ./codebuild
 
 build: codebuild
 	./codebuild
