@@ -45,16 +45,12 @@
 
 
 static const uint8_t u8x8_d_gu800_128x64_powersave0_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x024, 0x040),		        /* Byte 1: Layer 0010xx00, Byte 2: 0x40 (graphics on, normal mode, no or/xor) */
-  U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_gu800_128x64_powersave1_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA(0x020, 0x040),		        /* Byte 1: Layer 0010xx00, Byte 2: 0x40 (graphics on, normal mode, no or/xor) */
-  U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
@@ -101,9 +97,7 @@ uint8_t u8x8_d_gu800_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 #endif
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
-      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x40 | (arg_int >> 4) );	/* GU800 has range from 0..15 */
-      u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
@@ -111,20 +105,11 @@ uint8_t u8x8_d_gu800_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
       x *= 8;
       x += u8x8->x_offset;
-      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x064 );
-      u8x8_cad_EndTransfer(u8x8);
-      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendArg(u8x8, x );
-      u8x8_cad_EndTransfer(u8x8);
-      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendCmd(u8x8, 0x060 );
-      u8x8_cad_EndTransfer(u8x8);
-      u8x8_cad_StartTransfer(u8x8);
       u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos) );
-      u8x8_cad_EndTransfer(u8x8);
     
-      u8x8_cad_StartTransfer(u8x8);
       do
       {
         c = ((u8x8_tile_t *)arg_ptr)->cnt;
@@ -139,8 +124,6 @@ uint8_t u8x8_d_gu800_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
         u8x8_cad_SendData(u8x8, c*8, ptr); 	
 	arg_int--;
       } while( arg_int > 0 );
-      
-      u8x8_cad_EndTransfer(u8x8);
       break;
     default:
       return 0;
@@ -189,7 +172,7 @@ static const u8x8_display_info_t u8x8_d_gu800_128x64_display_info =
   /* sda_setup_time_ns = */ 40,     /* GU800: 40ns according to the timing diagram */
   /* sck_pulse_width_ns = */ 80,    /* GU800: Min 80ns per datasheet */
   /* sck_clock_hz = */ 4000000UL,
-  /* spi_mode = */ 0,               /* active high, rising edge */
+  /* spi_mode = */ 2,               /* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,   /* GU800: Not used */
   /* data_setup_time_ns = */ 40,    /* GU800: Min 40ns per datasheet */
   /* write_pulse_width_ns = */ 150, /* GU800: Min 150ns per datasheet */
@@ -222,6 +205,3 @@ uint8_t u8x8_d_gu800_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   }
   return 1;
 }
-
-
-
