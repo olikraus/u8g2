@@ -236,6 +236,7 @@ struct fontinfo fi[] ={
   { 0,  0, "m2icon_9.bdf", 		"m2icon_9", 		0, 0, BM_T, FM_C, MM_F, "", ""},
   { 0,  0, "emoticons21.bdf", 	"emoticons21", 	0, 0, BM_T, FM_C, MM_R, "", ""},
   { 0,  0, "battery19.bdf", 		"battery19", 		0, 0, BM_T, FM_C, MM_N, "", ""},
+  { 0,  0, "battery24.bdf", 		"battery24", 		0, 0, BM_T, FM_C, MM_R, "", ""},
   
   { 0,  0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
   { 0,  0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
