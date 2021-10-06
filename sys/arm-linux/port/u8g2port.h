@@ -1,8 +1,6 @@
 #ifndef U8G2LIB_H
 #define U8G2LIB_H
 
-#define __ARM_LINUX__
-
 #ifdef __cplusplus
     extern "C" {
 #endif
