@@ -44,7 +44,9 @@ static Print *u8g2_print_for_screenshot;
 
 void u8g2_print_callback(const char *s)
 { 
-//  yield();
+#ifdef ARDUINO
+  yield(); 
+#endif
   u8g2_print_for_screenshot->print(s); 
 }
 
