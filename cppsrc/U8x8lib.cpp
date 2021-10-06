@@ -38,11 +38,14 @@
 
 
 #include "U8x8lib.h"
+
+#ifdef ARDUINO
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif 
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
+#endif
 #endif
 
 
@@ -72,6 +75,7 @@ size_t U8X8::write(uint8_t v)
 /*=============================================*/
 /*=== ARDUINO GPIO & DELAY ===*/
 
+#ifdef ARDUINO
 #ifdef U8X8_USE_PINS
 extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
@@ -1638,6 +1642,7 @@ extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t a
 }
   
 #endif
+#endif /*ARDUINO*/
 
 
 
