@@ -34,6 +34,10 @@ cyrillic: bdfconv
 battery19: bdfconv
 	./bdfconv -f 1 -v -m '32-127' ../bdf/battery19.bdf -n battery19 -o battery19.c -d ../bdf/7x13.bdf
 
+battery24: bdfconv
+	./bdfconv -f 1 -v -m '32-127s' ../bdf/battery24.bdf -n battery24 -o battery24.c -d ../bdf/7x13.bdf
+	convert -trim bdf.tga battery24.png
+
 10x20greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/10x20.bdf -n 10x20_greek -o 10x20_greek.c -d ../bdf/7x13.bdf
 
