@@ -254,6 +254,23 @@ struct controller controller_list[] =
     }
   },
 
+ {
+    "sh1107", 	10, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x80" },  /* actually this is a 80x128 display */
+      { NULL }
+    }
+  },
+  {
+    "sh1107", 	10, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x80" }, /* actually this is a 80x128 display */
+      { NULL }
+    }
+  },
+
    {
     "sh1107", 	 16, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -324,6 +341,23 @@ struct controller controller_list[] =
     {
       { "128x32_univision" },
       { "128x32_winstar" },
+      { NULL }
+    }
+  },  
+
+  {
+    "ssd1306", 	13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "102x64_ea_oleds102" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1306", 	13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "102x64_ea_oleds102" },
       { NULL }
     }
   },  
@@ -672,6 +706,32 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
+  {
+    "st7920", 	32, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x32" },
+      { NULL }
+    }
+  },
+  {
+    "st7920", 	32, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "", COM_6800,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x32" },
+      { NULL }
+    }
+  },
+  {
+    "st7920", 	32, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_st7920_spi", "s", COM_ST7920SPI,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x32" },
+      { NULL }
+    }
+  },
+  
   {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -696,6 +756,7 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
   {
     "st7920", 	16, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -852,6 +913,24 @@ struct controller controller_list[] =
     }
   },  
 
+  {
+    "uc1609", 	24, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "slg19264" },
+      { NULL }
+    }
+  },  
+
+  {
+    "uc1609", 	24, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "slg19264" },
+      { NULL }
+    }
+  },  
+  
   {
     "uc1638", 	20, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -1171,6 +1250,23 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x128" },
+      { NULL }
+    }
+  },
+
+  {
+    "st7571", 		16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x96" },
+      { NULL }
+    }
+  },
+  {
+    "st7571", 		16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x96" },
       { NULL }
     }
   },
@@ -1633,6 +1729,15 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "240x64" },
+      { NULL }
+    }
+  },
+
+  {
+    "gu800", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_gu800_cad_110", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64" },
       { NULL }
     }
   },
