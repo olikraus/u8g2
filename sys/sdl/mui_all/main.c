@@ -24,6 +24,7 @@ uint8_t radio_input = 0;
 uint8_t fruit_input = 2;
 uint8_t color_input = 0;
 uint8_t food_input = 0;
+uint8_t text_input[4] = { ' ',' ',' ',' '} ;
 
 
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
@@ -32,7 +33,6 @@ uint8_t fruit_input2 = 2;
 uint8_t my_value3 = 0;
 uint8_t checkbox_input = 0;
 uint8_t direction_input = 0;
-uint8_t text_input[4] = { ' ',' ',' ',' '} ;
 uint8_t exit_code = 0;
 uint16_t list_selection = 0;
 uint16_t list_selection2 = 0;
@@ -237,8 +237,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   /* food and drink */
   MUIF_STYLE(4, mui_style_streamline_food_drink),
   
-  /* monospaced font */
-  //MUIF_STYLE(3, mui_style_monospaced),
+  /* monospaced font, good for  mui_u8g2_u8_char_wm_mud_pi */
+  MUIF_STYLE(5, mui_style_monospaced),
 
   /* horizontal line (hrule) */
   MUIF_RO("HR", mui_hrule),
@@ -277,6 +277,12 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_VARIABLE("P2",&food_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
   MUIF_VARIABLE("cf",&food_input,mui_u8g2_u8_opt_child_wm_mse_pi),
 
+  /* Form 60: Char Input */
+  MUIF_VARIABLE("T0", text_input+0, mui_u8g2_u8_char_wm_mud_pi),
+  MUIF_VARIABLE("T1", text_input+1, mui_u8g2_u8_char_wm_mud_pi),
+  MUIF_VARIABLE("T2", text_input+2, mui_u8g2_u8_char_wm_mud_pi),
+  MUIF_VARIABLE("T3", text_input+3, mui_u8g2_u8_char_wm_mud_pi),
+
 
 };
 
@@ -294,7 +300,7 @@ MUI_DATA("GP",
     MUI_30 "uint8 Checkbox|"
     MUI_40 "uint8 Cycle Options|"
     MUI_50 "uint8 ParentChild Select|"
-    MUI_15 "Text Input|"
+    MUI_60 "uint8 Char/Text Input|"
     MUI_16 "Single Line Selection|"
     MUI_17 "List Line Selection|"
     MUI_18 "Parent/Child List|"
@@ -523,7 +529,7 @@ MUI_DATA("GP",
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
 MUI_XYA("GC", 5, 49, 2) 
-MUI_XYA("GC", 5, 61, 3) 
+//MUI_XYA("GC", 5, 61, 3) 
 
 MUI_FORM(51)
 MUI_STYLE(2)
@@ -577,6 +583,37 @@ MUI_XYA("cf", 28, 53, 1)
 MUI_XYA("cf", 53, 53, 2)
 MUI_XYA("cf", 78, 53, 3)
 MUI_XYA("cf", 103, 53, 4)
+
+
+MUI_FORM(60)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "uint8 Char/Text Input")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_61 "u8_char_wm_mud_pi|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(61)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_char_wm_mud_pi")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "4x Char Input")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(5,40, "Text:")
+MUI_STYLE(5)
+MUI_XY("T0",40, 40)
+MUI_XY("T1",48, 40)
+MUI_XY("T2",56, 40)
+MUI_XY("T3",64, 40)
+MUI_STYLE(0)
+MUI_GOTO(64, 59, 60, " Ok ")
 
 /*
   MUIF_VARIABLE("P1",&color_input,mui_u8g2_u8_opt_parent_wm_mse_pi),

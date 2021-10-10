@@ -38,6 +38,10 @@ battery24: bdfconv
 	./bdfconv -f 1 -v -m '32-127s' ../bdf/battery24.bdf -n battery24 -o battery24.c -d ../bdf/7x13.bdf
 	convert -trim bdf.tga battery24.png
 
+hornet: bdfconv
+	./bdfconv -a -f 1 -v -m '32-127s' ./tmp/hornet.bdf -n hornet -o hornet.c -d ../bdf/7x13.bdf
+	convert -trim bdf.tga hornet.png
+
 10x20greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/10x20.bdf -n 10x20_greek -o 10x20_greek.c -d ../bdf/7x13.bdf
 
