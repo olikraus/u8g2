@@ -20,7 +20,7 @@
 #if defined U8G2_USE_HW_SPI
 
     #ifndef U8G2_SPI_BUS_NAME
-        #define U8G2_SPI_BUS_NAME            "spi1" 
+        #define U8G2_SPI_BUS_NAME            "spi1"
     #endif
 
     #ifndef U8G2_SPI_DEVICE_NAME

@@ -4,7 +4,7 @@
 #include <U8g2lib.h>
 
 // You may reference Drivers/drv_gpio.c for pinout
-// In u8x8.h #define U8X8_USE_PINS 
+// In u8x8.h #define U8X8_USE_PINS
 
 #define ST7920_8080_PIN_D0                    31  // PB15
 #define ST7920_8080_PIN_D1                    30  // PB14
@@ -20,18 +20,18 @@
 #define ST7920_8080_PIN_RST                   12  // PA12
 
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for all supported devices
-static U8G2_ST7920_128X64_F_8080 u8g2(U8G2_R0, 
-                                      ST7920_8080_PIN_D0, 
-                                      ST7920_8080_PIN_D1, 
-                                      ST7920_8080_PIN_D2, 
-                                      ST7920_8080_PIN_D3, 
-                                      ST7920_8080_PIN_D4, 
-                                      ST7920_8080_PIN_D5, 
-                                      ST7920_8080_PIN_D6, 
-                                      ST7920_8080_PIN_D7, 
-                                      /*enable=*/ ST7920_8080_PIN_EN, 
-                                      /*cs=*/ ST7920_8080_PIN_CS, 
-                                      /*dc=*/ ST7920_8080_PIN_DC, 
+static U8G2_ST7920_128X64_F_8080 u8g2(U8G2_R0,
+                                      ST7920_8080_PIN_D0,
+                                      ST7920_8080_PIN_D1,
+                                      ST7920_8080_PIN_D2,
+                                      ST7920_8080_PIN_D3,
+                                      ST7920_8080_PIN_D4,
+                                      ST7920_8080_PIN_D5,
+                                      ST7920_8080_PIN_D6,
+                                      ST7920_8080_PIN_D7,
+                                      /*enable=*/ ST7920_8080_PIN_EN,
+                                      /*cs=*/ ST7920_8080_PIN_CS,
+                                      /*dc=*/ ST7920_8080_PIN_DC,
                                       /*reset=*/ ST7920_8080_PIN_RST);
 
 static void u8g2_st7920_12864_8080_example(int argc,char *argv[])

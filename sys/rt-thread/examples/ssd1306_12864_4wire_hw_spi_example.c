@@ -4,7 +4,7 @@
 #include <u8g2_port.h>
 
 // You may reference Drivers/drv_gpio.c for pinout
-// In u8x8.h #define U8X8_USE_PINS 
+// In u8x8.h #define U8X8_USE_PINS
 
 #define OLED_SPI_PIN_RES                     2  // PA2
 #define OLED_SPI_PIN_DC                      1  // PA1
@@ -19,8 +19,8 @@ static void u8g2_ssd1306_12864_4wire_hw_spi_example(int argc,char *argv[])
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_CS, OLED_SPI_PIN_CS);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_DC, OLED_SPI_PIN_DC);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_RESET, OLED_SPI_PIN_RES);
-    
-		u8g2_InitDisplay(&u8g2);
+
+        u8g2_InitDisplay(&u8g2);
     u8g2_SetPowerSave(&u8g2, 0);
 
     // Draw Graphics

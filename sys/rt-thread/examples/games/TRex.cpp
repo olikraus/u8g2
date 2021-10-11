@@ -5,7 +5,7 @@
 // Upgraded u8g2 version of the classic Google Chrome T-Rex Runner game.
 
 // You may reference Drivers/drv_gpio.c for pinout
-// In u8x8.h #define U8X8_USE_PINS 
+// In u8x8.h #define U8X8_USE_PINS
 #define U8G2_PIN_UP                          3      // PA3
 #define U8G2_PIN_DOWN                        4      // PA4
 #define U8G2_PIN_LEFT                        6      // PA6
@@ -21,11 +21,11 @@
 
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for all supported devices
 // U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
-static U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI u8g2(U8G2_R0, 
-                                            /* clock=*/ OLED_SPI_PIN_CLK, 
-                                            /* data=*/ OLED_SPI_PIN_MOSI, 
-                                            /* cs=*/ OLED_SPI_PIN_CS, 
-                                            /* dc=*/ OLED_SPI_PIN_DC, 
+static U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI u8g2(U8G2_R0,
+                                            /* clock=*/ OLED_SPI_PIN_CLK,
+                                            /* data=*/ OLED_SPI_PIN_MOSI,
+                                            /* cs=*/ OLED_SPI_PIN_CS,
+                                            /* dc=*/ OLED_SPI_PIN_DC,
                                             /* reset=*/ OLED_SPI_PIN_RES);
 
 static int random(int low, int high)

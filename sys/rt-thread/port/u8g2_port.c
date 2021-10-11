@@ -76,10 +76,10 @@ uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
             rt_thread_mdelay(arg_int);
             break;
 
-        case U8X8_MSG_GPIO_AND_DELAY_INIT:  
-            // Function which implements a delay, arg_int contains the amount of ms  
+        case U8X8_MSG_GPIO_AND_DELAY_INIT:
+            // Function which implements a delay, arg_int contains the amount of ms
 
-            // set spi pin mode 
+            // set spi pin mode
             rt_pin_mode(u8x8->pins[U8X8_PIN_SPI_CLOCK],PIN_MODE_OUTPUT);
             rt_pin_mode(u8x8->pins[U8X8_PIN_SPI_DATA],PIN_MODE_OUTPUT);
             rt_pin_mode(u8x8->pins[U8X8_PIN_RESET],PIN_MODE_OUTPUT);
@@ -174,23 +174,23 @@ uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
             rt_pin_write(u8x8->pins[U8X8_PIN_I2C_DATA], arg_int);
             break;
 
-        case U8X8_MSG_GPIO_SPI_CLOCK:  
-            // Function to define the logic level of the clockline  
+        case U8X8_MSG_GPIO_SPI_CLOCK:
+            // Function to define the logic level of the clockline
             rt_pin_write(u8x8->pins[U8X8_PIN_SPI_CLOCK], arg_int);
             break;
 
         case U8X8_MSG_GPIO_SPI_DATA:
-            // Function to define the logic level of the data line to the display  
+            // Function to define the logic level of the data line to the display
             rt_pin_write(u8x8->pins[U8X8_PIN_SPI_DATA], arg_int);
             break;
 
         case U8X8_MSG_GPIO_CS:
-            // Function to define the logic level of the CS line  
+            // Function to define the logic level of the CS line
             rt_pin_write(u8x8->pins[U8X8_PIN_CS], arg_int);
             break;
 
         case U8X8_MSG_GPIO_DC:
-            // Function to define the logic level of the Data/ Command line  
+            // Function to define the logic level of the Data/ Command line
             rt_pin_write(u8x8->pins[U8X8_PIN_DC], arg_int);
             break;
 
@@ -295,7 +295,7 @@ uint8_t u8x8_byte_rtthread_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 #if defined U8G2_USE_HW_SPI
 uint8_t u8x8_byte_rtthread_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) {
     struct rt_spi_message spi_msg;
-    switch(msg) 
+    switch(msg)
     {
         case U8X8_MSG_BYTE_SEND:
             spi_msg.send_buf   = arg_ptr;
@@ -322,7 +322,7 @@ uint8_t u8x8_byte_rtthread_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_i
             break;
 
         case U8X8_MSG_BYTE_START_TRANSFER:
-            u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+            u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);
             u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
             break;
 

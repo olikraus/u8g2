@@ -4,7 +4,7 @@
 #include <U8g2lib.h>
 
 // You may reference Drivers/drv_gpio.c for pinout
-// In u8x8.h #define U8X8_USE_PINS 
+// In u8x8.h #define U8X8_USE_PINS
 #define OLED_I2C_PIN_SCL                    22  // PB6
 #define OLED_I2C_PIN_SDA                    23  // PB7
 

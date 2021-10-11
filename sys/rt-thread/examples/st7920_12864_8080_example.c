@@ -4,7 +4,7 @@
 #include <u8g2_port.h>
 
 // You may reference Drivers/drv_gpio.c for pinout
-// In u8x8.h #define U8X8_USE_PINS 
+// In u8x8.h #define U8X8_USE_PINS
 
 #define ST7920_8080_PIN_D0                    31  // PB15
 #define ST7920_8080_PIN_D1                    30  // PB14
@@ -41,12 +41,12 @@ static void u8g2_st7920_12864_8080_example(int argc,char *argv[])
 
     // Initialization
     u8g2_Setup_st7920_p_128x64_f(&u8g2, U8G2_R0, u8x8_byte_8bit_8080mode, u8x8_gpio_and_delay_rtthread);
-    u8x8_SetPin_8Bit_8080(u8g2_GetU8x8(&u8g2), 
-                          ST7920_8080_PIN_D0, ST7920_8080_PIN_D1, 
-                          ST7920_8080_PIN_D2, ST7920_8080_PIN_D3, 
-                          ST7920_8080_PIN_D4, ST7920_8080_PIN_D5, 
-                          ST7920_8080_PIN_D6, ST7920_8080_PIN_D7, 
-                          ST7920_8080_PIN_EN, ST7920_8080_PIN_CS, 
+    u8x8_SetPin_8Bit_8080(u8g2_GetU8x8(&u8g2),
+                          ST7920_8080_PIN_D0, ST7920_8080_PIN_D1,
+                          ST7920_8080_PIN_D2, ST7920_8080_PIN_D3,
+                          ST7920_8080_PIN_D4, ST7920_8080_PIN_D5,
+                          ST7920_8080_PIN_D6, ST7920_8080_PIN_D7,
+                          ST7920_8080_PIN_EN, ST7920_8080_PIN_CS,
                           ST7920_8080_PIN_DC, ST7920_8080_PIN_RST);
 
     u8g2_InitDisplay(&u8g2);
