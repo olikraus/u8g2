@@ -1442,7 +1442,7 @@ uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_u8g2_draw_button_pi(ui, ui->arg, 1, element_cb(data, *selection));
+      mui_u8g2_draw_button_pi(ui, 0, 1, element_cb(data, *selection));
       //mui_u8g2_draw_button_utf(ui, mui_u8g2_get_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, element_cb(data, *selection));
       break;
     case MUIF_MSG_FORM_START:
