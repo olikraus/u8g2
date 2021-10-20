@@ -204,7 +204,7 @@ static const uint8_t u8x8_d_st75160_jm16096_init_seq[] = {
   U8X8_C( 0x032 ),				/* analog circuit set */
   U8X8_A( 0x000 ),				/* code example: OSC Frequency adjustment */
   U8X8_A( 0x001 ),				/* Frequency on booster capacitors 1 = 6KHz? */
-  U8X8_A( 0x000 ),				/* Bias: 1: 1/13, 2: 1/12, 3: 1/11, 4:1/10, 5:1/9 */
+  U8X8_A( 0x004 ),				/* Bias: 1: 1/13, 2: 1/12, 3: 1/11, 4:1/10, 5:1/9 */
     
   //U8X8_C( 0x031 ),				/* select 01 commands */
   U8X8_C( 0x020 ),				/* gray levels */
@@ -240,7 +240,7 @@ static const uint8_t u8x8_d_st75160_jm16096_init_seq[] = {
   //U8X8_C( 0x030 ),				/* select 00 commands */ 
   U8X8_C( 0xca ),				/* display control, 3 args follow  */
   U8X8_A( 0x00 ),				/* 0x00: no clock division, 0x04: devide clock */
-  U8X8_A( 159 ),				/* 1/160 duty value from the DS example code */
+  U8X8_A( 95 ),				/* 1/96 duty */
   U8X8_A( 0x20 ),				/* nline off */ 
 
   //U8X8_C( 0x030 ),				/* select 00 commands */ 
