@@ -843,11 +843,13 @@ int main(void)
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui_GotoForm(&ui, 1, 0);
 
-  //draw(1, "", "");
+  //draw(1, "", ""); return 0;
   
-  //draw(10, "asnnsnsnnsnnsnnns.q", "mui_btn_goto.gif");
-  
+  draw(10, "asnnsnsnnsnnsnnns.q", "mui_btn_goto.gif");
   draw(20, "assssnsnssnnnnnnsnsnnssppssssssnsnnnssnpppppppsns.q", "mui_uint8_number.gif");
+  draw(30, "assnsnsnssnsnsssnsns.q", "mui_uint8_checkbox_radio.gif");
+  
+  
   
   return 0;
 }
