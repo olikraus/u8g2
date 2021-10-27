@@ -59,7 +59,8 @@ uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
+      u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
       break;
   }
   return 0;
@@ -72,7 +73,8 @@ uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
+      u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
       break;
   }
   return 0;
@@ -843,7 +845,7 @@ int main(void)
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui_GotoForm(&ui, 1, 0);
 
-  //draw(1, "", ""); return 0;
+  draw(1, "", ""); return 0;
   
   draw(10, "asnnsnsnnsnnsnnns.q", "mui_btn_goto.gif");
   draw(20, "assssnsnssnnnnnnsnsnnssppssssssnsnnnssnpppppppsns.q", "mui_uint8_number.gif");
