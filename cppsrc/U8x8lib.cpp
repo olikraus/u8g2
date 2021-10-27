@@ -1319,7 +1319,7 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
       if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
       {
 	// second argument for the wire lib is the clock pin. In u8g2, the first argument of the  clock pin in the clock/data pair
-	Wire.begin(u8x8->pins[U8X8_PIN_I2C_DATA] , u8x8->pins[U8X8_PIN_I2C_CLOCK]);
+	Wire.begin((int)u8x8->pins[U8X8_PIN_I2C_DATA] , u8x8->pins[U8X8_PIN_I2C_CLOCK]);
       }
       else
       {
