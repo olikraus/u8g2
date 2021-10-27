@@ -59,8 +59,8 @@ uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
-      //u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
+      u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
       break;
   }
   return 0;
@@ -73,8 +73,8 @@ uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
-      //u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
+      u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
       break;
   }
   return 0;
@@ -113,7 +113,7 @@ uint8_t mui_style_small(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       u8g2_SetFont(u8g2, u8g2_font_blipfest_07_tr );
-      //u8g2_SetFont(u8g2, u8g2_font_u8glib_4_tr );
+      //u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
       break;
   }
   return 0;
@@ -670,15 +670,15 @@ MUI_GOTO(64, 59, 70, " Ok ")
 
 MUI_FORM(80)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "uint8 ParentChild Select")
+MUI_LABEL(0,10, "uint16 ParentChild Select")
 MUI_XY("HR", 0,13)
-MUI_STYLE(6)
+MUI_STYLE(0) /* was MUI_STYLE(6) */
 MUI_DATA("GP", 
   MUI_81 "u16_list_parent_wm_mse_pi|" 
   MUI_1 "Back to Main Menu" )
-MUI_XYA("GC", 0, 25, 0) 
-MUI_XYA("GC", 0, 37, 1) 
-MUI_XYA("GC", 0, 49, 2) 
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
 //MUI_XYA("GC", 5, 61, 3) 
 
 MUI_FORM(81)
