@@ -59,8 +59,8 @@ uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      //u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
-      u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
+      u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
       break;
   }
   return 0;
@@ -73,8 +73,8 @@ uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      //u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
-      u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
+      u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
       break;
   }
   return 0;
