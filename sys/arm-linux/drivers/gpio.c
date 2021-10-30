@@ -9,6 +9,7 @@ static int writeValueToFile(char* fileName, char* buff)
     if (fp != NULL) 
     {
         fwrite(buff, strlen(buff), 1, fp);
+        fclose(fp);
         return 0;
     }
     return -1;
