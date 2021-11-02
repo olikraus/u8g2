@@ -1,15 +1,41 @@
 #include "u8g2port.h"
 
-static int i2c_device;
-static const char i2c_bus[] = "/dev/i2c-1";
+static i2c_t *i2c_device;
+static const char i2c_bus[] = "/dev/i2c-0";
 
 static int spi_device;
-static const char spi_bus[] = "/dev/spidev0.0";
+static const char spi_bus[] = "/dev/spidev1.0";
 
+#if PERIPHERY_GPIO_CDEV_SUPPORT
 static const char gpio_device[] = "/dev/gpiochip0";
+#endif
 
 // c-periphery GPIO pins
 gpio_t *pins[U8X8_PIN_CNT] = { };
+
+void sleep_ms(unsigned long milliseconds)
+{
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    nanosleep(&ts, NULL);
+}
+
+void sleep_us(unsigned long microseconds)
+{
+    struct timespec ts;
+    ts.tv_sec = microseconds / 1000 / 1000;
+    ts.tv_nsec = (microseconds % 1000000) * 1000;
+    nanosleep(&ts, NULL);
+}
+
+void sleep_ns(unsigned long nanoseconds)
+{
+    struct timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = nanoseconds;
+    nanosleep(&ts, NULL);
+}
 
 /**
  * Initialize pin if not set to U8X8_PIN_NONE.
@@ -21,13 +47,13 @@ void init_pin(u8x8_t *u8x8, int pin) {
 #if PERIPHERY_GPIO_CDEV_SUPPORT
 	if (gpio_open(pins[pin], gpio_device, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
 			< 0) {
-		fprintf(stderr, "gpio_open(): pin %d, %s\n", pin, gpio_errmsg(pins[pin]));
+		fprintf(stderr, "gpio_open(): pin %d, %s\n", u8x8->pins[pin], gpio_errmsg(pins[pin]));
 	}
 // Support deprecated sysfs
 #else
 		if (gpio_open_sysfs(pins[pin], u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
 				< 0) {
-			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", pin,
+			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", u8x8->pins[pin],
 					gpio_errmsg(pins[pin]));
 		}
 #endif
@@ -197,7 +223,9 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 	/* u8g2/u8x8 will never send more than 32 bytes between START_TRANSFER and END_TRANSFER */
 	static uint8_t buffer[32];
 	static uint8_t buf_idx;
+	static uint8_t addr;
 	uint8_t *data;
+	struct i2c_msg msgs[1];
 
 	switch (msg) {
 	case U8X8_MSG_BYTE_SEND:
@@ -210,18 +238,23 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		break;
 
 	case U8X8_MSG_BYTE_INIT:
-		i2c_device = openI2CDevice(i2c_bus);
-		// printf("I2C File Descriptor: %d\n", fd);
+		i2c_device = i2c_new();
+	    if (i2c_open(i2c_device, i2c_bus) < 0) {
+	        fprintf(stderr, "i2c_open(): %s\n", i2c_errmsg(i2c_device));
+	    }
+	    addr = u8x8_GetI2CAddress(u8x8) >> 1;
 		break;
 
 	case U8X8_MSG_BYTE_START_TRANSFER:
-		setI2CSlave(i2c_device, u8x8_GetI2CAddress(u8x8) >> 1);
 		buf_idx = 0;
-		// printf("I2C Address: %02x\n", u8x8_GetI2CAddress(u8x8)>>1);
 		break;
 
 	case U8X8_MSG_BYTE_END_TRANSFER:
-		I2CWriteBytes(i2c_device, buffer, buf_idx);
+	    msgs[0].addr = addr;
+	    msgs[0].flags = 0; /* Write */
+	    msgs[0].len = buf_idx;
+	    msgs[0].buf = buffer;
+	    i2c_transfer(i2c_device, msgs, 1);
 		break;
 
 	default:

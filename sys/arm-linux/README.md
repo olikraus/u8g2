@@ -1,5 +1,3 @@
-![Title](images/title.png)
-
 [U8g2 for arm-linux](https://github.com/wuhanstudio/u8g2-arm-linux) has been modified to use
 [c-periphery](https://github.com/vsergeev/c-periphery) userspace library.
 * Deprecated sysfs method is no longer used for GPIO thus increasing speed and stability.
