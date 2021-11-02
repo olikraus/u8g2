@@ -9,13 +9,49 @@ static const char spi_bus[] = "/dev/spidev0.0";
 static const char gpio_device[] = "/dev/gpiochip0";
 
 // c-periphery GPIO pins
-gpio_t *pins[U8X8_PIN_CNT];
+gpio_t *pins[U8X8_PIN_CNT] = { };
 
+/**
+ * Initialize pin if not set to U8X8_PIN_NONE.
+ */
 void init_pin(u8x8_t *u8x8, int pin) {
-	pins[pin] = gpio_new();
+	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
+		pins[pin] = gpio_new();
+// Support character device
+#if PERIPHERY_GPIO_CDEV_SUPPORT
 	if (gpio_open(pins[pin], gpio_device, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
 			< 0) {
-		fprintf(stderr, "gpio_open(): %s\n", gpio_errmsg(pins[pin]));
+		fprintf(stderr, "gpio_open(): pin %d, %s\n", pin, gpio_errmsg(pins[pin]));
+	}
+// Support deprecated sysfs
+#else
+		if (gpio_open_sysfs(pins[pin], u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
+				< 0) {
+			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", pin,
+					gpio_errmsg(pins[pin]));
+		}
+#endif
+	}
+}
+
+/*
+ * Close and free gpio_t.
+ */
+void done_pins() {
+	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+		if (pins[i] != NULL) {
+			gpio_close(pins[i]);
+			gpio_free(pins[i]);
+		}
+	}
+}
+
+/**
+ * Write pin if not set to U8X8_PIN_NONE.
+ */
+void write_pin(u8x8_t *u8x8, int pin, int value) {
+	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
+		gpio_write(pins[pin], value);
 	}
 }
 
@@ -56,54 +92,26 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		// printf("SDA:%d, SCL:%d\n", u8x8->pins[U8X8_PIN_I2C_DATA], u8x8->pins[U8X8_PIN_I2C_CLOCK]);
 
 		// SPI Pins
-		if (u8x8->pins[U8X8_PIN_SPI_CLOCK] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_SPI_CLOCK);
-		}
-		if (u8x8->pins[U8X8_PIN_SPI_DATA] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_SPI_DATA);
-		}
-		if (u8x8->pins[U8X8_PIN_CS] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_CS);
-		}
+		init_pin(u8x8, U8X8_PIN_SPI_CLOCK);
+		init_pin(u8x8, U8X8_PIN_SPI_DATA);
+		init_pin(u8x8, U8X8_PIN_CS);
 
 		// 8080 mode
 		// D0 --> spi clock
 		// D1 --> spi data
-		if (u8x8->pins[U8X8_PIN_D2] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_D2);
-		}
-		if (u8x8->pins[U8X8_PIN_D3] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_D3);
-		}
-		if (u8x8->pins[U8X8_PIN_D4] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_D4);
-		}
-		if (u8x8->pins[U8X8_PIN_D5] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_D5);
-		}
-		if (u8x8->pins[U8X8_PIN_D6] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_D6);
-		}
-		if (u8x8->pins[U8X8_PIN_D7] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_D7);
-		}
-		if (u8x8->pins[U8X8_PIN_E] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_E);
-		}
-		if (u8x8->pins[U8X8_PIN_RESET] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_RESET);
-		}
-		if (u8x8->pins[U8X8_PIN_DC] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_DC);
-		}
+		init_pin(u8x8, U8X8_PIN_D2);
+		init_pin(u8x8, U8X8_PIN_D3);
+		init_pin(u8x8, U8X8_PIN_D4);
+		init_pin(u8x8, U8X8_PIN_D5);
+		init_pin(u8x8, U8X8_PIN_D6);
+		init_pin(u8x8, U8X8_PIN_D7);
+		init_pin(u8x8, U8X8_PIN_E);
+		init_pin(u8x8, U8X8_PIN_RESET);
+		init_pin(u8x8, U8X8_PIN_DC);
 
 		// I2c pins
-		if (u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_I2C_DATA);
-		}
-		if (u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE) {
-			init_pin(u8x8, U8X8_PIN_I2C_CLOCK);
-		}
+		init_pin(u8x8, U8X8_PIN_I2C_DATA);
+		init_pin(u8x8, U8X8_PIN_I2C_CLOCK);
 
 		break;
 
@@ -114,96 +122,68 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		//case U8X8_MSG_GPIO_SPI_DATA:
 
 	case U8X8_MSG_GPIO_D2:                  // D2 pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_D2] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_D2], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_D2, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_D3:                  // D3 pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_D3] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_D3], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_D3, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_D4:                  // D4 pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_D4] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_D4], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_D4, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_D5:                  // D5 pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_D5] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_D5], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_D5, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_D6:                  // D6 pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_D6] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_D6], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_D6, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_D7:                  // D7 pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_D7] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_D7], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_D7, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_E:                   // E/WR pin: Output level in arg_int
-		if (u8x8->pins[U8X8_PIN_E] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_E], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_E, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_I2C_CLOCK:
 		// arg_int=0: Output low at I2C clock pin
 		// arg_int=1: Input dir with pullup high for I2C clock pin
-		if (u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_I2C_CLOCK], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_I2C_CLOCK, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_I2C_DATA:
 		// arg_int=0: Output low at I2C data pin
 		// arg_int=1: Input dir with pullup high for I2C data pin
-		if (u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_I2C_DATA], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_I2C_DATA, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_SPI_CLOCK:
 		//Function to define the logic level of the clockline
-		if (u8x8->pins[U8X8_PIN_SPI_CLOCK] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_SPI_CLOCK], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_SPI_CLOCK, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_SPI_DATA:
 		//Function to define the logic level of the data line to the display
-		if (u8x8->pins[U8X8_PIN_SPI_DATA] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_SPI_DATA], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_SPI_DATA, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_CS:
 		// Function to define the logic level of the CS line
-		if (u8x8->pins[U8X8_PIN_CS] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_CS], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_CS, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_DC:
 		//Function to define the logic level of the Data/ Command line
-		if (u8x8->pins[U8X8_PIN_DC] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_DC], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_DC, arg_int);
 		break;
 
 	case U8X8_MSG_GPIO_RESET:
 		//Function to define the logic level of the RESET line
-		if (u8x8->pins[U8X8_PIN_RESET] != U8X8_PIN_NONE) {
-			gpio_write(pins[U8X8_PIN_RESET], arg_int);
-		}
+		write_pin(u8x8, U8X8_PIN_RESET, arg_int);
 		break;
 
 	default:
@@ -263,7 +243,7 @@ uint8_t u8x8_byte_arm_linux_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 
 		while (arg_int > 0) {
 			// printf("%.2X ", (uint8_t)*data);
-			tx[0] = (uint8_t) * data;
+			tx[0] = (uint8_t) *data;
 			struct spi_ioc_transfer tr = { .tx_buf = (unsigned long) tx,
 					.rx_buf = (unsigned long) rx, .len = 1, .delay_usecs = 0,
 					.speed_hz = 500000, .bits_per_word = 8, };

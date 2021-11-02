@@ -34,6 +34,9 @@ int main(void)
     u8g2_SendBuffer(&u8g2);
 
     printf("Initialized ...\n");
-
+    sleep_ms(5000);
+    u8g2_SetPowerSave(&u8g2, 1);
+    // Deallocate GPIO pins
+    done_pins();
     return 0;
 }

@@ -1,0 +1,29 @@
+![Title](images/title.png)
+
+[U8g2 for arm-linux](https://github.com/wuhanstudio/u8g2-arm-linux) has been modified to use
+[c-periphery](https://github.com/vsergeev/c-periphery) userspace library.
+* Deprecated sysfs method is no longer used for GPIO thus increasing speed and stability.
+* GPIO pins can be unallocated which is useful for testing multiple times.
+* I2C and SPI also use c-periphery.
+
+## Download U8g2 project
+* `cd ~/`
+* `git clone --depth 1 https://github.com/olikraus/u8g2`
+
+## Modify source as needed
+Currently GPIO device, I2C and SPI buses are hard coded in u8g2port.c.
+* Change values as needed
+* `nano ~/u8g2/sys/arm-linux/port/u8g2port.c`
+* Change example (SPI 4 wire hardware for instance)
+* `nano ~/u8g2/sys/arm-linux/examples/c-examples/u8g2_4wire_hw_spi\u8g2_4wire_hw_spi.c`
+* Change the DC and RESET as needed (NanoPi Duo here using tx1 and rx1)
+* `#define OLED_SPI_PIN_RES            199`
+* `#define OLED_SPI_PIN_DC             198`
+
+## Build source with GPIO character device
+* `cd ~/u8g2/sys/arm-linux`
+* `make CPPFLAGS=-DPERIPHERY_GPIO_CDEV_SUPPORT=1 CC=gcc CXX=g++`
+
+## Build source with GPIO sysfs
+* `cd ~/u8g2/sys/arm-linux`
+* `make CC=gcc CXX=g++`
