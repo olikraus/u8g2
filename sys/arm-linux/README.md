@@ -6,7 +6,7 @@
 
 ## Download U8g2 project
 * `cd ~/`
-* `git clone --depth 1 https://github.com/olikraus/u8g2`
+* `git clone --depth 1 https://github.com/sgjava/u8g2.git`
 
 ## Modify source as needed
 Currently GPIO device, I2C and SPI buses are hard coded in u8g2port.c.
