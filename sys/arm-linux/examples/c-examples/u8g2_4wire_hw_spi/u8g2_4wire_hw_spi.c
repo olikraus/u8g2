@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "u8g2port.h"
 
 // By default, SPI bus /dev/spidev0.0 is used, as defined in port/U8g2lib.h
@@ -36,7 +35,10 @@ int main(void)
     printf("Initialized ...\n");
     sleep_ms(5000);
     u8g2_SetPowerSave(&u8g2, 1);
-    // Deallocate GPIO pins
+    // Close and deallocate SPI resources
+    done_spi();
+    // Close and deallocate GPIO resources
     done_pins();
+    printf("Done\n");
     return 0;
 }

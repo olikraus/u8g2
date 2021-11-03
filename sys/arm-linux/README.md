@@ -1,8 +1,8 @@
 [U8g2 for arm-linux](https://github.com/wuhanstudio/u8g2-arm-linux) has been modified to use
 [c-periphery](https://github.com/vsergeev/c-periphery) userspace library.
-* Deprecated sysfs method is no longer used for GPIO thus increasing speed and stability.
-* GPIO pins can be unallocated which is useful for testing multiple times.
-* I2C and SPI also use c-periphery.
+* Deprecated sysfs method is no longer used for GPIO thus increasing speed and stability, but you can still use sysfs for legacy kernels.
+* GPIO, I2C and SPI can be closed and unallocated.
+* Overall performance should be better.
 
 ## Download U8g2 project
 * `cd ~/`

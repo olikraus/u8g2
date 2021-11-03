@@ -103,6 +103,13 @@ class U8G2 : public Print
       u8g2_SetMenuHomePin(&u8g2, val); }
 #endif
 
+    void donePins(void) { done_pins(); }
+    void doneI2c(void) { done_i2c(); }
+    void doneSpi(void) { done_spi(); }
+    void sleepMs(unsigned long milliseconds) { sleep_ms(milliseconds); };
+    void sleepUs(unsigned long microseconds) { sleep_us(microseconds); };
+    void sleepNs(unsigned long nanoseconds) { sleep_ns(nanoseconds); };
+
     /* return 0 for no event or U8X8_MSG_GPIO_MENU_SELECT, */
     /* U8X8_MSG_GPIO_MENU_NEXT, U8X8_MSG_GPIO_MENU_PREV, */
     /* U8X8_MSG_GPIO_MENU_HOME */

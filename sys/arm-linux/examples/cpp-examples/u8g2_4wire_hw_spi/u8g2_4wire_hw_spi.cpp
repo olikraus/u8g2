@@ -1,8 +1,8 @@
 #include <U8g2lib.h>
 
 // By default, SPI bus /dev/spidev0.0 is used, as defined in port/U8g2lib.h
-#define OLED_SPI_PIN_RES            25
-#define OLED_SPI_PIN_DC             24
+#define OLED_SPI_PIN_RES            199
+#define OLED_SPI_PIN_DC             198
 
 // CS pin is controlled by linux spi driver
 #define OLED_SPI_PIN_CS             8
@@ -18,10 +18,15 @@ int main()
 {
     u8g2.begin();
     u8g2.clearBuffer();                         // clear the internal memory
+    u8g2.setPowerSave(0);
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on HW SPI");   // write something to the internal memory
     u8g2.sendBuffer();                          // transfer internal memory to the display
     u8g2.setFont(u8g2_font_unifont_t_symbols);
     u8g2.drawGlyph(112, 56, 0x2603 );
     u8g2.sendBuffer();
+    u8g2.sleepMs(5000);
+    u8g2.setPowerSave(1);
+    u8g2.doneSpi();
+    u8g2.donePins();
 }
