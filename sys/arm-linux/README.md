@@ -20,8 +20,10 @@ Currently GPIO device, I2C and SPI buses are hard coded in u8g2port.c.
 
 ## Build source with GPIO character device
 * `cd ~/u8g2/sys/arm-linux`
+* `make clean`
 * `make CPPFLAGS=-DPERIPHERY_GPIO_CDEV_SUPPORT=1 CC=gcc CXX=g++`
 
 ## Build source with GPIO sysfs
 * `cd ~/u8g2/sys/arm-linux`
+* `make clean`
 * `make CC=gcc CXX=g++`
