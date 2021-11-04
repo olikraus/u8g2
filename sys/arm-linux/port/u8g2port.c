@@ -1,7 +1,7 @@
 /*
- * This code is not thread safe, however you should be able to use one IC2 and
- * one SPI device at the same time. This should be reworked to make multiple
- * displays work in a thread safe way.
+ * This code is not thread safe and should be reworked to make multiple displays
+ * work in a thread safe way. At this point you can only have one I2C or
+ * SPI bus, but have multiple devices on the bus.
  */
 
 #include "u8g2port.h"
@@ -10,9 +10,11 @@
 static i2c_t *i2c_device;
 static const char i2c_bus[] = "/dev/i2c-0";
 
+// c-periphery spi handle
 static spi_t *spi_device;
 static const char spi_bus[] = "/dev/spidev1.0";
 
+// TODO: This should be 1 to 1 with pins
 #if PERIPHERY_GPIO_CDEV_SUPPORT
 static const char gpio_device[] = "/dev/gpiochip0";
 #endif
@@ -20,6 +22,9 @@ static const char gpio_device[] = "/dev/gpiochip0";
 // c-periphery GPIO pins
 gpio_t *pins[U8X8_PIN_CNT] = { };
 
+/*
+ * Sleep milliseconds.
+ */
 void sleep_ms(unsigned long milliseconds) {
 	struct timespec ts;
 	ts.tv_sec = milliseconds / 1000;
@@ -27,6 +32,9 @@ void sleep_ms(unsigned long milliseconds) {
 	nanosleep(&ts, NULL);
 }
 
+/*
+ * Sleep microseconds.
+ */
 void sleep_us(unsigned long microseconds) {
 	struct timespec ts;
 	ts.tv_sec = microseconds / 1000 / 1000;
@@ -34,6 +42,9 @@ void sleep_us(unsigned long microseconds) {
 	nanosleep(&ts, NULL);
 }
 
+/**
+ * Sleep nanoseconds.
+ */
 void sleep_ns(unsigned long nanoseconds) {
 	struct timespec ts;
 	ts.tv_sec = 0;
@@ -65,7 +76,7 @@ void init_pin(u8x8_t *u8x8, int pin) {
 }
 
 /*
- * Close and free gpio_t.
+ * Close and free gpio_t for all pins.
  */
 void done_pins() {
 	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
@@ -76,11 +87,17 @@ void done_pins() {
 	}
 }
 
+/*
+ * Close and free i2c_t.
+ */
 void done_i2c() {
 	i2c_close(i2c_device);
 	i2c_free(i2c_device);
 }
 
+/*
+ * Close and free spi_t.
+ */
 void done_spi() {
 	spi_close(spi_device);
 	spi_free(spi_device);
@@ -95,6 +112,9 @@ void write_pin(u8x8_t *u8x8, int pin, int value) {
 	}
 }
 
+/**
+ * GPIO callback.
+ */
 uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		uint8_t arg_int, void *arg_ptr) {
 	(void) arg_ptr; /* suppress unused parameter warning */
@@ -152,10 +172,10 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 
 		break;
 
-		//case U8X8_MSG_GPIO_D0:                // D0 or SPI clock pin: Output level in arg_int
+		//case U8X8_MSG_GPIO_D0:            // D0 or SPI clock pin: Output level in arg_int
 		//case U8X8_MSG_GPIO_SPI_CLOCK:
 
-		//case U8X8_MSG_GPIO_D1:                // D1 or SPI data pin: Output level in arg_int
+		//case U8X8_MSG_GPIO_D1:            // D1 or SPI data pin: Output level in arg_int
 		//case U8X8_MSG_GPIO_SPI_DATA:
 
 	case U8X8_MSG_GPIO_D2:                  // D2 pin: Output level in arg_int
@@ -229,6 +249,11 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 	return 1;
 }
 
+/*
+ * I2c callback. This should be reworked to make it thread safe. The static
+ * variables can be corrupted if more than one thread at a time accesses this
+ * function.
+ */
 uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		void *arg_ptr) {
 	/* u8g2/u8x8 will never send more than 32 bytes between START_TRANSFER and END_TRANSFER */
@@ -260,7 +285,6 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 
 	case U8X8_MSG_BYTE_END_TRANSFER:
 		msgs[0].addr = u8x8_GetI2CAddress(u8x8) >> 1;
-		;
 		msgs[0].flags = 0; // Write
 		msgs[0].len = buf_idx;
 		msgs[0].buf = buffer;
@@ -273,10 +297,13 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 	return 1;
 }
 
+/*
+ * SPI callback.
+ */
 uint8_t u8x8_byte_arm_linux_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		void *arg_ptr) {
 	// u8g2/u8x8 will never send more than 128 bytes
-	static uint8_t buffer[132];
+	uint8_t buffer[128];
 	uint8_t buf_idx;
 	uint8_t *data;
 
