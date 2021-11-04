@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <u8g2port.h>
 
 int main(void)
@@ -23,6 +22,11 @@ int main(void)
     u8g2_SendBuffer(&u8g2);
 
     printf("Initialized ...\n");
+    sleep_ms(5000);
+    u8g2_SetPowerSave(&u8g2, 1);
+    // Close and deallocate i2c_t
+    done_i2c();
+    printf("Done\n");
 
     return 0;
 }

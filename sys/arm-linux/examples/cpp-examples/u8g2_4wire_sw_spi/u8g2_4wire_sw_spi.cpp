@@ -26,4 +26,8 @@ int main()
     u8g2.setFont(u8g2_font_unifont_t_symbols);
     u8g2.drawGlyph(112, 56, 0x2603 );
     u8g2.sendBuffer();
+    u8g2.sleepMs(5000);
+    u8g2.setPowerSave(1);
+    u8g2.donePins();
+
 }

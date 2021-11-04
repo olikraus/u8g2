@@ -1,9 +1,8 @@
-#include <stdio.h>
 #include "u8g2port.h"
 
 // By default, SPI bus /dev/spidev0.0 is used, as defined in port/U8g2lib.h
-#define OLED_SPI_PIN_RES            25
-#define OLED_SPI_PIN_DC             24
+#define OLED_SPI_PIN_RES            199
+#define OLED_SPI_PIN_DC             198
 
 // CS pin is controlled by linux spi driver, thus not defined here, but need to be wired
 // #define OLED_SPI_PIN_CS             8
@@ -34,6 +33,12 @@ int main(void)
     u8g2_SendBuffer(&u8g2);
 
     printf("Initialized ...\n");
-
+    sleep_ms(5000);
+    u8g2_SetPowerSave(&u8g2, 1);
+    // Close and deallocate SPI resources
+    done_spi();
+    // Close and deallocate GPIO resources
+    done_pins();
+    printf("Done\n");
     return 0;
 }
