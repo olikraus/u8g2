@@ -7,16 +7,16 @@
 #include "u8g2port.h"
 
 // c-periphery i2c handle
-static i2c_t *i2c_device;
-static const char i2c_bus[] = "/dev/i2c-0";
+i2c_t *i2c_device;
+const char i2c_bus[] = "/dev/i2c-0";
 
 // c-periphery spi handle
-static spi_t *spi_device;
-static const char spi_bus[] = "/dev/spidev1.0";
+spi_t *spi_device;
+const char spi_bus[] = "/dev/spidev1.0";
 
 // TODO: This should be 1 to 1 with pins
 #if PERIPHERY_GPIO_CDEV_SUPPORT
-static const char gpio_device[] = "/dev/gpiochip0";
+const char gpio_device[] = "/dev/gpiochip0";
 #endif
 
 // c-periphery GPIO pins
