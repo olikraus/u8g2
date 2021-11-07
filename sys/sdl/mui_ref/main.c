@@ -51,6 +51,9 @@ const char *animals_get_str(void *data, uint16_t index)
 /*=================================================*/
 /* style */
 
+
+
+
 uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
 {
   
@@ -59,8 +62,8 @@ uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       
-      //u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
-      u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
+      u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
+      //u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
       break;
   }
   return 0;
@@ -75,10 +78,27 @@ uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
       
       //u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
       u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
+      u8g2_SetFont(u8g2, u8g2_font_lubBI14_te);
       break;
   }
   return 0;
 }
+
+uint8_t mui_style_menu_items(mui_t *ui, uint8_t msg)
+{
+  
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      
+      //u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
+      u8g2_SetFont(u8g2, u8g2_font_squeezed_r7_tr);
+      break;
+  }
+  return 0;
+}
+
 
 uint8_t mui_style_monospaced(mui_t *ui, uint8_t msg)
 {
@@ -133,19 +153,6 @@ uint8_t mui_style_streamline_interface_essential_login(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_style_glasstown(mui_t *ui, uint8_t msg)
-{
-  
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, u8g2_font_glasstown_nbp_tr);
-      break;
-  }
-  return 0;
-}
- 
 
 /*=================================================*/
 /* local mui functions */
@@ -210,13 +217,13 @@ const char *menu_get_str(void *data, uint16_t index)
 /* list functions (get cnt/get element pairs) */
 
 muif_t muif_list[] MUI_PROGMEM = {
-  /* normal text style */
+  /* normal text style for the examples */
   MUIF_STYLE(0, mui_style_helv_r_08),
   
-  /* bold text style */
+  /* bold text style for menu heading */
   MUIF_STYLE(1, mui_style_helv_b_08),
 
-  /* very small font */
+  /* very small font with programming info */
   MUIF_STYLE(2, mui_style_small),
 
   
@@ -230,7 +237,11 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_STYLE(5, mui_style_monospaced),
 
   /* smaller replacement for style 0 */
-  MUIF_STYLE(6, mui_style_glasstown),
+  /*MUIF_STYLE(6, mui_style_glasstown),*/
+  
+  /* style for menu entries */
+  MUIF_STYLE(7, mui_style_menu_items),
+  
   
   
   /* horizontal line (hrule) */
@@ -292,7 +303,7 @@ MUI_FORM(1)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "MUI Elements")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
     MUI_10 "Goto Buttons|"
     MUI_20 "uint8 Number|"
@@ -313,7 +324,7 @@ MUI_FORM(10)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "Goto Buttons")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_11 "btn_goto_wm_fi|" 
   MUI_12 "btn_goto_w1_pi|" 
@@ -366,7 +377,7 @@ MUI_FORM(20)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "uint8 Number")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_21 "u8_min_max_wm_mse_pi|" 
   MUI_22 "u8_min_max_wm_mud_pi|" 
@@ -433,7 +444,7 @@ MUI_FORM(30)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "uint8 Checkbox")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_31 "u8_chkbox_wm_pi|" 
   MUI_32 "u8_radio_wm_pi|" 
@@ -476,7 +487,7 @@ MUI_FORM(40)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "uint8 Cycle Options")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_41 "u8_opt_line_wa_mse_pi|" 
   MUI_42 "u8_opt_line_wa_mud_pi|" 
@@ -520,7 +531,7 @@ MUI_FORM(50)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "uint8 ParentChild Select")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_51 "u8_opt_radio_child_w1_mse_pi|" 
   MUI_53 "u8_opt_child_wm_mse_pi|" 
@@ -588,7 +599,7 @@ MUI_FORM(60)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "uint8 Char/Text Input")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_61 "u8_char_wm_mud_pi|" 
   MUI_1 "Back to Main Menu" )
@@ -622,7 +633,7 @@ MUI_FORM(70)
 MUI_STYLE(1)
 MUI_LABEL(5,10, "uint16 Cycle Options")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0)
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_71 "u16_list_line_wa_mse_pi|" 
   MUI_72 "u16_list_line_wa_mud_pi|" 
@@ -670,9 +681,9 @@ MUI_GOTO(64, 59, 70, " Ok ")
 
 MUI_FORM(80)
 MUI_STYLE(1)
-MUI_LABEL(0,10, "uint16 ParentChild Select")
+MUI_LABEL(5,10, "uint16 ParentChild Select")
 MUI_XY("HR", 0,13)
-MUI_STYLE(0) /* was MUI_STYLE(6) */
+MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_81 "u16_list_parent_wm_mse_pi|" 
   MUI_1 "Back to Main Menu" )
