@@ -3,17 +3,33 @@
 * Deprecated sysfs method is no longer used for GPIO thus increasing speed and stability, but you can still use sysfs for legacy kernels.
 * GPIO, I2C and SPI can be closed and unallocated.
 * Overall performance should be better.
+* Run as non-root user.
+
+## Non-root access
+If you want to access devices without root do the following (you can try udev
+rules instead if you wish):
+* `sudo groupadd u8g2`
+* `sudo usermod -a -G u8g2 username` (Use a non-root username)
+* `sudo nano /etc/rc.local`
+<pre><code>chown -R root:u8g2 /dev/gpiochip*
+chmod -R ug+rw /dev/gpiochip*
+chown -R root:u8g2 /dev/i2c*
+chmod -R ug+rw /dev/i2c*
+chown -R root:u8g2 /dev/spidev*
+chmod -R ug+rw /dev/spidev*</code></pre>
+* `sudo reboot`
 
 ## Download U8g2 project
 * `cd ~/`
-* `git clone --depth 1 https://github.com/sgjava/u8g2.git`
+* `git clone --depth 1 https://github.com/olikraus/u8g2.git`
 
 ## Modify source as needed
-Currently GPIO device, I2C and SPI buses are hard coded in u8g2port.c.
-* Change values as needed
-* `nano ~/u8g2/sys/arm-linux/port/u8g2port.c`
 * Change example (SPI 4 wire hardware for instance)
 * `nano ~/u8g2/sys/arm-linux/examples/c-examples/u8g2_4wire_hw_spi\u8g2_4wire_hw_spi.c`
+* Change the GPIO chip number (0 uses /dev/gpiochip0)
+* `#define GPIO_CHIP_NUM 0`
+* Change the SPI bus number (0x10 uses /dev/spidev)
+* `#define SPI_BUS 0x10`
 * Change the DC and RESET as needed (NanoPi Duo here using tx1 and rx1)
 * `#define OLED_SPI_PIN_RES            199`
 * `#define OLED_SPI_PIN_DC             198`
