@@ -257,7 +257,7 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 
 /*
  * I2c callback. The static variables can be corrupted if more than one thread
- * at a time accesses this function. Calling program neds to be aware of this.
+ * at a time accesses this function. Calling program needs to be aware of this.
  */
 uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		void *arg_ptr) {
