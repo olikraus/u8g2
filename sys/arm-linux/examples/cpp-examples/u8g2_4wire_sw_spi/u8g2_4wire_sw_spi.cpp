@@ -22,7 +22,6 @@ int main()
 {
 	u8g2.setGpioChip(GPIO_CHIP_NUM);
     u8g2.begin();
-    u8g2.clearBuffer();                         // clear the internal memory
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on SW SPI");   // write something to the internal memory
     u8g2.sendBuffer();                          // transfer internal memory to the display
