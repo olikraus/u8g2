@@ -78,7 +78,7 @@ uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
       
       //u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
       u8g2_SetFont(u8g2, u8g2_font_squeezed_b7_tr);
-      u8g2_SetFont(u8g2, u8g2_font_lubBI14_te);
+      //su8g2_SetFont(u8g2, u8g2_font_lubBI14_te);
       break;
   }
   return 0;
@@ -858,6 +858,10 @@ int main(void)
 
   draw(1, "", ""); return 0;
   
+  /*
+    a: start animation
+    .: end and write animation
+  */
   draw(10, "asnnsnsnnsnnsnnns.q", "mui_btn_goto.gif");
   draw(20, "assssnsnssnnnnnnsnsnnssppssssssnsnnnssnpppppppsns.q", "mui_uint8_number.gif");
   draw(30, "assnsnsnssnsnsssnsns.q", "mui_uint8_checkbox_radio.gif");
