@@ -415,8 +415,14 @@ void u8g2_ClearDisplay(u8g2_t *u8g2);
 #define u8g2_GetDisplayWidth(u8g2) ((u8g2)->width)
 #define u8g2_GetDrawColor(u8g2) ((u8g2)->draw_color)
 
-#define u8g2_SetI2CAddress(u8g2, address) ((u8g2_GetU8x8(u8g2))->i2c_address = (address))
+#define u8g2_GetGPIOChip(u8g2) u8x8_GetGPIOChip(u8g2_GetU8x8(u8g2))
+#define u8g2_SetGPIOChip(u8g2, chip_num) ((u8g2_GetU8x8(u8g2))->gpio_chip_num = (chip_num))
+#define u8g2_GetSPIBus(u8g2) u8x8_GetSPIBus(u8g2_GetU8x8(u8g2))
+#define u8g2_SetSPIBus(u8g2, bus_num) ((u8g2_GetU8x8(u8g2))->spi_bus_num = (bus_num))
+#define u8g2_GetI2CBus(u8g2) u8x8_GetI2CBus(u8g2_GetU8x8(u8g2))
+#define u8g2_SetI2CBus(u8g2, bus_num) ((u8g2_GetU8x8(u8g2))->i2c_bus_num = (bus_num))
 #define u8g2_GetI2CAddress(u8g2)   u8x8_GetI2CAddress(u8g2_GetU8x8(u8g2))
+#define u8g2_SetI2CAddress(u8g2, address) ((u8g2_GetU8x8(u8g2))->i2c_address = (address))
 
 #ifdef U8X8_USE_PINS 
 #define u8g2_SetMenuSelectPin(u8g2, val) u8x8_SetMenuSelectPin(u8g2_GetU8x8(u8g2), (val)) 

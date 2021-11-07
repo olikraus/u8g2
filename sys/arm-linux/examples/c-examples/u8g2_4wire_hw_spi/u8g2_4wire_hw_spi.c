@@ -1,6 +1,9 @@
 #include "u8g2port.h"
 
-// By default, SPI bus /dev/spidev0.0 is used, as defined in port/U8g2lib.h
+// GPIO chip number for character device
+#define GPIO_CHIP_NUM 0
+// SPI bus uses upper 4 bits and lower 4 bits, so 0x10 will be /dev/spidev1.0
+#define SPI_BUS 0x10
 #define OLED_SPI_PIN_RES            199
 #define OLED_SPI_PIN_DC             198
 
@@ -13,9 +16,10 @@ int main(void)
 
     // Initialization
     u8g2_Setup_ssd1306_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_arm_linux_hw_spi, u8x8_arm_linux_gpio_and_delay);
+    u8g2_SetGPIOChip(&u8g2, GPIO_CHIP_NUM);
+    u8g2_SetSPIBus(&u8g2, SPI_BUS);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_DC, OLED_SPI_PIN_DC);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_RESET, OLED_SPI_PIN_RES);
-    // u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_CS, OLED_SPI_PIN_CS);
 
     u8g2_InitDisplay(&u8g2);
     u8g2_SetPowerSave(&u8g2, 0);

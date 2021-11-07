@@ -346,6 +346,7 @@ struct u8x8_struct
   uint16_t encoding;		/* encoding result for utf8 decoder in next_cb */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
   uint8_t is_font_inverse_mode; 	/* 0: normal, 1: font glyphs are inverted */
+  uint8_t gpio_chip_num; /* gpio chip  */
   uint8_t spi_bus_num; /* spi bus to use */
   uint8_t i2c_bus_num; /* i2c bus to use */
   uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something usefull during DISPLAY_INIT */
@@ -375,6 +376,8 @@ struct u8x8_struct
 
 #define u8x8_GetCols(u8x8) ((u8x8)->display_info->tile_width)
 #define u8x8_GetRows(u8x8) ((u8x8)->display_info->tile_height)
+#define u8x8_GetGPIOChip(u8x8) ((u8x8)->gpio_chip_num)
+#define u8x8_SetGPIOChip(u8x8, chip_num) ((u8x8)->gpio_chip_num = (chip_num))
 #define u8x8_GetSPIBus(u8x8) ((u8x8)->spi_bus_num)
 #define u8x8_SetSPIBus(u8x8, bus_num) ((u8x8)->spi_bus_num = (bus_num))
 #define u8x8_GetI2CBus(u8x8) ((u8x8)->i2c_bus_num)

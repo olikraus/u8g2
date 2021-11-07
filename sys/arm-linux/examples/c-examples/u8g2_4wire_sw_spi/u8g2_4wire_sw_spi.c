@@ -1,5 +1,7 @@
 #include "u8g2port.h"
 
+// GPIO chip number for character device
+#define GPIO_CHIP_NUM 0
 
 #define OLED_SPI_PIN_MOSI           13
 #define OLED_SPI_PIN_SCK            26
@@ -15,6 +17,7 @@ int main(void)
 
     // Initialization
     u8g2_Setup_ssd1306_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_4wire_sw_spi, u8x8_arm_linux_gpio_and_delay);
+    u8g2_SetGPIOChip(&u8g2, GPIO_CHIP_NUM);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_RESET, OLED_SPI_PIN_RES);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_DC, OLED_SPI_PIN_DC);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_SPI_DATA, OLED_SPI_PIN_MOSI);

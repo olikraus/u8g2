@@ -1,5 +1,7 @@
 #include <U8g2lib.h>
 
+// GPIO chip number for character device
+#define GPIO_CHIP_NUM 0
 #define OLED_SPI_PIN_MOSI           13
 #define OLED_SPI_PIN_SCK            26
 
@@ -18,6 +20,7 @@ static U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI u8g2(U8G2_R0,\
 
 int main()
 {
+	u8g2.setGpioChip(GPIO_CHIP_NUM);
     u8g2.begin();
     u8g2.clearBuffer();                         // clear the internal memory
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font

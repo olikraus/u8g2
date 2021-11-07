@@ -1,26 +1,18 @@
 /*
- * This code is not thread safe and should be reworked to make multiple displays
- * work in a thread safe way. At this point you can only have one I2C or
- * SPI bus, but have multiple devices on the bus.
+ * This code should support multiple displays, but only one hardware bus each
+ * for I2C and SPI currently.
  */
 
 #include "u8g2port.h"
 
-// c-periphery i2c handle
-static i2c_t *i2c_device;
-static const char i2c_bus[] = "/dev/i2c-0";
+// c-periphery I2C handle
+static i2c_t *i2c_handle = NULL;
 
-// c-periphery spi handle
-static spi_t *spi_device;
-static const char spi_bus[] = "/dev/spidev1.0";
-
-// TODO: This should be 1 to 1 with pins
-#if PERIPHERY_GPIO_CDEV_SUPPORT
-static const char gpio_device[] = "/dev/gpiochip0";
-#endif
+// c-periphery SPI handle
+static spi_t *spi_handle = NULL;
 
 // c-periphery GPIO pins
-gpio_t *pins[U8X8_PIN_CNT] = { };
+static gpio_t *pins[U8X8_PIN_CNT] = { };
 
 /*
  * Sleep milliseconds.
@@ -55,25 +47,32 @@ void sleep_ns(unsigned long nanoseconds) {
 /**
  * Initialize pin if not set to U8X8_PIN_NONE.
  */
+#if PERIPHERY_GPIO_CDEV_SUPPORT
+void init_pin(u8x8_t *u8x8, int pin) {
+	char filename[16];
+	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
+		snprintf(filename, sizeof(filename), "/dev/gpiochip%d",
+				u8x8->gpio_chip_num);
+		pins[pin] = gpio_new();
+		if (gpio_open(pins[pin], filename, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
+				< 0) {
+			fprintf(stderr, "gpio_open(): pin %d, %s\n", u8x8->pins[pin],
+					gpio_errmsg(pins[pin]));
+		}
+	}
+}
+#else
 void init_pin(u8x8_t *u8x8, int pin) {
 	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
 		pins[pin] = gpio_new();
-// Support character device
-#if PERIPHERY_GPIO_CDEV_SUPPORT
-	if (gpio_open(pins[pin], gpio_device, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
-			< 0) {
-		fprintf(stderr, "gpio_open(): pin %d, %s\n", u8x8->pins[pin], gpio_errmsg(pins[pin]));
-	}
-// Support deprecated sysfs
-#else
 		if (gpio_open_sysfs(pins[pin], u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
 				< 0) {
 			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", u8x8->pins[pin],
 					gpio_errmsg(pins[pin]));
 		}
-#endif
 	}
 }
+#endif
 
 /*
  * Close and free gpio_t for all pins.
@@ -83,6 +82,7 @@ void done_pins() {
 		if (pins[i] != NULL) {
 			gpio_close(pins[i]);
 			gpio_free(pins[i]);
+			pins[i] = NULL;
 		}
 	}
 }
@@ -91,16 +91,22 @@ void done_pins() {
  * Close and free i2c_t.
  */
 void done_i2c() {
-	i2c_close(i2c_device);
-	i2c_free(i2c_device);
+	if (i2c_handle != NULL) {
+		i2c_close(i2c_handle);
+		i2c_free(i2c_handle);
+		i2c_handle = NULL;
+	}
 }
 
 /*
  * Close and free spi_t.
  */
 void done_spi() {
-	spi_close(spi_device);
-	spi_free(spi_device);
+	if (spi_handle != NULL) {
+		spi_close(spi_handle);
+		spi_free(spi_handle);
+		spi_handle = NULL;
+	}
 }
 
 /**
@@ -250,9 +256,8 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 }
 
 /*
- * I2c callback. This should be reworked to make it thread safe. The static
- * variables can be corrupted if more than one thread at a time accesses this
- * function.
+ * I2c callback. The static variables can be corrupted if more than one thread
+ * at a time accesses this function. Calling program neds to be aware of this.
  */
 uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		void *arg_ptr) {
@@ -261,6 +266,7 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 	static uint8_t buf_idx;
 	uint8_t *data;
 	struct i2c_msg msgs[1];
+	char filename[11];
 
 	switch (msg) {
 	case U8X8_MSG_BYTE_SEND:
@@ -273,9 +279,15 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		break;
 
 	case U8X8_MSG_BYTE_INIT:
-		i2c_device = i2c_new();
-		if (i2c_open(i2c_device, i2c_bus) < 0) {
-			fprintf(stderr, "i2c_open(): %s\n", i2c_errmsg(i2c_device));
+		// Only open bus once
+		if (i2c_handle == NULL) {
+			snprintf(filename, sizeof(filename), "/dev/i2c-%d",
+					u8x8->i2c_bus_num);
+			i2c_handle = i2c_new();
+			if (i2c_open(i2c_handle, filename) < 0) {
+				fprintf(stderr, "i2c_open(): %s\n", i2c_errmsg(i2c_handle));
+				i2c_free(i2c_handle);
+			}
 		}
 		break;
 
@@ -288,7 +300,7 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		msgs[0].flags = 0; // Write
 		msgs[0].len = buf_idx;
 		msgs[0].buf = buffer;
-		i2c_transfer(i2c_device, msgs, 1);
+		i2c_transfer(i2c_handle, msgs, 1);
 		break;
 
 	default:
@@ -306,6 +318,7 @@ uint8_t u8x8_byte_arm_linux_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 	uint8_t buffer[128];
 	uint8_t buf_idx;
 	uint8_t *data;
+	char filename[15];
 
 	switch (msg) {
 	case U8X8_MSG_BYTE_SEND:
@@ -316,20 +329,26 @@ uint8_t u8x8_byte_arm_linux_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 			data++;
 			arg_int--;
 		}
-		spi_transfer(spi_device, buffer, buffer, buf_idx);
+		spi_transfer(spi_handle, buffer, buffer, buf_idx);
 		break;
 
 	case U8X8_MSG_BYTE_INIT:
-		spi_device = spi_new();
-		//u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
-		/* SPI mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
-		/*   0: clock active high, data out on falling edge, clock default value is zero, takover on rising edge */
-		/*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
-		/*   2: clock active low, data out on rising edge */
-		/*   3: clock active low, data out on falling edge */
-		if (spi_open(spi_device, spi_bus, u8x8->display_info->spi_mode, 500000)
-				< 0) {
-			fprintf(stderr, "spi_open(): %s\n", spi_errmsg(spi_device));
+		// Only open bus once
+		if (spi_handle == NULL) {
+			// spi_bus_num should be in the format 0x12 for /dev/spidev1.2
+			snprintf(filename, sizeof(filename), "/dev/spidev%d.%d",
+					u8x8->spi_bus_num >> 4, u8x8->spi_bus_num & 0x0f);
+			spi_handle = spi_new();
+			//u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+			/* SPI mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
+			/*   0: clock active high, data out on falling edge, clock default value is zero, takover on rising edge */
+			/*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
+			/*   2: clock active low, data out on rising edge */
+			/*   3: clock active low, data out on falling edge */
+			if (spi_open(spi_handle, filename, u8x8->display_info->spi_mode,
+					500000) < 0) {
+				fprintf(stderr, "spi_open(): %s\n", spi_errmsg(spi_handle));
+			}
 		}
 		break;
 

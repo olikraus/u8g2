@@ -69,6 +69,16 @@ class U8G2 : public Print
     uint32_t getBusClock(void) { return u8g2_GetU8x8(&u8g2)->bus_clock; }
     void setBusClock(uint32_t clock_speed) { u8g2_GetU8x8(&u8g2)->bus_clock = clock_speed; }
 
+    uint8_t getGpioChip(void) { return u8x8_GetGPIOChip(u8g2_GetU8x8(&u8g2)); }
+    void setGpioChip(uint8_t num) { u8x8_SetGPIOChip(u8g2_GetU8x8(&u8g2), num); }
+
+    uint8_t getSpiBus(void) { return u8x8_GetSPIBus(u8g2_GetU8x8(&u8g2)); }
+    void setSpiBus(uint8_t num) { u8x8_SetSPIBus(u8g2_GetU8x8(&u8g2), num); }
+
+    uint8_t getI2cBus(void) { return u8x8_GetI2CBus(u8g2_GetU8x8(&u8g2)); }
+    void setI2cBus(uint8_t num) { u8x8_SetI2CBus(u8g2_GetU8x8(&u8g2), num); }
+
+    uint8_t getI2CAddress(void) { return u8g2_GetI2CAddress(&u8g2); }
     void setI2CAddress(uint8_t adr) { u8g2_SetI2CAddress(&u8g2, adr); }
     
     
