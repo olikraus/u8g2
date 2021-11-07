@@ -28,7 +28,7 @@ chmod -R ug+rw /dev/spidev*</code></pre>
 * `nano ~/u8g2/sys/arm-linux/examples/c-examples/u8g2_4wire_hw_spi\u8g2_4wire_hw_spi.c`
 * Change the GPIO chip number (0 uses /dev/gpiochip0)
 * `#define GPIO_CHIP_NUM 0`
-* Change the SPI bus number (0x10 uses /dev/spidev)
+* Change the SPI bus number (0x10 uses /dev/spidev1.0)
 * `#define SPI_BUS 0x10`
 * Change the DC and RESET as needed (NanoPi Duo here using tx1 and rx1)
 * `#define OLED_SPI_PIN_RES            199`
