@@ -1,5 +1,7 @@
 #include <U8g2lib.h>
 
+// GPIO chip number for character device
+#define GPIO_CHIP_NUM 0
 #define OLED_I2C_PIN_SCL                    20
 #define OLED_I2C_PIN_SDA                    21
 
@@ -12,8 +14,8 @@ static U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0,
 
 int main(void)
 {
+	u8g2.setGpioChip(GPIO_CHIP_NUM);
     u8g2.begin();
-    u8g2.clearBuffer();                         // clear the internal memory
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on SW I2C");   // write something to the internal memory
     u8g2.sendBuffer();                          // transfer internal memory to the display

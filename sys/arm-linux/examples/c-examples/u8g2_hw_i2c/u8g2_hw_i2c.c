@@ -1,11 +1,17 @@
 #include <u8g2port.h>
 
+// Set I2C bus and address
+#define I2C_BUS 0
+#define I2C_ADDRESS 0x3c * 2
+
 int main(void)
 {
     u8g2_t u8g2;
 
     // Initialization    
     u8g2_Setup_ssd1306_i2c_128x64_noname_f( &u8g2, U8G2_R0, u8x8_byte_arm_linux_hw_i2c, u8x8_arm_linux_gpio_and_delay);
+    u8g2_SetI2CBus(&u8g2, I2C_BUS);
+    u8g2_SetI2CAddress(&u8g2, I2C_ADDRESS);
     u8g2_InitDisplay(&u8g2);
     u8g2_SetPowerSave(&u8g2, 0);
 

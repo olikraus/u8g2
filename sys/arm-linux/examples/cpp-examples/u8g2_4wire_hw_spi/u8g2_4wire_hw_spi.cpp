@@ -1,6 +1,9 @@
 #include <U8g2lib.h>
 
-// By default, SPI bus /dev/spidev0.0 is used, as defined in port/U8g2lib.h
+// GPIO chip number for character device
+#define GPIO_CHIP_NUM 0
+// SPI bus uses upper 4 bits and lower 4 bits, so 0x10 will be /dev/spidev1.0
+#define SPI_BUS 0x10
 #define OLED_SPI_PIN_RES            199
 #define OLED_SPI_PIN_DC             198
 
@@ -16,8 +19,9 @@ static U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0,
 
 int main()
 {
+	u8g2.setGpioChip(GPIO_CHIP_NUM);
+	u8g2.setSpiBus(SPI_BUS);
     u8g2.begin();
-    u8g2.clearBuffer();                         // clear the internal memory
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on HW SPI");   // write something to the internal memory
     u8g2.sendBuffer();                          // transfer internal memory to the display
