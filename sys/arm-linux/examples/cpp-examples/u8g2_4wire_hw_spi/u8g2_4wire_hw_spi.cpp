@@ -19,8 +19,7 @@ static U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0,
 
 int main()
 {
-	u8g2.setGpioChip(GPIO_CHIP_NUM);
-	u8g2.setSpiBus(SPI_BUS);
+	u8g2.intUserData(GPIO_CHIP_NUM, SPI_BUS);
     u8g2.begin();
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on HW SPI");   // write something to the internal memory
@@ -31,5 +30,5 @@ int main()
     u8g2.sleepMs(5000);
     u8g2.setPowerSave(1);
     u8g2.doneSpi();
-    u8g2.donePins();
+    u8g2.doneUserData();
 }

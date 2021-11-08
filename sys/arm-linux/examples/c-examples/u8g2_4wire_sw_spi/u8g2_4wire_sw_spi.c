@@ -17,7 +17,8 @@ int main(void)
 
     // Initialization
     u8g2_Setup_ssd1306_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_4wire_sw_spi, u8x8_arm_linux_gpio_and_delay);
-    u8g2_SetGPIOChip(&u8g2, GPIO_CHIP_NUM);
+    // Bus arg doesn't matter for software SPI
+    init_user_data(&u8g2, GPIO_CHIP_NUM, 0);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_RESET, OLED_SPI_PIN_RES);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_DC, OLED_SPI_PIN_DC);
     u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_SPI_DATA, OLED_SPI_PIN_MOSI);
@@ -43,7 +44,7 @@ int main(void)
     sleep_ms(5000);
     u8g2_SetPowerSave(&u8g2, 1);
     // Close and deallocate GPIO resources
-    done_pins();
+    done_user_data(&u8g2);
     printf("Done\n");
 
 

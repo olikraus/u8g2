@@ -8,7 +8,8 @@ static U8G2_SSD1306_128X64_NONAME_F_HW_I2C  u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_N
 
 int main(void)
 {
-	u8g2.setI2cBus(I2C_BUS);
+    // GPIO chip doesn't matter for hardware I2C
+	u8g2.intUserData(0, I2C_BUS);
 	u8g2.setI2CAddress(I2C_ADDRESS);
     u8g2.begin();
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
@@ -20,5 +21,5 @@ int main(void)
     u8g2.sleepMs(5000);
     u8g2.setPowerSave(1);
     u8g2.doneI2c();
-    u8g2.donePins();
+    u8g2.doneUserData();
 }
