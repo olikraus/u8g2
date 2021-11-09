@@ -7,10 +7,10 @@
 #include "u8g2port.h"
 
 // c-periphery I2C handles
-static i2c_t *i2c_handles[MAX_I2C_HANDLES] = { };
+static i2c_t *i2c_handles[MAX_I2C_HANDLES] = { NULL };
 
 // c-periphery SPI handles
-static spi_t *spi_handles[MAX_SPI_HANDLES] = { };
+static spi_t *spi_handles[MAX_SPI_HANDLES] = { NULL };
 
 /*
  * Sleep milliseconds.
@@ -50,6 +50,9 @@ void init_user_data(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus) {
 	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
 	user_data->gpio_chip = gpio_chip;
 	user_data->bus = bus;
+	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+		user_data->pins[i] = NULL;
+	}
 	u8g2_SetUserPtr(u8g2, user_data);
 }
 
