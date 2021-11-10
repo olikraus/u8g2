@@ -1,18 +1,16 @@
 /*
- * This code should support multiple displays, but only one hardware bus each
- * for I2C and SPI currently.
+ * This code should support multiple displays since GPIO pins, I2C and SPI
+ * handles have been moved into user_data_struct. I2C and SPI handles are global
+ * since they can be shared by multiple devices (think I2C sharing bus).
  */
 
 #include "u8g2port.h"
 
-// c-periphery I2C handle
-static i2c_t *i2c_handle = NULL;
+// c-periphery I2C handles
+static i2c_t *i2c_handles[MAX_I2C_HANDLES] = { NULL };
 
-// c-periphery SPI handle
-static spi_t *spi_handle = NULL;
-
-// c-periphery GPIO pins
-static gpio_t *pins[U8X8_PIN_CNT] = { };
+// c-periphery SPI handles
+static spi_t *spi_handles[MAX_SPI_HANDLES] = { NULL };
 
 /*
  * Sleep milliseconds.
@@ -44,77 +42,147 @@ void sleep_ns(unsigned long nanoseconds) {
 	nanosleep(&ts, NULL);
 }
 
+/*
+ * Allocate user_data_struct, set values and set user_ptr.
+ */
+void init_user_data(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus) {
+	// Dynamically allocate u8x8_buffer_struct
+	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data->gpio_chip = gpio_chip;
+	user_data->bus = bus;
+	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+		user_data->pins[i] = NULL;
+	}
+	u8g2_SetUserPtr(u8g2, user_data);
+}
+
+/*
+ * Close GPIO pins and free user_data_struct.
+ */
+void done_user_data(u8g2_t *u8g2) {
+	user_data_t *user_data = u8g2_GetUserPtr(u8g2);
+	if (user_data != NULL) {
+		for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+			if (user_data->pins[i] != NULL) {
+				gpio_close(user_data->pins[i]);
+				gpio_free(user_data->pins[i]);
+			}
+		}
+		free(user_data);
+		u8g2_SetUserPtr(u8g2, NULL);
+	}
+}
+
 /**
- * Initialize pin if not set to U8X8_PIN_NONE.
+ * Initialize pin if not set to U8X8_PIN_NONE and NULL.
  */
 #if PERIPHERY_GPIO_CDEV_SUPPORT
-void init_pin(u8x8_t *u8x8, int pin) {
+void init_pin(u8x8_t *u8x8, uint8_t pin) {
+	user_data_t *user_data = u8x8_GetUserPtr(u8x8);
 	char filename[16];
-	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
-		snprintf(filename, sizeof(filename), "/dev/gpiochip%d",
-				u8x8->gpio_chip_num);
-		pins[pin] = gpio_new();
-		if (gpio_open(pins[pin], filename, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
+	if (u8x8->pins[pin] != U8X8_PIN_NONE && user_data -> pins[pin] == NULL) {
+		snprintf(filename, sizeof(filename), "/dev/gpiochip%d",	user_data ->gpio_chip);
+		user_data -> pins[pin] = gpio_new();
+		if (gpio_open(user_data -> pins[pin], filename, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
 				< 0) {
 			fprintf(stderr, "gpio_open(): pin %d, %s\n", u8x8->pins[pin],
-					gpio_errmsg(pins[pin]));
+					gpio_errmsg(user_data -> pins[pin]));
 		}
 	}
 }
 #else
-void init_pin(u8x8_t *u8x8, int pin) {
-	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
-		pins[pin] = gpio_new();
-		if (gpio_open_sysfs(pins[pin], u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
-				< 0) {
+void init_pin(u8x8_t *u8x8, uint8_t pin) {
+	user_data_t *user_data = u8x8_GetUserPtr(u8x8);
+	if (u8x8->pins[pin] != U8X8_PIN_NONE && user_data->pins[pin] == NULL) {
+		user_data->pins[pin] = gpio_new();
+		if (gpio_open_sysfs(user_data->pins[pin], u8x8->pins[pin],
+				GPIO_DIR_OUT_HIGH) < 0) {
 			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", u8x8->pins[pin],
-					gpio_errmsg(pins[pin]));
+					gpio_errmsg(user_data->pins[pin]));
 		}
 	}
 }
 #endif
 
-/*
- * Close and free gpio_t for all pins.
+/**
+ * Write pin if not set to U8X8_PIN_NONE.
  */
-void done_pins() {
-	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
-		if (pins[i] != NULL) {
-			gpio_close(pins[i]);
-			gpio_free(pins[i]);
-			pins[i] = NULL;
+void write_pin(u8x8_t *u8x8, uint8_t pin, uint8_t value) {
+	user_data_t *user_data = u8x8_GetUserPtr(u8x8);
+	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
+		gpio_write(user_data->pins[pin], value);
+	}
+}
+
+/*
+ * Initialize I2C bus.
+ */
+void init_i2c(u8x8_t *u8x8) {
+	char filename[11];
+	user_data_t *user_data = u8x8_GetUserPtr(u8x8);
+	// Only open bus once
+	if (i2c_handles[user_data->bus] == NULL) {
+		snprintf(filename, sizeof(filename), "/dev/i2c-%d", user_data->bus);
+		i2c_handles[user_data->bus] = i2c_new();
+		if (i2c_open(i2c_handles[user_data->bus], filename) < 0) {
+			fprintf(stderr, "i2c_open(): %s\n",
+					i2c_errmsg(i2c_handles[user_data->bus]));
+			i2c_free(i2c_handles[user_data->bus]);
+			i2c_handles[user_data->bus] = NULL;
 		}
 	}
 }
 
 /*
- * Close and free i2c_t.
+ * Close and free all i2c_t.
  */
 void done_i2c() {
-	if (i2c_handle != NULL) {
-		i2c_close(i2c_handle);
-		i2c_free(i2c_handle);
-		i2c_handle = NULL;
+	for (int i = 0; i < MAX_I2C_HANDLES; ++i) {
+		if (i2c_handles[i] != NULL) {
+			i2c_close(i2c_handles[i]);
+			i2c_free(i2c_handles[i]);
+			i2c_handles[i] = NULL;
+		}
 	}
 }
 
 /*
- * Close and free spi_t.
+ * Initialize SPI bus.
  */
-void done_spi() {
-	if (spi_handle != NULL) {
-		spi_close(spi_handle);
-		spi_free(spi_handle);
-		spi_handle = NULL;
+void init_spi(u8x8_t *u8x8) {
+	char filename[15];
+	user_data_t *user_data = u8x8_GetUserPtr(u8x8);
+	// Only open bus once
+	if (spi_handles[user_data->bus] == NULL) {
+		// user_data->bus should be in the format 0x12 for /dev/spidev1.2
+		snprintf(filename, sizeof(filename), "/dev/spidev%d.%d",
+				user_data->bus >> 4, user_data->bus & 0x0f);
+		spi_handles[user_data->bus] = spi_new();
+		/* SPI mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
+		/*   0: clock active high, data out on falling edge, clock default value is zero, takover on rising edge */
+		/*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
+		/*   2: clock active low, data out on rising edge */
+		/*   3: clock active low, data out on falling edge */
+		if (spi_open(spi_handles[user_data->bus], filename,
+				u8x8->display_info->spi_mode, 500000) < 0) {
+			fprintf(stderr, "spi_open(): %s\n",
+					spi_errmsg(spi_handles[user_data->bus]));
+			spi_free(spi_handles[user_data->bus]);
+			spi_handles[user_data->bus] = NULL;
+		}
 	}
 }
 
-/**
- * Write pin if not set to U8X8_PIN_NONE.
+/*
+ * Close and free all spi_t.
  */
-void write_pin(u8x8_t *u8x8, int pin, int value) {
-	if (u8x8->pins[pin] != U8X8_PIN_NONE) {
-		gpio_write(pins[pin], value);
+void done_spi() {
+	for (int i = 0; i < MAX_SPI_HANDLES; ++i) {
+		if (spi_handles[i] != NULL) {
+			spi_close(spi_handles[i]);
+			spi_free(spi_handles[i]);
+			spi_handles[i] = NULL;
+		}
 	}
 }
 
@@ -256,51 +324,41 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 }
 
 /*
- * I2c callback. The static variables can be corrupted if more than one thread
- * at a time accesses this function. Calling program needs to be aware of this.
+ * I2c callback.
  */
 uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		void *arg_ptr) {
-	/* u8g2/u8x8 will never send more than 32 bytes between START_TRANSFER and END_TRANSFER */
-	static uint8_t buffer[32];
-	static uint8_t buf_idx;
+	user_data_t *user_data;
 	uint8_t *data;
 	struct i2c_msg msgs[1];
-	char filename[11];
 
 	switch (msg) {
 	case U8X8_MSG_BYTE_SEND:
+		user_data = u8x8_GetUserPtr(u8x8);
 		data = (uint8_t*) arg_ptr;
 		while (arg_int > 0) {
-			buffer[buf_idx++] = *data;
+			user_data->buffer[user_data->index++] = *data;
 			data++;
 			arg_int--;
 		}
 		break;
 
 	case U8X8_MSG_BYTE_INIT:
-		// Only open bus once
-		if (i2c_handle == NULL) {
-			snprintf(filename, sizeof(filename), "/dev/i2c-%d",
-					u8x8->i2c_bus_num);
-			i2c_handle = i2c_new();
-			if (i2c_open(i2c_handle, filename) < 0) {
-				fprintf(stderr, "i2c_open(): %s\n", i2c_errmsg(i2c_handle));
-				i2c_free(i2c_handle);
-			}
-		}
+		init_i2c(u8x8);
 		break;
 
 	case U8X8_MSG_BYTE_START_TRANSFER:
-		buf_idx = 0;
+		user_data = u8x8_GetUserPtr(u8x8);
+		user_data->index = 0;
 		break;
 
 	case U8X8_MSG_BYTE_END_TRANSFER:
+		user_data = u8x8_GetUserPtr(u8x8);
 		msgs[0].addr = u8x8_GetI2CAddress(u8x8) >> 1;
 		msgs[0].flags = 0; // Write
-		msgs[0].len = buf_idx;
-		msgs[0].buf = buffer;
-		i2c_transfer(i2c_handle, msgs, 1);
+		msgs[0].len = user_data->index;
+		msgs[0].buf = user_data->buffer;
+		i2c_transfer(i2c_handles[user_data->bus], msgs, 1);
 		break;
 
 	default:
@@ -314,42 +372,25 @@ uint8_t u8x8_byte_arm_linux_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
  */
 uint8_t u8x8_byte_arm_linux_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 		void *arg_ptr) {
-	// u8g2/u8x8 will never send more than 128 bytes
-	uint8_t buffer[128];
-	uint8_t buf_idx;
+	user_data_t *user_data;
 	uint8_t *data;
-	char filename[15];
 
 	switch (msg) {
 	case U8X8_MSG_BYTE_SEND:
-		buf_idx = 0;
+		user_data = u8x8_GetUserPtr(u8x8);
+		user_data->index = 0;
 		data = (uint8_t*) arg_ptr;
 		while (arg_int > 0) {
-			buffer[buf_idx++] = *data;
+			user_data->buffer[user_data->index++] = *data;
 			data++;
 			arg_int--;
 		}
-		spi_transfer(spi_handle, buffer, buffer, buf_idx);
+		spi_transfer(spi_handles[user_data->bus], user_data->buffer,
+				user_data->buffer, user_data->index);
 		break;
 
 	case U8X8_MSG_BYTE_INIT:
-		// Only open bus once
-		if (spi_handle == NULL) {
-			// spi_bus_num should be in the format 0x12 for /dev/spidev1.2
-			snprintf(filename, sizeof(filename), "/dev/spidev%d.%d",
-					u8x8->spi_bus_num >> 4, u8x8->spi_bus_num & 0x0f);
-			spi_handle = spi_new();
-			//u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
-			/* SPI mode has to be mapped to the mode of the current controller, at least Uno, Due, 101 have different SPI_MODEx values */
-			/*   0: clock active high, data out on falling edge, clock default value is zero, takover on rising edge */
-			/*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
-			/*   2: clock active low, data out on rising edge */
-			/*   3: clock active low, data out on falling edge */
-			if (spi_open(spi_handle, filename, u8x8->display_info->spi_mode,
-					500000) < 0) {
-				fprintf(stderr, "spi_open(): %s\n", spi_errmsg(spi_handle));
-			}
-		}
+		init_spi(u8x8);
 		break;
 
 	case U8X8_MSG_BYTE_SET_DC:

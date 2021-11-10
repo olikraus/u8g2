@@ -14,7 +14,8 @@ static U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0,
 
 int main(void)
 {
-	u8g2.setGpioChip(GPIO_CHIP_NUM);
+    // Bus doesn't matter for software I2C
+	u8g2.intUserData(GPIO_CHIP_NUM, 0);
     u8g2.begin();
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on SW I2C");   // write something to the internal memory
@@ -24,5 +25,5 @@ int main(void)
     u8g2.sendBuffer();
     u8g2.sleepMs(5000);
     u8g2.setPowerSave(1);
-    u8g2.donePins();
+    u8g2.doneUserData();
 }

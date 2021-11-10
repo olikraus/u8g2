@@ -10,7 +10,8 @@ int main(void)
 
     // Initialization    
     u8g2_Setup_ssd1306_i2c_128x64_noname_f( &u8g2, U8G2_R0, u8x8_byte_arm_linux_hw_i2c, u8x8_arm_linux_gpio_and_delay);
-    u8g2_SetI2CBus(&u8g2, I2C_BUS);
+    // GPIO chip doesn't matter for hardware I2C
+    init_user_data(&u8g2, 0, I2C_BUS);
     u8g2_SetI2CAddress(&u8g2, I2C_ADDRESS);
     u8g2_InitDisplay(&u8g2);
     u8g2_SetPowerSave(&u8g2, 0);
@@ -32,6 +33,8 @@ int main(void)
     u8g2_SetPowerSave(&u8g2, 1);
     // Close and deallocate i2c_t
     done_i2c();
+    // Close and deallocate GPIO resources
+    done_user_data(&u8g2);
     printf("Done\n");
 
     return 0;
