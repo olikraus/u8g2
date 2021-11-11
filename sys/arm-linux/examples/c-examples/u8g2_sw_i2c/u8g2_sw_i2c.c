@@ -2,20 +2,16 @@
 
 // GPIO chip number for character device
 #define GPIO_CHIP_NUM 0
-#define OLED_I2C_PIN_SCL                    20
-#define OLED_I2C_PIN_SDA                    21
+#define OLED_I2C_PIN_SCL                    11
+#define OLED_I2C_PIN_SDA                    12
 
 int main(void)
 {
     u8g2_t u8g2;
 
     // Initialization
-    u8g2_Setup_ssd1306_i2c_128x64_noname_f( &u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_arm_linux_gpio_and_delay);
-    // Bus doesn't matter for software I2C
-    init_user_data(&u8g2, GPIO_CHIP_NUM, 0);
-    u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_I2C_CLOCK, OLED_I2C_PIN_SCL);
-    u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_I2C_DATA, OLED_I2C_PIN_SDA);
-    u8x8_SetPin(u8g2_GetU8x8(&u8g2), U8X8_PIN_RESET, U8X8_PIN_NONE);
+    u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c, u8x8_arm_linux_gpio_and_delay);
+    init_i2c_sw(&u8g2, GPIO_CHIP_NUM, OLED_I2C_PIN_SCL, OLED_I2C_PIN_SDA, 0);
 
     u8g2_InitDisplay(&u8g2);
     u8g2_SetPowerSave(&u8g2, 0);

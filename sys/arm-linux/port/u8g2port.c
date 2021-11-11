@@ -43,9 +43,38 @@ void sleep_ns(unsigned long nanoseconds) {
 }
 
 /*
- * Allocate user_data_struct, set values and set user_ptr.
+ * Allocate user_data_struct for I2C hardware.
  */
-void init_user_data(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus) {
+void init_i2c_hw(u8g2_t *u8g2, uint8_t bus) {
+	// Dynamically allocate u8x8_buffer_struct
+	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data->bus = bus;
+	u8g2_SetUserPtr(u8g2, user_data);
+}
+
+/*
+ * Allocate user_data_struct for I2C software.
+ */
+void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
+		unsigned long delay) {
+	// Dynamically allocate u8x8_buffer_struct
+	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data->gpio_chip = gpio_chip;
+	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+		user_data->pins[i] = NULL;
+	}
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_I2C_CLOCK, scl);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_I2C_DATA, sda);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, U8X8_PIN_NONE);
+	user_data->delay = delay;
+	u8g2_SetUserPtr(u8g2, user_data);
+}
+
+/*
+ * Allocate user_data_struct for hardware SPI.
+ */
+void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
+		uint8_t res) {
 	// Dynamically allocate u8x8_buffer_struct
 	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
 	user_data->gpio_chip = gpio_chip;
@@ -53,6 +82,29 @@ void init_user_data(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus) {
 	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
 		user_data->pins[i] = NULL;
 	}
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_DC, dc);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, res);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_CS, U8X8_PIN_NONE);
+	u8g2_SetUserPtr(u8g2, user_data);
+}
+
+/*
+ * Allocate user_data_struct for hardware SPI.
+ */
+void init_spi_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t dc, uint8_t res,
+		uint8_t mosi, uint8_t sck, uint8_t cs, unsigned long delay) {
+	// Dynamically allocate u8x8_buffer_struct
+	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data->gpio_chip = gpio_chip;
+	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+		user_data->pins[i] = NULL;
+	}
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_DC, dc);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, res);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_SPI_DATA, mosi);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_SPI_CLOCK, sck);
+	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_CS, cs);
+	user_data->delay = delay;
 	u8g2_SetUserPtr(u8g2, user_data);
 }
 
@@ -191,6 +243,8 @@ void done_spi() {
  */
 uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		uint8_t arg_int, void *arg_ptr) {
+	user_data_t *user_data;
+
 	(void) arg_ptr; /* suppress unused parameter warning */
 	switch (msg) {
 	case U8X8_MSG_DELAY_NANO:            // delay arg_int * 1 nano second
@@ -210,12 +264,11 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		break;
 
 	case U8X8_MSG_DELAY_I2C:
-		// arg_int is the I2C speed in 100KHz, e.g. 4 = 400 KHz
-		// arg_int=1: delay by 5us, arg_int = 4: delay by 1.25us
-		if (arg_int == 1) {
-			sleep_us(5);
-		} else if (arg_int == 4) {
-			sleep_ns(1250);
+		// arg_int is the I2C speed in 100KHz, e.g. 4 = 400 KHz, but we ignore
+		// that and use user_data->delay
+		user_data = u8x8_GetUserPtr(u8x8);
+		if (user_data->delay != 0) {
+			sleep_ns(user_data->delay);
 		}
 		break;
 

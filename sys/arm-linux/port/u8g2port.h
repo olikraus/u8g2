@@ -30,6 +30,8 @@ struct user_data_struct {
 	uint8_t index;
 	// Display buffer, I2C should send 32 bytes max and SPI 128 bytes max
 	uint8_t buffer[128];
+	// Nanosecond delay for U8X8_MSG_DELAY_I2C
+	unsigned long delay;
 };
 
 typedef struct user_data_struct user_data_t;
@@ -37,7 +39,13 @@ typedef struct user_data_struct user_data_t;
 void sleep_ms(unsigned long milliseconds);
 void sleep_us(unsigned long microseconds);
 void sleep_ns(unsigned long nanoseconds);
-void init_user_data(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus);
+void init_i2c_hw(u8g2_t *u8g2, uint8_t bus);
+void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
+		unsigned long delay);
+void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
+		uint8_t res);
+void init_spi_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t dc, uint8_t res,
+		uint8_t mosi, uint8_t sck, uint8_t cs, unsigned long delay);
 void done_user_data(u8g2_t *u8g2);
 void init_pin(u8x8_t *u8x8, uint8_t pin);
 void write_pin(u8x8_t *u8x8, uint8_t pin, uint8_t value);

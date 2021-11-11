@@ -2,8 +2,8 @@
 
 // GPIO chip number for character device
 #define GPIO_CHIP_NUM 0
-#define OLED_I2C_PIN_SCL                    20
-#define OLED_I2C_PIN_SDA                    21
+#define OLED_I2C_PIN_SCL                    11
+#define OLED_I2C_PIN_SDA                    12
 
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for all supported devices
 static U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0,
@@ -14,8 +14,7 @@ static U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0,
 
 int main(void)
 {
-    // Bus doesn't matter for software I2C
-	u8g2.intUserData(GPIO_CHIP_NUM, 0);
+	u8g2.initI2cSw(GPIO_CHIP_NUM, OLED_I2C_PIN_SCL, OLED_I2C_PIN_SDA, 0);
     u8g2.begin();
     u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
     u8g2.drawStr(1, 18, "U8g2 on SW I2C");   // write something to the internal memory
