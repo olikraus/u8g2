@@ -133,8 +133,19 @@ public:
 	}
 #endif
 
-	void intUserData(uint8_t gpio_chip, uint8_t bus) {
-		init_user_data(&u8g2, gpio_chip, bus);
+	void initI2cHw(uint8_t bus) {
+		init_i2c_hw(&u8g2, bus);
+	}
+	void initI2cSw(uint8_t gpio_chip, uint8_t scl, uint8_t sda,
+			unsigned long delay) {
+		init_i2c_sw(&u8g2, gpio_chip, scl, sda, delay);
+	}
+	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res) {
+		init_spi_hw(&u8g2, gpio_chip, bus, dc, res);
+	}
+	void initSpiSw(uint8_t gpio_chip, uint8_t dc, uint8_t res,
+			uint8_t mosi, uint8_t sck, uint8_t cs, unsigned long delay) {
+		init_spi_sw(&u8g2, gpio_chip, dc, res, mosi, sck, cs, delay);
 	}
 	void doneUserData(void) {
 		done_user_data(&u8g2);
