@@ -248,7 +248,10 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 	(void) arg_ptr; /* suppress unused parameter warning */
 	switch (msg) {
 	case U8X8_MSG_DELAY_NANO:            // delay arg_int * 1 nano second
-		sleep_ns(arg_int);
+		user_data = u8x8_GetUserPtr(u8x8);
+		if (user_data->delay != 0) {
+			sleep_ns(user_data->delay);
+		}
 		break;
 
 	case U8X8_MSG_DELAY_100NANO:        // delay arg_int * 100 nano seconds
