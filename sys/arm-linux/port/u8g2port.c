@@ -49,6 +49,9 @@ void init_i2c_hw(u8g2_t *u8g2, uint8_t bus) {
 	// Dynamically allocate u8x8_buffer_struct
 	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
 	user_data->bus = bus;
+	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
+		user_data->pins[i] = NULL;
+	}
 	u8g2_SetUserPtr(u8g2, user_data);
 }
 
