@@ -1,7 +1,7 @@
 /*
- * This code should support multiple displays since GPIO pins, I2C and SPI
- * handles have been moved into user_data_struct. I2C and SPI handles are global
- * since they can be shared by multiple devices (think I2C sharing bus).
+ * This code should support multiple displays since GPIO pin handles have been
+ * moved into user_data_struct. I2C and SPI handles are global since they can be
+ * shared by multiple devices (think I2C with different address sharing bus).
  */
 
 #include "u8g2port.h"
@@ -43,16 +43,24 @@ void sleep_ns(unsigned long nanoseconds) {
 }
 
 /*
- * Allocate user_data_struct for I2C hardware.
+ * Allocate user_data_struct, set common values and set user_ptr.
  */
-void init_i2c_hw(u8g2_t *u8g2, uint8_t bus) {
+user_data_t *init_user_data(u8g2_t *u8g2) {
 	// Dynamically allocate u8x8_buffer_struct
 	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
-	user_data->bus = bus;
 	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
 		user_data->pins[i] = NULL;
 	}
 	u8g2_SetUserPtr(u8g2, user_data);
+	return user_data;
+}
+
+/*
+ * Allocate user_data_struct for I2C hardware.
+ */
+void init_i2c_hw(u8g2_t *u8g2, uint8_t bus) {
+	user_data_t *user_data = init_user_data(u8g2);
+	user_data->bus = bus;
 }
 
 /*
@@ -60,17 +68,12 @@ void init_i2c_hw(u8g2_t *u8g2, uint8_t bus) {
  */
 void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
 		unsigned long delay) {
-	// Dynamically allocate u8x8_buffer_struct
-	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data_t *user_data = init_user_data(u8g2);
 	user_data->gpio_chip = gpio_chip;
-	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
-		user_data->pins[i] = NULL;
-	}
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_I2C_CLOCK, scl);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_I2C_DATA, sda);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, U8X8_PIN_NONE);
 	user_data->delay = delay;
-	u8g2_SetUserPtr(u8g2, user_data);
 }
 
 /*
@@ -78,17 +81,12 @@ void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
  */
 void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
 		uint8_t res) {
-	// Dynamically allocate u8x8_buffer_struct
-	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data_t *user_data = init_user_data(u8g2);
 	user_data->gpio_chip = gpio_chip;
 	user_data->bus = bus;
-	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
-		user_data->pins[i] = NULL;
-	}
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_DC, dc);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, res);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_CS, U8X8_PIN_NONE);
-	u8g2_SetUserPtr(u8g2, user_data);
 }
 
 /*
@@ -96,19 +94,14 @@ void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
  */
 void init_spi_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t dc, uint8_t res,
 		uint8_t mosi, uint8_t sck, uint8_t cs, unsigned long delay) {
-	// Dynamically allocate u8x8_buffer_struct
-	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	user_data_t *user_data = init_user_data(u8g2);
 	user_data->gpio_chip = gpio_chip;
-	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
-		user_data->pins[i] = NULL;
-	}
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_DC, dc);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, res);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_SPI_DATA, mosi);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_SPI_CLOCK, sck);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_CS, cs);
 	user_data->delay = delay;
-	u8g2_SetUserPtr(u8g2, user_data);
 }
 
 /*
@@ -250,22 +243,26 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 
 	(void) arg_ptr; /* suppress unused parameter warning */
 	switch (msg) {
-	case U8X8_MSG_DELAY_NANO:            // delay arg_int * 1 nano second
+	case U8X8_MSG_DELAY_NANO:
+		// delay arg_int * 1 nano second or 0 for none
 		user_data = u8x8_GetUserPtr(u8x8);
 		if (user_data->delay != 0) {
 			sleep_ns(user_data->delay);
 		}
 		break;
 
-	case U8X8_MSG_DELAY_100NANO:        // delay arg_int * 100 nano seconds
+	case U8X8_MSG_DELAY_100NANO:
+		// delay arg_int * 100 nano seconds
 		sleep_ns(arg_int * 100);
 		break;
 
-	case U8X8_MSG_DELAY_10MICRO:        // delay arg_int * 10 micro seconds
+	case U8X8_MSG_DELAY_10MICRO:
+		// delay arg_int * 10 micro seconds
 		sleep_us(arg_int * 10);
 		break;
 
-	case U8X8_MSG_DELAY_MILLI:            // delay arg_int * 1 milli second
+	case U8X8_MSG_DELAY_MILLI:
+		// delay arg_int * 1 milli second
 		sleep_ms(arg_int);
 		break;
 
@@ -285,10 +282,6 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		init_pin(u8x8, U8X8_PIN_SPI_CLOCK);
 		init_pin(u8x8, U8X8_PIN_SPI_DATA);
 		init_pin(u8x8, U8X8_PIN_CS);
-
-		// 8080 mode
-		// D0 --> spi clock
-		// D1 --> spi data
 		init_pin(u8x8, U8X8_PIN_D2);
 		init_pin(u8x8, U8X8_PIN_D3);
 		init_pin(u8x8, U8X8_PIN_D4);
@@ -302,40 +295,40 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		// I2c pins
 		init_pin(u8x8, U8X8_PIN_I2C_DATA);
 		init_pin(u8x8, U8X8_PIN_I2C_CLOCK);
-
 		break;
 
-		//case U8X8_MSG_GPIO_D0:            // D0 or SPI clock pin: Output level in arg_int
-		//case U8X8_MSG_GPIO_SPI_CLOCK:
-
-		//case U8X8_MSG_GPIO_D1:            // D1 or SPI data pin: Output level in arg_int
-		//case U8X8_MSG_GPIO_SPI_DATA:
-
-	case U8X8_MSG_GPIO_D2:                  // D2 pin: Output level in arg_int
+	case U8X8_MSG_GPIO_D2:
+		// D2 pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_D2, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_D3:                  // D3 pin: Output level in arg_int
+	case U8X8_MSG_GPIO_D3:
+		// D3 pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_D3, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_D4:                  // D4 pin: Output level in arg_int
+	case U8X8_MSG_GPIO_D4:
+		// D4 pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_D4, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_D5:                  // D5 pin: Output level in arg_int
+	case U8X8_MSG_GPIO_D5:
+		// D5 pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_D5, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_D6:                  // D6 pin: Output level in arg_int
+	case U8X8_MSG_GPIO_D6:
+		// D6 pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_D6, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_D7:                  // D7 pin: Output level in arg_int
+	case U8X8_MSG_GPIO_D7:
+		// D7 pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_D7, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_E:                   // E/WR pin: Output level in arg_int
+	case U8X8_MSG_GPIO_E:
+		// E/WR pin: Output level in arg_int
 		write_pin(u8x8, U8X8_PIN_E, arg_int);
 		break;
 
@@ -351,12 +344,12 @@ uint8_t u8x8_arm_linux_gpio_and_delay(u8x8_t *u8x8, uint8_t msg,
 		write_pin(u8x8, U8X8_PIN_I2C_DATA, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_SPI_CLOCK:
+	case U8X8_MSG_GPIO_SPI_CLOCK: // Same as U8X8_MSG_GPIO_D0
 		//Function to define the logic level of the clockline
 		write_pin(u8x8, U8X8_PIN_SPI_CLOCK, arg_int);
 		break;
 
-	case U8X8_MSG_GPIO_SPI_DATA:
+	case U8X8_MSG_GPIO_SPI_DATA: // Same as U8X8_MSG_GPIO_D1
 		//Function to define the logic level of the data line to the display
 		write_pin(u8x8, U8X8_PIN_SPI_DATA, arg_int);
 		break;

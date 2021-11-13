@@ -39,6 +39,7 @@ typedef struct user_data_struct user_data_t;
 void sleep_ms(unsigned long milliseconds);
 void sleep_us(unsigned long microseconds);
 void sleep_ns(unsigned long nanoseconds);
+user_data_t *init_user_data(u8g2_t *u8g2);
 void init_i2c_hw(u8g2_t *u8g2, uint8_t bus);
 void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
 		unsigned long delay);
