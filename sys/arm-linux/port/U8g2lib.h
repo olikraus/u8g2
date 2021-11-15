@@ -137,11 +137,11 @@ public:
 		init_i2c_hw(&u8g2, bus);
 	}
 	void initI2cSw(uint8_t gpio_chip, uint8_t scl, uint8_t sda,
-			unsigned long delay) {
-		init_i2c_sw(&u8g2, gpio_chip, scl, sda, delay);
+			uint8_t res, unsigned long delay) {
+		init_i2c_sw(&u8g2, gpio_chip, scl, sda, res, delay);
 	}
-	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res) {
-		init_spi_hw(&u8g2, gpio_chip, bus, dc, res);
+	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res, uint8_t cs) {
+		init_spi_hw(&u8g2, gpio_chip, bus, dc, res, cs);
 	}
 	void initSpiSw(uint8_t gpio_chip, uint8_t dc, uint8_t res,
 			uint8_t mosi, uint8_t sck, uint8_t cs, unsigned long delay) {

@@ -8,7 +8,7 @@
 #define OLED_SPI_PIN_DC             198
 
 // CS pin is controlled by linux spi driver
-#define OLED_SPI_PIN_CS             0
+#define OLED_SPI_PIN_CS             U8X8_PIN_NONE
 
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for all supported devices
 static U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0,
@@ -18,7 +18,8 @@ static U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0,
 // same as the NONAME variant, but may solve the "every 2nd line skipped" problem
 
 int main() {
-	u8g2.initSpiHw(GPIO_CHIP_NUM, SPI_BUS, OLED_SPI_PIN_DC, OLED_SPI_PIN_RES);
+	u8g2.initSpiHw(GPIO_CHIP_NUM, SPI_BUS, OLED_SPI_PIN_DC, OLED_SPI_PIN_RES,
+			OLED_SPI_PIN_CS);
 	u8g2.begin();
 	u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
 	u8g2.drawStr(1, 18, "U8g2 on HW SPI"); // write something to the internal memory
