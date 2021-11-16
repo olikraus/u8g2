@@ -131,10 +131,12 @@ void init_pin(u8x8_t *u8x8, uint8_t pin) {
 	if (u8x8->pins[pin] != U8X8_PIN_NONE && user_data -> pins[pin] == NULL) {
 		snprintf(filename, sizeof(filename), "/dev/gpiochip%d",	user_data ->gpio_chip);
 		user_data -> pins[pin] = gpio_new();
-		if (gpio_open(user_data -> pins[pin], filename, u8x8->pins[pin], GPIO_DIR_OUT_HIGH)
-				< 0) {
+		int error = gpio_open(user_data -> pins[pin], filename, u8x8->pins[pin], GPIO_DIR_OUT_HIGH);
+		if (error < 0) {
 			fprintf(stderr, "gpio_open(): pin %d, %s\n", u8x8->pins[pin],
 					gpio_errmsg(user_data -> pins[pin]));
+			gpio_free(user_data->pins[pin]);
+			exit(error);
 		}
 	}
 }
@@ -143,10 +145,13 @@ void init_pin(u8x8_t *u8x8, uint8_t pin) {
 	user_data_t *user_data = u8x8_GetUserPtr(u8x8);
 	if (u8x8->pins[pin] != U8X8_PIN_NONE && user_data->pins[pin] == NULL) {
 		user_data->pins[pin] = gpio_new();
-		if (gpio_open_sysfs(user_data->pins[pin], u8x8->pins[pin],
-				GPIO_DIR_OUT_HIGH) < 0) {
+		int error = gpio_open_sysfs(user_data->pins[pin], u8x8->pins[pin],
+				GPIO_DIR_OUT_HIGH);
+		if (error < 0) {
 			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", u8x8->pins[pin],
 					gpio_errmsg(user_data->pins[pin]));
+			gpio_free(user_data->pins[pin]);
+			exit(error);
 		}
 	}
 }
@@ -172,11 +177,13 @@ void init_i2c(u8x8_t *u8x8) {
 	if (i2c_handles[user_data->bus] == NULL) {
 		snprintf(filename, sizeof(filename), "/dev/i2c-%d", user_data->bus);
 		i2c_handles[user_data->bus] = i2c_new();
-		if (i2c_open(i2c_handles[user_data->bus], filename) < 0) {
+		int error = i2c_open(i2c_handles[user_data->bus], filename);
+		if (error) {
 			fprintf(stderr, "i2c_open(): %s\n",
 					i2c_errmsg(i2c_handles[user_data->bus]));
 			i2c_free(i2c_handles[user_data->bus]);
 			i2c_handles[user_data->bus] = NULL;
+			exit(error);
 		}
 	}
 }
@@ -211,12 +218,14 @@ void init_spi(u8x8_t *u8x8) {
 		/*   1: clock active high, data out on rising edge, clock default value is zero, takover on falling edge */
 		/*   2: clock active low, data out on rising edge */
 		/*   3: clock active low, data out on falling edge */
-		if (spi_open(spi_handles[user_data->bus], filename,
-				u8x8->display_info->spi_mode, 500000) < 0) {
+		int error = spi_open(spi_handles[user_data->bus], filename,
+				u8x8->display_info->spi_mode, 500000);
+		if (error < 0) {
 			fprintf(stderr, "spi_open(): %s\n",
 					spi_errmsg(spi_handles[user_data->bus]));
 			spi_free(spi_handles[user_data->bus]);
 			spi_handles[user_data->bus] = NULL;
+			exit(error);
 		}
 	}
 }
