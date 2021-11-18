@@ -80,10 +80,12 @@ void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
  * Allocate user_data_struct for hardware SPI.
  */
 void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
-		uint8_t res, uint8_t cs) {
+		uint8_t res, uint8_t cs, unsigned int spi_mode, uint32_t max_speed) {
 	user_data_t *user_data = init_user_data(u8g2);
 	user_data->gpio_chip = gpio_chip;
 	user_data->bus = bus;
+	user_data->spi_mode = spi_mode;
+	user_data->max_speed = max_speed;
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_DC, dc);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, res);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_CS, cs);
@@ -219,7 +221,7 @@ void init_spi(u8x8_t *u8x8) {
 		/*   2: clock active low, data out on rising edge */
 		/*   3: clock active low, data out on falling edge */
 		int error = spi_open(spi_handles[user_data->bus], filename,
-				u8x8->display_info->spi_mode, 500000);
+				user_data->spi_mode, user_data->max_speed);
 		if (error < 0) {
 			fprintf(stderr, "spi_open(): %s\n",
 					spi_errmsg(spi_handles[user_data->bus]));

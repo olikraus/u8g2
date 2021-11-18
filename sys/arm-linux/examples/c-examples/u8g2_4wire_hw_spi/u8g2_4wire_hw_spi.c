@@ -9,6 +9,9 @@
 
 // CS pin is controlled by linux spi driver, thus not defined here, but need to be wired
 #define OLED_SPI_PIN_CS             U8X8_PIN_NONE
+#define SPI_MODE                    0
+#define SPI_MAX_SPEED               500000
+
 
 int main(void) {
 	u8g2_t u8g2;
@@ -17,7 +20,7 @@ int main(void) {
 	u8g2_Setup_ssd1306_128x64_noname_f(&u8g2, U8G2_R0,
 			u8x8_byte_arm_linux_hw_spi, u8x8_arm_linux_gpio_and_delay);
 	init_spi_hw(&u8g2, GPIO_CHIP_NUM, SPI_BUS, OLED_SPI_PIN_DC,
-			OLED_SPI_PIN_RES, OLED_SPI_PIN_CS);
+			OLED_SPI_PIN_RES, OLED_SPI_PIN_CS, SPI_MODE, SPI_MAX_SPEED);
 
 	u8g2_InitDisplay(&u8g2);
 	u8g2_ClearBuffer(&u8g2);
