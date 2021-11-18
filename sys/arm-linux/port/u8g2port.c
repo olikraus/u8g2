@@ -96,7 +96,7 @@ void init_spi_hw_advanced(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t 
  */
 void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
 		uint8_t res, uint8_t cs) {
-	init_spi_hw_advanced(u8g2, gpio_chip, bus, dc, res, cs, 0, 500000);
+	init_spi_hw_advanced(u8g2, gpio_chip, bus, dc, res, cs, u8g2_GetU8x8(u8g2)->display_info->spi_mode, 500000);
 }
 
 /*
