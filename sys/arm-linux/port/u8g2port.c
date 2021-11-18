@@ -79,7 +79,7 @@ void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
 /*
  * Allocate user_data_struct for hardware SPI.
  */
-void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
+void init_spi_hw_custom_mode(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
 		uint8_t res, uint8_t cs, unsigned int spi_mode, uint32_t max_speed) {
 	user_data_t *user_data = init_user_data(u8g2);
 	user_data->gpio_chip = gpio_chip;
@@ -89,6 +89,11 @@ void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_DC, dc);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_RESET, res);
 	u8x8_SetPin(u8g2_GetU8x8(u8g2), U8X8_PIN_CS, cs);
+}
+
+void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
+                uint8_t res, uint8_t cs) {
+	init_spi_hw_custom_mode(u8g2, gpio_chip, bus, dc, res, cs, u8g2_GetU8x8(u8g2)->display_info->spi_mode, 500000)
 }
 
 /*
