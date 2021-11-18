@@ -140,9 +140,13 @@ public:
 			unsigned long delay) {
 		init_i2c_sw(&u8g2, gpio_chip, scl, sda, res, delay);
 	}
-	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res,
+	void initSpiHwAdvance(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res,
 			uint8_t cs, unsigned int spi_mode, uint32_t max_speed) {
-		init_spi_hw(&u8g2, gpio_chip, bus, dc, res, cs, spi_mode, max_speed);
+		init_spi_hw_advance(&u8g2, gpio_chip, bus, dc, res, cs, spi_mode, max_speed);
+	}
+	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res,
+			uint8_t cs) {
+		init_spi_hw(&u8g2, gpio_chip, bus, dc, res, cs);
 	}
 	void initSpiSw(uint8_t gpio_chip, uint8_t dc, uint8_t res, uint8_t mosi,
 			uint8_t sck, uint8_t cs, unsigned long delay) {

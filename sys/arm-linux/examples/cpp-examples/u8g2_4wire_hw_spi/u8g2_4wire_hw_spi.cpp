@@ -6,8 +6,6 @@
 #define SPI_BUS 0x10
 #define OLED_SPI_PIN_RES            199
 #define OLED_SPI_PIN_DC             198
-#define SPI_MODE                    0
-#define SPI_MAX_SPEED               500000
 
 // CS pin is controlled by linux spi driver
 #define OLED_SPI_PIN_CS             U8X8_PIN_NONE
@@ -21,7 +19,7 @@ static U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0,
 
 int main() {
 	u8g2.initSpiHw(GPIO_CHIP_NUM, SPI_BUS, OLED_SPI_PIN_DC, OLED_SPI_PIN_RES,
-			OLED_SPI_PIN_CS, SPI_MODE, SPI_MAX_SPEED);
+			OLED_SPI_PIN_CS);
 	u8g2.begin();
 	u8g2.setFont(u8g2_font_6x13_tr);            // choose a suitable font
 	u8g2.drawStr(1, 18, "U8g2 on HW SPI"); // write something to the internal memory
