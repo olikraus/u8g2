@@ -1,7 +1,9 @@
 /*
- * This code should support multiple displays since GPIO pin handles have been
+ * This code supports multiple displays since GPIO pin handles have been
  * moved into user_data_struct. I2C and SPI handles are global since they can be
  * shared by multiple devices (think I2C with different address sharing bus).
+ *
+ * So far I have tested this with 3 software I2C displays. See examples.
  */
 
 #include "u8g2port.h"
