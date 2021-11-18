@@ -10,6 +10,7 @@
 // CS pin is controlled by linux spi driver, thus not defined here, but need to be wired
 #define OLED_SPI_PIN_CS             U8X8_PIN_NONE
 
+
 int main(void) {
 	u8g2_t u8g2;
 

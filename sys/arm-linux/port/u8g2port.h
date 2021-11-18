@@ -32,6 +32,10 @@ struct user_data_struct {
 	uint8_t buffer[128];
 	// Nanosecond delay for U8X8_MSG_DELAY_I2C
 	unsigned long delay;
+	// SPI mode
+	unsigned int spi_mode;
+	// SPI max speed
+	uint32_t max_speed;
 };
 
 typedef struct user_data_struct user_data_t;
@@ -43,6 +47,8 @@ user_data_t *init_user_data(u8g2_t *u8g2);
 void init_i2c_hw(u8g2_t *u8g2, uint8_t bus);
 void init_i2c_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t scl, uint8_t sda,
 		uint8_t res, unsigned long delay);
+void init_spi_hw_advanced(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
+		uint8_t res, uint8_t cs, unsigned int spi_mode, uint32_t max_speed);
 void init_spi_hw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t bus, uint8_t dc,
 		uint8_t res, uint8_t cs);
 void init_spi_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t dc, uint8_t res,
