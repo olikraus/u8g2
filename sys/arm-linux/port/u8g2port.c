@@ -48,8 +48,12 @@ void sleep_ns(unsigned long nanoseconds) {
  * Allocate user_data_struct, set common values and set user_ptr.
  */
 user_data_t* init_user_data(u8g2_t *u8g2) {
-	// Dynamically allocate u8x8_buffer_struct
+	// Dynamically allocate user data_struct
 	user_data_t *user_data = (user_data_t*) malloc(sizeof(user_data_t));
+	// Dynamically allocate internal buffer
+	user_data->int_buf = (uint8_t*)malloc(u8g2_GetBufferSize(u8g2));
+	// We need a unique buffer for each display in order to be thread friendly
+	u8g2_SetBufferPtr(u8g2, user_data->int_buf);
 	for (int i = 0; i < U8X8_PIN_CNT; ++i) {
 		user_data->pins[i] = NULL;
 	}
@@ -124,12 +128,16 @@ void init_spi_sw(u8g2_t *u8g2, uint8_t gpio_chip, uint8_t dc, uint8_t res,
 void done_user_data(u8g2_t *u8g2) {
 	user_data_t *user_data = u8g2_GetUserPtr(u8g2);
 	if (user_data != NULL) {
+		// Close all GPIO pins
 		for (int i = 0; i < U8X8_PIN_CNT; ++i) {
 			if (user_data->pins[i] != NULL) {
 				gpio_close(user_data->pins[i]);
 				gpio_free(user_data->pins[i]);
 			}
 		}
+		// Free internal buffer
+		free(user_data->int_buf);
+		// Free user data struct
 		free(user_data);
 		u8g2_SetUserPtr(u8g2, NULL);
 	}

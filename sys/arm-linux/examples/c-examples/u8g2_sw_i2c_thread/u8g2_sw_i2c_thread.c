@@ -26,16 +26,12 @@ void* do_display(void *arg) {
 	display_t disp = *((display_t*) arg);
 	pthread_t id = pthread_self();
 	uint8_t h, w, y1, y2;
-	uint8_t *buf;
 
 	printf("Thread %lu start\n", id);
 	u8g2_t u8g2;
 	// Initialization
 	u8g2_Setup_ssd1306_i2c_128x32_univision_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c,
 			u8x8_arm_linux_gpio_and_delay);
-	// We need unique buffer for each display in order to be thread friendly
-	buf = (uint8_t*)malloc(u8g2_GetBufferSize(&u8g2));
-	u8g2_SetBufferPtr(&u8g2, buf);
 	init_i2c_sw(&u8g2, disp.gpio_chip, disp.scl, disp.sda, disp.res,
 			disp.delay);
 	u8g2_InitDisplay(&u8g2);
@@ -54,7 +50,6 @@ void* do_display(void *arg) {
 	u8g2_SetPowerSave(&u8g2, 1);
 	// Close and deallocate GPIO resources
 	done_user_data(&u8g2);
-	free(buf);
 	printf("Thread %lu end\n", id);
 	return NULL;
 }
