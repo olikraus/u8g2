@@ -1377,7 +1377,7 @@ void u8g2_FirstPage(u8g2_t *u8g2);
 uint8_t u8g2_NextPage(u8g2_t *u8g2);
 
 // Add ability to set buffer pointer
-#if defined(__ARM_LINUX__) || defined(unix) || defined(__unix__) || defined(__unix)
+#ifdef __ARM_LINUX__
 #define U8G2_USE_DYNAMIC_ALLOC
 #endif
 
