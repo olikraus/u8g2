@@ -142,7 +142,8 @@ public:
 	}
 	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res,
 			uint8_t cs, unsigned int spi_mode, uint32_t max_speed) {
-		init_spi_hw_advanced(&u8g2, gpio_chip, bus, dc, res, cs, spi_mode, max_speed);
+		init_spi_hw_advanced(&u8g2, gpio_chip, bus, dc, res, cs, spi_mode,
+				max_speed);
 	}
 	void initSpiHw(uint8_t gpio_chip, uint8_t bus, uint8_t dc, uint8_t res,
 			uint8_t cs) {
@@ -209,15 +210,10 @@ public:
 	}
 
 	bool begin(void) {
-		/* note: call to u8x8_utf8_init is not required here, this is done in the setup procedures before */
-#ifndef U8G2_USE_DYNAMIC_ALLOC
 		initDisplay();
 		clearDisplay();
 		setPowerSave(0);
 		return 1;
-#else
-      return 0;
-      #endif
 	}
 
 	void beginSimple(void) {

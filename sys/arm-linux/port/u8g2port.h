@@ -28,7 +28,7 @@ struct user_data_struct {
 	uint8_t bus;
 	// Index into buffer
 	uint8_t index;
-	// Display buffer, I2C should send 32 bytes max and SPI 128 bytes max
+	// Callback buffer, I2C should send 32 bytes max and SPI 128 bytes max
 	uint8_t buffer[128];
 	// Nanosecond delay for U8X8_MSG_DELAY_I2C
 	unsigned long delay;
@@ -36,6 +36,8 @@ struct user_data_struct {
 	unsigned int spi_mode;
 	// SPI max speed
 	uint32_t max_speed;
+	// Internal buffer
+	uint8_t *int_buf;
 };
 
 typedef struct user_data_struct user_data_t;
