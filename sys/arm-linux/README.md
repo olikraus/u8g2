@@ -4,6 +4,8 @@
 * GPIO, I2C and SPI can be closed and unallocated.
 * Overall performance should be better.
 * Run as non-root user.
+* Thread safe and multiple display capable.
+* For Java check out [Java U8g2](https://github.com/sgjava/java-u8g2) which uses arm-linux port.
 
 ## Non-root access
 If you want to access devices without root do the following (you can try udev
@@ -25,7 +27,7 @@ chmod -R ug+rw /dev/spidev*</code></pre>
 
 ## Modify source as needed
 * Change example (SPI 4 wire hardware for instance)
-* `nano ~/u8g2/sys/arm-linux/examples/c-examples/u8g2_4wire_hw_spi\u8g2_4wire_hw_spi.c`
+* `nano ~/u8g2/sys/arm-linux/examples/c-examples/u8g2_4wire_hw_spi/u8g2_4wire_hw_spi.c`
 * Change the GPIO chip number (0 uses /dev/gpiochip0)
 * `#define GPIO_CHIP_NUM 0`
 * Change the SPI bus number (0x10 uses /dev/spidev1.0)
@@ -43,3 +45,12 @@ chmod -R ug+rw /dev/spidev*</code></pre>
 * `cd ~/u8g2/sys/arm-linux`
 * `make clean`
 * `make CC=gcc CXX=g++`
+
+## Multiple display example using pthreads
+After building U8g2 using instructions above.
+* `nano ~/u8g2/sys/arm-linux/examples/c-examples/u8g2_sw_i2c_thread/u8g2_sw_i2c_thread.c`
+* Change display_1, display_2 and display_3 variables. Obviously you can have only two displays, so modify the code accordingly. This uses software I2C since most SBCs will not have three hardware I2C controllers and changing addresses on displays usually required soldering resistor.
+* `cd ~/u8g2/sys/arm-linux`
+* `make CPPFLAGS=-DPERIPHERY_GPIO_CDEV_SUPPORT=1 CC=gcc CXX=g++`
+* `cd bin`
+* `./u8g2_sw_i2c_thread`

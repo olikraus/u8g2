@@ -212,7 +212,7 @@ public:
 	void begin(void) {
 		initDisplay();
 		clearDisplay();
-		setPowerSave(0);
+		sleepOff();
 	}
 
 	void beginSimple(void) {
@@ -614,16 +614,14 @@ public:
 	}
 
 	/* connect to u8g2, draw to u8g2 whenever required */
-	bool begin(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf) {
+	void begin(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf) {
 		u8log_Init(&u8log, width, height, buf);
 		u8log_SetCallback(&u8log, u8log_u8g2_cb, u8g2.getU8g2());
-		return true;
 	}
 
 	/* disconnected version, manual redraw required */
-	bool begin(uint8_t width, uint8_t height, uint8_t *buf) {
+	void begin(uint8_t width, uint8_t height, uint8_t *buf) {
 		u8log_Init(&u8log, width, height, buf);
-		return true;
 	}
 
 	void setLineHeightOffset(int8_t line_height_offset) {
