@@ -29,7 +29,7 @@ void* do_display(void *arg) {
 
 	printf("Thread %lu start\n", id);
 	u8g2_t u8g2;
-	// Initialization
+	// CHange setup function call as needed to support your display
 	u8g2_Setup_ssd1306_i2c_128x32_univision_f(&u8g2, U8G2_R0, u8x8_byte_sw_i2c,
 			u8x8_arm_linux_gpio_and_delay);
 	init_i2c_sw(&u8g2, disp.gpio_chip, disp.scl, disp.sda, disp.res,
@@ -38,7 +38,6 @@ void* do_display(void *arg) {
 	h = u8g2_GetDisplayHeight(&u8g2);
 	w = u8g2_GetDisplayWidth(&u8g2);
 	u8g2_SetPowerSave(&u8g2, 0);
-	u8g2_SetFont(&u8g2, u8g2_font_ncenB08_tr);
 	for (int i = 1; i < 200; ++i) {
 		u8g2_ClearBuffer(&u8g2);
 		y1 = rand() % h;
