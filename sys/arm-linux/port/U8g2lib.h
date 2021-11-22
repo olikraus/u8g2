@@ -209,11 +209,10 @@ public:
 		u8g2_SetDisplayRotation(&u8g2, u8g2_cb);
 	}
 
-	bool begin(void) {
+	void begin(void) {
 		initDisplay();
 		clearDisplay();
-		setPowerSave(0);
-		return 1;
+		sleepOff();
 	}
 
 	void beginSimple(void) {
@@ -224,7 +223,7 @@ public:
 
 #ifdef U8X8_USE_PINS
 	/* use U8X8_PIN_NONE if a pin is not required */
-	bool begin(uint8_t menu_select_pin, uint8_t menu_next_pin,
+	void begin(uint8_t menu_select_pin, uint8_t menu_next_pin,
 			uint8_t menu_prev_pin, uint8_t menu_up_pin = U8X8_PIN_NONE,
 			uint8_t menu_down_pin = U8X8_PIN_NONE, uint8_t menu_home_pin =
 			U8X8_PIN_NONE) {
@@ -234,7 +233,7 @@ public:
 		setMenuUpPin(menu_up_pin);
 		setMenuDownPin(menu_down_pin);
 		setMenuHomePin(menu_home_pin);
-		return begin();
+		begin();
 	}
 #endif
 
@@ -615,16 +614,14 @@ public:
 	}
 
 	/* connect to u8g2, draw to u8g2 whenever required */
-	bool begin(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf) {
+	void begin(class U8G2 &u8g2, uint8_t width, uint8_t height, uint8_t *buf) {
 		u8log_Init(&u8log, width, height, buf);
 		u8log_SetCallback(&u8log, u8log_u8g2_cb, u8g2.getU8g2());
-		return true;
 	}
 
 	/* disconnected version, manual redraw required */
-	bool begin(uint8_t width, uint8_t height, uint8_t *buf) {
+	void begin(uint8_t width, uint8_t height, uint8_t *buf) {
 		u8log_Init(&u8log, width, height, buf);
-		return true;
 	}
 
 	void setLineHeightOffset(int8_t line_height_offset) {
