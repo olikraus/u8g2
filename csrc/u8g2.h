@@ -86,11 +86,6 @@
  */
 //#define U8G2_USE_DYNAMIC_ALLOC
 
-/*
-  U8G2 uses the same static array
- */
-// #define U8G2_USE_ONE_STATIC_BUFF
-
 /* U8g2 feature selection, see also https://github.com/olikraus/u8g2/wiki/u8g2optimization */
 
 /*
