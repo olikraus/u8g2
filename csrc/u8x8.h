@@ -194,6 +194,10 @@ uint8_t u8x8_pgm_read_esp(const uint8_t * addr);   /* u8x8_8x8.c */
 #define U8X8_USE_PINS
 #endif
 
+#ifdef __LUATOS__
+#define U8X8_USE_PINS
+#endif
+
 #if defined(__ARM_LINUX__) || defined(unix) || defined(__unix__) || defined(__unix)
 /* https://github.com/olikraus/u8g2/pull/1666 */
 #define U8X8_USE_PINS

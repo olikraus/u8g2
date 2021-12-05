@@ -5,7 +5,8 @@
 * Overall performance should be better.
 * Run as non-root user.
 * Thread safe and multiple display capable.
-* For Java check out [Java U8g2](https://github.com/sgjava/java-u8g2) which uses arm-linux port.
+* For Java check out [Java UIO U8g2](https://github.com/sgjava/javauio/tree/main/u8g2)
+which uses arm-linux port.
 
 ## Non-root access
 If you want to access devices without root do the following (you can try udev

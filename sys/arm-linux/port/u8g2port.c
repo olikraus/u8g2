@@ -158,7 +158,6 @@ void init_pin(u8x8_t *u8x8, uint8_t pin) {
 			fprintf(stderr, "gpio_open(): pin %d, %s\n", u8x8->pins[pin],
 					gpio_errmsg(user_data -> pins[pin]));
 			gpio_free(user_data->pins[pin]);
-			exit(error);
 		}
 	}
 }
@@ -173,7 +172,6 @@ void init_pin(u8x8_t *u8x8, uint8_t pin) {
 			fprintf(stderr, "gpio_open_sysfs(): pin %d, %s\n", u8x8->pins[pin],
 					gpio_errmsg(user_data->pins[pin]));
 			gpio_free(user_data->pins[pin]);
-			exit(error);
 		}
 	}
 }
@@ -205,7 +203,6 @@ void init_i2c(u8x8_t *u8x8) {
 					i2c_errmsg(i2c_handles[user_data->bus]));
 			i2c_free(i2c_handles[user_data->bus]);
 			i2c_handles[user_data->bus] = NULL;
-			exit(error);
 		}
 	}
 }
@@ -247,7 +244,6 @@ void init_spi(u8x8_t *u8x8) {
 					spi_errmsg(spi_handles[user_data->bus]));
 			spi_free(spi_handles[user_data->bus]);
 			spi_handles[user_data->bus] = NULL;
-			exit(error);
 		}
 	}
 }
