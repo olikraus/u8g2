@@ -245,6 +245,8 @@ static FT_UShort upm;
  */
 static FT_UShort nocmap;
 
+static FT_UShort forcenocmap;
+
 /*
  * The scaling factor needed to compute the SWIDTH (scalable width) value
  * for BDF glyphs.
@@ -1143,8 +1145,16 @@ generate_bdf(FILE *out, char *iname, char *oname)
             pid = eid = -1;
         }
     } else {
-        FT_Set_Charmap(face, face->charmaps[i]);
-        nocmap = 0;
+        if ( forcenocmap )
+        {
+            nocmap = 1;
+            pid = eid = -1;
+        }
+        else
+        {
+          FT_Set_Charmap(face, face->charmaps[i]);
+          nocmap = 0;
+        }
     }
 
     if (nocmap && verbose) {
@@ -1232,6 +1242,7 @@ usage(int eval)
     printf("-m mapfile\tGlyph reencoding file.\n");
     printf("-n\t\tTurn off glyph hinting.\n");
     printf("-a\t\tForce auto hinting.\n");
+    printf("-g\t\tOutput raw glyphs instead of unicode chars.\n");
     printf("-et\t\tDisplay the encoding tables available in the font.\n");
     printf("-c c\t\tSet the character spacing (default: from font).\n");
     printf("-f name\t\tSet the foundry name (default: freetype).\n");
@@ -1298,6 +1309,9 @@ main(int argc, char *argv[])
                 break;
               case 'a': case 'A':
                 load_flags |= FT_LOAD_FORCE_AUTOHINT;
+                break;
+              case 'g': case 'G':              
+                forcenocmap = 1;
                 break;
               case 'c': case 'C':
                 argc--;
