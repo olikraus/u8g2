@@ -52,6 +52,11 @@ ti83: bdfconv
 	-../otf2bdf/otf2bdf  -n -p 5 -o ../bdf/ti83.bdf ../ttf/ti83.ttf
 	./bdfconv -b 4 -f 1 -a -v -m '32-65000' ../bdf/ti83.bdf -n u8g2_ti83_5x7 -o ti83.c -d ../bdf/7x13.bdf
 
+kalpurush: bdfconv
+	-../otf2bdf/otf2bdf  -g -v -p 16 -o ../bdf/kalpurush.bdf kalpurush.ttf
+	./bdfconv -f 1 -m '0-65000>32' ../bdf/kalpurush.bdf -n u8g2_kalpurush -o kalpurush.c -d ../bdf/7x13.bdf
+	convert bdf.tga -trim kalpurush.png
+
 
 polish: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$104-$$107,$$118-$$119,$$141-$$144,$$15a-$$15b,$$179-$$17c,$$d3,$$f3' ../bdf/unifont.bdf -n unifont_polish -o unifont_polish.c -d ../bdf/7x13.bdf
