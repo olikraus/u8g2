@@ -7,11 +7,13 @@
 Key features:
 
 - Designed for resource-constrained devices, the minimum kernel requires only 1.2KB of RAM and 3 KB of Flash.
+- A variety of standard interfaces, such as POSIX, CMSIS, C++ application environment.
 - Has rich components and a prosperous and fast growing <a href="https://packages.rt-thread.org/en/">package ecosystem</a>
 - Elegant code style, easy to use, read and master.
 - High Scalability. RT-Thread has high-quality scalable software architecture, loose coupling, modularity, is easy to tailor and expand.
 - Supports high-performance applications.
-- Supports cross-platform and a wide range of <a href="https://www.rt-thread.io/board.html">chips</a>.
+- Supports all mainstream compiling tools such as GCC, Keil and IAR.
+- Supports a wide range of <a href="https://www.rt-thread.io/board.html">architectures and chips</a>.
 
 ### Quick Start
 
