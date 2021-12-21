@@ -1,0 +1,29 @@
+Add icons from https://app.streamlinehq.com/icons/pixel
+
+    mark a group
+    select 42 px
+    download as zip
+    mogrify -flatten -fuzz 1% -trim +repage -sample 50% -gravity center -extent 21x21 *.png
+    /data/kraus/git/u8g2/tools/font/png2bdf/png2bdf -f test -c test -o out.bdf -e 48 -i *.png
+
+Attribution:
+https://intercom.help/streamlinehq/en/articles/5354403-how-to-create-an-attribution-link
+
+
+find . -type d -exec csh -c "cd `pwd`/{} && pwd && mogrify -flatten -fuzz 1% -trim +repage -sample 50% -gravity center -extent 21x21 *.png"  \;
+
+find . -type d -exec csh -c "cd `pwd`/{} && pwd && /data/kraus/git/u8g2/tools/font/png2bdf/png2bdf -f streamline_{} -c streamlinehq.com -o streamline_{}.bdf -e 48 -i *.png"  \;
+
+<a href="https://www.streamlinehq.com">Free Coding App Website Ui PNG icon by Streamline</a>
+
+for i in `ls`; do pushd . && cd $i && /data/kraus/git/u8g2/tools/font/png2bdf/png2bdf -f streamline_$i -c streamlinehq.com -o streamline_$i.bdf -e 48 -i *.png && popd ; done
+
+/data/kraus/git/u8g2/tools/font/png2bdf/png2bdf -f streamline_all -c streamlinehq.com -o streamline_all.bdf -e 48 -i *.png
+
+the following files are removed due to conversion problems:
+
+-rw-rw-r-- 1 kraus kraus   361 Sep 13 21:09 streamline-content-files-book-library--content-files.png
+-rw-rw-r-- 1 kraus kraus   398 Sep 13 21:04 streamline-interface-essential-signin-login--interface-essential.png --> fixed
+-rw-rw-r-- 1 kraus kraus   359 Sep 13 21:06 streamline-video-movies-player--video-movies.png
+-rw-rw-r-- 1 kraus kraus   417 Sep 13 21:06 streamline-video-movies-square-off--video-movies.png
+-rw-rw-r-- 1 kraus kraus   422 Sep 13 21:06 streamline-video-movies-vintage-tv-1--video-movies.png

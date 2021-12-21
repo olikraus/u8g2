@@ -130,7 +130,7 @@ void help(void)
   printf("bdfconv [options] filename\n");
   printf("-h          Display this help\n");
   printf("-v          Print log messages\n");
-  printf("-b <n>      Font build mode, 0: proportional, 1: common height, 2: monospace, 3: multiple of 8\n");
+  printf("-b <n>      Font build mode, 0: proportional, 1: common height, 2: monospace, 3: multiple of 8, 4: 5x7 mode\n");
   printf("-f <n>      Font format, 0: ucglib font, 1: u8g2 font, 2: u8g2 uncompressed 8x8 font (enforces -b 3)\n");
   printf("-m 'map'    Unicode ASCII mapping\n");
   printf("-M 'mapfile'    Read Unicode ASCII mapping from file 'mapname'\n");

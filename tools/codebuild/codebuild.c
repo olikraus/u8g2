@@ -254,6 +254,23 @@ struct controller controller_list[] =
     }
   },
 
+ {
+    "sh1107", 	10, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x80" },  /* actually this is a 80x128 display */
+      { NULL }
+    }
+  },
+  {
+    "sh1107", 	10, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x80" }, /* actually this is a 80x128 display */
+      { NULL }
+    }
+  },
+
    {
     "sh1107", 	 16, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -324,6 +341,23 @@ struct controller controller_list[] =
     {
       { "128x32_univision" },
       { "128x32_winstar" },
+      { NULL }
+    }
+  },  
+
+  {
+    "ssd1306", 	13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "102x64_ea_oleds102" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1306", 	13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "102x64_ea_oleds102" },
       { NULL }
     }
   },  
@@ -672,6 +706,32 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
+  {
+    "st7920", 	32, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x32" },
+      { NULL }
+    }
+  },
+  {
+    "st7920", 	32, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "", COM_6800,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x32" },
+      { NULL }
+    }
+  },
+  {
+    "st7920", 	32, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_st7920_spi", "s", COM_ST7920SPI,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x32" },
+      { NULL }
+    }
+  },
+  
   {
     "st7920", 	24, 	4, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -696,6 +756,7 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
   {
     "st7920", 	16, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "p", COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -852,6 +913,24 @@ struct controller controller_list[] =
     }
   },  
 
+  {
+    "uc1609", 	24, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "slg19264" },
+      { NULL }
+    }
+  },  
+
+  {
+    "uc1609", 	24, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "slg19264" },
+      { NULL }
+    }
+  },  
+  
   {
     "uc1638", 	20, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -1174,6 +1253,23 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+
+  {
+    "st7571", 		16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x96" },
+      { NULL }
+    }
+  },
+  {
+    "st7571", 		16, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x96" },
+      { NULL }
+    }
+  },
   
   
   {
@@ -1208,6 +1304,27 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "jlx12864" },
+      { NULL }
+    }
+  },  
+
+  {
+    "st75160", 		20, 	12, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jm16096" },
+      { NULL }
+    },
+  },
+  /* takeover i2c from ST75256 (not sure whether this is correct: */
+  /* the ST75256 has the same I2C protocol as the SSD13xx, BUT: for arguments have the data bit set!!!! */
+  /* this means, we need to implement a u8x8_cad_ssd13xx_i2c procedure with cad 011 functionality */
+  /* done: u8x8_cad_st75256_i2c */
+  {  
+    "st75160", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_st75256_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jm16096" },
       { NULL }
     }
   },  
@@ -1406,6 +1523,26 @@ struct controller controller_list[] =
       { NULL }
     },
   },
+
+  {
+    "t7932", 		19, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "150x32" },     /* compatible with hd44102 */
+      { NULL }
+    },
+  },
+
+  {
+    "hd44102", 		13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "100x64" },     /* compatible with t7932 */
+      { NULL }
+    },
+  },
+  
+  
   {
     "lc7981", 	20, 	10, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800,
     "U8x8 not supported, no powerdown, no HW flip, no constrast", /* is_generate_u8g2_class= */ 1,
@@ -1613,6 +1750,15 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "240x64" },
+      { NULL }
+    }
+  },
+
+  {
+    "gu800", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_gu800_cad_110", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64" },
       { NULL }
     }
   },
@@ -2370,7 +2516,7 @@ void do_md_display_interface(int controller_idx, int display_idx, int interface_
 	    else
 	    {
 	      
-	      fprintf(fp, "| u8x8_Setup(u8x8_d_");
+	      fprintf(fp, "| u8x8_Setup(u8x8, u8x8_d_");
 	      fprintf(fp, "%s_", strlowercase(controller_list[controller_idx].name));
 	      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].display_list[display_idx].name));
 	      fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));

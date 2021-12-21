@@ -89,7 +89,10 @@ int main(void)
     if ( k == 'q' ) break;
     
     if ( k == 't' ) 
+    {
+      puts("screenshot");
       u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2),  "screenshot.tga");
+    }
   }
   
   //u8x8_Set8x8Font(u8g2_GetU8x8(&u8g2), bdf_font);

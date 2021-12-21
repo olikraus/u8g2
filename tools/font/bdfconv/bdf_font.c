@@ -372,6 +372,14 @@ void bf_copy_bbx_and_update_shift(bf_t *bf, bbx_t *target_bbx, bg_t *bg)
 	if ( target_bbx->w < bg->dwidth_x )
 	  target_bbx->w = bg->dwidth_x;
       }
+      else if ( bf->bbx_mode == BDF_BBX_MODE_5X7 )	// mode 4 (5x7 displays)
+      {
+	*target_bbx = bf->max;	
+	target_bbx->x = 0;
+	if ( bg->bbx.x < 0 )
+	  bg->shift_x = bg->bbx.x;
+        target_bbx->w = 5;
+      }
       else if ( bf->bbx_mode == BDF_BBX_MODE_M8 )
       {
 	/* old

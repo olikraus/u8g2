@@ -1,0 +1,279 @@
+STARTFONT 2.1
+FONT "streamline_interface_essential_id"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "streamlinehq.com"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR streamline-interface-essential-face-id-1--interface-essential.png
+ENCODING 48
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+022200
+022200
+200020
+10f840
+030600
+040100
+c8f898
+09fc80
+118c40
+110440
+d10458
+110440
+110440
+08f880
+c90498
+060300
+030600
+10f840
+200020
+022200
+022200
+ENDCHAR
+STARTCHAR streamline-interface-essential-face-id--interface-essential.png
+ENCODING 49
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+38f8e0
+400010
+800008
+800008
+800008
+020200
+022200
+002000
+802008
+801008
+800808
+803008
+000000
+020200
+010400
+80f808
+800008
+800008
+400010
+38f8e0
+000000
+ENDCHAR
+STARTCHAR streamline-interface-essential-finger-print-scan--interface-essential.png
+ENCODING 50
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+01fc00
+000200
+08d800
+130640
+147140
+240120
+210480
+2a32a0
+2a0aa0
+28aa20
+2aa220
+2aaa20
+088aa0
+2a72a0
+2800a0
+248920
+147140
+100640
+08f800
+060200
+01cc00
+ENDCHAR
+STARTCHAR streamline-interface-essential-profile-female--interface-essential.png
+ENCODING 51
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+100040
+21fc20
+23fe20
+47ff10
+4fff90
+8fff88
+9e03c8
+9c01c8
+9d05c8
+9d05c8
+5c01d0
+4e7390
+2f07a0
+26fb20
+100040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-profile-male--interface-essential.png
+ENCODING 52
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+100040
+21fc20
+23fe20
+47ff10
+47ff10
+87ff08
+860308
+840108
+850508
+850508
+440110
+427210
+210420
+20f820
+100040
+0c0180
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-protect-guard--interface-essential.png
+ENCODING 53
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+01fc00
+060300
+19fcc0
+27e320
+2fe0a0
+2fe0a0
+2fe0a0
+2fe0a0
+2fe0a0
+2fe0a0
+283fa0
+283fa0
+283fa0
+283fa0
+143f40
+143f40
+0a3e80
+05bd00
+027200
+018c00
+007000
+ENDCHAR
+STARTCHAR streamline-interface-essential-protect-rubber-ring--interface-essential.png
+ENCODING 54
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+03fe00
+0dfd80
+11fc40
+20f820
+20f820
+410410
+720270
+fc01f8
+fc01f8
+fc01e8
+fc01e8
+fc01e8
+720270
+410410
+20f820
+20f820
+11fc40
+0dfd80
+03fe00
+00f800
+ENDCHAR
+STARTCHAR streamline-interface-essential-stop-sign-1--interface-essential.png
+ENCODING 55
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+07ff00
+080080
+100040
+206020
+40d810
+815408
+815608
+815508
+815508
+8d5508
+935508
+910108
+884908
+840108
+824908
+823108
+410210
+20fc20
+100040
+080080
+07ff00
+ENDCHAR
+STARTCHAR streamline-interface-essential-stop-sign-2--interface-essential.png
+ENCODING 56
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+07ff00
+0fff80
+1800c0
+37ff60
+6fdfb0
+df57d8
+df57d8
+df55d8
+df55d8
+df55d8
+d355d8
+d101d8
+d849d8
+dc01d8
+de49d8
+de31d8
+6f03b0
+37ff60
+1800c0
+0fff80
+07ff00
+ENDCHAR
+STARTCHAR streamline-interface-essential-touch-id-smartphone--interface-essential.png
+ENCODING 57
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fff00
+1f4f80
+11f880
+100080
+130c80
+140280
+14b280
+110880
+126480
+129080
+129480
+128480
+105480
+121080
+111080
+14e280
+140280
+130c80
+100080
+1fff80
+0fff00
+ENDCHAR

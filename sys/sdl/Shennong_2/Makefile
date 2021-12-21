@@ -1,4 +1,4 @@
-CC = gcc-4.8
+# CC = gcc-4.8
 # CFLAGS = -g -pg -Wall -I../../../csrc/.  -DNO_SDL
 CFLAGS = -g -pg -Wall -I../../../csrc/.  `sdl2-config --cflags`
   

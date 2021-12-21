@@ -1,0 +1,819 @@
+STARTFONT 2.1
+FONT "streamline_computers_devices_electronics"
+SIZE 16 75 75
+FONTBOUNDINGBOX 16 16 0 0
+STARTPROPERTIES 3
+COPYRIGHT "streamlinehq.com"
+FONT_ASCENT 0
+FONT_DESCENT 0
+ENDPROPERTIES
+STARTCHAR streamline-computer-old-electronics-bug--computers-devices-electronics.png
+ENCODING 48
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+1fffc0
+200020
+2fffa0
+2800a0
+2904a0
+28f8a0
+29aca0
+2bfea0
+2afaa0
+2a8aa0
+2800a0
+2fffa0
+200020
+1fffc0
+080080
+7ffff0
+400010
+480f90
+400110
+400010
+7ffff0
+ENDCHAR
+STARTCHAR streamline-computer-old-electronics--computers-devices-electronics.png
+ENCODING 49
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+1fffc0
+200020
+2fffa0
+2800a0
+2800a0
+2888a0
+2800a0
+2888a0
+2870a0
+2800a0
+2800a0
+2fffa0
+200020
+1fffc0
+080080
+7ffff0
+400010
+4c0f90
+4c0010
+400010
+7ffff0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-battery-charge--computers-devices-electronics.png
+ENCODING 50
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+011000
+02a800
+02a800
+72a980
+82a840
+87fc20
+87fc38
+86ec08
+87fc08
+86ec08
+831838
+81f020
+804040
+7e5f80
+004000
+004000
+004000
+018000
+020000
+040000
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-board--computers-devices-electronics.png
+ENCODING 51
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000700
+000500
+000700
+070200
+070200
+070270
+020270
+027270
+027220
+027220
+3a2220
+292440
+38a880
+10a900
+08aa00
+c4aa18
+c2aa18
+22aa20
+12aa40
+0aaa80
+0aaa80
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronicscd-disk--computers-devices-electronics.png
+ENCODING 52
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+034600
+0e4180
+124040
+212020
+212020
+70a010
+4cf010
+838818
+8175f8
+8156a8
+817558
+808ea8
+487fd0
+480ff0
+2407e0
+2307e0
+1003c0
+0c0380
+030600
+00f800
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-chipset--computers-devices-electronics.png
+ENCODING 53
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+048900
+048900
+048900
+0fff80
+100040
+f3fe78
+17ff40
+160d40
+f7fd78
+167940
+17f140
+17e140
+f7c178
+171540
+140140
+f3fe78
+100040
+0fff80
+048900
+048900
+048900
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-click-select-tablet--computers-devices-electronics.png
+ENCODING 54
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+7ffff0
+c00018
+c01018
+c11118
+c09238
+c00028
+c01838
+c02428
+c02428
+c02438
+c02418
+c027c8
+c0e020
+7d2490
+012488
+010488
+010008
+008008
+004008
+002010
+002020
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-desktop--computers-devices-electronics.png
+ENCODING 55
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+7fffe0
+800010
+bfffd0
+a00050
+a00a50
+a01f50
+a00e50
+a00450
+a00050
+a00050
+a00050
+bfffd0
+800010
+7fffe0
+010800
+0fff00
+100080
+249240
+494920
+800010
+fffff0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-earpod-sound--computers-devices-electronics.png
+ENCODING 56
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+007840
+018420
+021210
+041a90
+081a50
+101a50
+201a50
+421a90
+451210
+488420
+487840
+480000
+480000
+480000
+480000
+480000
+480000
+480000
+300000
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-flash-drive-1--computers-devices-electronics.png
+ENCODING 57
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+01fc00
+010400
+015400
+015400
+010400
+03fe00
+07ff00
+040100
+040100
+040100
+040100
+040100
+040100
+040100
+048900
+040100
+048900
+047100
+040100
+020200
+01fc00
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-flash-drive-2--computers-devices-electronics.png
+ENCODING 58
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+01fc00
+020200
+02fa00
+020200
+020200
+07ff00
+040100
+042100
+042100
+052100
+052500
+052500
+04a900
+047100
+047100
+047100
+040100
+040100
+040100
+020200
+01fc00
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-graphic-tablet--computers-devices-electronics.png
+ENCODING 59
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+080000
+060000
+010000
+010000
+0e0000
+100000
+100000
+7ffff0
+800008
+b7ffe8
+840028
+b581a8
+8500a8
+b40028
+b40028
+8500a8
+b581a8
+840028
+b7ffe8
+800008
+7ffff0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-graphic-tablet-draw--computers-devices-electronics.png
+ENCODING 60
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+000000
+7ffe60
+8000e8
+bff9c8
+a00388
+a30728
+a48e28
+a91c28
+a23828
+a43028
+a44028
+a38028
+a00028
+a00028
+bfffe8
+800008
+7ffff0
+000000
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-harddisk--computers-devices-electronics.png
+ENCODING 61
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+3fffe0
+400010
+50f850
+430610
+440110
+441910
+480490
+482290
+485290
+482090
+480090
+448110
+410110
+420650
+44f8d0
+5e01d0
+5e03d0
+400010
+500050
+400010
+3fffe0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-keyboard-button--computers-devices-electronics.png
+ENCODING 62
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+07fe00
+040500
+04a480
+05f480
+04e480
+044480
+040480
+07fc80
+040280
+020180
+ffffe0
+80c050
+98c448
+a4ca48
+a4d148
+98df48
+80c048
+ffffc8
+805028
+403018
+3ffff8
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-keyboard--computers-devices-electronics.png
+ENCODING 63
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000800
+000800
+0ff000
+100000
+100000
+0ffc00
+000200
+000100
+000200
+00fc00
+010000
+010000
+7ffff0
+800008
+955508
+800048
+aaaac8
+800008
+9bfec8
+800008
+7ffff0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-keyboard-pad--computers-devices-electronics.png
+ENCODING 64
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+010000
+00fc00
+000200
+3fffc0
+400020
+5ef7a0
+5294a0
+5294a0
+5ef7a0
+400020
+5ef7a0
+5294a0
+5294a0
+5ef7a0
+400020
+5effa0
+52f6a0
+52f9a0
+5effa0
+400020
+3fffc0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-keyboard-wireless--computers-devices-electronics.png
+ENCODING 65
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+0c0180
+107040
+218c20
+060300
+087080
+008800
+000000
+000000
+3fffe0
+400010
+555550
+800008
+aaaaa8
+800008
+9bfec8
+43fe10
+400010
+3fffe0
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-laptop--computers-devices-electronics.png
+ENCODING 66
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+1fffc0
+200020
+200020
+200020
+200020
+200020
+20a820
+200020
+200020
+200020
+200020
+3fffe0
+400010
+400010
+807008
+800008
+fffff8
+7ffff0
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-memory--computers-devices-electronics.png
+ENCODING 67
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+07ffc0
+0bffa0
+12aaa0
+22aaa0
+42aaa0
+47ffa0
+400020
+400020
+6000e0
+6000a0
+6000e0
+6000e0
+410820
+400020
+40f020
+400020
+400020
+400020
+5fffa0
+400020
+3fffc0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronicsmicrochip-board--computers-devices-electronics.png
+ENCODING 68
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+02aa00
+200020
+0fff00
+7fffe0
+0b6d20
+6fff20
+200020
+2924a0
+2fffb0
+3800e0
+2800a0
+2fff80
+692480
+000000
+7b94a0
+7bbea0
+7bbea0
+000000
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-mobile-qr-scan--computers-devices-electronics.png
+ENCODING 69
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fff00
+1f4f80
+11f880
+100080
+100080
+100080
+136c80
+120480
+12a480
+103080
+128480
+10a880
+120480
+136c80
+100080
+100080
+100080
+100080
+100080
+1fff80
+0fff00
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-monitor--computers-devices-electronics.png
+ENCODING 70
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+7ffff0
+800008
+800008
+800108
+800388
+800108
+800008
+810408
+800008
+800008
+81fc08
+800008
+800008
+800008
+fffff8
+fffff8
+fffff8
+7ffff0
+010400
+020200
+03fe00
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-mouse--computers-devices-electronics.png
+ENCODING 71
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+080000
+106000
+219000
+221000
+1cfe00
+01ef00
+03c780
+07c7c0
+07efc0
+07ffc0
+07ffc0
+05ef40
+040040
+040040
+040040
+040140
+040140
+040240
+020c80
+018300
+007c00
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-smart-watch--computers-devices-electronics.png
+ENCODING 72
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+01f000
+03f800
+07fc00
+000000
+07fc00
+080200
+107100
+100900
+106580
+101580
+105500
+101500
+10e500
+120900
+11f100
+080200
+07fc00
+000000
+07fc00
+03f800
+01f000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-tablet--computers-devices-electronics.png
+ENCODING 73
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+1fffc0
+3fffe0
+300060
+300060
+300060
+37df60
+345160
+357560
+345160
+37df60
+300060
+300860
+303060
+300060
+300060
+300060
+300060
+300060
+3fffe0
+3fdfe0
+1fffc0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-tape-cassette--computers-devices-electronics.png
+ENCODING 74
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+000000
+000000
+000000
+7ffff0
+800008
+a3fe28
+800008
+800008
+8fff88
+998cc8
+99fcc8
+8fff88
+800008
+800008
+83fe08
+a40128
+880088
+7ffff0
+000000
+000000
+000000
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-television-vintage--computers-devices-electronics.png
+ENCODING 75
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+104000
+088000
+050000
+020000
+7ffff0
+800008
+9ffc08
+a002a8
+a00208
+a002a8
+a00208
+a002a8
+a00208
+a002e8
+a002a8
+a002e8
+9ffce8
+800008
+7ffff0
+200020
+1fffc0
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-vintage-mac--computers-devices-electronics.png
+ENCODING 76
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+0fff80
+100040
+27ff20
+2800a0
+2800a0
+281ca0
+2836a0
+2a9ea0
+283ea0
+281ca0
+2800a0
+2800a0
+27ff20
+200020
+200020
+240f20
+200020
+200020
+1fffc0
+080080
+07ff00
+ENDCHAR
+STARTCHAR streamline-computers-devices-electronics-webcam--computers-devices-electronics.png
+ENCODING 77
+DWIDTH 21 0
+BBX 21 21 0 0
+BITMAP
+00f800
+030600
+040100
+08f880
+090480
+127240
+12ea40
+12fa40
+12fa40
+127240
+090480
+08f880
+040100
+030600
+00f800
+005000
+00f800
+030600
+040100
+080080
+07ff00
+ENDCHAR

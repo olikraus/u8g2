@@ -41,7 +41,7 @@
 
 
 static const uint8_t u8x8_d_ks0108_init_seq[] = {
-  U8X8_C(0x0c0),		                /* satart at the top  */  
+  U8X8_C(0x0c0),		                /* start at the top  */  
   U8X8_END()             			/* end of sequence */
 };
 
