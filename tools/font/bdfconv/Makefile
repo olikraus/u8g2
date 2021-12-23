@@ -294,6 +294,11 @@ wqy: bdfconv
 ncenR24: bdfconv
 	./bdfconv  -v -f 1 -b 0 -m '32-701>32,7838' ../bdf/ncenR24.bdf -n u8g2_font_ncenR24_te -o test.c 
 
+ncenR10: bdfconv
+	./bdfconv  -v -f 1 -m '48-57,88,89' ../bdf/ncenR10.bdf -n u8g2_font_ncenR10 -o test.c -d ../bdf/helvB12.bdf 
+	convert bdf.tga -trim ncenR10.png
+
+
 profont12v2: bdfconv
 	#./bdfconv  -v -f 1 -b 0 -m '32-701>32,7838' ../bdf/profont12v2.bdf -n u8g2_font_profont12v2_te -o test.c 
 	./bdfconv  -v -f 1 -b 0 -m '32-127' ../bdf/profont12v2.bdf -n u8g2_font_profont12v2_tr -o test.c 

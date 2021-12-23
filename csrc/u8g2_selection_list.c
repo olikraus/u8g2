@@ -150,17 +150,17 @@ u8g2_uint_t u8g2_DrawUTF8Lines(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
 static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t idx, const char *s)
 {
-  u8g2_uint_t yy;
+  //u8g2_uint_t yy;
   uint8_t border_size = 0;
   uint8_t is_invert = 0;
 	
   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
 
   /* calculate offset from display upper border */
-  yy = idx;
-  yy -= u8sl->first_pos;
-  yy *= line_height;
-  yy += y;
+  //yy = idx;
+  //yy -= u8sl->first_pos;
+  //yy *= line_height;
+  //yy += y;
 
   /* check whether this is the current cursor line */
   if ( idx == u8sl->current_pos )
