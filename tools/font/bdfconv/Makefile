@@ -426,3 +426,9 @@ issue_1521: bdfconv
 out: bdfconv
 	./bdfconv -v -f 1 -m '$$0000-$$3B97' out.bdf -o out.c -n out  -d ../bdf/helvR14.bdf 
 	convert bdf.tga out.png
+
+issue833: bdfconv
+	./bdfconv -v -f 1 -m '19968-40959' unifont-13.0.06.bdf -o out.c -n out  -d unifont-13.0.06.bdf 
+	convert bdf.tga out.png
+
+

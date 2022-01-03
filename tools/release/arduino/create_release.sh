@@ -6,6 +6,8 @@ cp ../../../cppsrc/*.cpp ./../../../../U8g2_Arduino/src/.
 cp ../../../cppsrc/*.h ./../../../../U8g2_Arduino/src/.
 sed -i 's|u8g2.h|clib/u8g2.h|g' ./../../../../U8g2_Arduino/src/U8g2lib.h
 sed -i 's|u8x8.h|clib/u8x8.h|g' ./../../../../U8g2_Arduino/src/U8x8lib.h
+sed -i 's|mui.h|clib/mui.h|g' ./../../../../U8g2_Arduino/src/MUIU8g2.h
+sed -i 's|mui_u8g2.h|clib/mui_u8g2.h|g' ./../../../../U8g2_Arduino/src/MUIU8g2.h
 # copy C files, exclude u8x8_d_stdio.c
 cp ../../../csrc/*.c ./../../../../U8g2_Arduino/src/clib/.
 cp ../../../csrc/*.h ./../../../../U8g2_Arduino/src/clib/.
