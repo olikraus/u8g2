@@ -32,6 +32,42 @@
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  
+  MUIF  (Monochrome User Interface Functions)
+    n:  A number 0 to 9 without any quotes, e.g.: 5
+    id: Exactly two characters or numbers in doubl quotes, e.g. "G5".
+    cb: A callback function with the following prototype: "uint8_t muif_cb(mui_t *ui, uint8_t msg)"
+      There are MANY predefined callback functions, see separate list
+    var: Address of a variable. 
+    text: Normal text, but special characters might be required for some callback functions, for
+      example the text might contain a list of selectable elements separated with the '|' symbol.
+
+  MUIF_STYLE(n,cb)
+    Corresponding FDS command: MUI_STYLE(n)
+    Change the style of any other elements after MUI_STYLE(n), does not draw anything
+    
+  MUIF_RO(id,cb)
+    Corresponding FDS command: MUI_DATA(id, text) MUI_XY(id, x, y), MUI_XYT(id, x,y,text), MUI_XYA(id, x,y,a), MUI_XYAT(id, x,y,a,text)
+    Places a read only element on the form. 
+    The correct FDS command depends on the callback function.
+    
+  MUIF_LABEL(cb)
+    Corresponding FDS command: MUI_LABEL(x,y,text)
+    Places a text at the specified position, similar to MUIF_RO
+    
+  MUIF_GOTO(cb)
+    Corresponding FDS command: MUI_GOTO(x,y,n,text)
+    Places a button at the specified position, similar to MUIF_BUTTON, but does not require an ID.
+    
+  MUIF_BUTTON(id,cb)
+    Corresponding FDS command: MUI_XY(id, x, y), MUI_XYT(id, x,y,text), MUI_XYA(id, x,y,a), MUI_XYAT(id, x,y,a,text)
+    Places a selectable element on the form. 
+  
+  MUIF_VARIABLE(id,var,cb)
+    Corresponding FDS command: MUI_XY(id, x, y), MUI_XYA(id, x,y,a)
+    Places a user input element at the specified location.
+    The correct FDS command depends on the callback function.
+
 
 */
 

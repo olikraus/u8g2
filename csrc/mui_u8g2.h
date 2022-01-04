@@ -111,28 +111,32 @@ void mui_u8g2_draw_button_utf_pi(mui_t *ui, u8g2_uint_t width, u8g2_uint_t paddi
 /* ready to use field functions */
 
 uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg);        /* GIF */
+uint8_t mui_u8g2_btn_goto_wm_if(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg);         /* GIF */
+uint8_t mui_u8g2_btn_goto_w2_if(mui_t *ui, uint8_t msg);
 
-uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg);
-uint8_t mui_u8g2_btn_goto_w1_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg);        /* GIF */
+uint8_t mui_u8g2_btn_goto_w1_fi(mui_t *ui, uint8_t msg);        /* GIF */
 
-uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);        /* similar to 'mui_u8g2_btn_goto_wm_fi' but will exit the menu system */
 
-uint8_t mui_u8g2_u8_chkbox_wm_pi(mui_t *ui, uint8_t msg);       /* MUIF_VARIABLE, MUI_XY */
-uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg);        /* MUIF_VARIABLE,MUI_XYAT */
+uint8_t mui_u8g2_u8_chkbox_wm_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_VARIABLE, MUI_XY */
+uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg);        /* GIF, MUIF_VARIABLE,MUI_XYAT */
 
 
 
-uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg); /* MUIF_VARIABLE,MUI_XYAT */
-uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg); /* MUIF_VARIABLE,MUI_XYAT */
+uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
+uint8_t mui_u8g2_u8_opt_line_wa_mse_pf(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
+uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
+uint8_t mui_u8g2_u8_opt_line_wa_mud_pf(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
 
 uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);       /* MUIF_VARIABLE, MUI_XYAT */
 uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg);        /* MUIF_VARIABLE, MUI_XYA */
 uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_VARIABLE, MUI_XYA */
 uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);                /* MUIF_VARIABLE, MUI_XYA */ 
 
-uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO */
+uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
 uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
 
 
@@ -148,11 +152,11 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* MUIF_VARIABLE
   (void *)((mui_u8g2_u8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
   (muif))
 
-uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);              /* MUIF_U8G2_U8_MIN_MAX, MUI_XY */
-uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* MUIF_U8G2_U8_MIN_MAX, MUI_XY */
+uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);   /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
+uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 
-uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* MUIF_U8G2_U8_MIN_MAX, MUI_XY */
-uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* MUIF_U8G2_U8_MIN_MAX, MUI_XY */
+uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
+uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 
 /*===== data = mui_u8g2_list_t*  =====*/
 /* similar to mui_u8g2_u8_opt_line, but u16 and dynamic list */

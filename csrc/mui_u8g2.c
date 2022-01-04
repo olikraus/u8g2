@@ -64,12 +64,12 @@
       mud      up/down:  select will enter the up/down edit mode. Next/prev event will increment/decrement the value
       
     styles (not for draw text/str)
-      unselected                selected                        up/down edit
-      plain                          invers                             invers + gap + frame            pi
-      frame                         invers+frame                frame                                       fi
+      unselected                selected                        up/down edit                            postfix         Use for
+      plain                          invers                             invers + gap + frame            pi                      input elements
+      frame                         invers+frame                frame                                       fi                  buttons
       
-      plain                          frame                              invers + frame                         pf
-      invers                        frame                               invers + frame                          if
+      plain                          frame                              invers + frame                         pf               input elements
+      invers                        frame                               invers + frame                          if              buttons
       
       
     mui_u8g2_[action]_[field_width]_[edit_mode]_[style]
@@ -242,6 +242,34 @@ void mui_u8g2_draw_button_pf(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h
 }
 
 
+u8g2_uint_t mui_u8g2_get_if_flags(mui_t *ui)
+{
+  u8g2_uint_t flags = 0;
+  if ( mui_IsCursorFocus(ui) )
+  {
+    if ( ui->is_mud )
+    {
+      flags |= 1;
+      flags |= U8G2_BTN_INV;
+    }
+    else
+    {
+      flags |= 1;
+    }
+  }
+  else
+  {
+      flags |= U8G2_BTN_INV;
+  }
+  return flags;
+}
+
+void mui_u8g2_draw_button_if(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h, const char *text)
+{
+  mui_u8g2_draw_button_utf(ui, mui_u8g2_get_if_flags(ui), width, padding_h , MUI_U8G2_V_PADDING, text);
+}
+
+
 static uint8_t mui_u8g2_handle_scroll_next_prev_events(mui_t *ui, uint8_t msg) MUI_NOINLINE;
 static uint8_t mui_u8g2_handle_scroll_next_prev_events(mui_t *ui, uint8_t msg)
 {
@@ -374,6 +402,32 @@ uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+uint8_t mui_u8g2_btn_goto_wm_if(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_draw_button_utf(ui, U8G2_BTN_HCENTER |mui_u8g2_get_if_flags(ui), 0, 1, MUI_U8G2_V_PADDING, ui->text);
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      return mui_GotoForm(ui, ui->arg, 0);
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;    
+    
+  }
+  return 0;
+}
+
 uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -400,6 +454,32 @@ uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+uint8_t mui_u8g2_btn_goto_w2_if(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_draw_button_utf(ui, U8G2_BTN_HCENTER | mui_u8g2_get_if_flags(ui), u8g2_GetDisplayWidth(u8g2)/2 - 10, 0, MUI_U8G2_V_PADDING, ui->text);
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      return mui_GotoForm(ui, ui->arg, 0);
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;    
+  }
+  return 0;
+}
+
 /*
 
   uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg)
@@ -407,7 +487,7 @@ uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
   Description:
     A button with size equal to button text plus one pixel padding
     The button has a one pixel frame around the text.
-    If the selected, then the menu system will be closed.
+    If selected, then the menu system will be closed.
     The arg value will be stored at the specified data location (if not NULL).
     The arg value can be used as an exit value of the button.
     
@@ -882,7 +962,43 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
   }
   return 0;
 }
-   
+
+uint8_t mui_u8g2_u8_opt_line_wa_mse_pf(mui_t *ui, uint8_t msg)
+{
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_fds_get_nth_token(ui, *value) == 0 )
+      {
+        *value = 0;
+        mui_fds_get_nth_token(ui, *value);
+      }
+      mui_u8g2_draw_button_pf(ui, ui->arg, 1, ui->text);
+      
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      (*value)++;
+      if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
+        *value = 0;      
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+}
+
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
 {
   //u8g2_t *u8g2 = mui_get_U8g2(ui);
@@ -896,8 +1012,6 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
         mui_fds_get_nth_token(ui, *value);
       }
       mui_u8g2_draw_button_pi(ui, ui->arg, 1, ui->text);
-      //mui_u8g2_draw_button_utf(ui, mui_u8g2_get_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, ui->text);
-      //u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), mui_u8g2_get_pi_flags(ui), ui->arg, 1, MUI_U8G2_V_PADDING, ui->text);
       
       break;
     case MUIF_MSG_FORM_START:
@@ -938,6 +1052,58 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+uint8_t mui_u8g2_u8_opt_line_wa_mud_pf(mui_t *ui, uint8_t msg)
+{
+  //u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_fds_get_nth_token(ui, *value) == 0 )
+      {
+        *value = 0;
+        mui_fds_get_nth_token(ui, *value);
+      }
+      mui_u8g2_draw_button_pf(ui, ui->arg, 1, ui->text);
+      
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      /* toggle between normal mode and capture next/prev mode */
+       ui->is_mud = !ui->is_mud;
+     break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( ui->is_mud )
+      {
+        (*value)++;
+        if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
+          *value = 0;      
+        return 1;
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( ui->is_mud )
+      {
+        if ( *value == 0 )
+          *value = mui_fds_get_token_cnt(ui);
+        (*value)--;
+        return 1;
+      }
+      break;
+  }
+  return 0;
+}
 
 
 
@@ -1283,6 +1449,10 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
   an invisible field (which will not show anything). It should also not be selectable 
   it just provides the menu entries, see "mui_u8g2_u8_opt_child_mse_common" and friends 
   as a consequence it does not have width, input mode and style
+
+  MUIF: MUIF_RO()
+  FDS: MUI_DATA()
+
 */
 uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg)
 {

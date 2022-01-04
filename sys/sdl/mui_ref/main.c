@@ -1,4 +1,6 @@
-
+/*
+  mui_ref
+*/
 #include "u8g2.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -254,9 +256,13 @@ muif_t muif_list[] MUI_PROGMEM = {
 
   /* Form 10 */
   MUIF_GOTO(mui_u8g2_btn_goto_wm_fi),
+  
   MUIF_BUTTON("G0", mui_u8g2_btn_goto_wm_fi),
-  MUIF_BUTTON("G1", mui_u8g2_btn_goto_w1_pi),
-  MUIF_BUTTON("G2", mui_u8g2_btn_goto_w2_fi),
+  MUIF_BUTTON("G1", mui_u8g2_btn_goto_w1_fi),
+  MUIF_BUTTON("G2", mui_u8g2_btn_goto_w1_pi),
+  MUIF_BUTTON("G3", mui_u8g2_btn_goto_w2_fi),
+
+  MUIF_BUTTON("G6", mui_u8g2_btn_goto_wm_if),
 
   /* Form 20 */
   MUIF_U8G2_U8_MIN_MAX("N0", &number_input9, 0, 9, mui_u8g2_u8_min_max_wm_mse_pi),
@@ -272,6 +278,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   /* Form 40: Cycle Option */
   MUIF_VARIABLE("O1",&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pi),
   MUIF_VARIABLE("O2",&fruit_input,mui_u8g2_u8_opt_line_wa_mud_pi),
+  MUIF_VARIABLE("O3",&fruit_input,mui_u8g2_u8_opt_line_wa_mse_pf),
+  MUIF_VARIABLE("O4",&fruit_input,mui_u8g2_u8_opt_line_wa_mud_pf),
 
 
   /* Form 50: Parent/Child Option */
@@ -327,8 +335,9 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_11 "btn_goto_wm_fi|" 
-  MUI_12 "btn_goto_w1_pi|" 
-  MUI_13 "btn_goto_w2_fi|"
+  MUI_12 "btn_goto_w1_fi|" 
+  MUI_13 "btn_goto_w1_pi|" 
+  MUI_14 "btn_goto_w2_fi|"
   MUI_1 "Back to Main Menu" )
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
@@ -348,10 +357,10 @@ MUI_GOTO(64, 59, 10, " Ok ")
 
 MUI_FORM(12)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "mui_u8g2_btn_goto_w1_pi")
+MUI_LABEL(1,5, "mui_u8g2_btn_goto_w1_fi")
 MUI_LABEL(1,12, "MUIF_GOTO, MUIF_BUTTON")
 MUI_LABEL(1,19, "MUI_GOTO, MUI_XYAT")
-MUI_LABEL(1,25, "Full width button without frame")
+MUI_LABEL(1,25, "Full width button with frame")
 MUI_XY("HR", 0,26)
 MUI_STYLE(0)
 MUI_XYAT("G1", 1, 42, 10, "Button")
@@ -359,14 +368,25 @@ MUI_GOTO(64, 59, 10, " Ok ")
 
 MUI_FORM(13)
 MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_btn_goto_w1_pi")
+MUI_LABEL(1,12, "MUIF_GOTO, MUIF_BUTTON")
+MUI_LABEL(1,19, "MUI_GOTO, MUI_XYAT")
+MUI_LABEL(1,25, "Full width button without frame")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_XYAT("G2", 1, 42, 10, "Button")
+MUI_GOTO(64, 59, 10, " Ok ")
+
+MUI_FORM(14)
+MUI_STYLE(2)
 MUI_LABEL(1,5, "mui_u8g2_btn_goto_w2_fi")
 MUI_LABEL(1,12, "MUIF_GOTO, MUIF_BUTTON")
 MUI_LABEL(1,19, "MUI_GOTO, MUI_XYAT")
 MUI_LABEL(1,25, "Centered half display width button")
 MUI_XY("HR", 0,26)
 MUI_STYLE(0)
-MUI_XYAT("G2", 32, 42, 10, "Btn 1")
-MUI_XYAT("G2", 96, 42, 10, "Btn 2")
+MUI_XYAT("G3", 32, 42, 10, "Btn 1")
+MUI_XYAT("G3", 96, 42, 10, "Btn 2")
 MUI_GOTO(64, 59, 10, " Ok ")
 
 
@@ -491,6 +511,8 @@ MUI_STYLE(7)
 MUI_DATA("GP", 
   MUI_41 "u8_opt_line_wa_mse_pi|" 
   MUI_42 "u8_opt_line_wa_mud_pi|" 
+  MUI_43 "u8_opt_line_wa_mse_pf|" 
+  MUI_44 "u8_opt_line_wa_mud_pf|" 
   MUI_1 "Back to Main Menu" )
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
@@ -508,6 +530,7 @@ MUI_STYLE(0)
 MUI_LABEL(5,40, "Fruit:")
 MUI_XYAT("O1",60, 40, 60, "Banana|Apple|Melon|Cranberry")
 MUI_STYLE(0)
+//MUI_XYAT("G6", 64, 59, 40, " Ok ")
 MUI_GOTO(64, 59, 40, " Ok ")
 
 
@@ -522,8 +545,36 @@ MUI_STYLE(0)
 MUI_LABEL(5,40, "Fruit:")
 MUI_XYAT("O2",60, 40, 60, "Banana|Apple|Melon|Cranberry")
 MUI_STYLE(0)
+//MUI_XYAT("G6", 64, 59, 40, " Ok ")
 MUI_GOTO(64, 59, 40, " Ok ")
 
+MUI_FORM(43)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_opt_line_wa_mse_pf")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "Options forward cycle")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(5,40, "Fruit:")
+MUI_XYAT("O3",60, 40, 60, "Banana|Apple|Melon|Cranberry")
+MUI_STYLE(0)
+MUI_XYAT("G6", 64, 59, 40, " Ok ")
+//MUI_GOTO(64, 59, 40, " Ok ")
+
+MUI_FORM(44)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_opt_line_wa_mud_pf")
+MUI_LABEL(1,12, "MUIF_VARIABLE")
+MUI_LABEL(1,19, "MUI_XYAT")
+MUI_LABEL(1,25, "Options forward+backward cycle")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(5,40, "Fruit:")
+MUI_XYAT("O4",60, 40, 60, "Banana|Apple|Melon|Cranberry")
+MUI_STYLE(0)
+MUI_XYAT("G6", 64, 59, 40, " Ok ")
+//MUI_GOTO(64, 59, 40, " Ok ")
 
 
 
@@ -859,12 +910,17 @@ int main(void)
   draw(1, "", ""); return 0;
   
   /*
+  
     a: start animation
     .: end and write animation
+    goto form (first argument) then press a to see where the animation has to start
   */
-  draw(10, "asnnsnsnnsnnsnnns.q", "mui_btn_goto.gif");
+  /*
+  draw(10, "asnnnsnsnnnsnnsnnnsnnnsnnnnns.q", "mui_btn_goto.gif");
   draw(20, "assssnsnssnnnnnnsnsnnssppssssssnsnnnssnpppppppsns.q", "mui_uint8_number.gif");
   draw(30, "assnsnsnssnsnsssnsns.q", "mui_uint8_checkbox_radio.gif");
+  */
+  draw(40, "asnnssnsnssppsnsnnsnnsssnsnnnssnnsns.q", "mui_u8g2_u8_opt_line_wa.gif");
   
   
   

@@ -187,7 +187,9 @@ uint8_t mui_fds_first_token(mui_t *ui)
   return mui_fds_next_token(ui);
 }
 
-
+/*
+  The inner token delimiter "|" is fixed. It must be the pipe symbol.
+*/
 uint8_t mui_fds_next_token(mui_t *ui)
 {
   uint8_t c;
@@ -223,7 +225,7 @@ uint8_t mui_fds_next_token(mui_t *ui)
 }
 
 /*
-  find nth token, return 0 if n exceeds the number of tokens, 1 otherwise
+  find nth token ('|' delimiter), return 0 if n exceeds the number of tokens, 1 otherwise
   the result is stored in ui->text
 */
 uint8_t mui_fds_get_nth_token(mui_t *ui, uint8_t n)
@@ -653,7 +655,7 @@ void mui_next_field(mui_t *ui)
 /* OBSOLETE */
 #ifdef OBSOLETE
 void mui_GetSelectableFieldTextOptionByCursorPosition(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
-{
+
   fds_t *fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
   int len = ui->len;          // backup length of the current command
 
@@ -675,6 +677,16 @@ void mui_GetSelectableFieldTextOptionByCursorPosition(mui_t *ui, uint8_t form_id
 }
 #endif
 
+/*
+  this function will overwrite the ui field related member variables
+  nth_token can be 0 if the fiel text is not a option list
+  the result is stored in ui->text
+  
+  token delimiter is '|' (pipe symbol)
+  
+  fds:  The start of a field (MUI_DATA)
+  nth_token: The position of the token, which should be returned
+*/
 uint8_t mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_token)
 {
   fds_t *fds_backup = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
