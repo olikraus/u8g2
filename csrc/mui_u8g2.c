@@ -1453,8 +1453,10 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
   MUIF: MUIF_RO()
   FDS: MUI_DATA()
 
+  mui_u8g2_goto_parent --> mui_u8g2_goto_data
+
 */
-uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg)
 {
   switch(msg)
   {
@@ -1482,8 +1484,10 @@ uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg)
 }
 
 
-
-uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+/*
+mui_u8g2_goto_child_w1_mse_pi --> mui_u8g2_goto_form_w1_mse_pi
+*/
+uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten  

@@ -1,5 +1,23 @@
 /*
   mui_ref
+  
+  
+  Documentatio
+  
+  mui-style
+    monochrome user interface concepts
+      selected element: inverted vs frame
+      selection criteria: size vs. number of element types
+        only buttons --> inverted cursor
+        buttons and user elements --> frame cuser
+    what means style:
+      selected element concept (inverted vs frame)
+      MUI_STYLE command for fonts
+      callback postfix
+    Edit modes
+      unselected, selected, selected & update
+  
+  
 */
 #include "u8g2.h"
 #include <stdlib.h>
@@ -251,8 +269,8 @@ muif_t muif_list[] MUI_PROGMEM = {
 
   MUIF_LABEL(mui_u8g2_draw_text),
 
-  MUIF_RO("GP",mui_u8g2_goto_parent),
-  MUIF_BUTTON("GC", mui_u8g2_goto_child_w1_mse_pi),
+  MUIF_RO("GP",mui_u8g2_goto_data),
+  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
 
   /* Form 10 */
   MUIF_GOTO(mui_u8g2_btn_goto_wm_fi),
@@ -919,10 +937,10 @@ int main(void)
   draw(10, "asnnnsnsnnnsnnsnnnsnnnsnnnnns.q", "mui_btn_goto.gif");
   draw(20, "assssnsnssnnnnnnsnsnnssppssssssnsnnnssnpppppppsns.q", "mui_uint8_number.gif");
   draw(30, "assnsnsnssnsnsssnsns.q", "mui_uint8_checkbox_radio.gif");
-  */
   draw(40, "asnnssnsnssppsnsnnsnnsssnsnnnssnnsns.q", "mui_u8g2_u8_opt_line_wa.gif");
+  */
   
-  
+  draw(50, "assnnnnsnnspppsnsnssnnnsnnsnnnnnnnsns.q", "mui_u8g2_u8_opt_parent.gif");
   
   return 0;
 }

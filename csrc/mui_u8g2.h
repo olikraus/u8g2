@@ -131,14 +131,21 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pf(mui_t *ui, uint8_t msg); /* GIF, MUIF_VAR
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pf(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
 
-uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);       /* MUIF_VARIABLE, MUI_XYAT */
-uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg);        /* MUIF_VARIABLE, MUI_XYA */
-uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_VARIABLE, MUI_XYA */
+/* The text part of the parent defines a '|' separted list of elements, which can be selected by the child. */
+/* Argument is a form number where the child element is placed multiple times */ 
+/* The child form does not require the ok button, because the child function will return to the parent with the select element */
+uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_VARIABLE, MUI_XYAT */
+uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg);        /* GIF, MUIF_VARIABLE, MUI_XYA */
+uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* GIF, MUIF_VARIABLE, MUI_XYA */
 uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);                /* MUIF_VARIABLE, MUI_XYA */ 
 
-uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
-uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
 
+//uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
+// renamed to 
+uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
+//uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
+// renamed to 
+uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
 
 
 uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
