@@ -1507,6 +1507,26 @@ uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten  
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top) )
+        mui_u8g2_draw_button_pf(ui, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), ui->text+1);
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+      if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
+        return mui_GotoForm(ui, (uint8_t)ui->text[0], 0);
+      break;
+    default:
+      return mui_u8g2_u8_opt_child_mse_common(ui, msg);
+  }
+  return 0;
+}
+
 
 /*
   data: mui_u8g2_list_t *
