@@ -925,7 +925,7 @@ int main(void)
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui_GotoForm(&ui, 1, 0);
 
-  draw(1, "", ""); return 0;
+  //draw(1, "", ""); return 0;
   
   /*
   
@@ -938,9 +938,15 @@ int main(void)
   draw(20, "assssnsnssnnnnnnsnsnnssppssssssnsnnnssnpppppppsns.q", "mui_uint8_number.gif");
   draw(30, "assnsnsnssnsnsssnsns.q", "mui_uint8_checkbox_radio.gif");
   draw(40, "asnnssnsnssppsnsnnsnnsssnsnnnssnnsns.q", "mui_u8g2_u8_opt_line_wa.gif");
+  draw(50, "assnnnnsnnspppsnsnssnnnsnnsnnnnnnnsns.q", "mui_u8g2_u8_opt_parent.gif");
+  draw(60, "assppppppsnsnnnnnnnnnsnsppppppppppppppppppppsnsnnnsns.q", "mui_u8g2_u8_char_wm_mud_pi.gif");
   */
   
-  draw(50, "assnnnnsnnspppsnsnssnnnsnnsnnnnnnnsns.q", "mui_u8g2_u8_opt_parent.gif");
+  draw(70, "assssssnsnssnnnnnnsnnspsns.q", "mui_u8g2_u16_list_line.gif");
+  
+
+
+  
   
   return 0;
 }

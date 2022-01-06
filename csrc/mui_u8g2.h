@@ -146,10 +146,10 @@ uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg);                        /* MU
 //uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
 // renamed to 
 uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
-uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* not tested */
+uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* MUIF_BUTTON, MUI_XYA */
 
 
-uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
+uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
 
 
 /*===== data = mui_u8g2_u8_min_max_t*  =====*/

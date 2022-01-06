@@ -1515,7 +1515,7 @@ uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, arg + ui->form_scroll_top) )
-        mui_u8g2_draw_button_pf(ui, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), ui->text+1);
+        mui_u8g2_draw_button_pf(ui, u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui)-1, ui->text+1);
       break;
     case MUIF_MSG_CURSOR_SELECT:
       if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
