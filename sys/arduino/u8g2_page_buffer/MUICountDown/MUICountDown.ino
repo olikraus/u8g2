@@ -366,12 +366,12 @@ muif_t muif_list[] = {
   The form definition string (fds) defines all forms and the fields on those forms.
   A new form always starts with MUI_FORM(u). The form ends with the next MUI_FORM() or the end of the fds.
   Inside the form use fields or the style command (MUI_STYLE)
-  The fields are define with
+  The fields are placed on the form with
     MUI_XY(id, x, y)                     Field 'id' without extra argument or text placed at the specified xy position
     MUI_XYT(id, x, y, text)            Field 'id' with the specified test at position xy
     MUI_XYA(id, x, y, a)                 Field 'id' with argument 'a' at position xy
     MUI_XYAT(id, x, y, a, text)         Field 'id' with argument and text placed at position xy
-    MUI_LABEL(x,y,text)                 Place "text" on the form. Can be used only if "MUIF_LABEL(mui_u8g2_draw_text)" is available in MUIF table.
+    MUI_LABEL(x, y, text)                 Place "text" on the form. Can be used only if "MUIF_LABEL(mui_u8g2_draw_text)" is available in MUIF table.
 
 */
 
