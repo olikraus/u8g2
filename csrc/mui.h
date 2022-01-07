@@ -531,6 +531,8 @@ struct mui_struct
 /* style: one id only */
 #define MUI_STYLE(n) "S" #n
 
+#define MUI_AUX(id) "Z" id
+
 #define MUI_DATA(id, text) "D" id "\xff" text "\xff"
 
 #define MUI_XY(id, x, y) "F" id MUI_##x MUI_##y
@@ -563,6 +565,7 @@ void mui_LeaveForm(mui_t *ui);
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
 void mui_SaveForm(mui_t *ui);
 void mui_RestoreForm(mui_t *ui);
+int mui_GetCurrentFormId(mui_t *ui);
 void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);

@@ -104,6 +104,7 @@ static size_t mui_fds_get_cmd_size_without_text(fds_t *s)
     case 'U': return 2;         // User Form: CMD  (1 Byte), Form-Id (1 Byte)
     case 'S': return 2;         // Style: CMD (1 Byte), Style Id (1 Byte)
     case 'D': return 3;         // Data within Text: CMD (1 Byte), ID (2 Bytes), Text (does not count here)
+    case 'Z': return 3;         // Zero field without x, y, arg & text: CMD (1 Byte), ID (2 Bytes)
     case 'F': return 5;         // Field without arg & text: CMD (1 Byte), ID (2 Bytes), X, Y
     case 'B': return 5;         // Field with text: CMD (1 Byte), ID (2 Bytes), X, Y, Text (does not count here)
     case 'T': return 6;         // Field with arg & text: CMD (1 Byte), ID (2 Bytes), X, Y, Arg, Text (does not count here)
@@ -261,7 +262,7 @@ uint8_t mui_fds_get_token_cnt(mui_t *ui)
 }
 
 
-#define mui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' || (c) == 'A' ? 0 : 1 )
+#define mui_fds_is_text(c) ( (c) == 'U' || (c) == 'S' || (c) == 'F' || (c) == 'A' || (c) == 'Z' ? 0 : 1 )
 
 /*
   s must point to a valid command within FDS
@@ -372,7 +373,7 @@ static uint8_t mui_prepare_current_field(mui_t *ui)
         ui->arg = mui_get_fds_char(ui->fds+5);
       }
   }
-  else if ( ui->cmd == 'D' )
+  else if ( ui->cmd == 'D' || ui->cmd == 'Z' )
   {
       ui->id0 = mui_get_fds_char(ui->fds+1);
       ui->id1 = mui_get_fds_char(ui->fds+2);
@@ -851,6 +852,16 @@ void mui_SaveForm(mui_t *ui)
 void mui_RestoreForm(mui_t *ui)
 {
   mui_GotoForm(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
+}
+
+/*
+  return current form id or -1 if the menu system is inactive
+*/
+int mui_GetCurrentFormId(mui_t *ui)
+{
+  if ( mui_IsFormActive(ui) == 0 )
+    return -1;
+  return mui_get_fds_char(ui->current_form_fds+1);
 }
 
 /*
