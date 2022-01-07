@@ -320,6 +320,13 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_U16_LIST("AP", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_parent_wm_mse_pi),
   MUIF_U8G2_U16_LIST("AC", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_child_w1_mse_pi),
 
+  /* Form 90: bar */
+  MUIF_U8G2_U8_MIN_MAX_STEP("B0", &number_input9, 0, 20, 2, MUI_MMS_2X_BAR|MUI_MMS_SHOW_VALUE, mui_u8g2_u8_bar_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX_STEP("B1", &number_input9, 0, 20, 2, MUI_MMS_2X_BAR|MUI_MMS_SHOW_VALUE, mui_u8g2_u8_bar_wm_mud_pi),
+  MUIF_U8G2_U8_MIN_MAX_STEP("B2", &number_input9, 0, 20, 2, MUI_MMS_2X_BAR|MUI_MMS_SHOW_VALUE, mui_u8g2_u8_bar_wm_mse_pf),
+  MUIF_U8G2_U8_MIN_MAX_STEP("B3", &number_input9, 0, 20, 2, MUI_MMS_2X_BAR|MUI_MMS_SHOW_VALUE, mui_u8g2_u8_bar_wm_mud_pf),
+
+
 };
 
 
@@ -339,6 +346,7 @@ MUI_DATA("GP",
     MUI_60 "uint8 Char/Text Input|"
     MUI_70 "uint16 Cycle Options|"
     MUI_80 "uint16 ParentChild Select|"
+    MUI_90 "uint8 Bar Graph|"
     MUI_18 "Parent/Child List|"
     MUI_20 "Array Edit")
 MUI_XYA("GC", 5, 25, 0) 
@@ -770,7 +778,7 @@ MUI_LABEL(1,25, "Parent: Show selected option")
 MUI_XY("HR", 0,26)
 MUI_STYLE(0)
 MUI_LABEL(5,40, "Animal:")
-MUI_XYA("AP",50, 40, 82)     /* jump to sub form 19 */
+MUI_XYA("AP",50, 40, 82)     /* jump to sub form 82 */
 MUI_GOTO(64, 59, 80, " Ok ")
 
 MUI_FORM(82)
@@ -785,6 +793,70 @@ MUI_XYA("AC", 5, 38, 0)
 MUI_XYA("AC", 5, 49, 1) 
 MUI_XYA("AC", 5, 60, 2) 
 
+
+MUI_FORM(90)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "uint8 Bar Graph")
+MUI_XY("HR", 0,13)
+MUI_STYLE(7)
+MUI_DATA("GP", 
+  MUI_91 "u8_bar_wm_mse_pi|" 
+  MUI_92 "u8_bar_wm_mud_pi|" 
+  MUI_93 "u8_bar_wm_mse_pf|" 
+  MUI_94 "u8_bar_wm_mud_pf|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(91)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_bar_wm_mse_pi")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX_STEP")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "uint8_t bar graph input")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Bar: ")
+MUI_XY("B0",40, 40)
+MUI_GOTO(64, 59, 90, " Ok ")
+
+MUI_FORM(92)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_bar_wm_mud_pi")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX_STEP")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "uint8_t bar graph input")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Bar: ")
+MUI_XY("B1",40, 40)
+MUI_GOTO(64, 59, 90, " Ok ")
+
+MUI_FORM(93)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_bar_wm_mse_pf")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX_STEP")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "uint8_t bar graph input")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Bar: ")
+MUI_XY("B2",40, 40)
+MUI_GOTO(64, 59, 90, " Ok ")
+
+MUI_FORM(94)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_u8_bar_wm_mud_pf")
+MUI_LABEL(1,12, "MUIF_U8G2_U8_MIN_MAX_STEP")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "uint8_t bar graph input")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Bar: ")
+MUI_XY("B3",40, 40)
+MUI_GOTO(64, 59, 90, " Ok ")
 
 ;
 
@@ -925,7 +997,7 @@ int main(void)
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui_GotoForm(&ui, 1, 0);
 
-  //draw(1, "", ""); return 0;
+  draw(1, "", ""); return 0;
   
   /*
   
@@ -940,10 +1012,13 @@ int main(void)
   draw(40, "asnnssnsnssppsnsnnsnnsssnsnnnssnnsns.q", "mui_u8g2_u8_opt_line_wa.gif");
   draw(50, "assnnnnsnnspppsnsnssnnnsnnsnnnnnnnsns.q", "mui_u8g2_u8_opt_parent.gif");
   draw(60, "assppppppsnsnnnnnnnnnsnsppppppppppppppppppppsnsnnnsns.q", "mui_u8g2_u8_char_wm_mud_pi.gif");
+  draw(70, "assssssnsnssnnnnnnsnnspsns.q", "mui_u8g2_u16_list_line.gif");
+  draw(80, "assnnssnnnssoppppppnsns.q", "mui_u8g2_u16_list_child.gif");
   */
   
-  draw(70, "assssssnsnssnnnnnnsnnspsns.q", "mui_u8g2_u16_list_line.gif");
   
+  draw(90, "assssnsnssnnpsnsnnsssnnsnsnnnsspppnsns.q", "mui_u8g2_u8_bar.gif");
+
 
 
   

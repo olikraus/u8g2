@@ -96,6 +96,32 @@ typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
 #endif
 
 
+struct mui_u8g2_u8_min_max_step_struct
+{
+  uint8_t *value;
+  uint8_t min;
+  uint8_t max;
+  uint8_t step;
+  uint8_t flags;
+} MUI_PROGMEM;
+
+typedef const struct mui_u8g2_u8_min_max_step_struct mui_u8g2_u8_min_max_step_t;
+
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_u8g2_u8mms_get_step(u8mm) mui_pgm_read(&((u8mm)->step))
+#  define mui_u8g2_u8mms_get_flags(u8mm) mui_pgm_read(&((u8mm)->flags))
+#  define mui_u8g2_u8mms_get_min(u8mm) mui_pgm_read(&((u8mm)->min))
+#  define mui_u8g2_u8mms_get_max(u8mm) mui_pgm_read(&((u8mm)->max))
+#  define mui_u8g2_u8mms_get_valptr(u8mm) ((uint8_t *)mui_pgm_wread(&((u8mm)->value)))
+#else
+#  define mui_u8g2_u8mms_get_step(u8mm) ((u8mm)->step)
+#  define mui_u8g2_u8mms_get_flags(u8mm) ((u8mm)->flags)
+#  define mui_u8g2_u8mms_get_min(u8mm) ((u8mm)->min)
+#  define mui_u8g2_u8mms_get_max(u8mm) ((u8mm)->max)
+#  define mui_u8g2_u8mms_get_valptr(u8mm) ((u8mm)->value)
+#endif
+
+
 /* helper functions */
 
 u8g2_uint_t mui_get_x(mui_t *ui);
@@ -142,11 +168,11 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);                
 
 //uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
 // renamed to 
-uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
+uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg);                        /* REF, MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
 //uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
 // renamed to 
-uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
-uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* MUIF_BUTTON, MUI_XYA */
+uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg);          /* REF, MUIF_BUTTON, MUI_XYA */
+uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* REF, MUIF_BUTTON, MUI_XYA */
 
 
 uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
@@ -166,6 +192,23 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
 uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 
+/*===== data = mui_u8g2_u8_min_max_step_t*  =====*/
+
+/* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
+#define MUIF_U8G2_U8_MIN_MAX_STEP(id, valptr, min, max, step, flags, muif) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u8_min_max_step_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (flags) }}), \
+  (muif))
+  
+#define MUI_MMS_2X_BAR 0x01
+#define MUI_MMS_4X_BAR 0x02
+#define MUI_MMS_SHOW_VALUE 0x04
+
+uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg);
+
 /*===== data = mui_u8g2_list_t*  =====*/
 /* similar to mui_u8g2_u8_opt_line, but u16 and dynamic list */
 
@@ -175,14 +218,14 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
   (void *)((mui_u8g2_list_t [] ) {{ (valptr) MUI_U8G2_COMMA (dataptr) MUI_U8G2_COMMA (getcb) MUI_U8G2_COMMA (cntcb)}}), \
   (muif))
   
-uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg);       /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=pixel fieldsize */
-uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg);       /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=pixel fieldsize */
+uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=pixel fieldsize */
+uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=pixel fieldsize */
 
 
-uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg);     /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=subform */
-uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg);      /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=sub element number */
+uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=subform */
+uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg);      /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=sub element number */
 
-uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg);               /* MUIF_U8G2_U16_LIST first char of the string denotes the target form */
+uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg);               /* REF, MUIF_U8G2_U16_LIST first char of the string denotes the target form */
 
 
 #ifdef __cplusplus

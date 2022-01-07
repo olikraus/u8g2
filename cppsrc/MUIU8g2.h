@@ -60,8 +60,8 @@ class MUIU8G2
 
     uint8_t getCurrentCursorFocusPosition(void) { return mui_GetCurrentCursorFocusPosition(&mui); }
     void draw(void) { mui_Draw(&mui); }
-    void getSelectableFieldTextOption(uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
-      { mui_GetSelectableFieldTextOption(&mui, form_id, cursor_position, nth_token); }      
+    //void getSelectableFieldTextOption(fds_t *fds, uint8_t nth_token)
+    //  { mui_GetSelectableFieldTextOption(&mui, fds, nth_token); }      
     void enterForm(fds_t *fds, uint8_t initial_cursor_position) { mui_EnterForm(&mui, fds, initial_cursor_position); }
     void leaveForm(void) { mui_LeaveForm(&mui); }
     uint8_t gotoForm(uint8_t form_id, uint8_t initial_cursor_position) { return mui_GotoForm(&mui, form_id, initial_cursor_position); }

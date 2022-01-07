@@ -145,7 +145,7 @@
 //U8G2_LD7032_60X32_ALT_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 9, /* dc=*/ 10, /* reset=*/ 8);	// SW SPI Nano Board
 //U8G2_LD7032_60X32_ALT_1_4W_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
 //U8G2_UC1701_EA_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_PCD8544_84X48_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Nokia 5110 Display
 //U8G2_PCD8544_84X48_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);						// Nokia 5110 Display
 //U8G2_PCF8812_96X65_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Could be also PCF8814
@@ -316,7 +316,7 @@ MUIU8G2 mui;
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t exit_code = 0;                  // return value from the menu system
 
-extern "C" uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
+uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
 {  
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   switch(msg)
@@ -348,18 +348,18 @@ extern "C" uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
 */
 
 
-muif_t muif_list[]  MUI_PROGMEM = {
+muif_t muif_list[] = {
   /* normal text style */
-  MUIF("S0",0,0,mui_style_helv_r_08),
+  MUIF_STYLE(0, mui_style_helv_r_08),
   
   /* Leave the menu system */
-  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_u8g2_btn_exit_wm_fi),
+  MUIF_VARIABLE("LV",&exit_code,mui_u8g2_btn_exit_wm_fi),
   
   /* input for a number between 0 to 9 */
-  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("IN", &number_input, 0, 9, mui_u8g2_u8_min_max_wm_mse_pi),
   
-  /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
-  MUIF(".L",0,0,mui_u8g2_draw_text)
+  /* MUI_LABEL is used to place fixed text on the screeen */
+  MUIF_LABEL(mui_u8g2_draw_text)
 };
 
 /*
@@ -371,13 +371,8 @@ muif_t muif_list[]  MUI_PROGMEM = {
     MUI_XYT(id, x, y, text)            Field 'id' with the specified test at position xy
     MUI_XYA(id, x, y, a)                 Field 'id' with argument 'a' at position xy
     MUI_XYAT(id, x, y, a, text)         Field 'id' with argument and text placed at position xy
-    MUI_LABEL(x,y,text)                 Field '.L' (usually some readonly text) placed at position xy
-    MUI_GOTO(x,y,n,text)                Field '.G', usually a button placed at xy, which activates form n 
+    MUI_LABEL(x,y,text)                 Place "text" on the form. Can be used only if "MUIF_LABEL(mui_u8g2_draw_text)" is available in MUIF table.
 
-  Note:
-    MUI_LABEL(x,y,text) is the same as MUI_XYT(".L", x, y, text)
-    MUI_GOTO(x,y,text) is the same as MUI_XYAT(".G", x, y, n, text)
-    
 */
 
 

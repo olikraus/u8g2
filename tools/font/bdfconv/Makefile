@@ -86,6 +86,10 @@ dseg14cr: bdfconv
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 
 
+mmmicons: bdfconv
+	./bdfconv -v -f 1 -m '32-700' mmmicons.bdf -o mmmicons.c  -n u8g2_font_mmmicons -d ../bdf/helvB18.bdf 
+	convert bdf.tga -trim mmmicons.png
+
 ded: bdfconv
 	./bdfconv -v -b 0 -f 1  ./F16_DED.bdf -o ded.c  -n ded -d ../bdf/helvB12.bdf 
 
