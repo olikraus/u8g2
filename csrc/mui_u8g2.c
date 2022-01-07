@@ -601,7 +601,7 @@ static void mui_u8g2_u8_vmm_draw_wm_pi(mui_t *ui)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_u8_min_max_t *vmm= (mui_u8g2_u8_min_max_t *)muif_get_data(ui->uif);
-  char *s = "999";
+  char s[4] = "999";
   uint8_t *value = mui_u8g2_u8mm_get_valptr(vmm);
   uint8_t min = mui_u8g2_u8mm_get_min(vmm);
   uint8_t max = mui_u8g2_u8mm_get_max(vmm);
@@ -714,7 +714,7 @@ static void mui_u8g2_u8_vmm_draw_wm_pf(mui_t *ui)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_u8_min_max_t *vmm= (mui_u8g2_u8_min_max_t *)muif_get_data(ui->uif);
-  char *s = "999";
+  char s[4] = "999";
   uint8_t *value = mui_u8g2_u8mm_get_valptr(vmm);
   uint8_t min = mui_u8g2_u8mm_get_min(vmm);
   uint8_t max = mui_u8g2_u8mm_get_max(vmm);
@@ -828,7 +828,7 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
-  char *s = "999";
+  char s[4] = "999";
   uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);

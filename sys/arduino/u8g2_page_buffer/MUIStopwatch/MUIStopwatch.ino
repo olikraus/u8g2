@@ -321,42 +321,29 @@ uint8_t is_stop_watch_running = 1;          // defines the current state of the 
 
 /* draw the current stop watch value */
 uint8_t mui_draw_current_timer(mui_t *ui, uint8_t msg) {
-  u8g2_uint_t x = mui_get_x(ui);
-  u8g2_uint_t y = mui_get_y(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2.setCursor(x,y);
+  if ( msg == MUIF_MSG_DRAW ) {
+      u8g2.setCursor(mui_get_x(ui), mui_get_y(ui));
       u8g2.print(stop_watch_timer/1000);
       u8g2.print(".");
       u8g2.print((stop_watch_timer/10)%100);
-      break;
   }
   return 0;
 }
 
 /* start the stop watch */
 uint8_t mui_start_current_timer(mui_t *ui, uint8_t msg) {
-  switch(msg)
-  {
-    case MUIF_MSG_FORM_START:
+  if ( msg == MUIF_MSG_FORM_START ) {
       is_stop_watch_running = 1;
       stop_watch_millis = millis();
       stop_watch_timer = 0;
-      break;
   }
   return 0;
 }
 
 /* stop the stop watch timer */
-uint8_t mui_stop_current_timer(mui_t *ui, uint8_t msg)
-{
-  switch(msg)
-  {
-    case MUIF_MSG_FORM_START:
+uint8_t mui_stop_current_timer(mui_t *ui, uint8_t msg) {
+  if ( msg == MUIF_MSG_FORM_START )
       is_stop_watch_running = 0;
-      break;
-  }
   return 0;
 }
 
@@ -397,7 +384,7 @@ muif_t muif_list[] = {
 };
 
 
-fds_t fds_data[] MUI_PROGMEM = 
+fds_t fds_data[] = 
 MUI_FORM(1)
 MUI_AUX("SO")                      // this will stop the stop watch time once this form is entered
 MUI_STYLE(0)
