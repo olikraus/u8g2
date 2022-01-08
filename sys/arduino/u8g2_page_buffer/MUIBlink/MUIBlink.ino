@@ -315,6 +315,10 @@ MUIU8G2 mui;
   global variables which form the communication gateway between the user interface and the rest of the code
 */
 
+uint8_t blink_light = 1;        // brightness
+uint8_t blink_time = 1;
+uint8_t blink_duty = 1;
+
 long stop_watch_timer = 0;                      // stop watch timer 1/100 seconds 
 long stop_watch_millis = 0;                      // millis() value, when the stop watch was started
 uint8_t is_stop_watch_running = 1;          // defines the current state of the stop watch: running or not running
@@ -347,18 +351,6 @@ uint8_t mui_stop_current_timer(mui_t *ui, uint8_t msg) {
   return 0;
 }
 
-/* style function ti define a font */
-uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
-{  
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, U8G2_FONT);
-      break;
-  }
-  return 0;
-}
 
 uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 {
@@ -375,13 +367,28 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 
 
 muif_t muif_list[] = {
-  MUIF_STYLE(0, mui_style_helv_r_08),
+  MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
+  MUIF_U8G2_FONT_STYLE(9, u8g2_font_streamline_interface_essential_loading_t),
+
 
   MUIF_RO("HR", mui_hrule),
   MUIF_LABEL(mui_u8g2_draw_text),
   MUIF_RO("GP",mui_u8g2_goto_data),
   MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
 
+  MUIF_U8G2_U8_MIN_MAX("NB", &blink_light, 0, 4, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("NT", &blink_time, 0, 4, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("ND", &blink_duty, 0, 4, mui_u8g2_u8_min_max_wm_mse_pi),
+
+  MUIF_U8G2_U8_MIN_MAX_STEP("BB", &blink_light, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mse_pf),
+  MUIF_U8G2_U8_MIN_MAX_STEP("BT", &blink_time, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mse_pf),
+  MUIF_U8G2_U8_MIN_MAX_STEP("BD", &blink_duty, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mse_pf),
+
+
+  MUIF_VARIABLE("PB", &blink_light, mui_u8g2_u8_opt_line_wa_mse_pi),
+  MUIF_VARIABLE("PT", &blink_time, mui_u8g2_u8_opt_line_wa_mse_pi),
+  MUIF_VARIABLE("PD", &blink_duty, mui_u8g2_u8_opt_line_wa_mse_pi),
+  
   /* custom MUIF callback to draw the timer value */
   MUIF_RO("CT", mui_draw_current_timer),
   
@@ -392,7 +399,7 @@ muif_t muif_list[] = {
   MUIF_RO("SO", mui_stop_current_timer),
 
   /* a button for the menu... */
-  MUIF_BUTTON("GO", mui_u8g2_btn_goto_wm_fi),
+  MUIF_BUTTON("GO", mui_u8g2_btn_goto_wm_fi)
   
 };
 
@@ -416,7 +423,42 @@ MUI_XYA("GC", 5, 49, 2)
 MUI_XYA("GC", 5, 61, 3) 
 
 MUI_FORM(10)
-MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer
+MUI_STYLE(0)
+MUI_LABEL(5, 9, "Numeric (MSE)")
+MUI_XY("HR", 0,12)
+MUI_LABEL(5,24, "Light:")
+MUI_LABEL(5,36, "Time:")
+MUI_LABEL(5,48, "Duty:")
+MUI_XY("NB", 50, 24)
+MUI_XY("NT", 50, 36)
+MUI_XY("ND", 50, 48)
+MUI_XYAT("GO", 20, 60, 1, " Exit ") 
+
+MUI_FORM(20)
+MUI_STYLE(0)
+MUI_LABEL(5, 9, "Bar Graph (MSE)")
+MUI_XY("HR", 0,12)
+MUI_LABEL(5,24, "Light:")
+MUI_LABEL(5,36, "Time:")
+MUI_LABEL(5,48, "Duty:")
+MUI_XY("BB", 50, 24)
+MUI_XY("BT", 50, 36)
+MUI_XY("BD", 50, 48)
+MUI_XYAT("GO", 20, 60, 1, " Exit ") 
+
+MUI_FORM(30)
+MUI_STYLE(0)
+MUI_LABEL(5, 9, "Pie Graph (MSE)")
+MUI_XY("HR", 0,12)
+MUI_LABEL(5,24, "Light")
+MUI_LABEL(37,24, "Time")
+MUI_LABEL(69,24, "Duty")
+MUI_STYLE(9)
+MUI_XYAT("PB", 6, 48, 21, "\x30|\x35|\x36|\x38|\x32")
+MUI_XYAT("PT", 38, 48, 21, "\x30|\x35|\x36|\x38|\x32")
+MUI_XYAT("PD", 70, 48, 21, "\x30|\x35|\x36|\x38|\x32")
+MUI_STYLE(0)
+MUI_XYAT("GO", 20, 60, 1, " Exit ") 
 
 MUI_FORM(20)
 MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer

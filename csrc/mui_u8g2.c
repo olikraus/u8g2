@@ -318,6 +318,25 @@ static uint8_t mui_u8g2_handle_scroll_next_prev_events(mui_t *ui, uint8_t msg)
   }
   return 0;
 }
+
+/*=========================================================================*/
+/* simplified style function  */
+
+/*
+Used for MUIF_U8G2_FONT_STYLE(n,font)
+*/
+
+uint8_t mui_u8g2_set_font_style_function(mui_t *ui, uint8_t msg)
+{  
+  if ( msg == MUIF_MSG_DRAW )
+  {
+    u8g2_SetFont(mui_get_U8g2(ui), (uint8_t *)muif_get_data(ui->uif));
+  }
+  return 0;
+}
+
+
+
 /*=========================================================================*/
 /* field functions */
 

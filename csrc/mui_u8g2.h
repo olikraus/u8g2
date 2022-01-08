@@ -178,6 +178,15 @@ uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* REF, 
 uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
 
 
+/*===== data = u8g2 font data  =====*/
+
+//#define MUIF_U8G2_FONT_STYLE(n,font)  MUIF("S" #n, 0, (void *)(font), mui_u8g2_set_font_style_function) 
+#define MUIF_U8G2_FONT_STYLE(n, font) { 'S', #n[0], 0, 0, (void *)(font), mui_u8g2_set_font_style_function} 
+
+
+uint8_t mui_u8g2_set_font_style_function(mui_t *ui, uint8_t msg);
+
+
 /*===== data = mui_u8g2_u8_min_max_t*  =====*/
 
 /* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
