@@ -1,6 +1,6 @@
 /*
 
-  MUIStopwatch.ino
+  MUIBlink.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -360,12 +360,27 @@ uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
   return 0;
 }
 
+uint8_t mui_hrule(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      u8g2_DrawHLine(u8g2, 0, mui_get_y(ui), u8g2_GetDisplayWidth(u8g2));
+      break;
+  }
+  return 0;
+}
 
 
 
 muif_t muif_list[] = {
-  /* normal text style */
   MUIF_STYLE(0, mui_style_helv_r_08),
+
+  MUIF_RO("HR", mui_hrule),
+  MUIF_LABEL(mui_u8g2_draw_text),
+  MUIF_RO("GP",mui_u8g2_goto_data),
+  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
 
   /* custom MUIF callback to draw the timer value */
   MUIF_RO("CT", mui_draw_current_timer),
@@ -379,25 +394,36 @@ muif_t muif_list[] = {
   /* a button for the menu... */
   MUIF_BUTTON("GO", mui_u8g2_btn_goto_wm_fi),
   
-  /* MUI_LABEL is used to place fixed text on the screeen */
-  MUIF_LABEL(mui_u8g2_draw_text)
 };
 
 
 fds_t fds_data[] = 
-MUI_FORM(1)
-MUI_AUX("SO")                      // this will stop the stop watch time once this form is entered
-MUI_STYLE(0)
-MUI_LABEL(5,12, "Stopwatch")
-MUI_XY("CT", 5, 24)
-MUI_XYAT("GO",20, 36, 2, " Start ")     // jump to the second form to start the timer
 
-MUI_FORM(2)
-MUI_AUX("ST")                      // this will start the stop watch time once this form is entered
+MUI_FORM(1)
 MUI_STYLE(0)
-MUI_LABEL(5,12, "Stopwatch")
-MUI_XY("CT", 5, 24)
-MUI_XYAT("GO",20, 36, 1, " Stop ")      // jump to the first form to stop the timer
+MUI_LABEL(5,10, "MUI Blink")
+MUI_XY("HR", 0,13)
+MUI_DATA("GP", 
+    MUI_10 "Numeric (MSE)|"
+    MUI_20 "Progress Bar (MSE)|"
+    MUI_30 "Progress Pie (MSE)|"
+    MUI_10 "Numeric (MUD)|"
+    MUI_20 "Progress Bar (MUD)|"
+    MUI_30 "Progress Pie (MUD)")
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(10)
+MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer
+
+MUI_FORM(20)
+MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer
+
+MUI_FORM(30)
+MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer
+
 ;
 
 
@@ -460,8 +486,8 @@ void loop(void) {
     
     /* update the stop watch timer */
     if ( is_stop_watch_running != 0 ) {
-      stop_watch_timer = millis() - stop_watch_millis;
-      is_redraw = 1;
+      //stop_watch_timer = millis() - stop_watch_millis;
+      //is_redraw = 1;
     }
       
   } else {
