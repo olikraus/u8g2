@@ -1,6 +1,14 @@
 /*
 
   MUIBlink.ino
+  
+  This demo will try to blink the builtin LED with a certain brightness and duty.
+  
+  This may not always work as expected:
+    - The builtin LED may not be supported by analogWrite, so the brightness 
+        will not work
+    - If the builtin LED shares a communication line with the display then you 
+        MUST use U8g2 SW_I2C or SW_SPI 
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -144,8 +152,8 @@
 //U8G2_LD7032_60X32_1_4W_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
 //U8G2_LD7032_60X32_ALT_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 9, /* dc=*/ 10, /* reset=*/ 8);	// SW SPI Nano Board
 //U8G2_LD7032_60X32_ALT_1_4W_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
-//U8G2_UC1701_EA_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8G2_UC1701_EA_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_PCD8544_84X48_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Nokia 5110 Display
 //U8G2_PCD8544_84X48_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);						// Nokia 5110 Display
 //U8G2_PCF8812_96X65_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Could be also PCF8814
@@ -315,41 +323,42 @@ MUIU8G2 mui;
   global variables which form the communication gateway between the user interface and the rest of the code
 */
 
-uint8_t blink_light = 1;        // brightness
+uint8_t blink_light = 4;        // brightness
 uint8_t blink_time = 1;
 uint8_t blink_duty = 1;
 
-long stop_watch_timer = 0;                      // stop watch timer 1/100 seconds 
-long stop_watch_millis = 0;                      // millis() value, when the stop watch was started
-uint8_t is_stop_watch_running = 1;          // defines the current state of the stop watch: running or not running
+uint8_t blink_state = 0;
+long blink_last_update = 0;
 
-/* draw the current stop watch value */
-uint8_t mui_draw_current_timer(mui_t *ui, uint8_t msg) {
-  if ( msg == MUIF_MSG_DRAW ) {
-      u8g2.setCursor(mui_get_x(ui), mui_get_y(ui));
-      u8g2.print(stop_watch_timer/1000);
-      u8g2.print(".");
-      u8g2.print((stop_watch_timer/10)%100);
+
+
+void blink_update(void)
+{
+  long next_update_time = blink_last_update;
+  if ( blink_state == 0 )
+  {
+    next_update_time += (long)(blink_duty+1)*(blink_time+1)*40L;
   }
-  return 0;
-}
-
-/* start the stop watch */
-uint8_t mui_start_current_timer(mui_t *ui, uint8_t msg) {
-  if ( msg == MUIF_MSG_FORM_START ) {
-      is_stop_watch_running = 1;
-      stop_watch_millis = millis();
-      stop_watch_timer = 0;
+  else
+  {
+    next_update_time += (long)(5-blink_duty)*(blink_time+1)*40L;
   }
-  return 0;
+  
+  if ( next_update_time < millis() )
+  {
+  
+    blink_last_update = millis();
+    
+    blink_state = 1-blink_state;
+    
+    if ( blink_state == 0 ) 
+      analogWrite(LED_BUILTIN, (blink_light*255)>>2);
+    else
+      digitalWrite(LED_BUILTIN, LOW);
+    
+  }
 }
 
-/* stop the stop watch timer */
-uint8_t mui_stop_current_timer(mui_t *ui, uint8_t msg) {
-  if ( msg == MUIF_MSG_FORM_START )
-      is_stop_watch_running = 0;
-  return 0;
-}
 
 
 uint8_t mui_hrule(mui_t *ui, uint8_t msg)
@@ -368,11 +377,11 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 
 muif_t muif_list[] = {
   MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
+  MUIF_U8G2_FONT_STYLE(1, u8g2_font_helvB08_tr),
   MUIF_U8G2_FONT_STYLE(9, u8g2_font_streamline_interface_essential_loading_t),
 
-
   MUIF_RO("HR", mui_hrule),
-  MUIF_LABEL(mui_u8g2_draw_text),
+  MUIF_U8G2_LABEL(),
   MUIF_RO("GP",mui_u8g2_goto_data),
   MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
 
@@ -384,19 +393,21 @@ muif_t muif_list[] = {
   MUIF_U8G2_U8_MIN_MAX_STEP("BT", &blink_time, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mse_pf),
   MUIF_U8G2_U8_MIN_MAX_STEP("BD", &blink_duty, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mse_pf),
 
-
   MUIF_VARIABLE("PB", &blink_light, mui_u8g2_u8_opt_line_wa_mse_pi),
   MUIF_VARIABLE("PT", &blink_time, mui_u8g2_u8_opt_line_wa_mse_pi),
   MUIF_VARIABLE("PD", &blink_duty, mui_u8g2_u8_opt_line_wa_mse_pi),
-  
-  /* custom MUIF callback to draw the timer value */
-  MUIF_RO("CT", mui_draw_current_timer),
-  
-  /* custom MUIF callback to start the stop watch timer */
-  MUIF_RO("ST", mui_start_current_timer),
 
-  /* custom MUIF callback to end the stop watch timer */
-  MUIF_RO("SO", mui_stop_current_timer),
+  MUIF_U8G2_U8_MIN_MAX("nB", &blink_light, 0, 4, mui_u8g2_u8_min_max_wm_mud_pi),
+  MUIF_U8G2_U8_MIN_MAX("nT", &blink_time, 0, 4, mui_u8g2_u8_min_max_wm_mud_pi),
+  MUIF_U8G2_U8_MIN_MAX("nD", &blink_duty, 0, 4, mui_u8g2_u8_min_max_wm_mud_pi),
+
+  MUIF_U8G2_U8_MIN_MAX_STEP("bB", &blink_light, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mud_pf),
+  MUIF_U8G2_U8_MIN_MAX_STEP("bT", &blink_time, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mud_pf),
+  MUIF_U8G2_U8_MIN_MAX_STEP("bD", &blink_duty, 0, 4, 1, MUI_MMS_4X_BAR, mui_u8g2_u8_bar_wm_mud_pf),
+
+  MUIF_VARIABLE("pB", &blink_light, mui_u8g2_u8_opt_line_wa_mud_pi),
+  MUIF_VARIABLE("pT", &blink_time, mui_u8g2_u8_opt_line_wa_mud_pi),
+  MUIF_VARIABLE("pD", &blink_duty, mui_u8g2_u8_opt_line_wa_mud_pi),
 
   /* a button for the menu... */
   MUIF_BUTTON("GO", mui_u8g2_btn_goto_wm_fi)
@@ -407,24 +418,26 @@ muif_t muif_list[] = {
 fds_t fds_data[] = 
 
 MUI_FORM(1)
-MUI_STYLE(0)
+MUI_STYLE(1)
 MUI_LABEL(5,10, "MUI Blink")
+MUI_STYLE(0)
 MUI_XY("HR", 0,13)
 MUI_DATA("GP", 
     MUI_10 "Numeric (MSE)|"
-    MUI_20 "Progress Bar (MSE)|"
-    MUI_30 "Progress Pie (MSE)|"
-    MUI_10 "Numeric (MUD)|"
-    MUI_20 "Progress Bar (MUD)|"
-    MUI_30 "Progress Pie (MUD)")
+    MUI_12 "Progress Bar (MSE)|"
+    MUI_14 "Progress Pie (MSE)|"
+    MUI_20 "Numeric (MUD)|"
+    MUI_22 "Progress Bar (MUD)|"
+    MUI_24 "Progress Pie (MUD)")
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
 MUI_XYA("GC", 5, 49, 2) 
 MUI_XYA("GC", 5, 61, 3) 
 
 MUI_FORM(10)
-MUI_STYLE(0)
+MUI_STYLE(1)
 MUI_LABEL(5, 9, "Numeric (MSE)")
+MUI_STYLE(0)
 MUI_XY("HR", 0,12)
 MUI_LABEL(5,24, "Light:")
 MUI_LABEL(5,36, "Time:")
@@ -434,9 +447,10 @@ MUI_XY("NT", 50, 36)
 MUI_XY("ND", 50, 48)
 MUI_XYAT("GO", 20, 60, 1, " Exit ") 
 
-MUI_FORM(20)
-MUI_STYLE(0)
+MUI_FORM(12)
+MUI_STYLE(1)
 MUI_LABEL(5, 9, "Bar Graph (MSE)")
+MUI_STYLE(0)
 MUI_XY("HR", 0,12)
 MUI_LABEL(5,24, "Light:")
 MUI_LABEL(5,36, "Time:")
@@ -446,9 +460,10 @@ MUI_XY("BT", 50, 36)
 MUI_XY("BD", 50, 48)
 MUI_XYAT("GO", 20, 60, 1, " Exit ") 
 
-MUI_FORM(30)
-MUI_STYLE(0)
+MUI_FORM(14)
+MUI_STYLE(1)
 MUI_LABEL(5, 9, "Pie Graph (MSE)")
+MUI_STYLE(0)
 MUI_XY("HR", 0,12)
 MUI_LABEL(5,24, "Light")
 MUI_LABEL(37,24, "Time")
@@ -461,15 +476,51 @@ MUI_STYLE(0)
 MUI_XYAT("GO", 20, 60, 1, " Exit ") 
 
 MUI_FORM(20)
-MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer
+MUI_STYLE(1)
+MUI_LABEL(5, 9, "Numeric (MUD)")
+MUI_STYLE(0)
+MUI_XY("HR", 0,12)
+MUI_LABEL(5,24, "Light:")
+MUI_LABEL(5,36, "Time:")
+MUI_LABEL(5,48, "Duty:")
+MUI_XY("nB", 50, 24)
+MUI_XY("nT", 50, 36)
+MUI_XY("nD", 50, 48)
+MUI_XYAT("GO", 20, 60, 1, " Exit ") 
 
-MUI_FORM(30)
-MUI_XYAT("GO",20, 36, 1, " Start ")     // jump to the second form to start the timer
+MUI_FORM(22)
+MUI_STYLE(1)
+MUI_LABEL(5, 9, "Bar Graph (MUD)")
+MUI_STYLE(0)
+MUI_XY("HR", 0,12)
+MUI_LABEL(5,24, "Light:")
+MUI_LABEL(5,36, "Time:")
+MUI_LABEL(5,48, "Duty:")
+MUI_XY("bB", 50, 24)
+MUI_XY("bT", 50, 36)
+MUI_XY("bD", 50, 48)
+MUI_XYAT("GO", 20, 60, 1, " Exit ") 
+
+MUI_FORM(24)
+MUI_STYLE(1)
+MUI_LABEL(5, 9, "Pie Graph (MUD)")
+MUI_STYLE(0)
+MUI_XY("HR", 0,12)
+MUI_LABEL(5,24, "Light")
+MUI_LABEL(37,24, "Time")
+MUI_LABEL(69,24, "Duty")
+MUI_STYLE(9)
+MUI_XYAT("pB", 6, 48, 21, "\x30|\x35|\x36|\x38|\x32")
+MUI_XYAT("pT", 38, 48, 21, "\x30|\x35|\x36|\x38|\x32")
+MUI_XYAT("pD", 70, 48, 21, "\x30|\x35|\x36|\x38|\x32")
+MUI_STYLE(0)
+MUI_XYAT("GO", 20, 60, 1, " Exit ") 
 
 ;
 
 
 void setup(void) {
+  pinMode(LED_BUILTIN, OUTPUT);
 
   // U8g2 SH1106 Proto-Shield
   //u8g2.begin(/* menu_select_pin= */ 2, /* menu_next_pin= */ 4, /* menu_prev_pin= */ 7, /* menu_up_pin= */ 6, /* menu_down_pin= */ 5, /* menu_home_pin= */ 3);
@@ -494,15 +545,21 @@ void setup(void) {
 
 
 uint8_t is_redraw = 1;
-long milliseconds = 0;
 
 void loop(void) {
+
+  blink_update();
 
   /* check whether the menu is active */
   if ( mui.isFormActive() ) {
 
     /* if so, then draw the menu */
     if ( is_redraw ) {
+    
+      /* if LED shares com lines with display, but port into a fixed state */
+      digitalWrite(LED_BUILTIN, LOW);   
+      
+      /* update the display */
       u8g2.firstPage();
       do {
           mui.draw();
@@ -526,11 +583,6 @@ void loop(void) {
         break;
     }
     
-    /* update the stop watch timer */
-    if ( is_stop_watch_running != 0 ) {
-      //stop_watch_timer = millis() - stop_watch_millis;
-      //is_redraw = 1;
-    }
       
   } else {
       /* the menu should never become inactive, but if so, then restart the menu system */

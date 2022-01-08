@@ -178,6 +178,11 @@ uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* REF, 
 uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
 
 
+/*===== MUIF U8g2 Label  =====*/
+
+#define MUIF_U8G2_LABEL()  MUIF_LABEL(mui_u8g2_draw_text)
+
+
 /*===== data = u8g2 font data  =====*/
 
 //#define MUIF_U8G2_FONT_STYLE(n,font)  MUIF("S" #n, 0, (void *)(font), mui_u8g2_set_font_style_function) 
