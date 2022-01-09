@@ -402,59 +402,6 @@ const char *menu_get_str(void *data, uint16_t index)
 }
 
 
-uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
-{
-  
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, u8g2_font_helvR08_tr);
-    
-      break;
-  }
-  return 0;
-}
-
-uint8_t mui_style_helv_b_08(mui_t *ui, uint8_t msg)
-{
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, u8g2_font_helvB08_tr);
-      break;
-  }
-  return 0;
-}
-
-uint8_t mui_style_monospaced(mui_t *ui, uint8_t msg)
-{
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, u8g2_font_profont12_tr);
-      //u8g2_SetFont(u8g2, u8g2_font_6x10_tr);
-      break;
-  }
-  return 0;
-}
-
-
-uint8_t mui_style_streamline_food_drink(mui_t *ui, uint8_t msg)
-{
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, u8g2_font_streamline_food_drink_t);
-      //u8g2_SetFont(u8g2, u8g2_font_6x10_tr);
-      break;
-  }
-  return 0;
-}
-
 
 uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 {
@@ -489,16 +436,16 @@ uint8_t mui_hrule(mui_t *ui, uint8_t msg)
 
 muif_t muif_list[] = {
   /* normal text style */
-  MUIF_STYLE(0, mui_style_helv_r_08),
+  MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
   
   /* bold text style */
-  MUIF_STYLE(1, mui_style_helv_b_08),
+  MUIF_U8G2_FONT_STYLE(1, u8g2_font_helvB08_tr),
 
   /* monospaced font */
-  MUIF_STYLE(2, mui_style_monospaced),
+  MUIF_U8G2_FONT_STYLE(2, u8g2_font_profont12_tr),
   
   /* food and drink */
-  MUIF_STYLE(3, mui_style_streamline_food_drink),
+  MUIF_U8G2_FONT_STYLE(3, u8g2_font_streamline_food_drink_t),
   
   /* horizontal line (hrule) */
   MUIF_RO("HR", mui_hrule),

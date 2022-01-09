@@ -4,7 +4,7 @@
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2021, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -304,11 +304,7 @@ U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* res
 // End of constructor list
 
 
-#define U8G2_FONT u8g2_font_helvR08_tr
-
 MUIU8G2 mui;
-
-
 
 /*
   global variables which form the communication gateway between the user interface and the rest of the code
@@ -316,41 +312,14 @@ MUIU8G2 mui;
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t exit_code = 0;                  // return value from the menu system
 
-uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
-{  
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, U8G2_FONT);
-      break;
-  }
-  return 0;
-}
-
-
 /* 
-
-  User interface fields list. Each entry is defined with the MUIF macro MUIF(id,cflags,data,cb)
-  Arguments are:
-    id: 
-      A string with exactly two characters. This is the unique "id" of the field, which is later used in the form definition string (fds)
-      There are some special id's: ".L" for text labels and ".G" for a goto form command. 
-    cflags: 
-      Flags, which define static (constant) properties of the field. Currently this is either 0 or MUIF_CFLAG_IS_CURSOR_SELECTABLE which marks the field as editable.
-    data: 
-      A pointer to a local variable, where the result of an editiable field is stored. Currently this is a pointer to uint8_t in most cases.
-      It depends in the callback function (cb) whether this is used or what kind of data is stored
-    cb:
-      A callback function.
-      The callback function will receive messages and have to react accordingly to the message. Some predefined callback functions are avilable in mui_u8g2.c    
-  
+  MUIF table: Each entry defines a field, which can be used in FDS to describe a form.
 */
 
 
 muif_t muif_list[] = {
   /* normal text style */
-  MUIF_STYLE(0, mui_style_helv_r_08),
+  MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
   
   /* Leave the menu system */
   MUIF_VARIABLE("LV",&exit_code,mui_u8g2_btn_exit_wm_fi),
@@ -457,7 +426,7 @@ void loop(void) {
       mui.gotoForm(/* form_id= */ 1, /* initial_cursor_position= */ 0);
     } else {
       /* execute countdown */
-      u8g2.setFont(U8G2_FONT);
+      u8g2.setFont(u8g2_font_helvR08_tr);
       u8g2.firstPage();
       do {
           u8g2.setCursor(0,20);

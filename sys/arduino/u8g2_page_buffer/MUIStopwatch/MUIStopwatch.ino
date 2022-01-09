@@ -304,11 +304,7 @@ U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* res
 // End of constructor list
 
 
-#define U8G2_FONT u8g2_font_helvR08_tr
-
 MUIU8G2 mui;
-
-
 
 
 /*
@@ -347,25 +343,11 @@ uint8_t mui_stop_current_timer(mui_t *ui, uint8_t msg) {
   return 0;
 }
 
-/* style function ti define a font */
-uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
-{  
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, U8G2_FONT);
-      break;
-  }
-  return 0;
-}
-
-
 
 
 muif_t muif_list[] = {
   /* normal text style */
-  MUIF_STYLE(0, mui_style_helv_r_08),
+  MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
 
   /* custom MUIF callback to draw the timer value */
   MUIF_RO("CT", mui_draw_current_timer),
