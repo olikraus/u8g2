@@ -267,7 +267,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   /* horizontal line (hrule) */
   MUIF_RO("HR", mui_hrule),
 
-  MUIF_LABEL(mui_u8g2_draw_text),
+  /* read only fixed text */
+  MUIF_U8G2_LABEL(),
 
   MUIF_RO("GP",mui_u8g2_goto_data),
   MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
@@ -348,7 +349,8 @@ MUI_DATA("GP",
     MUI_80 "uint16 ParentChild Select|"
     MUI_90 "uint8 Bar Graph|"
     MUI_18 "Parent/Child List|"
-    MUI_20 "Array Edit")
+    MUI_20 "Array Edit|"
+    MUI_16 "Goto Test")
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
 MUI_XYA("GC", 5, 49, 2) 
@@ -416,6 +418,9 @@ MUI_XYAT("G3", 96, 42, 10, "Btn 2")
 MUI_GOTO(64, 59, 10, " Ok ")
 
 
+MUI_FORM(16)
+MUI_STYLE(0)
+MUI_GOTO(64, 59, 1, " Back ")
 
 
 

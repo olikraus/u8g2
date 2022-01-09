@@ -409,7 +409,8 @@ uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      return mui_GotoForm(ui, ui->arg, 0);
+      //return mui_GotoForm(ui, ui->arg, 0);
+      return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -435,8 +436,9 @@ uint8_t mui_u8g2_btn_goto_wm_if(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      return mui_GotoForm(ui, ui->arg, 0);
-    case MUIF_MSG_CURSOR_LEAVE:
+      //return mui_GotoForm(ui, ui->arg, 0);
+      return mui_GotoFormAutoCursorPosition(ui, ui->arg);
+   case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
       break;
@@ -462,7 +464,8 @@ uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      return mui_GotoForm(ui, ui->arg, 0);
+      //return mui_GotoForm(ui, ui->arg, 0);
+      return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -488,7 +491,8 @@ uint8_t mui_u8g2_btn_goto_w2_if(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      return mui_GotoForm(ui, ui->arg, 0);
+      //return mui_GotoForm(ui, ui->arg, 0);
+      return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -574,7 +578,8 @@ uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      return mui_GotoForm(ui, ui->arg, 0);
+      //return mui_GotoForm(ui, ui->arg, 0);
+      return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -602,7 +607,8 @@ uint8_t mui_u8g2_btn_goto_w1_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      return mui_GotoForm(ui, ui->arg, 0);
+      //return mui_GotoForm(ui, ui->arg, 0);
+      return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -1703,6 +1709,8 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 
   mui_u8g2_goto_parent --> mui_u8g2_goto_data
 
+  Used together with mui_u8g2_goto_form_w1_mse_pi
+
 */
 uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg)
 {
@@ -1747,7 +1755,10 @@ uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_CURSOR_SELECT:
       if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
-        return mui_GotoForm(ui, (uint8_t)ui->text[0], 0);
+      {
+        mui_SaveCursorPosition(ui, ui->arg + ui->form_scroll_top);     // store the current cursor position, so that the user can jump back to the corresponding cursor position
+        return mui_GotoFormAutoCursorPosition(ui, (uint8_t)ui->text[0]);
+      }
       break;
     default:
       return mui_u8g2_u8_opt_child_mse_common(ui, msg);
@@ -1767,7 +1778,10 @@ uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_CURSOR_SELECT:
       if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
-        return mui_GotoForm(ui, (uint8_t)ui->text[0], 0);
+      {
+        mui_SaveCursorPosition(ui, ui->arg + ui->form_scroll_top);     // store the current cursor position, so that the user can jump back to the corresponding cursor position
+        return mui_GotoFormAutoCursorPosition(ui, (uint8_t)ui->text[0]);
+     }
       break;
     default:
       return mui_u8g2_u8_opt_child_mse_common(ui, msg);
@@ -2014,7 +2028,8 @@ uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
       if ( selection != NULL )
         *selection = pos;
-      mui_GotoForm(ui, (uint8_t)element_cb(data, pos)[0], 0); 
+      mui_SaveCursorPosition(ui, pos >= 255 ? 0 : pos);     // store the current cursor position, so that the user can jump back to the corresponding cursor position
+      mui_GotoFormAutoCursorPosition(ui, (uint8_t)element_cb(data, pos)[0]); 
       break;
     default:
       return mui_u8g2_u16_list_child_mse_common(ui, msg);

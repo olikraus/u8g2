@@ -621,11 +621,17 @@ static uint8_t mui_send_cursor_msg(mui_t *ui, uint8_t msg)
   If the first selectable field has the focus, then 0 will be returned
   Unselectable fields (for example labels) are skipped by this count.
   If no fields are selectable, then 0 is returned
+
+  The return value can be used as last argument for mui_EnterForm or mui_GotoForm
+
+  WARNING: This function will destroy current fds and field information.
 */
 uint8_t mui_GetCurrentCursorFocusPosition(mui_t *ui)
 {
-  ui->tmp8 = 0;
+  //fds_t *fds = ui->fds;
+  ui->tmp8 = 0;  
   mui_loop_over_form(ui, mui_task_get_current_cursor_focus_position);
+  //ui->fds = fds;
   return ui->tmp8;
 }
 
@@ -783,7 +789,7 @@ void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position)
   ui->current_form_fds = fds;
   
   /* inform all fields that we start a new form */
-  MUI_DEBUG("mui_EnterForm: form_start\n");
+  MUI_DEBUG("mui_EnterForm: form_start, initial_cursor_position=%d\n", initial_cursor_position);
   mui_loop_over_form(ui, mui_task_form_start);
   
   /* assign initional cursor focus */
@@ -852,6 +858,40 @@ void mui_SaveForm(mui_t *ui)
 void mui_RestoreForm(mui_t *ui)
 {
   mui_GotoForm(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
+}
+
+/*
+  Save a cursor position for mui_GotoFormAutoCursorPosition command
+  Only one such position is stored.
+*/
+void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position)
+{
+  uint8_t form_id = mui_get_fds_char(ui->current_form_fds+1);
+  MUI_DEBUG("mui_SaveCursorPosition form_id=%d cursor_position=%d\n", form_id, cursor_position);
+  
+  if ( form_id == ui->menu_form_id[0] )
+    ui->menu_form_last_added = 0;
+  else if ( form_id == ui->menu_form_id[1] )
+    ui->menu_form_last_added = 1;
+  else 
+    ui->menu_form_last_added ^= 1;
+  ui->menu_form_id[ui->menu_form_last_added] = form_id;
+  ui->menu_form_cursor_focus_position[ui->menu_form_last_added] = cursor_position;
+  MUI_DEBUG("mui_SaveCursorPosition ui->menu_form_last_added=%d \n", ui->menu_form_last_added);
+}
+
+/*
+  Similar to mui_GotoForm, but will jump to previously stored cursor location (mui_SaveCursorPosition) or 0 if the cursor position was not saved.
+*/
+uint8_t mui_GotoFormAutoCursorPosition(mui_t *ui, uint8_t form_id)
+{
+  uint8_t cursor_position = 0;
+  if ( form_id == ui->menu_form_id[0] )
+    cursor_position = ui->menu_form_cursor_focus_position[0];
+  if ( form_id == ui->menu_form_id[1] )
+    cursor_position = ui->menu_form_cursor_focus_position[1];
+  MUI_DEBUG("mui_GotoFormAutoCursorPosition form_id=%d cursor_position=%d\n", form_id, cursor_position);
+  return mui_GotoForm(ui, form_id, cursor_position);
 }
 
 /*

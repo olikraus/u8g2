@@ -210,6 +210,8 @@ struct muif_struct
 /* must be smaller than or equal to 255 */
 #define MUI_MAX_TEXT_LEN 41
 
+#define MUI_MENU_CACHE_CNT 2
+
 struct mui_struct
 {
   void *graphics_data;
@@ -258,6 +260,11 @@ struct mui_struct
   uint8_t last_form_id;
   uint8_t last_form_cursor_focus_position;
   fds_t *last_form_fds;           // not used by mui_RestoreForm, but can be used by field functions
+  
+  /* menu cursor position backup */
+  uint8_t menu_form_id[MUI_MENU_CACHE_CNT];
+  uint8_t menu_form_cursor_focus_position[MUI_MENU_CACHE_CNT];
+  uint8_t menu_form_last_added;
 } ;
 
 #define mui_IsCursorFocus(mui) ((mui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
@@ -563,9 +570,12 @@ uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds);
 void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position);
 void mui_LeaveForm(mui_t *ui);
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
-void mui_SaveForm(mui_t *ui);
-void mui_RestoreForm(mui_t *ui);
-int mui_GetCurrentFormId(mui_t *ui);
+void mui_SaveForm(mui_t *ui);     /* Save current form+cursor position. Used together with mui_RestoreForm */
+void mui_RestoreForm(mui_t *ui);        /* Restore form and cursor position, previously saved with mui_SaveForm */
+void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position);         /* stores a cursor position for use with mui_GotoFormAutoCursorPosition */
+uint8_t mui_GotoFormAutoCursorPosition(mui_t *ui, uint8_t form_id);
+
+int mui_GetCurrentFormId(mui_t *ui);    /* form id or -1 if the menu system is inactive */
 void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);
