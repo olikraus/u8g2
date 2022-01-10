@@ -39,14 +39,12 @@
 
 #include "U8g2lib.h"
 
+#ifdef ARDUINO
 static Print *u8g2_print_for_screenshot;
-
 
 void u8g2_print_callback(const char *s)
 { 
-#ifdef ARDUINO
   yield(); 
-#endif
   u8g2_print_for_screenshot->print(s); 
 }
 
@@ -73,6 +71,6 @@ void U8G2::writeBufferXBM2(Print &p)
   u8g2_print_for_screenshot = &p;
   u8g2_WriteBufferXBM2(getU8g2(), u8g2_print_callback);
 }
-
+#endif
 
 

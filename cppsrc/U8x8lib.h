@@ -39,8 +39,10 @@
 #ifndef U8X8LIB_HH
 #define U8X8LIB_HH
 
+#ifdef ARDUINO
 #include <Arduino.h>
 #include <Print.h>
+#endif
 
 #include "u8x8.h"
 
@@ -166,7 +168,10 @@ void u8x8_SetPin_SED1520(u8x8_t *u8x8, uint8_t d0, uint8_t d1, uint8_t d2, uint8
 //void u8x8_Setup_8Bit_6800(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset);
 //void u8x8_Setup_8Bit_8080(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t wr, uint8_t cs, uint8_t dc, uint8_t reset);
 
-class U8X8 : public Print
+class U8X8
+#ifdef ARDUINO
+: public Print
+#endif
 {
   protected:
     u8x8_t u8x8;
@@ -336,7 +341,10 @@ class U8X8 : public Print
     
 };
 
-class U8X8LOG : public Print
+class U8X8LOG
+#ifdef ARDUINO
+: public Print
+#endif
 {
   
   public:
