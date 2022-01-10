@@ -45,13 +45,19 @@
 #ifndef U8G2LIB_HH
 #define U8G2LIB_HH
 
+#ifdef ARDUINO
 #include <Arduino.h>
 #include <Print.h>
+#endif
+
 #include "U8x8lib.h"
 
 #include "u8g2.h"
 
-class U8G2 : public Print
+class U8G2
+#ifdef ARDUINO
+: public Print
+#endif
 {
   protected:
     u8g2_t u8g2;
@@ -294,6 +300,7 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     // not required any more, enable UTF8 for print 
     //void printUTF8(const char *s) { tx += u8g2_DrawUTF8(&u8g2, tx, ty, s); }
 	
+#ifdef ARDUINO
     /* screenshot functions for full buffer mode */
     /* vertical top lsb memory architecture */
     void writeBufferPBM(Print &p);
@@ -302,6 +309,7 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
     void writeBufferPBM2(Print &p);
     void writeBufferXBM2(Print &p);
+#endif
 
     /* virtual function for print base class */    
     size_t write(uint8_t v) {
@@ -390,7 +398,10 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
 void u8g2_print_callback(const char *s);  /* U8g2lib.cpp */
 
 
-class U8G2LOG : public Print
+class U8G2LOG
+#ifdef ARDUINO
+: public Print
+#endif
 {
   
   public:
