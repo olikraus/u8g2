@@ -2,12 +2,12 @@
 
   MUIBlink.ino
   
-  This demo will try to blink the builtin LED with a certain brightness and duty.
+  This demo will  blink the builtin LED with a certain brightness and duty.
   
   This may not always work as expected:
     - The builtin LED may not be supported by analogWrite, so the brightness 
         will not work
-    - If the builtin LED shares a communication line with the display then you 
+    - If the builtin LED shares a communication line with the u8g2 display, then you 
         MUST use U8g2 SW_I2C or SW_SPI 
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)

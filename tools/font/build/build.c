@@ -243,6 +243,8 @@ struct fontinfo fi[] ={
   { 0,  0, "u8g2_squeezed_regular_7.bdf", 		"squeezed_r7", 		0, 0, BM_T, FM_C, MM_R|MM_N, "", ""},
   { 0,  0, "u8g2_squeezed_bold_7.bdf", 		"squeezed_b7", 		0, 0, BM_T, FM_C, MM_R|MM_N, "", ""},
   
+  { 0,  0, "u8g2_percent_circle_25.bdf", 		"percent_circle_25", 		0, 0, BM_H, FM_C, MM_N, "", ""},
+  
   { 0,  0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
   { 0,  0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
 
@@ -305,6 +307,8 @@ struct fontinfo fi[] ={
   
   
   { 0,  0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "32-128,$e000-$ffff", "_6x10" },
+  { 0,  0, "waffle-10.bdf", 	"waffle", 			20, 0, BM_T, FM_C, MM_C, "$0020-$ffff", "_all" },
+  
   { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   

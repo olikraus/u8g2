@@ -125,6 +125,7 @@ u8g2_font_squeezed_r7_tr	LITERAL1
 u8g2_font_squeezed_r7_tn	LITERAL1
 u8g2_font_squeezed_b7_tr	LITERAL1
 u8g2_font_squeezed_b7_tn	LITERAL1
+u8g2_font_percent_circle_25_hn	LITERAL1
 u8g2_font_freedoomr10_tu	LITERAL1
 u8g2_font_freedoomr10_mu	LITERAL1
 u8g2_font_freedoomr25_tn	LITERAL1
@@ -323,6 +324,7 @@ u8x8_font_7x14B_1x2_f	LITERAL1
 u8x8_font_7x14B_1x2_r	LITERAL1
 u8x8_font_7x14B_1x2_n	LITERAL1
 u8g2_font_siji_t_6x10	LITERAL1
+u8g2_font_waffle_t_all	LITERAL1
 u8g2_font_tom_thumb_4x6_t_all	LITERAL1
 u8g2_font_tom_thumb_4x6_tf	LITERAL1
 u8g2_font_tom_thumb_4x6_tr	LITERAL1

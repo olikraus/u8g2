@@ -435,7 +435,8 @@ issue833: bdfconv
 	./bdfconv -v -f 1 -m '19968-40959' unifont-13.0.06.bdf -o out.c -n out  -d unifont-13.0.06.bdf 
 	convert bdf.tga out.png
 
-percent_circle: bdfconv
-	./bdfconv -v -f 1 -m '48-59' ../progress/u8g2_percent_circle.bdf -o u8g2_percent_circle.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+
+waffle: bdfconv
+	./bdfconv -v -f 1 -m '32-65535' ../bdf/waffle-10.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 	convert bdf.tga out.png
 

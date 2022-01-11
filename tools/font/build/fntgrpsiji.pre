@@ -1,15 +1,25 @@
 
 
-# Reference
+# Siji icon font
 
 Siji icon font is available at [https://github.com/stark/siji](https://github.com/stark/siji).
 
 For u8g2, the icon font is combinded with the X11 [6x10 font](fntgrpx11).
 
-# Copyright
-
 
 Siji icon font is available under the "GNU General Public License v2.0": [https://github.com/stark/siji/blob/master/LICENSE](https://github.com/stark/siji/blob/master/LICENSE)
+
+
+# Waffle icon font
+
+Waffle icon font is available from https://github.com/addy-dclxvi/bitmap-font-collections
+
+Waffle icon font is available under the "GNU General Public License v3.0": https://github.com/addy-dclxvi/bitmap-font-collections/blob/master/LICENSE
+
+From the author of Waffle icon font:
+
+When I opened Siji font, I saw that a lot glyphes had different vertical & horizontal alignment. That explains why some of the glyphes weren’t aligned well with text in the statusbar. So, I adjusted them to make it paired well with text font with 7px Uppercase height & 2px descent, one by one. Horizontally centered too. And glyphes which have odd-number of pixels, mathematically couldn’t be centered inside 12px width bounding box. So, I dragged them all to the left. I also added 155 self-drawn glyphes.
+
 
 
 # Font Details
