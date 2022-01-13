@@ -60,7 +60,7 @@ static void u8g2_send_tile_row(u8g2_t *u8g2, uint8_t src_tile_row, uint8_t dest_
   offset *= w;
   offset *= 8;
   ptr += offset;
-  u8x8_DrawTile(u8g2_GetU8x8(u8g2), 0, dest_tile_row, w, ptr);
+  u8x8_DrawTile(u8g2_GetU8x8(u8g2), 0/*tx*/, dest_tile_row/*ty*/, w/*tile_cnt*/, 1/*copies*/, w/*tile_buffer_width*/, ptr);
 }
 
 /* 
@@ -153,25 +153,32 @@ uint8_t u8g2_NextPage(u8g2_t *u8g2)
 void u8g2_UpdateDisplayArea(u8g2_t *u8g2, uint8_t  tx, uint8_t ty, uint8_t tw, uint8_t th)
 {
   uint16_t page_size;
+  uint8_t tile_buffer_width;
   uint8_t *ptr;
-  
+
   /* check, whether we are in full buffer mode */
   if ( u8g2->tile_buf_height != u8g2_GetU8x8(u8g2)->display_info->tile_height )
     return; /* not in full buffer mode, do nothing */
 
-  page_size = u8g2->pixel_buf_width;  /* 8*u8g2->u8g2_GetU8x8(u8g2)->display_info->tile_width */
-    
+  tile_buffer_width = u8g2_GetU8x8(u8g2)->display_info->tile_width;
+  page_size = u8g2->pixel_buf_width;  /* 8*u8g2_GetU8x8(u8g2)->display_info->tile_width */
+
   ptr = u8g2_GetBufferPtr(u8g2);
-  ptr += tx*8;
+
+  if(u8g2->ll_hvline == u8g2_ll_hvline_vertical_top_lsb){
+    ptr += tx*8; /* 8 bytes across per tile, stacked vertically */
+  }else{
+    ptr += tx; /* 1 byte across per tile, stacked horizontally */
+  }
   ptr += page_size*ty;
-  
+
   while( th > 0 )
   {
-    u8x8_DrawTile( u8g2_GetU8x8(u8g2), tx, ty, tw, ptr );
+    u8x8_DrawTile( u8g2_GetU8x8(u8g2), tx, ty, tw/*tile_cnt*/, 1/*copies*/, tile_buffer_width, ptr );
     ptr += page_size;
     ty++;
     th--;
-  }  
+  }
 }
 
 /* same as sendBuffer, but does not send the ePaper refresh message */

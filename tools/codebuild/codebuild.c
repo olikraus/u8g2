@@ -2141,6 +2141,7 @@ void do_setup_prototype(FILE *fp, int controller_idx, int display_idx, const cha
 class U8X8_SSD1306_128X64_4W_SW_SPI : public U8X8 {
   public: U8X8_SSD1306_128X64_4W_SW_SPI(uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1306_128x64_noname, u8x8_cad_001, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_arduino);
+    u8x8_SetupTile(getU8x8(), u8x8_draw_hvtile_vertical_top_lsb);
     u8x8_SetPin_4Wire_SW_SPI(getU8x8(), clock, data, cs, dc, reset);
   }
 }
@@ -2168,6 +2169,14 @@ void do_u8x8_header(int controller_idx, int display_idx, int interface_idx)
   fprintf(fp, "%s, ", strlowercase(controller_list[controller_idx].cad));
   fprintf(fp, "%s, ", interface_list[interface_idx].arduino_com_procedure);  
   fprintf(fp, "%s);\n", interface_list[interface_idx].arduino_gpio_procedure);  
+  fprintf(fp, "    ");
+  fprintf(fp, "u8x8_SetupTile(getU8x8(), ");
+	if (strcmp(controller_list[controller_idx].ll_hvline, "u8g2_ll_hvline_vertical_top_lsb" ) == 0 ) {
+    fprintf(fp, "u8x8_draw_hvtile_vertical_top_lsb");
+  }else{
+    fprintf(fp, "u8x8_draw_hvtile_horizontal_right_lsb");
+  }
+  fprintf(fp, ");\n");
   fprintf(fp, "    ");
   fprintf(fp, "%s(getU8x8(), ", interface_list[interface_idx].setpin_function);  
   fprintf(fp, "%s);\n", interface_list[interface_idx].pins_plain);

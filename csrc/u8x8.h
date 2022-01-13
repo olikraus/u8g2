@@ -215,8 +215,7 @@ typedef struct u8x8_tile_struct u8x8_tile_t;
 typedef uint8_t (*u8x8_msg_cb)(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 typedef uint16_t (*u8x8_char_cb)(u8x8_t *u8x8, uint8_t b);
 
-
-
+typedef uint8_t (*u8x8_draw_hvtile_cb)(u8x8_t *u8x8, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t copies, uint8_t tile_buffer_width, uint8_t *tile_ptr);
 
 //struct u8x8_mcd_struct
 //{
@@ -231,6 +230,7 @@ struct u8x8_tile_struct
   uint8_t cnt;		/* number of tiles */
   uint8_t x_pos;	/* tile x position */
   uint8_t y_pos;	/* tile y position */
+  uint8_t buffer_width; /* tile width of buffer */
 };
 
 
@@ -344,6 +344,7 @@ struct u8x8_struct
   const u8x8_display_info_t *display_info;
   u8x8_char_cb next_cb; /*  procedure, which will be used to get the next char from the string */
   u8x8_msg_cb display_cb;
+  u8x8_draw_hvtile_cb draw_hvtile_cb;	/* draw hvtile procedure */
   u8x8_msg_cb cad_cb;
   u8x8_msg_cb byte_cb;
   u8x8_msg_cb gpio_and_delay_cb;
@@ -490,12 +491,13 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
 /*
   Name: 	U8X8_MSG_DISPLAY_DRAW_TILE
   Args:	
-    arg_int: How often to repeat this tile pattern
+    arg_int: How many copies of this tile pattern
     arg_ptr: pointer to u8x8_tile_t
         uint8_t *tile_ptr;	pointer to one or more tiles (number is "cnt")
 	uint8_t cnt;		number of tiles
 	uint8_t x_pos;		first tile x position
 	uint8_t y_pos;		first tile y position 
+      uint8_t buffer_width   tile width of buffer
   Tasks:
     One tile has exactly 8 bytes (8x8 pixel monochrome bitmap). 
     The lowest bit of the first byte is the upper left corner
@@ -547,10 +549,16 @@ uint8_t u8x8_dummy_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 void u8x8_SetupDefaults(u8x8_t *u8x8); /* do not use this, use u8x8_Setup() instead */
 
 void u8x8_Setup(u8x8_t *u8x8, u8x8_msg_cb display_cb, u8x8_msg_cb cad_cb, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio_and_delay_cb);
+/*
+  draw_hvtile_cb:		one of:
+    u8x8_draw_hvtile_vertical_top_lsb
+    u8x8_draw_hvtile_horizontal_right_lsb
+*/
+void u8x8_SetupTile(u8x8_t *u8x8, u8x8_draw_hvtile_cb draw_hvtile_cb);
 
 /*==========================================*/
 /* u8x8_display.c */
-uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t cnt, uint8_t *tile_ptr);
+uint8_t u8x8_DrawTile(u8x8_t *u8x8, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t copies, uint8_t tile_buffer_width, uint8_t *tile_ptr);
 
 /* 
   After a call to u8x8_SetupDefaults, 
@@ -585,7 +593,22 @@ void u8x8_FillDisplay(u8x8_t *u8x8);
 void u8x8_RefreshDisplay(u8x8_t *u8x8);	// make RAM content visible on the display (Dec 16: SSD1606 only)
 void u8x8_ClearLine(u8x8_t *u8x8, uint8_t line);
 
+/*==========================================*/
+/* u8x8_draw_hvtile.c */
+/*
+  Called by u8x8 to adjust tile buffer pixel byte orentiation for display.
+  Vertical or Horizontal stacked
+  x,y           tile position
+  tile_cnt           number of tiles to draw
+  copies             number of copies of tile pattern to draw
+  tile_buffer_width  tile width of buffer being used for drawing
+  tile_ptr      tile buffer
+*/
 
+/* SSD13xx, UC17xx, UC16xx */
+uint8_t u8x8_draw_hvtile_vertical_top_lsb(u8x8_t *u8x8, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t copies, uint8_t tile_buffer_width, uint8_t *tile_ptr);
+/* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */
+uint8_t u8x8_draw_hvtile_horizontal_right_lsb(u8x8_t *u8x8, uint8_t tx, uint8_t ty, uint8_t tile_cnt, uint8_t copies, uint8_t tile_buffer_width, uint8_t *tile_ptr);
 
 /*==========================================*/
 /* Command Arg Data (CAD) Interface */
