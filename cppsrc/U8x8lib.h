@@ -54,6 +54,11 @@
 */
 //#define U8X8_USE_ARDUINO_AVR_SW_I2C_OPTIMIZATION
 
+/*
+  Uncomment this to enable Teensy 3 I2C-Library i2c_t3
+  This can/should be used for Teensy >= 3 and Teensy LC.
+*/
+// #define U8X8_HAVE_HW_I2C_TEENSY3
 
 /* Assumption: All Arduino Boards have "SPI.h" */
 #ifndef U8X8_NO_HW_SPI
