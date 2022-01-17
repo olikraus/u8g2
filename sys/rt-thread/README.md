@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/RT-Thread/rt-thread/master/documentation/figures/logo.png" width=40% style="float: left;" >
 
-<a href="github.com/rt-thread/rt-thread">**RT-Thread**</a> is an open source, neutral, and community-based real-time operating system (RTOS). RT-Thread has **Standard version** and **Nano version**. For resource-constrained microcontroller (MCU) systems, the NANO kernel version that requires only 3 KB Flash and 1.2 KB RAM memory resources can be tailored with easy-to-use tools; And for resource-rich IoT devices, RT-Thread can use the **online software package** management tool, together with system configuration tools, to achieve intuitive and rapid modular cutting, seamlessly import rich software packages, thus achieving complex functions like Android's graphical interface and touch sliding effects, smart voice interaction effects, and so on.
+[**RT-Thread**](https://www.rt-thread.io/) is an [open source](https://github.com/RT-Thread/rt-thread), neutral, and community-based real-time operating system (RTOS). RT-Thread has **Standard version** and **Nano version**. For resource-constrained microcontroller (MCU) systems, the Nano version that requires only 3 KB Flash and 1.2 KB RAM memory resources can be tailored with easy-to-use tools. For resource-rich IoT devices, RT-Thread can use the **online software package** management tool, together with system configuration tools, to achieve intuitive and rapid modular cutting, seamlessly import rich software packages; thus, achieving complex functions like Android's graphical interface and touch sliding effects, smart voice interaction effects, and so on.
 
 Key features:
 
@@ -28,5 +28,4 @@ If you prefer to use a terminal, here's a turotial for **RT-Thread ENV tools** o
 [U8g2 on RT-Thread - asciinema](https://asciinema.org/a/433949)
 
 [![asciicast](https://asciinema.org/a/433949.svg)](https://asciinema.org/a/433949)
-
 
