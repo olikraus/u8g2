@@ -412,11 +412,11 @@ static const u8x8_display_info_t u8x8_st7567_122x32_display_info =
   /* data_setup_time_ns = */ 40,	/* */
   /* write_pulse_width_ns = */ 80,	/* */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_hight = */ 4,
   /* default_x_offset = */ 4,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 64
+  /* pixel_width = */ 122,
+  /* pixel_height = */ 32
 };
 
 static const uint8_t u8x8_st7567_122x32_init_seq[] = {
