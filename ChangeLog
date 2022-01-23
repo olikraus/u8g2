@@ -276,5 +276,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2022-xx-xx      v2.32.x  olikraus@gmail.com
   * SH1107 128x80 (issue 1598)
   * ST7920 256x32 (issue 1593)
+  * ST7567 122x32 (issue 1759)
   * Added support for UC1609 (issue 1565)
   * Added support for GU800 series of Vacuum Fluorescent Displays (VFD, issue 1604)
+  
