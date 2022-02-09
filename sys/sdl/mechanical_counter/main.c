@@ -1,6 +1,7 @@
 
 #include "u8g2.h"
 #include <stdio.h>
+#include <string.h>
 
 u8g2_t u8g2;
 
@@ -53,17 +54,31 @@ void u8g2_draw_mech_counter(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, int16_t 
     {
       shift = (get_pos(step)*h)/128; 
     }
-    
-    u8g2_DrawStr(u8g2, x, y+shift, prev);
-    u8g2_DrawStr(u8g2, x, y-h+shift, next);
+
+    y += shift;
+    if ( prev[0] == '1' )
+      u8g2_DrawStr(u8g2, x+4, y, prev);
+    else
+      u8g2_DrawStr(u8g2, x, y, prev);
+    y -= h;
+    if ( next[0] == '1' )
+      u8g2_DrawStr(u8g2, x+4, y, next);
+    else
+      u8g2_DrawStr(u8g2, x, y, next);
 }
 
 void u8g2_draw_counter(u8g2_t *u8g2, uint16_t rnd, u8g2_uint_t x, u8g2_uint_t dx, u8g2_uint_t y, uint8_t step, const char *prev, const char *next)
 {
-  uint8_t i;
+   u8g2_uint_t h = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2);
+   uint8_t i;
+  
   
   char p[2] = "0";
   char n[2] = "0";
+  
+  u8g2_SetClipWindow(u8g2, x, y-h, x+4*dx, y);
+
+  u8g2_SetClipWindow(u8g2, x, 0, x+4*dx, y+3);
   
   for( i = 0; i < 4; i++ )
   {
@@ -73,6 +88,8 @@ void u8g2_draw_counter(u8g2_t *u8g2, uint16_t rnd, u8g2_uint_t x, u8g2_uint_t dx
     rnd >>= 2;
     x += dx;
   }
+  
+  u8g2_SetMaxClipWindow(u8g2);
 }
 
 int main(void)
@@ -82,6 +99,8 @@ int main(void)
   int i;
   int step = 0;
   uint16_t rnd;
+  char prev[5];
+  char next[5];
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -92,7 +111,12 @@ int main(void)
   x = 2;
   y = 28;
 
+  strcpy(prev, u8x8_u16toa(lcg(), 4));
+  strcpy(next, u8x8_u16toa(lcg(), 4));
+  
   rnd = lcg();
+  
+  
   
   for(;;)
   {
@@ -122,7 +146,7 @@ int main(void)
       u8g2_SetFont(&u8g2, u8g2_font_mystery_quest_32_tr);
       //u8g2_DrawStr(&u8g2, x,y, "234");
       
-      u8g2_draw_counter(&u8g2, rnd, x, 15, y, step, "2345", "9176");
+      u8g2_draw_counter(&u8g2, rnd, x, 16, y, step, prev, next);
       
       u8g2_SetFont(&u8g2, u8g2_font_mystery_quest_24_tr);
       u8g2_DrawStr(&u8g2, x+74,y-2, "RPM");
@@ -145,6 +169,7 @@ int main(void)
     do
     {
       k = u8g_sdl_get_key();
+      
     } while( k < 0 );
     
     if ( k == 273 ) y -= 7;
@@ -162,6 +187,8 @@ int main(void)
     if ( step > 160 )   
     {
           rnd = lcg();
+          strcpy(prev, next);
+          strcpy(next, u8x8_u16toa(lcg(), 4));
           step = 0;
     }  
     
