@@ -440,3 +440,24 @@ waffle: bdfconv
 	./bdfconv -v -f 1 -m '32-65535' ../bdf/waffle-10.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 	convert bdf.tga out.png
 
+7seg_33x19: bdfconv
+	./bdfconv -v -f 1 -m '32-79' ./tmp/7_Seg_33x19.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga out.png
+
+mystery_quest: bdfconv
+	-../otf2bdf/otf2bdf -a -r 72 -p 24 -o mystery-quest.regular.bdf ../ttf/mystery-quest.regular.ttf
+	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_24_t.c  -n u8g2_font_mystery_quest_24_t -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_mystery_quest_24_t.png
+	-../otf2bdf/otf2bdf -a -r 72 -p 28 -o mystery-quest.regular.bdf ../ttf/mystery-quest.regular.ttf
+	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_28_t.c  -n u8g2_font_mystery_quest_28_t -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_mystery_quest_28_t.png
+	-../otf2bdf/otf2bdf -a -r 72 -p 32 -o mystery-quest.regular.bdf ../ttf/mystery-quest.regular.ttf
+	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_32_t.c  -n u8g2_font_mystery_quest_32_t -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_mystery_quest_32_t.png
+	-../otf2bdf/otf2bdf -a -r 72 -p 36 -o mystery-quest.regular.bdf ../ttf/mystery-quest.regular.ttf
+	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_36_t.c  -n u8g2_font_mystery_quest_36_t -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_mystery_quest_36_t.png
+	-../otf2bdf/otf2bdf -a -r 72 -p 42 -o mystery-quest.regular.bdf ../ttf/mystery-quest.regular.ttf
+	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_42_t.c  -n u8g2_font_mystery_quest_42_t -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_mystery_quest_42_t.png
+

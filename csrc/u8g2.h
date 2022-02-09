@@ -1645,6 +1645,8 @@ extern const uint8_t u8g2_font_freedoomr10_mu[] U8G2_FONT_SECTION("u8g2_font_fre
 extern const uint8_t u8g2_font_freedoomr25_tn[] U8G2_FONT_SECTION("u8g2_font_freedoomr25_tn");
 extern const uint8_t u8g2_font_freedoomr25_mn[] U8G2_FONT_SECTION("u8g2_font_freedoomr25_mn");
 extern const uint8_t u8g2_font_7Segments_26x42_mn[] U8G2_FONT_SECTION("u8g2_font_7Segments_26x42_mn");
+extern const uint8_t u8g2_font_7_Seg_33x19_mn[] U8G2_FONT_SECTION("u8g2_font_7_Seg_33x19_mn");
+extern const uint8_t u8g2_font_7_Seg_41x21_mn[] U8G2_FONT_SECTION("u8g2_font_7_Seg_41x21_mn");
 extern const uint8_t u8g2_font_amstrad_cpc_extended_8f[] U8G2_FONT_SECTION("u8g2_font_amstrad_cpc_extended_8f");
 extern const uint8_t u8g2_font_amstrad_cpc_extended_8r[] U8G2_FONT_SECTION("u8g2_font_amstrad_cpc_extended_8r");
 extern const uint8_t u8g2_font_amstrad_cpc_extended_8n[] U8G2_FONT_SECTION("u8g2_font_amstrad_cpc_extended_8n");
@@ -1826,6 +1828,18 @@ extern const uint8_t u8g2_font_tom_thumb_4x6_mf[] U8G2_FONT_SECTION("u8g2_font_t
 extern const uint8_t u8g2_font_tom_thumb_4x6_mr[] U8G2_FONT_SECTION("u8g2_font_tom_thumb_4x6_mr");
 extern const uint8_t u8g2_font_tom_thumb_4x6_mn[] U8G2_FONT_SECTION("u8g2_font_tom_thumb_4x6_mn");
 extern const uint8_t u8g2_font_tom_thumb_4x6_me[] U8G2_FONT_SECTION("u8g2_font_tom_thumb_4x6_me");
+extern const uint8_t u8g2_font_mystery_quest_24_tf[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_24_tf");
+extern const uint8_t u8g2_font_mystery_quest_24_tr[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_24_tr");
+extern const uint8_t u8g2_font_mystery_quest_24_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_24_tn");
+extern const uint8_t u8g2_font_mystery_quest_28_tf[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_28_tf");
+extern const uint8_t u8g2_font_mystery_quest_28_tr[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_28_tr");
+extern const uint8_t u8g2_font_mystery_quest_28_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_28_tn");
+extern const uint8_t u8g2_font_mystery_quest_32_tr[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_32_tr");
+extern const uint8_t u8g2_font_mystery_quest_32_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_32_tn");
+extern const uint8_t u8g2_font_mystery_quest_36_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_36_tn");
+extern const uint8_t u8g2_font_mystery_quest_42_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_42_tn");
+extern const uint8_t u8g2_font_mystery_quest_48_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_48_tn");
+extern const uint8_t u8g2_font_mystery_quest_56_tn[] U8G2_FONT_SECTION("u8g2_font_mystery_quest_56_tn");
 extern const uint8_t u8g2_font_t0_11_tf[] U8G2_FONT_SECTION("u8g2_font_t0_11_tf");
 extern const uint8_t u8g2_font_t0_11_tr[] U8G2_FONT_SECTION("u8g2_font_t0_11_tr");
 extern const uint8_t u8g2_font_t0_11_tn[] U8G2_FONT_SECTION("u8g2_font_t0_11_tn");

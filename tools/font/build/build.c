@@ -195,9 +195,8 @@ struct groupinfo gi[] = {
   { "dafont", "fntgrpdafont", "../../../../u8g2.wiki/fntgrpdafont.md", 		"fntgrpdafont.pre" }, 		/* 37 */ 
   { "lucida", "fntgrplucida", "../../../../u8g2.wiki/fntgrplucida.md", 		"fntgrplucida.pre" }, 		/* 38 */ 
   { "streamline", 	"fntgrpstreamline", 		"../../../../u8g2.wiki/fntgrpstreamline.md", 		"fntgrpstreamline.pre" }, 		/* 39 */  
+  { "Mystery Quest", 	"fntgrpmysteryquest", 		"../../../../u8g2.wiki/fntgrpmysteryquest.md", 		"fntgrpmysteryquest.pre" }, 		/* 40 */  
 
-  
-  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -250,6 +249,11 @@ struct fontinfo fi[] ={
 
   { 0,  0, "7Segments_26x42.bdf",  "7Segments_26x42", 	0, 0, BM_M, FM_C, MM_N, "", ""},
 
+  { 0,  0, "7_Seg_33x19.bdf",  "7_Seg_33x19", 	0, 0, BM_M, FM_C, MM_N, "", ""},
+  { 0,  0, "7_Seg_41x21.bdf",  "7_Seg_41x21", 	0, 0, BM_M, FM_C, MM_N, "", ""},
+
+    
+    
   { 0,  0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   
   { 0,  0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
@@ -311,7 +315,17 @@ struct fontinfo fi[] ={
   
   { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  
+
+  /* Mystery Quest  */
+    { 0,  "-a -r 72 -p 24", "mystery-quest.regular.ttf",	"mystery_quest_24",	40, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+    { 0,  "-a -r 72 -p 28", "mystery-quest.regular.ttf",	"mystery_quest_28",	40, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+    { 0,  "-a -r 72 -p 32", "mystery-quest.regular.ttf",	"mystery_quest_32",	40, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+    { 0,  "-a -r 72 -p 36", "mystery-quest.regular.ttf",	"mystery_quest_36",	40, 0, BM_T, FM_C, MM_N, "", "" },
+    { 0,  "-a -r 72 -p 42", "mystery-quest.regular.ttf",	"mystery_quest_42",	40, 0, BM_T, FM_C, MM_N, "", "" },
+    { 0,  "-a -r 72 -p 48", "mystery-quest.regular.ttf",	"mystery_quest_48",	40, 0, BM_T, FM_C, MM_N, "", "" },
+    { 0,  "-a -r 72 -p 56", "mystery-quest.regular.ttf",	"mystery_quest_56",	40, 0, BM_T, FM_C, MM_N, "", "" },
+
+
   
 /*
 t0 includes the following pages/language support:
