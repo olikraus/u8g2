@@ -17,6 +17,9 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
+mkdir ../../../../U8g2_Arduino/examples/page_buffer/MechCount
+cp ../../../sys/arduino/u8g2_page_buffer/MechCount/*.ino ../../../../U8g2_Arduino/examples/page_buffer/MechCount/.
+
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/Devanagari
 cp ../../../sys/arduino/u8g2_page_buffer/Devanagari/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Devanagari/.
 
