@@ -196,6 +196,7 @@ struct groupinfo gi[] = {
   { "lucida", "fntgrplucida", "../../../../u8g2.wiki/fntgrplucida.md", 		"fntgrplucida.pre" }, 		/* 38 */ 
   { "streamline", 	"fntgrpstreamline", 		"../../../../u8g2.wiki/fntgrpstreamline.md", 		"fntgrpstreamline.pre" }, 		/* 39 */  
   { "Mystery Quest", 	"fntgrpmysteryquest", 		"../../../../u8g2.wiki/fntgrpmysteryquest.md", 		"fntgrpmysteryquest.pre" }, 		/* 40 */  
+  { "HasanKazan", "fntgrphasankazan", "../../../../u8g2.wiki/fntgrphasankazan.md", 		"fntgrphasankazan.pre" }, 		/* 41 */ 
 
 };
 
@@ -608,6 +609,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "PixelMordred.ttf",	"pixelmordred",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "GarbageCan.ttf",	"garbagecan",	25, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
 
 
   /* MistressEllipsis, 26 */
@@ -635,6 +637,8 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "DiodeSemiMono.ttf",	"diodesemimono",	29, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Questgiver.ttf",		"questgiver",		29, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Seraphimb1.ttf",		"seraphimb1",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "ResoledBold.ttf",		"resoledbold",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "ResoledMedium.ttf",	"resoledmedium",		29, 0, BM_T, FM_C, MM_R, "", "" },
 
   /* ChristinaAntoinetteNeofotistou, 30 */
   { 0,  "-r 72 -p 16", "JinxedWizards.ttf",	"jinxedwizards",	30, 0, BM_T, FM_C, MM_R, "", "" },
@@ -652,6 +656,13 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"tenthinnerguys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
   { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"tenthinnerguys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "TwelveDings.ttf",		"twelvedings",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+
+  { 0,  "-r 72 -p 16", "Frigidaire.ttf",		"frigidaire",	31, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Lord.ttf",		"lord",	31, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Abel.ttf",		"abel",	31, 0, BM_M, FM_C, MM_R, "", "" },
+ 
+
+  
 
   /* tulamide, 32 */
   { 0,  "-r 72 -p 16", "Fewture.ttf",			"fewture",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
@@ -679,8 +690,48 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "LastApprenticeBold.ttf",		"lastapprenticebold",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "LastApprenticeThin.ttf",		"lastapprenticethin",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Tallpix.ttf",				"tallpix",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "botmaker.ttf",				"botmaker",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "EfraneExtraCondensed.ttf",		"efraneextracondensed",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Minimal3x3.ttf",		                "minimal3x3",	34, 0, BM_T, FM_C, MM_U, "", "" },
+  { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Simple1.ttf",		                "simple1",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "LikeMinecraft.ttf",		                "likeminecraft",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "tinyByGK.ttf",		                "tiny_gk",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "ThreePix.ttf",		                "threepix",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "smolFont.ttf",		                "smolfont",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "MicroPixel.ttf",		                "micropixel",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "MedSans.ttf",		                "medsans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "HeiSans.ttf",		                        "heisans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "OriginalSans.ttf",		                "originalsans",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Minicute.ttf",		                "minicute",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "StylishCharm.ttf",		                "stylishcharm",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "SisterSerif.ttf",		                "sisterserif",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+
+  { 0,  "-r 72 -p 16", "Princess.ttf",		                        "princess",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Dystopia.ttf",		                "dystopia",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "LastApprenticeThin.ttf",                "lastapprenticethin",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "LastApprenticeBold.ttf",                "lastapprenticebold",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "BPixel.ttf",		                        "bpixel",	                        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "BPixelDouble.ttf",		                "bpixeldouble",	        34, 0, BM_T, FM_C, MM_R, "", "" },
   
 
+  { 0,  "-r 72 -p 16", "Mildras.ttf",		                "mildras",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
+
+  { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+
+  { 0,  "-r 72 -p 16", "BusDisplay11x5.ttf",		                "busdisplay11x5",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "BusDisplay8x5.ttf",		                "busdisplay8x5",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+
+  { 0,  "-r 72 -p 16", "Sticker100Complete.ttf",		                "sticker100complete",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  
   /* JapanYoshi, 35*/
   { 0,  "-r 72 -p 16", "BBSesque.ttf",			"BBSesque",			35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "Born2bSportySlab.ttf",		"Born2bSportySlab",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
@@ -690,6 +741,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Engrish.ttf",				"Engrish",	35, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
   { 0,  "-r 72 -p 16", "ImpactBits.ttf",			"ImpactBits",	35, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "IPAandRUSLCD.ttf",			"IPAandRUSLCD",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "PixelTheatre.ttf",			"PixelTheatre",	35, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
 
 
   /* Pentacom, 36*/
@@ -700,6 +752,17 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Wizzard.ttf",				"Wizzard",			36, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HelvetiPixelOutline.ttf",		"HelvetiPixelOutline",	36, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "Untitled16PixelSansSerifBitmapTestFont.ttf",	"Untitled16PixelSansSerifBitmap",	36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "UnnamedDOSFontIV.ttf",	"UnnamedDOSFontIV",	36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Terminal.ttf",	"Terminal",	36, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+      /* HasanKazan, 41 */
+  { 0,  "-r 72 -p 16", "NokiaLargeBold.ttf",	"NokiaLargeBold",	41, 0, BM_T, FM_C, MM_E|MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "NokiaSmallBold.ttf",	"NokiaSmallBold",	41, 0, BM_T, FM_C, MM_E|MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "NokiaSmallPlain.ttf",	"NokiaSmallPlain",	41, 0, BM_T, FM_C, MM_E|MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "12x6LED.ttf",	"12x6LED",	41, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "12x6LED.ttf",	"12x6LED",	41, 0, BM_M, FM_C, MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "9x6LED.ttf",	        "9x6LED",	41, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "9x6LED.ttf",	        "9x6LED",	41, 0, BM_M, FM_C, MM_N, "", "" },
 
 //#endif   /* TMP */
 
