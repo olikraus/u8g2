@@ -440,6 +440,14 @@ waffle: bdfconv
 	./bdfconv -v -f 1 -m '32-65535' ../bdf/waffle-10.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 	convert bdf.tga out.png
 
+CalBlk36: bdfconv
+	./bdfconv -v -f 1 -m '32-65535' ../bdf/CalBlk36.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga out.png
+        
+CalLite24: bdfconv
+	./bdfconv -v -f 1 -m '32-65535' ../bdf/CalLite24.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga out.png
+
 7seg_33x19: bdfconv
 	./bdfconv -v -f 1 -m '32-79' ./tmp/7_Seg_33x19.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 	convert bdf.tga out.png

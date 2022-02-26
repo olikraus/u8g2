@@ -197,6 +197,7 @@ struct groupinfo gi[] = {
   { "streamline", 	"fntgrpstreamline", 		"../../../../u8g2.wiki/fntgrpstreamline.md", 		"fntgrpstreamline.pre" }, 		/* 39 */  
   { "Mystery Quest", 	"fntgrpmysteryquest", 		"../../../../u8g2.wiki/fntgrpmysteryquest.md", 		"fntgrpmysteryquest.pre" }, 		/* 40 */  
   { "HasanKazan", "fntgrphasankazan", "../../../../u8g2.wiki/fntgrphasankazan.md", 		"fntgrphasankazan.pre" }, 		/* 41 */ 
+  { "Integrated Mapping Ltd", "fntgrpim", "../../../../u8g2.wiki/fntgrpim.md", 		"fntgrpim.pre" }, 		/* 42 */ 
 
 };
 
@@ -687,8 +688,6 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "FancyPixels.ttf",			"fancypixels",	34, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HEAVYBOTTOM.ttf",			"heavybottom",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "IconQuadPix.ttf",			"iconquadpix",	34, 0, BM_M, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0,  "-r 72 -p 16", "LastApprenticeBold.ttf",		"lastapprenticebold",	34, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "LastApprenticeThin.ttf",		"lastapprenticethin",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Tallpix.ttf",				"tallpix",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "botmaker.ttf",				"botmaker",	34, 0, BM_T, FM_C, MM_E, "", "" },
   { 0,  "-r 72 -p 16", "EfraneExtraCondensed.ttf",		"efraneextracondensed",	34, 0, BM_T, FM_C, MM_E, "", "" },
@@ -763,6 +762,10 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "12x6LED.ttf",	"12x6LED",	41, 0, BM_M, FM_C, MM_N, "", "" },
   { 0,  "-r 72 -p 16", "9x6LED.ttf",	        "9x6LED",	41, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
   { 0,  "-r 72 -p 16", "9x6LED.ttf",	        "9x6LED",	41, 0, BM_M, FM_C, MM_N, "", "" },
+
+      /* Integrated Mapping Ltd, 42 */
+  { 0,  0, "CalBlk36.bdf", 		"calblk36", 		42, 0, BM_T, FM_C, MM_R, "", "" },  
+  { 0,  0, "CalLite24.bdf", 		"callite24", 		42, 0, BM_T, FM_C, MM_R, "", "" },  
 
 //#endif   /* TMP */
 
