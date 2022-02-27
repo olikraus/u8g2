@@ -2375,8 +2375,6 @@ extern const uint8_t u8g2_font_fancypixels_tf[] U8G2_FONT_SECTION("u8g2_font_fan
 extern const uint8_t u8g2_font_fancypixels_tr[] U8G2_FONT_SECTION("u8g2_font_fancypixels_tr");
 extern const uint8_t u8g2_font_heavybottom_tr[] U8G2_FONT_SECTION("u8g2_font_heavybottom_tr");
 extern const uint8_t u8g2_font_iconquadpix_m_all[] U8G2_FONT_SECTION("u8g2_font_iconquadpix_m_all");
-extern const uint8_t u8g2_font_lastapprenticebold_tr[] U8G2_FONT_SECTION("u8g2_font_lastapprenticebold_tr");
-extern const uint8_t u8g2_font_lastapprenticethin_tr[] U8G2_FONT_SECTION("u8g2_font_lastapprenticethin_tr");
 extern const uint8_t u8g2_font_tallpix_tr[] U8G2_FONT_SECTION("u8g2_font_tallpix_tr");
 extern const uint8_t u8g2_font_botmaker_te[] U8G2_FONT_SECTION("u8g2_font_botmaker_te");
 extern const uint8_t u8g2_font_efraneextracondensed_te[] U8G2_FONT_SECTION("u8g2_font_efraneextracondensed_te");
@@ -2475,6 +2473,8 @@ extern const uint8_t u8g2_font_12x6LED_mn[] U8G2_FONT_SECTION("u8g2_font_12x6LED
 extern const uint8_t u8g2_font_9x6LED_tf[] U8G2_FONT_SECTION("u8g2_font_9x6LED_tf");
 extern const uint8_t u8g2_font_9x6LED_tr[] U8G2_FONT_SECTION("u8g2_font_9x6LED_tr");
 extern const uint8_t u8g2_font_9x6LED_mn[] U8G2_FONT_SECTION("u8g2_font_9x6LED_mn");
+extern const uint8_t u8g2_font_calblk36_tr[] U8G2_FONT_SECTION("u8g2_font_calblk36_tr");
+extern const uint8_t u8g2_font_callite24_tr[] U8G2_FONT_SECTION("u8g2_font_callite24_tr");
 extern const uint8_t u8g2_font_nokiafc22_tf[] U8G2_FONT_SECTION("u8g2_font_nokiafc22_tf");
 extern const uint8_t u8g2_font_nokiafc22_tr[] U8G2_FONT_SECTION("u8g2_font_nokiafc22_tr");
 extern const uint8_t u8g2_font_nokiafc22_tn[] U8G2_FONT_SECTION("u8g2_font_nokiafc22_tn");

@@ -910,8 +910,6 @@ u8g2_font_fancypixels_tf	LITERAL1
 u8g2_font_fancypixels_tr	LITERAL1
 u8g2_font_heavybottom_tr	LITERAL1
 u8g2_font_iconquadpix_m_all	LITERAL1
-u8g2_font_lastapprenticebold_tr	LITERAL1
-u8g2_font_lastapprenticethin_tr	LITERAL1
 u8g2_font_tallpix_tr	LITERAL1
 u8g2_font_botmaker_te	LITERAL1
 u8g2_font_efraneextracondensed_te	LITERAL1
@@ -1010,6 +1008,8 @@ u8g2_font_12x6LED_mn	LITERAL1
 u8g2_font_9x6LED_tf	LITERAL1
 u8g2_font_9x6LED_tr	LITERAL1
 u8g2_font_9x6LED_mn	LITERAL1
+u8g2_font_calblk36_tr	LITERAL1
+u8g2_font_callite24_tr	LITERAL1
 u8g2_font_nokiafc22_tf	LITERAL1
 u8g2_font_nokiafc22_tr	LITERAL1
 u8g2_font_nokiafc22_tn	LITERAL1
