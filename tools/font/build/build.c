@@ -638,8 +638,8 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "DiodeSemiMono.ttf",	"diodesemimono",	29, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Questgiver.ttf",		"questgiver",		29, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Seraphimb1.ttf",		"seraphimb1",		29, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "ResoledBold.ttf",		"resoledbold",		29, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "ResoledMedium.ttf",	"resoledmedium",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 9", "ResoledBold.ttf",		"resoledbold",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 9", "ResoledMedium.ttf",	"resoledmedium",		29, 0, BM_T, FM_C, MM_R, "", "" },
 
   /* ChristinaAntoinetteNeofotistou, 30 */
   { 0,  "-r 72 -p 16", "JinxedWizards.ttf",	"jinxedwizards",	30, 0, BM_T, FM_C, MM_R, "", "" },
@@ -694,13 +694,21 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Minimal3x3.ttf",		                "minimal3x3",	34, 0, BM_T, FM_C, MM_U, "", "" },
   { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "Simple1.ttf",		                "simple1",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
-  { 0,  "-r 72 -p 16", "LikeMinecraft.ttf",		                "likeminecraft",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  
   { 0,  "-r 72 -p 16", "tinyByGK.ttf",		                "tiny_gk",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "ThreePix.ttf",		                "threepix",	34, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
+  { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_M, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
   { 0,  "-r 72 -p 16", "smolFont.ttf",		                "smolfont",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "MicroPixel.ttf",		                "micropixel",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 6", "TinyPixie2.ttf",		                "tinypixie2",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "3x3Basic.ttf",		                 "3x3basic",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+  { 0,  "-r 72 -p 8", "fivepx.ttf",		                        "fivepx",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Wedge.ttf",		                        "wedge",	34, 0, BM_T, FM_C, MM_R, "", "" },
 
+  
+  { 0,  "-r 72 -p 16", "LikeMinecraft.ttf",		                "likeminecraft",	34, 0, BM_T, FM_C, MM_E, "", "" },
   { 0,  "-r 72 -p 16", "MedSans.ttf",		                "medsans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HeiSans.ttf",		                        "heisans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "OriginalSans.ttf",		                "originalsans",	34, 0, BM_T, FM_C, MM_R, "", "" },
@@ -719,8 +727,8 @@ Greek Extended	1F00–1FFF
   
 
   { 0,  "-r 72 -p 16", "Mildras.ttf",		                "mildras",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
-  { 0,  "-r 72 -p 16", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
-  { 0,  "-r 72 -p 16", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
 
   { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_M, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_T, FM_C, MM_R, "", "" },
