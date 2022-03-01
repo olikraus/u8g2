@@ -296,6 +296,10 @@ struct u8x8_display_info_struct
  /* pixel_height <= tile_height*8 */
   uint16_t pixel_width;
   uint16_t pixel_height;
+ /* display pixel byte stack */
+ /* stackeded vertical(0) = 8x bytes across per tile; */
+ /* stacked horizontal(1) = 1x byte across per tile */
+  uint8_t pixel_byte_horizontal;
 };
 
 
