@@ -691,23 +691,31 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Tallpix.ttf",				"tallpix",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "botmaker.ttf",				"botmaker",	34, 0, BM_T, FM_C, MM_E, "", "" },
   { 0,  "-r 72 -p 16", "EfraneExtraCondensed.ttf",		"efraneextracondensed",	34, 0, BM_T, FM_C, MM_E, "", "" },
-  { 0,  "-r 72 -p 16", "Minimal3x3.ttf",		                "minimal3x3",	34, 0, BM_T, FM_C, MM_U, "", "" },
-  { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
-  { 0,  "-r 72 -p 16", "Simple1.ttf",		                "simple1",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   
+  /* Capital A 3 */
+  { 0,  "-r 72 -p 16", "Minimal3x3.ttf",		                "minimal3x3",	34, 0, BM_T, FM_C, MM_U, "", "" },
+  { 0,  "-r 72 -p 16", "3x3Basic.ttf",		                 "3x3basic",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+  /* Capital A 4 */
   { 0,  "-r 72 -p 16", "tinyByGK.ttf",		                "tiny_gk",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "ThreePix.ttf",		                "threepix",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "eventhrees.ttf",		                 "eventhrees",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+  /* Capital A 5 */
   { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
   { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_M, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
   { 0,  "-r 72 -p 16", "smolFont.ttf",		                "smolfont",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "MicroPixel.ttf",		                "micropixel",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 6", "TinyPixie2.ttf",		                "tinypixie2",	34, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "3x3Basic.ttf",		                 "3x3basic",	34, 0, BM_T, FM_C, MM_R, "", "" },
-  
+  { 0,  "-r 72 -p 16", "Standardized3x5.ttf",		         "standardized3x5",	34, 0, BM_T, FM_C, MM_R, "", "" },  
   { 0,  "-r 72 -p 8", "fivepx.ttf",		                        "fivepx",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Wedge.ttf",		                        "wedge",	34, 0, BM_T, FM_C, MM_R, "", "" },
 
-  
+  /* other */
+  { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Simple1.ttf",		                "simple1",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },  
   { 0,  "-r 72 -p 16", "LikeMinecraft.ttf",		                "likeminecraft",	34, 0, BM_T, FM_C, MM_E, "", "" },
   { 0,  "-r 72 -p 16", "MedSans.ttf",		                "medsans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HeiSans.ttf",		                        "heisans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
@@ -727,8 +735,6 @@ Greek Extended	1F00–1FFF
   
 
   { 0,  "-r 72 -p 16", "Mildras.ttf",		                "mildras",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
-  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
-  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
 
   { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_M, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_T, FM_C, MM_R, "", "" },
@@ -1894,10 +1900,13 @@ char *cloud_utf8[] =
   "像素",
   "屏幕",
   "图形",
+  "制作",
   "Ψηφιακή",
+  "κατασκευάζω",
   "Οθόνη",
    "Γραφικά",
    "アイコン、",
+   "作る",
    "ビットマップ",
    "キャラクター、",  
   "전자", "엔지니어", "장치", "하드웨어",
@@ -1937,7 +1946,8 @@ char *cloud_utf8[] =
   "Science",
   "Digital",
   "Arduino",
-  "U8g2"
+  "U8g2",
+  "DIY"
 };
 
 char *cloud_str[] = 
@@ -1961,7 +1971,8 @@ char *cloud_str[] =
   "Science",
   "Digital",
   "Arduino",
-  "U8g2"
+  "U8g2",
+  "DIY"
 };
 
 char *cloud_simple[] = 
@@ -1969,7 +1980,7 @@ char *cloud_simple[] =
   "U8g2",
   "Abc",
   "XYZ",
-  "Aa",
+  "AaBb",
   "Xy"
 };
 
@@ -2277,7 +2288,8 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s.png", target_font_identifier );
+    /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s.png", target_font_identifier );
     system(convert_cmd);
     u8x8_fnt_cnt++;
   }
@@ -2304,7 +2316,8 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s.png", target_font_identifier );
+     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s.png", target_font_identifier );
     system(convert_cmd);
 
     u8g2_fnt_cnt++;
@@ -2332,7 +2345,8 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
     
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s_short.png", target_font_identifier );
+     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_short.png", target_font_identifier );
     system(convert_cmd);
 
     u8x8_fnt_cnt++;
@@ -2365,7 +2379,8 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
 
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s_short.png", target_font_identifier );
+    /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_short.png", target_font_identifier );
     system(convert_cmd);
 
     u8g2_fnt_cnt++;
@@ -2913,7 +2928,8 @@ void do_font_groups_wc(cbfn_t cb)
 
 
     tga_save("font.tga");    
-    sprintf(convert_cmd, "convert font.tga -trim %s_word_cloud.png", gi[current_font_group_index].reference );
+     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_word_cloud.png", gi[current_font_group_index].reference );
     system(convert_cmd);
 
     
