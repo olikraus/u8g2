@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -I../../../csrc/.  `sdl2-config --cflags`
+CFLAGS = -g -Wall -Wextra -Wuninitialized -Wunused  -I../../../csrc/.  `sdl2-config --cflags`
 
 SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) $(shell ls ../../bitmap/common/*.c ) $(shell ls *.c )
 

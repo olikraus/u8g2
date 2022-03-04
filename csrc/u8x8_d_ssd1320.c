@@ -336,6 +336,8 @@ static const u8x8_display_info_t u8x8_d_ssd1320_cs1_160x132_display_info =
 
 
 /* the following sequence will work, but requires contrast to be very high */
+/* added #ifdef to avoid compiler warning, issue 1802 */
+#ifdef NOT_USED
 static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     
     U8X8_DLY(1),
@@ -372,6 +374,7 @@ static const uint8_t u8x8_d_ssd1320_cs1_160x132_init_seq[] = {
     U8X8_END_TRANSFER(),             	/* disable chip */
     U8X8_END()             			/* end of sequence */
 };
+#endif
 
 /*
 OLED_WR_Byte(0xae,OLED_CMD);//Display OFF
