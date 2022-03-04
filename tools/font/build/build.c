@@ -750,6 +750,13 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Sticker100Complete.ttf",		                "sticker100complete",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
 
   { 0,  "-r 72 -p 14", "DoomAlpha04.ttf",		                        "doomalpha04",	                        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "GreenBloodSerif2.ttf",		                "greenbloodserif2",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Eckpixel.ttf",		                "eckpixel",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Elispe.ttf",		                "elispe",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Neuecraft.ttf",		                "neuecraft",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+
   
   /* JapanYoshi, 35*/
   { 0,  "-r 72 -p 16", "BBSesque.ttf",			"BBSesque",			35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
