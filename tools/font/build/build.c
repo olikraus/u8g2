@@ -705,6 +705,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
   { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_M, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
   { 0,  "-r 72 -p 16", "smolFont.ttf",		                "smolfont",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "TinyUnicode.ttf",		                "tinyunicode",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "MicroPixel.ttf",		                "micropixel",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 6", "TinyPixie2.ttf",		                "tinypixie2",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Standardized3x5.ttf",		         "standardized3x5",	34, 0, BM_T, FM_C, MM_R, "", "" },  
@@ -712,6 +713,8 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Wedge.ttf",		                        "wedge",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 10", "Kibibyte.ttf",		                "kibibyte",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "TinyFace.ttf",		                "tinyface",	        34, 0, BM_T|BM_M, FM_C, MM_R|MM_E, "", "" },
 
   /* other */
   { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
@@ -721,6 +724,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "HeiSans.ttf",		                        "heisans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "OriginalSans.ttf",		                "originalsans",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Minicute.ttf",		                "minicute",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Scrum.ttf",		                        "scrum",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "StylishCharm.ttf",		                "stylishcharm",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "SisterSerif.ttf",		                "sisterserif",	        34, 0, BM_T, FM_C, MM_R, "", "" },
 
@@ -744,6 +748,8 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "BusDisplay8x5.ttf",		                "busdisplay8x5",	        34, 0, BM_T, FM_C, MM_R, "", "" },
 
   { 0,  "-r 72 -p 16", "Sticker100Complete.ttf",		                "sticker100complete",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 14", "DoomAlpha04.ttf",		                        "doomalpha04",	                        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   
   /* JapanYoshi, 35*/
   { 0,  "-r 72 -p 16", "BBSesque.ttf",			"BBSesque",			35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
