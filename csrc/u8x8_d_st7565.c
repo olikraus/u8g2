@@ -819,12 +819,12 @@ uint8_t u8x8_d_st7565_ks0713(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_zflip1_seq);
 	  u8x8->x_offset = u8x8->display_info->default_x_offset;
 	}
 	else
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_zflip0_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	}	
 	break;
