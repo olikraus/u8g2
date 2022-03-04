@@ -281,4 +281,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7571 128x128 (bugfix issue 1576)
   * Added support for UC1609 (issue 1565)
   * Added support for GU800 series of Vacuum Fluorescent Displays (VFD, issue 1604)
+  * Changed SPI Mode for Sharp displays (ls013..., issue 1771)
+  * Added many more fonts
   
