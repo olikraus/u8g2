@@ -147,7 +147,7 @@ uint8_t u8x8_d_sh1122_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     case U8X8_MSG_DISPLAY_DRAW_TILE:
       u8x8_cad_StartTransfer(u8x8);
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
-      x *= 2;		// only every 4th col can be addressed
+      x *= 2;		// 4 Mar 2022: probably this needs to be 4, but this device is call with x=0 only
       x += u8x8->x_offset;		
     
       y = (((u8x8_tile_t *)arg_ptr)->y_pos);

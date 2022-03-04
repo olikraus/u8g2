@@ -168,6 +168,7 @@ static uint8_t u8x8_d_st7571_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 
 
 /* QT-2832TSWUG02/ZJY-2832TSWZG02 */
+/* fixed the 0x40 and 0x48 commands, verified with FlipMode example: All ok */
 static const uint8_t u8x8_d_st7571_128x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -181,14 +182,16 @@ static const uint8_t u8x8_d_st7571_128x128_init_seq[] = {
   U8X8_C(0xA0), 				// ADC select
   U8X8_C(0xC8), 				// SHL select
   U8X8_CA(0x44, 0x00), 		// COM0 register  
-  U8X8_CA(0x40, 0x7f), 		// initial display line  (0x7f... strange but ok... maybe specific for the JLX128128)
+  U8X8_CA(0x40, 0x0), 		// initial display line  (0x7f... strange but ok... maybe specific for the JLX128128)
                                                         // 2 sep 2021: maybe this also wrong because the 0x44 command is overwritten later.
+                                                        // 4 Mar 2022: Changed to 0
   
   U8X8_C(0xAB), 				// OSC ON  
   U8X8_C(0x25), 				// Voltage regulator
   U8X8_CA(0x81, 0x33), 		// Volume
   U8X8_C(0x54), 				// LCD Bias: 0x056=1/11 (1/11 according to JLX128128 datasheet), 0x054=1/9
-  U8X8_CA(0x44, 0x7f), 		// Duty 1/128   // 2 Sep 2021: Should this be 00x48???
+  U8X8_CA(0x48, 0x80), 		// Duty 1/128   // 2 Sep 2021: Should this be 00x48???  
+                                                        // 4 Mar 2022, cmd changed to 0x48, arg changed to 0x80
   
   U8X8_C(0x2C), 				// Power Control, VC: ON, VR: OFF, VF: OFF
   U8X8_DLY(200),

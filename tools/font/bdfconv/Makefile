@@ -170,6 +170,12 @@ falconded: bdfconv
 	-../otf2bdf/otf2bdf  -n -p 12 -o falconded.bdf FalconDED2.ttf
 	./bdfconv -v -f 1 -b 1 -a -m '32-96' falconded.bdf -o u8g2_font_falconded_hr.c  -n u8g2_font_falconded_hr -d ../bdf/helvR12.bdf 
 
+falconded9: bdfconv
+	./bdfconv -v -f 1 -b 2 -a -m '32-99' falconded.bdf -o u8g2_font_falconded_mr.c  -n u8g2_font_falconded_mr -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_falconded_mr.png
+	./bdfconv -v -f 1 -b 1 -a -m '32-99' falconded.bdf -o u8g2_font_falconded_hr.c  -n u8g2_font_falconded_hr -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_falconded_hr.png
+
 
 analecta: bdfconv
 	-../otf2bdf/otf2bdf -a  -p 20 -o analecta.bdf Analecta.otf
