@@ -32,6 +32,42 @@
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  
+  MUIF  (Monochrome User Interface Functions)
+    n:  A number 0 to 9 without any quotes, e.g.: 5
+    id: Exactly two characters or numbers in doubl quotes, e.g. "G5".
+    cb: A callback function with the following prototype: "uint8_t muif_cb(mui_t *ui, uint8_t msg)"
+      There are MANY predefined callback functions, see separate list
+    var: Address of a variable. 
+    text: Normal text, but special characters might be required for some callback functions, for
+      example the text might contain a list of selectable elements separated with the '|' symbol.
+
+  MUIF_STYLE(n,cb)
+    Corresponding FDS command: MUI_STYLE(n)
+    Change the style of any other elements after MUI_STYLE(n), does not draw anything
+    
+  MUIF_RO(id,cb)
+    Corresponding FDS command: MUI_DATA(id, text) MUI_XY(id, x, y), MUI_XYT(id, x,y,text), MUI_XYA(id, x,y,a), MUI_XYAT(id, x,y,a,text)
+    Places a read only element on the form. 
+    The correct FDS command depends on the callback function.
+    
+  MUIF_LABEL(cb)
+    Corresponding FDS command: MUI_LABEL(x,y,text)
+    Places a text at the specified position, similar to MUIF_RO
+    
+  MUIF_GOTO(cb)
+    Corresponding FDS command: MUI_GOTO(x,y,n,text)
+    Places a button at the specified position, similar to MUIF_BUTTON, but does not require an ID.
+    
+  MUIF_BUTTON(id,cb)
+    Corresponding FDS command: MUI_XY(id, x, y), MUI_XYT(id, x,y,text), MUI_XYA(id, x,y,a), MUI_XYAT(id, x,y,a,text)
+    Places a selectable element on the form. 
+  
+  MUIF_VARIABLE(id,var,cb)
+    Corresponding FDS command: MUI_XY(id, x, y), MUI_XYA(id, x,y,a)
+    Places a user input element at the specified location.
+    The correct FDS command depends on the callback function.
+
 
 */
 
@@ -41,8 +77,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
-#include <string.h>
-#include <sys/types.h>
 
 #if defined(__GNUC__) && defined(__AVR__)
 #include <avr/pgmspace.h>
@@ -174,6 +208,8 @@ struct muif_struct
 /* must be smaller than or equal to 255 */
 #define MUI_MAX_TEXT_LEN 41
 
+#define MUI_MENU_CACHE_CNT 2
+
 struct mui_struct
 {
   void *graphics_data;
@@ -222,6 +258,11 @@ struct mui_struct
   uint8_t last_form_id;
   uint8_t last_form_cursor_focus_position;
   fds_t *last_form_fds;           // not used by mui_RestoreForm, but can be used by field functions
+  
+  /* menu cursor position backup */
+  uint8_t menu_form_id[MUI_MENU_CACHE_CNT];
+  uint8_t menu_form_cursor_focus_position[MUI_MENU_CACHE_CNT];
+  uint8_t menu_form_last_added;
 } ;
 
 #define mui_IsCursorFocus(mui) ((mui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
@@ -495,6 +536,8 @@ struct mui_struct
 /* style: one id only */
 #define MUI_STYLE(n) "S" #n
 
+#define MUI_AUX(id) "Z" id
+
 #define MUI_DATA(id, text) "D" id "\xff" text "\xff"
 
 #define MUI_XY(id, x, y) "F" id MUI_##x MUI_##y
@@ -525,8 +568,12 @@ uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds);
 void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position);
 void mui_LeaveForm(mui_t *ui);
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
-void mui_SaveForm(mui_t *ui);
-void mui_RestoreForm(mui_t *ui);
+void mui_SaveForm(mui_t *ui);     /* Save current form+cursor position. Used together with mui_RestoreForm */
+void mui_RestoreForm(mui_t *ui);        /* Restore form and cursor position, previously saved with mui_SaveForm */
+void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position);         /* stores a cursor position for use with mui_GotoFormAutoCursorPosition */
+uint8_t mui_GotoFormAutoCursorPosition(mui_t *ui, uint8_t form_id);
+
+int mui_GetCurrentFormId(mui_t *ui);    /* form id or -1 if the menu system is inactive */
 void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);

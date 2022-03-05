@@ -1,5 +1,5 @@
 
-The U8g2lib code (http://code.google.com/p/u8g2/) is licensed under the terms of 
+The U8g2lib code (https://github.com/olikraus/u8g2) is licensed under the terms of 
 the new-bsd license (two-clause bsd license).
 See also: http://www.opensource.org/licenses/bsd-license.php
 
@@ -48,7 +48,7 @@ is" without express or implied warranty.
 
 ============ BSD License for U8g2lib Code ============
 
-Universal 8bit Graphics Library (http://code.google.com/p/u8g2/)
+Universal 8bit Graphics Library (https://github.com/olikraus/u8g2)
 
 Copyright (c) 2016, olikraus@gmail.com
 All rights reserved.

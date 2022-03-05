@@ -84,6 +84,8 @@ static const uint8_t u8x8_d_st75256_256x128_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+/* marked as unused to avoid compiler warning, issue 1802 */
+#ifdef NOT_USED
 static const uint8_t u8x8_d_st75256_jlx256128_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C( 0x030 ),				/* select 00 commands */
@@ -107,6 +109,7 @@ static const uint8_t u8x8_d_st75256_jlx256128_flip1_seq[] = {
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
+#endif
 
 static const uint8_t u8x8_d_st75256_jlx172104_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -132,6 +135,8 @@ static const uint8_t u8x8_d_st75256_jlx172104_flip1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+/* marked as unused to avoid compiler warning, issue 1802 */
+#ifdef NOT_USED
 static const uint8_t u8x8_d_st75256_jlx256160_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C( 0x030 ),				/* select 00 commands */
@@ -155,7 +160,7 @@ static const uint8_t u8x8_d_st75256_jlx256160_flip1_seq[] = {
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
-
+#endif
 
 
 /*=============================================*/

@@ -4,7 +4,7 @@
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2021, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -196,6 +196,8 @@
 //U8G2_ST7567_PI_132X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  // Pax Instruments Shield, LCD_BL=6
 //U8G2_ST7567_JLX12864_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_ST7567_JLX12864_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
+//U8G2_ST7567_122X32_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
+//U8G2_ST7567_122X32_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_ST7567_OS12864_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_ST7567_OS12864_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 7, /* dc=*/ 9, /* reset=*/ 8);  
 //U8G2_ST7567_ENH_DG128064_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8); 
@@ -304,11 +306,7 @@
 // End of constructor list
 
 
-#define U8G2_FONT u8g2_font_helvR08_tr
-
 MUIU8G2 mui;
-
-
 
 /*
   global variables which form the communication gateway between the user interface and the rest of the code
@@ -316,68 +314,36 @@ MUIU8G2 mui;
 uint8_t number_input = 2;       // variable where the user can input a number between 0 and 9
 uint8_t exit_code = 0;                  // return value from the menu system
 
-extern "C" uint8_t mui_style_helv_r_08(mui_t *ui, uint8_t msg)
-{  
-  u8g2_t *u8g2 = mui_get_U8g2(ui);
-  switch(msg)
-  {
-    case MUIF_MSG_DRAW:
-      u8g2_SetFont(u8g2, U8G2_FONT);
-      break;
-  }
-  return 0;
-}
-
-
 /* 
-
-  User interface fields list. Each entry is defined with the MUIF macro MUIF(id,cflags,data,cb)
-  Arguments are:
-    id: 
-      A string with exactly two characters. This is the unique "id" of the field, which is later used in the form definition string (fds)
-      There are some special id's: ".L" for text labels and ".G" for a goto form command. 
-    cflags: 
-      Flags, which define static (constant) properties of the field. Currently this is either 0 or MUIF_CFLAG_IS_CURSOR_SELECTABLE which marks the field as editable.
-    data: 
-      A pointer to a local variable, where the result of an editiable field is stored. Currently this is a pointer to uint8_t in most cases.
-      It depends in the callback function (cb) whether this is used or what kind of data is stored
-    cb:
-      A callback function.
-      The callback function will receive messages and have to react accordingly to the message. Some predefined callback functions are avilable in mui_u8g2.c    
-  
+  MUIF table: Each entry defines a field, which can be used in FDS to describe a form.
 */
 
 
-muif_t muif_list[]  MUI_PROGMEM = {
+muif_t muif_list[] = {
   /* normal text style */
-  MUIF("S0",0,0,mui_style_helv_r_08),
+  MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
   
   /* Leave the menu system */
-  MUIF("LV",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&exit_code,mui_u8g2_btn_exit_wm_fi),
+  MUIF_VARIABLE("LV",&exit_code,mui_u8g2_btn_exit_wm_fi),
   
   /* input for a number between 0 to 9 */
-  MUIF("IN",MUIF_CFLAG_IS_CURSOR_SELECTABLE,&number_input,mui_u8g2_u8_value_0_9_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX("IN", &number_input, 0, 9, mui_u8g2_u8_min_max_wm_mse_pi),
   
-  /* MUI_LABEL uses the fixed ".L" id and is used to place read only text on a form */
-  MUIF(".L",0,0,mui_u8g2_draw_text)
+  /* MUI_LABEL is used to place fixed text on the screeen */
+  MUIF_LABEL(mui_u8g2_draw_text)
 };
 
 /*
   The form definition string (fds) defines all forms and the fields on those forms.
   A new form always starts with MUI_FORM(u). The form ends with the next MUI_FORM() or the end of the fds.
   Inside the form use fields or the style command (MUI_STYLE)
-  The fields are define with
+  The fields are placed on the form with
     MUI_XY(id, x, y)                     Field 'id' without extra argument or text placed at the specified xy position
     MUI_XYT(id, x, y, text)            Field 'id' with the specified test at position xy
     MUI_XYA(id, x, y, a)                 Field 'id' with argument 'a' at position xy
     MUI_XYAT(id, x, y, a, text)         Field 'id' with argument and text placed at position xy
-    MUI_LABEL(x,y,text)                 Field '.L' (usually some readonly text) placed at position xy
-    MUI_GOTO(x,y,n,text)                Field '.G', usually a button placed at xy, which activates form n 
+    MUI_LABEL(x, y, text)                 Place "text" on the form. Can be used only if "MUIF_LABEL(mui_u8g2_draw_text)" is available in MUIF table.
 
-  Note:
-    MUI_LABEL(x,y,text) is the same as MUI_XYT(".L", x, y, text)
-    MUI_GOTO(x,y,text) is the same as MUI_XYAT(".G", x, y, n, text)
-    
 */
 
 
@@ -462,7 +428,7 @@ void loop(void) {
       mui.gotoForm(/* form_id= */ 1, /* initial_cursor_position= */ 0);
     } else {
       /* execute countdown */
-      u8g2.setFont(U8G2_FONT);
+      u8g2.setFont(u8g2_font_helvR08_tr);
       u8g2.firstPage();
       do {
           u8g2.setCursor(0,20);

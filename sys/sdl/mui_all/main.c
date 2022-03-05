@@ -282,8 +282,8 @@ muif_t muif_list[] MUI_PROGMEM = {
 
   MUIF_LABEL(mui_u8g2_draw_text),
 
-  MUIF_RO("GP",mui_u8g2_goto_parent),
-  MUIF_BUTTON("GC", mui_u8g2_goto_child_w1_mse_pi),
+  MUIF_RO("GP",mui_u8g2_goto_data),
+  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
 
   /* Form 10 */
   MUIF_GOTO(mui_u8g2_btn_goto_wm_fi),

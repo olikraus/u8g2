@@ -195,9 +195,10 @@ struct groupinfo gi[] = {
   { "dafont", "fntgrpdafont", "../../../../u8g2.wiki/fntgrpdafont.md", 		"fntgrpdafont.pre" }, 		/* 37 */ 
   { "lucida", "fntgrplucida", "../../../../u8g2.wiki/fntgrplucida.md", 		"fntgrplucida.pre" }, 		/* 38 */ 
   { "streamline", 	"fntgrpstreamline", 		"../../../../u8g2.wiki/fntgrpstreamline.md", 		"fntgrpstreamline.pre" }, 		/* 39 */  
+  { "Mystery Quest", 	"fntgrpmysteryquest", 		"../../../../u8g2.wiki/fntgrpmysteryquest.md", 		"fntgrpmysteryquest.pre" }, 		/* 40 */  
+  { "HasanKazan", "fntgrphasankazan", "../../../../u8g2.wiki/fntgrphasankazan.md", 		"fntgrphasankazan.pre" }, 		/* 41 */ 
+  { "Integrated Mapping Ltd", "fntgrpim", "../../../../u8g2.wiki/fntgrpim.md", 		"fntgrpim.pre" }, 		/* 42 */ 
 
-  
-  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -243,11 +244,18 @@ struct fontinfo fi[] ={
   { 0,  0, "u8g2_squeezed_regular_7.bdf", 		"squeezed_r7", 		0, 0, BM_T, FM_C, MM_R|MM_N, "", ""},
   { 0,  0, "u8g2_squeezed_bold_7.bdf", 		"squeezed_b7", 		0, 0, BM_T, FM_C, MM_R|MM_N, "", ""},
   
+  { 0,  0, "u8g2_percent_circle_25.bdf", 		"percent_circle_25", 		0, 0, BM_H, FM_C, MM_N, "", ""},
+  
   { 0,  0, "freedoomr10r.bdf", 	"freedoomr10", 	0, 0, BM_T|BM_M, FM_C, MM_U, "", ""},
   { 0,  0, "freedoomr25n.bdf", 	"freedoomr25", 	0, 0, BM_T|BM_M, FM_C, MM_N, "", ""},
 
   { 0,  0, "7Segments_26x42.bdf",  "7Segments_26x42", 	0, 0, BM_M, FM_C, MM_N, "", ""},
 
+  { 0,  0, "7_Seg_33x19.bdf",  "7_Seg_33x19", 	0, 0, BM_M, FM_C, MM_N, "", ""},
+  { 0,  0, "7_Seg_41x21.bdf",  "7_Seg_41x21", 	0, 0, BM_M, FM_C, MM_N, "", ""},
+
+    
+    
   { 0,  0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   
   { 0,  0, "cursor.bdf", 			"cursor", 			1, 0, BM_T, FM_C, MM_C, "0-223>32", "f" },
@@ -305,9 +313,21 @@ struct fontinfo fi[] ={
   
   
   { 0,  0, "siji_with_6x10.bdf", 	"siji", 			20, 0, BM_T, FM_C, MM_C, "32-128,$e000-$ffff", "_6x10" },
+  { 0,  0, "waffle-10.bdf", 	"waffle", 			20, 0, BM_T, FM_C, MM_C, "$0020-$ffff", "_all" },
+  
   { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  0, "tom-thumb.bdf", 	"tom_thumb_4x6", 		24, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  
+
+  /* Mystery Quest  */
+    { 0,  "-a -r 72 -p 24", "mystery-quest.regular.ttf",	"mystery_quest_24",	40, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+    { 0,  "-a -r 72 -p 28", "mystery-quest.regular.ttf",	"mystery_quest_28",	40, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
+    { 0,  "-a -r 72 -p 32", "mystery-quest.regular.ttf",	"mystery_quest_32",	40, 0, BM_T, FM_C, MM_R|MM_N, "", "" },
+    { 0,  "-a -r 72 -p 36", "mystery-quest.regular.ttf",	"mystery_quest_36",	40, 0, BM_T, FM_C, MM_N, "", "" },
+    { 0,  "-a -r 72 -p 42", "mystery-quest.regular.ttf",	"mystery_quest_42",	40, 0, BM_T, FM_C, MM_N, "", "" },
+    { 0,  "-a -r 72 -p 48", "mystery-quest.regular.ttf",	"mystery_quest_48",	40, 0, BM_T, FM_C, MM_N, "", "" },
+    { 0,  "-a -r 72 -p 56", "mystery-quest.regular.ttf",	"mystery_quest_56",	40, 0, BM_T, FM_C, MM_N, "", "" },
+
+
   
 /*
 t0 includes the following pages/language support:
@@ -590,6 +610,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "PixelMordred.ttf",	"pixelmordred",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0,  "-r 72 -p 16", "SecretaryHand.ttf",	"secretaryhand",	25, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 16", "GarbageCan.ttf",	"garbagecan",	25, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
 
 
   /* MistressEllipsis, 26 */
@@ -617,6 +638,8 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "DiodeSemiMono.ttf",	"diodesemimono",	29, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Questgiver.ttf",		"questgiver",		29, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Seraphimb1.ttf",		"seraphimb1",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 9", "ResoledBold.ttf",		"resoledbold",		29, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 9", "ResoledMedium.ttf",	"resoledmedium",		29, 0, BM_T, FM_C, MM_R, "", "" },
 
   /* ChristinaAntoinetteNeofotistou, 30 */
   { 0,  "-r 72 -p 16", "JinxedWizards.ttf",	"jinxedwizards",	30, 0, BM_T, FM_C, MM_R, "", "" },
@@ -634,6 +657,13 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"tenthinnerguys",	31, 0, BM_T, FM_C, MM_N|MM_U|MM_R|MM_F, "", "" },
   { 0,  "-r 72 -p 16", "TenThinnerGuys.ttf",	"tenthinnerguys",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 16", "TwelveDings.ttf",		"twelvedings",	31, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+
+  { 0,  "-r 72 -p 16", "Frigidaire.ttf",		"frigidaire",	31, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Lord.ttf",		"lord",	31, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Abel.ttf",		"abel",	31, 0, BM_M, FM_C, MM_R, "", "" },
+ 
+
+  
 
   /* tulamide, 32 */
   { 0,  "-r 72 -p 16", "Fewture.ttf",			"fewture",	32, 0, BM_T, FM_C, MM_N|MM_R|MM_F, "", "" },
@@ -658,11 +688,91 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "FancyPixels.ttf",			"fancypixels",	34, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HEAVYBOTTOM.ttf",			"heavybottom",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "IconQuadPix.ttf",			"iconquadpix",	34, 0, BM_M, FM_C, MM_C, "32-$ffff", "_all" },
-  { 0,  "-r 72 -p 16", "LastApprenticeBold.ttf",		"lastapprenticebold",	34, 0, BM_T, FM_C, MM_R, "", "" },
-  { 0,  "-r 72 -p 16", "LastApprenticeThin.ttf",		"lastapprenticethin",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Tallpix.ttf",				"tallpix",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "botmaker.ttf",				"botmaker",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "EfraneExtraCondensed.ttf",		"efraneextracondensed",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  
+  /* Capital A 3 */
+  { 0,  "-r 72 -p 16", "Minimal3x3.ttf",		                "minimal3x3",	34, 0, BM_T, FM_C, MM_U, "", "" },
+  { 0,  "-r 72 -p 16", "3x3Basic.ttf",		                 "3x3basic",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+  /* Capital A 4 */
+  { 0,  "-r 72 -p 16", "tinyByGK.ttf",		                "tiny_gk",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "ThreePix.ttf",		                "threepix",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "eventhrees.ttf",		                 "eventhrees",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Fourmat.ttf",		                        "fourmat",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  
+  /* Capital A 5 */
+  { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
+  { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_M, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
+  { 0,  "-r 72 -p 16", "smolFont.ttf",		                "smolfont",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "TinyUnicode.ttf",		                "tinyunicode",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "MicroPixel.ttf",		                "micropixel",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 6", "TinyPixie2.ttf",		                "tinypixie2",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Standardized3x5.ttf",		         "standardized3x5",	34, 0, BM_T, FM_C, MM_R, "", "" },  
+  { 0,  "-r 72 -p 8", "fivepx.ttf",		                        "fivepx",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Wedge.ttf",		                        "wedge",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 10", "Kibibyte.ttf",		                "kibibyte",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "TinyFace.ttf",		                "tinyface",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  /* other */
+  { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Simple1.ttf",		                "simple1",	34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },  
+  { 0,  "-r 72 -p 16", "LikeMinecraft.ttf",		                "likeminecraft",	34, 0, BM_T, FM_C, MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "MedSans.ttf",		                "medsans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "HeiSans.ttf",		                        "heisans",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "OriginalSans.ttf",		                "originalsans",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Minicute.ttf",		                "minicute",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Scrum.ttf",		                        "scrum",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "StylishCharm.ttf",		                "stylishcharm",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "SisterSerif.ttf",		                "sisterserif",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+
+  { 0,  "-r 72 -p 16", "Princess.ttf",		                        "princess",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Dystopia.ttf",		                "dystopia",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "LastApprenticeThin.ttf",                "lastapprenticethin",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "LastApprenticeBold.ttf",                "lastapprenticebold",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "BPixel.ttf",		                        "bpixel",	                        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "BPixelDouble.ttf",		                "bpixeldouble",	        34, 0, BM_T, FM_C, MM_R, "", "" },
   
 
+  { 0,  "-r 72 -p 16", "Mildras.ttf",		                "mildras",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_M, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "MinuteConsole.ttf",		"minuteconsole",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  
+
+  { 0,  "-r 72 -p 16", "BusDisplay11x5.ttf",		                "busdisplay11x5",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "BusDisplay8x5.ttf",		                "busdisplay8x5",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+
+  { 0,  "-r 72 -p 16", "Sticker100Complete.ttf",		                "sticker100complete",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 14", "DoomAlpha04.ttf",		                        "doomalpha04",	                        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "GreenBloodSerif2.ttf",		                "greenbloodserif2",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Eckpixel.ttf",		                "eckpixel",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Elispe.ttf",		                "elispe",	        34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Neuecraft.ttf",		                "neuecraft",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+
+  { 0,  "-r 72 -p 16", "8bitClassic.ttf",		                "8bitclassic",	                34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "LittleMissLoudonBold.ttf",		 "littlemissloudonbold",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Commodore64.ttf",		 "commodore64",	                34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "NEW3x9PixelFont.ttf",		 "new3x9pixelfont",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "SonicMania.ttf",		 "sonicmania",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "ByteSize.ttf",		 "bytesize",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "PixzillaV1.ttf",		 "pixzillav1",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Ciircle13.ttf",		 "ciircle13",	                34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "PxClassic.ttf",		 "pxclassic",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "MooseNooks.ttf",		 "moosenooks",	                34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "TallPixelExtended.ttf",		 "tallpixelextended",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  
+  
   /* JapanYoshi, 35*/
   { 0,  "-r 72 -p 16", "BBSesque.ttf",			"BBSesque",			35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "Born2bSportySlab.ttf",		"Born2bSportySlab",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
@@ -672,6 +782,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Engrish.ttf",				"Engrish",	35, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
   { 0,  "-r 72 -p 16", "ImpactBits.ttf",			"ImpactBits",	35, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "IPAandRUSLCD.ttf",			"IPAandRUSLCD",	35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "PixelTheatre.ttf",			"PixelTheatre",	35, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
 
 
   /* Pentacom, 36*/
@@ -682,6 +793,21 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Wizzard.ttf",				"Wizzard",			36, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "HelvetiPixelOutline.ttf",		"HelvetiPixelOutline",	36, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
   { 0,  "-r 72 -p 16", "Untitled16PixelSansSerifBitmapTestFont.ttf",	"Untitled16PixelSansSerifBitmap",	36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "UnnamedDOSFontIV.ttf",	"UnnamedDOSFontIV",	36, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Terminal.ttf",	"Terminal",	36, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+
+      /* HasanKazan, 41 */
+  { 0,  "-r 72 -p 16", "NokiaLargeBold.ttf",	"NokiaLargeBold",	41, 0, BM_T, FM_C, MM_E|MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "NokiaSmallBold.ttf",	"NokiaSmallBold",	41, 0, BM_T, FM_C, MM_E|MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "NokiaSmallPlain.ttf",	"NokiaSmallPlain",	41, 0, BM_T, FM_C, MM_E|MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "12x6LED.ttf",	"12x6LED",	41, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "12x6LED.ttf",	"12x6LED",	41, 0, BM_M, FM_C, MM_N, "", "" },
+  { 0,  "-r 72 -p 16", "9x6LED.ttf",	        "9x6LED",	41, 0, BM_T, FM_C, MM_F|MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "9x6LED.ttf",	        "9x6LED",	41, 0, BM_M, FM_C, MM_N, "", "" },
+
+      /* Integrated Mapping Ltd, 42 */
+  { 0,  0, "CalBlk36.bdf", 		"calblk36", 		42, 0, BM_T, FM_C, MM_R, "", "" },  
+  { 0,  0, "CalLite24.bdf", 		"callite24", 		42, 0, BM_T, FM_C, MM_R, "", "" },  
 
 //#endif   /* TMP */
 
@@ -1802,10 +1928,13 @@ char *cloud_utf8[] =
   "像素",
   "屏幕",
   "图形",
+  "制作",
   "Ψηφιακή",
+  "κατασκευάζω",
   "Οθόνη",
    "Γραφικά",
    "アイコン、",
+   "作る",
    "ビットマップ",
    "キャラクター、",  
   "전자", "엔지니어", "장치", "하드웨어",
@@ -1845,7 +1974,8 @@ char *cloud_utf8[] =
   "Science",
   "Digital",
   "Arduino",
-  "U8g2"
+  "U8g2",
+  "DIY"
 };
 
 char *cloud_str[] = 
@@ -1869,7 +1999,8 @@ char *cloud_str[] =
   "Science",
   "Digital",
   "Arduino",
-  "U8g2"
+  "U8g2",
+  "DIY"
 };
 
 char *cloud_simple[] = 
@@ -1877,7 +2008,7 @@ char *cloud_simple[] =
   "U8g2",
   "Abc",
   "XYZ",
-  "Aa",
+  "AaBb",
   "Xy"
 };
 
@@ -2185,7 +2316,8 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
 
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s.png", target_font_identifier );
+    /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s.png", target_font_identifier );
     system(convert_cmd);
     u8x8_fnt_cnt++;
   }
@@ -2212,7 +2344,8 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s.png", target_font_identifier );
+     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s.png", target_font_identifier );
     system(convert_cmd);
 
     u8g2_fnt_cnt++;
@@ -2240,7 +2373,8 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
     
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s_short.png", target_font_identifier );
+     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_short.png", target_font_identifier );
     system(convert_cmd);
 
     u8x8_fnt_cnt++;
@@ -2273,7 +2407,8 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
 
     tga_save("font.tga");
     
-    sprintf(convert_cmd, "convert font.tga -trim %s_short.png", target_font_identifier );
+    /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_short.png", target_font_identifier );
     system(convert_cmd);
 
     u8g2_fnt_cnt++;
@@ -2821,7 +2956,8 @@ void do_font_groups_wc(cbfn_t cb)
 
 
     tga_save("font.tga");    
-    sprintf(convert_cmd, "convert font.tga -trim %s_word_cloud.png", gi[current_font_group_index].reference );
+     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
+   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_word_cloud.png", gi[current_font_group_index].reference );
     system(convert_cmd);
 
     

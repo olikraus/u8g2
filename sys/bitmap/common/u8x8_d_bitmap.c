@@ -174,7 +174,7 @@ static u8x8_display_info_t u8x8_bitmap_info =
 
 /* allocate bitmap */
 /* will be called by u8x8_SetupBitmap or u8g2_SetupBitmap */
-static uint8_t u8x8_SetBitmapDeviceSize(u8x8_t *u8x8, uint16_t pixel_width, uint16_t pixel_height)
+static uint8_t u8x8_SetBitmapDeviceSize(U8X8_UNUSED u8x8_t *u8x8, uint16_t pixel_width, uint16_t pixel_height)
 {
   /* update the global bitmap object, allocate the bitmap */
   if ( u8x8_bitmap_SetSize(&u8x8_bitmap, pixel_width, pixel_height) == 0 )
@@ -189,17 +189,17 @@ static uint8_t u8x8_SetBitmapDeviceSize(u8x8_t *u8x8, uint16_t pixel_width, uint
 }
 
 /* draw tiles to the bitmap, called by the device procedure */
-static void u8x8_DrawBitmapTiles(u8x8_t *u8x8, uint16_t tx, uint16_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
+static void u8x8_DrawBitmapTiles(U8X8_UNUSED u8x8_t *u8x8, uint16_t tx, uint16_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
 {
   u8x8_bitmap_DrawTiles(&u8x8_bitmap, tx, ty, tile_cnt, tile_ptr);
 }
 
-uint8_t u8x8_GetBitmapPixel(u8x8_t *u8x8, uint16_t x, uint16_t y)
+uint8_t u8x8_GetBitmapPixel(U8X8_UNUSED u8x8_t *u8x8, uint16_t x, uint16_t y)
 {
   return u8x8_bitmap_GetPixel(&u8x8_bitmap, x, y);
 }
 
-void u8x8_SaveBitmapTGA(u8x8_t *u8x8, const char *filename)
+void u8x8_SaveBitmapTGA(U8X8_UNUSED u8x8_t *u8x8, const char *filename)
 {
   u8x8_bitmap_SaveTGA(&u8x8_bitmap, filename);
 }
