@@ -263,6 +263,12 @@
 
   26 Oct 2020, Arduino 18.4
   U8G2_SH1122_256X64_1_4W_HW_SPI, 16 Bit		Uno			Clip=9.9 Box=10.1  @=2.2 Pix=3.5
+  
+  5 Mar 2022, Arduino 1.8.4
+  U8G2_SH1106_128X64_NONAME_1_HW_I2C               Uno,u8x8_cad_ssd13xx_i2c                  Clip=14.0 Box=18.8  @=3.8 Pix=6.1
+  U8G2_SH1106_128X64_NONAME_1_HW_I2C               Uno,u8x8_cad_ssd13xx_fast_i2c                  Clip=14.5 Box=19.6  @=3.8 Pix=6.2
+  
+  u8x8_cad_ssd13xx_fast_i2c
 
 */
 
@@ -299,7 +305,7 @@
 //U8G2_SSD1306_128X64_ALT0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// same as the NONAME variant, but may solve the "every 2nd line skipped" problem
 //U8G2_SSD1306_102X64_EA_OLEDS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// same as the NONAME variant, but may solve the "every 2nd line skipped" problem
 //U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1106_128X64_VCOMH0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8G2_SH1106_128X64_WINSTAR_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but uses updated SH1106 init sequence
 //U8G2_SH1106_128X32_VISIONOX_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); 

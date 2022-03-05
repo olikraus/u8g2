@@ -176,7 +176,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "sh1106", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "128x64_noname" },
@@ -195,7 +195,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "sh1106", 	9, 	5, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "sh1106", 	9, 	5, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "72x40_wise" },
@@ -212,7 +212,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "sh1106", 	8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "sh1106", 	8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "64x32" },
