@@ -700,6 +700,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "tinyByGK.ttf",		                "tiny_gk",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "ThreePix.ttf",		                "threepix",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "eventhrees.ttf",		                 "eventhrees",	34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "Fourmat.ttf",		                        "fourmat",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
   
   /* Capital A 5 */
   { 0,  "-r 72 -p 7", "tinyBySimon.ttf",		                "tiny_simon",	34, 0, BM_T, FM_C, MM_R, "", "" },  /* fixed, -p16 is wrong */
@@ -714,7 +715,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 10", "3x5.ttf",		                "3x5im",	        34, 0, BM_M, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 16", "Wedge.ttf",		                        "wedge",	34, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 10", "Kibibyte.ttf",		                "kibibyte",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
-  { 0,  "-r 72 -p 16", "TinyFace.ttf",		                "tinyface",	        34, 0, BM_T|BM_M, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "TinyFace.ttf",		                "tinyface",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
 
   /* other */
   { 0,  "-r 72 -p 16", "SmallSimple.ttf",		                "smallsimple",	34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
@@ -757,6 +758,20 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 16", "Neuecraft.ttf",		                "neuecraft",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
 
 
+  { 0,  "-r 72 -p 16", "8bitClassic.ttf",		                "8bitclassic",	                34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "LittleMissLoudonBold.ttf",		 "littlemissloudonbold",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Commodore64.ttf",		 "commodore64",	                34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "NEW3x9PixelFont.ttf",		 "new3x9pixelfont",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "SonicMania.ttf",		 "sonicmania",	        34, 0, BM_T, FM_C, MM_R|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "ByteSize.ttf",		 "bytesize",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "PixzillaV1.ttf",		 "pixzillav1",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  { 0,  "-r 72 -p 16", "Ciircle13.ttf",		 "ciircle13",	                34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "PxClassic.ttf",		 "pxclassic",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+
+  { 0,  "-r 72 -p 16", "MooseNooks.ttf",		 "moosenooks",	                34, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 16", "TallPixelExtended.ttf",		 "tallpixelextended",	        34, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
+  
   
   /* JapanYoshi, 35*/
   { 0,  "-r 72 -p 16", "BBSesque.ttf",			"BBSesque",			35, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", "" },
