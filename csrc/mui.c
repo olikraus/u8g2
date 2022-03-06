@@ -813,7 +813,7 @@ void mui_RestoreForm(mui_t *ui)
 
 /*
   Save a cursor position for mui_GotoFormAutoCursorPosition command
-  Only one such position is stored.
+  Two such positions is stored.
 */
 void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position)
 {
