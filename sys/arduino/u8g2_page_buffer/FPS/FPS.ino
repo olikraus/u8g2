@@ -268,7 +268,6 @@
   U8G2_SH1106_128X64_NONAME_1_HW_I2C               Uno,u8x8_cad_ssd13xx_i2c                  Clip=14.0 Box=18.8  @=3.8 Pix=6.1
   U8G2_SH1106_128X64_NONAME_1_HW_I2C               Uno,u8x8_cad_ssd13xx_fast_i2c                  Clip=14.5 Box=19.6  @=3.8 Pix=6.2
   
-  u8x8_cad_ssd13xx_fast_i2c
 
 */
 

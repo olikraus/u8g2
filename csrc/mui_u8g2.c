@@ -90,6 +90,55 @@
 
   mui _input_char_invers_select_u8g2 --> mui_u8g2_u8_char_wm_mud_pi
 
+
+
+  2 Buttons
+    Only use "mse", don't use "mud"
+  
+    Button      Call                            Description
+    1                mui_SendSelect()    Activate elements & change values
+    2                mui_NextField()      Goto next field
+    
+  3 Buttons
+    Use "mse" or "mud"
+    Button      Call                            Description
+    1                mui_SendSelect()    Activate elements / change values (mse) / enter "mud" mode (mud)
+    2                mui_NextField()      Goto next field, increment value (mud)
+    3                mui_PrevField()      Goto prev field, decrement value (mud)
+    
+  4 Buttons
+    Prefer "mse"
+    Button      Call                                            Description
+    1                mui_SendValueIncrement()    Activate elements / increment values (mse)
+    2                mui_SendValueDecrement()   Activate elements / decrement values (mse)
+    3                mui_NextField()                       Goto next field
+    4                mui_PrevField()                        Goto prev field
+
+  5 Buttons
+    Prefer "mse", use the MUIF_EXECUTE_ON_SELECT_BUTTON on forms to finish the form with the "form select" button 5
+    Button      Call                                                                                            Description
+    1                mui_SendValueIncrement()                                                           Activate elements / increment values (mse)
+    2                mui_SendValueDecrement()                                                         Activate elements / decrement values (mse)
+    3                mui_NextField()                                                                            Goto next field
+    4                mui_PrevField()                                                                     Goto prev field
+    5                mui_SendSelectWithExecuteOnSelectFieldSearch()             Execute the MUIF_EXECUTE_ON_SELECT_BUTTON button or activate the current element if there is no EOS button
+    
+  rotary encoder, push&release
+    Prefer "mud"
+    Button      Call                            Description
+    encoder button                 mui_SendSelect()    Activate elements / change values (mse) / enter "mud" mode (mud)
+    encoder CW                      mui_NextField()      Goto next field, increment value (mud)
+    encoder CCW                    mui_PrevField()      Goto prev field, decrement value (mud)
+  
+  rotary encoder, push&rotate
+    Prefer "mse"
+    Button                                      Call                                            Description
+    encoder CW                                  mui_SendValueIncrement()    Activate elements / increment values (mse)
+    encoder CCW                                 mui_SendValueDecrement()   Activate elements / decrement values (mse)
+    encoder CW+button press                mui_NextField()                       Goto next field
+    encoder CCW+button press                mui_PrevField()                        Goto prev field
+
+
 */
 
 
@@ -119,6 +168,10 @@ uint8_t mui_template(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
       break;
     case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_VALUE_INCREMENT:
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
       break;
     case MUIF_MSG_TOUCH_DOWN:
       break;
@@ -359,6 +412,10 @@ uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_CURSOR_SELECT:
       break;
+    case MUIF_MSG_VALUE_INCREMENT:
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -409,6 +466,8 @@ uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
@@ -436,6 +495,8 @@ uint8_t mui_u8g2_btn_goto_wm_if(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
    case MUIF_MSG_CURSOR_LEAVE:
@@ -464,6 +525,8 @@ uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
@@ -491,6 +554,8 @@ uint8_t mui_u8g2_btn_goto_w2_if(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
@@ -544,6 +609,8 @@ uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       {
         uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
         if ( value != NULL )
@@ -578,6 +645,8 @@ uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
@@ -607,6 +676,8 @@ uint8_t mui_u8g2_btn_goto_w1_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
@@ -670,8 +741,12 @@ uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*value)++;
       if ( *value > max ) *value = min;
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value > min ) (*value)--; else *value = max;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -701,7 +776,9 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      /* toggle between normal mode and capture next/prev mode */
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
+     /* toggle between normal mode and capture next/prev mode */
       ui->is_mud = !ui->is_mud;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
@@ -716,7 +793,7 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg)
         (*value)++;
         if ( *value > max )
           *value = min;
-        return 1;
+        return 1; 
       }
       break;
     case MUIF_MSG_EVENT_PREV:
@@ -784,8 +861,12 @@ uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*value)++;
       if ( *value > max ) *value = min;
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value > min ) (*value)--; else *value = max;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -815,6 +896,8 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       /* toggle between normal mode and capture next/prev mode */
       ui->is_mud = !ui->is_mud;
       break;
@@ -928,8 +1011,12 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*value)+=step;
       if ( *value > max ) *value = min;
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value >= min+step ) (*value)-=step; else *value = max;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -961,6 +1048,8 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       /* toggle between normal mode and capture next/prev mode */
       ui->is_mud = !ui->is_mud;
       break;
@@ -1012,8 +1101,12 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*value)+=step;
       if ( *value > max ) *value = min;
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value >= min+step ) (*value)-=step; else *value = max;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -1044,6 +1137,8 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       /* toggle between normal mode and capture next/prev mode */
       ui->is_mud = !ui->is_mud;
       break;
@@ -1119,7 +1214,9 @@ uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
-      /* toggle between normal mode and capture next/prev mode */
+     case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
+     /* toggle between normal mode and capture next/prev mode */
        ui->is_mud = !ui->is_mud;
      break;
     case MUIF_MSG_CURSOR_LEAVE:
@@ -1203,9 +1300,16 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*value)++;
       if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
         *value = 0;      
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value > 0 ) 
+        (*value)--;
+      else
+        (*value) = mui_fds_get_token_cnt(ui)-1;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -1239,9 +1343,16 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*value)++;
       if ( mui_fds_get_nth_token(ui, *value) == 0 ) 
         *value = 0;      
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value > 0 ) 
+        (*value)--;
+      else
+        (*value) = mui_fds_get_token_cnt(ui)-1;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -1275,6 +1386,8 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       /* toggle between normal mode and capture next/prev mode */
        ui->is_mud = !ui->is_mud;
      break;
@@ -1328,6 +1441,8 @@ uint8_t mui_u8g2_u8_opt_line_wa_mud_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       /* toggle between normal mode and capture next/prev mode */
        ui->is_mud = !ui->is_mud;
      break;
@@ -1425,8 +1540,11 @@ uint8_t mui_u8g2_u8_chkbox_wm_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       (*value)++;
       if ( *value > 1 ) *value = 0;      
+      break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
     case MUIF_MSG_TOUCH_DOWN:
@@ -1479,6 +1597,8 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       *value = ui->arg;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
@@ -1514,6 +1634,8 @@ uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       mui_SaveForm(ui);          // store the current form and position so that the child can jump back
       mui_GotoForm(ui, ui->arg, *value);  // assumes that the selectable values are at the beginning of the form definition
       break;
@@ -1552,6 +1674,8 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       if ( value != NULL )
         *value = ui->form_scroll_top + arg;
       mui_RestoreForm(ui);
@@ -1815,9 +1939,16 @@ uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
       (*selection)++;
       if ( *selection >= count_cb(data) ) 
         *selection = 0;
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *selection > 0 )
+        (*selection)--;
+      else
+        (*selection) = count_cb(data)-1;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -1851,6 +1982,8 @@ uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       /* toggle between normal mode and capture next/prev mode */
        ui->is_mud = !ui->is_mud;
       break;
@@ -1908,6 +2041,8 @@ uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       mui_SaveForm(ui);          // store the current form and position so that the child can jump back
       mui_GotoForm(ui, ui->arg, *selection);  // assumes that the selectable values are at the beginning of the form definition
       break;
@@ -1949,6 +2084,8 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_ENTER:
       return mui_u8g2_handle_scroll_next_prev_events(ui, msg);
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       if ( selection != NULL )
         *selection = ui->form_scroll_top + arg;
       mui_RestoreForm(ui);
@@ -2026,6 +2163,8 @@ uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg)
       //mui_u8g2_draw_button_utf(ui, mui_u8g2_get_pi_flags(ui), u8g2_GetDisplayWidth(u8g2)-mui_get_x(ui)*2, mui_get_x(ui), MUI_U8G2_V_PADDING, element_cb(data, pos)+1);
       break;
     case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
       if ( selection != NULL )
         *selection = pos;
       mui_SaveCursorPosition(ui, pos >= 255 ? 0 : pos);     // store the current cursor position, so that the user can jump back to the corresponding cursor position

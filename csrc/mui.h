@@ -154,14 +154,6 @@ struct muif_struct
   muif_cb cb;                        // callback
 } MUI_PROGMEM;
 
-#define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb} 
-#define MUIF_STYLE(n,cb)  MUIF("S" #n, 0, 0, cb) 
-#define MUIF_RO(id,cb) MUIF(id,0, 0,cb)
-#define MUIF_LABEL(cb) MUIF(".L",0, 0,cb)
-#define MUIF_GOTO(cb) MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,cb)
-#define MUIF_BUTTON(id,cb) MUIF(id,MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,cb)
-#define MUIF_VARIABLE(id,var,cb) MUIF(id,MUIF_CFLAG_IS_CURSOR_SELECTABLE,(var),cb)
-
 /* assumes that pointers are 16 bit so encapusalte the wread i another ifdef __AVR__ */
 #if defined(__GNUC__) && defined(__AVR__)
 #  define muif_get_id0(muif) mui_pgm_read(&((muif)->id0))
@@ -188,13 +180,21 @@ struct muif_struct
 /* MUIF_MSG_CURSOR_ENTER return values: 255=skip this field, <255, continue*/
 #define MUIF_MSG_CURSOR_ENTER 4
 #define MUIF_MSG_CURSOR_SELECT 5
-#define MUIF_MSG_CURSOR_LEAVE 6
-#define MUIF_MSG_TOUCH_DOWN 7
-#define MUIF_MSG_TOUCH_UP 8
+
+/* optional VALUE messages, ignored by the mui core, but can be used inside the field functions  */
+/* usually MUIF_MSG_VALUE_INCREMENT behaves like  MUIF_MSG_CURSOR_SELECT */
+#define MUIF_MSG_VALUE_INCREMENT 6
+#define MUIF_MSG_VALUE_DECREMENT 7
+
+
+#define MUIF_MSG_CURSOR_LEAVE 8
+#define MUIF_MSG_TOUCH_DOWN 9
+#define MUIF_MSG_TOUCH_UP 10
 /* MUIF_MSG_EVENT_NEXT return values: 0=not handled, 1=handled, do nothing */
-#define MUIF_MSG_EVENT_NEXT 9
+/* If MUIF_MSG_EVENT_NEXT/PREV are NOT handled by the field function, then this msg will change the field */
+#define MUIF_MSG_EVENT_NEXT 11
 /* MUIF_MSG_EVENT_PREV return values: 0=not handled, 1=handled, do nothing */
-#define MUIF_MSG_EVENT_PREV 10
+#define MUIF_MSG_EVENT_PREV 12
 
 /* dynamic flags */
 #define MUIF_DFLAG_IS_CURSOR_FOCUS 0x01
@@ -203,6 +203,19 @@ struct muif_struct
 /* config flags */
 #define MUIF_CFLAG_IS_CURSOR_SELECTABLE 0x01
 #define MUIF_CFLAG_IS_TOUCH_SELECTABLE 0x02
+#define MUIF_CFLAG_IS_EXECUTE_ON_SELECT 0x04
+
+
+/* end user MUIF entries */
+#define MUIF(id,cflags,data,cb) { id[0], id[1], cflags, 0, data, cb} 
+#define MUIF_STYLE(n,cb)  MUIF("S" #n, 0, 0, cb) 
+#define MUIF_RO(id,cb) MUIF(id,0, 0,cb)
+#define MUIF_LABEL(cb) MUIF(".L",0, 0,cb)
+#define MUIF_GOTO(cb) MUIF(".G",MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,cb)
+#define MUIF_BUTTON(id,cb) MUIF(id,MUIF_CFLAG_IS_CURSOR_SELECTABLE,0,cb)
+#define MUIF_EXECUTE_ON_SELECT_BUTTON(id,cb) MUIF(id,MUIF_CFLAG_IS_CURSOR_SELECTABLE|MUIF_CFLAG_IS_EXECUTE_ON_SELECT,0,cb)
+#define MUIF_VARIABLE(id,var,cb) MUIF(id,MUIF_CFLAG_IS_CURSOR_SELECTABLE,(var),cb)
+
 
 
 /* must be smaller than or equal to 255 */
@@ -247,7 +260,7 @@ struct mui_struct
   uint8_t arg;          // extra argument of the field. For example the G: form is put here
   int len;          // length of the current command
   fds_t *fds;             // current position, *fds = cmd
-  muif_t *uif;                   // user interface field or style for the given id0 / id1
+  muif_t *uif;                   // user interface field or style for the given id0 / id1, assigned by mui_prepare_current_field()
   char text[MUI_MAX_TEXT_LEN+1];
 
   /* target  */
@@ -577,6 +590,10 @@ int mui_GetCurrentFormId(mui_t *ui);    /* form id or -1 if the menu system is i
 void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);
+void mui_SendSelectWithExecuteOnSelectFieldSearch(mui_t *ui);  /* use this if MUIF_EXECUTE_ON_SELECT_BUTTON is used */
+
+void mui_SendValueIncrement(mui_t *ui);
+void mui_SendValueDecrement(mui_t *ui);
 
 
 

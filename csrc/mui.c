@@ -320,7 +320,7 @@ int mui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
 
 /*
   assumes a valid position in ui->fds and calculates all the other variables
-  some fields are alway calculated like the ui->cmd and ui->len field
+  some fields are always calculated like the ui->cmd and ui->len field
   other member vars are calculated only if the return value is 1
   will return 1 if the field id was found.
   will return 0 if the field id was not found in uif or if ui->fds points to something else than a field
@@ -432,7 +432,7 @@ static void mui_inner_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
     cmd = mui_get_fds_char(ui->fds);
     if ( cmd == 'U' || cmd == 0 )
       break;
-    if ( mui_prepare_current_field(ui) )
+    if ( mui_prepare_current_field(ui) )  /* side effect: calculate ui->len */
       if ( task(ui) )         /* call the task, which was provided as argument to this function */
       {
         //MUI_DEBUG("mui_inner_loop_over_form break by task\n");
@@ -599,6 +599,16 @@ uint8_t mui_task_read_nth_selectable_field(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
+uint8_t mui_task_find_execute_on_select_field(mui_t *ui)
+{
+  if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_EXECUTE_ON_SELECT )
+  {
+      ui->target_fds = ui->fds;
+      return 1;         /* stop looping */
+  }
+  return 0;     /* continue with the loop */
+}
+
 
 /* === utility functions for the user API === */
 
@@ -654,35 +664,6 @@ void mui_next_field(mui_t *ui)
   }
 }
 
-/*
-  this function will overwrite the ui field related member variables
-  nth_token can be 0 if the fiel text is not a option list
-  the result is stored in ui->text
-*/
-/* OBSOLETE */
-#ifdef OBSOLETE
-void mui_GetSelectableFieldTextOptionByCursorPosition(mui_t *ui, uint8_t form_id, uint8_t cursor_position, uint8_t nth_token)
-
-  fds_t *fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
-  int len = ui->len;          // backup length of the current command
-
-  
-  ui->fds = mui_find_form(ui, form_id);          // search for the target form and overwrite the current fds
-
-  // use the inner_loop procedure, because ui->fds has been assigned already
-  ui->tmp8 = cursor_position;   // maybe we should also backup tmp8, but at the moment tmp8 is only used by mui_task_get_current_cursor_focus_position
-  //MUI_DEBUG("mui_GetSelectableFieldTextOption\n");
-  mui_inner_loop_over_form(ui, mui_task_read_nth_selectable_field);
-  // at this point ui->fds contains the field which was selected from above
-  
-  // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
-  mui_fds_get_nth_token(ui, nth_token);          // return value is ignored here
-  
-  ui->fds = fds;                        // restore the previous fds position
-  ui->len = len;
-  // result is stored in ui->text
-}
-#endif
 
 /*
   this function will overwrite the ui field related member variables
@@ -710,36 +691,6 @@ uint8_t mui_GetSelectableFieldTextOption(mui_t *ui, fds_t *fds, uint8_t nth_toke
   // result is stored in ui->text
   return is_found;
 }
-
-/*
-  this function will overwrite the ui field related member variables
-  return the number of options in the referenced field
-*/
-/* OBSOLETE */
-#ifdef OBSOLETE
-uint8_t mui_GetSelectableFieldOptionCntByCursorPosition(mui_t *ui, uint8_t form_id, uint8_t cursor_position)
-{
-  fds_t *fds = ui->fds;                                // backup the current fds, so that this function can be called inside a task loop 
-  int len = ui->len;          // backup length of the current command
-  uint8_t cnt = 0;
-  
-  ui->fds = mui_find_form(ui, form_id);          // search for the target form and overwrite the current fds
-
-  // use the inner_loop procedure, because ui->fds has been assigned already
-  ui->tmp8 = cursor_position;   // maybe we should also backup tmp8, but at the moment tmp8 is only used by mui_task_get_current_cursor_focus_position
-  //MUI_DEBUG("mui_GetSelectableFieldOptionCnt\n");
-  mui_inner_loop_over_form(ui, mui_task_read_nth_selectable_field);
-  // at this point ui->fds contains the field which was selected from above
-  
-  // now get the opion string out of the text field. nth_token can be 0 if this is no opion string
-  cnt = mui_fds_get_token_cnt(ui); 
-  
-  ui->fds = fds;                        // restore the previous fds position
-  ui->len = len;
-  // result is stored in ui->text
-  return cnt;
-}
-#endif
 
 uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds)
 {
@@ -952,3 +903,35 @@ void mui_SendSelect(mui_t *ui)
   mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_SELECT);  
 }
 
+/*
+  Same as mui_SendSelect(), but will try to find a field, which is marked as "execute on select" (MUIF_EXECUTE_ON_SELECT_BUTTON).
+  If such a field exists, then this field is executed, otherwise the current field will receive the select message.
+*/
+void mui_SendSelectWithExecuteOnSelectFieldSearch(mui_t *ui)
+{
+  mui_loop_over_form(ui, mui_task_find_execute_on_select_field);  /* Is there a exec on select field? */
+  if ( ui->target_fds != NULL )       /* yes, found, ui->fds already points to the field */
+  {
+    fds_t *exec_on_select_field = ui->target_fds;
+    mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_LEAVE);
+    ui->cursor_focus_fds = exec_on_select_field;    /* more cursor on the "exec on select" field */
+    mui_send_cursor_enter_msg(ui);      
+    mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_SELECT);  
+  }
+  else
+  {
+    /* no "exec on select" field found, just send the select message to the field */
+    mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_SELECT);  
+  }
+}
+
+
+void mui_SendValueIncrement(mui_t *ui)
+{
+  mui_send_cursor_msg(ui, MUIF_MSG_VALUE_INCREMENT);  
+}
+
+void mui_SendValueDecrement(mui_t *ui)
+{
+  mui_send_cursor_msg(ui, MUIF_MSG_VALUE_DECREMENT);  
+}
