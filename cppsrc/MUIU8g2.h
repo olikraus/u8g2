@@ -75,6 +75,10 @@ class MUIU8G2
     void nextField(void) { mui_NextField(&mui); }
     void prevField(void) { mui_PrevField(&mui); }
     void sendSelect(void) { mui_SendSelect(&mui); }
+    
+    void sendSelectWithExecuteOnSelectFieldSearch(void) { mui_SendSelectWithExecuteOnSelectFieldSearch(&mui); }
+    
+    
     int isFormActive(void) { return mui_IsFormActive(&mui); }    
 };
 
