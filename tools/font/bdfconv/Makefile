@@ -22,8 +22,13 @@ clean:
 test:	bdfconv
 	./bdfconv 
 
+issue_1811: bdfconv
+	./bdfconv -f 1 -v -m '32-127,$$980-$$9FF,$$A00-$$A7F,$$A80-$$AFF,$$B00-$$B7f,$$B80-$$BFF,$$C00-$$C7f,$$C80-$$CFF' ../bdf/unifont.bdf -n unifont_1811 -o unifont_1811.c -d ../bdf/7x13.bdf
+	convert -trim bdf.tga issue_1811.png
+
 greek: bdfconv
 	./bdfconv -f 1 -v -m '32-127,$$370-$$3ff' ../bdf/unifont.bdf -n unifont_greek -o unifont_greek.c -d ../bdf/7x13.bdf
+
 
 cyrillic: bdfconv
 	./bdfconv -f 1 -v -m '$$20-$$7E, $$410-$$44F' ../bdf/unifont.bdf -n unifont_cyrillic_44f -o unifont_cyrillic_44f.c -d ../bdf/7x13.bdf
