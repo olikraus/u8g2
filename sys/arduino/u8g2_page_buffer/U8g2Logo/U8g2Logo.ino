@@ -346,7 +346,6 @@ void setup(void) {
 
 
   u8g2.begin();
-  u8g2.setFlipMode(0);
 }
 
 void drawLogo(void)

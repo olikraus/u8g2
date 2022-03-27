@@ -134,7 +134,8 @@ void u8x8_InitInterface(u8x8_t *u8x8)
 */
 void u8x8_InitDisplay(u8x8_t *u8x8)
 {
-  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_INIT, 0, NULL);  
+  u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_INIT, 0, NULL);       /* this will call u8x8_d_helper_display_init() and send the init seqence to the display */
+  /* u8x8->display_cb(u8x8, U8X8_MSG_DISPLAY_SET_FLIP_MODE, 0, NULL);  */ /* It would make sense to call flip mode 0 here after U8X8_MSG_DISPLAY_INIT */
 }
 
 void u8x8_SetPowerSave(u8x8_t *u8x8, uint8_t is_enable)
