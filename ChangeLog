@@ -278,9 +278,11 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7920 256x32 (issue 1593)
   * ST7567 122x32 (issue 1759)
   * ST7571 128X96 (issue 1575)
+  * SSD1312 (issue 1806)
   * ST7571 128x128 (bugfix issue 1576)
   * Added support for UC1609 (issue 1565)
   * Added support for GU800 series of Vacuum Fluorescent Displays (VFD, issue 1604)
   * Changed SPI Mode for Sharp displays (ls013..., issue 1771)
   * Added many more fonts
+  * Fixed several bugs and compiler errors
   
