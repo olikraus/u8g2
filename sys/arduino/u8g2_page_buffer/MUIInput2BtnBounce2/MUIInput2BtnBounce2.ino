@@ -1,6 +1,6 @@
 /*
 
-  MUIInput3BtnBounce2.ino
+  MUIInput2BtnBounce2.ino
 
   U8g2 Menu with Bounce2 Library (https://github.com/thomasfredericks/Bounce2).
   
@@ -43,7 +43,6 @@
 // To which pins are the buttons connected?
 #define SELECT_PIN 6
 #define NEXT_PIN 7
-#define PREV_PIN 5
 
 
 
@@ -319,7 +318,6 @@ MUIU8G2 mui;
 // Define button objects
 Bounce2::Button selectBtn = Bounce2::Button();
 Bounce2::Button nextBtn = Bounce2::Button();
-Bounce2::Button prevBtn = Bounce2::Button();
 
 /*
   global variables which form the communication gateway between the user interface and the rest of the code
@@ -384,10 +382,10 @@ muif_t muif_list[] = {
   MUIF_RO("GP",mui_u8g2_goto_data),  
   MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
 
-  /* this example will use three buttons, so use "mud" functions here */
-  MUIF_U8G2_U8_MIN_MAX("NV", &num_value, 0, 99, mui_u8g2_u8_min_max_wm_mud_pi),
-  MUIF_U8G2_U8_MIN_MAX_STEP("NB", &bar_value, 0, 16, 1, MUI_MMS_2X_BAR, mui_u8g2_u8_bar_wm_mud_pf),
-  MUIF_U8G2_U16_LIST("NA", &animal_idx, NULL, animal_name_list_get_str, animal_name_list_get_cnt, mui_u8g2_u16_list_line_wa_mud_pi),
+  /* this example will use three buttons, so use "mse" functions here */
+  MUIF_U8G2_U8_MIN_MAX("NV", &num_value, 0, 99, mui_u8g2_u8_min_max_wm_mse_pi),
+  MUIF_U8G2_U8_MIN_MAX_STEP("NB", &bar_value, 0, 16, 1, MUI_MMS_2X_BAR, mui_u8g2_u8_bar_wm_mse_pf),
+  MUIF_U8G2_U16_LIST("NA", &animal_idx, NULL, animal_name_list_get_str, animal_name_list_get_cnt, mui_u8g2_u16_list_line_wa_mse_pi),
 
   /* register custom function to show the data */
   MUIF_RO("SH", show_my_data), 
@@ -402,7 +400,7 @@ fds_t fds_data[] =
 
 MUI_FORM(1)
 MUI_STYLE(1)
-MUI_LABEL(5, 8, "3 Btn Bounce2 Lib")
+MUI_LABEL(5, 8, "2 Btn Bounce2 Lib")
 MUI_STYLE(0)
 MUI_XY("HR", 0,11)
 MUI_DATA("GP", 
@@ -447,10 +445,6 @@ void setup(void) {
   nextBtn.interval(5); // debounce interval in milliseconds
   nextBtn.setPressedState(LOW);  // Indicate which state corresponds to a button press
 
-  prevBtn.attach( PREV_PIN, INPUT_PULLUP ); 
-  prevBtn.interval(5); // debounce interval in milliseconds
-  prevBtn.setPressedState(LOW);  // Indicate which state corresponds to a button press
-  
   u8g2.begin();
   mui.begin(u8g2, fds_data, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui.gotoForm(/* form_id= */ 1, /* initial_cursor_position= */ 0);
@@ -459,7 +453,6 @@ void setup(void) {
 void check_events(void) {
   selectBtn.update();
   nextBtn.update();
-  prevBtn.update();
 }
 
 void handle_events(void) {
@@ -472,10 +465,6 @@ void handle_events(void) {
     mui.nextField();
     is_redraw = 1;
   }
-  else if ( prevBtn.pressed() ) {
-    mui.prevField();
-    is_redraw = 1;
-  }    
 }
 
 
