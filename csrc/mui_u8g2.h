@@ -157,24 +157,27 @@ uint8_t mui_u8g2_u8_opt_line_wa_mse_pf(mui_t *ui, uint8_t msg); /* GIF, MUIF_VAR
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
 uint8_t mui_u8g2_u8_opt_line_wa_mud_pf(mui_t *ui, uint8_t msg); /* GIF, MUIF_VARIABLE,MUI_XYAT */
 
+/* dropdown list / combo box */
 /* The text part of the parent defines a '|' separted list of elements, which can be selected by the child. */
 /* Argument is a form number where the child element is placed multiple times */ 
 /* The child form does not require the ok button, because the child function will return to the parent with the select element */
+/* TODO: remove "mse" from the fn name */
 uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_VARIABLE, MUI_XYAT */
 uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg);        /* GIF, MUIF_VARIABLE, MUI_XYA */
 uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* GIF, MUIF_VARIABLE, MUI_XYA */
 uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg);                /* MUIF_VARIABLE, MUI_XYA */ 
+/* Note: there is no opt_child_goto muif, because this can be done with mui_u8g2_goto_form_w1_mse_pi */
 
-
-//uint8_t mui_u8g2_goto_parent(mui_t *ui, uint8_t msg);                        /* MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
-// renamed to 
+/* (scrollable) jump menu */
+/* The text part of the parent defines a '|' separted list of elements, which can be selected goto_form functions. */
+/* Each '|' separted element must be prefixed with the form number (MUI_x) */
+/* TODO: remove "mse" from the fn name */
 uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg);                        /* REF, MUIF_RO, MUI_DATA (WARNING: Must appear only once per form!!! */
-//uint8_t mui_u8g2_goto_child_w1_mse_pi(mui_t *ui, uint8_t msg);          /* MUIF_BUTTON, MUI_XYA */
-// renamed to 
 uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg);          /* REF, MUIF_BUTTON, MUI_XYA */
 uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg);           /* REF, MUIF_BUTTON, MUI_XYA */
 
 
+/* character input */
 uint8_t mui_u8g2_u8_char_wm_mud_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_VARIABLE,MUI_XY, usually requires a monospaced font line profont12 */
 
 
@@ -236,9 +239,10 @@ uint8_t mui_u8g2_u16_list_line_wa_mse_pi(mui_t *ui, uint8_t msg);       /* GIF, 
 uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=pixel fieldsize */
 
 
+/* dropdown list / combo box with 16 size and callback functions for MUIF_U8G2_U16_LIST */
+/* TODO: remove "mse" from the fn name */
 uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg);     /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=subform */
 uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg);      /* GIF, MUIF_U8G2_U16_LIST, MUI_XYA, arg=sub element number */
-
 uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg);               /* REF, MUIF_U8G2_U16_LIST first char of the string denotes the target form */
 
 
