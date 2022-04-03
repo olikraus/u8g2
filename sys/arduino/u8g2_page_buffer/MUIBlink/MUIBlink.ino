@@ -391,7 +391,7 @@ muif_t muif_list[] = {
   MUIF_RO("HR", mui_hrule),
   MUIF_U8G2_LABEL(),
   MUIF_RO("GP",mui_u8g2_goto_data),
-  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
+  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_pi),
 
   MUIF_U8G2_U8_MIN_MAX("NB", &blink_light, 0, 4, mui_u8g2_u8_min_max_wm_mse_pi),
   MUIF_U8G2_U8_MIN_MAX("NT", &blink_time, 0, 4, mui_u8g2_u8_min_max_wm_mse_pi),

@@ -382,7 +382,7 @@ muif_t muif_list[] = {
   MUIF_RO("HR", mui_hrule),
   MUIF_U8G2_LABEL(),
   MUIF_RO("GP",mui_u8g2_goto_data),  
-  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
+  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_pi),
 
   /* this example will use three buttons, so use "mud" functions here */
   MUIF_U8G2_U8_MIN_MAX("NV", &num_value, 0, 99, mui_u8g2_u8_min_max_wm_mud_pi),

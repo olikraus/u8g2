@@ -83,7 +83,7 @@
   mui _input_uint8_invers_select_u8g2 --> mui_u8g2_u8_value_0_9_wm_mse_pi
   mui _single_line_option_invers_select_u8g2     --> mui_u8g2_u8_opt_line_wa_mse_pi
   mui _select_options_parent_invers_select_u8g2  --> mui_u8g2_u8_opt_parent_wa_mse_pi
-  mui _select_options_child_invers_select_u8g2  --> mui_u8g2_u8_opt_child_wm_mse_pi
+  mui _select_options_child_invers_select_u8g2  --> mui_u8g2_u8_opt_child_wm_pi
 
   mui _checkbox_invers_select_u8g2 --> mui_u8g2_u8_chkbox_wm_pi
   mui _radio_invers_select_u8g2 --> mui_u8g2_u8_radio_wm_pi
@@ -1612,7 +1612,7 @@ uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u8_opt_parent_wm_pi(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   switch(msg)
@@ -1695,7 +1695,7 @@ uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u8_opt_radio_child_wm_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -1740,7 +1740,7 @@ uint8_t mui_u8g2_u8_opt_radio_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u8_opt_radio_child_w1_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -1786,7 +1786,7 @@ uint8_t mui_u8g2_u8_opt_radio_child_w1_mse_pi(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u8_opt_child_wm_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   //uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
@@ -1833,7 +1833,7 @@ uint8_t mui_u8g2_u8_opt_child_wm_mse_pi(mui_t *ui, uint8_t msg)
 
   mui_u8g2_goto_parent --> mui_u8g2_goto_data
 
-  Used together with mui_u8g2_goto_form_w1_mse_pi
+  Used together with mui_u8g2_goto_form_w1_pi
 
 */
 uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg)
@@ -1865,9 +1865,9 @@ uint8_t mui_u8g2_goto_data(mui_t *ui, uint8_t msg)
 
 
 /*
-mui_u8g2_goto_child_w1_mse_pi --> mui_u8g2_goto_form_w1_mse_pi
+mui_u8g2_goto_child_w1_mse_pi --> mui_u8g2_goto_form_w1_pi
 */
-uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_goto_form_w1_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten  
@@ -1890,7 +1890,7 @@ uint8_t mui_u8g2_goto_form_w1_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-uint8_t mui_u8g2_goto_form_w1_mse_pf(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_goto_form_w1_pf(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten  
@@ -2020,7 +2020,7 @@ uint8_t mui_u8g2_u16_list_line_wa_mud_pi(mui_t *ui, uint8_t msg)
   FDS: MUI_XYA, arg=form id
   data: mui_u8g2_list_t *
 */
-uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u16_list_parent_wm_pi(mui_t *ui, uint8_t msg)
 {
   //u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
@@ -2104,7 +2104,7 @@ static uint8_t mui_u8g2_u16_list_child_mse_common(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u16_list_child_w1_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);
@@ -2144,7 +2144,7 @@ uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg)
   return 0;
 }
 
-uint8_t mui_u8g2_u16_list_goto_w1_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_u16_list_goto_w1_pi(mui_t *ui, uint8_t msg)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_list_t *list = (mui_u8g2_list_t *)muif_get_data(ui->uif);

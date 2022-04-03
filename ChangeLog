@@ -283,6 +283,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for UC1609 (issue 1565)
   * Added support for GU800 series of Vacuum Fluorescent Displays (VFD, issue 1604)
   * Changed SPI Mode for Sharp displays (ls013..., issue 1771)
-  * Added many more fonts
+  * Added many more fonts (issues 1794, 1775, 1706, 1769)
   * Fixed several bugs and compiler errors
   

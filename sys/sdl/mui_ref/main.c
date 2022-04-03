@@ -271,7 +271,7 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_LABEL(),
 
   MUIF_RO("GP",mui_u8g2_goto_data),
-  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_mse_pi),
+  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_pi),
 
   /* Form 10 */
   MUIF_GOTO(mui_u8g2_btn_goto_wm_fi),
@@ -302,11 +302,11 @@ muif_t muif_list[] MUI_PROGMEM = {
 
 
   /* Form 50: Parent/Child Option */
-  MUIF_VARIABLE("P1",&color_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
-  MUIF_VARIABLE("ca",&color_input,mui_u8g2_u8_opt_radio_child_w1_mse_pi),
+  MUIF_VARIABLE("P1",&color_input,mui_u8g2_u8_opt_parent_wm_pi),
+  MUIF_VARIABLE("ca",&color_input,mui_u8g2_u8_opt_radio_child_w1_pi),
   
-  MUIF_VARIABLE("P2",&food_input,mui_u8g2_u8_opt_parent_wm_mse_pi),
-  MUIF_VARIABLE("cf",&food_input,mui_u8g2_u8_opt_child_wm_mse_pi),
+  MUIF_VARIABLE("P2",&food_input,mui_u8g2_u8_opt_parent_wm_pi),
+  MUIF_VARIABLE("cf",&food_input,mui_u8g2_u8_opt_child_wm_pi),
 
   /* Form 60: Char Input */
   MUIF_VARIABLE("T0", text_input+0, mui_u8g2_u8_char_wm_mud_pi),
@@ -318,8 +318,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_U16_LIST("A1", &list_selection_1, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_line_wa_mse_pi),
   MUIF_U8G2_U16_LIST("A2", &list_selection_2, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_line_wa_mud_pi),
 
-  MUIF_U8G2_U16_LIST("AP", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_parent_wm_mse_pi),
-  MUIF_U8G2_U16_LIST("AC", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_child_w1_mse_pi),
+  MUIF_U8G2_U16_LIST("AP", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_parent_wm_pi),
+  MUIF_U8G2_U16_LIST("AC", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_child_w1_pi),
 
   /* Form 90: bar */
   MUIF_U8G2_U8_MIN_MAX_STEP("B0", &number_input9, 0, 20, 2, MUI_MMS_2X_BAR|MUI_MMS_SHOW_VALUE, mui_u8g2_u8_bar_wm_mse_pi),
@@ -615,8 +615,8 @@ MUI_LABEL(5,10, "uint8 ParentChild Select")
 MUI_XY("HR", 0,13)
 MUI_STYLE(7)
 MUI_DATA("GP", 
-  MUI_51 "u8_opt_radio_child_w1_mse_pi|" 
-  MUI_53 "u8_opt_child_wm_mse_pi|" 
+  MUI_51 "u8_opt_radio_child_w1_pi|" 
+  MUI_53 "u8_opt_child_wm_pi|" 
   MUI_1 "Back to Main Menu" )
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
@@ -625,7 +625,7 @@ MUI_XYA("GC", 5, 49, 2)
 
 MUI_FORM(51)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "..._u8_opt_parent_wm_mse_pi")
+MUI_LABEL(1,5, "..._u8_opt_parent_wm_pi")
 MUI_LABEL(1,12, "MUIF_VARIABLE")
 MUI_LABEL(1,19, "MUI_XYAT")
 MUI_LABEL(1,25, "Parent: Show selected option")
@@ -638,7 +638,7 @@ MUI_GOTO(64, 59, 50, " Ok ")
 
 MUI_FORM(52)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "..._u8_opt_radio_child_w1_mse_pi")
+MUI_LABEL(1,5, "..._u8_opt_radio_child_w1_pi")
 MUI_LABEL(1,12, "MUIF_VARIABLE")
 MUI_LABEL(1,19, "MUI_XYA")
 MUI_LABEL(1,25, "Child: Show selectable options")
@@ -650,7 +650,7 @@ MUI_XYA("ca", 5, 60, 2)
 
 MUI_FORM(53)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "..._u8_opt_parent_wm_mse_pi")
+MUI_LABEL(1,5, "..._u8_opt_parent_wm_pi")
 MUI_LABEL(1,12, "MUIF_VARIABLE")
 MUI_LABEL(1,19, "MUI_XYAT")
 MUI_LABEL(1,25, "Parent: Show selected option")
@@ -664,7 +664,7 @@ MUI_GOTO(64, 59, 50, " Ok ")
 
 MUI_FORM(54)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "..._u8_opt_child_wm_mse_pi")
+MUI_LABEL(1,5, "..._u8_opt_child_wm_pi")
 MUI_LABEL(1,12, "MUIF_VARIABLE")
 MUI_LABEL(1,19, "MUI_XYA")
 MUI_LABEL(1,25, "Child: Show selectable options")
@@ -757,8 +757,8 @@ MUI_GOTO(64, 59, 70, " Ok ")
 
 
 
-//uint8_t mui_u8g2_u16_list_parent_wm_mse_pi(mui_t *ui, uint8_t msg);     /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=subform */
-//uint8_t mui_u8g2_u16_list_child_w1_mse_pi(mui_t *ui, uint8_t msg);      /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=sub element number */
+//uint8_t mui_u8g2_u16_list_parent_wm_pi(mui_t *ui, uint8_t msg);     /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=subform */
+//uint8_t mui_u8g2_u16_list_child_w1_pi(mui_t *ui, uint8_t msg);      /* MUIF_U8G2_U16_LIST, MUI_XYA, arg=sub element number */
 
 
 MUI_FORM(80)
@@ -767,7 +767,7 @@ MUI_LABEL(5,10, "uint16 ParentChild Select")
 MUI_XY("HR", 0,13)
 MUI_STYLE(7)
 MUI_DATA("GP", 
-  MUI_81 "u16_list_parent_wm_mse_pi|" 
+  MUI_81 "u16_list_parent_wm_pi|" 
   MUI_1 "Back to Main Menu" )
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
@@ -776,7 +776,7 @@ MUI_XYA("GC", 5, 49, 2)
 
 MUI_FORM(81)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "..._u16_list_parent_wm_mse_pi")
+MUI_LABEL(1,5, "..._u16_list_parent_wm_pi")
 MUI_LABEL(1,12, "MUIF_U8G2_U16_LIST")
 MUI_LABEL(1,19, "MUI_XYA")
 MUI_LABEL(1,25, "Parent: Show selected option")
@@ -788,7 +788,7 @@ MUI_GOTO(64, 59, 80, " Ok ")
 
 MUI_FORM(82)
 MUI_STYLE(2)
-MUI_LABEL(1,5, "...u16_list_child_w1_mse_pi")
+MUI_LABEL(1,5, "...u16_list_child_w1_pi")
 MUI_LABEL(1,12, "MUIF_U8G2_U16_LIST")
 MUI_LABEL(1,19, "MUI_XYA")
 MUI_LABEL(1,25, "Child: Show selectable options")
