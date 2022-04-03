@@ -87,6 +87,11 @@ dseg7cr: bdfconv
 dseg14cr: bdfconv
 	./bdfconv -v -f 1 -b 2 -m '32-255' dseg14_classic_regular.bdf -o u8g2_font_dseg14_cr.c  -n u8g2_font_dseg14_cr -d ../bdf/helvR12.bdf 
 	convert bdf.tga -trim u8g2_font_dseg14_cr.png
+        
+issue1769: bdfconv
+	./bdfconv -v -f 1 -b 2 -m '32-128' 3x7_Multi_V7.bdf -o u8g2_font_3x7_multi.c  -n u8g2_font_3x7_multi -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_3x7_multi.png
+
 
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 

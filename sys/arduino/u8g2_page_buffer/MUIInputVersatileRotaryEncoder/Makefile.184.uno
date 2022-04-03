@@ -34,6 +34,7 @@ SRC_DIRS+=$(ARDUINO_PATH)hardware/arduino/avr/libraries/Wire/src/
 SRC_DIRS+=$(ARDUINO_PATH)hardware/arduino/avr/libraries/Wire/src/utility/
 SRC_DIRS+=../../../../csrc/
 SRC_DIRS+=../../../../cppsrc/
+SRC_DIRS+=/home/kraus/Arduino/libraries/Versatile_RotaryEncoder/src/
 
 #=== suffixes ===
 .SUFFIXES: .elf .hex .ino

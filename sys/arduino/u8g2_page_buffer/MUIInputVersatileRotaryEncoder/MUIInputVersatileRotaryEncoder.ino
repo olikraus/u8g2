@@ -400,7 +400,7 @@ fds_t fds_data[] =
 
 MUI_FORM(1)
 MUI_STYLE(1)
-MUI_LABEL(5, 8, "SimpleRotary Lib")
+MUI_LABEL(5, 8, "VersatileRotaryEncoder")
 MUI_STYLE(0)
 MUI_XY("HR", 0,11)
 MUI_DATA("GP", 
@@ -479,7 +479,7 @@ void handle_events(void) {
 
   // 0 = not pushed, 1 = pushed  
   if ( long_press_event == 1 ) {
-    mui_SendSelectWithExecuteOnSelectFieldSearch(mui.getMUI());
+    mui.sendSelectWithExecuteOnSelectFieldSearch();
     is_redraw = 1;
     long_press_event = 0;
   }
