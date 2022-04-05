@@ -120,7 +120,7 @@ static const uint8_t u8x8_d_gp1247ai_wakeup_seq[] = {
     U8X8_START_TRANSFER(),
     U8X8_C(SWAP8(0x06D)), /* Wake up */
     U8X8_END_TRANSFER(),
-    U8X8_DLY(1), /* 等待震荡器稳定 */
+    U8X8_DLY(1), /* Wait for the oscillator stabilize */
 
     U8X8_START_TRANSFER(),
     U8X8_CA(SWAP8(0x080), SWAP8(0x080)), /* After entering Standby, the display mode setting SC bit will be automatically cleared */
