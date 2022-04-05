@@ -27,12 +27,3 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
 
 [Setup Guide and Reference Manual](https://github.com/olikraus/u8g2/wiki)
 
----
-
-增加了对【GP1287AI】和【GP1247AI】两款VFD显示器的支持。
-
-![GP1287AI Logo](https://github.com/izilzty/u8g2/raw/master/doc/gp1287ai_u8g2_logo.png) 
-
-因为SPI字节顺序问题目前仅支持U8g2，不能支持U8x8（显示为镜像），详细信息可以参考u8x8_d_gp1287ai.c文件内的说明。
-
-如需旧版本的U8g2下载地址如下，可以支持U8x8但不能支持软件SPI。https://docs.qq.com/doc/DTlp1akJUVlFVQW5r
