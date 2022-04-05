@@ -31,10 +31,13 @@ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-U8g2的SPI统一使用MSB顺序，而此屏幕需要LSB顺序，按照U8g2原有ls013b7dh03控制器的逻辑，使用SWAP8()交换命令字节顺序，使用u8g2_ll_hvline_vertical_top_msb()交换显示数据字节顺序。
-如使用非Arduino控制器，在初始化SPI时统一初始化为：active low，falling edge，MSB 即可，不要按照屏幕数据表初始化为LSB。
-上一版本中使用了i2c速度作为标志来修改Arduino的SPI字节发送顺序，虽然可用，但如果使用软件模拟SPI时则会出现问题。
-注意：此版本不能支持U8x8，因为U8x8是直接向屏幕写入数据的，没有机会来交换字节顺序，如果需要使用U8x8只能使用上一版本。如果以后ls013b7dh03支持U8x8了那此屏幕应该也可以支持。
+U8g2的SPI统一使用MSB顺序，而此屏幕需要LSB顺序，按照U8g2的逻辑，使用SWAP8()交换命令字节顺序，使用u8g2_ll_hvline_vertical_top_msb()交换显示数据字节顺序。
+注意：此版本不能支持U8x8，因为U8x8是直接向屏幕写入数据的，没有机会来交换字节顺序，如果需要使用U8x8只能使用上一版本。
+上一版本中使用了i2c速度作为标志来修改Arduino的SPI字节发送顺序，所以支持U8x8，但如果使用软件模拟SPI时则会出现问题。
+
+如使用非Arduino控制器，在自行初始化SPI时应统一初始化为：active low，falling edge，MSB (CPOL=1 CPHA=1 MSB) 即可，不要按照屏幕数据表初始化为LSB。
+
+Arduino在使用3W_SPI时U8g2会自动多发一个DC位，将导致数据错位，所以在发送数据时应使用4W_SPI，并忽略DC引脚即可。其他控制器如果调用了u8x8_byte_3wire_sw_spi()也会出现此问题，改为调用u8x8_byte_4wire_sw_spi()即可。
 
 */
 #include "u8x8.h"
