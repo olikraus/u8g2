@@ -72,6 +72,22 @@ uint8_t u8x8_capture_get_pixel_2(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint
   return 1;
 }
 
+/* vertical top msb memory architecture */
+/* GP12x7AI */
+uint8_t u8x8_capture_get_pixel_3(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width)
+{
+  //uint8_t *dest_ptr = capture->buffer;
+  //if ( dest_ptr == NULL )
+    //return 0;
+  //dest_ptr += (y/8)*capture->tile_width*8;
+  dest_ptr += (y/8)*tile_width*8;
+  y &= 7;
+  dest_ptr += x;
+  if ( (*dest_ptr & (0x80>>y)) == 0 ) /* LSB -> MSB */
+    return 0;
+  return 1;
+}
+
 void u8x8_capture_write_pbm_pre(uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s))
 {
   out("P1\n");
