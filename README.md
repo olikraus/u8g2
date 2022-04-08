@@ -33,6 +33,64 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
 
 ![GP1287AI Logo](https://github.com/izilzty/u8g2/raw/master/doc/gp1287ai_u8g2_logo.png) 
 
-因为SPI字节顺序问题目前仅支持U8g2，不能支持U8x8（显示为镜像），详细信息可以参考u8x8_d_gp1287ai.c文件内的说明。
+C++/Arduino支持的构造函数为：
 
-如需旧版本的U8g2下载地址如下，可以支持U8x8但不能支持软件SPI。https://docs.qq.com/doc/DTlp1akJUVlFVQW5r
+```
+U8G2_GP1287AI_256X50_1_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1287AI_256X50_2_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1287AI_256X50_F_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+
+U8G2_GP1287AI_256X50_1_2ND_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1287AI_256X50_2_2ND_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1287AI_256X50_F_2ND_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+
+U8G2_GP1287AI_256X50_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/  13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
+U8G2_GP1287AI_256X50_2_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/  13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
+U8G2_GP1287AI_256X50_F_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/  13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
+
+U8G2_GP1247AI_253X63_1_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1247AI_253X63_2_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1247AI_253X63_F_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+
+U8G2_GP1247AI_253X63_1_2ND_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1247AI_253X63_2_2ND_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+U8G2_GP1247AI_253X63_F_2ND_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* reset=*/ 9);
+
+U8G2_GP1247AI_253X63_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/  13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
+U8G2_GP1247AI_253X63_2_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/  13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
+U8G2_GP1247AI_253X63_F_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/  13, /* data=*/ 11, /* cs=*/ 10, /* reset=*/ 8);
+``` 
+
+在Arduino上使用和其他屏幕一样，直接把构造函数粘贴到示例文件里即可点亮。
+
+C支持的初始化函数为：
+```
+u8g2_Setup_gp1287ai_256x50_1(&u8g2, U8G2_R0, u8x8_byte_hw_spi, u8x8_gpio_and_delay);
+u8g2_Setup_gp1287ai_256x50_2(&u8g2, U8G2_R0, u8x8_byte_hw_spi, u8x8_gpio_and_delay);
+u8g2_Setup_gp1287ai_256x50_f(&u8g2, U8G2_R0, u8x8_byte_hw_spi, u8x8_gpio_and_delay);
+ 
+u8g2_Setup_gp1247ai_253x63_1(&u8g2, U8G2_R0, u8x8_byte_hw_spi, u8x8_gpio_and_delay);
+u8g2_Setup_gp1247ai_253x63_2(&u8g2, U8G2_R0, u8x8_byte_hw_spi, u8x8_gpio_and_delay);
+u8g2_Setup_gp1247ai_253x63_f(&u8g2, U8G2_R0, u8x8_byte_hw_spi, u8x8_gpio_and_delay);
+```
+
+屏幕初始化后的默认亮度很低，以避免测试时意外点亮造成的烧屏，使用时请重新设置亮度：
+
+```
+setContrast();
+```
+
+如需截图请使用：
+
+```
+writeBufferXBM3();
+writeBufferPBM3();
+```
+
+其他问题
+
+* 如果你的PCB有HVEN（高压使能、高压开关）引脚，需要自己用GPIO控制开关，U8g2不进行控制。
+* 因为SPI字节顺序问题目前仅支持U8g2，不能支持U8x8（显示为镜像），详细信息可以参考u8x8_d_gp1287ai.c文件内的说明。
+* 如需旧版本的U8g2下载地址如下，可以支持U8x8但不能支持软件SPI。https://docs.qq.com/doc/DTlp1akJUVlFVQW5r
+* 移植说明：https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform
+* C的初始化序列：https://github.com/olikraus/u8g2/wiki/u8g2setupc
