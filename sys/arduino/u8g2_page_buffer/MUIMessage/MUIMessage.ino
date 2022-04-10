@@ -315,18 +315,18 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 MUIU8G2 mui;
 
+uint8_t message_result = 0;
+
 muif_t muif_list[] = {  
-  MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),  /* define style 0 */
-  MUIF_U8G2_LABEL(),                                                    /* allow MUI_LABEL command */
-  MUIF_BUTTON("BN", mui_u8g2_btn_exit_wm_fi)        /* define exit button */
+  MUIF_U8G2_LABEL(),
+  MUIF_VARIABLE("BN", &message_result, mui_u8g2_btn_exit_wm_fi)
 };
 
-
-fds_t fds_data[] =                              /* Don't use comma between the commands! */
-MUI_FORM(1)                                     /* This will start the definition of form 1 */
-MUI_STYLE(0)                                    /* select the font defined with style 0 */
-MUI_LABEL(5, 15, "Hello U8g2")          /* place text at postion x=5, y=15 */
-MUI_XYT("BN",64, 30, " Select Me ")     /* place a button at pos x=64, y=30 */
+fds_t fds_data[] = 
+MUI_FORM(1)
+MUI_LABEL(5,10, "Hello U8g2")
+MUI_XYAT("BN",20, 30, " Ok ")
+MUI_XYAT("BN",70, 30, " Cancel ")
 ;
 
 
@@ -357,6 +357,8 @@ void setup(void) {
 uint8_t is_redraw = 1;
 
 void loop(void) {
+  u8g2.setFont(u8g2_font_helvR08_tr);
+
   /* check whether the menu is active */
   if ( mui.isFormActive() )
   {
