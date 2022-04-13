@@ -1,0 +1,3 @@
+[submodule "sys/arm-linux/c-periphery"]
+	path = sys/arm-linux/c-periphery
+	url = https://github.com/vsergeev/c-periphery
