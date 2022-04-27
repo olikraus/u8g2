@@ -33,6 +33,23 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
 
 ![GP1287AI Logo](https://github.com/izilzty/u8g2/raw/master/doc/gp1287ai_u8g2_logo.png) 
 
+在Arduino上的安装方法：
+* 首先在Arduino IDE内安装原始的U8g2库。
+* 打开库文件位置，默认为`C:\Users\%USERNAME%\Documents\Arduino\libraries`，如果你有更改过默认库位置请自行查找。
+* 进入`U8g2`文件夹。
+* 编辑`keywords.txt`，搜索`writeBufferXBM2	KEYWORD2`，在其下方分别添加`writeBufferPBM3	KEYWORD2`和`writeBufferXBM3	KEYWORD2`。此步骤可跳过，只会影响这两个关键字的高亮显示。
+* 进入`U8g2\src`文件夹。
+* 将文件夹内的5个文件替换为此仓库`cppsrc`文件夹内的文件。
+* 编辑`MUIU8g2.h`，将2个include路径改为`clib\mui.h`和`clib\mui_u8g2.h`。
+* 编辑`U8g2lib.h`，将1个include路径改为`clib\u8g2.h`，`U8x8lib.h`所在行不用更改。
+* 编辑`U8x8lib.h`，将1个include路径改为`clib\u8x8.h`。
+* 进入`clib`文件夹。
+* 将文件夹内的全部文件替换为此仓库`csrc`文件夹内的文件。
+* 编辑`u8g2.h`，去除`#define U8G2_16BIT`的注译，启用大尺寸屏幕支持。ESP等平台可以不用编辑，会自动开启。
+* 退出Arduino IDE并重新打开，修改完成。修改好的库可自行打包，在其他电脑上直接安装使用。
+
+注意，修改完成后如果U8g2库有后续更新，在更新后会恢复为原始版本，所以请不要点击更新，或将`library.properties`文件内的版本号更改为更高版本或不存在的版本消除更新提示。
+
 C++/Arduino支持的构造函数为：
 
 ```
