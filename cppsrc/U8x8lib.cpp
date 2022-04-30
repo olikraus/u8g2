@@ -1342,8 +1342,8 @@ extern "C" uint8_t u8x8_byte_arduino_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSE
 #if ARDUINO >= 10600
       /* not sure when the setClock function was introduced, but it is there since 1.6.0 */
       /* if there is any error with Wire.setClock() just remove this function call by */
-      /* defining U8x8_DO_NOT_SET_WIRE_CLOCK */
-#ifndef U8x8_DO_NOT_SET_WIRE_CLOCK
+      /* defining U8X8_DO_NOT_SET_WIRE_CLOCK */
+#ifndef U8X8_DO_NOT_SET_WIRE_CLOCK
       Wire.setClock(u8x8->bus_clock);
 #endif 
 #endif
@@ -1378,8 +1378,8 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
 #if ARDUINO >= 10600
       /* not sure when the setClock function was introduced, but it is there since 1.6.0 */
       /* if there is any error with Wire.setClock() just remove this function call by */
-      /* defining U8x8_DO_NOT_SET_WIRE_CLOCK */
-#ifndef U8x8_DO_NOT_SET_WIRE_CLOCK
+      /* defining U8X8_DO_NOT_SET_WIRE_CLOCK */
+#ifndef U8X8_DO_NOT_SET_WIRE_CLOCK
       Wire1.setClock(u8x8->bus_clock); 
 #endif
 #endif

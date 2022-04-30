@@ -56,10 +56,10 @@
   modifies the I2c clock speed.
   Instead of uncommenting the line below (which needs a library modification)
   you can also just add the following define before including the U8x8lib header:
-      #define U8x8_DO_NOT_SET_WIRE_CLOCK
+      #define U8X8_DO_NOT_SET_WIRE_CLOCK
       #include "U8x8lib.h" 
 */
-// #define U8x8_DO_NOT_SET_WIRE_CLOCK
+// #define U8X8_DO_NOT_SET_WIRE_CLOCK
 
 /* 
   Uncomment this to enable AVR optimization for I2C 
