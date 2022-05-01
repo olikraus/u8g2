@@ -46,6 +46,20 @@
 
 #include "u8x8.h"
 
+/*
+  Uncomment this to switch off Wire.setClock() invocations.
+  This is useful if you connect multiple devices to the same I2C bus that 
+  is used for the monochrome display.
+  For example the Arduino Nano RP2040 connect uses the only I2C bus 
+  already for the internal communication with the integrated on-board components
+  wifi, crypto and accelerometer and does not work correctly if the U8g2 library
+  modifies the I2c clock speed.
+  Instead of uncommenting the line below (which needs a library modification)
+  you can also just add the following define before including the U8x8lib header:
+      #define U8X8_DO_NOT_SET_WIRE_CLOCK
+      #include "U8x8lib.h" 
+*/
+// #define U8X8_DO_NOT_SET_WIRE_CLOCK
 
 /* 
   Uncomment this to enable AVR optimization for I2C 
