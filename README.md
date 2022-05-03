@@ -31,6 +31,8 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
 
 增加了对【GP1287AI】和【GP1247AI】两款VFD显示器的支持。
 
+另有GP1287AI所适用的驱动板，如有需要请前往 [https://github.com/izilzty/GP1287AI_VFD_BOARD](https://github.com/izilzty/GP1287AI_VFD_BOARD) 下载。
+
 ![GP1287AI Logo](https://github.com/izilzty/u8g2/raw/master/doc/gp1287ai_u8g2_logo.png) 
 
 在Arduino上的安装方法：
