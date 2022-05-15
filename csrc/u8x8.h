@@ -331,8 +331,9 @@ struct u8x8_display_info_struct
 #define U8X8_PIN_MENU_HOME 19
 #define U8X8_PIN_MENU_UP 20
 #define U8X8_PIN_MENU_DOWN 21
+#define U8X8_PIN_BUSY     22     /* parallel, SPI, for E-INK */
 
-#define U8X8_PIN_INPUT_CNT 6
+#define U8X8_PIN_INPUT_CNT 7
 
 #ifdef U8X8_USE_PINS 
 #define U8X8_PIN_CNT (U8X8_PIN_OUTPUT_CNT+U8X8_PIN_INPUT_CNT)
@@ -975,6 +976,7 @@ uint8_t u8x8_d_ssd1607_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 uint8_t u8x8_d_ssd1607_v2_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ssd1607_gd_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_ssd1607_ws_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr); /* issue 637 */
+uint8_t u8x8_d_ssd1681_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_il3820_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_il3820_v2_296x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 uint8_t u8x8_d_lc7981_160x80(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);

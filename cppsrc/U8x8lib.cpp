@@ -90,7 +90,6 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
   switch(msg)
   {
     case U8X8_MSG_GPIO_AND_DELAY_INIT:
-    
       for( i = 0; i < U8X8_PIN_CNT; i++ )
 	if ( u8x8->pins[i] != U8X8_PIN_NONE )
 	{
@@ -128,7 +127,26 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
       break;
    
     case U8X8_MSG_DELAY_MILLI:
-      delay(arg_int);
+      if (u8x8->pins[U8X8_PIN_BUSY] != U8X8_PIN_NONE) {
+            uint16_t _busy_level = 1;
+            delay(3); // add some margin to become active
+            unsigned long start = micros();
+            unsigned long delay_time = arg_int;
+            delay_time *= 1000;
+            while (1)
+            {
+              uint16_t level = digitalRead( u8x8->pins[U8X8_PIN_BUSY]);
+
+              if ( level != _busy_level) break;
+              delay(1);
+              if (micros() - start > delay_time )
+              {
+                 break;
+              }
+            }
+      }
+      else
+        delay(arg_int);
       break;
     case U8X8_MSG_DELAY_I2C:
       /* arg_int is 1 or 4: 100KHz (5us) or 400KHz (1.25us) */
@@ -1669,7 +1687,6 @@ extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t a
 /*
   use U8X8_PIN_NONE as value for "reset", if there is no reset line
 */
-
 void u8x8_SetPin_4Wire_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset)
 {
   u8x8_SetPin(u8x8, U8X8_PIN_SPI_CLOCK, clock);
@@ -1678,6 +1695,17 @@ void u8x8_SetPin_4Wire_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t
   u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
+
+void u8x8_SetPin_4Wire_Busy_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset, uint8_t busy)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_SPI_CLOCK, clock);
+  u8x8_SetPin(u8x8, U8X8_PIN_SPI_DATA, data);
+  u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
+  u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+  u8x8_SetPin(u8x8, U8X8_PIN_BUSY, busy);
+}
+
 
 #ifdef _obsolete_com_specific_setup
 void u8x8_Setup_4Wire_SW_SPI(u8x8_t *u8x8, u8x8_msg_cb display_cb, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset)
@@ -1699,6 +1727,15 @@ void u8x8_SetPin_3Wire_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t
   u8x8_SetPin(u8x8, U8X8_PIN_SPI_DATA, data);
   u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+}
+
+void u8x8_SetPin_3Wire_Busy_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset, uint8_t busy)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_SPI_CLOCK, clock);
+  u8x8_SetPin(u8x8, U8X8_PIN_SPI_DATA, data);
+  u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+  u8x8_SetPin(u8x8, U8X8_PIN_BUSY, busy);
 }
 
 #ifdef _obsolete_com_specific_setup
@@ -1723,15 +1760,32 @@ void u8x8_SetPin_3Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset)
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
 
+void u8x8_SetPin_3Wire_Busy_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset, uint8_t busy)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+  u8x8_SetPin(u8x8, U8X8_PIN_BUSY, busy);
+}
+
 /*
   use U8X8_PIN_NONE as value for "reset", if there is no reset line
 */
+
 void u8x8_SetPin_4Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t reset)
 {
   u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
   u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
   u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
 }
+
+void u8x8_SetPin_4Wire_Busy_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t reset, uint8_t busy)
+{
+  u8x8_SetPin(u8x8, U8X8_PIN_CS, cs);
+  u8x8_SetPin(u8x8, U8X8_PIN_DC, dc);
+  u8x8_SetPin(u8x8, U8X8_PIN_RESET, reset);
+  u8x8_SetPin(u8x8, U8X8_PIN_BUSY, busy);
+}
+
 
 void u8x8_SetPin_ST7920_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset)
 {

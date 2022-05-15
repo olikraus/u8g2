@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <error.h>
 #include <ctype.h>
 #include <unistd.h>
 
@@ -35,6 +34,29 @@
 #define COM_UART		0x0040
 #define COM_KS0108	0x0080			/* mostly identical to 6800 mode, but has more chip select lines */
 #define COM_SED1520	0x0100			
+#define COM_4WBUSY_SPI	0x0200
+#define COM_3WBUSY_SPI	0x0400
+
+
+#define INTERFACE_IDX_4W_SW_SPI 0
+#define INTERFACE_IDX_4W_HW_SPI 1
+#define INTERFACE_IDX_6800 2
+#define INTERFACE_IDX_8080 3
+#define INTERFACE_IDX_3W_SW_SPI 4
+#define INTERFACE_IDX_3W_HW_SPI 5
+#define INTERFACE_IDX_SW_I2C 6
+#define INTERFACE_IDX_HW_I2C 7
+#define INTERFACE_IDX_SW_SPI 8   /* ST7920 */
+#define INTERFACE_IDX_HW_SPI 9  /* ST7920 */ 
+#define INTERFACE_IDX_2ND_HW_I2C 10
+#define INTERFACE_IDX_KS0108 11
+#define INTERFACE_IDX_2ND_4W_HW_SPI 12
+#define INTERFACE_IDX_SED1520 13
+#define INTERFACE_IDX_2ND_HW_SPI  14 /* ST7920 */ 
+#define INTERFACE_IDX_4W_BUSY_SW_SPI 15
+#define INTERFACE_IDX_4W_BUSY_HW_SPI 16
+#define INTERFACE_IDX_3W_BUSY_SW_SPI 17
+#define INTERFACE_IDX_3W_BUSY_HW_SPI 18
 
 struct interface
 {
@@ -1734,6 +1756,15 @@ struct controller controller_list[] =
     }
   },
   {
+    "ssd1681", 	25, 	25, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WBUSY_SPI|COM_3WBUSY_SPI,
+    "Partly supported by U8x8, no HW flip, no contrast setting, no partial update", /* is_generate_u8g2_class= */ 1,
+    {
+      { "200x200" },
+      { NULL }
+    }
+  },
+ 
+  {
     "il3820", 	37, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI,
     "Partly supported by U8x8, no HW flip, no contrast setting, V2 produces lesser screen-flicker", /* is_generate_u8g2_class= */ 1,
     {
@@ -2008,9 +2039,50 @@ struct interface interface_list[] =
     "cs [, reset]",
     "uC specific"
   },  
-  
-
-  
+  /* 15 */
+  {
+    "4W_BUSY_SW_SPI",
+    "u8x8_SetPin_4Wire_Busy_SW_SPI",
+    "u8x8_byte_arduino_4wire_sw_spi",	/* improved version over u8x8_byte_4wire_sw_spi */
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE",
+    "clock, data, cs, dc, reset, busy",
+    "clock, data, cs, dc [, reset, busy]",
+    "u8x8_byte_4wire_sw_spi"
+  },
+  /* 16 */
+  {
+    "4W_BUSY_HW_SPI",
+    "u8x8_SetPin_4Wire_Busy_HW_SPI",
+    "u8x8_byte_arduino_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE",
+    "cs, dc, reset, busy",
+    "cs, dc [, reset, busy]",
+    "uC specific"
+  },  
+   /* 17 */
+  {
+    "3W_BUSY_SW_SPI",
+    "u8x8_SetPin_3Wire_Busy_SW_SPI",
+    "u8x8_byte_arduino_3wire_sw_spi",
+    "u8x8_gpio_and_delay_arduino",
+    "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE",
+    "clock, data, cs, reset, busy",
+    "clock, data, cs [, reset, busy]",
+    "u8x8_byte_3wire_sw_spi"
+  },
+  /* 18 */
+  {
+    "3W_BUSY_HW_SPI",
+    "u8x8_SetPin_3Wire_Busy_HW_SPI",
+    "u8x8_byte_arduino_3wire_hw_spi",
+    "u8x8_gpio_and_delay_arduino",   
+    "uint8_t cs, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE",
+    "cs, reset, busy",
+    "cs [, reset, busy]",
+    "uC specific"
+  },  
 };
 
 
@@ -2037,7 +2109,8 @@ void str_add(const char *s)
     return;
   if ( str_cnt >= STR_MAX )
   {
-    error(1,0, "max number of strings reached");
+    printf( "max number of strings reached");
+    exit(3);
   }
   else
   {
@@ -2325,38 +2398,49 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   fprintf(setup_code_fp, "u8g2_m_%d_%d_%s(&tile_buf_height);\n", controller_list[controller_idx].tile_width, controller_list[controller_idx].tile_height, postfix);
   fprintf(setup_code_fp, "  u8g2_SetupBuffer(u8g2, buf, tile_buf_height, %s, rotation);\n", controller_list[controller_idx].ll_hvline);
   fprintf(setup_code_fp, "}\n");
-  
+
   /* generate interfaces for this display */
   if ( controller_list[controller_idx].com & COM_4WSPI )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 0);		/* SW SPI */
-    do_display_interface(controller_idx, display_idx, postfix, 1);		/* HW SPI */
-    do_display_interface(controller_idx, display_idx, postfix, 12);	/* 2nd HW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_4W_SW_SPI);		/* SW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_4W_HW_SPI);		/* HW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_2ND_4W_HW_SPI);	/* 2nd HW SPI */
   }
   if ( controller_list[controller_idx].com & COM_3WSPI )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 4);		/* 3wire SW SPI */
-    do_display_interface(controller_idx, display_idx, postfix, 5);		/* 3wire HW SPI (not implemented) */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_3W_SW_SPI);		/* 3wire SW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_3W_HW_SPI);		/* 3wire HW SPI (not implemented) */
   }
+  if ( controller_list[controller_idx].com & COM_4WBUSY_SPI )
+  {
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_4W_BUSY_SW_SPI);		/* SW BUSY SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_4W_BUSY_HW_SPI);		/* HW BUSY SPI */
+  }
+  if ( controller_list[controller_idx].com & COM_3WBUSY_SPI )
+  {
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_3W_BUSY_SW_SPI);		/* 3wire SW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_3W_BUSY_HW_SPI);		/* 3wire HW SPI (not implemented) */
+  }
+
   if ( controller_list[controller_idx].com & COM_6800 )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 2);		/* 6800 mode */    
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_6800);		/* 6800 mode */    
   }
   if ( controller_list[controller_idx].com & COM_8080 )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 3);		/* 8080 mode */    
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_8080);		/* 8080 mode */    
   }
   if ( controller_list[controller_idx].com & COM_I2C )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 6);		/* SW I2C */
-    do_display_interface(controller_idx, display_idx, postfix, 7);		/* HW I2C */
-    do_display_interface(controller_idx, display_idx, postfix, 10);	/* 2nd HW I2C */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_SW_I2C);		/* SW I2C */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_HW_I2C);		/* HW I2C */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_2ND_HW_I2C);	/* 2nd HW I2C */
   }
   if ( controller_list[controller_idx].com & COM_ST7920SPI )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 8);		/* ST7920 SW SPI */
-    do_display_interface(controller_idx, display_idx, postfix, 9);		/* HW SPI  */
-    do_display_interface(controller_idx, display_idx, postfix, 14);		/* 2ND HW SPI  */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_SW_SPI);		/* ST7920 SW SPI */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_HW_SPI);		/* HW SPI  */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_2ND_HW_SPI);		/* 2ND HW SPI  */
   }
   if ( controller_list[controller_idx].com & COM_UART )
   {
@@ -2364,11 +2448,11 @@ void do_display(int controller_idx, int display_idx, const char *postfix)
   }
   if ( controller_list[controller_idx].com & COM_KS0108 )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 11);	/* KS0108 6800 parallel mode */
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_KS0108);	/* KS0108 6800 parallel mode */
   }
   if ( controller_list[controller_idx].com & COM_SED1520 )
   {
-    do_display_interface(controller_idx, display_idx, postfix, 13);
+    do_display_interface(controller_idx, display_idx, postfix, INTERFACE_IDX_SED1520);
   }
   
 }

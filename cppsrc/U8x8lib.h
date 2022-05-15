@@ -168,9 +168,13 @@ extern "C" uint8_t u8x8_byte_arduino_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t a
 
 #ifdef U8X8_USE_PINS
 void u8x8_SetPin_4Wire_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset);
+void u8x8_SetPin_4Wire_Busy_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset, uint8_t busy);
 void u8x8_SetPin_3Wire_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset);
+void u8x8_SetPin_3Wire_Busy_SW_SPI(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset, uint8_t busy);
 void u8x8_SetPin_3Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset);
+void u8x8_SetPin_3Wire_Busy_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset, uint8_t busy);
 void u8x8_SetPin_4Wire_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t reset);
+void u8x8_SetPin_4Wire_Busy_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t dc, uint8_t reset, uint8_t busy);
 void u8x8_SetPin_ST7920_HW_SPI(u8x8_t *u8x8, uint8_t cs, uint8_t reset);
 void u8x8_SetPin_SW_I2C(u8x8_t *u8x8, uint8_t clock, uint8_t data, uint8_t reset);
 void u8x8_SetPin_HW_I2C(u8x8_t *u8x8, uint8_t reset, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE);
@@ -7105,6 +7109,30 @@ class U8X8_SSD1607_WS_200X200_3W_HW_SPI : public U8X8 {
   public: U8X8_SSD1607_WS_200X200_3W_HW_SPI(uint8_t cs, uint8_t reset = U8X8_PIN_NONE) : U8X8() {
     u8x8_Setup(getU8x8(), u8x8_d_ssd1607_ws_200x200, u8x8_cad_011, u8x8_byte_arduino_3wire_hw_spi, u8x8_gpio_and_delay_arduino);
     u8x8_SetPin_3Wire_HW_SPI(getU8x8(), cs, reset);
+  }
+};
+class U8X8_SSD1681_200X200_4W_BUSY_SW_SPI : public U8X8 {
+  public: U8X8_SSD1681_200X200_4W_BUSY_SW_SPI(uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup(getU8x8(), u8x8_d_ssd1681_200x200, u8x8_cad_011, u8x8_byte_arduino_4wire_sw_spi, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_4Wire_Busy_SW_SPI(getU8x8(), clock, data, cs, dc, reset, busy);
+  }
+};
+class U8X8_SSD1681_200X200_4W_BUSY_HW_SPI : public U8X8 {
+  public: U8X8_SSD1681_200X200_4W_BUSY_HW_SPI(uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup(getU8x8(), u8x8_d_ssd1681_200x200, u8x8_cad_011, u8x8_byte_arduino_hw_spi, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_4Wire_Busy_HW_SPI(getU8x8(), cs, dc, reset, busy);
+  }
+};
+class U8X8_SSD1681_200X200_3W_BUSY_SW_SPI : public U8X8 {
+  public: U8X8_SSD1681_200X200_3W_BUSY_SW_SPI(uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup(getU8x8(), u8x8_d_ssd1681_200x200, u8x8_cad_011, u8x8_byte_arduino_3wire_sw_spi, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_3Wire_Busy_SW_SPI(getU8x8(), clock, data, cs, reset, busy);
+  }
+};
+class U8X8_SSD1681_200X200_3W_BUSY_HW_SPI : public U8X8 {
+  public: U8X8_SSD1681_200X200_3W_BUSY_HW_SPI(uint8_t cs, uint8_t reset = U8X8_PIN_NONE, uint8_t busy = U8X8_PIN_NONE) : U8X8() {
+    u8x8_Setup(getU8x8(), u8x8_d_ssd1681_200x200, u8x8_cad_011, u8x8_byte_arduino_3wire_hw_spi, u8x8_gpio_and_delay_arduino);
+    u8x8_SetPin_3Wire_Busy_HW_SPI(getU8x8(), cs, reset, busy);
   }
 };
 class U8X8_IL3820_296X128_4W_SW_SPI : public U8X8 {
