@@ -1,6 +1,6 @@
 /*
 
-  FlipMode.ino
+  SSD1306DimToZero.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -30,7 +30,8 @@
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
-
+  
+   
 */
 
 #include <Arduino.h>
@@ -43,9 +44,14 @@
 #include <Wire.h>
 #endif
 
+
 /*
-  Preconditions:
-  Uno with DOGS102 Shield
+  U8g2lib Example Overview:
+    Frame Buffer Examples: clearBuffer/sendBuffer. Fast, but may not work with all Arduino boards because of RAM consumption
+    Page Buffer Examples: firstPage/nextPage. Less RAM usage, should work with all Arduino boards.
+    U8x8 Text Only Example: No RAM usage, direct communication with display controller. No graphics, 8x8 Text only.
+    
+  This is a page buffer example.    
 */
 
 // Please UNCOMMENT one of the contructor lines below
@@ -73,7 +79,7 @@
 //U8G2_SSD1312_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ 8);
 //U8G2_SSD1312_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ 8);
 //U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1106_128X64_VCOMH0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8G2_SH1106_128X64_WINSTAR_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but uses updated SH1106 init sequence
 //U8G2_SH1106_128X32_VISIONOX_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); 
@@ -319,61 +325,61 @@
 // End of constructor list
 
 
+// value from 0 to 7, higher values more brighter
+void setSSD1306VcomDeselect(uint8_t v)
+{	
+  u8g2.sendF("cac", 0x0db, v << 4, 0xaf);
+}
+
+// p1: 1..15, higher values, more darker, however almost no difference with 3 or more
+// p2: 1..15, higher values, more brighter
+void setSSD1306PreChargePeriod(uint8_t p1, uint8_t p2)
+{	
+  u8g2.sendF("ca", 0x0d9, (p2 << 4) | p1 );
+}
+
 void setup(void) {
-  u8g2.begin();
-  u8g2.setFont(u8g2_font_6x10_tr);
+
+  /* U8g2 Project: SSD1306 Test Board */
+  //pinMode(10, OUTPUT);
+  //pinMode(9, OUTPUT);
+  //digitalWrite(10, 0);
+  //digitalWrite(9, 0);		
+
+  /* U8g2 Project: T6963 Test Board */
+  //pinMode(18, OUTPUT);
+  //digitalWrite(18, 1);	
+
+  /* U8g2 Project: KS0108 Test Board */
+  //pinMode(16, OUTPUT);
+  //digitalWrite(16, 0);	
+
+  /* U8g2 Project: LC7981 Test Board, connect RW to GND */
+  //pinMode(17, OUTPUT);
+  //digitalWrite(17, 0);	
+
+  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
+  //pinMode(6, OUTPUT);
+  //digitalWrite(6, 0);	
+
+  u8g2.begin();  
+  
+  setSSD1306VcomDeselect(0x01);
 }
 
-
-void draw(const char *s)
-{
-  u8g2.firstPage();
-  do {
-    u8g2.drawStr(2,15,"Hello World!");    
-    u8g2.drawStr(2,30,s);    
-    u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-
-    u8g2.drawStr(2, 45, u8x8_u16toa(u8g2.getDisplayWidth(), 5));
-    u8g2.drawStr(2, 60, u8x8_u16toa(u8g2.getDisplayHeight(), 5));
-    
-  } while ( u8g2.nextPage() );
-  delay(2000);
-}
-
+uint8_t contrast_value = 0;
+uint8_t contrast_step = 1;
 
 void loop(void) {
-
-  u8g2.clearDisplay();
-  u8g2.setDisplayRotation(U8G2_R0);
-  u8g2.setFlipMode(0);
-  draw("R0,F0");
-  u8g2.clearDisplay();
-  u8g2.setFlipMode(1);
-  draw("R0,F1");
-
-  u8g2.clearDisplay();
-  u8g2.setDisplayRotation(U8G2_R1);
-  u8g2.setFlipMode(0);
-  draw("R1,F0");
-  u8g2.clearDisplay();
-  u8g2.setFlipMode(1);
-  draw("R1,F1");
-
-  u8g2.clearDisplay();
-  u8g2.setDisplayRotation(U8G2_R2);
-  u8g2.setFlipMode(0);
-  draw("R2,F0");
-  u8g2.clearDisplay();
-  u8g2.setFlipMode(1);
-  draw("R2,F1");
-
-  u8g2.clearDisplay();
-  u8g2.setDisplayRotation(U8G2_R3);
-  u8g2.setFlipMode(0);
-  draw("R3,F0");
-  u8g2.clearDisplay();
-  u8g2.setFlipMode(1);
-  draw("R3,F1");
-
+  u8g2.setContrast(contrast_value);
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_ncenB10_tr);
+    u8g2.drawStr(0,24,"Hello World!");
+    u8g2.drawStr(0,48, u8x8_u8toa(contrast_value, 3));
+  } while ( u8g2.nextPage() );
+  delay(100);
+  contrast_value += contrast_step;
+  contrast_value &= 63;
 }
 
