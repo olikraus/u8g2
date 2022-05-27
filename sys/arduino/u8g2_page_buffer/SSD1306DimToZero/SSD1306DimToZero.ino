@@ -1,6 +1,6 @@
 /*
 
-  ContrastTest.ino
+  SSD1306DimToZero.ino
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -30,7 +30,8 @@
   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
-
+  
+   
 */
 
 #include <Arduino.h>
@@ -78,7 +79,7 @@
 //U8G2_SSD1312_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ 8);
 //U8G2_SSD1312_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ 8);
 //U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1106_128X64_VCOMH0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8G2_SH1106_128X64_WINSTAR_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but uses updated SH1106 init sequence
 //U8G2_SH1106_128X32_VISIONOX_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); 
@@ -324,30 +325,18 @@
 // End of constructor list
 
 
-void testContrast(uint8_t contrast)
-{
-  static char cstr[6];
-  static char vstr[4];
-  u8g2.setContrast(contrast);
-  strcpy( cstr, u8x8_u8toa(contrast, 3));
-  u8g2.firstPage();
-  do {
-    //u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.setFont(u8g2_font_courB24_tn);
-    u8g2.drawStr(0,28, cstr);
-    u8g2.drawBox(64, 0, 10, 64);
-    u8g2.drawBox(76, 0, 2, 64);
-    u8g2.drawBox(80, 0, 1, 64);
-    u8g2.drawBox(82, 0, 1, 64);
-    
-    u8g2.drawBox(0, 32, 128, 10);
-    u8g2.drawBox(0, 44, 128, 2);
-    u8g2.drawBox(0, 48, 128, 1);
-    u8g2.drawBox(0, 50, 128, 1);
-    
-  } while ( u8g2.nextPage() );
+// value from 0 to 7, higher values more brighter
+void setSSD1306VcomDeselect(uint8_t v)
+{	
+  u8g2.sendF("cac", 0x0db, v << 4, 0xaf);
 }
 
+// p1: 1..15, higher values, more darker, however almost no difference with 3 or more
+// p2: 1..15, higher values, more brighter
+void setSSD1306PreChargePeriod(uint8_t p1, uint8_t p2)
+{	
+  u8g2.sendF("ca", 0x0d9, (p2 << 4) | p1 );
+}
 
 void setup(void) {
 
@@ -360,29 +349,37 @@ void setup(void) {
   /* U8g2 Project: T6963 Test Board */
   //pinMode(18, OUTPUT);
   //digitalWrite(18, 1);	
-  
+
+  /* U8g2 Project: KS0108 Test Board */
+  //pinMode(16, OUTPUT);
+  //digitalWrite(16, 0);	
+
+  /* U8g2 Project: LC7981 Test Board, connect RW to GND */
+  //pinMode(17, OUTPUT);
+  //digitalWrite(17, 0);	
+
+  /* U8g2 Project: Pax Instruments Shield: Enable Backlight */
+  //pinMode(6, OUTPUT);
+  //digitalWrite(6, 0);	
+
   u8g2.begin();  
+  
+  setSSD1306VcomDeselect(0x01);
 }
 
-
+uint8_t contrast_value = 0;
+uint8_t contrast_step = 1;
 
 void loop(void) {
-  uint8_t i;
-  i = 255;
-  do
-  {
-    testContrast(255-i);
-    delay(15);
-    i-=5;
-  } while( i != 0 );
-  i = 255;
+  u8g2.setContrast(contrast_value);
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_ncenB10_tr);
+    u8g2.drawStr(0,24,"Hello World!");
+    u8g2.drawStr(0,48, u8x8_u8toa(contrast_value, 3));
+  } while ( u8g2.nextPage() );
   delay(100);
-  do
-  {
-    testContrast(i);
-    delay(15);
-    i-=5;
-  } while( i != 0 );
-  delay(100);
+  contrast_value += contrast_step;
+  contrast_value &= 63;
 }
 
