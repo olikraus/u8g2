@@ -1,6 +1,8 @@
 /*
 
   SSD1306DimToZero.ino
+  
+  see: https://github.com/olikraus/u8g2/issues/1833
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -326,6 +328,8 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 
 // value from 0 to 7, higher values more brighter
+// send a 0xaf (display on) command, which seems to be required for the SH1106
+// Issue: https://github.com/olikraus/u8g2/issues/1833
 void setSSD1306VcomDeselect(uint8_t v)
 {	
   u8g2.sendF("cac", 0x0db, v << 4, 0xaf);
