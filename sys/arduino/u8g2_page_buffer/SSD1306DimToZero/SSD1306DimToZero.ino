@@ -335,7 +335,7 @@ void setSSD1306VcomDeselect(uint8_t v)
   u8g2.sendF("cac", 0x0db, v << 4, 0xaf);
 }
 
-// p1: 1..15, higher values, more darker, however almost no difference with 3 or more
+// p1: 1..15, higher values, more darker, however almost no difference with 3 or more (discharge phase)
 // p2: 1..15, higher values, more brighter
 void setSSD1306PreChargePeriod(uint8_t p1, uint8_t p2)
 {	
