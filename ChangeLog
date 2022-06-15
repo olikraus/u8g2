@@ -287,4 +287,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed several bugs and compiler errors
 2022-xx-xx      v2.33.x olikraus@gmail.com
   * ST7567 ERC13232 (issue 1869)
+  * ST7920 160x32 (issue 1873)
   
