@@ -80,7 +80,8 @@ static const uint8_t u8x8_d_ist3088_320x240_flip1_seq[] = {
 
 static uint8_t u8x8_d_ist3088_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  uint16_t x;
+  //uint16_t x;
+  uint8_t y;
   uint8_t c;
   uint8_t *ptr;
   switch(msg)
@@ -124,36 +125,38 @@ static uint8_t u8x8_d_ist3088_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
       break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
+      /*
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
       x *= 8;
       x += u8x8->x_offset;
+    */
+
+      y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+      y*=8;
 
       u8x8_cad_StartTransfer(u8x8);
     
-      u8x8_cad_SendCmd(u8x8, 0x013);
-      u8x8_cad_SendArg(u8x8, (x>>8) );
-      u8x8_cad_SendArg(u8x8, (x&255) );
-      u8x8_cad_SendCmd(u8x8, 0x0b1 ); 
-      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos)); 
-
-
-      u8x8_cad_SendCmd(u8x8, 0x01d );		// write data 
     
-      do
-      {
-        c = ((u8x8_tile_t *)arg_ptr)->cnt;
-        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-        /* SendData can not handle more than 255 bytes */
-        if ( c > 31 )
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;	/* data ptr to the tiles */
+        for( i = 0; i < 8; i++ )
         {
-          u8x8_cad_SendData(u8x8, 248, ptr); 	/* 31*8=248 */
-          ptr+=248;
-          c -= 31;
+          u8x8_cad_SendCmd(u8x8, 0x0);
+          u8x8_cad_SendCmd(u8x8, 0x8);
+          u8x8_cad_SendArg(u8x8, y); 
+          u8x8_cad_SendArg(u8x8, 0 );
+
+
+          u8x8_cad_SendCmd(u8x8, 0x0);		// write data 
+          u8x8_cad_SendCmd(u8x8, 0x9);		// write data 
+          
+          
+          //c = ((u8x8_tile_t *)arg_ptr)->cnt;	/* number of tiles */
+          u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes, send one line of data */
+          
+          ptr += u8x8->display_info->tile_width;
+          y ++;
         }
-        
-        u8x8_cad_SendData(u8x8, c*8, ptr); 	
-        arg_int--;
-      } while( arg_int > 0 );
 
       
       u8x8_cad_EndTransfer(u8x8);
@@ -190,7 +193,9 @@ static const uint8_t u8x8_d_ist3088_320x240_init_seq[] = {
   U8X8_CCAA(0x0, 0x03, 0x00, 0x70), 			// Enable voltage follower 
   U8X8_DLY(10),
 
+  U8X8_CCAA(0x0, 0x0d, 0x7f, 0x00), 			// X End and X Start
   
+  U8X8_CCAA(0x0, 0x0e, 239, 0x00), 			// Y End and Y Start
 
   /* enable LCD (will be done by powersave0 */
   //U8X8_CCAA(0x0, 0x07, 0x00, 0x01), 			// Display Control Bit 2: BW, 1: Invert, 0: Display enable
