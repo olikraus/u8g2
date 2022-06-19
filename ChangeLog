@@ -288,4 +288,4 @@ https://github.com/olikraus/u8g2 ChangeLog
 2022-xx-xx      v2.33.x olikraus@gmail.com
   * ST7567 ERC13232 (issue 1869)
   * ST7920 160x32 (issue 1873)
-  
+  * Added support for IST3088 (issue 1887) 
