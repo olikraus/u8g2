@@ -81,6 +81,7 @@ static const uint8_t u8x8_d_ist3088_320x240_flip1_seq[] = {
 static uint8_t u8x8_d_ist3088_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   //uint16_t x;
+  int i;
   uint8_t y;
   uint8_t c;
   uint8_t *ptr;
