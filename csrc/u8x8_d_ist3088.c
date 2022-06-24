@@ -170,6 +170,28 @@ static uint8_t u8x8_d_ist3088_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
 
 /*===================================================*/
 
+/*
+    SdCmd(0x01);                // driver control
+	SdData(0x00); SdData(0x00); // c1-->c240 s1-->s240 duty=1/240
+    SdCmd(0x02);                // driver control
+	SdData(0x01); SdData(0x4c);	//0x15
+    SdCmd(0x03);                // power control
+	SdData(0x00); SdData(0x70); // VC VR Vf=1
+    SdCmd(0x04);                // power control
+	SdData(0x04); SdData(0x61); //0x61  //1/14b
+    SdCmd(0x05);                // CT control
+	SdData(0x00); SdData(0x6a); // 0X76 
+    SdCmd(0x06);                // CT control
+	SdData(0x00); SdData(0x03); 
+    SdCmd(0x23);                // B/W MODE,16G NEED REMOVE
+	SdData(0x00); SdData(0x04); //04:mono
+    SdCmd(0x28);                // OSC
+	SdData(0x00); SdData(0x0c);
+    SdCmd(0x37);                
+        SdData(0x00); SdData(0x12);
+    SdCmd(0x07);                
+        SdData(0x00); SdData(0x01);
+*/
 
 /* https://github.com/olikraus/u8g2/issues/1887 */
 static const uint8_t u8x8_d_ist3088_320x240_init_seq[] = {
@@ -180,12 +202,12 @@ static const uint8_t u8x8_d_ist3088_320x240_init_seq[] = {
   U8X8_CCAA(0x0, 0x07, 0x00, 0x00), 			// Display Control Bit 2: BW, 1: Invert, 0: Display enable
 
   U8X8_CCAA(0x0, 0x01, 0x00, 0x00), 			// Driver Control, 1/240 Duty
-  U8X8_CCAA(0x0, 0x02, 0x00, 0x00), 			// Polarity Control
+  U8X8_CCAA(0x0, 0x02, 0x01, 0x4c), 			// Polarity Control
 
   U8X8_CCAA(0x0, 0x06, 0x00, 0x03), 			// Entry mode: h/v increment  
-  U8X8_CCAA(0x0, 0x23, 0x00, 0x04), 			// Monochrome mode
-  U8X8_CCAA(0x0, 0x04, 0x07, 0x80), 			// Power Control 2: 0x07: 1/16 Bias, Vout1 x 4
-  U8X8_CCAA(0x0, 0x05, 0x00, 0x7f), 			// Contrast, 0..255, 
+  //U8X8_CCAA(0x0, 0x04, 0x07, 0x61), 			// Power Control 2: 0x07: 1/16 Bias, Vout1 x 4
+  U8X8_CCAA(0x0, 0x04, 0x04, 0x61), 			// Power Control 2: 0x07: 1/16 Bias, Vout1 x 4
+  U8X8_CCAA(0x0, 0x05, 0x00, 0x6a), 			// Contrast, 0..255, 
 
   U8X8_CCAA(0x0, 0x03, 0x00, 0x40), 			// Enable voltage converter 
   U8X8_DLY(10),
@@ -194,11 +216,14 @@ static const uint8_t u8x8_d_ist3088_320x240_init_seq[] = {
   U8X8_CCAA(0x0, 0x03, 0x00, 0x70), 			// Enable voltage follower 
   U8X8_DLY(10),
 
+  U8X8_CCAA(0x0, 0x23, 0x00, 0x04), 			// Monochrome mode
+  U8X8_CCAA(0x0, 0x28, 0x00, 0x0c), 			// Frame Rate Control
+  U8X8_CCAA(0x0, 0x37, 0x00, 0x01), 			// Frame Rate Control
   U8X8_CCAA(0x0, 0x0d, 0x7f, 0x00), 			// X End and X Start
   
   U8X8_CCAA(0x0, 0x0e, 239, 0x00), 			// Y End and Y Start
 
-  /* enable LCD (will be done by powersave0 */
+  /* enable LCD (will be done by powersave0) */
   //U8X8_CCAA(0x0, 0x07, 0x00, 0x01), 			// Display Control Bit 2: BW, 1: Invert, 0: Display enable
     
   U8X8_END_TRANSFER(),             	/* disable chip */
