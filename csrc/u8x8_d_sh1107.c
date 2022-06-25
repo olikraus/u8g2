@@ -442,7 +442,7 @@ static const uint8_t u8x8_d_sh1107_HJR_OEL1M0201_96x96_init_seq[] = {
 };
 
 
-uint8_t u8x8_d_sh1107_HJR_OEL1M0201_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_sh1107_hjr_oel1m0201_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 { 
   if ( u8x8_d_sh1107_HJR_OEL1M0201_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
     return 1;
@@ -838,7 +838,7 @@ static const u8x8_display_info_t u8x8_TK078F288_80x128_display_info =
   /* pixel_width = */ 80,
   /* pixel_height = */ 128
 };
-uint8_t u8x8_d_sh1107_TK078F288_80x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_sh1107_tk078f288_80x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
   if ( u8x8_d_sh1107_TK078F288_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
