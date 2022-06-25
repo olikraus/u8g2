@@ -352,46 +352,6 @@ static const uint8_t u8x8_d_sh1107_seeed_96x96_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_sh1107_HJR_OEL1M0201_96x96_init_seq[] = {
-    
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-
-	U8X8_C(0xAE),//
-	
-	U8X8_C(0x0F),//
-	U8X8_C(0x17),//
-	
-	
-	U8X8_C(0xD9),//
-	U8X8_C(0x89), //
-	
-  U8X8_CA(0x0d3, 0x000),		/* display offset */
-  U8X8_CA(0x0dc, 0x070),		/* start line */
-	
-  U8X8_C(0x0a0),				/* segment remap a0/a1 A0��??A1?���?a|��1D����*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
-	
-	U8X8_C(0xD5),//
-	U8X8_C(0xB0),//
-	
-	U8X8_C(0x20),//
-	
-	U8X8_C(0xDB),//
-	U8X8_C(0x35),//
-	
-	U8X8_C(0x81),//
-	
-	U8X8_C(0xC7),//
-	
-	U8X8_C(0xA4),//A5����????��
-	
-	U8X8_C(0xA6),//A6��??A7?���?a?��??��|?
-	
-	U8X8_C(0xAD),//
-	U8X8_C(0x80),//
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
 static const u8x8_display_info_t u8x8_sh1107_seeed_96x96_display_info =
 {
   /* chip_enable_level = */ 0,
@@ -436,6 +396,51 @@ uint8_t u8x8_d_sh1107_seeed_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
   }
   return 1;
 }
+
+
+
+
+static const uint8_t u8x8_d_sh1107_HJR_OEL1M0201_96x96_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+	U8X8_C(0xAE),//
+	
+	U8X8_C(0x0F),//
+	U8X8_C(0x17),//
+	
+	
+	U8X8_C(0xD9),//
+	U8X8_C(0x89), //
+	
+  U8X8_CA(0x0d3, 0x000),		/* display offset */
+  U8X8_CA(0x0dc, 0x070),		/* start line */
+	
+  U8X8_C(0x0a0),				/* segment remap a0/a1 A0��??A1?���?a|��1D����*/
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+	
+	U8X8_C(0xD5),//
+	U8X8_C(0xB0),//
+	
+	U8X8_C(0x20),//
+	
+	U8X8_C(0xDB),//
+	U8X8_C(0x35),//
+	
+	U8X8_C(0x81),//
+	
+	U8X8_C(0xC7),//
+	
+	U8X8_C(0xA4),//A5����????��
+	
+	U8X8_C(0xA6),//A6��??A7?���?a?��??��|?
+	
+	U8X8_C(0xAD),//
+	U8X8_C(0x80),//
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
 
 uint8_t u8x8_d_sh1107_HJR_OEL1M0201_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 { 
@@ -690,29 +695,6 @@ uint8_t u8x8_d_sh1107_seeed_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, 
   }
   return 1;
 }
-static const u8x8_display_info_t u8x8_TK078F288_80x128_display_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 20,
-  /* pre_chip_disable_wait_ns = */ 10,
-  /* reset_pulse_width_ms = */ 100, 	/* */
-  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
-  /* sda_setup_time_ns = */ 100,		/* cycle time is 100ns, so use 100/2 */
-  /* sck_pulse_width_ns = */ 100,	/* cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
-  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 0,		/* active high, rising edge */
-  /* i2c_bus_clock_100kHz = */ 2,		// 400kHz does not work, but 200kHz seems to be ok
-  /* data_setup_time_ns = */ 40,
-  /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
-  /* tile_width = */ 16,
-  /* tile_hight = */ 16,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 80,
-  /* pixel_height = */ 128
-};
 static const uint8_t u8x8_d_sh1107_80x128_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -833,6 +815,29 @@ static uint8_t u8x8_d_sh1107_TK078F288_generic(u8x8_t *u8x8, uint8_t msg, uint8_
   }
   return 1;
 }
+static const u8x8_display_info_t u8x8_TK078F288_80x128_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 100,		/* cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 100,	/* cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 2,		// 400kHz does not work, but 200kHz seems to be ok
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 10,
+  /* tile_hight = */ 16,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 80,
+  /* pixel_height = */ 128
+};
 uint8_t u8x8_d_sh1107_TK078F288_80x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
