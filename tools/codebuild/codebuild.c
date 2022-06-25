@@ -276,6 +276,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "seeed_96x96" },
+      { "HJR_OEL1M0201_96x96" },
       { NULL }
     }
   },
@@ -284,6 +285,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "seeed_96x96" },
+      { "HJR_OEL1M0201_96x96" },
       { NULL }
     }
   },
@@ -293,6 +295,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x80" },  /* actually this is a 80x128 display */
+      { "TK078F288_80x128" }, 
       { NULL }
     }
   },
@@ -301,6 +304,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x80" }, /* actually this is a 80x128 display */
+      { "TK078F288_80x128" }, 
       { NULL }
     }
   },
