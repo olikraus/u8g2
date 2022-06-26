@@ -1570,7 +1570,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ist3088", 	40, 	30, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
+    "ist3088", 	40, 	30, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
     "not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "320x240" },
