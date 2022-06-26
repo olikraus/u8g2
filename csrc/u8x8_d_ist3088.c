@@ -119,9 +119,10 @@ static uint8_t u8x8_d_ist3088_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int<<2 );	
-      u8x8_cad_SendArg(u8x8, arg_int>>6 );	
+      u8x8_cad_SendCmd(u8x8, 0x00 );
+      u8x8_cad_SendCmd(u8x8, 0x05 );
+      u8x8_cad_SendArg(u8x8, 0 );	
+      u8x8_cad_SendArg(u8x8, arg_int );	
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
