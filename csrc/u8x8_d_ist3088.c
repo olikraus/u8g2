@@ -119,9 +119,10 @@ static uint8_t u8x8_d_ist3088_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
       u8x8_cad_StartTransfer(u8x8);
-      u8x8_cad_SendCmd(u8x8, 0x081 );
-      u8x8_cad_SendArg(u8x8, arg_int<<2 );	
-      u8x8_cad_SendArg(u8x8, arg_int>>6 );	
+      u8x8_cad_SendCmd(u8x8, 0x00 );
+      u8x8_cad_SendCmd(u8x8, 0x05 );
+      u8x8_cad_SendArg(u8x8, 0 );	
+      u8x8_cad_SendArg(u8x8, arg_int );	
       u8x8_cad_EndTransfer(u8x8);
       break;
 #endif
@@ -219,7 +220,7 @@ static const uint8_t u8x8_d_ist3088_320x240_init_seq[] = {
   U8X8_CCAA(0x0, 0x23, 0x00, 0x04), 			// Monochrome mode
   U8X8_CCAA(0x0, 0x28, 0x00, 0x0c), 			// Frame Rate Control
   U8X8_CCAA(0x0, 0x37, 0x00, 0x01), 			// Frame Rate Control
-  U8X8_CCAA(0x0, 0x0d, 0x7f, 0x00), 			// X End and X Start
+  U8X8_CCAA(0x0, 0x0d, 39, 0x00), 			// X End and X Start
   
   U8X8_CCAA(0x0, 0x0e, 239, 0x00), 			// Y End and Y Start
 

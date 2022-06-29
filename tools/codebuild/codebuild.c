@@ -276,6 +276,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "seeed_96x96" },
+      { "hjr_oel1m0201_96x96" },
       { NULL }
     }
   },
@@ -284,6 +285,7 @@ struct controller controller_list[] =
     "Not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "seeed_96x96" },
+      { "hjr_oel1m0201_96x96" },
       { NULL }
     }
   },
@@ -293,6 +295,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x80" },  /* actually this is a 80x128 display */
+      { "tk078f288_80x128" }, 
       { NULL }
     }
   },
@@ -301,6 +304,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x80" }, /* actually this is a 80x128 display */
+      { "tk078f288_80x128" }, 
       { NULL }
     }
   },
@@ -1566,7 +1570,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ist3088", 	40, 	30, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
+    "ist3088", 	40, 	30, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
     "not tested", /* is_generate_u8g2_class= */ 1,
     {
       { "320x240" },
