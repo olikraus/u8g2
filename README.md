@@ -38,8 +38,6 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
 在Arduino上的安装方法：
 * 首先在Arduino IDE内安装原始的U8g2库。
 * 打开库文件位置，默认为`C:\Users\%USERNAME%\Documents\Arduino\libraries`，如果你有更改过默认库位置请自行查找。
-* 进入`U8g2`文件夹。
-* 编辑`keywords.txt`，搜索`writeBufferXBM2	KEYWORD2`，在其下方分别添加`writeBufferPBM3	KEYWORD2`和`writeBufferXBM3	KEYWORD2`。此步骤可跳过，只会影响这两个关键字的高亮显示。
 * 进入`U8g2\src`文件夹。
 * 将文件夹内的5个文件替换为此仓库`cppsrc`文件夹内的文件。
 * 编辑`MUIU8g2.h`，将2个include路径改为`clib\mui.h`和`clib\mui_u8g2.h`。
@@ -102,8 +100,8 @@ setContrast();
 如需截图请使用：
 
 ```
-writeBufferXBM3();
-writeBufferPBM3();
+writeBufferXBM();
+writeBufferPBM();
 ```
 
 其他问题
