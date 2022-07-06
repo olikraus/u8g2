@@ -309,10 +309,6 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
     void writeBufferPBM2(Print &p);
     void writeBufferXBM2(Print &p);
-    /* vertical top msb memory architecture */
-    /* GP12x7AI */
-    void writeBufferPBM3(Print &p);
-    void writeBufferXBM3(Print &p);
 #endif
 
     /* virtual function for print base class */    

@@ -1082,10 +1082,6 @@ uint8_t u8x8_capture_get_pixel_1(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint
 /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
 uint8_t u8x8_capture_get_pixel_2(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width);
 
-/* vertical_top msb memory architecture */
-/* GP12x7AI */
-uint8_t u8x8_capture_get_pixel_3(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width);
-
 
 
 void u8x8_capture_write_pbm_pre(uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s));

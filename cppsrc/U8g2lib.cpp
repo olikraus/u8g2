@@ -71,18 +71,6 @@ void U8G2::writeBufferXBM2(Print &p)
   u8g2_print_for_screenshot = &p;
   u8g2_WriteBufferXBM2(getU8g2(), u8g2_print_callback);
 }
-
-void U8G2::writeBufferPBM3(Print &p)
-{
-  u8g2_print_for_screenshot = &p;
-  u8g2_WriteBufferPBM3(getU8g2(), u8g2_print_callback);
-}
-
-void U8G2::writeBufferXBM3(Print &p)
-{
-  u8g2_print_for_screenshot = &p;
-  u8g2_WriteBufferXBM3(getU8g2(), u8g2_print_callback);
-}
 #endif
 
 

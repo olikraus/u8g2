@@ -211,17 +211,3 @@ void u8g2_WriteBufferXBM2(u8g2_t *u8g2, void (*out)(const char *s))
   u8x8_capture_write_xbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_2, out);
 }
 
-/* vertical_top msb memory architecture */
-/* GP12x7AI */
-void u8g2_WriteBufferPBM3(u8g2_t *u8g2, void (*out)(const char *s))
-{
-  u8x8_capture_write_pbm_pre(u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
-  u8x8_capture_write_pbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_3, out);
-}
-
-void u8g2_WriteBufferXBM3(u8g2_t *u8g2, void (*out)(const char *s))
-{
-  u8x8_capture_write_xbm_pre(u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), out);
-  u8x8_capture_write_xbm_buffer(u8g2_GetBufferPtr(u8g2), u8g2_GetBufferTileWidth(u8g2), u8g2_GetBufferTileHeight(u8g2), u8x8_capture_get_pixel_3, out);
-}
-

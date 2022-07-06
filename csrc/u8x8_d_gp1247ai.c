@@ -141,6 +141,7 @@ uint8_t u8x8_d_gp1247ai_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
     uint8_t *ptr;
     uint8_t x, y;
     uint16_t tx_cnt;
+    uint8_t swapped_byte;
     switch (msg)
     {
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
@@ -172,14 +173,12 @@ uint8_t u8x8_d_gp1247ai_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
         u8x8_cad_SendArg(u8x8, SWAP8(0x007)); /* Y方向每8像素自动折返 */
         do
         {
-            if (tx_cnt > 255)
+            while (tx_cnt > 0)
             {
-                u8x8_cad_SendData(u8x8, 255, ptr); /* u8x8_cad_SendData() 一次最多只能发送255 Byte，所以分两次发 */
-                u8x8_cad_SendData(u8x8, tx_cnt - 255, ptr + 255);
-            }
-            else
-            {
-                u8x8_cad_SendData(u8x8, tx_cnt, ptr);
+                swapped_byte = SWAP8(*ptr);
+                u8x8_cad_SendData(u8x8, 1, &swapped_byte);
+                ptr += 1;
+                tx_cnt -= 1;
             }
             arg_int--;
         } while (arg_int > 0);

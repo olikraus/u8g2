@@ -1466,9 +1466,6 @@ void u8g2_WriteBufferXBM(u8g2_t *u8g2, void (*out)(const char *s));
 /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
 void u8g2_WriteBufferPBM2(u8g2_t *u8g2, void (*out)(const char *s));
 void u8g2_WriteBufferXBM2(u8g2_t *u8g2, void (*out)(const char *s));
-/* GP12x7AI */
-void u8g2_WriteBufferPBM3(u8g2_t *u8g2, void (*out)(const char *s));
-void u8g2_WriteBufferXBM3(u8g2_t *u8g2, void (*out)(const char *s));
 
 
 /*==========================================*/
@@ -1486,8 +1483,6 @@ void u8g2_WriteBufferXBM3(u8g2_t *u8g2, void (*out)(const char *s));
 void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 /* ST7920 */
 void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
-/* GP12x7AI */
-void u8g2_ll_hvline_vertical_top_msb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir);
 
 
 /*==========================================*/

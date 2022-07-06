@@ -1879,7 +1879,7 @@ struct controller controller_list[] =
   },
 
   {
-    "gp1287ai", 	32, 	7, 	"u8g2_ll_hvline_vertical_top_msb", "u8x8_cad_empty", "", COM_4WSPI, /* DC pin is not used */
+    "gp1287ai", 	32, 	7, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_empty", "", COM_4WSPI, /* DC pin is not used */
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "256x50" },
@@ -1888,7 +1888,7 @@ struct controller controller_list[] =
   },
 
   {
-    "gp1247ai", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_msb", "u8x8_cad_empty", "", COM_4WSPI, /* DC pin is not used */
+    "gp1247ai", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_empty", "", COM_4WSPI, /* DC pin is not used */
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "253x63" },
