@@ -161,10 +161,8 @@ uint8_t u8x8_d_gp1287ai_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
         break;
 #endif
     case U8X8_MSG_DISPLAY_DRAW_TILE:
-        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
         x = ((u8x8_tile_t *)arg_ptr)->x_pos * 8;
         y = ((u8x8_tile_t *)arg_ptr)->y_pos * 8 + 4;
-        tx_cnt = ((u8x8_tile_t *)arg_ptr)->cnt * 8;
 
         u8x8_cad_StartTransfer(u8x8);
 
@@ -174,6 +172,8 @@ uint8_t u8x8_d_gp1287ai_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
         u8x8_cad_SendArg(u8x8, SWAP8(0x007)); /* return every 8 pixels */
         do
         {
+            ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+            tx_cnt = ((u8x8_tile_t *)arg_ptr)->cnt * 8;
             while (tx_cnt > 0)
             {
                 swapped_byte = SWAP8(*ptr);
