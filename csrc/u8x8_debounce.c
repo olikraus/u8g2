@@ -102,7 +102,7 @@ static uint8_t u8x8_find_first_diff(uint8_t a, uint8_t b)
 
 */
 
-#if 1 // #ifndef __unix__
+#ifndef __unix__
 
 #include <stdio.h>
 #include <stdlib.h>
