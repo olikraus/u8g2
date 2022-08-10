@@ -478,9 +478,102 @@ void u8g2_font_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
   lx += cnt;
   
   decode->x = lx;
+  decode->y = ly;  
+}
+
+
+void u8g2_font_2x_decode_len(u8g2_t *u8g2, uint8_t len, uint8_t is_foreground)
+{
+  uint8_t cnt;	/* total number of remaining pixels, which have to be drawn */
+  uint8_t rem; 	/* remaining pixel to the right edge of the glyph */
+  uint8_t current;	/* number of pixels, which need to be drawn for the draw procedure */
+    /* current is either equal to cnt or equal to rem */
+  
+  /* local coordinates of the glyph */
+  uint8_t lx,ly;
+  
+  /* target position on the screen */
+  u8g2_uint_t x, y;
+  
+  u8g2_font_decode_t *decode = &(u8g2->font_decode);
+  
+  cnt = len;
+  
+  /* get the local position */
+  lx = decode->x;
+  ly = decode->y;
+  
+  for(;;)
+  {
+    /* calculate the number of pixel to the right edge of the glyph */
+    rem = decode->glyph_width;
+    rem -= lx;
+    
+    /* calculate how many pixel to draw. This is either to the right edge */
+    /* or lesser, if not enough pixel are left */
+    current = rem;
+    if ( cnt < rem )
+      current = cnt;
+    
+    
+    /* now draw the line, but apply the rotation around the glyph target position */
+    //u8g2_font_decode_draw_pixel(u8g2, lx,ly,current, is_foreground);
+
+    /* get target position */
+    x = decode->target_x;
+    y = decode->target_y;
+
+    x += lx*2;
+    y += ly*2;
+    
+    /* draw foreground and background (if required) */
+    if ( is_foreground )
+    {
+      u8g2->draw_color = decode->fg_color;			/* draw_color will be restored later */
+      u8g2_DrawHVLine(u8g2, 
+	x, 
+	y, 
+	current*2, 
+	0
+      );
+      u8g2_DrawHVLine(u8g2, 
+	x, 
+	y+1, 
+	current*2, 
+	0
+      );
+    }
+    else if ( decode->is_transparent == 0 )    
+    {
+      u8g2->draw_color = decode->bg_color;			/* draw_color will be restored later */
+      u8g2_DrawHVLine(u8g2, 
+	x, 
+	y, 
+	current*2, 
+	0
+      );   
+      u8g2_DrawHVLine(u8g2, 
+	x, 
+	y+1, 
+	current*2, 
+	0
+      );   
+    }
+    
+    /* check, whether the end of the run length code has been reached */
+    if ( cnt < rem )
+      break;
+    cnt -= rem;
+    lx = 0;
+    ly++;
+  }
+  lx += cnt;
+  
+  decode->x = lx;
   decode->y = ly;
   
 }
+
 
 static void u8g2_font_setup_decode(u8g2_t *u8g2, const uint8_t *glyph_data)
 {
@@ -616,6 +709,68 @@ int8_t u8g2_font_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   return d;
 }
 
+
+int8_t u8g2_font_2x_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
+{
+  uint8_t a, b;
+  int8_t x, y;
+  int8_t d;
+  int8_t h;
+  u8g2_font_decode_t *decode = &(u8g2->font_decode);
+    
+  u8g2_font_setup_decode(u8g2, glyph_data);     /* set values in u8g2->font_decode data structure */
+  h = u8g2->font_decode.glyph_height;
+  
+  x = u8g2_font_decode_get_signed_bits(decode, u8g2->font_info.bits_per_char_x);
+  y = u8g2_font_decode_get_signed_bits(decode, u8g2->font_info.bits_per_char_y);
+  d = u8g2_font_decode_get_signed_bits(decode, u8g2->font_info.bits_per_delta_x);
+  
+  if ( decode->glyph_width > 0 )
+  {
+    decode->target_x += x;
+    decode->target_y -= 2*h+y;
+
+#ifdef U8G2_WITH_INTERSECTION
+    {
+      u8g2_uint_t x0, x1, y0, y1;
+      x0 = decode->target_x;
+      y0 = decode->target_y;
+      x1 = x0;
+      y1 = y0;
+      
+      x1 += 2*decode->glyph_width;
+      y1 += 2*h;      
+      
+      if ( u8g2_IsIntersection(u8g2, x0, y0, x1, y1) == 0 ) 
+	return d;
+    }
+#endif /* U8G2_WITH_INTERSECTION */
+   
+    /* reset local x/y position */
+    decode->x = 0;
+    decode->y = 0;
+    
+    /* decode glyph */
+    for(;;)
+    {
+      a = u8g2_font_decode_get_unsigned_bits(decode, u8g2->font_info.bits_per_0);
+      b = u8g2_font_decode_get_unsigned_bits(decode, u8g2->font_info.bits_per_1);
+      do
+      {
+	u8g2_font_2x_decode_len(u8g2, a, 0);
+	u8g2_font_2x_decode_len(u8g2, b, 1);
+      } while( u8g2_font_decode_get_unsigned_bits(decode, 1) != 0 );
+
+      if ( decode->y >= h )
+	break;
+    }
+    
+    /* restore the u8g2 draw color, because this is modified by the decode algo */
+    u8g2->draw_color = decode->fg_color;
+  }
+  return d*2;
+}
+
 /*
   Description:
     Find the starting point of the glyph data.
@@ -726,6 +881,19 @@ static u8g2_uint_t u8g2_font_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t
   return dx;
 }
 
+static u8g2_uint_t u8g2_font_2x_draw_glyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding)
+{
+  u8g2_uint_t dx = 0;
+  u8g2->font_decode.target_x = x;
+  u8g2->font_decode.target_y = y;
+  const uint8_t *glyph_data = u8g2_font_get_glyph_data(u8g2, encoding);
+  if ( glyph_data != NULL )
+  {
+    dx = u8g2_font_2x_decode_glyph(u8g2, glyph_data);
+  }
+  return dx;
+}
+
 
 
 uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding)
@@ -789,6 +957,12 @@ u8g2_uint_t u8g2_DrawGlyph(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t 
   return u8g2_font_draw_glyph(u8g2, x, y, encoding);
 }
 
+u8g2_uint_t u8g2_DrawGlyphX2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding)
+{
+  y += 2*u8g2->font_calc_vref(u8g2);
+  return u8g2_font_2x_draw_glyph(u8g2, x, y, encoding);
+}
+
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
 static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
@@ -839,10 +1013,39 @@ static u8g2_uint_t u8g2_draw_string(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, 
   return sum;
 }
 
+static u8g2_uint_t u8g2_draw_string_2x(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str) U8G2_NOINLINE;
+static u8g2_uint_t u8g2_draw_string_2x(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+{
+  uint16_t e;
+  u8g2_uint_t delta, sum;
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
+  sum = 0;
+  for(;;)
+  {
+    e = u8g2->u8x8.next_cb(u8g2_GetU8x8(u8g2), (uint8_t)*str);
+    if ( e == 0x0ffff )
+      break;
+    str++;
+    if ( e != 0x0fffe )
+    {
+      delta = u8g2_DrawGlyphX2(u8g2, x, y, e);
+      x += delta;
+      sum += delta;    
+    }
+  }
+  return sum;
+}
+
 u8g2_uint_t u8g2_DrawStr(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
 {
   u8g2->u8x8.next_cb = u8x8_ascii_next;
   return u8g2_draw_string(u8g2, x, y, str);
+}
+
+u8g2_uint_t u8g2_DrawStrX2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+{
+  u8g2->u8x8.next_cb = u8x8_ascii_next;
+  return u8g2_draw_string_2x(u8g2, x, y, str);
 }
 
 /*
@@ -861,6 +1064,11 @@ u8g2_uint_t u8g2_DrawUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char
   return u8g2_draw_string(u8g2, x, y, str);
 }
 
+u8g2_uint_t u8g2_DrawUTF8X2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *str)
+{
+  u8g2->u8x8.next_cb = u8x8_utf8_next;
+  return u8g2_draw_string_2x(u8g2, x, y, str);
+}
 
 
 u8g2_uint_t u8g2_DrawExtendedUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, uint8_t to_left, u8g2_kerning_t *kerning, const char *str)
