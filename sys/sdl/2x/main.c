@@ -14,7 +14,7 @@ int main(void)
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
   u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
   
-  u8g2_SetFont(&u8g2, u8g2_font_helvB18_tr);
+  u8g2_SetFont(&u8g2, u8g2_font_helvB12_tr);
   
   x = 50;
   y = 30;
@@ -26,9 +26,15 @@ int main(void)
     u8g2_FirstPage(&u8g2);
     do
     {
+      u8g2_DrawBox(&u8g2, 0,0,128,32);
+      
+      u8g2_SetFontMode(&u8g2, 0);
       u8g2_DrawGlyph(&u8g2, x, y, 'A');
-      //u8g2_DrawStr(&u8g2, x, y, "abc");
       u8g2_DrawStrX2(&u8g2, x+20, y, "Abc");
+      
+      u8g2_SetFontMode(&u8g2, 1);
+      u8g2_DrawGlyph(&u8g2, x, y+24, 'A');
+      u8g2_DrawStrX2(&u8g2, x+16, y+24, "Abc");
     } while( u8g2_NextPage(&u8g2) );
     
     do
