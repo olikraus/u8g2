@@ -1368,6 +1368,15 @@ struct controller controller_list[] =
       { NULL }
     },
   },
+
+  {
+    "st7586s", 		48, 	20, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "jlx384160" },
+      { NULL }
+    },
+  },
   
   {
     "st7586s", 		30, 	20, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
