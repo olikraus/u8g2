@@ -468,6 +468,21 @@ CalLite24: bdfconv
 	./bdfconv -v -f 1 -m '32-79' ./tmp/7_Seg_33x19.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 	convert bdf.tga out.png
 
+noto: bdfconv
+	./bdfconv -v -f 1 -m '32-65535,~9939,~10084' NotoEmoji-SemiBold-32.bdf -o u8g2_font_noto_semi_32_t.c  -n u8g2_font_noto_semi_32_t -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_noto_semi_32_t.png
+	./bdfconv -v -f 1 -m '32-127,$$1f300-$$1ffff>$$f300,~127995' NotoEmoji-SemiBold-32.bdf -o u8g2_font_noto_semi_32_t2.c  -n u8g2_font_noto_semi_32_t2 -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_noto_semi_32_t2.png
+	./bdfconv -v -f 1 -m '32-127,$$1f300-$$1f32c>$$f300' NotoEmoji-SemiBold-32.bdf -o u8g2_font_noto_semi_32_t_weather.c  -n u8g2_font_noto_semi_32_t_weather -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_noto_semi_32_t_weather.png
+	./bdfconv -v -f 1 -m '32-127,$$1f600-$$1f64f>$$f600, $$1f910-$$1f92f>$$f910, $$1f970-$$1f97a>$$f970, $$1fae0-$$1fae5>$$fae0' NotoEmoji-SemiBold-32.bdf -o u8g2_font_noto_semi_32_t_emoji.c  -n u8g2_font_noto_semi_32_t_emoji -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_noto_semi_32_t_emoji.png
+	./bdfconv -v -f 1 -m '32-127,$$1f300-$$1f32c>$$f300,~127745,~127746,~127747,~127748,~127749,~127750,~127751' NotoEmoji-SemiBold-48.bdf -o u8g2_font_noto_semi_48_t_weather.c  -n u8g2_font_noto_semi_48_t_weather -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_noto_semi_48_t_weather.png
+	./bdfconv -v -f 1 -m '32-127,$$1f600-$$1f64f>$$f600, $$1f910-$$1f92f>$$f910, $$1f970-$$1f97a>$$f970, $$1fae0-$$1fae5>$$fae0' NotoEmoji-SemiBold-48.bdf -o u8g2_font_noto_semi_48_t_emoji.c  -n u8g2_font_noto_semi_48_t_emoji -d ../bdf/helvB18.bdf 
+	convert bdf.tga u8g2_font_noto_semi_48_t_emoji.png
+
+
 mystery_quest: bdfconv
 	-../otf2bdf/otf2bdf -a -r 72 -p 24 -o mystery-quest.regular.bdf ../ttf/mystery-quest.regular.ttf
 	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_24_t.c  -n u8g2_font_mystery_quest_24_t -d ../bdf/helvB18.bdf 

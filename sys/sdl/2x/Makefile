@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -I../../../csrc/.  `sdl2-config --cflags`
+CFLAGS = -g -Wall -Wunused-but-set-variable -I../../../csrc/.  `sdl2-config --cflags`
 
 SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c 
 

@@ -31,7 +31,10 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
-  https://github.com/olikraus/u8g2/issues/1642
+  REQUESTED IN
+    https://github.com/olikraus/u8g2/issues/1642
+    
+  STATUS 13 Aug 2022: NOT TESTED, MAY NOT WORK..
 
 
   0x030	ext 00
