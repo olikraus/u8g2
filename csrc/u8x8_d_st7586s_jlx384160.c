@@ -170,7 +170,7 @@ static const uint8_t u8x8_d_st7586s_jlx384160_init_seq[] = {
   U8X8_A(0x000), // COM0 -> COM159 SEG0 -> SEG384
 
   U8X8_C(0x0B0), // Duty Setting (num rows - 1)
-  U8X8_A(0x087), // should be 0x87 but caused flicker 0x9F
+  U8X8_A(0x09f), // 160-1
 
   U8X8_C(0x020), // Display inversion off
 
