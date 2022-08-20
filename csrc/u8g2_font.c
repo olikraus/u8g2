@@ -1264,6 +1264,7 @@ u8g2_uint_t u8g2_font_calc_vref_center(u8g2_t *u8g2)
   int8_t tmp;
   tmp = u8g2->font_ref_ascent;
   tmp -= u8g2->font_ref_descent;
+  tmp += 1;
   tmp /= 2;
   tmp += u8g2->font_ref_descent;  
   return tmp;
