@@ -290,6 +290,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7920 160x32 (issue 1873)
   * ST7586 JLX384160 (issue 1932)
   * LC7981 128X128, NOT TESTED (issue 1913)
+  * SSD1316 96x32 (issue 1938)
   * Added support for IST3088 (issue 1887) 
   * Added support for GP1287AI (issue 1907)
   * Double size font functions: drawGlyphX2, drawStrX2, drawUTF8X2 (issue 1919)
