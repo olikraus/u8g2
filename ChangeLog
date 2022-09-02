@@ -295,3 +295,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added support for GP1287AI (issue 1907)
   * Double size font functions: drawGlyphX2, drawStrX2, drawUTF8X2 (issue 1919)
   * Experimental support for ST75160, TESTING REQUIRED (issue 1642)
+  * Bugfix font compression: Reduced fontsize by up to 4% (issue 1941)
