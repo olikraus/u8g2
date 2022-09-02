@@ -339,13 +339,13 @@ static int bg_01_rle(bg_t *bg, unsigned a, unsigned b)
 static int bg_prepare_01_rle(bg_t *bg, unsigned a, unsigned b)
 {
   //printf("[%u %u]", a, b);
-  while( a >= (1<<bg->rle_bits_per_0) -1 )
+  while( a > (1<<bg->rle_bits_per_0) -1 )
   {
     if ( bg_01_rle(bg, (1<<bg->rle_bits_per_0) -1, 0) == 0 )
       return 0;
     a -= (1<<bg->rle_bits_per_0) -1;
   }
-  while( b >= (1<<bg->rle_bits_per_1) -1 )
+  while( b > (1<<bg->rle_bits_per_1) -1 )
   {
     if ( bg_01_rle(bg, a, (1<<bg->rle_bits_per_1) -1) == 0 )
       return 0;
