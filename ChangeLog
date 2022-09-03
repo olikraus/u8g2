@@ -294,8 +294,9 @@ https://github.com/olikraus/u8g2 ChangeLog
   * SSD1316 96x32 (issue 1938)
   * GP1287AI 256X50, GP1247AI 253X63 contributed (issue 1907)
   * Added support for IST3088 (issue 1887) 
-  * Added support for GP1287AI (issue 1907)
   * Double size font functions: drawGlyphX2, drawStrX2, drawUTF8X2 (issue 1919)
   * Experimental support for ST75160, TESTING REQUIRED (issue 1642)
   * Bugfix font compression: Reduced fontsize by up to 4% (issue 1941)
   * Changed SPI mode for SH1106 from 3 to 0 (issue 1901)
+  
+  
