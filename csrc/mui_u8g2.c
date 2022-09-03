@@ -616,6 +616,7 @@ uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg)
         if ( value != NULL )
           *value = ui->arg;
       }
+      mui_SaveForm(ui);          // store the current form and position so that the child can jump back
       mui_LeaveForm(ui);
       return 1;
     case MUIF_MSG_CURSOR_LEAVE:

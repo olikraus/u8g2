@@ -906,6 +906,10 @@ void mui_SendSelect(mui_t *ui)
 /*
   Same as mui_SendSelect(), but will try to find a field, which is marked as "execute on select" (MUIF_EXECUTE_ON_SELECT_BUTTON).
   If such a field exists, then this field is executed, otherwise the current field will receive the select message.
+
+  MUIF_EXECUTE_ON_SELECT_BUTTON is set by muif macro MUIF_EXECUTE_ON_SELECT_BUTTON
+  
+  used by MUIInputVersatileRotaryEncoder.ino example
 */
 void mui_SendSelectWithExecuteOnSelectFieldSearch(mui_t *ui)
 {
