@@ -1282,17 +1282,29 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
+  
+/* https://www.crystalfontz.com/controllers/Sitronix/ST7567A/ supports I2C */  
+  
   {
-    "st7567", 		17, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "st7567", 		17, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "pi_132x64" },
       { NULL }
     }
   },
-
   {
-    "st7567", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "st7567", 		17, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "pi_132x64" },
+      { NULL }
+    }
+  },
+  
+  {
+    "st7567", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "jlx12864" },
@@ -1302,7 +1314,6 @@ struct controller controller_list[] =
       { NULL }
     }
   },
-  
   {
     "st7567", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
@@ -1316,7 +1327,50 @@ struct controller controller_list[] =
   },
 
   {
-    "st7567", 		8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
+    "st7567", 		17, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "erc13232" },
+      { NULL }
+    }
+  },
+  {
+    "st7567", 		17, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "erc13232" },
+      { NULL }
+    }
+  },
+
+  {
+    "st7567", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "122x32" },
+      { NULL }
+    }
+  },
+  {
+    "st7567", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "122x32" },
+      { NULL }
+    }
+  },
+  
+  {
+    "st7567", 		8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "64x32" },
+      { "hem6432" },
+      { NULL }
+    }
+  },
+  {
+    "st7567", 		8, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "64x32" },
@@ -1325,23 +1379,8 @@ struct controller controller_list[] =
     }
   },
 
-  {
-    "st7567", 		16, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
-    "", /* is_generate_u8g2_class= */ 1,
-    {
-      { "122x32" },
-      { NULL }
-    }
-  },
-
-  {
-    "st7567", 		17, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
-    "", /* is_generate_u8g2_class= */ 1,
-    {
-      { "erc13232" },
-      { NULL }
-    }
-  },
+  
+  
   
   {
     "st7571", 		16, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_6800|COM_8080,
