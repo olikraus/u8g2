@@ -464,7 +464,7 @@ static const u8x8_display_info_t u8x8_sh1106_128x64_noname_display_info =
   /* sda_setup_time_ns = */ 50,		/* SSD1306: 15ns, but cycle time is 100ns, so use 100/2 */
   /* sck_pulse_width_ns = */ 50,	/* SSD1306: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215) */
-  /* spi_mode = */ 3,		/* active low (clock is high by default), rising edge, this seems to be a difference to the ssd1306 */
+  /* spi_mode = */ 0,		/* issue 1901: changed mode from 3 to 0 */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
