@@ -37,7 +37,8 @@ u8x8_byte_linux_i2c(u8x8_t *u8x8,
 	case U8X8_MSG_BYTE_SEND:
 		//fprintf(stderr, "-- %d bytes:\n", arg_int);
 		for(int i = 0; i < arg_int && idx < BUFSIZ_I2C; i++, idx++){
-			data[idx] = *(uint8_t *)(arg_ptr+i);
+			//data[idx] = *(uint8_t *)(arg_ptr+i);
+                        data[idx] = *((uint8_t *)(arg_ptr)+i);
 			//fprintf(stderr, "    %d  %d:  %0x\n", i, idx, data[idx]);
 		}
 		break;
