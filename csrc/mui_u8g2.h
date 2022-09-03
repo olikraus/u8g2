@@ -128,9 +128,15 @@ u8g2_uint_t mui_get_x(mui_t *ui);
 u8g2_uint_t mui_get_y(mui_t *ui);
 u8g2_t *mui_get_U8g2(mui_t *ui);
 
-u8g2_uint_t mui_u8g2_get_draw_button_pi_flags(mui_t *ui) MUI_NOINLINE;
-void mui_u8g2_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text) MUI_NOINLINE;
-void mui_u8g2_draw_button_utf_pi(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h, const char *text);
+void mui_u8g2_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text);
+u8g2_uint_t mui_u8g2_get_pi_flags(mui_t *ui);
+void mui_u8g2_draw_button_pi(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h, const char *text);
+u8g2_uint_t mui_u8g2_get_fi_flags(mui_t *ui);
+void mui_u8g2_draw_button_fi(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h, const char *text);
+u8g2_uint_t mui_u8g2_get_pf_flags(mui_t *ui);
+void mui_u8g2_draw_button_pf(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h, const char *text);
+u8g2_uint_t mui_u8g2_get_if_flags(mui_t *ui);
+void mui_u8g2_draw_button_if(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h, const char *text);
 
 
 

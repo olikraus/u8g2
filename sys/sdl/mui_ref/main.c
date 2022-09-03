@@ -1002,7 +1002,7 @@ int main(void)
   mui_Init(&ui, &u8g2, fds, muif_list, sizeof(muif_list)/sizeof(muif_t));
   mui_GotoForm(&ui, 1, 0);
 
-  //draw(1, "", ""); return 0;
+  draw(1, "", ""); return 0;
   
   /*
   
