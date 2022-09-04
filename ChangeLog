@@ -285,7 +285,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Changed SPI Mode for Sharp displays (ls013..., issue 1771)
   * Added many more fonts (issues 1794, 1775, 1706, 1769)
   * Fixed several bugs and compiler errors
-2022-xx-xx      v2.33.x olikraus@gmail.com
+2022-09-04      v2.33.15 olikraus@gmail.com
   * ST7567 ERC13232 (issue 1869)
   * Bugfix for ST7567: (re-)added I2C and 3-wire-SPI (issue 1939)
   * ST7920 160x32 (issue 1873)
