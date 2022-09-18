@@ -719,6 +719,97 @@ uint8_t u8x8_d_ssd1327_midas_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   return 0;
 }
 
+/*=============================================*/
+/*
+
+  ZJY-M150 128x128 
+
+  https://aliexpress.com/item/1005003784174529.html
+  https://github.com/olikraus/u8g2/issues/1960
+
+  Mostly like the MIDAS version, but requires the GPIO enabled.
+
+*/
+
+static const uint8_t u8x8_d_ssd1327_zjy_128x128_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+	
+  U8X8_CA(0x0fd, 0x012),		/* unlock display, usually not required because the display is unlocked after reset */
+  U8X8_C(0x0ae),		                /* display off */
+  //U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio: 0x03f * 1/64 duty */
+  //U8X8_CA(0x0a8, 0x05f),		/* multiplex ratio: 0x05f * 1/64 duty */
+  U8X8_CA(0x0a8, 0x07f),       		 /* multiplex ratio: 0x05f * 1/128duty */
+  U8X8_CA(0x0a1, 0x000),		/* display start line */
+  //U8X8_CA(0x0a2, 0x04c),		/* display offset, shift mapping ram counter */
+  
+  U8X8_CA(0x0a2, 0x000),		/* display offset, shift mapping ram counter */
+  U8X8_CA(0x0a0, 0x051),		/* remap configuration */
+  
+  
+  U8X8_CA(0x0ab, 0x001),		/* Enable internal VDD regulator (RESET) */
+  //U8X8_CA(0x081, 0x070),		/* contrast, brightness, 0..128 */
+  U8X8_CA(0x081, 0x053),		/* contrast, brightness, 0..128 */
+  //U8X8_CA(0x0b1, 0x055),                    /* phase length */
+  U8X8_CA(0x0b1, 0x051),                    /* phase length */  
+  //U8X8_CA(0x0b3, 0x091),		/* set display clock divide ratio/oscillator frequency (set clock as 135 frames/sec) */			
+  U8X8_CA(0x0b3, 0x001),		/* set display clock divide ratio/oscillator frequency  */			
+  
+  //? U8X8_CA(0x0ad, 0x002),		/* master configuration: disable embedded DC-DC, enable internal VCOMH */
+  //? U8X8_C(0x086),				/* full current range (0x084, 0x085, 0x086) */
+  
+  U8X8_C(0x0b9),				/* use linear lookup table */
+
+  //U8X8_CA(0x0bc, 0x010),                    /* pre-charge voltage level */
+  U8X8_CA(0x0bc, 0x008),                    /* pre-charge voltage level */
+  //U8X8_CA(0x0be, 0x01c),                     /* VCOMH voltage */
+  U8X8_CA(0x0be, 0x007),                     /* VCOMH voltage */
+  
+  U8X8_CA(0x0b6, 0x001),		/* second precharge */
+  U8X8_CA(0x0d5, 0x062),		/* enable second precharge, internal vsl (bit0 = 0) */
+  
+  U8X8_CA(0x0b5, 0x003),		/* Enable GPIO, issue 1960 */
+  
+  
+  U8X8_C(0x0a4),				/* normal display mode */
+    
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_ssd1327_zjy_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* call the 96x96 procedure at the moment */
+  if ( u8x8_d_ssd1327_96x96_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+  {
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1327_128x128_display_info);
+    return 1;
+  }
+  else if ( msg == U8X8_MSG_DISPLAY_INIT )
+  {
+    u8x8_d_helper_display_init(u8x8);
+    u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_zjy_128x128_init_seq); 
+    return 1;
+  }
+  else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
+  {
+    if ( arg_int == 0 )
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_128x128_flip0_seq);
+      u8x8->x_offset = u8x8->display_info->default_x_offset;
+    }
+    else
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1327_128x128_flip1_seq);
+      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+    }
+    return 1;
+  }
+  return 0;
+}
 
 /*=============================================*/
 /*  
