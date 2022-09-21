@@ -218,7 +218,7 @@ uint8_t u8x8_d_ssd1306_96x40(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
 
 /*===============================================*/
 
-/* 96x39 OLED
+/* 96x39 OLED */
 /* https://github.com/olikraus/u8g2/issues/1959 */
 static const uint8_t u8x8_d_ssd1306_96x39_init_seq[] = {
     
@@ -228,7 +228,7 @@ static const uint8_t u8x8_d_ssd1306_96x39_init_seq[] = {
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0d5, 0x080),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8) */
   U8X8_CA(0x0a8, 0x027),		/* multiplex ratio */
-  U8X8_CA(0x0d3, 0x000),		/* display offset  */
+  U8X8_CA(0x0d3, 39),		        /* display offset, issue 1959 */
   U8X8_C(0x040),		                /* set display start line to 0 */
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable, 0.66 OLED  0x14*/
   U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
