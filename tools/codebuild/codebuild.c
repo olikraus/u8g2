@@ -187,6 +187,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "96x40" },
+      { "96x39" },
       { NULL }
     }
   },
@@ -195,6 +196,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "96x40" },
+      { "96x39" },
       { NULL }
     }
   },
