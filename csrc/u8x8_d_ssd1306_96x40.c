@@ -228,7 +228,7 @@ static const uint8_t u8x8_d_ssd1306_96x39_init_seq[] = {
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0d5, 0x080),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8) */
   U8X8_CA(0x0a8, 0x027),		/* multiplex ratio */
-  U8X8_CA(0x0d3, 39),		        /* display offset, issue 1959 */
+  U8X8_CA(0x0d3, 0),		        /* display offset, issue 1959 */
   U8X8_C(0x040),		                /* set display start line to 0 */
   U8X8_CA(0x08d, 0x014),		/* [2] charge pump setting (p62): 0x014 enable, 0x010 disable, 0.66 OLED  0x14*/
   U8X8_CA(0x020, 0x000),		/* horizontal addressing mode */
@@ -239,7 +239,7 @@ static const uint8_t u8x8_d_ssd1306_96x39_init_seq[] = {
   // U8X8_C(0x0a0),				/* segment remap a0/a1*/
   // U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
-  U8X8_CA(0x0da, 0x002),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5), 0.66 OLED */
+  U8X8_CA(0x0da, 0x010),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5), issue 1959: 0x010 */
   U8X8_CA(0x081, 0x0af),		/* [2] set contrast control */
   U8X8_CA(0x0d9, 0x0f1),		/* [2] pre-charge period 0x0f1 */
   U8X8_CA(0x0db, 0x020),		/* vcomh deselect level */
