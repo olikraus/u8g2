@@ -137,6 +137,8 @@ uint8_t u8x8_d_gu800_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   return 1;
 }
 
+/*=================================================*/
+
 static const uint8_t u8x8_d_gu800_128x64_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
@@ -211,3 +213,84 @@ uint8_t u8x8_d_gu800_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   }
   return 1;
 }
+
+/*=================================================*/
+/* https://github.com/olikraus/u8g2/issues/1970 */
+
+static const uint8_t u8x8_d_gu800_160x16_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_C(0x05f),                                /* clear all RAM, clear address counters */
+  U8X8_DLY(1),                                  /* delay for 1 ms (see datasheet) */
+  
+  /* configure all area as graphics RAM */
+  U8X8_CA(0x62,0), U8X8_D1(0xff),
+  U8X8_CA(0x62,1), U8X8_D1(0xff),
+  U8X8_CA(0x62,2), U8X8_D1(0xff),
+  U8X8_CA(0x62,3), U8X8_D1(0xff),
+  U8X8_CA(0x62,4), U8X8_D1(0xff),
+  U8X8_CA(0x62,5), U8X8_D1(0xff),
+  U8X8_CA(0x62,6), U8X8_D1(0xff),
+  U8X8_CA(0x62,7), U8X8_D1(0xff),
+  
+  U8X8_CA(0x70, 0),                             /* horizontal shift */
+  U8X8_C(0xb0),                                 /* vertical shift */  
+  U8X8_C(0x4f),                                 /* max brightness */
+  U8X8_C(0x84),                                 /* x increment */
+  
+  // U8X8_CA(0x024, 0x040)              /* display on */
+  
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+static const u8x8_display_info_t u8x8_d_gu800_160x16_display_info =
+{
+  /* chip_enable_level = */ 0,      /* GU800: CSS signal */
+  /* chip_disable_level = */ 1,     /* GU800: CSS signal */
+  
+  /* post_chip_enable_wait_ns = */ 40,
+  /* pre_chip_disable_wait_ns = */ 150,
+  /* reset_pulse_width_ms = */ 2,   /* GU800: Unspecified in datasheet */
+  /* post_reset_wait_ms = */ 2,     /* GU800: Min 1.5ms per datasheet */
+  /* sda_setup_time_ns = */ 40,     /* GU800: 40ns according to the timing diagram */
+  /* sck_pulse_width_ns = */ 80,    /* GU800: Min 80ns per datasheet */
+  /* sck_clock_hz = */ 4000000UL,
+  /* spi_mode = */ 3,               /* active high, rising edge, ISSUE 1970 */
+  /* i2c_bus_clock_100kHz = */ 4,   /* GU800: Not used */
+  /* data_setup_time_ns = */ 40,    /* GU800: Min 40ns per datasheet */
+  /* write_pulse_width_ns = */ 150, /* GU800: Min 150ns per datasheet */
+  /* tile_width = */ 20,            /* width of 8*20=160 pixel */
+  /* tile_hight = */ 2,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 160,
+  /* pixel_height = */ 16
+};
+
+
+uint8_t u8x8_d_gu800_160x16(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  
+  if ( u8x8_d_gu800_common(u8x8, msg, arg_int, arg_ptr) )
+    return 1;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_d_gu800_160x16_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_gu800_160x16_init_seq);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+/*=================================================*/
+

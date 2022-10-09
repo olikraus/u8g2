@@ -1956,6 +1956,15 @@ struct controller controller_list[] =
   },
 
   {
+    "gu800", 	20, 	2, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_gu800_cad_110", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "160x16" },
+      { NULL }
+    }
+  },
+
+  {
     "gp1287ai", 	32, 	7, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_empty", "", COM_4WSPI, /* DC pin is not used */
     "", /* is_generate_u8g2_class= */ 1,
     {
