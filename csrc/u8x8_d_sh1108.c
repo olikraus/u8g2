@@ -223,3 +223,77 @@ uint8_t u8x8_d_sh1108_160x160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 }
 
 /*==================================================*/
+
+
+/* issue #1998, 128x160 OLED */
+static const uint8_t u8x8_d_sh1108_128x160_noname_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+    
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_CA(0x0d5, 0x060),		/* clock divide ratio and oscillator frequency */
+  U8X8_CA(0x0a9, 0x003), 		/* set display resolution, 0=64x160, 1=96x160, 2=128x160, 3=160x160 */
+  U8X8_C(0x020),		                /* addressing mode */
+  U8X8_CA(0x081, 0x01f), 		/* set contrast control */
+  U8X8_CA(0x0ad, 0x80),			/* DC/DC control 80=Use external Vpp, 89=Use internal DC/DC*/
+  U8X8_C(0x030),				/* set discharge VSL level, 0x030..0x03f */
+  U8X8_CA(0x0d9, 0x028), 		/* pre-charge period */
+  U8X8_CA(0x0db, 0x035), 		/* vcomh deselect level */    
+  U8X8_CA(0x0dc, 0x035),		/* VSEGM Deselect Level */
+
+  U8X8_C(0x0a0),				/* segment remap a0/a1*/
+  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
+  
+  U8X8_C(0x0a4),				/* output ram to display */
+  U8X8_C(0x0a6),				/* none inverted normal display mode */
+    
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_sh1108_128x160_noname_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 60,
+  /* pre_chip_disable_wait_ns = */ 120,
+  /* reset_pulse_width_ms = */ 100, 	/* sh1108: 3 us */
+  /* post_reset_wait_ms = */ 100, /* sometimes OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 100,		/* sh1108: 100ns */
+  /* sck_pulse_width_ns = */ 100,	/* sh1108: 100ns */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 150,	/* sh1108: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 16,
+  /* tile_height = */ 20,
+  /* default_x_offset = */ 16,
+  /* flipmode_x_offset = */ 16,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 160
+};
+
+uint8_t u8x8_d_sh1108_128x160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    
+  if ( u8x8_d_sh1108_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sh1108_128x160_noname_init_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sh1108_128x160_noname_display_info);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+/*==================================================*/
