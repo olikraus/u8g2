@@ -219,7 +219,9 @@ struct muif_struct
 
 
 /* must be smaller than or equal to 255 */
+#ifndef MUI_MAX_TEXT_LEN
 #define MUI_MAX_TEXT_LEN 41
+#endif
 
 #define MUI_MENU_CACHE_CNT 2
 
