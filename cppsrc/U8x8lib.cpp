@@ -50,6 +50,11 @@
 #    include <i2c_t3.h>
 #  else
 #    include <Wire.h>
+#    ifdef U8X8_HAVE_2ND_HW_I2C
+#      if defined(MINICORE) && defined(__AVR_ATmega328PB__)
+#        include <Wire1.h>
+#      endif
+#    endif
 #  endif
 #endif /* U8X8_HAVE_HW_I2C */
 
