@@ -300,6 +300,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Changed SPI mode for SH1106 from 3 to 0 (issue 1901)
 2022-xx-xx      v2.34.xx olikraus@gmail.com
   * SSD1327 ZJY M150 128x128 (issue 1960)
-  * SSD1316 96x32 (1938)
+  * SSD1316 96x32 (issue 1938)
+  * SH1108 128x160 (issue 1998)
 
   
