@@ -2,9 +2,11 @@
   
   bmf2bdf.c
   
-  Converter for bmf file format to bdf: http://bmf.php5.cz/
+  Converter for bmf font file format to bdf file format 
+    bmf: http://bmf.php5.cz/
+    bdf: https://en.wikipedia.org/wiki/Glyph_Bitmap_Distribution_Format
   
-  Copyright (c) 2017, olikraus@gmail.com
+  Copyright (c) 2022, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
