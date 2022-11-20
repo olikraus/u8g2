@@ -46,6 +46,14 @@ uint8_t threshold = 128; // gray level threshold
 
 FILE *bdf_fp = NULL;
 
+/*
+  option "-p"
+  default: Use the shift value from bmf format for the BDF DWIDTH property
+  "-p": Calculate the bdf DWIDTH from width, relx and addSpace vales. 
+    This will force a none-fixed = proportional font
+*/
+int optionForceProportional = 0;
+
 int16_t lineHeight;
 int16_t sizeOver;
 int16_t sizeUnder;
@@ -64,6 +72,10 @@ uint8_t palette[256*3];
 char title[256+2];
 int8_t tablo[5];
 uint8_t bitmap[256*256];
+
+int totalGlyphSize = 0;
+int cntGlyphSize = 0;
+int averageGlyphSize = 0;
 
 
 void write_bdf_header(void)
@@ -140,17 +152,31 @@ void write_byte(int x)
 void write_bdf_bitmap(uint32_t encoding)
 {
   int x, y;
-  int width, height;
+  int width, height, relx, rely;
+  int dwidth;
   width = (uint8_t)tablo[0];    
   height = (uint8_t)tablo[1];
+  relx = (int8_t)tablo[2];
+  rely = (int8_t)tablo[3];
+  
+  dwidth = tablo[4]+addSpace;
+  if ( optionForceProportional )
+  {
+    if ( width == 0 )
+      dwidth = averageGlyphSize  + relx + addSpace;
+    else
+      dwidth = width + relx + addSpace +1;
+  }
   
   if ( bdf_fp == NULL )
     return;
   
   fprintf(bdf_fp, "STARTCHAR %u\n", encoding);
   fprintf(bdf_fp, "ENCODING %u\n", encoding);
-  fprintf(bdf_fp, "DWIDTH %d 0\n", tablo[4]);
-  fprintf(bdf_fp, "BBX %d %d 0 0\n", width, height);
+  fprintf(bdf_fp, "DWIDTH %d 0\n", dwidth);
+  //fprintf(bdf_fp, "BBX %d %d %d %d\n", width, height, relx, sizeOver+rely);
+  fprintf(bdf_fp, "BBX %d %d %d %d\n", 
+    width, height, relx, -(sizeOver+height+rely));
   fprintf(bdf_fp, "BITMAP\n");
   
   for( y = 0; y < height; y++ )
@@ -175,7 +201,7 @@ uint16_t readWord(FILE *file)
   return h*256+l; 
 }
 
-int processBMF(const char *filename)
+int processBMF(const char *filename, int isAnalyze)
 {
   FILE *file = fopen(filename, "rb");
   static int8_t buffer[18];
@@ -230,8 +256,10 @@ int processBMF(const char *filename)
   
   //printf("asciiChars=%d\n", (int)asciiChars);
 
-  
-  write_bdf_header();
+  if ( isAnalyze == 0 )
+  {
+    write_bdf_header();
+  }
   for (i = 0; i < asciiChars; i++) 
   {
     whichChar = (uint8_t)fgetc(file);
@@ -273,8 +301,19 @@ int processBMF(const char *filename)
     }
     */
     
-    write_bdf_bitmap(whichChar);
-    
+    if ( isAnalyze )
+    {
+      if ( (whichChar >= 'A' && whichChar <= 'Z') || (whichChar >= 'a' && whichChar <= 'z') )
+      {
+        totalGlyphSize += w;
+        cntGlyphSize++;
+        averageGlyphSize = ((totalGlyphSize*2) / (cntGlyphSize*3));
+      }
+    }
+    else
+    {
+      write_bdf_bitmap(whichChar);
+    }
   }
   /*
   if (version >= 0x12) { // next goes for version 1.2 only
@@ -300,17 +339,47 @@ int processBMF(const char *filename)
 
 void help(void)
 {
-  puts("bmf2bdf <file.bmf>");
+  puts("bmf2bdf [options] <file.bmf>");
+  puts(" -p    Ignore the BMF shift value and try to recalculate it (creates a proportional font)");
 }
 
 int main(int argc, char **argv)
 {
+  char *bmf_name = NULL;
   bdf_fp = stdout;
   if ( argc < 2 )
   {
     help();
     return 0;
   }
-  processBMF(argv[1]);
+  
+  argv++;
+  argc--;
+  while( argv != NULL && argc > 0)
+  {
+    if ( (*argv)[0] != '-' )
+    {
+      bmf_name = *argv;
+    }
+    else if ( strcmp(*argv, "-p") == 0 )
+    {
+      optionForceProportional = 1;
+    }
+    else
+    {
+      fprintf(stderr, "Wrong option %s\n", *argv);
+      return 1;
+    }
+    argv++;
+    argc--;
+  }
+  
+  
+  if ( bmf_name != NULL )
+  {
+    processBMF(bmf_name, 1);
+    processBMF(bmf_name, 0);
+  }
+  return 0;
 }
 
