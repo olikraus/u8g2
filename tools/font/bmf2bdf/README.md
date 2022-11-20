@@ -1,4 +1,4 @@
-bmf2bdf: Converter from .bmf to .bdf file format.
+# bmf2bdf: Converter from .bmf to .bdf file format.
 
 .bmf: See [http://bmf.php5.cz/](http://bmf.php5.cz/)
 
