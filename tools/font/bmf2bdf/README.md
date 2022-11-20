@@ -10,10 +10,8 @@ Features
   - Optional baseline adjustment with -y
   - Brightness threshold with -l
   - Generated BDF can be modified with gbdfed and FontForge
-    (http://sofia.nmsu.edu/~mleisher/Software/gbdfed/, https://github.com/andrewshadura/gbdfed)
   
 Example:
-  [http://bmf.php5.cz/index.php?font=goth16](http://bmf.php5.cz/index.php?font=goth16)
 ```
-    bmf2bdf -u -p -x 1  goth16.bmf > goth16.bdf
+    bmf2bdf -u -p -x 1  font.bmf > font.bdf
 ```
