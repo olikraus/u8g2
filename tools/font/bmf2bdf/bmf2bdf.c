@@ -680,7 +680,7 @@ void help(void)
   puts(" Use '-x 1' to increase the gap between chars.");
   puts(" Use '-l 127' to get an improved color mapping for multicolor .bmf fonts.");
   puts(" Use '-p' for monospaced .bmf fonts which seem to be proportional fonts.");
-  puts("Hints:");
+  puts("Example:");
   puts(" bmf2bdf -u -p -l 128 -x 1 font.bms > font.bdf");
 }
 
