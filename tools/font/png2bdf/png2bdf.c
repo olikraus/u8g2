@@ -41,7 +41,11 @@ icons:
   https://github.com/iconic/open-iconic/blob/master/font/css/open-iconic.styl
   
   gibts nicht mehr:
-  https://www.joomlart.com/blog/news-updates/freebie-meals-vector-set-120-icons-png-svg  
+  https://www.joomlart.com/blog/news-updates/freebie-meals-vector-set-120-icons-png-svg
+  
+  History
+    20 Nov 2022: Added ENDFONT command to the output
+    
 */
 
 #include <unistd.h>
@@ -408,7 +412,10 @@ int main(int argc, char **argv)
   } while( argc > 0 );
   
   if ( bdf_fp != NULL )
+  {
+    fprintf(bdf_fp, "ENDFONT\n");
     fclose(bdf_fp);
+  }
   
   return 0;
 }

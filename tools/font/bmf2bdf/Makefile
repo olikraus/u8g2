@@ -25,11 +25,11 @@ test:
 	convert -trim -flip bdf.tga 24sans_t.png
 
 .bmf.png:
-	./bmf2bdf $< > $*.bdf
+	./bmf2bdf -u $< > $*.bdf
 	- ../bdfconv/bdfconv -f 1 -v -m '32-10000' $*.bdf -n $* -d ../bdf/7x14.bdf -a -t
 	- convert -trim -flip bdf.tga $@
 	- rm bdf.tga
-	./bmf2bdf -p -x 0 -y 0 -l 127 $< > $*-p.bdf
+	./bmf2bdf -u -p -x 0 -y 0 -l 127 $< > $*-p.bdf
 	- ../bdfconv/bdfconv -f 1 -v -m '32-10000' $*-p.bdf -n $*-p -d ../bdf/7x14.bdf -a -t
 	- convert -trim -flip bdf.tga $*-p.png
 	- rm bdf.tga

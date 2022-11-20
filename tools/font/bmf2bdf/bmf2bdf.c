@@ -39,6 +39,8 @@
     - Convert monospaced proportional font back to none-monospaced font (-p)
     - Optional glyph spacing with -x
     - Optional baseline adjustment with -y
+    - Generated BDF can be edited with gbdfed and probably with any other BDF editor
+      (http://sofia.nmsu.edu/~mleisher/Software/gbdfed/, https://github.com/andrewshadura/gbdfed)
     
   Example:
     http://bmf.php5.cz/index.php?font=goth16
@@ -67,6 +69,13 @@ FILE *bdf_fp = NULL;
     This will force a none-fixed = proportional font
 */
 int optionForceProportional = 0;
+
+/*
+  option "-u"
+  default: No glyph number mapping
+  "-u": Apply dos to unicode translation 
+*/
+int optionUnicodeMapping = 0;
 
 /*
   option "-x #"
@@ -107,7 +116,8 @@ uint8_t whichChar;
 uint8_t palette[256*3];
 char title[256+2];
 int8_t tablo[5];
-uint8_t bitmap[256*256];
+#define BITMAP_SIZE (256*256)
+uint8_t bitmap[BITMAP_SIZE];
 uint32_t dos2unicode[256];
 
 int totalGlyphSize = 0;
@@ -125,10 +135,10 @@ void write_bdf_header(void)
   fprintf(bdf_fp, "FONTBOUNDINGBOX 16 16 0 0\n");
   fprintf(bdf_fp, "STARTPROPERTIES 3\n");
 
-  fprintf(bdf_fp, "COPYRIGHT \"http://bmf.php5.cz\"");
+  fprintf(bdf_fp, "COPYRIGHT \"http://bmf.php5.cz\"\n");
 
-  fprintf(bdf_fp, "FONT_ASCENT 0\n");
-  fprintf(bdf_fp, "FONT_DESCENT 0\n");
+  fprintf(bdf_fp, "FONT_ASCENT %d\n", -sizeOver);
+  fprintf(bdf_fp, "FONT_DESCENT %d\n", sizeUnder);
   
   fprintf(bdf_fp, "ENDPROPERTIES\n");
   fprintf(bdf_fp, "CHARS %d\n", asciiChars);
@@ -303,6 +313,7 @@ int processBMF(const char *filename, int isAnalyze)
   }
   for (i = 0; i < asciiChars; i++) 
   {
+    memset(bitmap, 0, BITMAP_SIZE);
     whichChar = (uint8_t)fgetc(file);
     //printf("whichChar=%d\n", (int)whichChar);
     if ( fread(tablo, 5, 1, file) != 1 )
@@ -353,7 +364,15 @@ int processBMF(const char *filename, int isAnalyze)
     }
     else
     {
-      write_bdf_bitmap(dos2unicode[whichChar]);
+      if ( optionUnicodeMapping )
+      {
+        write_bdf_bitmap(dos2unicode[whichChar]);
+      }
+      else
+      {
+        write_bdf_bitmap(whichChar);
+      }
+      //write_bdf_bitmap(whichChar);
     }
   }
   /*
@@ -375,6 +394,10 @@ int processBMF(const char *filename, int isAnalyze)
   }
   */
   fclose(file);
+  if ( !isAnalyze )
+  {
+    fprintf(bdf_fp, "ENDFONT\n");
+  }
   return 1;
 }
 
@@ -646,9 +669,11 @@ void help(void)
   puts(" -l #   Lower edge of the gray level range which maps bmf colors to black  (0..255, defaults to 0)");
   puts(" -h #   Upper edge of the gray level range which maps bmf colors to black  (0..255, defaults to 255)");
   puts(" -p     Ignore the BMF shift value and try to recalculate it (creates a proportional font)");
+  puts(" -u     Apply DOS/ASCII to unicode translation");
   puts(" -x #   Add # pixel of extra space after each glyph (increases DWIDTH by one, defaults to 0)");
   puts(" -y #   Shift all glyphs by # pixel (# can be negative)");
-  puts("Tips:");
+  puts("Hints:");
+  puts(" Usually '-u' is required for proper glyph encoding.");
   puts(" Use '-x 1' to increase the gap between chars.");
   puts(" Use '-l 127' to get an improved color mapping for multicolor .bmf fonts.");
   puts(" Use '-p' for monospaced .bmf fonts which seem to be proportional fonts.");
@@ -675,6 +700,10 @@ int main(int argc, char **argv)
     else if ( strcmp(*argv, "-p") == 0 )
     {
       optionForceProportional = 1;
+    }
+    else if ( strcmp(*argv, "-u") == 0 )
+    {
+      optionUnicodeMapping = 1;
     }
     else if ( strcmp(*argv, "-x") == 0 )
     {
