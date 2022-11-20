@@ -54,6 +54,13 @@ FILE *bdf_fp = NULL;
 */
 int optionForceProportional = 0;
 
+/*
+  option "-x"
+  default: Do not add any extra space
+  "-x": Add one pixel extra space between chars, might be useful for -p
+*/
+int optionAddExtraSpace = 0;
+
 int16_t lineHeight;
 int16_t sizeOver;
 int16_t sizeUnder;
@@ -165,8 +172,10 @@ void write_bdf_bitmap(uint32_t encoding)
     if ( width == 0 )
       dwidth = averageGlyphSize  + relx + addSpace;
     else
-      dwidth = width + relx + addSpace +1;
+      dwidth = width + relx + addSpace;
   }
+  if ( optionAddExtraSpace )
+    dwidth++;
   
   if ( bdf_fp == NULL )
     return;
@@ -341,6 +350,7 @@ void help(void)
 {
   puts("bmf2bdf [options] <file.bmf>");
   puts(" -p    Ignore the BMF shift value and try to recalculate it (creates a proportional font)");
+  puts(" -x    Add one pixel of extra space after each glyph (increases DWIDTH by one)");
 }
 
 int main(int argc, char **argv)
@@ -364,6 +374,10 @@ int main(int argc, char **argv)
     else if ( strcmp(*argv, "-p") == 0 )
     {
       optionForceProportional = 1;
+    }
+    else if ( strcmp(*argv, "-x") == 0 )
+    {
+      optionAddExtraSpace = 1;
     }
     else
     {
