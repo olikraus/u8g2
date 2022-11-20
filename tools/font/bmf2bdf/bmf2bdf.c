@@ -39,7 +39,7 @@
     - Convert monospaced proportional font back to none-monospaced font (-p)
     - Optional glyph spacing with -x
     - Optional baseline adjustment with -y
-    - Generated BDF can be edited with gbdfed and probably with any other BDF editor
+    - Generated BDF can be modified with gbdfed and FontForge
       (http://sofia.nmsu.edu/~mleisher/Software/gbdfed/, https://github.com/andrewshadura/gbdfed)
     
   Example:
@@ -48,6 +48,8 @@
     or
       bmf2bdf -p -x 1 -y -2 goth16.bmf
 
+  
+  
 
 */
 #include <stdio.h>
@@ -58,7 +60,7 @@
 /* http://bmf.php5.cz/index.php?page=format */
 
 
-uint8_t threshold = 128; // gray level threshold
+//uint8_t threshold = 128; // gray level threshold
 
 FILE *bdf_fp = NULL;
 
