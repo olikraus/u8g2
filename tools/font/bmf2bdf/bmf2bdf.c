@@ -34,7 +34,7 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
   Features
-    - Convert .bmf to .bdf
+    - Convert .bmf to .bdf, result will be written to stdout
     - Converts DOS codepage to Unicode (-u option)
     - Convert monospaced proportional font back to none-monospaced font (-p)
     - Optional glyph spacing with -x
@@ -45,9 +45,9 @@
     
   Example:
     http://bmf.php5.cz/index.php?font=goth16
-      bmf2bdf -u -p -y -2 goth16.bmf
+      bmf2bdf -u -p -y -2 goth16.bmf > goth16.bdf
     or
-      bmf2bdf -u -p -x 1 -y -2 goth16.bmf
+      bmf2bdf -u -p -x 1 -y -2 goth16.bmf > goth16.bdf
 
   
   
@@ -680,6 +680,8 @@ void help(void)
   puts(" Use '-x 1' to increase the gap between chars.");
   puts(" Use '-l 127' to get an improved color mapping for multicolor .bmf fonts.");
   puts(" Use '-p' for monospaced .bmf fonts which seem to be proportional fonts.");
+  puts("Hints:");
+  puts(" bmf2bdf -u -p -l 128 -x 1 font.bms > font.bdf");
 }
 
 int main(int argc, char **argv)
