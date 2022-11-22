@@ -87,7 +87,8 @@ set(COMPONENT_SRCS "csrc/u8x8_setup.c"
                     "csrc/u8x8_u16toa.c"
                     "csrc/u8x8_d_a2printer.c"
                     "csrc/u8x8_d_st7565.c"
-                    "csrc/u8x8_capture.c")
+                    "csrc/u8x8_capture.c"
+                    "csrc/u8g2_button.c")
 
 if(COMMAND register_component)
     set(COMPONENT_NAME ".")
