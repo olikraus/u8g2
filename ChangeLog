@@ -302,5 +302,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * SSD1327 ZJY M150 128x128 (issue 1960)
   * SSD1316 96x32 (issue 1938)
   * SH1108 128x160 (issue 1998)
+  * SSD1306 96x39 (issue 1959)
 
   
