@@ -30,7 +30,7 @@ corresponding pins with your display.
 All U8g2 software emulated SPI constructors look like this:
 U8G2_..._4W_SW_SPI u8g2(U8G2_R0, clock, data, cs, dc, reset);
 All U8g2 hardware SPI constructors look like this:
-U8G2_..._4W_SW_SPI u8g2(U8G2_R0, cs, dc, reset);
+U8G2_..._4W_HW_SPI u8g2(U8G2_R0, cs, dc, reset);
 
 Q: For HW I2C no pin numbers are required in the constructor. But which are
 the pin numbers for wiring?
