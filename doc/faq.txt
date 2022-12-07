@@ -139,7 +139,7 @@ Use the firstPage/nextPage  loop to create the image for the display.
 There are also two different sets of examples for both modes.
 Conclusion: 
 "F" mode: Faster, but requires more RAM
-"1"/"2" modes: User lesser RAM, but slower draw speed.
+"1"/"2" modes: Use lesser RAM, but slower drawing speed.
 
 Q: What is the meaning of "SW"/"HW" in the U8g2 constructor name?
 A: "SW" means, that the protocol is emulated by software. For example 
