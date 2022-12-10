@@ -62,7 +62,7 @@
 
 /*
   The following macro enables 16 Bit mode. 
-  Without defining this macro all calulations are done with 8 Bit (1 Byte) variables.
+  Without defining this macro all calculations are done with 8 Bit (1 Byte) variables.
   Especially on AVR architecture, this will save some space. 
   If this macro is defined, then U8g2 will switch to 16 Bit mode.
   Use 16 Bit mode for any display with more than 240 pixel in one 
@@ -169,7 +169,7 @@
   A frame of width 9 would place the C a little bit more to the right (width of that "C" are 6 pixel).
   If U8G2_BALANCED_STR_WIDTH_CALCULATION is defined, the width of "C" is returned as 8.
   
-  Not defining U8G2_BALANCED_STR_WIDTH_CALCULATION would fall back to the old bahavior.
+  Not defining U8G2_BALANCED_STR_WIDTH_CALCULATION would fall back to the old behavior.
 */
 #ifndef U8G2_NO_BALANCED_STR_WIDTH_CALCULATION 
 #define U8G2_BALANCED_STR_WIDTH_CALCULATION
@@ -338,9 +338,9 @@ struct u8g2_struct
   u8g2_uint_t width;
   u8g2_uint_t height;
   
-  /* ths is the clip box for the user to check if a specific box has an intersection */
+  /* this is the clip box for the user to check if a specific box has an intersection */
   /* use u8g2_IsIntersection from u8g2_intersection.c to test against this intersection */
-  /* actually, this window describes the positon of the current page */
+  /* actually, this window describes the position of the current page */
   u8g2_uint_t user_x0;	/* left corner of the buffer */
   u8g2_uint_t user_x1;	/* right corner of the buffer (excluded) */
   u8g2_uint_t user_y0;	/* upper edge of the buffer */
@@ -445,8 +445,8 @@ extern const u8g2_cb_t u8g2_cb_mirror_vertical;
 #define U8G2_MIRROR	(&u8g2_cb_mirror)
 #define U8G2_MIRROR_VERTICAL	(&u8g2_cb_mirror_vertical)
 /*
-  u8g2:			A new, not yet initialized u8g2 memory areay
-  buf:			Memory are of size tile_buf_height*<width of the display in pixel>
+  u8g2:			A new, not yet initialized u8g2 memory area
+  buf:			Memory area of size tile_buf_height*<width of the display in pixel>
   tile_buf_height:	Number of full lines
   ll_hvline_cb:		one of:
     u8g2_ll_hvline_vertical_top_lsb
@@ -1532,7 +1532,7 @@ void u8g2_WriteBufferXBM2(u8g2_t *u8g2, void (*out)(const char *s));
   len		length of the line in pixel, len must not be 0
   dir		0: horizontal line (left to right)
 		1: vertical line (top to bottom)
-  asumption: 
+  assumption: 
     all clipping done
 */
 

@@ -217,7 +217,7 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 
 #elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
-/* this function completly replaces u8x8_byte_4wire_sw_spi*/
+/* this function completely replaces u8x8_byte_4wire_sw_spi*/
 extern "C" uint8_t u8x8_byte_arduino_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t i;
@@ -401,7 +401,7 @@ extern "C" uint8_t u8x8_byte_arduino_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 
 #elif __AVR_ARCH__ == 4 || __AVR_ARCH__ == 5 || __AVR_ARCH__ == 51 || __AVR_ARCH__ == 6 || __AVR_ARCH__ == 103
 
-/* this function completly replaces u8x8_byte_4wire_sw_spi*/
+/* this function completely replaces u8x8_byte_4wire_sw_spi*/
 extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t SREG_backup;
@@ -547,7 +547,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 
 #elif defined(__SAM3X8E__) 		/* Arduino DUE */
 
-/* this function completly replaces u8x8_byte_4wire_sw_spi*/
+/* this function completely replaces u8x8_byte_4wire_sw_spi*/
 extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t i, b;

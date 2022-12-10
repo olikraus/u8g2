@@ -34,11 +34,11 @@
   
   
   U8glib has several layers. Each layer is implemented with a callback function. 
-  This callback function handels the messages for the layer.
+  This callback function handles the messages for the layer.
 
   The topmost level is the display layer. It includes the following messages:
   
-    U8X8_MSG_DISPLAY_SETUP_MEMORY			no communicaation with the display, setup memory ony
+    U8X8_MSG_DISPLAY_SETUP_MEMORY			no communication with the display, setup memory only
     U8X8_MSG_DISPLAY_INIT
     U8X8_MSG_DISPLAY_SET_FLIP_MODE
     U8X8_MSG_DISPLAY_SET_POWER_SAVE
@@ -102,7 +102,7 @@
 //#define U8X8_WITH_SET_FLIP_MODE
 
 /* Select 0 or 1 for the default flip mode. This is not affected by U8X8_WITH_FLIP_MODE */
-/* Note: Not all display types support a mirror functon for the frame buffer */
+/* Note: Not all display types support a mirror function for the frame buffer */
 /* 26 May 2016: Obsolete */
 //#define U8X8_DEFAULT_FLIP_MODE 0
 
@@ -352,7 +352,7 @@ struct u8x8_struct
   uint16_t encoding;		/* encoding result for utf8 decoder in next_cb */
   uint8_t x_offset;	/* copied from info struct, can be modified in flip mode */
   uint8_t is_font_inverse_mode; 	/* 0: normal, 1: font glyphs are inverted */
-  uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something usefull during DISPLAY_INIT */
+  uint8_t i2c_address;	/* a valid i2c adr. Initially this is 255, but this is set to something useful during DISPLAY_INIT */
 					/* i2c_address is the address for writing data to the display */
 					/* usually, the lowest bit must be zero for a valid address */
   uint8_t i2c_started;	/* for i2c interface */
@@ -367,7 +367,7 @@ struct u8x8_struct
   void *user_ptr;
 #endif
 #ifdef U8X8_USE_PINS 
-  uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Envionment, use U8X8_PIN_xxx to access */
+  uint8_t pins[U8X8_PIN_CNT];	/* defines a pinlist: Mainly a list of pins for the Arduino Environment, use U8X8_PIN_xxx to access */
 #endif
 };
 
@@ -416,7 +416,7 @@ struct u8log_struct
   void *aux_data;		/* pointer to u8x8 or u8g2 */
   uint8_t width, height;	/* size of the terminal */
   u8log_cb cb;			/* callback redraw function */
-  uint8_t *screen_buffer;	/* size must be width*heigh bytes */
+  uint8_t *screen_buffer;	/* size must be width*height bytes */
   uint8_t is_redraw_line_for_each_char;
   int8_t line_height_offset;		/* extra offset for the line height (u8g2 only) */
   
@@ -477,7 +477,7 @@ void u8x8_d_helper_display_init(u8x8_t *u8g2);
   Name: 	U8X8_MSG_DISPLAY_SET_FLIP_MODE
   Args:	arg_int: 0: normal mode, 1: flipped HW screen (180 degree)
   Tasks:
-    Reprogramms the display controller to rotate the display by 
+    Reprograms the display controller to rotate the display by 
     180 degree (arg_int = 1) or not (arg_int = 0)
     This may change u8g2->x_offset if the display is smaller than the controller ram
     This message should only be supported if U8X8_WITH_FLIP_MODE is defined.
