@@ -35,7 +35,7 @@
   
   MUIF  (Monochrome User Interface Functions)
     n:  A number 0 to 9 without any quotes, e.g.: 5
-    id: Exactly two characters or numbers in doubl quotes, e.g. "G5".
+    id: Exactly two characters or numbers in double quotes, e.g. "G5".
     cb: A callback function with the following prototype: "uint8_t muif_cb(mui_t *ui, uint8_t msg)"
       There are MANY predefined callback functions, see separate list
     var: Address of a variable. 
@@ -154,7 +154,7 @@ struct muif_struct
   muif_cb cb;                        // callback
 } MUI_PROGMEM;
 
-/* assumes that pointers are 16 bit so encapusalte the wread i another ifdef __AVR__ */
+/* assumes that pointers are 16 bit so encapsulate the wread i another ifdef __AVR__ */
 #if defined(__GNUC__) && defined(__AVR__)
 #  define muif_get_id0(muif) mui_pgm_read(&((muif)->id0))
 #  define muif_get_id1(muif) mui_pgm_read(&((muif)->id1))
