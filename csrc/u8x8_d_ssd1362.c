@@ -122,6 +122,7 @@ static uint8_t *u8x8_ssd1362_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
   return u8x8_ssd1362_to32_dest_buf;
 }
 
+/*
 static uint8_t *u8x8_ssd1362_4to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 {
   uint8_t v;
@@ -147,7 +148,7 @@ static uint8_t *u8x8_ssd1362_4to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
   
   return u8x8_ssd1362_to32_dest_buf;
 }
-
+*/
 
 uint8_t u8x8_d_ssd1362_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
