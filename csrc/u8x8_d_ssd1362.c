@@ -92,6 +92,8 @@ static uint8_t u8x8_write_byte_to_16gr_device(u8x8_t *u8x8, uint8_t b)
 
 static uint8_t u8x8_ssd1362_to32_dest_buf[32];
 
+#ifdef no_used
+
 static uint8_t *u8x8_ssd1362_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
 {
   uint8_t v;
@@ -122,33 +124,6 @@ static uint8_t *u8x8_ssd1362_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
   return u8x8_ssd1362_to32_dest_buf;
 }
 
-/*
-static uint8_t *u8x8_ssd1362_4to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
-{
-  uint8_t v;
-  uint8_t a;
-  uint8_t i, j;
-  uint8_t *dest;
-  
-  for( j = 0; j < 4; j++ )
-  {
-    dest = u8x8_ssd1362_to32_dest_buf;
-    dest += j;
-    a =*ptr;
-    ptr++;
-    for( i = 0; i < 8; i++ )
-    {
-      v = 0;
-      if ( a&1 ) v = 0xff;
-      *dest = v;
-      dest+=4;
-      a >>= 1;
-    }
-  }
-  
-  return u8x8_ssd1362_to32_dest_buf;
-}
-*/
 
 uint8_t u8x8_d_ssd1362_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -209,6 +184,116 @@ uint8_t u8x8_d_ssd1362_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 	  
 	  ptr += 8;
 	  x += 2;
+	  c--;
+	} while( c > 0 );
+	
+	//x += 2;
+	arg_int--;
+      } while( arg_int > 0 );
+      
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+#endif
+
+static uint8_t *u8x8_ssd1362_4to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
+{
+  uint8_t v;
+  uint8_t a;
+  uint8_t i, j;
+  uint8_t *dest;
+  
+  for( j = 0; j < 4; j++ )
+  {
+    dest = u8x8_ssd1362_to32_dest_buf;
+    dest += j;
+    a =*ptr;
+    ptr++;
+    for( i = 0; i < 8; i++ )
+    {
+      v = 0;
+      if ( a&1 ) v = 0xff;
+      *dest = v;
+      dest+=4;
+      a >>= 1;
+    }
+  }
+  
+  return u8x8_ssd1362_to32_dest_buf;
+}
+
+
+uint8_t u8x8_d_ssd1362_common2(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t x; 
+  uint8_t y, c;
+  uint8_t *ptr;
+  switch(msg)
+  {
+    /* U8X8_MSG_DISPLAY_SETUP_MEMORY is handled by the calling function */
+    /*
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1322_256x64_init_seq);
+      break;
+    */
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1362_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1362_powersave1_seq);
+      break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x0C1 );
+      u8x8_cad_SendArg(u8x8, arg_int );	/* ssd1322 has range from 0 to 255 */
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_cad_StartTransfer(u8x8);
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+      x *= 2;		// only every 4th col can be addressed
+      x *= 2;		// only every second pixel is used in the 128x64 NHD OLED 
+    
+      x += u8x8->x_offset;
+    
+      y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+      y *= 8;
+          
+      u8x8_cad_SendCmd(u8x8, 0x075 );	/* set row address, moved out of the loop (issue 302) */
+      u8x8_cad_SendArg(u8x8, y);
+      u8x8_cad_SendArg(u8x8, y+7);
+      
+      do
+      {
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+
+	do
+	{
+	  u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
+	  u8x8_cad_SendArg(u8x8, x );	/* start */
+	  u8x8_cad_SendArg(u8x8, x+1 );	/* end */
+	  u8x8_cad_SendData(u8x8, 32, u8x8_ssd1362_4to32(u8x8, ptr));	  
+	  ptr += 4;
+	  x += 2;
+	  
+	  u8x8_cad_SendCmd(u8x8, 0x015 );	/* set column address */
+	  u8x8_cad_SendArg(u8x8, x );	/* start */
+	  u8x8_cad_SendArg(u8x8, x+1 );	/* end */
+	  u8x8_cad_SendData(u8x8, 32, u8x8_ssd1362_4to32(u8x8, ptr));	  
+	  ptr += 4;
+	  x += 2;
+	  
 	  c--;
 	} while( c > 0 );
 	
@@ -400,7 +485,7 @@ uint8_t u8x8_d_ssd1362_ws_256x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       break;
     
     default:
-      return u8x8_d_ssd1362_common(u8x8, msg, arg_int, arg_ptr);
+      return u8x8_d_ssd1362_common2(u8x8, msg, arg_int, arg_ptr);
   }
   return 1;
 }
