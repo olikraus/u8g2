@@ -476,6 +476,29 @@ static const uint8_t u8x8_d_ssd1322_128x64_init_seq[] = {
 
   U8X8_CA(0xa1, 0x00),			/* display start line */  
   U8X8_CA(0xab, 0x01),			/* Enable Internal VDD Regulator */  
+/*
+	A[0]=0b, Horizontal address increment [reset]    ***
+	A[0]=1b, Vertical address increment
+	
+	A[1]=0b, Disable Column Address Re-map [reset]
+	A[1]=1b, Enable Column Address Re-map		***
+	
+	A[2]=0b, Disable Nibble Re-map [reset]
+	A[2]=1b, Enable Nibble Re-map			***
+	
+	A[4]=0b, Scan from COM0 to COM[N –1] [reset]	
+	A[4]=1b, Scan from COM[N-1] to COM0, where N is the	***
+	
+	Multiplex ratio
+	A[5]=0b, Disable COM Split Odd Even [reset]	***
+	A[5]=1b, Enable COM Split Odd Even
+	
+	B[4], Enable / disable Dual COM Line mode
+	0b, Disable Dual COM mode [reset]
+	1b, Enable Dual COM mode (MUX ≤ 63)
+	
+	0x16 = 00010110
+*/
   //U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
   //U8X8_CAA(0xa0, 0x06, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
   U8X8_CAA(0xa0, 0x16, 0x011),	/* Set Re-Map / Dual COM Line Mode (NHD-2.7-12864WDW3-M datasheet) */  
