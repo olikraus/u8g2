@@ -81,7 +81,7 @@ void u8g2_DrawLine(u8g2_t *u8g2, u8g2_uint_t x1, u8g2_uint_t y1, u8g2_uint_t x2,
       u8g2_DrawPixel(u8g2, x, y); 
     else 
       u8g2_DrawPixel(u8g2, y, x); 
-    err -= (uint8_t)dy;
+    err -= (u8g2_uint_t)dy;
     if ( err < 0 ) 
     {
       y += (u8g2_uint_t)ystep;
