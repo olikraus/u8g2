@@ -396,8 +396,8 @@ static const uint8_t u8x8_d_ssd1362_256x64_init_seq[] = {
   
   U8X8_CA(0xfd, 0x12),            	/* unlock */
   U8X8_C(0xae),		                /* display off */
-  U8X8_C(0XFD), //Set Command Lock
-  U8X8_C(0X12), //(12H=Unlock,16H=Lock)
+  //U8X8_C(0XFD), //Set Command Lock
+  //U8X8_C(0X12), //(12H=Unlock,16H=Lock)
 
   U8X8_C(0XAE), //Display OFF(Sleep Mode)
 
@@ -412,8 +412,32 @@ static const uint8_t u8x8_d_ssd1362_256x64_init_seq[] = {
   U8X8_C(0X81), //Set contrast
   U8X8_C(0x2f),
 
-  U8X8_C(0XA0), //Set Remap
-  U8X8_C(0Xc3),
+	
+/*
+Re- map setting in Graphic Display Data RAM
+(GDDRAM)
+
+A[0] = 0b, Disable Column Address Re-map (RESET)
+A[0] = 1b, Enable Column Address Re-map			***
+
+A[1] = 0b, Disable Nibble Re-map (RESET)
+A[1] = 1b, Enable Nibble Re-map				***
+
+A[2] = 0b, Enable Horizontal Address Increment (RESET)   ***
+A[2] = 1b, Enable Vertical Address Increment
+
+A[4] = 0b, Disable COM Re-map (RESET)
+A[4] = 1b, Enable COM Re-map
+
+A[6] = 0b, Disable SEG Split Odd Even			***
+A[6] = 1b, Enable SEG Split Odd Even (RESET)
+
+A[7] = 0b, Disable SEG left/right remap (RESET)
+A[7] = 1b, Enable SEG left/right remap
+
+	?00?0011	--> 0x03 0x83 0x13 0x93
+*/
+  U8X8_CA(0XA0, 0xc3), //Set Remap c3 = 11000011
 
   U8X8_C(0XA1), //Set Display Start Line
   U8X8_C(0X00),
