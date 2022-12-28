@@ -305,3 +305,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * SSD1306 96x39 (issue 1959)
   * Bugfix: Clear font_height_mode during setup to ensure correct default values in 
      cases where the u8g2 struct / class is created via dynamic memory allocation (issue 2046)
+  * Bugfix: Fix line draw procedure in 16 bit mode (issue 2053)
