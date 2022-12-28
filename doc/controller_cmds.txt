@@ -14,22 +14,22 @@ use monospaced font for this txt file
 0x010 00010000 Hi Col      Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col          Hi Col
 ...                        
 0x01f 00011111 Hi Col      Hi Col      Hi Col      	Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col		Hi Col          Hi Col
-0x020 00100000 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-		Reg Ratio
+0x020 00100000 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-		Reg Ratio       -
 ...                        
-0x023 00100011 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-		Reg Ratio
-0x024 00100100 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl	Reg Ratio
+0x023 00100011 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	-		Reg Ratio       -
+0x024 00100100 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl	Reg Ratio       -
 ...
-0x027 00100111 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl	Reg Ratio
+0x027 00100111 Res Ratio   Res Ratio   Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Res Ratio	Temp Ctl	Reg Ratio       -
 0x028 00101000 Pwr Ctrl    Pwr Ctrl    Pwr Ctrl         Pwr Ctrl        Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl        Pwr Ctrl
 ...                        
 0x02f 00101111 Pwr Ctrl    Pwr Ctrl    Pwr Ctrl         Pwr Ctrl        Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl	Pwr Ctrl        Pwr Ctrl
-0x030 00110000 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl	-
-0x030 00110001 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl	-
-0x030 00110010 -           -           PM Duty		-		-		Rev. Line	-		-		-		-
-...			   				-		-		...		-		-		-		-
-0x037 00110111 -           -           PM Duty		-		-		Rev. Line	-		-		-		-
-0x038 00111000 -           -           PM Bias		-		-		Rev. Line	-		-		-		-
-...			   				-		-		...		-		-		-		-
+0x030 00110000 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl	-               -
+0x030 00110001 -           -           PM Duty		-		-		Rev. Line	-		-		Adv Prg Ctl	-               -
+0x030 00110010 -           -           PM Duty		-		-		Rev. Line	-		-		-		-               -
+...			   				-		-		...		-		-		-		-               -               
+0x037 00110111 -           -           PM Duty		-		-		Rev. Line	-		-		-		-               -
+0x038 00111000 -           -           PM Bias		-		-		Rev. Line	-		-		-		-               -
+...			   				-		-		...		-		-		-		-               -
 0x03f 00111111 -           -           PM Bias		-		-		Rev. Line	-		-		-		-
 0x040 01000000 Start Line  Start Line  Start Line  	Scroll Line?	Start Line	DDRAM Line	Start Line	Start Line	Scroll Line	Start Line      Start Line
 ...                        
@@ -59,10 +59,10 @@ use monospaced font for this txt file
 0x0a5 10100101 All pt on   All pt on   All pt on	All pt on	All pt on	All pt on	All pt on	All pt on	All pt on	All pt on       All pt on
 0x0a6 10100110 Normal Op   Normal Op   Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op	Normal Op       Normal Op
 0x0a7 10100111 Inverse	   Inverse     Inverse	        Inverse	        Inverse	        Inverse	        Inverse		Inverse		Inverse		Inverse         Inverse
-0x0a8 10101000 -           -           -		-				Stand-By	-		-		-		-
-0x0a9 10101001 -           -           -		-				Sleep		-		-		-		-
-0x0aa 10101010 -           -           -		-		-		-		-		-		-		-
-0x0ab 10101011 -           -           -		-		-		-		-		-		-		-
+0x0a8 10101000 -           -           -		-				Stand-By	-		-		-		-               -
+0x0a9 10101001 -           -           -		-				Sleep		-		-		-		-               -
+0x0aa 10101010 -           -           -		-		-		-		-		-		-		-               -
+0x0ab 10101011 -           -           -		-		-		-		-		-		-		-               -
 0x0ac 10101100 Indic. On   Sleep On    Indic. On  	Indic. On			Indic. On	Indic. On	Indic. On	-		-               Sleep On
 0x0ad 10101101 Indic. Off  Sleep Off   Indic. Off	Indic. Off			Indic. Off	Indic. Off	Indic. Off	-		-               Sleep Off
 0x0ae 10101110 Disp Off    Disp Off    Disp Off         Disp Off	Disp Off	Disp Off	Disp Off	Disp Off	Disp Off	Disp Off        Disp Off
@@ -76,27 +76,27 @@ use monospaced font for this txt file
 0x0c8 11001xxx Com Reverse Com Reverse Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	-		Com Reverse     Com Reverse
 ...                        
 0x0cf 11001xxx Com Reverse Com Reverse Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	Com Reverse	-		Com Reverse     Com Reverse
-0x0d0 11010000 -           -           -		-		-		-		-		-		-		-
-0x0d1 11010001 -           -           -		-		-		-		-		-		-		-
-0x0d2 11010010 -           -           -		-		-		-		Drv Mode	-		-		-
-0x0d3 11010011 -           -           PM Line   	-		-		-		-		-		-		-
-0x0d4 11010100 -           -           -		-		-		-		Test Mode	-		-		-
-0x0d5 11010101 -           -           -		-		-		-		Page Blink	-		-		-
-...                        	
-0x0df 11011111 -           -           -		-		-		-		-		-		-		-
+0x0d0 11010000 -           -           -		-		-		-		-		-		-		-               -
+0x0d1 11010001 -           -           -		-		-		-		-		-		-		-               -
+0x0d2 11010010 -           -           -		-		-		-		Drv Mode	-		-		-               -
+0x0d3 11010011 -           -           PM Line   	-		-		-		-		-		-		-               -
+0x0d4 11010100 -           -           -		-		-		-		Test Mode	-		-		-               -
+0x0d5 11010101 -           -           -		-		-		-		Page Blink	-		-		-               -
+...                        	             
+0x0df 11011111 -           -           -		-		-		-		-		-		-		-               -
 0x0e0 11100000 Start R-M-W Start R-M-W Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	Start R-M-W	-		Start R-M-W     Start R-M-W
-0x0e1 11100001 -           -           -		-		-		Reset Pwr Save	-		-		-		-
+0x0e1 11100001 -           -           -		-		-		Reset Pwr Save	-		-		-		-               -
 0x0e2 11100010 Reset	   Reset       Reset            Reset           Reset           Reset		Reset		Reset		Reset		Reset           Reset
-0x0e3 11100011 NOP	   NOP         NOP              NOP             NOP             NOP             NOP		NOP		NOP		NOP
-0x0e4 11100100 -           -           OSC Freq         -       	-		Rev Line Reset	OSC Freq	-		-		-
-0x0e5 11100101 -           -           OSC Freq         -       	-		-		OSC Freq	-		-		-
-0x0e6 11100110 -           -           DC/DC Freq	-		-		-		-		-		-		-
-0x0e7 11100111 -           -           -		-		-		-		-		-		-		-
-0x0e8 11101000 -           -           -		-		-		-		-		-		Bias Ratio	-
+0x0e3 11100011 NOP	   NOP         NOP              NOP             NOP             NOP             NOP		NOP		NOP		NOP             -
+0x0e4 11100100 -           -           OSC Freq         -       	-		Rev Line Reset	OSC Freq	-		-		-               -
+0x0e5 11100101 -           -           OSC Freq         -       	-		-		OSC Freq	-		-		-               -
+0x0e6 11100110 -           -           DC/DC Freq	-		-		-		-		-		-		-               -
+0x0e7 11100111 -           -           -		-		-		-		-		-		-		-               -
+0x0e8 11101000 -           -           -		-		-		-		-		-		Bias Ratio	-               -
 ...                        
-0x0ed 11101101 -           -           -		-		-		-		-		-		Bias Ratio	-
+0x0ed 11101101 -           -           -		-		-		-		-		-		Bias Ratio	-               -
 0x0ee 11101110 Stop R-M-W  Stop R-M-W  Stop R-M-W	Stop R-M-W	Stop R-M-W			Stop R-M-W	Stop R-M-W	Bias Ratio	Stop R-M-W      Stop R-M-W
-0x0ef 11101111 -           -           -		-		-		-		-		-		Bias Ratio	-
+0x0ef 11101111 -           -           -		-		-		-		-		-		Bias Ratio	-               -
 0x0f0 11110000 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	-		-               Test Mode   
 0x0f1 11110001 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Com End		-               Test Mode   
 0x0f2 11110010 Test Mode   Test Mode   Test Mode	-		-		Test Mode	Test Mode	Test Mode	Partial Start	-               Test Mode   
