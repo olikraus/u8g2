@@ -41,7 +41,7 @@
 
 
 
-static const uint8_t u8x8_d_st7565_powersave0_seq[] = {
+static const uint8_t u8x8_d_s1d15300_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a4),		                /* all pixel off, see datasheet for the s1d15300 */
   U8X8_C(0x0af),		                /* display on */
@@ -49,7 +49,7 @@ static const uint8_t u8x8_d_st7565_powersave0_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7565_powersave1_seq[] = {
+static const uint8_t u8x8_d_s1d15300_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x0a5),		                /* enter powersafe, see datasheet for the s1d15300 */
@@ -57,7 +57,7 @@ static const uint8_t u8x8_d_st7565_powersave1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7565_flip0_seq[] = {
+static const uint8_t u8x8_d_s1d15300_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),				/* segment remap a0/a1*/
   U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
@@ -65,7 +65,7 @@ static const uint8_t u8x8_d_st7565_flip0_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7565_flip1_seq[] = {
+static const uint8_t u8x8_d_s1d15300_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
@@ -73,7 +73,7 @@ static const uint8_t u8x8_d_st7565_flip1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-uint8_t u8x8_d_st7565_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_s1d15300_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c;
   uint8_t *ptr;
@@ -112,9 +112,9 @@ uint8_t u8x8_d_st7565_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_powersave1_seq);
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
@@ -217,7 +217,7 @@ static const uint8_t u8x8_d_s1d15300_lm6023_init_seq[] = {
 uint8_t u8x8_d_s1d15300_lm6023(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
-  if ( u8x8_d_st7565_common(u8x8, msg, arg_int, arg_ptr) == 0 )
+  if ( u8x8_d_s1d15300_common(u8x8, msg, arg_int, arg_ptr) == 0 )
   {
     /* msg not handled, then try here */
     switch(msg)
@@ -232,12 +232,12 @@ uint8_t u8x8_d_s1d15300_lm6023(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip0_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_flip0_seq);
 	  u8x8->x_offset = u8x8->display_info->default_x_offset;
 	}
 	else
 	{
-	  u8x8_cad_SendSequence(u8x8, u8x8_d_st7565_flip1_seq);
+	  u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
 	}	
 	break;
