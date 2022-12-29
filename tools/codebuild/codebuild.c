@@ -1953,6 +1953,17 @@ struct controller controller_list[] =
     }
   },
   
+  
+  { /* cad001 or cad011: this controller doesn't contain two byte commands, argument is not required */
+    "s1d15300", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "lm6023" }, /* 128x64 */
+      { NULL }
+    }
+  },
+  
+  
   {
     "s1d15e06", 	20, 	13, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
