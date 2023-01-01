@@ -2,6 +2,8 @@
 
   u8x8_d_s1d15300.c
   
+  WARNING: As of today, flip mode 1 doesn't seem to work (see issue 2063)
+  
   Created as a copy of u8x8_d_st7565.c, see https://github.com/olikraus/u8g2/issues/2063
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
