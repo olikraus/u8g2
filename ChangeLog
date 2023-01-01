@@ -303,7 +303,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * SSD1316 96x32 (issue 1938)
   * SH1108 128x160 (issue 1998)
   * SSD1306 96x39 (issue 1959)
-  * S1D15300 128x64 (issue 2063)
+  * S1D15300 128x64, flip mode 1 not supported, (issue 2063)
   * JLX160x80 (issue 2058)
   * Bugfix: Clear font_height_mode during setup to ensure correct default values in 
      cases where the u8g2 struct / class is created via dynamic memory allocation (issue 2046)
