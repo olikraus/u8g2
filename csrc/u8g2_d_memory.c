@@ -1587,6 +1587,39 @@ uint8_t *u8g2_m_20_17_f(uint8_t *page_cnt)
   return buf;
   #endif
 }
+uint8_t *u8g2_m_26_5_1(uint8_t *page_cnt)
+{
+  #ifdef U8G2_USE_DYNAMIC_ALLOC
+  *page_cnt = 1;
+  return 0;
+  #else
+  static uint8_t buf[208];
+  *page_cnt = 1;
+  return buf;
+  #endif
+}
+uint8_t *u8g2_m_26_5_2(uint8_t *page_cnt)
+{
+  #ifdef U8G2_USE_DYNAMIC_ALLOC
+  *page_cnt = 2;
+  return 0;
+  #else
+  static uint8_t buf[416];
+  *page_cnt = 2;
+  return buf;
+  #endif
+}
+uint8_t *u8g2_m_26_5_f(uint8_t *page_cnt)
+{
+  #ifdef U8G2_USE_DYNAMIC_ALLOC
+  *page_cnt = 5;
+  return 0;
+  #else
+  static uint8_t buf[1040];
+  *page_cnt = 5;
+  return buf;
+  #endif
+}
 uint8_t *u8g2_m_22_9_1(uint8_t *page_cnt)
 {
   #ifdef U8G2_USE_DYNAMIC_ALLOC
