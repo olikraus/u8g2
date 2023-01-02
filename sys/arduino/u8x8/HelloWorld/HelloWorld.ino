@@ -114,7 +114,7 @@
 //U8X8_SSD1322_NHD_256X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1322_NHD_256X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1362_WS_256X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8X8_SSD1362_WS_256X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+U8X8_SSD1362_WS_256X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1322_NHD_128X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1322_NHD_128X64_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8X8_SSD1325_NHD_128X64_4W_SW_SPI u8x8(/* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
@@ -306,8 +306,8 @@ void loop(void)
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.drawString(0,1,"Hello World!");
   u8x8.drawString(0,0,"Line 0");
-  u8x8.drawString(0,8,"Line 8");
-  u8x8.drawString(0,9,"Line 9");
+  //u8x8.drawString(0,8,"Line 8");
+  //u8x8.drawString(0,9,"Line 9");
   u8x8.refreshDisplay();		// only required for SSD1606/7  
   delay(2000);
 }

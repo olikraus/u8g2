@@ -32,8 +32,11 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 
-  Copied from sh1122 mostly because of the similar RAM architecture.
-  However: Commands are very different!
+  Idea: SH1122 is a horizontal device, which doesn't support u8x8
+  However in the similar SSD1362 device, we do the correct tile conversion,
+    so maybe takeover code from SSD1362 to SH1122, so that SH1122 can also
+    support u8x8
+
   
 */
 #include "u8x8.h"

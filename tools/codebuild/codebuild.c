@@ -1877,6 +1877,7 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  
   {
     "ssd1362", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
@@ -1885,6 +1886,33 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+  {
+    "ssd1362", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,                 // not tested
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "ws_256x64" },
+      { NULL }
+    }
+  },  
+
+  {
+    "ssd1362", 	26, 	5, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
+    {
+      { "206x36" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1362", 	26, 	5, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,         // not tested
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "206x36" },
+      { NULL }
+    }
+  },  
+  
+  
   {
     "ssd1606", 	22, 	9, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI,
     "Partly supported by U8x8, no HW flip, no contrast setting", /* is_generate_u8g2_class= */ 1,
