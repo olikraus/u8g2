@@ -37,7 +37,10 @@
   SSD1362: 
     256 x 64 (ssd1322: 480 x 128)
     16 gray scale
-  
+
+
+  Note: Currently the external IREF is activated.
+  Maybe we need a constructor with internal IREF
   
 */
 #include "u8x8.h"
