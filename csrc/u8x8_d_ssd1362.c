@@ -342,6 +342,7 @@ static const uint8_t u8x8_d_ssd1362_256x64_init_seq[] = {
   
   U8X8_CA(0xfd, 0x12),            	/* unlock */
   U8X8_C(0xae),		                /* display off */
+  U8X8_CA(0x23, 0x00), //POR 0x00; Disable fade mode
   U8X8_CA(0x81, 0x9f), //Set contrast
   
 /*
@@ -455,6 +456,7 @@ static const uint8_t u8x8_d_ssd1362_206x36_init_seq[] = {
   
   U8X8_CA(0xfd, 0x12),            	/* unlock */
   U8X8_C(0xae),		                /* display off */
+  U8X8_CA(0x23, 0x00), //POR 0x00; Disable fade mode
   U8X8_CA(0x81, 0x9f), //Set contrast
   
 /*
