@@ -342,13 +342,13 @@ static const uint8_t u8x8_d_uc1638_240x128_init_seq[] = {
   U8X8_C(0x024),            		/*	 set temp comp*/
   U8X8_C(0x0c2),            		/*	mirror y and mirror x */ 
   U8X8_C(0x0a2),            		/*	line rate */
-  U8X8_C(0x02d),            		/*	charge pump */
-  U8X8_C(0x0ea),            		/*	 set bias*/
-  U8X8_CA(0x081, 160),            	/*	 set contrast */
+  //U8X8_C(0x02d),            		/*	charge pump, issue 2075: not used */
+  U8X8_C(0x0eb),            		/*	 set bias, issue 2075: 0x0eb*/
+  U8X8_CA(0x081, 0xa0),            	/*	 set contrast, issue 2075 */
   //U8X8_C(0x0d6),            		/*	gray scale 2 */
   U8X8_C(0x095),            		/*	 set 1 bit per pixel, pattern 0*/
-  U8X8_C(0x086),            		/*	 COM scan */
-  U8X8_CA(0x0f1, 159),            	/*	 COM End*/
+  //U8X8_C(0x086),            		/*	 COM scan, issue 2075: not used */
+  //U8X8_CA(0x0f1, 159),            	/*	 COM End, issue 2075: not used */
   U8X8_C(0x089),            		/*	 set auto increment, low bits are AC2 AC1 AC0 */  /* WAS 89 */
   //U8X8_C(0x086),            		/*	 scan function 0x86 or 0x87: no effect*/
   
