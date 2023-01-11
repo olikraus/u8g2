@@ -327,7 +327,7 @@ static const u8x8_display_info_t u8x8_uc1638_240x128_display_info =
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
   /* tile_hight = */ 16,
   /* default_x_offset = */ 0*16+0,	/* lower nibble: x offset, upper nibble: y offset */
-  /* flipmode_x_offset = */ 0*16+0,	/* lower nibble: x offset, upper nibble: y offset */
+  /* flipmode_x_offset = */ 8*16+0,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 240,
   /* pixel_height = */ 128
 };
@@ -344,7 +344,7 @@ static const uint8_t u8x8_d_uc1638_240x128_init_seq[] = {
   U8X8_C(0x0a2),            		/*	line rate */
   //U8X8_C(0x02d),            		/*	charge pump, issue 2075: not used */
   U8X8_C(0x0eb),            		/*	 set bias, issue 2075: 0x0eb*/
-  U8X8_CA(0x081, 0xa0),            	/*	 set contrast, issue 2075 */
+  U8X8_CA(0x081, 120),            	/*	 set contrast, issue 2075 */
   //U8X8_C(0x0d6),            		/*	gray scale 2 */
   U8X8_C(0x095),            		/*	 set 1 bit per pixel, pattern 0*/
   //U8X8_C(0x086),            		/*	 COM scan, issue 2075: not used */
