@@ -327,7 +327,7 @@ static const u8x8_display_info_t u8x8_uc1638_240x128_display_info =
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
   /* tile_hight = */ 16,
   /* default_x_offset = */ 0*16+0,	/* lower nibble: x offset, upper nibble: y offset */
-  /* flipmode_x_offset = */ 8*16+0,	/* lower nibble: x offset, upper nibble: y offset */
+  /* flipmode_x_offset = */ 4*16+0,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 240,
   /* pixel_height = */ 128
 };
