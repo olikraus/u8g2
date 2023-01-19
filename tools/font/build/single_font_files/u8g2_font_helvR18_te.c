@@ -1,11 +1,11 @@
 /*
   Fontname: -Adobe-Helvetica-Medium-R-Normal--25-180-100-100-P-130-ISO10646-1
   Copyright: Copyright (c) 1984, 1987 Adobe Systems Incorporated. All Rights Reserved. Copyright (c) 1988, 1991 Digital Equipment Corporation. All Rights Reserved.
-  Glyphs: 447/756
+  Glyphs: 450/756
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_helvR18_te[12526] U8G2_FONT_SECTION("u8g2_font_helvR18_te") = 
-  "\277\0\4\3\5\5\3\6\6\31$\377\371\23\373\23\373\2\347\6\37\23\2 \6\0\60\64\1!\12b"
+const uint8_t u8g2_font_helvR18_te[12571] U8G2_FONT_SECTION("u8g2_font_helvR18_te") = 
+  "\302\0\4\3\5\5\3\6\6\31$\377\371\23\373\23\373\2\347\6\37\23\2 \6\0\60\64\1!\12b"
   "\32\64\341\3\212(\3\42\13\306\264EA\204'\22\61\1#&+\32tIDJDJDHD\344"
   "\340A\214\210\224\210\220\210\224\210\314\301\203\20U\42B\42R\42R\42B\0$)\313\326kKR\316"
   "\350 dBbBD\205\210\12\21\251\11\261\206ue\22S\42\64\42\64\42%\22\23\7\62w\222B"
@@ -395,5 +395,6 @@ const uint8_t u8g2_font_helvR18_te[12526] U8G2_FONT_SECTION("u8g2_font_helvR18_t
   "\211\221)\2\216#l\22lo\220PRTRTt\220PBNBLFJFhfFJFj"
   "BNB\220P\0\2\236\37jzcA\254JBJbHdF\233\21!\253\242\11\231\21\221\31\211"
   "!\11)A=\2\273\12\302\270\65C\42\302\0\2\274\13\302\270\65\301\42B\2\0\2\275\12\302\270\65"
-  "\341\42$\0 \254(q\16\224\317\362`\214\210hpFTdTD\372`\356`R\372`\356`R"
-  "~TFTfp\210\331\301\244\21\0\0";
+  "\341\42$\0 \201\13Dq;E\344`D\37 \202\17Gq;\205\344 FJHG\7\7 \203"
+  "\23Gq;\243\342@FJ\204\206\214\346@\242\2\0 \254(q\16\224\317\362`\214\210hpFT"
+  "dTD\372`\356`R\372`\356`R~TFTfp\210\331\301\244\21\0\0";

@@ -14,6 +14,8 @@ extern char *u8x8_font_names[] ;
 extern const uint8_t *u8g2_font_list[] ;
 extern char *u8g2_font_names[] ;
 
+const char convert_extra_options[] = "-flip";   /* issue 2080: convert seems to flip the tga picture, again do the flip */
+
 #ifdef BUILD2
 extern void u8g2_SetupBuffer_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 extern void tga_save(const char *name);
@@ -198,6 +200,7 @@ struct groupinfo gi[] = {
   { "Mystery Quest", 	"fntgrpmysteryquest", 		"../../../../u8g2.wiki/fntgrpmysteryquest.md", 		"fntgrpmysteryquest.pre" }, 		/* 40 */  
   { "HasanKazan", "fntgrphasankazan", "../../../../u8g2.wiki/fntgrphasankazan.md", 		"fntgrphasankazan.pre" }, 		/* 41 */ 
   { "Integrated Mapping Ltd", "fntgrpim", "../../../../u8g2.wiki/fntgrpim.md", 		"fntgrpim.pre" }, 		/* 42 */ 
+  { "Spleen", "fntgrpspleen", "../../../../u8g2.wiki/fntgrpspleen.md", 		"fntgrpspleen.pre" }, 		/* 43 */ 
 
 };
 
@@ -808,6 +811,15 @@ Greek Extended	1F00–1FFF
       /* Integrated Mapping Ltd, 42 */
   { 0,  0, "CalBlk36.bdf", 		"calblk36", 		42, 0, BM_T, FM_C, MM_R, "", "" },  
   { 0,  0, "CalLite24.bdf", 		"callite24", 		42, 0, BM_T, FM_C, MM_R, "", "" },  
+
+        /* Spleen, https://github.com/olikraus/u8g2/issues/2015 , 43 */
+  /* spleen-12x24.bdf  spleen-16x32.bdf  spleen-32x64.bdf  spleen-5x8.bdf  spleen-6x12.bdf  spleen-8x16.bdf */
+  { 0,  0, "spleen-5x8.bdf", 		"spleen5x8", 		43, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },  
+  { 0,  0, "spleen-6x12.bdf", 		"spleen6x12", 		43, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },  
+  { 0,  0, "spleen-8x16.bdf", 		"spleen8x16", 		43, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },  
+  { 0,  0, "spleen-12x24.bdf", 		"spleen12x24", 		43, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },  
+  { 0,  0, "spleen-16x32.bdf", 		"spleen16x32", 		43, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },  
+  { 0,  0, "spleen-32x64.bdf", 		"spleen32x64", 		43, 0, BM_M, FM_C, MM_N|MM_U|MM_R|MM_F|MM_E, "", "" },  
 
 //#endif   /* TMP */
 
@@ -2317,7 +2329,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     tga_save("font.tga");
     
     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
-    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s.png", target_font_identifier );
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s %s.png", convert_extra_options, target_font_identifier );
     system(convert_cmd);
     u8x8_fnt_cnt++;
   }
@@ -2345,7 +2357,7 @@ void overviewpic(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
     tga_save("font.tga");
     
      /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
-   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s.png", target_font_identifier );
+   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s %s.png", convert_extra_options, target_font_identifier );
     system(convert_cmd);
 
     u8g2_fnt_cnt++;
@@ -2374,7 +2386,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
     tga_save("font.tga");
     
      /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
-    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_short.png", target_font_identifier );
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s %s_short.png", convert_extra_options, target_font_identifier );
     system(convert_cmd);
 
     u8x8_fnt_cnt++;
@@ -2408,7 +2420,7 @@ void overviewshortpic(int i, int fm, char *fms, int bm, char *bms, int mm, char 
     tga_save("font.tga");
     
     /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
-    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_short.png", target_font_identifier );
+    sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s %s_short.png", convert_extra_options, target_font_identifier );
     system(convert_cmd);
 
     u8g2_fnt_cnt++;
@@ -2608,7 +2620,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   if ( mm == MM_R ) strcat(bdf_cmd, " -m '32-127>32'");
   if ( mm == MM_N ) strcat(bdf_cmd, " -m '32,42-58>42'");
   if ( mm == MM_U ) strcat(bdf_cmd, " -m '32-95>32'");
-  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,8364,64256-64263'");
+  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,8320-8329,8364,64256-64263'");  /* added subscript 0-9 8320-8329 */
   if ( mm == MM_C ) 
   {
     strcat(bdf_cmd, " -m '");
@@ -2957,7 +2969,7 @@ void do_font_groups_wc(cbfn_t cb)
 
     tga_save("font.tga");    
      /* remove date info, see https://legacy.imagemagick.org/discourse-server/viewtopic.php?t=12230 */
-   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s_word_cloud.png", gi[current_font_group_index].reference );
+   sprintf(convert_cmd, "convert font.tga +set modify-date +set create-date -trim %s %s_word_cloud.png", convert_extra_options, gi[current_font_group_index].reference );
     system(convert_cmd);
 
     

@@ -298,14 +298,17 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Experimental support for ST75160, TESTING REQUIRED (issue 1642)
   * Bugfix font compression: Reduced fontsize by up to 4% (issue 1941)
   * Changed SPI mode for SH1106 from 3 to 0 (issue 1901)
-2022-xx-xx      v2.34.xx olikraus@gmail.com
+2023-xx-xx      v2.34.xx olikraus@gmail.com
   * SSD1327 ZJY M150 128x128 (issue 1960)
   * SSD1316 96x32 (issue 1938)
   * SH1108 128x160 (issue 1998)
   * SSD1306 96x39 (issue 1959)
   * S1D15300 128x64, flip mode 1 not supported, (issue 2063)
-  * SSD1362
+  * SSD1362 256x64 (issue 1322, issue 2051)
   * JLX160x80 (issue 2058)
+  * UC1638 240x128 (issue 2075)
   * Bugfix: Clear font_height_mode during setup to ensure correct default values in 
      cases where the u8g2 struct / class is created via dynamic memory allocation (issue 2046)
   * Bugfix: Fix line draw procedure in 16 bit mode (issue 2053)
+  * Added Spleen Monospaced Font from https://github.com/fcambus/spleen (issue 2015)
+  * Extended the "E" font range with subscript characters if available in the original font (issue 2079)

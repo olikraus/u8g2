@@ -1,6 +1,7 @@
 # works within ubuntu and min-gw (win7) environment
 
-CFLAGS = -g -DBUILD2 -DU8G2_USE_LARGE_FONTS -DU8G2_16BIT -Wall -I../../../csrc/
+CFLAGS = -g -DBUILD2 -DU8G2_USE_LARGE_FONTS -Wall -I../../../csrc/
+# CFLAGS = -g -DBUILD2 -DU8G2_USE_LARGE_FONTS -DU8G2_16BIT -Wall -I../../../csrc/
 #CFLAGS = -O4 -Wall
 
 SRC1 = build.c
