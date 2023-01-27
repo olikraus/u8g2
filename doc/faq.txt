@@ -275,6 +275,9 @@ Q: Are there any video-tutorials for bdfconv?
 A: This is what I found on youtube: https://www.youtube.com/watch?v=Igkb7ZmO31A
 The above video uses the -M option (instead of -m) to provide a map file with the unicodes.
 
+Q: Is there any simple way to create a font with some custom chars?
+A: This online tool might be useful: http://www.kidsgo.net/u8g2/
+
 Q: How can I use multiple SPI Displays?
 A: For each additional display, separate CS (Chip select) is required.
 There are two options for the RST (Reset) line: 
