@@ -216,17 +216,17 @@ static void pg_hline(pg_struct *pg, u8g2_t *u8g2)
   
   if ( y < 0 )
     return;
-  if ( y >= u8g2_GetDisplayHeight(u8g2) )  // does not work for 256x64 display???
+  if ( y >= (pg_word_t)u8g2_GetDisplayHeight(u8g2) )  // does not work for 256x64 display???
     return;
   if ( x1 < x2 )
   {
     if ( x2 < 0 )
       return;
-    if ( x1 >= u8g2_GetDisplayWidth(u8g2) )
+    if ( x1 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
       return;
     if ( x1 < 0 )
       x1 = 0;
-    if ( x2 >= u8g2_GetDisplayWidth(u8g2) )
+    if ( x2 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
       x2 = u8g2_GetDisplayWidth(u8g2);
     u8g2_DrawHLine(u8g2, x1, y, x2 - x1);
   }
@@ -234,11 +234,11 @@ static void pg_hline(pg_struct *pg, u8g2_t *u8g2)
   {
     if ( x1 < 0 )
       return;
-    if ( x2 >= u8g2_GetDisplayWidth(u8g2) )
+    if ( x2 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
       return;
     if ( x2 < 0 )
       x1 = 0;
-    if ( x1 >= u8g2_GetDisplayWidth(u8g2) )
+    if ( x1 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
       x1 = u8g2_GetDisplayWidth(u8g2);
     u8g2_DrawHLine(u8g2, x2, y, x1 - x2);
   }
