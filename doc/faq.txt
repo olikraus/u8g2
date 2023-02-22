@@ -314,3 +314,8 @@ display:
   u8x8_cad_SendArg( u8g2.getU8x8(), <display-command-arg>);  
   u8x8_cad_EndTransfer(u8g2.getU8x8());
 
+
+Q: RAM Overflow error when linking with u8g2
+A: With gcc use compiler flags -ffunction-sections -fdata-sections and 
+linker flag -Wl,--gc-sections.
+
