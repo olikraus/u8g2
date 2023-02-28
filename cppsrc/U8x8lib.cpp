@@ -885,6 +885,12 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
   {
     case U8X8_MSG_BYTE_SEND:
       
+
+
+#if defined(ESP_PLATFORM)
+      //T.M.L 2023-02-28: use the block transfer function on ESP, which does not overwrite the buffer.
+      SPI.writeBytes((uint8_t*)arg_ptr, arg_int);  
+#else    
       // 1.6.5 offers a block transfer, but the problem is, that the
       // buffer is overwritten with the incoming data
       // so it can not be used...
@@ -893,11 +899,12 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 )
       {
-	SPI.transfer((uint8_t)*data);
-	data++;
-	arg_int--;
+        SPI.transfer((uint8_t)*data);
+        data++;
+        arg_int--;
       }
-  
+#endif
+
       break;
     case U8X8_MSG_BYTE_INIT:
       if ( u8x8->bus_clock == 0 ) 	/* issue 769 */
@@ -920,11 +927,11 @@ extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t a
 #if defined(ESP_PLATFORM) || defined(ARDUINO_ARCH_ESP32)
       /* ESP32 has the following begin: SPI.begin(int8_t sck=SCK, int8_t miso=MISO, int8_t mosi=MOSI, int8_t ss=-1); */
       /* not sure about ESP8266 */
-      if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
+      if ( u8x8->pins[U8X8_PIN_SPI_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_SPI_DATA] != U8X8_PIN_NONE )
       {
 	/* SPI.begin(int8_t sck=SCK, int8_t miso=MISO, int8_t mosi=MOSI, int8_t ss=-1); */
 	/* actually MISO is not used, but what else could be used here??? */
-	SPI.begin(u8x8->pins[U8X8_PIN_I2C_CLOCK], MISO, u8x8->pins[U8X8_PIN_I2C_DATA]);
+	SPI.begin(u8x8->pins[U8X8_PIN_SPI_CLOCK], MISO, u8x8->pins[U8X8_PIN_SPI_DATA]);
       }
       else
       {
