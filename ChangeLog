@@ -312,3 +312,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix: Fix line draw procedure in 16 bit mode (issue 2053)
   * Added Spleen Monospaced Font from https://github.com/fcambus/spleen (issue 2015)
   * Extended the "E" font range with subscript characters if available in the original font (issue 2079)
+  * Bugfix for ESP32 HW SPI Pin Remapping (issue 377, PR 2123)
