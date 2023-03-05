@@ -789,11 +789,14 @@ extern "C" uint8_t u8x8_byte_arduino_3wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uin
 #if defined(ESP_PLATFORM) || defined(ARDUINO_ARCH_ESP32)
 	/* ESP32 has the following begin: SPI.begin(int8_t sck=SCK, int8_t miso=MISO, int8_t mosi=MOSI, int8_t ss=-1); */
 	/* not sure about ESP8266 */
-	if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
-	{
+        /* apply bugfix from PR 2123 */
+	//if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
+        if ( u8x8->pins[U8X8_PIN_SPI_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_SPI_DATA] != U8X8_PIN_NONE )
+        {
 	  /* SPI.begin(int8_t sck=SCK, int8_t miso=MISO, int8_t mosi=MOSI, int8_t ss=-1); */
 	  /* actually MISO is not used, but what else could be used here??? */
-	  SPI.begin(u8x8->pins[U8X8_PIN_I2C_CLOCK], MISO, u8x8->pins[U8X8_PIN_I2C_DATA]);
+	  //SPI.begin(u8x8->pins[U8X8_PIN_I2C_CLOCK], MISO, u8x8->pins[U8X8_PIN_I2C_DATA]);
+          SPI.begin(u8x8->pins[U8X8_PIN_SPI_CLOCK], MISO, u8x8->pins[U8X8_PIN_SPI_DATA]);
 	}
 	else
 	{
