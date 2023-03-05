@@ -157,7 +157,7 @@ static const u8x8_display_info_t u8x8_s1d15e06_160100_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1608 datasheet, page 39 */
   /* write_pulse_width_ns = */ 65,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 20,		/* width of 20*8=160 pixel */
-  /* tile_hight = */ 13,
+  /* tile_height = */ 13,
   /* default_x_offset = */ 0,	/* reused as y page offset */
   /* flipmode_x_offset = */ 0,	/* reused as y page offset */
   /* pixel_width = */ 160,

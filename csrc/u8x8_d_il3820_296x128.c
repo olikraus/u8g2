@@ -156,7 +156,7 @@ static const u8x8_display_info_t u8x8_il3820_296x128_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	
   /* tile_width = */ 37,		/* 37*8 = 296 */
-  /* tile_hight = */ 16,		/* 16*8 = 128 */	
+  /* tile_height = */ 16,		/* 16*8 = 128 */	
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 296,

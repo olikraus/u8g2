@@ -94,7 +94,7 @@ static const u8x8_display_info_t u8x8_st7511_320x240_display_info =
   /* data_setup_time_ns = */ 200,	/* */
   /* write_pulse_width_ns = */ 250,	/* ST7511 Datasheet: 500ns */
   /* tile_width = */ 40,		/* width of 17*8=136 pixel */
-  /* tile_hight = */ 30,
+  /* tile_height = */ 30,
   /* default_x_offset = */ 160,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 320,

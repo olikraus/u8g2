@@ -162,7 +162,7 @@ static const u8x8_display_info_t u8x8_uc1611_240x64_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
   /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 240,
@@ -280,7 +280,7 @@ static const u8x8_display_info_t u8x8_uc1611_240x128_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
   /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 240,
@@ -373,7 +373,7 @@ static const u8x8_display_info_t u8x8_uc1611_ew50850_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
   /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 20,		/* height: 160 pixel */
+  /* tile_height = */ 20,		/* height: 160 pixel */
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 240,
@@ -530,7 +530,7 @@ static const u8x8_display_info_t u8x8_uc1611_cg160160_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
   /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
   /* tile_width = */ 20,		/* width of 20*8=160 pixel */
-  /* tile_hight = */ 20,
+  /* tile_height = */ 20,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 160,
@@ -680,7 +680,7 @@ static const u8x8_display_info_t u8x8_uc1611_256x128_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1611 datasheet, page 60 */
   /* write_pulse_width_ns = */ 80,	/* uc1611 datasheet, page 60 */
   /* tile_width = */ 32,		/* width of 32*8=256 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 256,

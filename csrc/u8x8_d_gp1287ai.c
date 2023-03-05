@@ -57,7 +57,7 @@ static const u8x8_display_info_t u8x8_gp1287ai_display_info = {
     /* data_setup_time_ns = */ 60,        /* tsu     */
     /* write_pulse_width_ns = */ 120,     /* tcyc/2  */
     /* tile_width = */ 32,                /* 32*8=256 memory size */
-    /* tile_hight = */ 7,                 /* 7*8=56 memory size */
+    /* tile_height = */ 7,                 /* 7*8=56 memory size */
     /* default_x_offset = */ 0,           /*         */
     /* flipmode_x_offset = */ 0,          /*         */
     /* pixel_width = */ 256,              /* display size */

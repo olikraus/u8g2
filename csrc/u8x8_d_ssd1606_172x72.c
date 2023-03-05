@@ -374,7 +374,7 @@ static const u8x8_display_info_t u8x8_ssd1606_172x72_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	
   /* tile_width = */ 22,		/* 22*8 = 176 */
-  /* tile_hight = */ 9,		/* 9*8 = 72 */
+  /* tile_height = */ 9,		/* 9*8 = 72 */
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 172,

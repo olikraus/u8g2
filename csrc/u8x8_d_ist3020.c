@@ -88,7 +88,7 @@ static const u8x8_display_info_t u8x8_ist3020_erc19264_display_info =
   /* data_setup_time_ns = */ 40,	/* IST3020 datasheet, page 54 */
   /* write_pulse_width_ns = */ 60,	/* IST3020 datasheet, page 54 */
   /* tile_width = */ 24,		/* width of 24*8=192 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 64,
   /* pixel_width = */ 192,

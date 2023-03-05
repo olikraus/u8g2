@@ -91,7 +91,7 @@ static const u8x8_display_info_t u8x8_pcd8544_84x48_display_info =
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
   /* tile_width = */ 11,		/* width of 11*8=88 pixel */
-  /* tile_hight = */ 6,
+  /* tile_height = */ 6,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 84,

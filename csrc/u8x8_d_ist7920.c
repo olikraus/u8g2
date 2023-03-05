@@ -86,7 +86,7 @@ static const u8x8_display_info_t u8x8_ist7920_128x128_display_info =
   /* data_setup_time_ns = */ 60,	/* IST7920 datasheet, page 47 */
   /* write_pulse_width_ns = */ 150,	/* IST7920 datasheet, page 47 */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,

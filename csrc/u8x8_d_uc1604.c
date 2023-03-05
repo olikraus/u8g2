@@ -172,7 +172,7 @@ static const u8x8_display_info_t u8x8_uc1604_192x64_display_info =
   /* data_setup_time_ns = */ 30,	
   /* write_pulse_width_ns = */ 35,	
   /* tile_width = */ 24,		/* width of 24*8=192 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,	/* reused as y page offset */
   /* flipmode_x_offset = */ 0,	/* reused as y page offset */
   /* pixel_width = */ 192,

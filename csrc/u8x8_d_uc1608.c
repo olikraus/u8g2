@@ -165,7 +165,7 @@ static const u8x8_display_info_t u8x8_uc1608_240x64_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1608 datasheet, page 39 */
   /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,	/* reused as y page offset */
   /* flipmode_x_offset = */ 4,	/* reused as y page offset */
   /* pixel_width = */ 240,
@@ -246,7 +246,7 @@ static const u8x8_display_info_t u8x8_uc1608_240x128_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1608 datasheet, page 39 */
   /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,	/* reused as y page offset */
   /* flipmode_x_offset = */ 0,	/* reused as y page offset */
   /* pixel_width = */ 240,
@@ -327,7 +327,7 @@ static const u8x8_display_info_t u8x8_uc1608_erc240120_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1608 datasheet, page 39 */
   /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 15,
+  /* tile_height = */ 15,
   /* default_x_offset = */ 1,	/* reused as y page offset */
   /* flipmode_x_offset = */ 0,	/* reused as y page offset */
   /* pixel_width = */ 240,
@@ -411,7 +411,7 @@ static const u8x8_display_info_t u8x8_uc1608_dem240064_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1608 datasheet, page 39 */
   /* write_pulse_width_ns = */ 35,	/* uc1608 datasheet, page 39 */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 1,	/* reused as y page offset */
   /* flipmode_x_offset = */ 0,	/* reused as y page offset */
   /* pixel_width = */ 240,

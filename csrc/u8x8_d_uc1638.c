@@ -175,7 +175,7 @@ static const u8x8_display_info_t u8x8_uc1638_160x128_display_info =
   /* data_setup_time_ns = */ 30,	/*  */
   /* write_pulse_width_ns = */ 35,	/*  */
   /* tile_width = */ 20,		/* width of 20*8=160 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,	/* lower nibble: x offset, upper nibble: y offset */
   /* flipmode_x_offset = */ 0,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 160,
@@ -252,7 +252,7 @@ static const u8x8_display_info_t u8x8_uc1638_192x96_display_info =
   /* data_setup_time_ns = */ 30,	/*  */
   /* write_pulse_width_ns = */ 35,	/*  */
   /* tile_width = */ 24,		/* width of 24*8=192 pixel */
-  /* tile_hight = */ 12,
+  /* tile_height = */ 12,
   /* default_x_offset = */ 8*16+0,	/* lower nibble: x offset, upper nibble: y offset */
   /* flipmode_x_offset = */ 0*16+6,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 192,
@@ -325,7 +325,7 @@ static const u8x8_display_info_t u8x8_uc1638_240x128_display_info =
   /* data_setup_time_ns = */ 30,	/*  */
   /* write_pulse_width_ns = */ 35,	/*  */
   /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0*16+0,	/* lower nibble: x offset, upper nibble: y offset */
   /* flipmode_x_offset = */ 4*16+0,	/* lower nibble: x offset, upper nibble: y offset */
   /* pixel_width = */ 240,

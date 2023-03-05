@@ -294,7 +294,7 @@ static const u8x8_display_info_t u8x8_uc1617_128x128_display_info =
   /* data_setup_time_ns = */ 30,	/* uc1617 datasheet, page 52 */
   /* write_pulse_width_ns = */ 65,	/* uc1617 datasheet, page 52 */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,

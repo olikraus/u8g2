@@ -185,7 +185,7 @@ static const u8x8_display_info_t u8x8_d_gu800_128x64_display_info =
   /* data_setup_time_ns = */ 40,    /* GU800: Min 40ns per datasheet */
   /* write_pulse_width_ns = */ 150, /* GU800: Min 150ns per datasheet */
   /* tile_width = */ 16,            /* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -263,7 +263,7 @@ static const u8x8_display_info_t u8x8_d_gu800_160x16_display_info =
   /* data_setup_time_ns = */ 40,    /* GU800: Min 40ns per datasheet */
   /* write_pulse_width_ns = */ 150, /* GU800: Min 150ns per datasheet */
   /* tile_width = */ 20,            /* width of 8*20=160 pixel */
-  /* tile_hight = */ 2,
+  /* tile_height = */ 2,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 160,

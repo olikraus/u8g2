@@ -161,7 +161,7 @@ static const u8x8_display_info_t u8x8_s1d15721_240x64_display_info =
   /* data_setup_time_ns = */ 30,	         /*  */
   /* write_pulse_width_ns = */ 65,	/* */
   /* tile_width = */ 30,		                /* width of 20*8=160 pixel (30*8 = 240) */
-  /* tile_hight = */ 8,                 /* height 8*8 = 64*/
+  /* tile_height = */ 8,                 /* height 8*8 = 64*/
   /* default_x_offset = */ 1,	
   /* flipmode_x_offset = */ 1,	
   /* pixel_width = */ 240,

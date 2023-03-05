@@ -320,7 +320,7 @@ static const u8x8_display_info_t u8x8_d_ssd1320_cs1_160x32_display_info =
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* ssd1320: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 20,		/* 160 pixel, so we require 20 bytes for this */
-  /* tile_hight = */ 4,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 160,
@@ -435,7 +435,7 @@ static const u8x8_display_info_t u8x8_d_ssd1320_cs1_160x132_display_info =
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* ssd1320: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 20,		/* 160 pixel, so we require 20 bytes for this */
-  /* tile_hight = */ 17,
+  /* tile_height = */ 17,
   /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 160,
@@ -645,7 +645,7 @@ static const u8x8_display_info_t u8x8_d_ssd1320_160x80_display_info =
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* ssd1320: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 20,		/* 160 pixel, so we require 20 bytes for this */
-  /* tile_hight = */ 10,
+  /* tile_height = */ 10,
   /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 160,

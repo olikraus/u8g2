@@ -80,7 +80,7 @@ static const u8x8_display_info_t u8x8_ssd1607_200x200_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	
   /* tile_width = */ 25,		/* 25*8 = 200 */
-  /* tile_hight = */ 25,		
+  /* tile_height = */ 25,		
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 200,

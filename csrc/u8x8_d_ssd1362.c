@@ -328,7 +328,7 @@ static const u8x8_display_info_t u8x8_ssd1362_256x64_display_info =
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* ssd1362: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 32,		/* 256 pixel, so we require 32 bytes for this */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 256,
@@ -442,7 +442,7 @@ static const u8x8_display_info_t u8x8_ssd1362_206x36_display_info =
   /* data_setup_time_ns = */ 10,
   /* write_pulse_width_ns = */ 150,	/* ssd1362: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 26,		/* 26*8 = 208 */
-  /* tile_hight = */ 5,                /* 5*8 = 40 */
+  /* tile_height = */ 5,                /* 5*8 = 40 */
   /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 25, 
   /* pixel_width = */ 206,

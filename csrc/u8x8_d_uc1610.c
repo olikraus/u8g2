@@ -158,7 +158,7 @@ static const u8x8_display_info_t u8x8_uc1610_display_info =
   /* data_setup_time_ns = */ 30,
   /* write_pulse_width_ns = */ 40,
   /* tile_width = */ 20,		
-  /* tile_hight = */ 13,		/* height of 13*8=104 pixel */
+  /* tile_height = */ 13,		/* height of 13*8=104 pixel */
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 160,

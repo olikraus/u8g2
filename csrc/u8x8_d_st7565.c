@@ -105,7 +105,7 @@ static const u8x8_display_info_t u8x8_st7565_128x64_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 4,
   /* pixel_width = */ 128,
@@ -393,7 +393,7 @@ static const u8x8_display_info_t u8x8_st7565_64128n_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 4,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -521,7 +521,7 @@ static const u8x8_display_info_t u8x8_st7565_128x32_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 4,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 4,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -611,7 +611,7 @@ static const u8x8_display_info_t u8x8_st7565_nhd_c12864_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 4,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -739,7 +739,7 @@ static const u8x8_display_info_t u8x8_st7565_lm6059_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 1,	/* not sure... */
   /* flipmode_x_offset = */ 3,
   /* pixel_width = */ 128,
@@ -886,7 +886,7 @@ static const u8x8_display_info_t u8x8_st7565_lx12864_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 1,	/* not sure... */
   /* flipmode_x_offset = */ 3,
   /* pixel_width = */ 128,
@@ -978,7 +978,7 @@ static const u8x8_display_info_t u8x8_st7565_erc12864_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 16,		/* width of 16*8=128 pixel */
-  /* tile_hight = */ 8,
+  /* tile_height = */ 8,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 4,
   /* pixel_width = */ 128,
@@ -1210,7 +1210,7 @@ static const u8x8_display_info_t u8x8_st7565_dogm132_display_info =
   /* data_setup_time_ns = */ 40,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 80,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 17,		/* width of 16*8=136 pixel */
-  /* tile_hight = */ 4,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 132,

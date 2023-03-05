@@ -194,7 +194,7 @@ static const u8x8_display_info_t u8x8_ssd1306_128x32_univision_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
-  /* tile_hight = */ 4,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -234,7 +234,7 @@ static const u8x8_display_info_t u8x8_ssd1306_128x32_winstar_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
-  /* tile_hight = */ 4,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 125,
   /* flipmode_x_offset = */ 125,
   /* pixel_width = */ 128,
@@ -297,7 +297,7 @@ static const u8x8_display_info_t u8x8_d_sh1106_128x32_visionox_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
-  /* tile_hight = */ 4,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 2,
   /* flipmode_x_offset = */ 2,
   /* pixel_width = */ 128,

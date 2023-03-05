@@ -369,7 +369,7 @@ static const u8x8_display_info_t u8x8_sh1107_seeed_96x96_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 12,
-  /* tile_hight = */ 12,
+  /* tile_height = */ 12,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 96,
@@ -515,7 +515,7 @@ static const u8x8_display_info_t u8x8_sh1107_128x128_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 96,
   /* flipmode_x_offset = */ 96,
   /* pixel_width = */ 128,
@@ -566,7 +566,7 @@ static const u8x8_display_info_t u8x8_sh1107_128x80_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 10,
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 24,
   /* flipmode_x_offset = */ 24,
   /* pixel_width = */ 80,
@@ -614,7 +614,7 @@ static const u8x8_display_info_t u8x8_sh1107_pimoroni_128x128_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -668,7 +668,7 @@ static const u8x8_display_info_t u8x8_seeed_128x128_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
@@ -832,7 +832,7 @@ static const u8x8_display_info_t u8x8_TK078F288_80x128_display_info =
   /* data_setup_time_ns = */ 40,
   /* write_pulse_width_ns = */ 150,	/* sh1107: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 10,
-  /* tile_hight = */ 16,
+  /* tile_height = */ 16,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 80,
