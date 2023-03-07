@@ -354,7 +354,7 @@ static const u8x8_display_info_t u8x8_ssd1322_240x128_display_info =
   /* write_pulse_width_ns = */ 150,	/* SSD1322: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 30,		/* 256 pixel, so we require 32 bytes for this */
   /* tile_height = */ 16,
-  /* default_x_offset = */ 0x000,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* default_x_offset = */ 24,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0x000,
   /* pixel_width = */ 240,
   /* pixel_height = */ 128
