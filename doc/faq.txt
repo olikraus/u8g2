@@ -32,6 +32,9 @@ U8G2_..._4W_SW_SPI u8g2(U8G2_R0, clock, data, cs, dc, reset);
 All U8g2 hardware SPI constructors look like this:
 U8G2_..._4W_SW_SPI u8g2(U8G2_R0, cs, dc, reset);
 
+Q: How to use HSPI for HW SPI on ESP32?
+A: Assign  "SPI = SPIClass(HSPI);" before calling u8g2.begin() (see issue #1061)
+
 Q: For HW I2C no pin numbers are required in the constructor. But which are
 the pin numbers for wiring?
 A: See same question for SPI. For some boards, the pins are listed here:
