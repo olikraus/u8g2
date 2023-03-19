@@ -2,10 +2,12 @@
 
   u8x8_d_ld7032_60x32.c
   Note: Flip Mode is NOT supported
+  
+  Also contains 128x36 OLED variant
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
-  Copyright (c) 2016, olikraus@gmail.com
+  Copyright (c) 2023, olikraus@gmail.com
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, 
@@ -272,11 +274,13 @@ static const uint8_t u8x8_d_ld7032_60x32_alt_init_seq[] = {
   U8X8_CA(0x48, 0x03),		  	
   U8X8_CA(0x17, 0x00),         
   U8X8_CA(0x13, 0x01),        
-  U8X8_CA(0x3F, 0x11),
+  U8X8_CA(0x3F, 0x11),          // internal regulator enabled, vcc_c * 0.7 
   U8X8_CA(0x3D, 0x00),
 
   U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */};
+  U8X8_END()             			/* end of sequence */
+  
+  };
 
 uint8_t u8x8_d_ld7032_60x32_alt(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -296,3 +300,83 @@ uint8_t u8x8_d_ld7032_60x32_alt(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
     return u8x8_d_ld7032_generic(u8x8, msg, arg_int, arg_ptr);
 }
 
+/*==========================================*/
+/*
+  128x36 Flip Mode is NOT supported
+  see https://github.com/olikraus/u8g2/issues/2135
+*/
+
+static const u8x8_display_info_t u8x8_ld7032_128x36_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 15,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 100, 	
+  /* post_reset_wait_ms = */ 100, 
+  /* sda_setup_time_ns = */ 30,		/* 20ns, but cycle time is 60ns, so use 60/2 */
+  /* sck_pulse_width_ns = */ 30,	/* 20ns, but cycle time is 60ns, so use 60/2  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 20,
+  /* write_pulse_width_ns = */ 40,	
+  /* tile_width = */ 16,
+  /* tile_height = */ 5,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 36
+};
+
+static const uint8_t u8x8_d_ld7032_128x36_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  U8X8_CA(0x14, 0x00),		  		// standby mode
+  U8X8_CA(0x02, 0x00),		  		// display off
+  U8X8_CA(0x1A, 0x05),		  		// frame frequency
+  U8X8_CA(0x1D, 0x00),		  	        // data write direction (datasheet: 1d 0b
+  U8X8_CA(0x09, 0x00),	      		        // scan direction
+  U8X8_CAA(0x30, 0x00, 0x7F),             // column driver active range 
+  U8X8_CAA(0x32, 0x04, 0x27),           // row driver active range
+  U8X8_CA(0x34, 0x00),				// start line
+  U8X8_CA(0x35, 0x0f),		                // end line
+  U8X8_CA(0x36, 0x04),	                        // row start line
+  U8X8_CA(0x37, 0x27),			        // row end line
+  U8X8_CA(0x38, 0x00),                          // x disp start, default 0        
+  U8X8_CA(0x39, 0x00),                          // y disp start, default 0
+  U8X8_CA(0x10, 0x1f),		  	        // peak pulse width
+  U8X8_CA(0x16, 0x05),		                // pulse delay width  	
+  U8X8_CA(0x18, 0x1f),		  		// pre charge width
+  U8X8_CA(0x12, 0x3F),		  	        // contrast control
+  U8X8_CA(0x44, 0x02),		  		// PreC select, default: 2
+  //U8X8_CA(0x48, 0x00),		  	        // row overlap, default: 0 (was 3)
+  U8X8_CA(0x17, 0x00),                          // row scan, default: 0
+  U8X8_CA(0x13, 0x01),                          // scan mode sequence
+  //U8X8_CA(0x3F, 0x11),                         // VCC R Selection, default: 0 (int. reg. disabled, vcc_c*0.8)
+  U8X8_CA(0x3D, 0x01),                          // vdd selection 0: 2.8V-3.5, 1: 1.8V (1.65-2.5V)
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+  
+  };
+
+uint8_t u8x8_d_ld7032_128x36(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+    {
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ld7032_128x36_display_info);
+      return 1;
+    }
+
+    if ( msg ==U8X8_MSG_DISPLAY_INIT )
+    {
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_128x36_init_seq);    
+      return 1;
+    }
+    
+    return u8x8_d_ld7032_generic(u8x8, msg, arg_int, arg_ptr);
+}
