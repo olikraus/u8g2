@@ -3,7 +3,7 @@
 
 u8g2_t u8g2;
 
-const char *fb_dev = "/dev/fb2";
+const char *fb_dev = "/dev/fb0";
 
 int main(int argc, char **argv)
 {
