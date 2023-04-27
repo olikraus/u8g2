@@ -818,6 +818,7 @@ uint8_t u8x8_ConnectBitmapToU8x8(u8x8_t *u8x8);
 /*==========================================*/
 /* u8x8_d_framebuffer.c */
 void u8x8_SetupLinuxFb(u8x8_t *u8x8, int fbfd);
+void u8x8_LinuxFbSetActiveColor(uint32_t color);
 
 /*==========================================*/
 /* u8x8_d_utf8.c */

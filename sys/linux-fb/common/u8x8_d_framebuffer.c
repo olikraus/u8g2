@@ -1,8 +1,8 @@
 /*
 
-  u8x8_d_framebuffer.c
+  u8x8_framebuffer.c
   
-  a linux framebuffer port
+  a framebuffer device
 
 */
 
@@ -28,6 +28,7 @@ struct _u8x8_linuxfb_struct
 	uint8_t *u8x8_buf;
 	uint8_t *u8g2_buf;
 	uint8_t *fbp;
+	uint32_t active_color;
 };
 
 typedef struct _u8x8_linuxfb_struct u8x8_linuxfb_t;
@@ -63,6 +64,7 @@ uint8_t u8x8_LinuxFb_alloc(int fbfd, u8x8_linuxfb_t *fb)
 		free(fb->u8x8_buf);
 
 	fb->fbfd = fbfd;
+	fb->active_color = 0xFFFFFF;
 	tile_width = (fb->vinfo.xres+7)/8;
 	tile_height = (fb->vinfo.yres+7)/8;
 
@@ -88,8 +90,8 @@ uint8_t u8x8_LinuxFb_alloc(int fbfd, u8x8_linuxfb_t *fb)
 void u8x8_LinuxFb_DrawTiles(u8x8_linuxfb_t *fb, uint16_t tx, uint16_t ty, uint8_t tile_cnt, uint8_t *tile_ptr)
 {
 	uint8_t byte;
-	
 	memset(fb->u8x8_buf,0x00,8*tile_cnt);
+
 	for(int i=0; i < tile_cnt * 8; i++){
 		byte = *tile_ptr++;
 		for(int bit=0; bit < 8;bit++){
@@ -110,7 +112,7 @@ void u8x8_LinuxFb_DrawTiles(u8x8_linuxfb_t *fb, uint16_t tx, uint16_t ty, uint8_
 			for(int y=0; y<8;y++){
 				for(int x=0; x<8*tile_cnt;x++){
 					if(fb->u8x8_buf[(x/8) + (y*tile_cnt) ] & (1 << x%8))
-						pixel = 0xFFFFFF;
+						pixel = fb->active_color;
 					else
 						pixel = 0x000000;
 					location = (x + fb->vinfo.xoffset) + ((ty*8)+y + fb->vinfo.yoffset) * fb->finfo.line_length / 4;
@@ -247,4 +249,9 @@ void u8g2_SetupLinuxFb(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb, const char *fb_de
 
 	/* configure u8g2 in full buffer mode */
 	u8g2_SetupBuffer(u8g2, u8x8_linuxfb.u8g2_buf, (u8x8_libuxfb_info.pixel_height+7)/8, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+}
+
+void u8x8_LinuxFbSetActiveColor(uint32_t color)
+{
+	u8x8_linuxfb.active_color = color;
 }
