@@ -816,6 +816,10 @@ void u8x8_SetupBitmap(u8x8_t *u8x8, uint16_t pixel_width, uint16_t pixel_height)
 uint8_t u8x8_ConnectBitmapToU8x8(u8x8_t *u8x8);
 
 /*==========================================*/
+/* u8x8_d_framebuffer.c */
+void u8x8_SetupLinuxFb(u8x8_t *u8x8, int fbfd);
+
+/*==========================================*/
 /* u8x8_d_utf8.c */
 void u8x8_Setup_Utf8(u8x8_t *u8x8);	/* stdout UTF-8 display */
 void utf8_show(void);		/* show content of UTF-8 frame buffer */
