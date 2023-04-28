@@ -104,6 +104,26 @@ void u8x8_LinuxFb_DrawTiles(u8x8_linuxfb_t *fb, uint16_t tx, uint16_t ty, uint8_
 		case 1:
 			memcpy(fb->fbp+ty*8*tile_cnt, fb->u8x8_buf, tile_cnt*8);
 			break;
+		case 16:{
+			uint16_t pixel;
+			uint16_t *fbp16 = (uint16_t *)fb->fbp;
+			long int location = 0;
+
+			uint8_t b = (fb->active_color & 0x0000FF) >> 0;
+			uint8_t g = (fb->active_color & 0x00FF00) >> 8;
+			uint8_t r = (fb->active_color & 0xFF0000) >> 16;
+
+			for(int y=0; y<8;y++){
+				for(int x=0; x<8*tile_cnt;x++){
+					if(fb->u8x8_buf[(x/8) + (y*tile_cnt) ] & (1 << x%8))
+						pixel =  r<<11 | g << 5 | b;
+					else
+						pixel = 0x000000;
+					location = (x + fb->vinfo.xoffset) + ((ty*8)+y + fb->vinfo.yoffset) * fb->finfo.line_length / 2;
+					memcpy(&fbp16[location], &pixel, sizeof(pixel));
+				}
+			}
+		}break;
 		case 32:{
 			uint32_t pixel;
 			uint32_t *fbp32 = (uint32_t *)fb->fbp;
