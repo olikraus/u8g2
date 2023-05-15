@@ -881,7 +881,11 @@ extern "C" uint8_t u8x8_byte_arduino_3wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uin
 extern "C" uint8_t u8x8_byte_arduino_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
 #ifdef U8X8_HAVE_HW_SPI
+	
+#if !defined(ESP_PLATFORM)
   uint8_t *data;
+#endif
+
   uint8_t internal_spi_mode;
  
   switch(msg)
