@@ -350,7 +350,6 @@ uint8_t u8x8_d_ra8835_320x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   return 1;
 }
 
-
 /*=============================================*/
 /*
 https://github.com/olikraus/u8g2/issues/1908
@@ -437,4 +436,98 @@ uint8_t u8x8_d_sed1330_256x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
   }
   return 1;
 }
+
+
+
+
+
+
+
+/*=============================================*/
+
+/*
+https://github.com/olikraus/u8g2/issues/1086
+*/
+
+static const u8x8_display_info_t u8x8_sed1330_320x200_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 30,	/* G242CX Datasheet p5 */
+  /* pre_chip_disable_wait_ns = */ 10,	/* G242CX Datasheet p5 */
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 6, 
+  /* sda_setup_time_ns = */ 20,		
+  /* sck_pulse_width_ns = */  140,	
+  /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 120,		/* G242CX Datasheet p5 */
+  /* write_pulse_width_ns = */ 220,		/* G242CX Datasheet p5 */
+  /* tile_width = */ 40,
+  /* tile_height = */ 25,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 320,
+  /* pixel_height = */ 200
+};
+
+static const uint8_t u8x8_d_sed1330_320x200_init_seq[] = {
+  U8X8_DLY(100),
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_DLY(100),
+
+  /* system init command, see also u8x8_d_sed1330_powersave0_seq */
+  U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, where 0x030 is a wild guess */
+  /* system init has total 8 parameters, so 7 more are here */
+  U8X8_A(0x087),				/* no idea here... WF (topmost bit) is set to one because it is suggested in the datasheet, lowest 3 bits refer to text mode only */
+  U8X8_A(0x007),				/* FY: height of a char+1, does not matter here (hopefully), because we use graphics mode only */
+  U8X8_A(0x027),	/* 40-1 */		/* C/R: this could be the number of horizontal bytes - 1 (Value confirmed with app notes p41) */
+  U8X8_A(0x039),					/* TC/R: According to app notes fOSC=6Mhz fFF=70Hz --> TC/R = 74d*/
+  U8X8_A(0x0c7),				/* 0xc7=199, L/F: Lines per frame - 1, probably this is the height of the display - 1 (value confirmed with app notes p41)*/
+  U8X8_A(0x028),				/* Low byte of the virtual screen size. (Value confirmed with app notes p41)   */
+  U8X8_A(0),					/* High byte of the virtual screen size, see also section 9.1.2 */
+	
+  U8X8_C(0x044),				/* SCROLL */
+  U8X8_A(0x000),				
+  U8X8_A(0x000),				
+  U8X8_A(0x0ef),
+  U8X8_A(0x0b0),
+  U8X8_A(0x004),
+  U8X8_A(0x0ef),
+  U8X8_A(0x000),
+  U8X8_A(0x000),
+  U8X8_A(0x000),
+  U8X8_A(0x000),
+	
+  U8X8_CA(0x05a, 0),			/* HDOT SCR: Horizontal dotwise scroll... set to 0 */
+	
+  U8X8_CA(0x05b, 0x0c),			/* OVLAY: 2-layer, all graphics, OR between layer 1 and 2 */
+
+
+  U8X8_DLY(100),
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_DLY(100),
+};
+
+
+
+uint8_t u8x8_d_sed1330_320x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sed1330_320x200_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sed1330_320x200_init_seq);
+      break;
+    default:
+      return u8x8_d_sed1330_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
 
