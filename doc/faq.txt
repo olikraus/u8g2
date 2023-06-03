@@ -138,11 +138,19 @@ Q: What is the meaning of the F/1/2 in the U8g2 constructor name?
 A: "F" means full buffer mode. The entire display is rendered in RAM. Use
 "sendBuffer" to transfer this RAM buffer to the display. "1"  and "2" constructors
 will store one or two pages of the display in RAM only.
-Use the firstPage/nextPage  loop to create the image for the display. 
+Use the firstPage/nextPage loop to create the image for the display. 
 There are also two different sets of examples for both modes.
 Conclusion: 
 "F" mode: Faster, but requires more RAM
 "1"/"2" modes: Use lesser RAM, but slower drawing speed.
+
+Q: Data is written only to the first 8 lines of the display. Why?
+A: U8g2 page mode constructor ("1" mode, see previous question) is used
+along with the "sendBuffer" command. This is a mistake and will not work.
+Solutions:
+1. Change the constructor to full buffer mode: Replace "_1_" by "_F_"
+2. Replace "sendBuffer" with the firstPage/nextPage loop
+See also: https://github.com/olikraus/u8g2/wiki/u8g2setupcpp#constructor-name
 
 Q: What is the meaning of "SW"/"HW" in the U8g2 constructor name?
 A: "SW" means, that the protocol is emulated by software. For example 
