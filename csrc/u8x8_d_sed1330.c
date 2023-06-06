@@ -398,7 +398,7 @@ static const uint8_t u8x8_d_sed1330_256x128_init_seq[] = {
   U8X8_A(0x020),		/* 32 */	/* Low byte of the virtual screen size. (Value confirmed with app notes p41)   */
   U8X8_A(0),					/* High byte of the virtual screen size, see also section 9.1.2 */
 	
-  U8X8_C(0x044),				/* SCROLL */
+  U8X8_C(0x044),				/* SCROLL, 11 Bytes in total */
   U8X8_A(0x000),				
   U8X8_A(0x000),				
   U8X8_A(0x080),
@@ -481,26 +481,27 @@ static const uint8_t u8x8_d_sed1330_320x200_init_seq[] = {
   /* system init command, see also u8x8_d_sed1330_powersave0_seq */
   U8X8_CA(0x040, 0x030),		/* sys init (0x040) with one arg, where 0x030 is a wild guess */
   /* system init has total 8 parameters, so 7 more are here */
+	
   U8X8_A(0x087),				/* no idea here... WF (topmost bit) is set to one because it is suggested in the datasheet, lowest 3 bits refer to text mode only */
   U8X8_A(0x007),				/* FY: height of a char+1, does not matter here (hopefully), because we use graphics mode only */
   U8X8_A(0x027),	/* 40-1 */		/* C/R: this could be the number of horizontal bytes - 1 (Value confirmed with app notes p41) */
-  U8X8_A(0x039),					/* TC/R: According to app notes fOSC=6Mhz fFF=70Hz --> TC/R = 74d*/
+  U8X8_A(0x02F),				/* TC/R: According to app notes fOSC=6Mhz fFF=70Hz --> TC/R = 74d*/
   U8X8_A(0x0c7),				/* 0xc7=199, L/F: Lines per frame - 1, probably this is the height of the display - 1 (value confirmed with app notes p41)*/
   U8X8_A(0x028),				/* Low byte of the virtual screen size. (Value confirmed with app notes p41)   */
-  U8X8_A(0),					/* High byte of the virtual screen size, see also section 9.1.2 */
+  U8X8_A(0x000),				/* High byte of the virtual screen size, see also section 9.1.2 */
 	
-  U8X8_C(0x044),				/* SCROLL */
-  U8X8_A(0x000),				
-  U8X8_A(0x000),				
-  U8X8_A(0x0ef),
-  U8X8_A(0x0b0),
-  U8X8_A(0x004),
-  U8X8_A(0x0ef),
+  U8X8_C(0x044),				/* SCROLL, 11 Bytes in total */
+  U8X8_A(0x000),				/* Screen 1 Start Address (Low) = 00H */
+  U8X8_A(0x000),				/* Screen 1 Start Address (High) = 00H */
+  U8X8_A(0x0c7),                                /* Screen Layer 1 Number of lines = 200d */ 
+  U8X8_A(0x0b0),                                /* Screen 2 Start Address (Low) = 00H */
+  U8X8_A(0x005),                                /* Screen 2 Start Address (High) = 00H */
+  U8X8_A(0x0c7),                                /* Screen Layer 2 Number of lines = 200d */
+  U8X8_C(0x04C),                                /* Cursor Direction 0,0 Shift Direction = Right */
   U8X8_A(0x000),
   U8X8_A(0x000),
   U8X8_A(0x000),
-  U8X8_A(0x000),
-	
+
   U8X8_CA(0x05a, 0),			/* HDOT SCR: Horizontal dotwise scroll... set to 0 */
 	
   U8X8_CA(0x05b, 0x0c),			/* OVLAY: 2-layer, all graphics, OR between layer 1 and 2 */
