@@ -402,7 +402,7 @@ uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg)
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      u8g2_DrawStr(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), ui->text);
+      u8g2_DrawUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), ui->text);
       break;
     case MUIF_MSG_FORM_START:
       break;
