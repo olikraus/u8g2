@@ -479,6 +479,9 @@ void drawFile(u8g2_int_t x, u8g2_int_t y, const char *filename) {
       len = w;                // len will contain the horizontal number of pixel
       mask = 1;
       b = myFile.read();      // load the first 8 pixel into "b"
+      
+      /* The following code has an issue with some values for "w", see issue 2179 */
+      /*
       while(len > 0) {        // draw all pixel of one line
         if ( b & mask ) {     // check one pixel
           u8g2.setDrawColor(1);
@@ -496,6 +499,30 @@ void drawFile(u8g2_int_t x, u8g2_int_t y, const char *filename) {
         }
         len--;                // decrease the horizontal width (remaining pixel)
       }
+      */
+      
+      /* new code */
+      
+      for(;;) {        // draw all pixel of one line
+        if ( b & mask ) {     // check one pixel
+          u8g2.setDrawColor(1);
+          u8g2.drawPixel(xpos,y);
+        } else {
+          u8g2.setDrawColor(0);
+          u8g2.drawPixel(xpos,y);
+        }
+        xpos++;               // calculate next x pos of the pixel
+        mask <<= 1;           // update the mask
+        len--;                // decrease the horizontal width (remaining pixel)
+        if ( len == 0 )    // check if row is finished
+            break;
+        if ( mask == 0 )
+        {
+          mask = 1;           // revert mask and ...
+          b = myFile.read();  // ... load the next 8 pixel values from the file
+        }
+      }      
+      
       y++;                    // goto next line
       h--;                    // decrease the number of remaining lines
     }
