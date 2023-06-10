@@ -913,7 +913,7 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg)
       {
         (*value)++;
         if ( *value > max )
-          *value = min;
+          *value = max;
         return 1;
       }
       break;
@@ -921,7 +921,7 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg)
       if ( ui->is_mud )
       {
         if ( *value <= min )
-          *value = max;
+          *value = min;
         else
           (*value)--;
         return 1;
@@ -938,12 +938,13 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags) MUI_NOINLINE;
 static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  mui_u8g2_u8_min_max_step_width_t *vmms= (mui_u8g2_u8_min_max_step_width_t *)muif_get_data(ui->uif);
   char buf[4] = "999";
   char *s = buf;
   uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
+  uint8_t width = mui_u8g2_u8mms_get_width(vmms);
   uint8_t scale = 0;
   //uint8_t step = mui_u8g2_u8mms_get_step(vmms);
   uint8_t mms_flags = mui_u8g2_u8mms_get_flags(vmms);
@@ -974,10 +975,11 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
   }
   //mui_u8g2_draw_button_utf(ui, mui_u8g2_get_pi_flags(ui), u8g2_GetStrWidth(u8g2, s)+1, 1, MUI_U8G2_V_PADDING, u8x8_u8toa(*value, cnt));
   //mui_u8g2_draw_button_pi(ui, u8g2_GetStrWidth(u8g2, s)+1, 1, u8x8_u8toa(*value, cnt));
+  uint8_t box_width = (*value)* width / max;
+  w = (width<<scale)+2;
   
-  w += (max<<scale)+2;
   u8g2_DrawFrame( u8g2, x, mui_get_y(ui)-height, w, height);
-  u8g2_DrawBox( u8g2, x+1, mui_get_y(ui)-height+1, (*value)<<scale, height-2);
+  u8g2_DrawBox( u8g2, x+1, mui_get_y(ui)-height+1, (box_width)<<scale, height-2);
   if ( mms_flags & MUI_MMS_SHOW_VALUE )
   {
     w += 2;
@@ -995,7 +997,7 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
 
 uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  mui_u8g2_u8_min_max_step_width_t *vmms= (mui_u8g2_u8_min_max_step_width_t *)muif_get_data(ui->uif);
   uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
@@ -1032,7 +1034,7 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
 
 uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  mui_u8g2_u8_min_max_step_width_t *vmms= (mui_u8g2_u8_min_max_step_width_t *)muif_get_data(ui->uif);
   uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
@@ -1085,7 +1087,7 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
 
 uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  mui_u8g2_u8_min_max_step_width_t *vmms= (mui_u8g2_u8_min_max_step_width_t *)muif_get_data(ui->uif);
   uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
@@ -1121,7 +1123,7 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
 
 uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  mui_u8g2_u8_min_max_step_width_t *vmms= (mui_u8g2_u8_min_max_step_width_t *)muif_get_data(ui->uif);
   uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
@@ -1154,7 +1156,7 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
       {
         (*value)+=step;
         if ( *value > max )
-          *value = min;
+          *value = max;
         return 1;
       }
       break;
@@ -1162,7 +1164,7 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
       if ( ui->is_mud )
       {
         if ( *value <= min || *value > max)
-          *value = max;
+          *value = min;
         else
           (*value)-=step;
         return 1;

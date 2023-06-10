@@ -96,16 +96,18 @@ typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
 #endif
 
 
-struct mui_u8g2_u8_min_max_step_struct
+struct mui_u8g2_u8_min_max_step_width_struct
 {
   uint8_t *value;
   uint8_t min;
   uint8_t max;
   uint8_t step;
+  uint8_t width;
   uint8_t flags;
 } MUI_PROGMEM;
 
-typedef const struct mui_u8g2_u8_min_max_step_struct mui_u8g2_u8_min_max_step_t;
+typedef const struct mui_u8g2_u8_min_max_step_width_struct mui_u8g2_u8_min_max_step_width_t;
+
 
 #if defined(__GNUC__) && defined(__AVR__)
 #  define mui_u8g2_u8mms_get_step(u8mm) mui_pgm_read(&((u8mm)->step))
@@ -119,6 +121,7 @@ typedef const struct mui_u8g2_u8_min_max_step_struct mui_u8g2_u8_min_max_step_t;
 #  define mui_u8g2_u8mms_get_min(u8mm) ((u8mm)->min)
 #  define mui_u8g2_u8mms_get_max(u8mm) ((u8mm)->max)
 #  define mui_u8g2_u8mms_get_valptr(u8mm) ((u8mm)->value)
+#  define mui_u8g2_u8mms_get_width(u8mm) ((u8mm)->width)
 #endif
 
 
@@ -216,10 +219,11 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
 /*===== data = mui_u8g2_u8_min_max_step_t*  =====*/
 
 /* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
-#define MUIF_U8G2_U8_MIN_MAX_STEP(id, valptr, min, max, step, flags, muif) \
+#define MUIF_U8G2_U8_MIN_MAX_STEP_WIDTH(id, valptr, min, max, step, width, flags, muif) \
   MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
-  (void *)((mui_u8g2_u8_min_max_step_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (flags) }}), \
+  (void *)((mui_u8g2_u8_min_max_step_width_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (width) MUI_U8G2_COMMA (flags) }}), \
   (muif))
+
   
 #define MUI_MMS_2X_BAR 0x01
 #define MUI_MMS_4X_BAR 0x02
