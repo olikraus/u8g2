@@ -266,6 +266,17 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg);
 
 
+#define MUIF_U8G2_U8_MIN_MAX_STEP_WIDTH(id, valptr, min, max, step, width, flags, muif) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u8_min_max_step_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (flags) MUI_U8G2_COMMA (width) }}), \
+  (muif))
+  
+
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mud_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mse_pf(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mud_pf(mui_t *ui, uint8_t msg);
+
 
 
 /*===== data = mui_u8g2_list_t*  =====*/

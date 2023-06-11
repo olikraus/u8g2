@@ -934,8 +934,126 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg)
 
 /*===============================================================================*/
 
-static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags) MUI_NOINLINE;
-static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
+static uint8_t mui_u8g2_u8_bar_mse_msg_handler(mui_t *ui, uint8_t msg) MUI_NOINLINE;
+static uint8_t mui_u8g2_u8_bar_mse_msg_handler(mui_t *ui, uint8_t msg)
+{
+  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
+  uint8_t min = mui_u8g2_u8mms_get_min(vmms);
+  uint8_t max = mui_u8g2_u8mms_get_max(vmms);
+  uint8_t step = mui_u8g2_u8mms_get_step(vmms);
+  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
+
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+      (*value)+=step;
+      if ( *value > max )
+      {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = max;
+          else
+            *value = min;
+      }
+      break;
+    case MUIF_MSG_VALUE_DECREMENT:
+      if ( *value >= min+step ) 
+        (*value)-=step; 
+      else 
+      {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = min;
+          else
+            *value = max;
+      }
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+  }
+  return 0;
+}
+
+static uint8_t mui_u8g2_u8_bar_mud_msg_handler(mui_t *ui, uint8_t msg) MUI_NOINLINE;
+static uint8_t mui_u8g2_u8_bar_mud_msg_handler(mui_t *ui, uint8_t msg)
+{
+  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
+  uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
+  uint8_t min = mui_u8g2_u8mms_get_min(vmms);
+  uint8_t max = mui_u8g2_u8mms_get_max(vmms);
+  uint8_t step = mui_u8g2_u8mms_get_step(vmms);
+  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      break;
+    case MUIF_MSG_FORM_START:
+      break;
+    case MUIF_MSG_FORM_END:
+      break;
+    case MUIF_MSG_CURSOR_ENTER:
+      break;
+    case MUIF_MSG_CURSOR_SELECT:
+    case MUIF_MSG_VALUE_INCREMENT:
+    case MUIF_MSG_VALUE_DECREMENT:
+      /* toggle between normal mode and capture next/prev mode */
+      ui->is_mud = !ui->is_mud;
+      break;
+    case MUIF_MSG_CURSOR_LEAVE:
+      break;
+    case MUIF_MSG_TOUCH_DOWN:
+      break;
+    case MUIF_MSG_TOUCH_UP:
+      break;
+    case MUIF_MSG_EVENT_NEXT:
+      if ( ui->is_mud )
+      {
+        (*value)+=step;
+        if ( *value > max )
+        {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = max;
+          else
+            *value = min;
+        }
+        return 1;
+      }
+      break;
+    case MUIF_MSG_EVENT_PREV:
+      if ( ui->is_mud )
+      {
+        if ( *value <= min || *value > max)
+        {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = min;
+          else
+            *value = max;
+        }
+        else
+          (*value)-=step;
+        return 1;
+      }
+      break;
+  }
+  return 0;
+}
+
+
+
+static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags, uint8_t is_fixed_width) MUI_NOINLINE;
+static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags, uint8_t is_fixed_width)
 {
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
@@ -952,6 +1070,7 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
   int8_t backup_descent;
   u8g2_uint_t x = mui_get_x(ui);
   u8g2_uint_t w = 0;
+  u8g2_uint_t v;  // the calculated pixel value
   
   if ( mms_flags & MUI_MMS_2X_BAR )
     scale |= 1;
@@ -972,12 +1091,24 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
     s++;
     cnt--;
   }
-  //mui_u8g2_draw_button_utf(ui, mui_u8g2_get_pi_flags(ui), u8g2_GetStrWidth(u8g2, s)+1, 1, MUI_U8G2_V_PADDING, u8x8_u8toa(*value, cnt));
-  //mui_u8g2_draw_button_pi(ui, u8g2_GetStrWidth(u8g2, s)+1, 1, u8x8_u8toa(*value, cnt));
+
+  if ( is_fixed_width == 0 )
+  {
+    w += (max<<scale);          // total width of the bar is derived from the max value
+    v = (*value)<<scale;          // pixel position for the current value
+  }
+  else
+  {
+    u8g2_uint_t width = mui_u8g2_u8mms_get_width(vmms);
+    
+    w += (width<<scale);          // total width of bar is defined by the width argument
+    v = ((u8g2_long_t)(*value) * (u8g2_long_t)(width<<scale)) / (u8g2_long_t)max;    // u8g2_long_t is int32_t if 16 bit mode is enabled
+  }
+
+  w += 2;                               // add gap for the frame
   
-  w += (max<<scale)+2;
   u8g2_DrawFrame( u8g2, x, mui_get_y(ui)-height, w, height);
-  u8g2_DrawBox( u8g2, x+1, mui_get_y(ui)-height+1, (*value)<<scale, height-2);
+  u8g2_DrawBox( u8g2, x+1, mui_get_y(ui)-height+1, v, height-2);
   if ( mms_flags & MUI_MMS_SHOW_VALUE )
   {
     w += 2;
@@ -988,59 +1119,20 @@ static void mui_u8g2_u8_bar_draw_wm(mui_t *ui, uint8_t flags)
   backup_descent = u8g2->font_ref_descent;
   u8g2->font_ref_descent = 0; /* hmm... that's a low level hack so that DrawButtonFrame ignores the descent value of the font */
   u8g2_DrawButtonFrame(u8g2, x, mui_get_y(ui), flags, w, 1, 1);
-  u8g2->font_ref_descent = backup_descent;
-  
+  u8g2->font_ref_descent = backup_descent;  
 }
 
+// #define MUIF_U8G2_U8_MIN_MAX_STEP(id, valptr, min, max, step, flags, muif)
 
 uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
-  uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
-  uint8_t min = mui_u8g2_u8mms_get_min(vmms);
-  uint8_t max = mui_u8g2_u8mms_get_max(vmms);
-  uint8_t step = mui_u8g2_u8mms_get_step(vmms);
-  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
-
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pi_flags(ui));
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pi_flags(ui), 0);
       break;
-    case MUIF_MSG_FORM_START:
-      break;
-    case MUIF_MSG_FORM_END:
-      break;
-    case MUIF_MSG_CURSOR_ENTER:
-      break;
-    case MUIF_MSG_CURSOR_SELECT:
-    case MUIF_MSG_VALUE_INCREMENT:
-      (*value)+=step;
-      if ( *value > max )
-      {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = max;
-          else
-            *value = min;
-      }
-      break;
-    case MUIF_MSG_VALUE_DECREMENT:
-      if ( *value >= min+step ) 
-        (*value)-=step; 
-      else 
-      {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = min;
-          else
-            *value = max;
-      }
-      break;
-    case MUIF_MSG_CURSOR_LEAVE:
-      break;
-    case MUIF_MSG_TOUCH_DOWN:
-      break;
-    case MUIF_MSG_TOUCH_UP:
-      break;
+    default:
+      return mui_u8g2_u8_bar_mse_msg_handler(ui, msg);
   }
   return 0;
 }
@@ -1048,182 +1140,102 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
 
 uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
-  uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
-  uint8_t min = mui_u8g2_u8mms_get_min(vmms);
-  uint8_t max = mui_u8g2_u8mms_get_max(vmms);
-  uint8_t step = mui_u8g2_u8mms_get_step(vmms);
-  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pi_flags(ui));
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pi_flags(ui), 0);
       break;
-    case MUIF_MSG_FORM_START:
-      break;
-    case MUIF_MSG_FORM_END:
-      break;
-    case MUIF_MSG_CURSOR_ENTER:
-      break;
-    case MUIF_MSG_CURSOR_SELECT:
-    case MUIF_MSG_VALUE_INCREMENT:
-    case MUIF_MSG_VALUE_DECREMENT:
-      /* toggle between normal mode and capture next/prev mode */
-      ui->is_mud = !ui->is_mud;
-      break;
-    case MUIF_MSG_CURSOR_LEAVE:
-      break;
-    case MUIF_MSG_TOUCH_DOWN:
-      break;
-    case MUIF_MSG_TOUCH_UP:
-      break;
-    case MUIF_MSG_EVENT_NEXT:
-      if ( ui->is_mud )
-      {
-        (*value)+=step;
-        if ( *value > max )
-        {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = max;
-          else
-            *value = min;
-        }
-        return 1;
-      }
-      break;
-    case MUIF_MSG_EVENT_PREV:
-      if ( ui->is_mud )
-      {
-        if ( *value <= min || *value > max)
-        {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = min;
-          else
-            *value = max;
-        }
-        else
-          (*value)-=step;
-        return 1;
-      }
-      break;
+    default:
+      return mui_u8g2_u8_bar_mud_msg_handler(ui, msg);
   }
   return 0;
 }
 
 uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
-  uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
-  uint8_t min = mui_u8g2_u8mms_get_min(vmms);
-  uint8_t max = mui_u8g2_u8mms_get_max(vmms);
-  uint8_t step = mui_u8g2_u8mms_get_step(vmms);
-  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pf_flags(ui));
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pf_flags(ui), 0);
       break;
-    case MUIF_MSG_FORM_START:
-      break;
-    case MUIF_MSG_FORM_END:
-      break;
-    case MUIF_MSG_CURSOR_ENTER:
-      break;
-    case MUIF_MSG_CURSOR_SELECT:
-    case MUIF_MSG_VALUE_INCREMENT:
-      (*value)+=step;
-      if ( *value > max )
-      {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = max;
-          else
-            *value = min;
-      }
-      break;
-    case MUIF_MSG_VALUE_DECREMENT:
-      if ( *value >= min+step ) 
-        (*value)-=step; 
-      else 
-      {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = min;
-          else
-            *value = max;
-      }
-      break;
-    case MUIF_MSG_CURSOR_LEAVE:
-      break;
-    case MUIF_MSG_TOUCH_DOWN:
-      break;
-    case MUIF_MSG_TOUCH_UP:
-      break;
+    default:
+      return mui_u8g2_u8_bar_mse_msg_handler(ui, msg);
   }
   return 0;
 }
 
 uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
 {
-  mui_u8g2_u8_min_max_step_t *vmms= (mui_u8g2_u8_min_max_step_t *)muif_get_data(ui->uif);
-  uint8_t *value = mui_u8g2_u8mms_get_valptr(vmms);
-  uint8_t min = mui_u8g2_u8mms_get_min(vmms);
-  uint8_t max = mui_u8g2_u8mms_get_max(vmms);
-  uint8_t step = mui_u8g2_u8mms_get_step(vmms);
-  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pf_flags(ui));
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pf_flags(ui), 0);
       break;
-    case MUIF_MSG_FORM_START:
-      break;
-    case MUIF_MSG_FORM_END:
-      break;
-    case MUIF_MSG_CURSOR_ENTER:
-      break;
-    case MUIF_MSG_CURSOR_SELECT:
-    case MUIF_MSG_VALUE_INCREMENT:
-    case MUIF_MSG_VALUE_DECREMENT:
-      /* toggle between normal mode and capture next/prev mode */
-      ui->is_mud = !ui->is_mud;
-      break;
-    case MUIF_MSG_CURSOR_LEAVE:
-      break;
-    case MUIF_MSG_TOUCH_DOWN:
-      break;
-    case MUIF_MSG_TOUCH_UP:
-      break;
-    case MUIF_MSG_EVENT_NEXT:
-      if ( ui->is_mud )
-      {
-        (*value)+=step;
-        if ( *value > max )
-        {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = max;
-          else
-            *value = min;
-        }
-        return 1;
-      }
-      break;
-    case MUIF_MSG_EVENT_PREV:
-      if ( ui->is_mud )
-      {
-        if ( *value <= min || *value > max)
-        {
-          if ( flags & MUI_MMS_NO_WRAP )
-            *value = min;
-          else
-            *value = max;
-        }
-        else
-          (*value)-=step;
-        return 1;
-      }
-      break;
+    default:
+      return mui_u8g2_u8_bar_mud_msg_handler(ui, msg);
   }
   return 0;
 }
+
+
+
+// #define MUIF_U8G2_U8_MIN_MAX_STEP_WIDTH(id, valptr, min, max, step, width, flags, muif) 
+
+
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pi_flags(ui), 1);
+      break;
+    default:
+      return mui_u8g2_u8_bar_mse_msg_handler(ui, msg);
+  }
+  return 0;
+}
+
+
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pi_flags(ui), 1);
+      break;
+    default:
+      return mui_u8g2_u8_bar_mud_msg_handler(ui, msg);
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pf_flags(ui), 1);
+      break;
+    default:
+      return mui_u8g2_u8_bar_mse_msg_handler(ui, msg);
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_u8_fixed_width_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
+{
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      mui_u8g2_u8_bar_draw_wm(ui, mui_u8g2_get_pf_flags(ui), 1);
+      break;
+    default:
+      return mui_u8g2_u8_bar_mud_msg_handler(ui, msg);
+  }
+  return 0;
+}
+
+
 
 /*===============================================================================*/
 
