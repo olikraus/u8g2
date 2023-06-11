@@ -316,3 +316,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix for ESP32 HW SPI Pin Remapping (issue 377, PR 2123)
   * Bugfix for LoadFromSD examle (issue 2179)
   * Changed MUI_LABEL to support UTF8 (issue 2196)
+  * Compiler Warning Cleanup for polygon draw (issue 1999, PR 2101)

@@ -33,6 +33,33 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+  Reference Manual:
+    https://github.com/olikraus/u8g2/wiki/muiref
+
+  MUIF_U8G2_LABEL()  
+    replacement for MUIF_LABEL(mui_u8g2_draw_text), 
+    used by MUI_LABEL(x,y,"text")
+    Supports UTF8
+    
+  MUIF_U8G2_FONT_STYLE(n, font) 
+    A special u8g2 style function, which replaces MUIF_STYLE, but restricts the style change to the
+    specific font argument (however, this should be good enough in most cases).
+    As usual, the style "n" can be activated with MUI_STYLE(n) in FDS.
+    Example:
+      muif_t muif_list[]  MUI_PROGMEM = {  
+          MUIF_U8G2_LABEL(),
+          MUIF_U8G2_FONT_STYLE(0, u8g2_font_5x8_tr) 
+        };
+        fds_t fds[] MUI_PROGMEM  =
+        MUI_FORM(1)
+        MUI_STYLE(0)
+        MUI_LABEL(5,12, "5x8 Font")
+        ;
+
+    
+
+
+
 */
 
 #ifndef MUI_U8G2_H
@@ -119,6 +146,35 @@ typedef const struct mui_u8g2_u8_min_max_step_struct mui_u8g2_u8_min_max_step_t;
 #  define mui_u8g2_u8mms_get_min(u8mm) ((u8mm)->min)
 #  define mui_u8g2_u8mms_get_max(u8mm) ((u8mm)->max)
 #  define mui_u8g2_u8mms_get_valptr(u8mm) ((u8mm)->value)
+#endif
+
+
+struct mui_u8g2_u8_min_max_width_step_struct
+{
+  uint8_t *value;
+  uint8_t min;
+  uint8_t max;
+  uint8_t width;
+  uint8_t step;
+  uint8_t flags;
+} MUI_PROGMEM;
+
+typedef const struct mui_u8g2_u8_min_max_width_step_struct mui_u8g2_u8_min_max_width_step_t;
+
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_u8g2_u8mmws_get_step(u8mm) mui_pgm_read(&((u8mm)->step))
+#  define mui_u8g2_u8mmws_get_width(u8mm) mui_pgm_read(&((u8mm)->width))
+#  define mui_u8g2_u8mmws_get_flags(u8mm) mui_pgm_read(&((u8mm)->flags))
+#  define mui_u8g2_u8mmws_get_min(u8mm) mui_pgm_read(&((u8mm)->min))
+#  define mui_u8g2_u8mmws_get_max(u8mm) mui_pgm_read(&((u8mm)->max))
+#  define mui_u8g2_u8mmws_get_valptr(u8mm) ((uint8_t *)mui_pgm_wread(&((u8mm)->value)))
+#else
+#  define mui_u8g2_u8mmws_get_step(u8mm) ((u8mm)->step)
+#  define mui_u8g2_u8mmws_get_width(u8mm) ((u8mm)->width)
+#  define mui_u8g2_u8mmws_get_flags(u8mm) ((u8mm)->flags)
+#  define mui_u8g2_u8mmws_get_min(u8mm) ((u8mm)->min)
+#  define mui_u8g2_u8mmws_get_max(u8mm) ((u8mm)->max)
+#  define mui_u8g2_u8mmws_get_valptr(u8mm) ((u8mm)->value)
 #endif
 
 
@@ -224,11 +280,17 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
 #define MUI_MMS_2X_BAR 0x01
 #define MUI_MMS_4X_BAR 0x02
 #define MUI_MMS_SHOW_VALUE 0x04
+#define MUI_MMS_NO_WRAP 0x08
+
 
 uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg);
+
+
+/*===== data = mui_u8g2_u8_min_max_width_step_t*  =====*/
+
 
 /*===== data = mui_u8g2_list_t*  =====*/
 /* similar to mui_u8g2_u8_opt_line, but u16 and dynamic list */

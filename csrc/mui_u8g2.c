@@ -1000,6 +1000,8 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
   uint8_t step = mui_u8g2_u8mms_get_step(vmms);
+  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
+
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -1014,10 +1016,24 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
     case MUIF_MSG_VALUE_INCREMENT:
       (*value)+=step;
-      if ( *value > max ) *value = min;
+      if ( *value > max )
+      {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = max;
+          else
+            *value = min;
+      }
       break;
     case MUIF_MSG_VALUE_DECREMENT:
-      if ( *value >= min+step ) (*value)-=step; else *value = max;
+      if ( *value >= min+step ) 
+        (*value)-=step; 
+      else 
+      {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = min;
+          else
+            *value = max;
+      }
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -1037,6 +1053,7 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
   uint8_t step = mui_u8g2_u8mms_get_step(vmms);
+  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -1065,7 +1082,12 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
       {
         (*value)+=step;
         if ( *value > max )
-          *value = min;
+        {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = max;
+          else
+            *value = min;
+        }
         return 1;
       }
       break;
@@ -1073,7 +1095,12 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pi(mui_t *ui, uint8_t msg)
       if ( ui->is_mud )
       {
         if ( *value <= min || *value > max)
-          *value = max;
+        {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = min;
+          else
+            *value = max;
+        }
         else
           (*value)-=step;
         return 1;
@@ -1090,6 +1117,7 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
   uint8_t step = mui_u8g2_u8mms_get_step(vmms);
+  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -1104,10 +1132,24 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
     case MUIF_MSG_VALUE_INCREMENT:
       (*value)+=step;
-      if ( *value > max ) *value = min;
+      if ( *value > max )
+      {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = max;
+          else
+            *value = min;
+      }
       break;
     case MUIF_MSG_VALUE_DECREMENT:
-      if ( *value >= min+step ) (*value)-=step; else *value = max;
+      if ( *value >= min+step ) 
+        (*value)-=step; 
+      else 
+      {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = min;
+          else
+            *value = max;
+      }
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -1126,6 +1168,7 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
   uint8_t min = mui_u8g2_u8mms_get_min(vmms);
   uint8_t max = mui_u8g2_u8mms_get_max(vmms);
   uint8_t step = mui_u8g2_u8mms_get_step(vmms);
+  uint8_t flags = mui_u8g2_u8mms_get_flags(vmms);
   switch(msg)
   {
     case MUIF_MSG_DRAW:
@@ -1154,7 +1197,12 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
       {
         (*value)+=step;
         if ( *value > max )
-          *value = min;
+        {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = max;
+          else
+            *value = min;
+        }
         return 1;
       }
       break;
@@ -1162,7 +1210,12 @@ uint8_t mui_u8g2_u8_bar_wm_mud_pf(mui_t *ui, uint8_t msg)
       if ( ui->is_mud )
       {
         if ( *value <= min || *value > max)
-          *value = max;
+        {
+          if ( flags & MUI_MMS_NO_WRAP )
+            *value = min;
+          else
+            *value = max;
+        }
         else
           (*value)-=step;
         return 1;
