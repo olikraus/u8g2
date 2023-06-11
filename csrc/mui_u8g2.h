@@ -224,6 +224,8 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
   (void *)((mui_u8g2_u8_min_max_step_width_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (width) MUI_U8G2_COMMA (flags) }}), \
   (muif))
 
+#define MUIF_U8G2_U8_MIN_MAX_STEP(id, valptr, min, max, step, flags, muif) \
+  MUIF_U8G2_U8_MIN_MAX_STEP_WIDTH(id, valptr, min, max, step, max, flags, muif)
   
 #define MUI_MMS_2X_BAR 0x01
 #define MUI_MMS_4X_BAR 0x02

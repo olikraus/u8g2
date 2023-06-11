@@ -1106,10 +1106,10 @@ uint8_t mui_u8g2_u8_bar_wm_mse_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
     case MUIF_MSG_VALUE_INCREMENT:
       (*value)+=step;
-      if ( *value > max ) *value = min;
+      if ( *value > max ) *value = max;
       break;
     case MUIF_MSG_VALUE_DECREMENT:
-      if ( *value >= min+step ) (*value)-=step; else *value = max;
+      if ( *value >= min+step ) (*value)-=step; else *value = min;
       break;
     case MUIF_MSG_CURSOR_LEAVE:
       break;
