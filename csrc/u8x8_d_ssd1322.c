@@ -374,7 +374,7 @@ static const uint8_t u8x8_d_ssd1322_240x128_init_seq[] = {
   U8X8_CA(0xa2, 0x00),			/* display offset, shift mapping ram counter */  
   U8X8_CA(0xa1, 0x00),			/* display start line */  
   //U8X8_CAA(0xa0, 0x14, 0x11),	/* Set Re-Map / Dual COM Line Mode */  
-  U8X8_CAA(0xa0, 0x06, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
+  U8X8_CAA(0xa0, 0x36, 0x011),	/* Set Re-Map / Dual COM Line Mode */  
   U8X8_CA(0xab, 0x01),			/* Enable Internal VDD Regulator */  
   U8X8_CAA(0xb4, 0xa0, 0x005|0x0fd),	/* Display Enhancement A */  
   U8X8_CA(0xc1, 0x9f),			/* contrast */  
