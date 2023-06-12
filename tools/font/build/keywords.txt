@@ -45,6 +45,7 @@ drawTriangle	KEYWORD2
 drawUTF8	KEYWORD2
 drawVLine	KEYWORD2
 drawXBM	KEYWORD2
+drawXBMP	KEYWORD2
 enableUTF8Print	KEYWORD2
 firstPage	KEYWORD2
 getAscent	KEYWORD2
