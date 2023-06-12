@@ -301,6 +301,7 @@ https://github.com/olikraus/u8g2 ChangeLog
 2023-xx-xx      v2.34.xx olikraus@gmail.com
   * SSD1327 ZJY M150 128x128 (issue 1960)
   * SSD1316 96x32 (issue 1938)
+  * SSD1322 240x128 (issue 2092)
   * SH1108 128x160 (issue 1998)
   * SSD1306 96x39 (issue 1959)
   * S1D15300 128x64, flip mode 1 not supported, (issue 2063)
@@ -317,3 +318,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix for LoadFromSD examle (issue 2179)
   * Changed MUI_LABEL to support UTF8 (issue 2196)
   * Compiler Warning Cleanup for polygon draw (issue 1999, PR 2101)
+  * Added MUI fixed width bar graph (issue 2200)

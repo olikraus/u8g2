@@ -1776,7 +1776,13 @@ uint8_t u8x8_d_st75256_jlx19296(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 
 
 /*=============================================*/
-/* JLX16080 LCD */
+/* 
+  JLX16080 LCD 
+
+  https://github.com/olikraus/u8g2/issues/2058
+
+  WARNING: NOT FULLY TESTED in issue 2058!
+*/
 
 static const u8x8_display_info_t u8x8_st75256_jlx16080_display_info =
 {
@@ -1889,10 +1895,14 @@ uint8_t u8x8_d_st75256_jlx16080(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
               
               u8x8_cad_SendCmd(u8x8, 0x030 );	/* select command set */
               u8x8_cad_SendCmd(u8x8, 0x075 );	/* row */
-	      if ( u8x8->x_offset == 0 )		/* 0 means flip mode 1, then adjust y value */
+            
+            
+	      //if ( u8x8->x_offset == 0 )		/* 0 means flip mode 1, then adjust y value */
+		//u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
+	      //else
 		u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
-	      else
-		u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
+              
+              
               u8x8_cad_SendArg(u8x8, 0x04f);
               //u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos));
               u8x8_cad_SendCmd(u8x8, 0x015 );	/* col */
