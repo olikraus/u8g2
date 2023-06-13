@@ -257,7 +257,11 @@ struct fontinfo fi[] ={
   { 0,  0, "7_Seg_33x19.bdf",  "7_Seg_33x19", 	0, 0, BM_M, FM_C, MM_N, "", ""},
   { 0,  0, "7_Seg_41x21.bdf",  "7_Seg_41x21", 	0, 0, BM_M, FM_C, MM_N, "", ""},
 
-    
+  { 0,  0, "font_tiny5.bdf", 		"tiny5", 		0, 0, BM_T, FM_C, MM_R|MM_F, "", ""},
+  { 0,  "-r 72 -p 8", "04B_03B_.TTF",	"04b_03b", 0, 0, BM_T, FM_C, MM_R, "", "" },
+  { 0,  "-r 72 -p 8", "04B_03__.TTF",	"04b_03", 0, 0, BM_T, FM_C, MM_R, "", "" },
+
+  
     
   { 0,  0, "amstrad_cpc_extended.bdf", 	"amstrad_cpc_extended", 	2, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   
@@ -296,8 +300,6 @@ struct fontinfo fi[] ={
   { 0,  0, "8x13B.bdf", 			"8x13B", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
   { 0,  0, "8x13O.bdf", 			"8x13O", 			1, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "", "" },
 
-//#ifdef TMP
-  
   { 0,  0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0,  0, "9x15.bdf", 			"9x15", 			1, 0, BM_T|BM_M, FM_C, MM_C, "32-255,$20a0-$20bf,$2103,$2109,$2126,$2190-$21bb,$21d0-$21d9,$21e6-$21e9,$23e9-$23fa,$2580-$261f,$2654-$2667,$2680-$2685,$2713-$2718,$274f-$2752", "_symbols" },
   { 0,  0, "9x15.bdf", 			"9x15", 			1, 0, BM_T, FM_C, MM_C, "32-128,$400-$52f", "_cyrillic" },
@@ -994,7 +996,6 @@ Greek Extended	1F00–1FFF
 
   { 0,  0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0,  0, "b10.bdf", 			"b10", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
-//#ifdef TMP
   { 0,  0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese1.map", "_japanese1" },
   { 0,  0, "b10_b.bdf", 			"b10_b", 		16, 0, BM_T, FM_C, MM_M, "japanese2.map", "_japanese2" },
 
@@ -1460,11 +1461,10 @@ inconsolata
   { 0,  "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
   { 0,  "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b",	14, 0, BM_T|BM_M, FM_C, MM_F|MM_R|MM_N, "" , ""},
 
-//#endif /* TMP */
-
   { "-y -1 -th 2 -tv 2",  "-r 72 -p 16", "Px437_Wyse700a.ttf",	"px437wyse700a_2x2",	14, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
   { "-y -1 -th 2 -tv 2",  "-r 72 -p 16", "Px437_Wyse700b.ttf",	"px437wyse700b_2x2",	14, 0, BM_8, FM_8, MM_F|MM_R|MM_N, "" , ""},
-  
+
+
 };
 
 
