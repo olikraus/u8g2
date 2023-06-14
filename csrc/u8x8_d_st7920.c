@@ -152,6 +152,57 @@ uint8_t u8x8_d_st7920_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   return 1;
 }
 
+
+/*=== 144x32 === */
+/* https://github.com/olikraus/u8g2/issues/209 */
+
+static const u8x8_display_info_t u8x8_st7920_144x32_display_info =
+{
+  /* chip_enable_level = */ 1,
+  /* chip_disable_level = */ 0,
+  
+  /* post_chip_enable_wait_ns = */ 5,
+  /* pre_chip_disable_wait_ns = */ 5,
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 6, 
+  /* sda_setup_time_ns = */ 20,		
+  /* sck_pulse_width_ns = */  140,	/* datasheet ST7920 */
+  /* sck_clock_hz = */ 1000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 3,		/* old: sck_takeover_edge, new: active high (bit 1), rising edge (bit 0), 18 Aug 16: changed from 1 to 3 which works for 101 */
+	/* Arduino mode 3: aktive low clock, but use rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 30,
+  /* write_pulse_width_ns = */ 40,
+  /* tile_width = */ 18,
+  /* tile_height = */ 4,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 144,
+  /* pixel_height = */ 32
+};
+
+
+uint8_t u8x8_d_st7920_144x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7920_144x32_display_info);
+      break;
+    default:
+      return u8x8_d_st7920_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
+
+
+
+
+
+
+
+
 /*=== 160x32 === */
 /* https://github.com/olikraus/u8g2/issues/1873, POWERTIP PG-16032LRU-BWH-H-P2 */
 
