@@ -321,3 +321,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added MUI fixed width bar graph (issue 2200)
   * Added 04b fonts from u8glib (issue 2157)
   * Added "font_tiny5" (issue 2185)
+  

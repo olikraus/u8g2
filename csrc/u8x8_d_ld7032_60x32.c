@@ -306,6 +306,81 @@ uint8_t u8x8_d_ld7032_60x32_alt(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
   see https://github.com/olikraus/u8g2/issues/2135
 */
 
+static uint8_t u8x8_d_ld7032_128_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t x, c;
+  uint8_t *ptr;
+  switch(msg)
+  {
+    /* handled by the calling function
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ld7032_60x32_display_info);
+      break;
+    */
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_60x32_init_seq);    
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_60x32_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_60x32_powersave1_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_60x32_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ld7032_60x32_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x012 );
+      if ( arg_int > 0x07f )			/* default is 0x040, limit to 0x07f to be on the safe side (hopefully) */
+	arg_int= 0x07f;
+      u8x8_cad_SendArg(u8x8, arg_int );	/* values from 0x00 to 0x0ff are allowed, bit will all values be safe??? */
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_cad_StartTransfer(u8x8);
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+      x += u8x8->x_offset/8;
+      u8x8_cad_SendCmd(u8x8, 0x034 );
+      u8x8_cad_SendArg(u8x8, x );
+      u8x8_cad_SendCmd(u8x8, 0x035 );
+      u8x8_cad_SendArg(u8x8, 0x00f );
+      u8x8_cad_SendCmd(u8x8, 0x036 );
+      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos)*8 );
+      u8x8_cad_SendCmd(u8x8, 0x037 );
+      u8x8_cad_SendArg(u8x8, 0x027 );
+      u8x8_cad_SendCmd(u8x8, 0x008 );
+    
+      
+      do
+      {
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	u8x8_cad_SendData(u8x8, c*8, ptr); 	/* note: SendData can not handle more than 255 bytes */
+	arg_int--;
+      } while( arg_int > 0 );
+      
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
 static const u8x8_display_info_t u8x8_ld7032_128x36_display_info =
 {
   /* chip_enable_level = */ 0,
@@ -378,5 +453,5 @@ uint8_t u8x8_d_ld7032_128x36(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       return 1;
     }
     
-    return u8x8_d_ld7032_generic(u8x8, msg, arg_int, arg_ptr);
+    return u8x8_d_ld7032_128_generic(u8x8, msg, arg_int, arg_ptr);
 }
