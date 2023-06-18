@@ -322,4 +322,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added 04b fonts from u8glib (issue 2157)
   * Added "font_tiny5" (issue 2185)
   * Added MUI (https://github.com/olikraus/u8g2/wiki/muimanual) examples (issue 1747)
+2023-xx-xx      v2.35.x olikraus@gmail.com
   
