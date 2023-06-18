@@ -1,6 +1,8 @@
 /*
 
   MUIStopwatch.ino
+  
+  https://github.com/olikraus/u8g2/wiki/muimanual#stopwatch-example
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 

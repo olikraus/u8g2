@@ -2,6 +2,7 @@
 
   MUIInput3BtnWithU8g2.ino
   
+  MUI: https://github.com/olikraus/u8g2/wiki/muimanual
   Menu with three buttons. Internal U8g2 button control.
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)

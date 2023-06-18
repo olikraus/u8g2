@@ -2,6 +2,7 @@
 
   MUIInputVersatileRotaryEncoder.ino
 
+  MUI: https://github.com/olikraus/u8g2/wiki/muimanual
   U8g2 Menu with Rotary Encoder (Versatile_RotaryEncoder library).
     Short Button Press: Switch between field movement and data increment/decrement
     Long Button Press: Return to main menu

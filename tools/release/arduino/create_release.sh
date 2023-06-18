@@ -122,6 +122,34 @@ cp ../../../sys/arduino/u8g2_page_buffer/LoadFromSD/*.ino ../../../../U8g2_Ardui
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon 
 cp ../../../sys/arduino/u8g2_page_buffer/ButtonEmoticon/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon/.
 
+# mui
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIBlink
+cp ../../../sys/arduino/u8g2_page_buffer/MUIBlink/*.ino ../../../../U8g2_Arduino/examples/mui/MUIBlink/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIMinimal
+cp ../../../sys/arduino/u8g2_page_buffer/MUIMinimal/*.ino ../../../../U8g2_Arduino/examples/mui/MUIMinimal/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2
+cp ../../../sys/arduino/u8g2_page_buffer/MUIInput2BtnBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnBounce2
+cp ../../../sys/arduino/u8g2_page_buffer/MUIInput3BtnBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnBounce2/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnWithU8g2
+cp ../../../sys/arduino/u8g2_page_buffer/MUIInput3BtnWithU8g2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnWithU8g2/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIInputSimpleRotary
+cp ../../../sys/arduino/u8g2_page_buffer/MUIInputSimpleRotary/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInputSimpleRotary/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIInputVersatileRotaryEncoder
+cp ../../../sys/arduino/u8g2_page_buffer/MUIInputVersatileRotaryEncoder/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInputVersatileRotaryEncoder/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIStopwatch
+cp ../../../sys/arduino/u8g2_page_buffer/MUIStopwatch/*.ino ../../../../U8g2_Arduino/examples/mui/MUIStopwatch/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUICountDown
+cp ../../../sys/arduino/u8g2_page_buffer/MUICountDown/*.ino ../../../../U8g2_Arduino/examples/mui/MUICountDown/.
 
 # games
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess

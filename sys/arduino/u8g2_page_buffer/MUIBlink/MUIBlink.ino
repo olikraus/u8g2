@@ -2,7 +2,9 @@
 
   MUIBlink.ino
   
+  MUI: https://github.com/olikraus/u8g2/wiki/muimanual
   This demo will  blink the builtin LED with a certain brightness and duty.
+  The demo will use several different input methods/fields to enter the data.
   
   This may not always work as expected:
     - The builtin LED may not be supported by analogWrite, so the brightness 

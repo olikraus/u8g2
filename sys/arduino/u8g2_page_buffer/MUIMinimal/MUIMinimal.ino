@@ -2,7 +2,7 @@
 
   MUIMinimal.ino
 
-  A really small example for MUI
+  A really small example for MUI (https://github.com/olikraus/u8g2/wiki/muimanual)
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 

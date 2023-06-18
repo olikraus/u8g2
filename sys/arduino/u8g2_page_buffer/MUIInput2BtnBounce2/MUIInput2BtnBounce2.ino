@@ -2,7 +2,8 @@
 
   MUIInput2BtnBounce2.ino
 
-  U8g2 Menu with Bounce2 Library (https://github.com/thomasfredericks/Bounce2).
+  MUI: https://github.com/olikraus/u8g2/wiki/muimanual
+  U8g2 Menu (MUI) with Bounce2 Library (https://github.com/thomasfredericks/Bounce2).
   
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 

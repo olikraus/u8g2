@@ -298,7 +298,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Experimental support for ST75160, TESTING REQUIRED (issue 1642)
   * Bugfix font compression: Reduced fontsize by up to 4% (issue 1941)
   * Changed SPI mode for SH1106 from 3 to 0 (issue 1901)
-2023-06-18      v2.34.21 olikraus@gmail.com
+2023-06-18      v2.34.22 olikraus@gmail.com
   * SSD1327 ZJY M150 128x128 (issue 1960)
   * SSD1316 96x32 (issue 1938)
   * SSD1322 240x128 (issue 2092)
@@ -321,4 +321,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added MUI fixed width bar graph (issue 2200)
   * Added 04b fonts from u8glib (issue 2157)
   * Added "font_tiny5" (issue 2185)
+  * Added MUI (https://github.com/olikraus/u8g2/wiki/muimanual) examples (issue 1747)
   

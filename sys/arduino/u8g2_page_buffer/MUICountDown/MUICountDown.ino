@@ -2,6 +2,8 @@
 
   MUICountDown.ino
 
+  https://github.com/olikraus/u8g2/wiki/muimanual#muicountdown-example
+  
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
   Copyright (c) 2021, olikraus@gmail.com
