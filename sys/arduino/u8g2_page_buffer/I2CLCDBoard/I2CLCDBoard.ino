@@ -41,9 +41,12 @@
 /*
   
   Example for the I2C GFX Board https://github.com/olikraus/u8g2/issues/2191
-  
+  Required updates for T6963 and LC7981 :
+      1. Update write strobe and chip select signals in "u8x8_byte_i2c_lcd_board()"
+      2. Update the setup procedure in "setup()" 
+    
+    
   Control Signal List for I2C Port Expander @0x3e:
-
       Bit 0: C/D
       Bit 1: R/W
       Bit 2: E
@@ -133,6 +136,7 @@ uint8_t u8x8_byte_i2c_lcd_board(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 	data++;
 	arg_int--;
         	
+        // Assumption: u8x8_set_ctrl_bit() will be slow enough, so that no extra delay is required
 	//u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
         u8x8_set_ctrl_bit(u8x8, write_strobe, 0);            // in 8080 mode, the RW signal is the /WR signal
 	//u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
@@ -142,7 +146,7 @@ uint8_t u8x8_byte_i2c_lcd_board(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
       
     case U8X8_MSG_BYTE_INIT:
       Wire.begin();
-      Wire.setClock(400000);
+      Wire.setClock(400000);    // Assumption: PCF8574A supports fast I2C mode
 
       /* disable chipselect */
       u8x8_set_ctrl_bit(u8x8, chip_select, u8x8->display_info->chip_disable_level);            // disable display controller
@@ -174,6 +178,9 @@ void setup(void) {
   /*
     Do a manual update of the plain U8g2 object with the C API for the display.
     Use a special byte function, which includes the support for the I2C GFX boad.
+    
+    The C init functions are listed here: https://github.com/olikraus/u8g2/wiki/u8g2setupc
+    Just replace the function name accordingly.    
   */
   u8g2_Setup_t6963_240x128_1(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_board, u8x8_gpio_and_delay_i2c_lcd_board);
   u8g2.begin();  
