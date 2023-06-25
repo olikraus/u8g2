@@ -182,7 +182,7 @@ void setup(void) {
     The C init functions are listed here: https://github.com/olikraus/u8g2/wiki/u8g2setupc
     Just replace the function name accordingly.    
   */
-  u8g2_Setup_t6963_240x128_1(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_board, u8x8_gpio_and_delay_i2c_lcd_board);
+  u8g2_Setup_t6963_240x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_board, u8x8_gpio_and_delay_i2c_lcd_board);
   u8g2.begin();  
 }
 
