@@ -100,7 +100,7 @@ OBJ:=$(COBJ) $(CPPOBJ) $(TARGETNAME).o
 
 #=== options ===
 
-COMMON_FLAGS = -g -Os -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
+COMMON_FLAGS = -g -Os -DF_CPU=$(F_CPU) -mmcu=$(MCU)
 COMMON_FLAGS +=-DARDUINO=10800 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR
 COMMON_FLAGS +=-ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects
 COMMON_FLAGS +=$(INC_OPTS)

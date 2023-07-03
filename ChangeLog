@@ -323,4 +323,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added "font_tiny5" (issue 2185)
   * Added MUI (https://github.com/olikraus/u8g2/wiki/muimanual) examples (issue 1747)
 2023-xx-xx      v2.35.x olikraus@gmail.com
-  
+  * ST7586S JLX320160 (no flipmode, no u8x8, issue 2186)
