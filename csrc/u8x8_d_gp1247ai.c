@@ -2,6 +2,8 @@
 
   u8x8_d_gp1247ai.c
   
+  252x64
+  
   https://github.com/olikraus/u8g2/issues/1907
   https://github.com/olikraus/u8g2/pull/1892  
 
