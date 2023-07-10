@@ -2200,6 +2200,15 @@ struct controller controller_list[] =
       { NULL }
     }
   },
+
+  {
+    "gp1294ai", 	32, 	6, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_empty", "", COM_4WSPI, /* DC pin is not used */
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x48" },
+      { NULL }
+    }
+  },
   
   {
     "a2printer", 	48, 	30, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_UART,
