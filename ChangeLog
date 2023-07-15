@@ -324,3 +324,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added MUI (https://github.com/olikraus/u8g2/wiki/muimanual) examples (issue 1747)
 2023-xx-xx      v2.35.x olikraus@gmail.com
   * ST7586S JLX320160 (no flipmode, no u8x8, issue 2186)
+  * GP1294AI 256X48 (issue 2213, PR 2222)
