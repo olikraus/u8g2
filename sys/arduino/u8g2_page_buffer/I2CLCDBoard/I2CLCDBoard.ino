@@ -265,8 +265,9 @@ void setup(void)
       For SBN1661 / SED1520 use the "u8x8_byte_i2c_lcd_gfx_board_sed1520_6800" callback function.
     
   */
-  // u8g2_Setup_t6963_240x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_t6963_8080, u8x8_gpio_and_delay_i2c_lcd_gfx_board);
-  u8g2_Setup_sed1520_122x32_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_sed1520_6800, u8x8_gpio_and_delay_i2c_lcd_gfx_board);
+  u8g2_Setup_t6963_240x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_t6963_8080, u8x8_gpio_and_delay_i2c_lcd_gfx_board);
+  //u8g2_Setup_t6963_128x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_t6963_8080, u8x8_gpio_and_delay_i2c_lcd_gfx_board);
+  //u8g2_Setup_sed1520_122x32_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_sed1520_6800, u8x8_gpio_and_delay_i2c_lcd_gfx_board);
   
   /*
     After providing the callback function, start the communication with the display by using u8g2.begin()
