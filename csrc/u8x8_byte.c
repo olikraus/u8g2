@@ -437,6 +437,7 @@ uint8_t u8x8_byte_sed1520(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_
     case U8X8_MSG_BYTE_START_TRANSFER:
       /* cs lines are not supported for the SED1520/SBN1661 */
       /* instead, this will select the E1 or E2 line */ 
+      /* arg_int is set by u8x8_d_sbn1661_122x32() function */
       enable_pin = U8X8_MSG_GPIO_E;
       if ( arg_int != 0 )
 	enable_pin = U8X8_MSG_GPIO_CS;
