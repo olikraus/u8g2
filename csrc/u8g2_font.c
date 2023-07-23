@@ -742,7 +742,7 @@ int8_t u8g2_font_2x_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
       y1 += 2*h;      
       
       if ( u8g2_IsIntersection(u8g2, x0, y0, x1, y1) == 0 ) 
-	return d;
+	return 2*d;
     }
 #endif /* U8G2_WITH_INTERSECTION */
    
