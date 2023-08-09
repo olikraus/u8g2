@@ -212,7 +212,7 @@ u8g2_uint_t mui_get_x(mui_t *ui) MUI_NOINLINE;
 u8g2_uint_t mui_get_x(mui_t *ui)
 {
   if ( u8g2_GetDisplayWidth(mui_get_U8g2(ui)) >= 255 )
-      return ui->x / 2;
+      return ui->x * 2;
   return ui->x;
 }
 
