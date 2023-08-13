@@ -34,6 +34,8 @@ int main(void)
     {
       u8g2_DrawUTF8(&u8g2, offset,30,"123456789QWERTYUIOPASDFGHJKLZXCVBNM123456789QWERTYUIOPASDFGHJKLZXCVBNM");
       u8g2_DrawUTF8X2(&u8g2, offset,60,"123456789QWERTYUIOPASDFGHJKLZXCVBNM123456789QWERTYUIOPASDFGHJKLZXCVBNM");
+      //u8g2_DrawHLine(&u8g2, 0, 64, 64);
+      u8g2_DrawLine(&u8g2, 30, 10, 30, 100);
     } while( u8g2_NextPage(&u8g2) );
     
     do
