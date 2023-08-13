@@ -5,7 +5,7 @@ SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) $(shell ls ../../
 OBJ = $(SRC:.c=.o)
 
 u8g2_sdl: $(OBJ) 
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) `sdl2-config --libs` -o u8g2_sdl
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) `sdl2-config --libs` -lm -o u8g2_sdl
 
 clean:	
 	-rm $(OBJ) u8g2_sdl

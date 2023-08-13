@@ -1,13 +1,45 @@
+/*
+
+  test procedure for a draw arc procedure
+
+  screenshot conversion:
+  convert -flip -resize 256x128 screenshot.tga screenshot.png
+
+*/
+
 
 #include "u8g2.h"
 #include <stdio.h>
+#include <math.h>
 
 
 typedef float (*u8g2_atan2f_t)(float, float);
 
 
-static const float M_PI_2 = 1.57079632679489661923;
-static const float M_PI_4 = 0.78539816339744830962;
+//static const float M_PI_2 = 1.57079632679489661923;
+//static const float M_PI_4 = 0.78539816339744830962;
+
+
+float myatan(float a, float b)
+{
+  return atan2f(a, b);
+}
+
+/*
+#define C360 360
+#define C270 270
+#define C180 180
+#define C90 90
+#define C45 45
+*/
+
+#define C360 256
+#define C270 192
+#define C180 128
+#define C90 64
+#define C45 32
+
+
 
 void u8g2_draw_arc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad_in, u8g2_uint_t rad_out, u8g2_uint_t angle_start, u8g2_uint_t angle_end, u8g2_atan2f_t atan2f_func)
 {
@@ -36,14 +68,14 @@ void u8g2_draw_arc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad
       cnt = atan2f_func ? ((M_PI_2 - atan2f_func(y, x)) * 100 / M_PI_4) : (cnt + 1);
 
       // Fill the pixels of the 8 sections of the circle, but only on the arc defined by the angles (start and end)
-      if((cnt > num_pts * as / 45 && cnt <= num_pts * ae / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
-      if((cnt > num_pts * (90 - ae) / 45 && cnt <= num_pts * (90 - as) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + x, y0 - y);
-      if((cnt > num_pts * (as - 90) / 45 && cnt <= num_pts * (ae - 90) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - x, y0 - y);
-      if((cnt > num_pts * (180 - ae) / 45 && cnt <= num_pts * (180 - as) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - y, y0 - x);
-      if((cnt > num_pts * (as - 180) / 45 && cnt <= num_pts * (ae - 180) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - y, y0 + x);
-      if((cnt > num_pts * (270 - ae) / 45 && cnt <= num_pts * (270 - as) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - x, y0 + y);
-      if((cnt > num_pts * (as - 270) / 45 && cnt <= num_pts * (ae - 270) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + x, y0 + y);
-      if((cnt > num_pts * (360 - ae) / 45 && cnt <= num_pts * (360 - as) / 45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + y, y0 + x);
+      if((cnt > num_pts * as / C45 && cnt <= num_pts * ae / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
+      if((cnt > num_pts * (C90 - ae) / C45 && cnt <= num_pts * (C90 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + x, y0 - y);
+      if((cnt > num_pts * (as - C90) / C45 && cnt <= num_pts * (ae - C90) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - x, y0 - y);
+      if((cnt > num_pts * (C180 - ae) / C45 && cnt <= num_pts * (C180 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - y, y0 - x);
+      if((cnt > num_pts * (as - C180) / C45 && cnt <= num_pts * (ae - C180) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - y, y0 + x);
+      if((cnt > num_pts * (C270 - ae) / C45 && cnt <= num_pts * (C270 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - x, y0 + y);
+      if((cnt > num_pts * (as - C270) / C45 && cnt <= num_pts * (ae - C270) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + x, y0 + y);
+      if((cnt > num_pts * (C360 - ae) / C45 && cnt <= num_pts * (C360 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + y, y0 + x);
 
       // Run Andres circle algorithm to get to the next pixel
       if (d >= 2 * x)
@@ -101,6 +133,7 @@ int main(void)
       //u8g2_SetFontDirection(&u8g2, 0);
       //u8g2_DrawStr(&u8g2, x, y, "123");
 
+      //u8g2_draw_arc(&u8g2, x, y, rad_in, rad_out, angle_start, angle_end, myatan);
       u8g2_draw_arc(&u8g2, x, y, rad_in, rad_out, angle_start, angle_end, 0);
 
       
