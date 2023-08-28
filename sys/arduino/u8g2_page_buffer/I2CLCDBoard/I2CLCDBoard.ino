@@ -392,7 +392,8 @@ void setup(void)
     Just replace the function name accordingly.    
     
     Note:
-      For T6963 / LC7981 / ST7920 displays, use the "u8x8_byte_i2c_lcd_gfx_board_t6963_8080" callback function.
+      For T6963 / ST7920 displays, use the "u8x8_byte_i2c_lcd_gfx_board_t6963_8080" callback function.
+      For LC7981 displays, use the "u8x8_byte_i2c_lcd_gfx_board_lc7981_6800" callback function.
       For SBN1661 / SED1520 use the "u8x8_byte_i2c_lcd_gfx_board_sed1520_6800" callback function.
     
   */
