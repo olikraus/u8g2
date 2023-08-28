@@ -71,6 +71,7 @@
 
 /* default value for the LED control gpio line */
 #define I2C_LCD_LED_DEFAULT I2C_LCD_LED
+//#define I2C_LCD_LED_DEFAULT 0
 
 #define I2C_LCD_CTRL_ADR 0x3e
 #define I2C_LCD_DATA_ADR 0x3f
@@ -158,6 +159,74 @@ uint8_t u8x8_byte_i2c_lcd_gfx_board_t6963_8080(u8x8_t *u8x8, uint8_t msg, uint8_
       u8x8_set_ctrl_bit(u8x8, chip_select, u8x8->display_info->chip_disable_level);            // disable display controller
       /* ensure that the enable signal is high */
       u8x8_set_ctrl_bit(u8x8, write_strobe, 1);            // in 8080 mode, the RW signal is the /WR signal
+      break;
+    case U8X8_MSG_BYTE_SET_DC:
+      u8x8_set_ctrl_bit(u8x8, I2C_LCD_CD, arg_int);            // command/data   data/command 
+      break;
+    case U8X8_MSG_BYTE_START_TRANSFER:
+      u8x8_set_ctrl_bit(u8x8, chip_select, u8x8->display_info->chip_enable_level);            // command/data   data/command 
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
+      break;
+    case U8X8_MSG_BYTE_END_TRANSFER:
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
+      u8x8_set_ctrl_bit(u8x8, chip_select, u8x8->display_info->chip_disable_level);            // command/data   data/command 
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+/*
+  This is an example byte level procedure for a LC7981 board.
+  This procedure will assume, that the LC7981 is configured in 6800 mode.
+  Probably the same procedure can be also used for T6963 displays.
+  
+  In general chip select and write strobe signals may differ and need to be checked.
+*/
+uint8_t u8x8_byte_i2c_lcd_gfx_board_lc7981_6800(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  /* usually only the following two varibables need to be modified */
+  uint8_t rw_line = I2C_LCD_RW;
+  uint8_t write_strobe = I2C_LCD_E; // 6800 mode
+  uint8_t chip_select = I2C_LCD_CS;
+  uint8_t *data;
+ 
+  switch(msg)
+  {
+    case U8X8_MSG_BYTE_SEND:
+      u8x8_set_ctrl_bit(u8x8, rw_line, 0);
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 )
+      {
+        Wire.beginTransmission(I2C_LCD_DATA_ADR); 
+        Wire.write(*data);
+        Wire.endTransmission();
+        
+	data++;
+	arg_int--;
+        	
+        // Assumption: u8x8_set_ctrl_bit() will be slow enough, so that no extra delay is required
+	//u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
+        u8x8_set_ctrl_bit(u8x8, write_strobe, 1);           
+	//u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+        u8x8_set_ctrl_bit(u8x8, write_strobe, 0);            // in 6800 mode, data is taken over with the falling edge of the E data line
+      }
+      break;
+      
+    case U8X8_MSG_BYTE_INIT:
+      Wire.begin();
+      Wire.setClock(400000);    // Assumption: PCF8574A supports fast I2C mode
+
+      /* disable chipselect */
+      u8x8_set_ctrl_bit(u8x8, chip_select, u8x8->display_info->chip_disable_level);            // disable display controller
+
+      /* low signal level for the R/W line */
+      u8x8_set_ctrl_bit(u8x8, rw_line, 0);            // in 6800 mode, the R/W signal must be low for writing
+      
+      /* ensure that the enable signal is low  */
+      u8x8_set_ctrl_bit(u8x8, write_strobe, 0);            // in 8080 mode, the RW signal is the /WR signal
       break;
     case U8X8_MSG_BYTE_SET_DC:
       u8x8_set_ctrl_bit(u8x8, I2C_LCD_CD, arg_int);            // command/data   data/command 
@@ -330,7 +399,8 @@ void setup(void)
   //u8g2_Setup_t6963_240x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_t6963_8080, u8x8_gpio_and_delay_i2c_lcd_gfx_board);   // J4
   //u8g2_Setup_t6963_128x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_t6963_8080, u8x8_gpio_and_delay_i2c_lcd_gfx_board);  // J2
   //u8g2_Setup_sed1520_122x32_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_sed1520_6800, u8x8_gpio_and_delay_i2c_lcd_gfx_board);  // J5
-  u8g2_Setup_st7920_128x64_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_st7920, u8x8_gpio_and_delay_i2c_lcd_gfx_board);           // J3
+  //u8g2_Setup_st7920_128x64_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_st7920, u8x8_gpio_and_delay_i2c_lcd_gfx_board);           // J3
+  u8g2_Setup_lc7981_240x128_2(u8g2.getU8g2(), U8G2_R0, u8x8_byte_i2c_lcd_gfx_board_lc7981_6800, u8x8_gpio_and_delay_i2c_lcd_gfx_board);           // J3
   
   /*
     After providing the callback function, start the communication with the display by using u8g2.begin()
