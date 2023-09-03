@@ -158,54 +158,6 @@ void main(void)
 }
 */
 
-static const u8x8_display_info_t u8x8_sdl_128x64_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 0,
-  /* pre_chip_disable_wait_ns = */ 0,
-  /* reset_pulse_width_ms = */ 0, 
-  /* post_reset_wait_ms = */ 0, 
-  /* sda_setup_time_ns = */ 0,		
-  /* sck_pulse_width_ns = */ 0,
-  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 1,		
-  /* i2c_bus_clock_100kHz = */ 0,
-  /* data_setup_time_ns = */ 0,
-  /* write_pulse_width_ns = */ 0,
-  /* tile_width = */ 16,
-  /* tile_hight = */ 8,
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 128,
-  /* pixel_height = */ 64
-};
-
-static const u8x8_display_info_t u8x8_sdl_240x160_info =
-{
-  /* chip_enable_level = */ 0,
-  /* chip_disable_level = */ 1,
-  
-  /* post_chip_enable_wait_ns = */ 0,
-  /* pre_chip_disable_wait_ns = */ 0,
-  /* reset_pulse_width_ms = */ 0, 
-  /* post_reset_wait_ms = */ 0, 
-  /* sda_setup_time_ns = */ 0,		
-  /* sck_pulse_width_ns = */ 0,
-  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-  /* spi_mode = */ 1,		
-  /* i2c_bus_clock_100kHz = */ 0,
-  /* data_setup_time_ns = */ 0,
-  /* write_pulse_width_ns = */ 0,
-  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
-  /* tile_hight = */ 20,		/* height: 160 pixel */
-  /* default_x_offset = */ 0,
-  /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 240,
-  /* pixel_height = */ 160
-};
-
 
 static uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
@@ -263,6 +215,35 @@ static uint8_t u8x8_d_sdl_gpio(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t ar
 	return 1;
 }
 
+
+/*========================================*/
+/* 128x64 */
+
+static const u8x8_display_info_t u8x8_sdl_128x64_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 0,
+  /* pre_chip_disable_wait_ns = */ 0,
+  /* reset_pulse_width_ms = */ 0, 
+  /* post_reset_wait_ms = */ 0, 
+  /* sda_setup_time_ns = */ 0,		
+  /* sck_pulse_width_ns = */ 0,
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 1,		
+  /* i2c_bus_clock_100kHz = */ 0,
+  /* data_setup_time_ns = */ 0,
+  /* write_pulse_width_ns = */ 0,
+  /* tile_width = */ 16,
+  /* tile_hight = */ 8,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 64
+};
+
+
 uint8_t u8x8_d_sdl_128x64(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, y, c;
@@ -309,6 +290,76 @@ uint8_t u8x8_d_sdl_128x64(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_
   }
   return 1;
 }
+
+void u8x8_Setup_SDL_128x64(u8x8_t *u8x8)
+{
+  /* setup defaults */
+  u8x8_SetupDefaults(u8x8);
+  
+  /* setup specific callbacks */
+  u8x8->display_cb = u8x8_d_sdl_128x64;
+	
+  u8x8->gpio_and_delay_cb = u8x8_d_sdl_gpio;
+
+  /* setup display info */
+  u8x8_SetupMemory(u8x8);  
+}
+
+void u8g2_SetupBuffer_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+{
+  
+  static uint8_t buf[128*8];
+  
+  u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
+  u8g2_SetupBuffer(u8g2, buf, 8, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+}
+
+
+void u8g2_SetupBuffer_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+{
+  
+  static uint8_t buf[128*3];
+  
+  u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
+  u8g2_SetupBuffer(u8g2, buf, 3, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+}
+
+void u8g2_SetupBuffer_SDL_128x64_1(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+{
+  
+  static uint8_t buf[128];
+  
+  u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
+  u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+}
+
+/*========================================*/
+/* 240x160 */
+
+static const u8x8_display_info_t u8x8_sdl_240x160_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 0,
+  /* pre_chip_disable_wait_ns = */ 0,
+  /* reset_pulse_width_ms = */ 0, 
+  /* post_reset_wait_ms = */ 0, 
+  /* sda_setup_time_ns = */ 0,		
+  /* sck_pulse_width_ns = */ 0,
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 1,		
+  /* i2c_bus_clock_100kHz = */ 0,
+  /* data_setup_time_ns = */ 0,
+  /* write_pulse_width_ns = */ 0,
+  /* tile_width = */ 30,		/* width of 30*8=240 pixel */
+  /* tile_hight = */ 20,		/* height: 160 pixel */
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 240,
+  /* pixel_height = */ 160
+};
+
 
 uint8_t u8x8_d_sdl_240x160(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -358,49 +409,6 @@ uint8_t u8x8_d_sdl_240x160(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg
 }
 
 
-void u8x8_Setup_SDL_128x64(u8x8_t *u8x8)
-{
-  /* setup defaults */
-  u8x8_SetupDefaults(u8x8);
-  
-  /* setup specific callbacks */
-  u8x8->display_cb = u8x8_d_sdl_128x64;
-	
-  u8x8->gpio_and_delay_cb = u8x8_d_sdl_gpio;
-
-  /* setup display info */
-  u8x8_SetupMemory(u8x8);  
-}
-
-void u8g2_SetupBuffer_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
-{
-  
-  static uint8_t buf[128*8];
-  
-  u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
-  u8g2_SetupBuffer(u8g2, buf, 8, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
-}
-
-
-void u8g2_SetupBuffer_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
-{
-  
-  static uint8_t buf[128*3];
-  
-  u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
-  u8g2_SetupBuffer(u8g2, buf, 3, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
-}
-
-void u8g2_SetupBuffer_SDL_128x64_1(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
-{
-  
-  static uint8_t buf[128];
-  
-  u8x8_Setup_SDL_128x64(u8g2_GetU8x8(u8g2));
-  u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
-}
-
-
 void u8x8_Setup_SDL_240x160(u8x8_t *u8x8)
 {
   /* setup defaults */
@@ -422,4 +430,103 @@ void u8g2_SetupBuffer_SDL_240x160(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
   
   u8x8_Setup_SDL_240x160(u8g2_GetU8x8(u8g2));
   u8g2_SetupBuffer(u8g2, buf, 20, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
+}
+
+/*========================================*/
+/* 256x128 */
+
+static const u8x8_display_info_t u8x8_sdl_256x128_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 0,
+  /* pre_chip_disable_wait_ns = */ 0,
+  /* reset_pulse_width_ms = */ 0, 
+  /* post_reset_wait_ms = */ 0, 
+  /* sda_setup_time_ns = */ 0,		
+  /* sck_pulse_width_ns = */ 0,
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 1,		
+  /* i2c_bus_clock_100kHz = */ 0,
+  /* data_setup_time_ns = */ 0,
+  /* write_pulse_width_ns = */ 0,
+  /* tile_width = */ 32,		/* width of 32*8=256 pixel */
+  /* tile_hight = */ 16,		/* height: 128 pixel */
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 256,
+  /* pixel_height = */ 128
+};
+
+
+uint8_t u8x8_d_sdl_256x128(u8x8_t *u8g2, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t x, y, c;
+  uint8_t *ptr;
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8g2, &u8x8_sdl_256x128_info);
+      u8g_sdl_init(256, 128);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8g2);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      break;
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      break;
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      x *= 8;
+      x += u8g2->x_offset;
+    
+      y = ((u8x8_tile_t *)arg_ptr)->y_pos;
+      y *= 8;
+    
+      do
+      {
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+        u8g_sdl_set_multiple_8pixel(x, y, c*8, ptr);
+        arg_int--;
+      } while( arg_int > 0 );
+
+#ifndef NO_SDL
+      /* update all */
+      SDL_UpdateWindowSurface(u8g_sdl_window);
+#endif
+      
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+void u8x8_Setup_SDL_256x128(u8x8_t *u8x8)
+{
+  /* setup defaults */
+  u8x8_SetupDefaults(u8x8);
+  
+  /* setup specific callbacks */
+  u8x8->display_cb = u8x8_d_sdl_256x128;
+	
+  u8x8->gpio_and_delay_cb = u8x8_d_sdl_gpio;
+
+  /* setup display info */
+  u8x8_SetupMemory(u8x8);  
+}
+
+void u8g2_SetupBuffer_SDL_256x128(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+{
+  
+  static uint8_t buf[256*16];
+  
+  u8x8_Setup_SDL_256x128(u8g2_GetU8x8(u8g2));
+  u8g2_SetupBuffer(u8g2, buf, 16, u8g2_ll_hvline_vertical_top_lsb, u8g2_cb);
 }

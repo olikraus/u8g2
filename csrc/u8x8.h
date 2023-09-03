@@ -800,6 +800,7 @@ void u8x8_SetupStdio(u8x8_t *u8x8);
 /* u8x8_d_sdl_128x64.c */
 void u8x8_Setup_SDL_128x64(u8x8_t *u8x8);
 void u8x8_Setup_SDL_240x160(u8x8_t *u8x8);
+void u8x8_Setup_SDL_256x128(u8x8_t *u8x8);
 int u8g_sdl_get_key(void);
 
 /*==========================================*/

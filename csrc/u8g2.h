@@ -1821,6 +1821,7 @@ uint8_t u8g2_UserInterfaceInputValue(u8g2_t *u8g2, const char *title, const char
 void u8g2_SetupBuffer_SDL_128x64(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetupBuffer_SDL_128x64_4(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 void u8g2_SetupBuffer_SDL_128x64_1(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
+void u8g2_SetupBuffer_SDL_256x128(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);
 
 /*==========================================*/
 /* u8x8_d_tga.c */
