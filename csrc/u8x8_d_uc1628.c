@@ -37,6 +37,8 @@
 
 */
 
+#include "u8x8.h"
+
 static const uint8_t u8x8_d_uc1628_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_CA( 0x0c9, 0x0ad ),				/* display enable */  
@@ -49,20 +51,19 @@ static const uint8_t u8x8_d_uc1628_powersave1_seq[] = {
   U8X8_CA( 0x0c9, 0x0ac ),				/* display disable */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
-  U8X8_END()             			/* end of sequence */
 };
 
 
 static const uint8_t u8x8_d_uc1628_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C( 0x0c0 ),				/* select 00 commands */
+  U8X8_C( 0x0c4 ),	
   U8X8_END_TRANSFER(),             	
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_uc1628_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C( 0x0c6 ),				
+  U8X8_C( 0x0c2 ),				
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -173,27 +174,34 @@ static const uint8_t u8x8_d_uc1628_256x128_init_seq[] = {
   
   U8X8_DLY(20),
 
-  U8X8_C( 0x010 ),				/* */
-  U8X8_C( 0x012 ),				/* */
-  U8X8_C( 0x014 ),				/*  */
+  U8X8_C( 0x010 ),				/* Termp.: Reset default */
+  U8X8_C( 0x012 ),				/* Termp.: Reset default */
+  U8X8_C( 0x014 ),				/* Termp.: Reset default  */
   
-  U8X8_CAA( 0x016, 0x000, 0x00d ),				/*  */
+  /* assign temperature independent framerate */
+  /* 0x00d = 81,9Hz (reset default) */
+  /* 0x000 = 40.0 Hz (min) */
+  /* 0x01f = 140.0 Hz (max) */
+  
+  U8X8_CAA( 0x016, 0x000, 0x00d ),				/* 1st arg: temp. point, 2nd arg: frame rate */
 
   U8X8_CA( 0x040, 0x000 ),				/*  scroll line */
 
-  U8X8_C( 0x020 ),				/* */
-  U8X8_C( 0x02d ),				/* */
-  U8X8_C( 0x0eb ),				/*  */
+  U8X8_C( 0x020 ),				/* temp compensation */
+  U8X8_C( 0x02d ),				/* charge pump control */
+  U8X8_C( 0x0eb ),				/* LCD Bias: 0xe8=6, ... 0xeb=12 ... 0xed=14  */
 
-  U8X8_CAA( 0x081, 0x000, 0x056 ),				/*  */
+  U8X8_CAA( 0x081, 0x000, 0x048 ),	        /*  Contrast, 1st arg is always 0 */
 
-  U8X8_CA( 0x0b8, 0x000 ),				/*   */
+  U8X8_CA( 0x0b8, 0x000 ),				/*  OTP control: Idle & Ignore */
 
-  U8X8_CA( 0x0f1, 0x07f ),				/*   */
-  U8X8_CA( 0x0f2, 0x000 ),				/*   */
-  U8X8_CA( 0x0f3, 0x07f ),				/*   */
+  U8X8_CA( 0x0f1, 0x07f ),				/*  set COM end */
+  U8X8_CA( 0x0f2, 0x000 ),				/*  set partial display start */
+  U8X8_CA( 0x0f3, 0x07f ),				/*  set partial display end */
   
-  U8X8_C( 0x08f ),				/*   */
+  U8X8_C( 0x088 ),				/*  auto increment control */
+
+  U8X8_C( 0x0c4 ),                      /* XY mirror in bit 1 & 2 */	
 
   U8X8_DLY(100),
 
