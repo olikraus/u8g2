@@ -1078,6 +1078,24 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
+
+  {
+    "uc1628", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64" },
+      { NULL }
+    }
+  },  
+  {
+    "uc1628", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_uc16xx_i2c", "i2c", COM_I2C, 
+    "NOT TESTED, CAD not checked", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64" },
+      { NULL }
+    }
+  },  
+
   
   {
     "uc1628", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
