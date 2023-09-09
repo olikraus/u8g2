@@ -315,7 +315,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added Spleen Monospaced Font from https://github.com/fcambus/spleen (issue 2015)
   * Extended the "E" font range with subscript characters if available in the original font (issue 2079)
   * Bugfix for ESP32 HW SPI Pin Remapping (issue 377, PR 2123)
-  * Bugfix for LoadFromSD examle (issue 2179)
+  * Bugfix for LoadFromSD example (issue 2179)
   * Changed MUI_LABEL to support UTF8 (issue 2196)
   * Compiler Warning Cleanup for polygon draw (issue 1999, PR 2101)
   * Added MUI fixed width bar graph (issue 2200)
@@ -326,4 +326,4 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7586S JLX320160 (no flipmode, no u8x8, issue 2186)
   * GP1294AI 256X48 (issue 2213, PR 2222)
   * Bugfix for drawUTF8X2 with negative x values (issue 2228)
-  * UC1628 256x128 (issue 2260):
+  * UC1628 256x128, 128x64 (issue 2260):
