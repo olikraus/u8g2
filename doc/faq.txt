@@ -281,7 +281,6 @@ A: There is an online tool which helps you to derive the commandline options:
 https://stncrn.github.io/u8g2-unifont-helper/
 Many thanks to "stncrn" for making this available.
 
-
 Q: Are there any video-tutorials for bdfconv?
 A1: This is what I found on youtube: https://www.youtube.com/watch?v=Igkb7ZmO31A
 The above video uses the -M option (instead of -m) to provide a map file with the unicodes.
