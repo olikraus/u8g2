@@ -58,8 +58,8 @@ void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)
    encoding: glyph for which the data is requested (must be between 0 and 255)
    buf: pointer to 8 bytes
 */
-static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) U8X8_NOINLINE;
-static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) 
+void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) U8X8_NOINLINE;
+void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) 
 {
   uint8_t first, last, tiles, i;
   uint16_t offset;

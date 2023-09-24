@@ -217,6 +217,10 @@ cp ../../../sys/arduino/u8x8/MessageBox/*.ino ../../../../U8g2_Arduino/examples/
 mkdir ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest
 cp ../../../sys/arduino/u8x8/ArduboyTest/*.ino ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest/.
 
+mkdir ../../../../U8g2_Arduino/examples/u8x8/Rotate90
+cp ../../../sys/arduino/u8x8/Rotate90/*.ino ../../../../U8g2_Arduino/examples/u8x8/Rotate90/.
+
+
 # copy other files
 cp ../../../ChangeLog ./../../../../U8g2_Arduino/extras/.
 
