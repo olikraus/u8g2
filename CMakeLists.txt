@@ -10,11 +10,18 @@ if(COMMAND register_component)
     register_component()
 else()
     add_library(u8g2 ${COMPONENT_SRCS})
-    target_include_directories(u8g2 PUBLIC ${CMAKE_CURRENT_LIST_DIR}/csrc )
+    target_include_directories(u8g2 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/csrc>" "$<INSTALL_INTERFACE:include>")
 endif()
 
 install(TARGETS u8g2
+        EXPORT u8g2-targets
         ARCHIVE DESTINATION lib)
 
 install(FILES ${COMPONENT_HDRS}
         DESTINATION include/u8g2)
+
+install(EXPORT u8g2-targets
+        DESTINATION lib/cmake/u8g2)
+
+install(FILES ${u8g2_SOURCE_DIR}/pkg/u8g2-config.cmake
+        DESTINATION lib/cmake/u8g2)
