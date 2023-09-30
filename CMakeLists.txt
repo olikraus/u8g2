@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project(u8g2)
+
 set(COMPONENT_ADD_INCLUDEDIRS csrc)
 set(COMPONENT_SRCS "csrc/u8x8_setup.c"
                     "csrc/u8x8_u8toa.c"
