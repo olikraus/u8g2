@@ -101,4 +101,3 @@ else()
     add_library(u8g2 ${COMPONENT_SRCS})
     target_include_directories(u8g2 PUBLIC ${CMAKE_CURRENT_LIST_DIR}/csrc )
 endif()
-
