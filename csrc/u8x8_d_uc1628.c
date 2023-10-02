@@ -247,7 +247,114 @@ uint8_t u8x8_d_uc1628_256x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 
 
 /*=============================================*/
-/* 128x64, https://github.com/olikraus/u8g2/issues/2260 */
+/* 256x32, https://github.com/olikraus/u8g2/issues/2260 */
+
+static const u8x8_display_info_t u8x8_uc1628_256x32_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 10,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 5, 	
+  /* post_reset_wait_ms = */ 5, 		/**/
+  /* sda_setup_time_ns = */ 25,		/* */
+  /* sck_pulse_width_ns = */ 100,	/*  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
+  /* data_setup_time_ns = */ 45,
+  /* write_pulse_width_ns = */ 125,	
+  /* tile_width = */ 32,
+  /* tile_height = */ 4,
+  /* default_x_offset = */ 0,	/*  */
+  /* flipmode_x_offset = */ 0,		/*  */
+  /* pixel_width = */ 256,
+  /* pixel_height = */ 32
+};
+
+static const uint8_t u8x8_d_uc1628_256x32_init_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  
+  U8X8_DLY(20),
+
+  U8X8_C( 0x010 ),				/* Termp.: Reset default */
+  U8X8_C( 0x012 ),				/* Termp.: Reset default */
+  U8X8_C( 0x014 ),				/* Termp.: Reset default  */
+  
+  /* assign temperature independent framerate */
+  /* 0x00d = 81,9Hz (reset default) */
+  /* 0x000 = 40.0 Hz (min) */
+  /* 0x01f = 140.0 Hz (max) */
+  
+  U8X8_CAA( 0x016, 0x000, 0x00d ),				/* 1st arg: temp. point, 2nd arg: frame rate */
+
+  U8X8_CA( 0x040, 0x000 ),				/*  scroll line */
+
+  U8X8_C( 0x020 ),				/* temp compensation */
+  U8X8_C( 0x02d ),				/* charge pump control */
+  U8X8_C( 0x0e8 ),				/* LCD Bias: 0xe8=6, ... 0xeb=12 ... 0xed=14  */
+
+  U8X8_CAA( 0x081, 0x000, 0x048 ),	        /*  Contrast, 1st arg is always 0 */
+
+  U8X8_CA( 0x0b8, 0x000 ),				/*  OTP control: Idle & Ignore */
+
+  U8X8_CA( 0x0f1, 0x01f ),				/*  set COM end */
+  U8X8_CA( 0x0f2, 0x000 ),				/*  set partial display start */
+  U8X8_CA( 0x0f3, 0x07f ),				/*  set partial display end */
+  
+  U8X8_C( 0x088 ),				/*  auto increment control */
+
+  U8X8_C( 0x0c4 ),                      /* XY mirror in bit 1 & 2 */	
+
+  U8X8_DLY(100),
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+uint8_t u8x8_d_uc1628_256x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  if ( u8x8_d_uc1628_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+  {
+    u8x8_SetI2CAddress(u8x8, 0x070);		/* lowest I2C adr of the UC1628 */
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_uc1628_256x32_display_info);
+    return 1;
+  }
+  else if ( msg == U8X8_MSG_DISPLAY_INIT )
+  {
+    u8x8_d_helper_display_init(u8x8);
+    u8x8_cad_SendSequence(u8x8, u8x8_d_uc1628_256x32_init_seq);    
+    return 1;
+  }
+  else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
+  {
+    if ( arg_int == 0 )
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1628_flip0_seq);
+      u8x8->x_offset = u8x8->display_info->default_x_offset;
+    }
+    else
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_uc1628_flip1_seq);
+      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+    }
+    return 1;
+  }
+  return 0;
+}
+
+
+/*=============================================*/
+/* 128x64, https://github.com/olikraus/u8g2/issues/2260 
+
+  2 Oct 2023: Probably the LCD Bias is wrong, it should be reduced, maybe 0xea or so
+  Moreover the COM end should be halfed (0x03f) --> Done, but not tested
+
+*/
 
 static const u8x8_display_info_t u8x8_uc1628_128x64_display_info =
 {
@@ -299,7 +406,7 @@ static const uint8_t u8x8_d_uc1628_128x64_init_seq[] = {
 
   U8X8_CA( 0x0b8, 0x000 ),				/*  OTP control: Idle & Ignore */
 
-  U8X8_CA( 0x0f1, 0x07f ),				/*  set COM end */
+  U8X8_CA( 0x0f1, 0x03f ),				/*  set COM end */
   U8X8_CA( 0x0f2, 0x000 ),				/*  set partial display start */
   U8X8_CA( 0x0f3, 0x07f ),				/*  set partial display end */
   
@@ -346,3 +453,5 @@ uint8_t u8x8_d_uc1628_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
   }
   return 0;
 }
+
+
