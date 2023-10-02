@@ -326,6 +326,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7586S JLX320160 (no flipmode, no u8x8, issue 2186)
   * GP1294AI 256X48 (issue 2213, PR 2222)
   * Bugfix for drawUTF8X2 with negative x values (issue 2228)
-  * UC1628 256x128, 128x64 (issue 2260):
+  * UC1628 256x128 (tested), 256x32 (tested), 128x64 (not tested) (issue 2260):
   * U8x8 example for 90 degree string rotation (issue 2271)
   
