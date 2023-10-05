@@ -67,10 +67,11 @@ uint8_t u8x8_LinuxFb_alloc(int fbfd, u8x8_linuxfb_t *fb)
 	fb->active_color = 0xFFFFFF;
 	tile_width = (fb->vinfo.xres+7)/8;
 	tile_height = (fb->vinfo.yres+7)/8;
+	screensize = tile_width*tile_height * 8;
 
 	/* allocate the tile buffer twice, one for u8x8 and another bitmap for u8g2 */
-	fb->u8x8_buf = (uint8_t *)malloc(tile_width*tile_height*8*2);
-	fb->u8g2_buf = (uint8_t *)fb->u8x8_buf + tile_width*tile_height*8;
+	fb->u8x8_buf = (uint8_t *)malloc(screensize*2);
+	fb->u8g2_buf = (uint8_t *)fb->u8x8_buf + screensize;
 
 	if ( fb->u8x8_buf == NULL ) {
 		fb->u8g2_buf = NULL;
