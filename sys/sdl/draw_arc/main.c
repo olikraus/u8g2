@@ -10,165 +10,190 @@
 
 #include "u8g2.h"
 #include <stdio.h>
-#include <math.h>
 
-
-typedef float (*u8g2_atan2f_t)(float, float);
-
-
-//static const float M_PI_2 = 1.57079632679489661923;
-//static const float M_PI_4 = 0.78539816339744830962;
-
-
-float myatan(float a, float b)
-{
-  return atan2f(a, b);
-}
-
-/*
-#define C360 360
-#define C270 270
-#define C180 180
-#define C90 90
-#define C45 45
-*/
-
-#define C360 256
-#define C270 192
-#define C180 128
-#define C90 64
-#define C45 32
-
-
-
-void u8g2_draw_arc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad_in, u8g2_uint_t rad_out, u8g2_uint_t angle_start, u8g2_uint_t angle_end, u8g2_atan2f_t atan2f_func)
-{
-  // Declare variables
-  u8g2_long_t x, y, d, r, as, ae, cnt, num_pts;
-
-  // Manage angle inputs
-  if(angle_start == angle_end) return;
-  uint8_t inverted = (angle_start > angle_end);
-  as = inverted ? angle_end : angle_start;
-  ae = inverted ? angle_start : angle_end;
-
-  // Trace each arc radius with the Andres circle algorithm
-  for(r = rad_in; r <= rad_out; r++)
-  {
-    x = 0;
-    y = r;
-    d = r - 1;
-    cnt = -1;
-    num_pts = atan2f_func ? 100 : (r * 8 / 10); // if no atan2f() function is provided, we make a low cost approximation of the number of pixels drawn for a 1/8th circle of radius r
-    
-    // Process each pixel of a 1/8th circle of radius r
-    while (y >= x)
-    {
-      // If atan2f() function is provided, get the percentage of 1/8th circle drawn, otherwise count the drawn pixels
-      cnt = atan2f_func ? ((M_PI_2 - atan2f_func(y, x)) * 100 / M_PI_4) : (cnt + 1);
-
-      // Fill the pixels of the 8 sections of the circle, but only on the arc defined by the angles (start and end)
-      if((cnt > num_pts * as / C45 && cnt <= num_pts * ae / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
-      if((cnt > num_pts * (C90 - ae) / C45 && cnt <= num_pts * (C90 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + x, y0 - y);
-      if((cnt > num_pts * (as - C90) / C45 && cnt <= num_pts * (ae - C90) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - x, y0 - y);
-      if((cnt > num_pts * (C180 - ae) / C45 && cnt <= num_pts * (C180 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - y, y0 - x);
-      if((cnt > num_pts * (as - C180) / C45 && cnt <= num_pts * (ae - C180) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - y, y0 + x);
-      if((cnt > num_pts * (C270 - ae) / C45 && cnt <= num_pts * (C270 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 - x, y0 + y);
-      if((cnt > num_pts * (as - C270) / C45 && cnt <= num_pts * (ae - C270) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + x, y0 + y);
-      if((cnt > num_pts * (C360 - ae) / C45 && cnt <= num_pts * (C360 - as) / C45) ^ inverted) u8g2_DrawPixel(u8g2, x0 + y, y0 + x);
-
-      // Run Andres circle algorithm to get to the next pixel
-      if (d >= 2 * x)
-      {
-        d = d - 2 * x - 1;
-        x = x + 1;
-      } else if (d < 2 * (r - y))
-      {
-        d = d + 2 * y - 1;
-        y = y - 1;
-      } else
-      {
-        d = d + 2 * (y - x - 1);
-        y = y - 1;
-        x = x + 1;
-      }
-    }
-  }
-}
+#ifndef NO_SDL
+#include "SDL.h"
+#endif
   
 u8g2_t u8g2;
 
+// #define HIDE_INSTRUCTIONS
+
+void spinner_animation(uint8_t animation_enabled, uint8_t* start, uint8_t* end)
+{
+  const uint8_t big_increment = 10;
+  const uint8_t small_increment = 5;
+  static uint8_t grow = 0, initialize = 1;
+  static uint8_t prev_arc_length;
+
+  if(!animation_enabled)
+  {
+    grow = 0;
+    initialize = 1;
+  }
+  else
+  {
+    do
+    {
+      // Decrement angles
+      *start = (256 + *start - (grow ? big_increment : small_increment)) % 256;
+      *end = (256 + *end - (grow ? small_increment : big_increment)) % 256;
+
+      // Get arc length
+      uint8_t arc_length = (256 + *end - *start) % 256;
+      if(initialize)
+      {
+        prev_arc_length = arc_length;
+        initialize = 0;
+      }
+
+      // Check if arc overflows (grown above 255 or shrunk below 0)
+      if((grow && arc_length < prev_arc_length) || (!grow && arc_length > prev_arc_length))
+      {
+        // invert start and end angles, and invert animation
+        uint8_t tmp = *start;
+        *start = *end;
+        *end = tmp;
+        grow = !grow;
+        arc_length = grow ? 0 : 255;
+      }
+
+      prev_arc_length = arc_length; // update arc length for next iteration
+
+    } while (*start == *end); // prevent drawing when arc length is 0 (arc function would draw a full circle)
+  }
+}
+
+
 int main(void)
 {
-  int x, y;
   int k;
-  int i;
+  char buffer[256];
+
+  uint8_t animation_enabled = 1;
+  const uint8_t desired_fps = 30;
+  uint32_t last_ticks = 0;
+
+  u8g2_uint_t x = 30;
+  u8g2_uint_t y = 32;
   
-  u8g2_uint_t rad_in = 10;
-  u8g2_uint_t rad_out = 14;
+  uint8_t rad_in = 18;
+  uint8_t rad_out = 20;
   
-  u8g2_uint_t angle_start = 0;
-  u8g2_uint_t angle_end = 60;
+  uint8_t start = 0;
+  uint8_t end = 220;
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   
   u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
-  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);  
-  
-  u8g2_SetFont(&u8g2, u8g2_font_helvB18_tn);
-  
-  x = 50;
-  y = 30;
+  u8x8_SetPowerSave(u8g2_GetU8x8(&u8g2), 0);
 
+  u8g2_SetFont(&u8g2, u8g2_font_tiny5_tf);
+  u8g2_SetFontPosCenter(&u8g2);
+  u8g2_SetFontMode(&u8g2, 1);
   
+
   for(;;)
   {
+    #ifndef NO_SDL
+
+      // Wait for next frame with constant FPS
+      if (SDL_GetTicks() - last_ticks < 1000/desired_fps) continue;
+      last_ticks = SDL_GetTicks();
+
+      // Get current key press
+      k = u8g_sdl_get_key();
+      switch(k) {
+        case ' ': animation_enabled = !animation_enabled; break;
+        case 'y': rad_in -= 1; break;
+        case 'u': rad_in += 1; break;
+        case 'h': rad_out -= 1; break;
+        case 'j': rad_out += 1; break;
+        case 'i': start -= 1; break;
+        case 'o': start += 1; break;
+        case 'k': end -= 1; break;
+        case 'l': end += 1; break;
+        case 'e': case 273: y -= 1; break;
+        case 'x': case 274: y += 1; break;
+        case 's': case 276: x -= 1; break;
+        case 'd': case 275: x += 1; break;
+        case 'q': return 0;
+        case 't': u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2), "screenshot.tga"); break;
+      }
+      if(k == ' ') printf(animation_enabled ? "play\n" : "pause\n");
+      else if(k > 0) printf("x=%d, y=%d, rad_in=%d, rad_out=%d, start=%d, end=%d\n", x, y, rad_in, rad_out, start, end);
+
+      // Animate if enabled
+      spinner_animation(animation_enabled, &start, &end);
+    #endif
     
-    
+    // Draw elements
     u8g2_FirstPage(&u8g2);
-    do
-    {
-      //u8g2_SetFontDirection(&u8g2, 0);
-      //u8g2_DrawStr(&u8g2, x, y, "123");
-
-      //u8g2_draw_arc(&u8g2, x, y, rad_in, rad_out, angle_start, angle_end, myatan);
-      u8g2_draw_arc(&u8g2, x, y, rad_in, rad_out, angle_start, angle_end, 0);
-
+    do {
       
+      // Draw arc for each radius
+      for(u8g2_uint_t rad = rad_in; rad <= rad_out; rad++)
+      {
+        u8g2_DrawArc(&u8g2, x, y, rad, start, end);
+      }
+      
+
+      // Draw instructions
+      #ifndef HIDE_INSTRUCTIONS
+        // separator
+        u8g2_DrawVLine(&u8g2, 62, 0, 64);
+
+        // anim
+        u8g2_DrawTriangle(&u8g2, 66, 2, 66, 8, 71, 5);
+        u8g2_DrawLine(&u8g2, 72, 8, 76, 2);
+        u8g2_DrawBox(&u8g2, 79, 3, 2, 5);
+        u8g2_DrawBox(&u8g2, 82, 3, 2, 5);
+        u8g2_DrawUTF8(&u8g2, 87, 6, ":");
+        (k == ' ' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 90, 1, 35, 9);
+        u8g2_DrawUTF8(&u8g2, 95, 6, "SPACE");
+
+        // + / - icons
+        u8g2_DrawHLine(&u8g2, 66, 17, 9);
+        u8g2_DrawHLine(&u8g2, 117, 17, 9);
+        u8g2_DrawVLine(&u8g2, 121, 13, 9);
+
+        // rad_in
+        (k == 'y' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 66, 25, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 69, 30, "Y");
+        (k == 'u' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 117, 25, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 120, 30, "U");
+        snprintf(buffer, sizeof(buffer), "IN:%d", rad_in);
+        u8g2_DrawUTF8(&u8g2, 78, 30, buffer);
+
+        // rad_out
+        (k == 'h' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 66, 35, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 69, 40, "H");
+        (k == 'j' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 117, 35, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 120, 40, "J");
+        snprintf(buffer, sizeof(buffer), "OUT:%d", rad_out);
+        u8g2_DrawUTF8(&u8g2, 78, 40, buffer);
+
+        // start
+        (k == 'i' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 66, 45, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 69, 50, "I");
+        (k == 'o' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 117, 45, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 120, 50, "O");
+        snprintf(buffer, sizeof(buffer), "START:%d", start);
+        u8g2_DrawUTF8(&u8g2, 78, 50, buffer);
+
+        // end
+        (k == 'k' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 66, 55, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 69, 60, "K");
+        (k == 'l' ? u8g2_DrawBox : u8g2_DrawFrame)(&u8g2, 117, 55, 9, 9);
+        u8g2_DrawUTF8(&u8g2, 120, 60, "L");
+        snprintf(buffer, sizeof(buffer), "END:%d", end);
+        u8g2_DrawUTF8(&u8g2, 78, 60, buffer);
+      #endif
+
     } while( u8g2_NextPage(&u8g2) );
     
-    do
-    {
-      k = u8g_sdl_get_key();
-    } while( k < 0 );
-    
-    if ( k == 273 ) y -= 7;
-    if ( k == 274 ) y += 7;
-    if ( k == 276 ) x -= 7;
-    if ( k == 275 ) x += 7;
-
-    if ( k == 'o' ) rad_out -= 1;
-    if ( k == 'p' ) rad_out += 1;
-
-    if ( k == 'u' ) rad_in -= 1;
-    if ( k == 'i' ) rad_in += 1;
-
-    if ( k == 'k' ) angle_end -= 1;
-    if ( k == 'l' ) angle_end += 1;
-
-    
-    if ( k == 'e' ) y -= 1;
-    if ( k == 'x' ) y += 1;
-    if ( k == 's' ) x -= 1;
-    if ( k == 'd' ) x += 1;
-    if ( k == 'q' ) break;
-
-    if ( k == 't' ) 
-      u8x8_SaveBitmapTGA(u8g2_GetU8x8(&u8g2), "screenshot.tga");
-
-    printf("rad_in=%d rad_out=%d angle_end=%d\n", rad_in, rad_out, angle_end);
   }
   
   return 0;
