@@ -386,7 +386,7 @@ void setup(void)
 {
   /*
     Do a manual update of the plain U8g2 object with the C API for the display.
-    Use a special byte function, which includes the support for the I2C LCD GFX boad.
+    Use a special byte function, which includes the support for the I2C LCD GFX board.
     
     The C init functions are listed here: https://github.com/olikraus/u8g2/wiki/u8g2setupc
     Just replace the function name accordingly.    
