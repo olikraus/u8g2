@@ -2032,6 +2032,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "240x128" },
+      { "topwin_240x128" },
       { NULL }
     }
   },
