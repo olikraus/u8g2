@@ -328,4 +328,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix for drawUTF8X2 with negative x values (issue 2228)
   * UC1628 256x128 (tested), 256x32 (tested), 128x64 (not tested) (issue 2260):
   * U8x8 example for 90 degree string rotation (issue 2271)
+  * ST7567 96x65 (issue 2332)
   
