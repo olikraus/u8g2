@@ -1576,7 +1576,6 @@ static const uint8_t u8x8_st7567_96x65_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-/* JLX12864 display */
 uint8_t u8x8_d_st7567_96x65(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint8_t x, c;
