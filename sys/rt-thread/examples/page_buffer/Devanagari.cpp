@@ -278,16 +278,39 @@ static u8g2_uint_t u8g2_draw_unifont_devanagari(u8g2_uint_t x, u8g2_uint_t y, co
       {
         /* many more glyphs and corrections are missing */
         /* please report to https://github.com/olikraus/u8g2/issues/584 */
-        case 0x093e: x-= 12; break;
-        case 0x093f: x-= 19; break;
-        case 0x0941: x-= 10; y+=3; break;        // move down
-        case 0x0947: x-= 12; break;
-        case 0x094d: x-= 10; break;
+        case 0x0901: x-= 14; y-=2; break;                  //  ँँ
+        case 0x0902: x-= 14; y-=2; break;   // move up     //  ं
+        case 0x0903: x-= 14; break;                        //  ः
+        case 0x093e: x-= 12; break;                        //  ा
+        case 0x093f: x-= 16; break;                        //  ि
+        case 0x0940: x-= 12; break;                        //  ी
+        case 0x0941: x-= 15; y+=2; break;		// move down   //  ु
+        case 0x0942: x-= 12; y+=2; break;		// move down   //  ू
+        case 0x0943: x-= 16; y+=2; break;		// move down   //  ृ
+        case 0x0944: x-= 16; y+=2; break;		// move down   //  ॄ
+        case 0x0945: x-= 14; y-=2; break;   // move up     //  ॅ
+        case 0x0946: x-= 14; break;                        //  ॆ
+        case 0x0947: x-= 14; break;                        //  े
+        case 0x0948: x-= 14; break;                        //  ै
+        case 0x0949: x-= 14; break;                        //  ै
+        case 0x094b: x-= 14; break;                        //  ो
+        case 0x094c: x-= 14; break;                        //  ौ
+        case 0x094d: x-= 10; break;                        //  ्
       }
       delta = u8g2.drawGlyph(x, y, e);
       switch(e)
       {
-        case 0x0941: x-= 3; y -=3; break;        // revert the y shift
+        case 0x0901: x-= 6; y +=2; break;		// revert the y shift
+        case 0x0902: x-= 6; y +=2; break;		// revert the y shift
+        case 0x0941: x-= 3; y -=2; break;		// revert the y shift
+        case 0x0942: x-= 6; y -=2; break;		// revert the y shift
+        case 0x0943: x-= 4; y -=2; break;		// revert the y shift
+        case 0x0944: x-= 4; y -=2; break;		// revert the y shift
+        case 0x0945: x-= 6; y +=2; break;		// revert the y shift
+        case 0x0946: x-= 2; break;
+        case 0x0947: x-= 2; break;
+        case 0x0948: x-= 2; break;
+        case 0x0949: x-= 2; break;
         case 0x094d: x-= 8; break;
       }
       x += delta;
