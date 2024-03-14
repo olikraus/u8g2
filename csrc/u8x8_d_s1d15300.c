@@ -253,7 +253,7 @@ uint8_t u8x8_d_s1d15300_lm6023(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 /*================================================*/
 /* https://github.com/olikraus/u8g2/issues/2377 */
 
-static const u8x8_display_info_t u8x8_s1d15300_100x33_display_info =
+static const u8x8_display_info_t u8x8_s1d15300_100x32_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -270,14 +270,14 @@ static const u8x8_display_info_t u8x8_s1d15300_100x33_display_info =
   /* data_setup_time_ns = */ 200,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 200,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 13,		/* width of 16*8=128 pixel */
-  /* tile_height = */ 5,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 100,
-  /* pixel_height = */ 33
+  /* pixel_height = */ 32
 };
 
-static const u8x8_display_info_t u8x8_s1d15300_100x33i_display_info =
+static const u8x8_display_info_t u8x8_s1d15300_100x32i_display_info =
 {
   /* chip_enable_level = */ 1,
   /* chip_disable_level = */ 0,
@@ -294,15 +294,15 @@ static const u8x8_display_info_t u8x8_s1d15300_100x33i_display_info =
   /* data_setup_time_ns = */ 200,	/* st7565 datasheet, table 24, tds8 */
   /* write_pulse_width_ns = */ 200,	/* st7565 datasheet, table 24, tcclw */
   /* tile_width = */ 13,		/* width of 16*8=128 pixel */
-  /* tile_height = */ 5,
+  /* tile_height = */ 4,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 100,
-  /* pixel_height = */ 33
+  /* pixel_height = */ 32
 };
 
 
-static const uint8_t u8x8_d_s1d15300_100x33_init_seq[] = {
+static const uint8_t u8x8_d_s1d15300_100x32_init_seq[] = {
 
 
     U8X8_START_TRANSFER(), /* enable chip, delay is part of the transfer start */
@@ -316,7 +316,7 @@ static const uint8_t u8x8_d_s1d15300_100x33_init_seq[] = {
     U8X8_C(0x0a4), /* all point normal */
 
     U8X8_C(0x0a2), /* LCD bias 1/8 */
-    U8X8_C(0x0c0), /* common output mode */
+    U8X8_C(0x0c8), /* common output mode */
     U8X8_C(0x02f), /* power, might be 0x02c */
 
 
@@ -331,7 +331,7 @@ static const uint8_t u8x8_d_s1d15300_100x33_init_seq[] = {
     U8X8_END()           /* end of sequence */  
 };
 
-uint8_t u8x8_d_s1d15300_100x33(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_s1d15300_100x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
   if ( u8x8_d_s1d15300_common(u8x8, msg, arg_int, arg_ptr) == 0 )
@@ -340,11 +340,11 @@ uint8_t u8x8_d_s1d15300_100x33(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
     switch(msg)
     {
       case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_s1d15300_100x33_display_info);
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_s1d15300_100x32_display_info);
 	break;
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
-	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_100x33_init_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_100x32_init_seq);
 	break;
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
@@ -365,7 +365,7 @@ uint8_t u8x8_d_s1d15300_100x33(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
   return 1;
 }
 
-uint8_t u8x8_d_s1d15300_100x33i(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_s1d15300_100x32i(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
   if ( u8x8_d_s1d15300_common(u8x8, msg, arg_int, arg_ptr) == 0 )
@@ -374,11 +374,11 @@ uint8_t u8x8_d_s1d15300_100x33i(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
     switch(msg)
     {
       case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_s1d15300_100x33i_display_info);
+	u8x8_d_helper_display_setup_memory(u8x8, &u8x8_s1d15300_100x32i_display_info);
 	break;
       case U8X8_MSG_DISPLAY_INIT:
 	u8x8_d_helper_display_init(u8x8);
-	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_100x33_init_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_100x32_init_seq);
 	break;
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 	if ( arg_int == 0 )
