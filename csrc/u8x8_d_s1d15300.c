@@ -346,7 +346,9 @@ uint8_t u8x8_d_s1d15300_100x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 	u8x8_d_helper_display_init(u8x8);
 	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_100x32_init_seq);
 	break;
-      case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      case U8X8_MSG_DISPLAY_SET_FLIP_MODE: 
+        /* needs to be fixed regarding a0/c0 */
+        /*
 	if ( arg_int == 0 )
 	{
 	  u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_flip0_seq);
@@ -356,7 +358,8 @@ uint8_t u8x8_d_s1d15300_100x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 	{
 	  u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
-	}	
+	}
+        */
 	break;
       default:
 	return 0;		/* msg unknown */
@@ -381,6 +384,8 @@ uint8_t u8x8_d_s1d15300_100x32i(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 	u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_100x32_init_seq);
 	break;
       case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+        /* needs to be fixed regarding a0/c0 */
+        /*
 	if ( arg_int == 0 )
 	{
 	  u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_flip0_seq);
@@ -390,7 +395,8 @@ uint8_t u8x8_d_s1d15300_100x32i(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
 	{
 	  u8x8_cad_SendSequence(u8x8, u8x8_d_s1d15300_flip1_seq);
 	  u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
-	}	
+	}
+        */
 	break;
       default:
 	return 0;		/* msg unknown */
