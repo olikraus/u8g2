@@ -2246,8 +2246,9 @@ struct controller controller_list[] =
     "s1d15300", 	13, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
+      { "97x32" }, 
       { "100x32" }, 
-      { "100x32i" }, 
+      { "100x32i" }, // inverted CS line
       { NULL }
     }
   },
