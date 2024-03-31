@@ -723,6 +723,7 @@ struct controller controller_list[] =
     {
       { "ea_w128128" },
       { "midas_128x128" },
+      { "zjy_128x128" },  /* issue 2407 */
       { "ws_128x128" },
       { NULL }
     }
