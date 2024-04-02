@@ -1716,7 +1716,7 @@ uint8_t mui_u8g2_u8_opt_parent_wm_pi(mui_t *ui, uint8_t msg)
 }
 
 
-uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
+static uint8_t mui_u8g2_u8_opt_child_mse_common(mui_t *ui, uint8_t msg)
 {
   uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
   uint8_t arg = ui->arg;        // remember the arg value, because it might be overwritten

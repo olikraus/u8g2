@@ -300,7 +300,7 @@ void mui_Init(mui_t *ui, void *graphics_data, fds_t *fds, muif_t *muif_tlist, si
   ui->graphics_data = graphics_data;
 }
 
-int mui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
+static int mui_find_uif(mui_t *ui, uint8_t id0, uint8_t id1)
 {
   size_t i;
   for( i = 0; i < ui->muif_tcnt; i++ )
@@ -460,7 +460,7 @@ static void mui_loop_over_form(mui_t *ui, uint8_t (*task)(mui_t *ui))
 /*
   n is the form number
 */
-fds_t *mui_find_form(mui_t *ui, uint8_t n)
+static fds_t *mui_find_form(mui_t *ui, uint8_t n)
 {
   fds_t *fds = ui->root_fds;
   uint8_t cmd;
@@ -487,20 +487,20 @@ fds_t *mui_find_form(mui_t *ui, uint8_t n)
 /* === task procedures (arguments for mui_loop_over_form) === */
 /* ui->fds contains the current field */
 
-uint8_t mui_task_draw(mui_t *ui)
+static uint8_t mui_task_draw(mui_t *ui)
 {
   //printf("mui_task_draw fds=%p uif=%p text=%s\n", ui->fds, ui->uif, ui->text);
   muif_get_cb(ui->uif)(ui, MUIF_MSG_DRAW);
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_form_start(mui_t *ui)
+static uint8_t mui_task_form_start(mui_t *ui)
 {
   muif_get_cb(ui->uif)(ui, MUIF_MSG_FORM_START);
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_form_end(mui_t *ui)
+static uint8_t mui_task_form_end(mui_t *ui)
 {
   muif_get_cb(ui->uif)(ui, MUIF_MSG_FORM_END);
   return 0;     /* continue with the loop */
@@ -516,7 +516,7 @@ static uint8_t mui_uif_is_cursor_selectable(mui_t *ui)
   return 0;
 }
 
-uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
+static uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   if ( mui_uif_is_cursor_selectable(ui) )
@@ -531,7 +531,7 @@ uint8_t mui_task_find_prev_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
+static uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   if ( mui_uif_is_cursor_selectable(ui) )
@@ -545,7 +545,7 @@ uint8_t mui_task_find_first_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
+static uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   if ( mui_uif_is_cursor_selectable(ui) )
@@ -556,7 +556,7 @@ uint8_t mui_task_find_last_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
+static uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   if ( mui_uif_is_cursor_selectable(ui) )
@@ -575,7 +575,7 @@ uint8_t mui_task_find_next_cursor_uif(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
+static uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   if ( mui_uif_is_cursor_selectable(ui) )
@@ -587,7 +587,7 @@ uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_read_nth_selectable_field(mui_t *ui)
+static uint8_t mui_task_read_nth_selectable_field(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
   if ( mui_uif_is_cursor_selectable(ui) )
@@ -599,7 +599,7 @@ uint8_t mui_task_read_nth_selectable_field(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
-uint8_t mui_task_find_execute_on_select_field(mui_t *ui)
+static uint8_t mui_task_find_execute_on_select_field(mui_t *ui)
 {
   if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_EXECUTE_ON_SELECT )
   {
@@ -651,7 +651,7 @@ void mui_Draw(mui_t *ui)
   mui_loop_over_form(ui, mui_task_draw);
 }
 
-void mui_next_field(mui_t *ui)
+static void mui_next_field(mui_t *ui)
 {
   mui_loop_over_form(ui, mui_task_find_next_cursor_uif);
   // ui->cursor_focus_position++;
