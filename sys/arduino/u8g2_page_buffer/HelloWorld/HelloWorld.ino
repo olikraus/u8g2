@@ -432,9 +432,8 @@ void setup(void) {
 void loop(void) {
   u8g2.firstPage();
   do {
-  
-    u8g2.drawHLine(1,1,10);
-    u8g2.drawHLine(1+5,2,5);
+    u8g2.drawHLine(0,0,10);
+    u8g2.drawHLine(0,31,10);
   
     u8g2.setFont(u8g2_font_ncenB10_tr);
     u8g2.drawStr(0,24,"Hello World!");

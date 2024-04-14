@@ -39,7 +39,22 @@
 
 #include "u8x8.h"
 
-/* https://github.com/olikraus/u8g2/issues/2368 128x32 */
+
+static const uint8_t u8x8_d_ssd1312_128x32_powersave0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0af),		                /* display on */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1312_128x32_powersave1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0ae),		                /* display off */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
 
 static uint8_t u8x8_d_ssd1312_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -60,9 +75,9 @@ static uint8_t u8x8_d_ssd1312_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
     */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1312_128x32_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1306_128x64_noname_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1312_128x32_powersave1_seq);
       break;
 #ifdef U8X8_WITH_SET_CONTRAST
     case U8X8_MSG_DISPLAY_SET_CONTRAST:
@@ -143,6 +158,8 @@ static const uint8_t u8x8_d_ssd1312_128x32_init_seq[] = {
   
   U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
 
+  U8X8_CA(0x0d3, 0x030),		/* line shift by 3*16 = 48 */
+
   U8X8_CA(0x081, 0x0cf), 		/* [2] set contrast control */
   U8X8_CA(0x0d9, 0x0f1), 		/* [2] pre-charge period 0x022/f1*/
   U8X8_CA(0x0db, 0x040), 		/* vcomh deselect level */  
@@ -180,6 +197,8 @@ static const u8x8_display_info_t u8x8_ssd1312_128x32_display_info =
   /* pixel_width = */ 128,
   /* pixel_height = */ 32
 };
+
+/* https://github.com/olikraus/u8g2/issues/2368 128x32 */
 
 
 uint8_t u8x8_d_ssd1312_128x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
