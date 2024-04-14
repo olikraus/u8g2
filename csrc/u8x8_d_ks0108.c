@@ -110,7 +110,7 @@ static const u8x8_display_info_t u8x8_ks0108_128x64_display_info =
   
   /* post_chip_enable_wait_ns = */ 100,
   /* pre_chip_disable_wait_ns = */ 20,
-  /* reset_pulse_width_ms = */ 1, 
+  /* reset_pulse_width_ms = */ 5, 
   /* post_reset_wait_ms = */ 6, 		/* could be faster for the KS0108 */
   /* sda_setup_time_ns = */ 12,		
   /* sck_pulse_width_ns = */ 75,	/* KS0108: Not used */
@@ -217,7 +217,7 @@ static const u8x8_display_info_t u8x8_ks0108_192x64_display_info =
   
   /* post_chip_enable_wait_ns = */ 100,
   /* pre_chip_disable_wait_ns = */ 20,
-  /* reset_pulse_width_ms = */ 1, 
+  /* reset_pulse_width_ms = */ 5, 
   /* post_reset_wait_ms = */ 6, 		/* could be faster for the KS0108 */
   /* sda_setup_time_ns = */ 12,		
   /* sck_pulse_width_ns = */ 75,	/* KS0108: Not used */
