@@ -61,6 +61,21 @@ static const uint8_t u8x8_d_pcf8812_96x65_init_seq[] = {
 };
 
 
+static const uint8_t u8x8_d_pcf8812_101x64_init_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x21), // PowerON, ExtCommandSet
+  U8X8_C(0x09), // Internal HV-gen x3
+  U8X8_C(0xB7), // Set Vop
+  U8X8_C(0x16), // Bias n=2    //15
+  U8X8_C(0x06), // Temperature coeff 2
+  U8X8_C(0x20), // StandartCommandSet
+  U8X8_C(0x0C), // normal mode, display non-inverted
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+
+
 static const uint8_t u8x8_d_pcf8812_96x65_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x020),		                /* power on */
@@ -157,6 +172,86 @@ static uint8_t u8x8_d_pcf8812_96x65_generic(u8x8_t *u8x8, uint8_t msg, uint8_t a
 }
 
 
+static uint8_t u8x8_d_pcf8812_101x64_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t x, c;
+  uint8_t *ptr;
+  switch(msg)
+  {
+    /* handled by the calling function
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_pcf8812_96x65_display_info);
+      break;
+    */
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_pcf8812_101x64_init_seq);    
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_pcf8812_96x65_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_pcf8812_96x65_powersave1_seq);
+      break;
+/*
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_pcf8812_96x65_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_pcf8812_96x65_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+*/
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x021 );    /* command mode, extended function set */
+      u8x8_cad_SendArg(u8x8, (arg_int>>1)|0x80 );	/* 0..127 for contrast */
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      u8x8_cad_StartTransfer(u8x8);
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+      x *= 8;
+      x += u8x8->x_offset;
+    
+      u8x8_cad_SendCmd(u8x8, 0x020 );	/* activate chip (PD=0), horizontal increment (V=0), enter normal command set (H=0) */
+      u8x8_cad_SendCmd(u8x8, 0x080 | x);
+      u8x8_cad_SendCmd(u8x8, 0x040 | ((u8x8_tile_t *)arg_ptr)->y_pos);
+      
+      do
+      {
+	c = ((u8x8_tile_t *)arg_ptr)->cnt;
+	ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+	u8x8_cad_SendData(u8x8, c*8, ptr); 	/* note: SendData can not handle more than 255 bytes */
+	/*
+	do
+	{
+	  u8x8_cad_SendData(u8x8, 8, ptr);
+	  ptr += 8;
+	  c--;
+	} while( c > 0 );
+	*/
+	arg_int--;
+      } while( arg_int > 0 );
+      
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+
+
 static const u8x8_display_info_t u8x8_pcf8812_96x65_display_info =
 {
   /* chip_enable_level = */ 0,
@@ -216,18 +311,7 @@ static const u8x8_display_info_t u8x8_pcf8812_101x64_display_info =
   /* pixel_height = */ 64
 };
 
-static const uint8_t u8x8_d_pcf8812_101x64_init_seq[] = {
-  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x21), // PowerON, ExtCommandSet
-  U8X8_C(0x09), // Internal HV-gen x3
-  U8X8_C(0xB7), // Set Vop
-  U8X8_C(0x16), // Bias n=2    //15
-  U8X8_C(0x06), // Temperature coeff 2
-  U8X8_C(0x20), // StandartCommandSet
-  U8X8_C(0x0C), // normal mode, display non-inverted
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
-};
+
 
 
 uint8_t u8x8_d_pcf8812_101x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
@@ -242,6 +326,6 @@ uint8_t u8x8_d_pcf8812_101x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_pcf8812_101x64_init_seq);    
     }    
-    return u8x8_d_pcf8812_96x65_generic(u8x8, msg, arg_int, arg_ptr);
+    return u8x8_d_pcf8812_101x64_generic(u8x8, msg, arg_int, arg_ptr);
 }
 
