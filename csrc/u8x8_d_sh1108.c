@@ -232,7 +232,7 @@ static const uint8_t u8x8_d_sh1108_128x160_noname_init_seq[] = {
     
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0d5, 0x060),		/* clock divide ratio and oscillator frequency */
-  U8X8_CA(0x0a9, 0x003), 		/* set display resolution, 0=64x160, 1=96x160, 2=128x160, 3=160x160 */
+  U8X8_CA(0x0a9, 0x002), 		/* set display resolution, 0=64x160, 1=96x160, 2=128x160, 3=160x160 */
   U8X8_C(0x020),		                /* addressing mode */
   U8X8_CA(0x081, 0x01f), 		/* set contrast control */
   U8X8_CA(0x0ad, 0x80),			/* DC/DC control 80=Use external Vpp, 89=Use internal DC/DC*/
