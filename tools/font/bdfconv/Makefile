@@ -92,6 +92,14 @@ issue1769: bdfconv
 	./bdfconv -v -f 1 -b 2 -m '32-128' 3x7_Multi_V7.bdf -o u8g2_font_3x7_multi.c  -n u8g2_font_3x7_multi -d ../bdf/helvR12.bdf 
 	convert bdf.tga -trim u8g2_font_3x7_multi.png
 
+issue2406: bdfconv
+	-../otf2bdf/otf2bdf -y -v -r 72 -p 16 -o tmp.bdf ../tmp/zfull/zfull-regular.ttf
+	#-../otf2bdf/otf2bdf -v -r 72 -p 16 -o tmp.bdf ../ttf/Logisoso.ttf
+	#-../otf2bdf/otf2bdf -v -r 72 -p 16 -o tmp.bdf ../ttf/PressStart2P.ttf
+	#-../otf2bdf/otf2bdf -v -r 72 -p 16 -o tmp.bdf ../ttf/Wizzard.ttf
+	./bdfconv -v -f 1 -b 2 -m '32-128' tmp.bdf -o u8g2_zfull.c  -n u8g2_zfull -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_zfull.png
+
 
 emoticons21: bdfconv
 	./bdfconv -v -f 1 -m '32-64' ../emoticons/emoticons21.bdf -o emoticons21.c  -n u8g2_font_emoticons21_tn -d ../bdf/helvB18.bdf 

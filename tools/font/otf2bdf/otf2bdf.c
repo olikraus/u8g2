@@ -135,6 +135,8 @@ static char *prog;
  */
 static int verbose = 0;
 
+static int alternate_y_offset_calculation = 0;  // u8g2 issue 2406 https://github.com/olikraus/u8g2/issues/2406 
+
 /*
  * Flags used when loading glyphs.
  */
@@ -880,6 +882,10 @@ generate_font(FILE *out, char *iname, char *oname)
         ht = ey - sy;
         x_off = sx + face->glyph->bitmap_left;
         y_off = sy + face->glyph->bitmap_top - face->glyph->bitmap.rows;
+        // u8g2 issue 2406
+        // the above calculation seems to be wrong, this should be: 
+        if ( alternate_y_offset_calculation )
+          y_off = face->glyph->bitmap_top - ey;
 
         bbx.maxas = MAX(bbx.maxas, ht + y_off);
         bbx.maxds = MAX(bbx.maxds, -y_off);
@@ -901,6 +907,10 @@ generate_font(FILE *out, char *iname, char *oname)
         fprintf(tmp, "SWIDTH %hd 0\n", swidth);
         fprintf(tmp, "DWIDTH %hd 0\n", dwidth);
         fprintf(tmp, "BBX %ld %ld %hd %hd\n", wd, ht, x_off, y_off);
+
+        // debug output (u8g2 issue 2406)
+        //if ( remapped_code >= 96 && remapped_code <= 103 )
+        //   fprintf(stderr, "%05ld BBX %ld %ld %hd %hd sy=%d, ey=%d bitmap_top=%d bitmap.rows=%d\n", (long) remapped_code, wd, ht, x_off, y_off, (int)sy, (int)ey, face->glyph->bitmap_top, face->glyph->bitmap.rows);
 
         /*
          * Check for an error return here in case the temporary file system
@@ -1242,6 +1252,7 @@ usage(int eval)
     printf("-m mapfile\tGlyph reencoding file.\n");
     printf("-n\t\tTurn off glyph hinting.\n");
     printf("-a\t\tForce auto hinting.\n");
+    printf("-y\t\tApply bugfix for the bbx y offset calculation (u8g2 issue 2406).\n");
     printf("-g\t\tOutput raw glyphs instead of unicode chars.\n");
     printf("-et\t\tDisplay the encoding tables available in the font.\n");
     printf("-c c\t\tSet the character spacing (default: from font).\n");
@@ -1309,6 +1320,9 @@ main(int argc, char *argv[])
                 break;
               case 'a': case 'A':
                 load_flags |= FT_LOAD_FORCE_AUTOHINT;
+                break;
+              case 'y': case 'Y':
+                alternate_y_offset_calculation = 1;
                 break;
               case 'g': case 'G':              
                 forcenocmap = 1;
