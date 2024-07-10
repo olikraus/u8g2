@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-project(u8g2)
+if(NOT DEFINED ESP_PLATFORM)
+    project(u8g2)
+endif()
 
 set(COMPONENT_ADD_INCLUDEDIRS csrc)
 file(GLOB COMPONENT_SRCS csrc/*.c)
