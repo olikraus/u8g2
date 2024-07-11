@@ -20,14 +20,14 @@ else()
 endif()
 
 install(TARGETS u8g2
-    EXPORT u8g2-targets
-    ARCHIVE DESTINATION lib)
+        EXPORT u8g2-targets
+        ARCHIVE DESTINATION lib)
 
 install(FILES ${COMPONENT_HDRS}
-    DESTINATION include/u8g2)
+        DESTINATION include/u8g2)
 
 install(EXPORT u8g2-targets
-    DESTINATION lib/cmake/u8g2)
+        DESTINATION lib/cmake/u8g2)
 
 install(FILES ${u8g2_SOURCE_DIR}/pkg/u8g2-config.cmake
-    DESTINATION lib/cmake/u8g2)
+        DESTINATION lib/cmake/u8g2)
