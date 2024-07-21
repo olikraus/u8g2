@@ -52,7 +52,7 @@ static const uint8_t u8x8_d_st7920_init_seq[] = {
   U8X8_C(0x006),		                /* Entry mode: Cursor move to right ,DDRAM address counter (AC) plus 1, no shift  */  
   U8X8_C(0x002),		                /* disable scroll, enable CGRAM adress  */
   U8X8_C(0x001),		                /* clear RAM, needs 1.6 ms */
-  U8X8_DLY(4),					/* delay 2ms */
+  U8X8_DLY(10),					/* delay 10ms */
 
   
   U8X8_END_TRANSFER(),             	/* disable chip */
