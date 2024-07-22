@@ -1190,6 +1190,10 @@ int main(void)
     {
       mui_SendSelect(&ui);
     }
+    if (k == 'b')
+    {
+      mui_backForm(&ui);
+    }
 
     if ( k == 't' ) 
     {

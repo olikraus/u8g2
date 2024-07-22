@@ -811,6 +811,57 @@ void mui_RestoreForm(mui_t *ui)
   mui_GotoForm(ui, ui->last_form_id, ui->last_form_cursor_focus_position);
 }
 
+int mui_pushFormStack(mui_t *ui, uint8_t form_id, uint8_t cursor_position)
+{
+  if (ui->menu_form_stack_counts >= MUI_MENU_CACHE_CNT)
+    return -1;
+
+  MUI_DEBUG("mui_pushFormStack: [%d] %d:%d\n", ui->menu_form_stack_counts, form_id, cursor_position);
+  ui->menu_form_id[ui->menu_form_stack_counts] = form_id;
+  ui->menu_form_cursor_focus_position[ui->menu_form_stack_counts] = cursor_position;
+  ui->menu_form_stack_counts++;
+
+  return 0;
+}
+
+int mui_popFormStack(mui_t *ui, uint8_t *form_id, uint8_t *cursor_position)
+{
+  if (ui->menu_form_stack_counts == 0 || ui->menu_form_stack_counts > MUI_MENU_CACHE_CNT)
+    return -1;
+
+  ui->menu_form_stack_counts--;
+  *form_id = ui->menu_form_id[ui->menu_form_stack_counts];
+  *cursor_position = ui->menu_form_cursor_focus_position[ui->menu_form_stack_counts];
+  MUI_DEBUG("mui_popFormStack: [%d] %d:%d\n", ui->menu_form_stack_counts, *form_id, *cursor_position);
+
+  return 0;
+}
+
+int mui_popFormStackAt(mui_t *ui, uint8_t form_id, uint8_t *cursor_position)
+{
+  if (ui->menu_form_stack_counts == 0 || ui->menu_form_stack_counts > MUI_MENU_CACHE_CNT)
+    return -1;
+
+  for (uint8_t i = ui->menu_form_stack_counts - 1; i > 0; i--) {
+    if (ui->menu_form_id[i] == form_id) {
+      /* found it and reset stack size */
+      *cursor_position = ui->menu_form_cursor_focus_position[i];
+      ui->menu_form_stack_counts = i;
+      MUI_DEBUG("mui_popFormStackAt: [%d] %d:%d\n", i, form_id, *cursor_position);
+      return 0;
+    }
+  }
+
+  if (ui->menu_form_id[0] == form_id) {
+    *cursor_position = ui->menu_form_cursor_focus_position[0];
+    ui->menu_form_stack_counts = 0;
+    MUI_DEBUG("mui_popFormStackAt: [%d] %d:%d\n", 0, form_id, *cursor_position);
+    return 0;
+  }
+
+  return -1;
+}
+
 /*
   Save a cursor position for mui_GotoFormAutoCursorPosition command
   Two such positions is stored.
@@ -819,16 +870,7 @@ void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position)
 {
   uint8_t form_id = mui_get_fds_char(ui->current_form_fds+1);
   MUI_DEBUG("mui_SaveCursorPosition form_id=%d cursor_position=%d\n", form_id, cursor_position);
-  
-  if ( form_id == ui->menu_form_id[0] )
-    ui->menu_form_last_added = 0;
-  else if ( form_id == ui->menu_form_id[1] )
-    ui->menu_form_last_added = 1;
-  else 
-    ui->menu_form_last_added ^= 1;
-  ui->menu_form_id[ui->menu_form_last_added] = form_id;
-  ui->menu_form_cursor_focus_position[ui->menu_form_last_added] = cursor_position;
-  MUI_DEBUG("mui_SaveCursorPosition ui->menu_form_last_added=%d \n", ui->menu_form_last_added);
+  mui_pushFormStack(ui, form_id, cursor_position);
 }
 
 /*
@@ -837,10 +879,7 @@ void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position)
 uint8_t mui_GotoFormAutoCursorPosition(mui_t *ui, uint8_t form_id)
 {
   uint8_t cursor_position = 0;
-  if ( form_id == ui->menu_form_id[0] )
-    cursor_position = ui->menu_form_cursor_focus_position[0];
-  if ( form_id == ui->menu_form_id[1] )
-    cursor_position = ui->menu_form_cursor_focus_position[1];
+  mui_popFormStackAt(ui, form_id, &cursor_position);
   MUI_DEBUG("mui_GotoFormAutoCursorPosition form_id=%d cursor_position=%d\n", form_id, cursor_position);
   return mui_GotoForm(ui, form_id, cursor_position);
 }
@@ -901,6 +940,14 @@ void mui_PrevField(mui_t *ui)
 void mui_SendSelect(mui_t *ui)
 {
   mui_send_cursor_msg(ui, MUIF_MSG_CURSOR_SELECT);  
+}
+
+void mui_backForm(mui_t *ui)
+{
+  uint8_t form_id, cursor_position;
+
+  if (mui_popFormStack(ui, &form_id, &cursor_position) == 0)
+    mui_GotoForm(ui, form_id, cursor_position);
 }
 
 /*

@@ -223,7 +223,7 @@ struct muif_struct
 #define MUI_MAX_TEXT_LEN 41
 #endif
 
-#define MUI_MENU_CACHE_CNT 2
+#define MUI_MENU_CACHE_CNT 32
 
 struct mui_struct
 {
@@ -277,7 +277,7 @@ struct mui_struct
   /* menu cursor position backup */
   uint8_t menu_form_id[MUI_MENU_CACHE_CNT];
   uint8_t menu_form_cursor_focus_position[MUI_MENU_CACHE_CNT];
-  uint8_t menu_form_last_added;
+  uint8_t menu_form_stack_counts;
 } ;
 
 #define mui_IsCursorFocus(mui) ((mui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
@@ -592,6 +592,7 @@ int mui_GetCurrentFormId(mui_t *ui);    /* form id or -1 if the menu system is i
 void mui_NextField(mui_t *ui);
 void mui_PrevField(mui_t *ui);
 void mui_SendSelect(mui_t *ui);
+void mui_backForm(mui_t *ui);
 void mui_SendSelectWithExecuteOnSelectFieldSearch(mui_t *ui);  /* use this if MUIF_EXECUTE_ON_SELECT_BUTTON is used */
 
 void mui_SendValueIncrement(mui_t *ui);
