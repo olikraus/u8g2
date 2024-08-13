@@ -1,7 +1,7 @@
 CFLAGS = -g -Wall -I../../../csrc/ -ICImg
 CXXFLAGS = $(CFLAGS)
 LDFLAGS = -lpthread
-CSRC = $(wildcard ls ../../../csrc/*.c) ../common/u8x8_d_bitmap.c
+CSRC = $(wildcard ls ../../../csrc/*.c) ../common/*.c
 CPPSRC = main.cpp
 OBJ = $(CSRC:.c=.o) $(CPPSRC:.cpp=.o)
 
