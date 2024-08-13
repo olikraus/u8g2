@@ -122,6 +122,11 @@ cp ../../../sys/arduino/u8g2_page_buffer/LoadFromSD/*.ino ../../../../U8g2_Ardui
 mkdir ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon 
 cp ../../../sys/arduino/u8g2_page_buffer/ButtonEmoticon/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon/.
 
+# bitmap devices
+
+mkdir ../../../../U8g2_Arduino/examples/bitmap_dev/HelloWorld
+cp ../../../sys/arduino/u8g2_bitmap_dev/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/bitmap_dev/HelloWorld/.
+
 # mui
 
 mkdir ../../../../U8g2_Arduino/examples/mui/MUIBlink
