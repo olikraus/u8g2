@@ -469,6 +469,7 @@ uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_INCREMENT:
     case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
+      mui_SaveForm(ui);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -498,6 +499,7 @@ uint8_t mui_u8g2_btn_goto_wm_if(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_INCREMENT:
     case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
+      mui_SaveForm(ui);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
    case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -528,6 +530,7 @@ uint8_t mui_u8g2_btn_goto_w2_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_INCREMENT:
     case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
+      mui_SaveForm(ui);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -557,6 +560,7 @@ uint8_t mui_u8g2_btn_goto_w2_if(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_INCREMENT:
     case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
+      mui_SaveForm(ui);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -587,6 +591,7 @@ uint8_t mui_u8g2_btn_goto_w1_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_INCREMENT:
     case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
+      mui_SaveForm(ui);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -618,6 +623,7 @@ uint8_t mui_u8g2_btn_goto_w1_fi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_INCREMENT:
     case MUIF_MSG_VALUE_DECREMENT:
       //return mui_GotoForm(ui, ui->arg, 0);
+      mui_SaveForm(ui);
       return mui_GotoFormAutoCursorPosition(ui, ui->arg);
     case MUIF_MSG_CURSOR_LEAVE:
       break;
@@ -2149,6 +2155,7 @@ uint8_t mui_u8g2_goto_form_w1_pf(mui_t *ui, uint8_t msg)
     case MUIF_MSG_CURSOR_SELECT:
       if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
       {
+        mui_SaveFormWithCursorPosition(ui, ui->arg + ui->form_scroll_top);
         mui_SaveCursorPosition(ui, ui->arg + ui->form_scroll_top);     // store the current cursor position, so that the user can jump back to the corresponding cursor position
         return mui_GotoFormAutoCursorPosition(ui, (uint8_t)ui->text[0]);
      }
@@ -2413,6 +2420,7 @@ uint8_t mui_u8g2_u16_list_goto_w1_pi(mui_t *ui, uint8_t msg)
     case MUIF_MSG_VALUE_DECREMENT:
       if ( selection != NULL )
         *selection = pos;
+      mui_SaveFormWithCursorPosition(ui, pos >= 255 ? 0 : pos);
       mui_SaveCursorPosition(ui, pos >= 255 ? 0 : pos);     // store the current cursor position, so that the user can jump back to the corresponding cursor position
       mui_GotoFormAutoCursorPosition(ui, (uint8_t)element_cb(data, pos)[0]); 
       break;
