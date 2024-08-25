@@ -285,6 +285,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_RO("GP",mui_u8g2_goto_data),
   MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_pi),
 
+  MUIF_BUTTON("BK", mui_u8g2_btn_back_wm_fi),
+
   /* Form 10 */
   MUIF_GOTO(mui_u8g2_btn_goto_wm_fi),
   MUIF_BUTTON("G0", mui_u8g2_btn_goto_wm_fi),
@@ -413,6 +415,7 @@ MUI_XY("HR", 0,13)
 MUI_STYLE(0)
 MUI_DATA("GP", 
   MUI_21 "u8_min_max_wm_mse_pi|" 
+  MUI_21 "u8_min_max_wm_mse_pi 2|" 
   MUI_22 "u8_min_max_wm_mud_pi|" 
   MUI_23 "u8_min_max_wm_mse_pf|" 
   MUI_24 "u8_min_max_wm_mud_pf|" 
@@ -432,7 +435,8 @@ MUI_XY("HR", 0,26)
 MUI_STYLE(0)
 MUI_LABEL(1,40, "Number: ")
 MUI_XY("N0",70, 40)
-MUI_GOTO(64, 59, 20, " Ok ")
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
 
 MUI_FORM(22)
 MUI_STYLE(2)
@@ -444,7 +448,8 @@ MUI_XY("HR", 0,26)
 MUI_STYLE(0)
 MUI_LABEL(1,40, "Number: ")
 MUI_XY("N1",70, 40)
-MUI_GOTO(64, 59, 20, " Ok ")
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
 
 MUI_FORM(23)
 MUI_STYLE(2)
@@ -456,7 +461,8 @@ MUI_XY("HR", 0,26)
 MUI_STYLE(0)
 MUI_LABEL(1,40, "Number: ")
 MUI_XY("N2",70, 40)
-MUI_GOTO(64, 59, 20, " Ok ")
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
 
 MUI_FORM(24)
 MUI_STYLE(2)
@@ -468,7 +474,8 @@ MUI_XY("HR", 0,26)
 MUI_STYLE(0)
 MUI_LABEL(1,40, "Number: ")
 MUI_XY("N3",70, 40)
-MUI_GOTO(64, 59, 20, " Ok ")
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
 
 
 
@@ -500,7 +507,8 @@ MUI_XY("C1",66, 40)
 MUI_LABEL(1,55, "Checkbox 2: ")
 MUI_XY("C2",66, 55)
 MUI_STYLE(3)
-MUI_GOTO(110, 54, 30, "\x31")
+//MUI_GOTO(110, 54, 30, "\x31")
+MUI_XYT("BK", 110, 54, "\x31")
 
 MUI_FORM(32)
 MUI_STYLE(2)
@@ -513,7 +521,8 @@ MUI_STYLE(0)
 MUI_XYAT("RB", 1, 40, 1, "Radio 1")
 MUI_XYAT("RB", 1, 55, 2, "Radio 2")
 MUI_STYLE(3)
-MUI_GOTO(110, 54, 30, "\x31")
+//MUI_GOTO(110, 54, 30, "\x31")
+MUI_XYT("BK", 110, 54, "\x31")
 
 
 MUI_FORM(40)

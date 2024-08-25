@@ -223,7 +223,9 @@ struct muif_struct
 #define MUI_MAX_TEXT_LEN 41
 #endif
 
-#define MUI_MENU_CACHE_CNT 2
+#define MUI_MENU_CACHE_CNT 4
+
+#define MUI_MENU_LAST_FORM_STACK_SIZE 4
 
 struct mui_struct
 {
@@ -270,14 +272,16 @@ struct mui_struct
   fds_t *target_fds;     // used by several task functions as a return / result value
   
   /* last form and field, used by mui_SaveForm and mui_RestoreForm */
-  uint8_t last_form_id;
-  uint8_t last_form_cursor_focus_position;
-  fds_t *last_form_fds;           // not used by mui_RestoreForm, but can be used by field functions
+  uint8_t last_form_id[MUI_MENU_LAST_FORM_STACK_SIZE];
+  uint8_t last_form_cursor_focus_position[MUI_MENU_LAST_FORM_STACK_SIZE];
+  fds_t *last_form_fds;           // not used by mui_RestoreForm, but can be used by field functions, warning: this is the FDS of the field, from where the jump started to the child (cursor_focus_fds)
+  int8_t last_form_stack_pos;
   
   /* menu cursor position backup */
+  /* idea is, to restore the cursor position if we jump to that form */
+  uint8_t menu_form_last_added;
   uint8_t menu_form_id[MUI_MENU_CACHE_CNT];
   uint8_t menu_form_cursor_focus_position[MUI_MENU_CACHE_CNT];
-  uint8_t menu_form_last_added;
 } ;
 
 #define mui_IsCursorFocus(mui) ((mui)->dflags & MUIF_DFLAG_IS_CURSOR_FOCUS)
@@ -583,8 +587,9 @@ uint8_t mui_GetSelectableFieldOptionCnt(mui_t *ui, fds_t *fds);
 void mui_EnterForm(mui_t *ui, fds_t *fds, uint8_t initial_cursor_position);
 void mui_LeaveForm(mui_t *ui);
 uint8_t mui_GotoForm(mui_t *ui, uint8_t form_id, uint8_t initial_cursor_position);
+void mui_SaveFormWithCursorPosition(mui_t *ui, uint8_t cursor_pos); /* Save current form with manully provied cursor position, Used together with mui_RestoreForm */
 void mui_SaveForm(mui_t *ui);     /* Save current form+cursor position. Used together with mui_RestoreForm */
-void mui_RestoreForm(mui_t *ui);        /* Restore form and cursor position, previously saved with mui_SaveForm */
+uint8_t mui_RestoreForm(mui_t *ui);        /* Restore form and cursor position, previously saved with mui_SaveForm */
 void mui_SaveCursorPosition(mui_t *ui, uint8_t cursor_position);         /* stores a cursor position for use with mui_GotoFormAutoCursorPosition */
 uint8_t mui_GotoFormAutoCursorPosition(mui_t *ui, uint8_t form_id);
 
