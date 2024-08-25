@@ -1,6 +1,6 @@
 CFLAGS = -g -Wall -I../../../csrc/.
 
-SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/u8x8_d_bitmap.c ) main.c
+SRC = $(shell ls ../../../csrc/*.c) $(shell ls ../common/*.c ) main.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -17,207 +17,212 @@ rm ./../../../../U8g2_Arduino/src/clib/u8x8_d_stdio.c
 
 # page buffer
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/MechCount
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/MechCount
 cp ../../../sys/arduino/u8g2_page_buffer/MechCount/*.ino ../../../../U8g2_Arduino/examples/page_buffer/MechCount/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Devanagari
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Devanagari
 cp ../../../sys/arduino/u8g2_page_buffer/Devanagari/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Devanagari/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/UpdatePartly
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/UpdatePartly
 cp ../../../sys/arduino/u8g2_page_buffer/UpdatePartly/*.ino ../../../../U8g2_Arduino/examples/page_buffer/UpdatePartly/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/ClipWindow
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/ClipWindow
 cp ../../../sys/arduino/u8g2_page_buffer/ClipWindow/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ClipWindow/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/StateBufferLoop
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/StateBufferLoop
 cp ../../../sys/arduino/u8g2_page_buffer/StateBufferLoop/*.ino ../../../../U8g2_Arduino/examples/page_buffer/StateBufferLoop/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Serial
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Serial
 cp ../../../sys/arduino/u8g2_page_buffer/Serial/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Serial/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/DrawLog
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/DrawLog
 cp ../../../sys/arduino/u8g2_page_buffer/DrawLog/*.ino ../../../../U8g2_Arduino/examples/page_buffer/DrawLog/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Terminal
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Terminal
 cp ../../../sys/arduino/u8g2_page_buffer/Terminal/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Terminal/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/IconMenu
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/IconMenu
 cp ../../../sys/arduino/u8g2_page_buffer/IconMenu/*.ino ../../../../U8g2_Arduino/examples/page_buffer/IconMenu/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Weather
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Weather
 cp ../../../sys/arduino/u8g2_page_buffer/Weather/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Weather/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Chinese
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Chinese
 cp ../../../sys/arduino/u8g2_page_buffer/Chinese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Chinese/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Shennong
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Shennong
 cp ../../../sys/arduino/u8g2_page_buffer/Shennong/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Shennong/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Shennong
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Shennong
 cp ../../../sys/arduino/u8g2_full_buffer/Shennong/*.ino ../../../../U8g2_Arduino/examples/full_buffer/Shennong/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Japanese
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Japanese
 cp ../../../sys/arduino/u8g2_page_buffer/Japanese/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Japanese/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Korean
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Korean
 cp ../../../sys/arduino/u8g2_page_buffer/Korean/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Korean/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/ScrollingText
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/ScrollingText
 cp ../../../sys/arduino/u8g2_page_buffer/ScrollingText/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ScrollingText/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/ContrastTest
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/ContrastTest
 cp ../../../sys/arduino/u8g2_page_buffer/ContrastTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ContrastTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/DirectAccess
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/DirectAccess
 cp ../../../sys/arduino/u8g2_page_buffer/DirectAccess/*.ino ../../../../U8g2_Arduino/examples/page_buffer/DirectAccess/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/A2Printer
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/A2Printer
 cp ../../../sys/arduino/u8g2_page_buffer/A2Printer/*.ino ../../../../U8g2_Arduino/examples/page_buffer/A2Printer/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/ExtUTF8
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/ExtUTF8
 cp ../../../sys/arduino/u8g2_page_buffer/ExtUTF8/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ExtUTF8/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/FPS
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/FPS
 cp ../../../sys/arduino/u8g2_page_buffer/FPS/*.ino ../../../../U8g2_Arduino/examples/page_buffer/FPS/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_page_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/page_buffer/HelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld
 cp ../../../sys/arduino/u8g2_page_buffer/PrintHelloWorld/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintHelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintProgmem
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/PrintProgmem
 cp ../../../sys/arduino/u8g2_page_buffer/PrintProgmem/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintProgmem/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8
 cp ../../../sys/arduino/u8g2_page_buffer/PrintUTF8/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PrintUTF8/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/U8g2Logo
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/U8g2Logo
 cp ../../../sys/arduino/u8g2_page_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/page_buffer/U8g2Logo/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/FlipMode
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/FlipMode
 cp ../../../sys/arduino/u8g2_page_buffer/FlipMode/*.ino ../../../../U8g2_Arduino/examples/page_buffer/FlipMode/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/SelectionList
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/SelectionList
 cp ../../../sys/arduino/u8g2_page_buffer/SelectionList/*.ino ../../../../U8g2_Arduino/examples/page_buffer/SelectionList/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest
 cp ../../../sys/arduino/u8g2_page_buffer/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/GraphicsTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/Clock
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/Clock
 cp ../../../sys/arduino/u8g2_page_buffer/Clock/*.ino ../../../../U8g2_Arduino/examples/page_buffer/Clock/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/XORTest
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/XORTest
 cp ../../../sys/arduino/u8g2_page_buffer/XORTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/XORTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/XBM
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/XBM
 cp ../../../sys/arduino/u8g2_page_buffer/XBM/*.ino ../../../../U8g2_Arduino/examples/page_buffer/XBM/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest
 cp ../../../sys/arduino/u8g2_page_buffer/PowerSaveTest/*.ino ../../../../U8g2_Arduino/examples/page_buffer/PowerSaveTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD 
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD 
 cp ../../../sys/arduino/u8g2_page_buffer/LoadFromSD/*.ino ../../../../U8g2_Arduino/examples/page_buffer/LoadFromSD/.
 
-mkdir ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon 
+mkdir -p ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon 
 cp ../../../sys/arduino/u8g2_page_buffer/ButtonEmoticon/*.ino ../../../../U8g2_Arduino/examples/page_buffer/ButtonEmoticon/.
+
+# bitmap devices
+
+mkdir -p ../../../../U8g2_Arduino/examples/bitmap_dev/HelloWorld
+cp ../../../sys/arduino/u8g2_bitmap_dev/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/bitmap_dev/HelloWorld/.
 
 # mui
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIBlink
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIBlink
 cp ../../../sys/arduino/u8g2_page_buffer/MUIBlink/*.ino ../../../../U8g2_Arduino/examples/mui/MUIBlink/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIMinimal
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIMinimal
 cp ../../../sys/arduino/u8g2_page_buffer/MUIMinimal/*.ino ../../../../U8g2_Arduino/examples/mui/MUIMinimal/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2
 cp ../../../sys/arduino/u8g2_page_buffer/MUIInput2BtnBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnBounce2
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnBounce2
 cp ../../../sys/arduino/u8g2_page_buffer/MUIInput3BtnBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnBounce2/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnWithU8g2
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnWithU8g2
 cp ../../../sys/arduino/u8g2_page_buffer/MUIInput3BtnWithU8g2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput3BtnWithU8g2/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIInputSimpleRotary
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIInputSimpleRotary
 cp ../../../sys/arduino/u8g2_page_buffer/MUIInputSimpleRotary/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInputSimpleRotary/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIInputVersatileRotaryEncoder
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIInputVersatileRotaryEncoder
 cp ../../../sys/arduino/u8g2_page_buffer/MUIInputVersatileRotaryEncoder/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInputVersatileRotaryEncoder/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUIStopwatch
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUIStopwatch
 cp ../../../sys/arduino/u8g2_page_buffer/MUIStopwatch/*.ino ../../../../U8g2_Arduino/examples/mui/MUIStopwatch/.
 
-mkdir ../../../../U8g2_Arduino/examples/mui/MUICountDown
+mkdir -p ../../../../U8g2_Arduino/examples/mui/MUICountDown
 cp ../../../sys/arduino/u8g2_page_buffer/MUICountDown/*.ino ../../../../U8g2_Arduino/examples/mui/MUICountDown/.
 
 # games
-mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
+mkdir -p ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
 
-mkdir ../../../../U8g2_Arduino/examples/games/SpaceTrash
+mkdir -p ../../../../U8g2_Arduino/examples/games/SpaceTrash
 cp ../../../sys/arduino/u8g2_page_buffer/SpaceTrash/*.ino ../../../../U8g2_Arduino/examples/games/SpaceTrash/.
 
 
 # full buffer
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/UpdateArea
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/UpdateArea
 cp ../../../sys/arduino/u8g2_full_buffer/UpdateArea/*.ino ../../../../U8g2_Arduino/examples/full_buffer/UpdateArea/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/IconMenu
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/IconMenu
 cp ../../../sys/arduino/u8g2_full_buffer/IconMenu/*.ino ../../../../U8g2_Arduino/examples/full_buffer/IconMenu/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/Weather
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/Weather
 cp ../../../sys/arduino/u8g2_full_buffer/Weather/*.ino ../../../../U8g2_Arduino/examples/full_buffer/Weather/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld
 cp ../../../sys/arduino/u8g2_full_buffer/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/full_buffer/HelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/FontUsage
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/FontUsage
 cp ../../../sys/arduino/u8g2_full_buffer/FontUsage/*.ino ../../../../U8g2_Arduino/examples/full_buffer/FontUsage/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo
 cp ../../../sys/arduino/u8g2_full_buffer/U8g2Logo/*.ino ../../../../U8g2_Arduino/examples/full_buffer/U8g2Logo/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/PrintUTF8
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/PrintUTF8
 cp ../../../sys/arduino/u8g2_full_buffer/PrintUTF8/*.ino ../../../../U8g2_Arduino/examples/full_buffer/PrintUTF8/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/SelectionList
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/SelectionList
 cp ../../../sys/arduino/u8g2_full_buffer/SelectionList/*.ino ../../../../U8g2_Arduino/examples/full_buffer/SelectionList/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/GraphicsTest
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/GraphicsTest
 cp ../../../sys/arduino/u8g2_full_buffer/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/full_buffer/GraphicsTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/FPS
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/FPS
 cp ../../../sys/arduino/u8g2_full_buffer/FPS/*.ino ../../../../U8g2_Arduino/examples/full_buffer/FPS/.
 
-mkdir ../../../../U8g2_Arduino/examples/full_buffer/ScreenShot
+mkdir -p ../../../../U8g2_Arduino/examples/full_buffer/ScreenShot
 cp ../../../sys/arduino/u8g2_full_buffer/ScreenShot/*.ino ../../../../U8g2_Arduino/examples/full_buffer/ScreenShot/.
 
 # u8x8
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/16x16Font
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/16x16Font
 cp ../../../sys/arduino/u8x8/16x16Font/*.ino ../../../../U8g2_Arduino/examples/u8x8/16x16Font/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/Terminal
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/Terminal
 cp ../../../sys/arduino/u8x8/Terminal/*.ino ../../../../U8g2_Arduino/examples/u8x8/Terminal/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/HelloWorld
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/HelloWorld
 cp ../../../sys/arduino/u8x8/HelloWorld/*.ino ../../../../U8g2_Arduino/examples/u8x8/HelloWorld/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest
 cp ../../../sys/arduino/u8x8/GraphicsTest/*.ino ../../../../U8g2_Arduino/examples/u8x8/GraphicsTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/FlipMode
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/FlipMode
 cp ../../../sys/arduino/u8x8/FlipMode/*.ino ../../../../U8g2_Arduino/examples/u8x8/FlipMode/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/MessageBox
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/MessageBox
 cp ../../../sys/arduino/u8x8/MessageBox/*.ino ../../../../U8g2_Arduino/examples/u8x8/MessageBox/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest
 cp ../../../sys/arduino/u8x8/ArduboyTest/*.ino ../../../../U8g2_Arduino/examples/u8x8/ArduboyTest/.
 
-mkdir ../../../../U8g2_Arduino/examples/u8x8/Rotate90
+mkdir -p ../../../../U8g2_Arduino/examples/u8x8/Rotate90
 cp ../../../sys/arduino/u8x8/Rotate90/*.ino ../../../../U8g2_Arduino/examples/u8x8/Rotate90/.
 
 
