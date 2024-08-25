@@ -393,6 +393,20 @@ uint8_t mui_u8g2_set_font_style_function(mui_t *ui, uint8_t msg)
 /*=========================================================================*/
 /* field functions */
 
+
+uint8_t mui_hline(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+  switch(msg)
+  {
+    case MUIF_MSG_DRAW:
+      u8g2_DrawHLine(u8g2, 0, mui_get_y(ui), u8g2_GetDisplayWidth(u8g2));
+      break;
+  }
+  return 0;
+}
+
+
 /*
   xy: yes, arg: no, text: yes
 */

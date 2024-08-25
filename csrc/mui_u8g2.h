@@ -181,6 +181,8 @@ void mui_u8g2_draw_button_if(mui_t *ui, u8g2_uint_t width, u8g2_uint_t padding_h
 
 /* ready to use field functions */
 
+uint8_t mui_hline(mui_t *ui, uint8_t msg);
+
 uint8_t mui_u8g2_draw_text(mui_t *ui, uint8_t msg);
 
 uint8_t mui_u8g2_btn_goto_wm_fi(mui_t *ui, uint8_t msg);        /* GIF */
