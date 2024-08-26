@@ -1,6 +1,8 @@
 /*
 
   u8g2_arc.c
+  
+  Contributed... see here: https://github.com/olikraus/u8g2/issues/2243
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 

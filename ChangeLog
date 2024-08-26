@@ -331,5 +331,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7567 96x65 (issue 2332)
   * ST7539 192x64 (issues 2146 & 2081)
   * Examples for I2C adapter board for parallel gfx displays (issue 2191)
+  * drawArc (issue 2243)
   
   
