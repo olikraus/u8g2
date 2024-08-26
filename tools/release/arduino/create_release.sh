@@ -151,6 +151,12 @@ cp ../../../sys/arduino/u8g2_page_buffer/MUIStopwatch/*.ino ../../../../U8g2_Ard
 mkdir ../../../../U8g2_Arduino/examples/mui/MUICountDown
 cp ../../../sys/arduino/u8g2_page_buffer/MUICountDown/*.ino ../../../../U8g2_Arduino/examples/mui/MUICountDown/.
 
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIWaveformBounce2
+cp ../../../sys/arduino/u8g2_page_buffer/MUIWaveformBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIWaveformBounce2/.
+
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIWaveformSimpleRotary
+cp ../../../sys/arduino/u8g2_page_buffer/MUIWaveformSimpleRotary/*.ino ../../../../U8g2_Arduino/examples/mui/MUIWaveformSimpleRotary/.
+
 # games
 mkdir ../../../../U8g2_Arduino/examples/games/LittleRookChess
 cp ../../../sys/arduino/u8g2_page_buffer/LittleRookChess/*.ino ../../../../U8g2_Arduino/examples/games/LittleRookChess/.
