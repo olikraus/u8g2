@@ -32,6 +32,10 @@ volatile uint8_t array_edit_pos = 0;                            // "volatile" mi
 struct array_element_struct array_edit_element;
 
 
+uint8_t current_value = 0;
+uint8_t current_time = 0;
+uint8_t play_waveform = 1;
+
 
 /*=================================================*/
 /* global variables */
@@ -55,12 +59,15 @@ void waveform_array_init(void)
 
 /* draw wave form based on the array content */
 /* x,y is the lower left position of the wave form */
-void waveform_array_draw(u8g2_uint_t x, u8g2_uint_t y, uint8_t array_cnt, uint8_t current_pos)
+uint8_t waveform_array_draw(u8g2_uint_t x, u8g2_uint_t y, uint8_t array_cnt, uint8_t current_pos, uint8_t current_time)
 {
   uint8_t i, j;
   uint8_t prev_value;
   uint8_t curr_value;
   uint8_t time;
+  uint8_t t = 0;
+  uint8_t v = 255;
+    
   prev_value = waveform_array[array_cnt-1].value;
   for( i = 0; i < array_cnt; i++ )
   {
@@ -80,13 +87,22 @@ void waveform_array_draw(u8g2_uint_t x, u8g2_uint_t y, uint8_t array_cnt, uint8_
     {
       u8g2_DrawHLine(&u8g2, x, y+2, time+1);
     }
+    if ( t <= current_time && current_time < t+time )
+    {
+      printf("waveform_draw %d %d\n", t, current_time);
+      u8g2_DrawVLine(&u8g2, x-t+current_time, y-ARRAY_VALUE_MAX, ARRAY_VALUE_MAX+2);  
+      v = curr_value;
+    }
     
+    t += time;
     x += time;
     prev_value = curr_value;
   }
   
   for( j = 0; j < ARRAY_VALUE_MAX; j+=2 )
     u8g2_DrawPixel(&u8g2, x, y-j);
+  
+  return v;     // return the current value
 }
 
 
@@ -123,7 +139,7 @@ uint8_t muif_waveform_draw(mui_t *ui, uint8_t msg)
   {
     case MUIF_MSG_DRAW:
       waveform_array[array_edit_pos] = array_edit_element;                                          // store the modified local copy back to the array, so that we can draw the current array
-      waveform_array_draw(mui_get_x(ui), mui_get_y(ui), WAVEFORM_ELEMENT_CNT, array_edit_pos);
+      waveform_array_draw(mui_get_x(ui), mui_get_y(ui), WAVEFORM_ELEMENT_CNT, array_edit_pos, 255);
       break;
   }
   return 0;
@@ -138,7 +154,7 @@ uint8_t muif_waveform_show(mui_t *ui, uint8_t msg)
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      waveform_array_draw(mui_get_x(ui), mui_get_y(ui), WAVEFORM_ELEMENT_CNT, 255);
+      current_value = waveform_array_draw(mui_get_x(ui), mui_get_y(ui), WAVEFORM_ELEMENT_CNT, 255, current_time);
       break;
   }
   return 0;
@@ -179,20 +195,17 @@ uint8_t muif_array_edit_pos(mui_t *ui, uint8_t msg)
   return return_value;
 }
 
-
-
-
+/*=================================================*/
+/* muif */
 
 muif_t muif_list[]  MUI_PROGMEM = {  
   MUIF_U8G2_LABEL(),
   MUIF_U8G2_FONT_STYLE(0, u8g2_font_helvR08_tr),
 
-
   MUIF_BUTTON("GO", mui_u8g2_btn_goto_wm_fi),
   MUIF_RO("WS", muif_waveform_show),
   MUIF_RO("HL", mui_hline),
 
-  
   /* waveform editor */
   
   MUIF_RO("DE", muif_waveform_editor_decoration),
@@ -201,19 +214,31 @@ muif_t muif_list[]  MUI_PROGMEM = {
   MUIF_U8G2_U8_MIN_MAX("AV", &array_edit_element.value, 0, ARRAY_VALUE_MAX, mui_u8g2_u8_min_max_wm_mse_pi),
   MUIF_U8G2_U8_MIN_MAX("AT", &array_edit_element.time, 0, ARRAY_TIME_MAX, mui_u8g2_u8_min_max_wm_mse_pi),
   MUIF_BUTTON("AG", mui_u8g2_btn_back_wm_fi)
-
-  
 };
 
+/*=================================================*/
+/* fields and forms... */
 
 fds_t fds[] MUI_PROGMEM  =
+
 // Main Menu
 
 MUI_FORM(1)
 MUI_STYLE(0)
 
 MUI_XYAT("GO", 63, 12, 20, "Waveform Editor")
-MUI_XYAT("GO", 63, 28, 30, "LED Test")
+MUI_XYAT("GO", 63, 28, 2, "LED Test Start")
+
+MUI_XY("HL", 0, 45)
+MUI_LABEL(3,60, "Waveform")
+MUI_XY("WS", 54, 62)
+
+// Output Waveform to LED
+
+MUI_FORM(2)
+MUI_STYLE(0)
+
+MUI_XYAT("GO", 63, 28, 1, "LED Test Stop")
 
 MUI_XY("HL", 0, 45)
 MUI_LABEL(3,60, "Waveform")
@@ -291,13 +316,21 @@ int main(void)
     {
       mui_Draw(&ui);
     } while( u8g2_NextPage(&u8g2) );
-    do_screenshot();
     
     // printf("mui_GetCurrentCursorFocusPosition=%d\n", mui_GetCurrentCursorFocusPosition(&ui));
     
     do
     {
       k = u8g_sdl_get_key();
+      if ( mui_GetCurrentFormId(&ui) == 2 )
+      {
+        if ( current_value == 255 )
+          current_time = 0;
+        else
+          current_time++;
+        sleep(1);
+        break;
+      }
     } while( k < 0 );
     
     if ( k == 273 ) y -= 1;
@@ -332,9 +365,6 @@ int main(void)
       puts("screenshot");
       do_screenshot();
     }
-    
-    if ( x < 0 )
-      x = 0;
     
   }
   return 0;
