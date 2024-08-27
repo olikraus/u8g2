@@ -18,6 +18,8 @@ mui_t ui;
 */
 uint8_t number_input9 = 2;       // variable where the user can input a number between 0 and 9
 uint8_t number_input99 = 95;       // variable where the user can input a number between 0 and 99
+int8_t snumber_input9 = 2;       // variable where the user can input a number between 0 and 9
+int8_t snumber_input99 = 95;       // variable where the user can input a number between 0 and 99
 uint8_t chkbox1_input = 0;
 uint8_t chkbox2_input = 0;
 uint8_t radio_input = 0;
@@ -329,6 +331,12 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_U8G2_U16_LIST("AP", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_parent_wm_pi),
   MUIF_U8G2_U16_LIST("AC", &list_selection_3, NULL, animals_get_str, animals_get_cnt, mui_u8g2_u16_list_child_w1_pi),
 
+  /* Form 90 */
+  MUIF_U8G2_S8_MIN_MAX("M0", &snumber_input9, -9, 9, mui_u8g2_s8_min_max_wm_mse_pi),
+  MUIF_U8G2_S8_MIN_MAX("M1", &snumber_input99, -99, 99, mui_u8g2_s8_min_max_wm_mud_pi),
+  MUIF_U8G2_S8_MIN_MAX("M2", &snumber_input9, -9, 9, mui_u8g2_s8_min_max_wm_mse_pf),
+  MUIF_U8G2_S8_MIN_MAX("M3", &snumber_input99, -99, 99, mui_u8g2_s8_min_max_wm_mud_pf),
+
 };
 
 
@@ -342,6 +350,7 @@ MUI_STYLE(0)
 MUI_DATA("GP", 
     MUI_10 "Goto Buttons|"
     MUI_20 "uint8 Number|"
+    MUI_90 "int8 Number|"
     MUI_30 "uint8 Checkbox|"
     MUI_40 "uint8 Cycle Options|"
     MUI_50 "uint8 ParentChild Select|"
@@ -476,6 +485,77 @@ MUI_LABEL(1,40, "Number: ")
 MUI_XY("N3",70, 40)
 //MUI_GOTO(64, 59, 20, " Ok ")
 MUI_XYT("BK", 64, 59, " Ok ")
+
+
+
+MUI_FORM(90)
+MUI_STYLE(1)
+MUI_LABEL(5,10, "int8 Number")
+MUI_XY("HR", 0,13)
+MUI_STYLE(0)
+MUI_DATA("GP", 
+  MUI_91 "s8_min_max_wm_mse_pi|" 
+  MUI_92 "s8_min_max_wm_mud_pi|" 
+  MUI_93 "s8_min_max_wm_mse_pf|" 
+  MUI_94 "s8_min_max_wm_mud_pf|" 
+  MUI_1 "Back to Main Menu" )
+MUI_XYA("GC", 5, 25, 0) 
+MUI_XYA("GC", 5, 37, 1) 
+MUI_XYA("GC", 5, 49, 2) 
+MUI_XYA("GC", 5, 61, 3) 
+
+MUI_FORM(91)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_s8_min_max_wm_mse_pi")
+MUI_LABEL(1,12, "MUIF_U8G2_S8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for int8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("M0",70, 40)
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
+
+MUI_FORM(92)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_s8_min_max_wm_mud_pi")
+MUI_LABEL(1,12, "MUIF_U8G2_S8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for int8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("M1",70, 40)
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
+
+MUI_FORM(93)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_s8_min_max_wm_mse_pf")
+MUI_LABEL(1,12, "MUIF_U8G2_S8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for int8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("M2",70, 40)
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
+
+MUI_FORM(94)
+MUI_STYLE(2)
+MUI_LABEL(1,5, "mui_u8g2_s8_min_max_wm_mud_pf")
+MUI_LABEL(1,12, "MUIF_U8G2_S8_MIN_MAX")
+MUI_LABEL(1,19, "MUI_XY")
+MUI_LABEL(1,25, "Input for int8_t number")
+MUI_XY("HR", 0,26)
+MUI_STYLE(0)
+MUI_LABEL(1,40, "Number: ")
+MUI_XY("M3",70, 40)
+//MUI_GOTO(64, 59, 20, " Ok ")
+MUI_XYT("BK", 64, 59, " Ok ")
+
 
 
 

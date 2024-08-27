@@ -123,6 +123,26 @@ typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
 #  define mui_u8g2_u8mm_get_valptr(u8mm) ((u8mm)->value)
 #endif
 
+struct mui_u8g2_s8_min_max_struct
+{
+  int8_t *value;
+  int8_t min;
+  int8_t max;
+} MUI_PROGMEM;
+
+typedef const struct mui_u8g2_s8_min_max_struct mui_u8g2_s8_min_max_t;
+
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_u8g2_s8mm_get_min(u8mm) ((int8_t)mui_pgm_read(&((u8mm)->min)))
+#  define mui_u8g2_s8mm_get_max(u8mm) ((int8_t)mui_pgm_read(&((u8mm)->max)))
+#  define mui_u8g2_s8mm_get_valptr(u8mm) ((int8_t *)mui_pgm_wread(&((u8mm)->value)))
+#else
+#  define mui_u8g2_s8mm_get_min(u8mm) ((u8mm)->min)
+#  define mui_u8g2_s8mm_get_max(u8mm) ((u8mm)->max)
+#  define mui_u8g2_s8mm_get_valptr(u8mm) ((u8mm)->value)
+#endif
+
+
 
 struct mui_u8g2_u8_min_max_step_struct
 {
@@ -260,9 +280,19 @@ uint8_t mui_u8g2_set_font_style_function(mui_t *ui, uint8_t msg);
 
 uint8_t mui_u8g2_u8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);   /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
-
 uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
+
+#define MUIF_U8G2_S8_MIN_MAX(id, valptr, min, max, muif) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_s8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
+  (muif))
+
+uint8_t mui_u8g2_s8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_s8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_s8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_s8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);
+
 
 /*===== data = mui_u8g2_u8_min_max_step_t*  =====*/
 
