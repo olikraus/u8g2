@@ -704,11 +704,8 @@ void loop(void) {
     if ( is_redraw ) {
       u8g2.firstPage();
       do {
-          check_events(); // check for button press with bounce2 library
           mui.draw();
-          check_events(); // check for button press with bounce2 library
       } while( u8g2.nextPage() );
-      
       is_redraw = 0;                    /* clear the redraw flag */
     }
 
