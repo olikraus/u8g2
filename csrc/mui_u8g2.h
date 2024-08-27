@@ -123,6 +123,25 @@ typedef const struct mui_u8g2_u8_min_max_struct mui_u8g2_u8_min_max_t;
 #  define mui_u8g2_u8mm_get_valptr(u8mm) ((u8mm)->value)
 #endif
 
+struct mui_u8g2_u16_min_max_struct
+{
+  uint16_t *value;
+  uint16_t min;
+  uint16_t max;
+} MUI_PROGMEM;
+
+typedef const struct mui_u8g2_u16_min_max_struct mui_u8g2_u16_min_max_t;
+
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_u8g2_u16mm_get_min(u16mm) mui_pgm_read(&((u16mm)->min))
+#  define mui_u8g2_u16mm_get_max(u16mm) mui_pgm_read(&((u16mm)->max))
+#  define mui_u8g2_u16mm_get_valptr(u16mm) ((uint16_t *)mui_pgm_wread(&((u16mm)->value)))
+#else
+#  define mui_u8g2_u16mm_get_min(u16mm) ((u16mm)->min)
+#  define mui_u8g2_u16mm_get_max(u16mm) ((u16mm)->max)
+#  define mui_u8g2_u16mm_get_valptr(u16mm) ((u16mm)->value)
+#endif
+
 
 struct mui_u8g2_u8_min_max_step_struct
 {
@@ -156,6 +175,31 @@ typedef const struct mui_u8g2_u8_min_max_step_struct mui_u8g2_u8_min_max_step_t;
 #  define mui_u8g2_u8mms_get_min(u8mm) ((u8mm)->min)
 #  define mui_u8g2_u8mms_get_max(u8mm) ((u8mm)->max)
 #  define mui_u8g2_u8mms_get_valptr(u8mm) ((u8mm)->value)
+#endif
+
+struct mui_u8g2_u16_min_max_step_struct
+{
+  uint16_t *value;
+  uint16_t min;
+  uint16_t max;
+  uint16_t step;
+  uint8_t flags;
+} MUI_PROGMEM;
+
+typedef const struct mui_u8g2_u16_min_max_step_struct mui_u8g2_u16_min_max_step_t;
+
+#if defined(__GNUC__) && defined(__AVR__)
+#  define mui_u8g2_u16mms_get_step(u16mm) mui_pgm_read(&((u16mm)->step))
+#  define mui_u8g2_u8mms_get_flags(u8mm) mui_pgm_read(&((u8mm)->flags))
+#  define mui_u8g2_u16mms_get_min(u16mm) mui_pgm_read(&((u16mm)->min))
+#  define mui_u8g2_u16mms_get_max(u16mm) mui_pgm_read(&((u16mm)->max))
+#  define mui_u8g2_u16mms_get_valptr(u16mm) ((uint8_t *)mui_pgm_wread(&((u16mm)->value)))
+#else
+#  define mui_u8g2_u16mms_get_step(u16mm) ((u16mm)->step)
+#  define mui_u8g2_u8mms_get_flags(u8mm) ((u8mm)->flags)
+#  define mui_u8g2_u16mms_get_min(u16mm) ((u16mm)->min)
+#  define mui_u8g2_u16mms_get_max(u16mm) ((u16mm)->max)
+#  define mui_u8g2_u16mms_get_valptr(u16mm) ((u16mm)->value)
 #endif
 
 
@@ -264,12 +308,34 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
 uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 
+/*===== data = mui_u8g2_u16_min_max_t*  =====*/
+
+/* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
+#define MUIF_U8G2_U16_MIN_MAX(id, valptr, min, max, muif) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u16_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \
+  (muif))
+
+uint8_t mui_u8g2_u16_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);   /* GIF, MUIF_U8G2_U16_MIN_MAX, MUI_XY */
+uint8_t mui_u8g2_u16_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U16_MIN_MAX, MUI_XY */
+
+uint8_t mui_u8g2_u16_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U16_MIN_MAX, MUI_XY */
+uint8_t mui_u8g2_u16_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U16_MIN_MAX, MUI_XY */
+
 /*===== data = mui_u8g2_u8_min_max_step_t*  =====*/
 
 /* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
 #define MUIF_U8G2_U8_MIN_MAX_STEP(id, valptr, min, max, step, flags, muif) \
   MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
   (void *)((mui_u8g2_u8_min_max_step_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (flags) MUI_U8G2_COMMA (0) }}), \
+  (muif))
+
+/*===== data = mui_u8g2_u16_min_max_step_t*  =====*/
+
+/* gcc note: the macro uses array compound literals to extend the lifetime in C++, see last section in https://gcc.gnu.org/onlinedocs/gcc/Compound-Literals.html */
+#define MUIF_U8G2_U16_MIN_MAX_STEP(id, valptr, min, max, step, flags, muif) \
+  MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
+  (void *)((mui_u8g2_u16_min_max_step_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max) MUI_U8G2_COMMA (step) MUI_U8G2_COMMA (flags) }}), \
   (muif))
   
 
