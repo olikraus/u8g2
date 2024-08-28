@@ -70,7 +70,7 @@ static const uint8_t u8x8_d_ssd1363_powersave1_seq[] = {
   input:
     one tile (8 Bytes)
   output:
-    Tile for SSD1325 (32 Bytes)
+    Tile for SSD1363 (32 Bytes)
 */
 
 static uint8_t u8x8_ssd1363_to32_dest_buf[32];
@@ -82,6 +82,14 @@ static uint8_t *u8x8_ssd1363_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
   uint8_t *dest;
 
   dest = u8x8_ssd1363_to32_dest_buf;
+  
+  if ( ptr[0] == 0 && ptr[1] == 0 && ptr[2] == 0 && ptr[3] == 0 && ptr[4] == 0 && ptr[5] == 0 && ptr[6] == 0 && ptr[7] == 0 )
+  {
+    for( i = 0; i < 32; i++ )
+      *dest++ = 0;
+    return u8x8_ssd1363_to32_dest_buf;
+  }
+  
   a = 1;
   for( i = 0; i < 8; i++ )
   {
@@ -111,7 +119,7 @@ static uint8_t *u8x8_ssd1363_8to32(U8X8_UNUSED u8x8_t *u8x8, uint8_t *ptr)
     dest += 4;
   }  
 
-  
+    
   return u8x8_ssd1363_to32_dest_buf;
 }
 
@@ -196,14 +204,16 @@ uint8_t u8x8_d_ssd1363_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 
 static const uint8_t u8x8_d_ssd1363_256x128_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CAA(0x0a0, 0x006, 0x011),		/* remap */
+  U8X8_CAA(0x0a0, 0x032, 0x000),		/* remap */
+  U8X8_CA(0xa2, 0x20),			/* display offset, shift mapping ram counter */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1363_256x128_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CAA(0x0a0, 0x014, 0x011),		/* remap */
+  U8X8_CAA(0x0a0, 0x020, 0x000),		/* remap */
+  U8X8_CA(0xa2, 0x80),			/* display offset, shift mapping ram counter */  
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -225,9 +235,9 @@ static const u8x8_display_info_t u8x8_ssd1363_256x128_display_info =
   /* pre_chip_disable_wait_ns = */ 10,
   /* reset_pulse_width_ms = */ 100, 	/* ssd1363: 2 us */
   /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
-  /* sda_setup_time_ns = */ 50,		/* ssd1363: 15ns, but cycle time is 100ns, so use 100/2 */
-  /* sck_pulse_width_ns = */ 50,	/* ssd1363: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
-  /* sck_clock_hz = */ 10000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215), 10 MHz (issue 301) */
+  /* sda_setup_time_ns = */ 50,		/* 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215), 10 MHz (issue 301) */
   /* spi_mode = */ 0,		/* active high, rising edge */
   /* i2c_bus_clock_100kHz = */ 4,
   /* data_setup_time_ns = */ 10,
@@ -235,7 +245,7 @@ static const u8x8_display_info_t u8x8_ssd1363_256x128_display_info =
   /* tile_width = */ 32,		/* 256 pixel, so we require 32 bytes for this */
   /* tile_height = */ 16,
   /* default_x_offset = */ 8,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
-  /* flipmode_x_offset = */ 0,
+  /* flipmode_x_offset = */ 8,
   /* pixel_width = */ 256,
   /* pixel_height = */ 128
 };
