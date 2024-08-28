@@ -2191,6 +2191,25 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
+
+
+  {
+    "ssd1363", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x128" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1363", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,                 // not tested
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x128" },
+      { NULL }
+    }
+  },  
+
   
   
   {

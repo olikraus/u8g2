@@ -402,6 +402,7 @@
 
 // End of constructor list
 
+U8G2_SSD1363_256X128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 
 void setup(void) {
 
@@ -433,9 +434,9 @@ void setup(void) {
 void loop(void) {
   u8g2.firstPage();
   do {
-    u8g2.drawHLine(0,0,10);
-    u8g2.drawHLine(0,31,10);
-  
+    //u8g2.drawHLine(0,0,10);
+    //u8g2.drawHLine(0,31,10);
+
     u8g2.setFont(u8g2_font_ncenB10_tr);
     u8g2.drawStr(0,24,"Hello World!");
   } while ( u8g2.nextPage() );
