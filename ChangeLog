@@ -333,5 +333,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7539 192x64 (issues 2146 & 2081)
   * Examples for I2C adapter board for parallel gfx displays (issue 2191)
   * drawArc (issue 2243)
+  * Added "-y" option to otf2bdf. "-y" can be used to fix issues with some fonts (issue 2406) 
   
   
