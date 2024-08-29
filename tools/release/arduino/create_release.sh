@@ -130,6 +130,9 @@ cp ../../../sys/arduino/u8g2_page_buffer/MUIBlink/*.ino ../../../../U8g2_Arduino
 mkdir ../../../../U8g2_Arduino/examples/mui/MUIMinimal
 cp ../../../sys/arduino/u8g2_page_buffer/MUIMinimal/*.ino ../../../../U8g2_Arduino/examples/mui/MUIMinimal/.
 
+mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput1BtnBounce2
+cp ../../../sys/arduino/u8g2_page_buffer/MUIInput1BtnBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput1BtnBounce2/.
+
 mkdir ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2
 cp ../../../sys/arduino/u8g2_page_buffer/MUIInput2BtnBounce2/*.ino ../../../../U8g2_Arduino/examples/mui/MUIInput2BtnBounce2/.
 
