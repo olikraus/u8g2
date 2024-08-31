@@ -147,6 +147,7 @@ void u8log_write_char(u8log_t *u8log, uint8_t c)
       u8log->is_redraw_all_required_for_next_nl = 0;
       u8log->cursor_y++;
       u8log->cursor_x = 0;
+      u8log_cursor_on_screen(u8log);  // 31 Aug 2024 https://github.com/olikraus/u8g2/issues/2319
       break;	
     case '\r':	// 13
       u8log->is_redraw_line = 1;
