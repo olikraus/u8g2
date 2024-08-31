@@ -1510,6 +1510,12 @@ uint8_t u8x8_d_st7567_lw12832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   return 1;
 }
 
+/* https://github.com/olikraus/u8g2/issues/2344 */
+uint8_t u8x8_d_st7567_yxd12832(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  return u8x8_d_st7567_lw12832(u8x8, msg, arg_int, arg_ptr);
+}
+
 
 
 /*=====================================================*/
