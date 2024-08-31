@@ -1017,6 +1017,15 @@ struct controller controller_list[] =
     }
   },
   {
+    "ls011b7dh03", 	20, 	9, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_001", "", COM_4WSPI,		/* cad procedure is not required (no DC for this display) so it could be a dummy procedure here */
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "160x68" },
+      { NULL }
+    }
+  },
+  
+  {
     "uc1701", 		13, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
