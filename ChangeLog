@@ -323,7 +323,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added "font_tiny5" (issue 2185)
   * Added MUI (https://github.com/olikraus/u8g2/wiki/muimanual) examples (issue 1747)
 2024-xx-xx      v2.35.x olikraus@gmail.com
-  * ST7586S JLX320160 (no flipmode, no u8x8, issue 2186)
+  * ST7586S JLX320160, MD240128 (no flipmode, no u8x8, issues 2186, 2363)
   * ST75161 JLX160160 (issue 2481)
   * GP1294AI 256X48 (issue 2213, PR 2222)
   * Bugfix for drawUTF8X2 with negative x values (issue 2228)
