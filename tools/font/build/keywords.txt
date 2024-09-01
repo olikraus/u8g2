@@ -135,6 +135,8 @@ u8g2_font_7_Seg_33x19_mn	LITERAL1
 u8g2_font_7_Seg_41x21_mn	LITERAL1
 u8g2_font_tiny5_tf	LITERAL1
 u8g2_font_tiny5_tr	LITERAL1
+u8g2_font_tiny5_te	LITERAL1
+u8g2_font_tiny5_t_all	LITERAL1
 u8g2_font_04b_03b_tr	LITERAL1
 u8g2_font_04b_03_tr	LITERAL1
 u8g2_font_amstrad_cpc_extended_8f	LITERAL1
@@ -917,6 +919,7 @@ u8g2_font_iconquadpix_m_all	LITERAL1
 u8g2_font_tallpix_tr	LITERAL1
 u8g2_font_botmaker_te	LITERAL1
 u8g2_font_efraneextracondensed_te	LITERAL1
+u8g2_font_minimal3x3_tu	LITERAL1
 u8g2_font_3x3basic_tr	LITERAL1
 u8g2_font_tiny_gk_tr	LITERAL1
 u8g2_font_threepix_tr	LITERAL1
@@ -932,6 +935,9 @@ u8g2_font_smolfont_te	LITERAL1
 u8g2_font_tinyunicode_tf	LITERAL1
 u8g2_font_tinyunicode_tr	LITERAL1
 u8g2_font_tinyunicode_te	LITERAL1
+u8g2_font_micropixel_tf	LITERAL1
+u8g2_font_micropixel_tr	LITERAL1
+u8g2_font_micropixel_te	LITERAL1
 u8g2_font_tinypixie2_tr	LITERAL1
 u8g2_font_standardized3x5_tr	LITERAL1
 u8g2_font_fivepx_tr	LITERAL1

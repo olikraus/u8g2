@@ -1981,6 +1981,8 @@ extern const uint8_t u8g2_font_7_Seg_33x19_mn[] U8G2_FONT_SECTION("u8g2_font_7_S
 extern const uint8_t u8g2_font_7_Seg_41x21_mn[] U8G2_FONT_SECTION("u8g2_font_7_Seg_41x21_mn");
 extern const uint8_t u8g2_font_tiny5_tf[] U8G2_FONT_SECTION("u8g2_font_tiny5_tf");
 extern const uint8_t u8g2_font_tiny5_tr[] U8G2_FONT_SECTION("u8g2_font_tiny5_tr");
+extern const uint8_t u8g2_font_tiny5_te[] U8G2_FONT_SECTION("u8g2_font_tiny5_te");
+extern const uint8_t u8g2_font_tiny5_t_all[] U8G2_FONT_SECTION("u8g2_font_tiny5_t_all");
 extern const uint8_t u8g2_font_04b_03b_tr[] U8G2_FONT_SECTION("u8g2_font_04b_03b_tr");
 extern const uint8_t u8g2_font_04b_03_tr[] U8G2_FONT_SECTION("u8g2_font_04b_03_tr");
 extern const uint8_t u8g2_font_amstrad_cpc_extended_8f[] U8G2_FONT_SECTION("u8g2_font_amstrad_cpc_extended_8f");
@@ -2714,6 +2716,7 @@ extern const uint8_t u8g2_font_iconquadpix_m_all[] U8G2_FONT_SECTION("u8g2_font_
 extern const uint8_t u8g2_font_tallpix_tr[] U8G2_FONT_SECTION("u8g2_font_tallpix_tr");
 extern const uint8_t u8g2_font_botmaker_te[] U8G2_FONT_SECTION("u8g2_font_botmaker_te");
 extern const uint8_t u8g2_font_efraneextracondensed_te[] U8G2_FONT_SECTION("u8g2_font_efraneextracondensed_te");
+extern const uint8_t u8g2_font_minimal3x3_tu[] U8G2_FONT_SECTION("u8g2_font_minimal3x3_tu");
 extern const uint8_t u8g2_font_3x3basic_tr[] U8G2_FONT_SECTION("u8g2_font_3x3basic_tr");
 extern const uint8_t u8g2_font_tiny_gk_tr[] U8G2_FONT_SECTION("u8g2_font_tiny_gk_tr");
 extern const uint8_t u8g2_font_threepix_tr[] U8G2_FONT_SECTION("u8g2_font_threepix_tr");
@@ -2729,6 +2732,9 @@ extern const uint8_t u8g2_font_smolfont_te[] U8G2_FONT_SECTION("u8g2_font_smolfo
 extern const uint8_t u8g2_font_tinyunicode_tf[] U8G2_FONT_SECTION("u8g2_font_tinyunicode_tf");
 extern const uint8_t u8g2_font_tinyunicode_tr[] U8G2_FONT_SECTION("u8g2_font_tinyunicode_tr");
 extern const uint8_t u8g2_font_tinyunicode_te[] U8G2_FONT_SECTION("u8g2_font_tinyunicode_te");
+extern const uint8_t u8g2_font_micropixel_tf[] U8G2_FONT_SECTION("u8g2_font_micropixel_tf");
+extern const uint8_t u8g2_font_micropixel_tr[] U8G2_FONT_SECTION("u8g2_font_micropixel_tr");
+extern const uint8_t u8g2_font_micropixel_te[] U8G2_FONT_SECTION("u8g2_font_micropixel_te");
 extern const uint8_t u8g2_font_tinypixie2_tr[] U8G2_FONT_SECTION("u8g2_font_tinypixie2_tr");
 extern const uint8_t u8g2_font_standardized3x5_tr[] U8G2_FONT_SECTION("u8g2_font_standardized3x5_tr");
 extern const uint8_t u8g2_font_fivepx_tr[] U8G2_FONT_SECTION("u8g2_font_fivepx_tr");
