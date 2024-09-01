@@ -412,9 +412,9 @@ uint8_t muif_decimal(mui_t *ui, uint8_t msg)
   switch(msg)
   {
     case MUIF_MSG_DRAW:
-      if ( pre_decimal == 100 )
+      if ( pre_decimal == 100 )                                                                                     // fix issue, when there is a decimal value set, but pre-decimal goes to 100
         decimal = 0;
-      return_value = mui_u8g2_u8_min_max_wm_mud_pi(ui, msg);                            // let MUI modify the decimal value
+      return_value = mui_u8g2_u8_min_max_wm_mud_pi(ui, msg);                            // do the regular draw
       break;
     case MUIF_MSG_EVENT_NEXT:                           // for mud mode
       if ( ui->is_mud == 0 ) {
