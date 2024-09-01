@@ -537,7 +537,7 @@ uint8_t muif_waveform_show(mui_t *ui, uint8_t msg)
 
 
 /*
-  Extends:      "mui_u8g2_u8_min_max_wm_mse_pi"
+  Extends:      "mui_u8g2_u8_min_max_wm_mud_pi"
   muif_list:    Use together with "MUIF_U8G2_U8_MIN_MAX" 
   Example:      MUIF_U8G2_U8_MIN_MAX("AP", &array_edit_pos, 0, WAVEFORM_ELEMENT_CNT, muif_array_edit_pos)
   Idea: 
