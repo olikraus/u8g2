@@ -14,7 +14,8 @@ extern char *u8x8_font_names[] ;
 extern const uint8_t *u8g2_font_list[] ;
 extern char *u8g2_font_names[] ;
 
-const char convert_extra_options[] = "-flip";   /* issue 2080: convert seems to flip the tga picture, again do the flip */
+//const char convert_extra_options[] = "-flip";   /* issue 2080: convert seems to flip the tga picture, again do the flip */
+const char convert_extra_options[] = "";   /* 1 Sep 2024: undo flip */
 
 #ifdef BUILD2
 extern void u8g2_SetupBuffer_TGA(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb);

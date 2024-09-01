@@ -157,7 +157,7 @@ void bf_Generate8x8Font(bf_t *bf, int xo, int yo)
   bf_AddTargetData(bf, last);
   bf_AddTargetData(bf, bf->tile_h_size);
   bf_AddTargetData(bf, bf->tile_v_size);
-  bf_Log(bf, "Generate8x8Font: Tile size width=%d height=%d", bf->tile_h_size, bf->tile_v_size);
+  bf_Log(bf, "Generate8x8Font: Tile multiplier horizontal size (-th) =%d, vertical size (-tv)=%d", bf->tile_h_size, bf->tile_v_size);
 
   
   for( j = first; j <= last; j++ )
