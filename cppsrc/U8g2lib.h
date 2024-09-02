@@ -303,8 +303,8 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     u8g2_uint_t getStrWidth(const char *s) { return u8g2_GetStrWidth(&u8g2, s); }
     u8g2_uint_t getUTF8Width(const char *s) { return u8g2_GetUTF8Width(&u8g2, s); }
     
-    int_t getXOffsetGlyph(uint16_t encoding) { return u8g2_GetXOffsetGlyph(&u8g2, encoding); }
-    int_t getXOffsetUTF8(const char *utf8) { return u8g2_GetXOffsetUTF8(&u8g2, utf8); }
+    int8_t getXOffsetGlyph(uint16_t encoding) { return u8g2_GetXOffsetGlyph(&u8g2, encoding); }
+    int8_t getXOffsetUTF8(const char *utf8) { return u8g2_GetXOffsetUTF8(&u8g2, utf8); }
 
     
     
