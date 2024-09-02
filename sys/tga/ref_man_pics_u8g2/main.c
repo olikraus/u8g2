@@ -1209,25 +1209,23 @@ int main(void)
 
   /*=========================================*/
   /* u8g2_message.png */
-  
+
   u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
 
   u8g2_SetFontPosBaseline(&u8g2);
   u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   u8g2_SetFontRefHeightAll(&u8g2);  /* this will add some extra space for the text inside the buttons */
   
-  u8g2_UserInterfaceMessage(&u8g2, "Title1", "Title2", "Title3", " Ok \n Cancel ");
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_UserInterfaceMessage(&u8g2, "Title1", "Title2", "Title3", " Ok \n Cancel ");
+  } while( u8g2_NextPage(&u8g2) );
   
   tga_is_transparent = 1;
   u8g2_FirstPage(&desc);
   do
   {
-    /*
-    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
-    ra(20,5, "x=20, y=5");
-    ra(27,50, "x=27, y=50");
-    ra(5,32, "x=5, y=32");
-    */
   } while( u8g2_NextPage(&desc) );
   
   tga_is_transparent = 0;
@@ -1374,6 +1372,47 @@ int main(void)
   u8g2_SetFontDirection(&u8g2, 0);
 
   tga_save_png("u8g2_tile_row.png");
+
+  /*=========================================*/
+  /* u8g2_x_offset.png */
+
+  u8x8_ClearDisplay(u8g2_GetU8x8(&desc)); 
+  
+  u8g2_FirstPage(&u8g2);
+  do
+  {
+    u8g2_SetFontPosBaseline(&u8g2);
+    u8g2_SetDrawColor(&u8g2, 1);
+    
+    u8g2_SetFont(&u8g2, u8g2_font_helvR08_te);
+    u8g2_DrawUTF8(&u8g2, 6, 12, "A helvR08");
+    u8g2_DrawUTF8(&u8g2, 6, 24, "C helvR08");
+    u8g2_DrawUTF8(&u8g2, 6, 36, "Ĉ helvR08");
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB08_te);
+    u8g2_DrawUTF8(&u8g2, 6, 48, "A ncenB08");
+  } while( u8g2_NextPage(&u8g2) );
+  
+  
+  tga_is_transparent = 1;
+  u8g2_FirstPage(&desc);
+  do
+  {
+    u8g2_SetFont(&desc, u8g2_font_helvB18_tf);
+    ra(6,12, "0 (6, 12)");
+    ra(6,24, "+1 (6, 24)");
+    ra(6,36, "+1 (6, 36)");
+    ra(6,48, "-1 (6, 48)");
+    //hm(2, 37, 1);
+    //vm(88, 29, 20);
+    
+    //vm(62,19-u8g2_GetDescent(&u8g2), -u8g2_GetDescent(&u8g2));
+  } while( u8g2_NextPage(&desc) );
+  
+  tga_is_transparent = 0;
+  u8g2_SetFontPosBaseline(&u8g2);
+  u8g2_SetFontDirection(&u8g2, 0);
+
+  tga_save_png("u8g2_x_offset.png");
   
   /*=========================================*/
   

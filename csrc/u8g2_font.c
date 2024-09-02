@@ -1347,7 +1347,7 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
     str++;
     if ( e != 0x0fffe )
     {
-      dx = u8g2_GetGlyphWidth(u8g2, e);		/* delta x value of the glyph */
+      dx = u8g2_GetGlyphWidth(u8g2, e);		/* delta x value of the glyph, side effect: updates u8g2->glyph_x_offset */
 #ifdef U8G2_BALANCED_STR_WIDTH_CALCULATION
       if ( initial_x_offset == -64 )
         initial_x_offset = u8g2->glyph_x_offset;
@@ -1375,6 +1375,28 @@ static u8g2_uint_t u8g2_string_width(u8g2_t *u8g2, const char *str)
   // printf("w=%d \n", w);
   
   return w;  
+}
+
+int8_t u8g2_GetXOffsetGlyph(u8g2_t *u8g2, uint16_t encoding)
+{
+  u8g2_GetGlyphWidth(u8g2, encoding);		/* delta x value of the glyph, side effect: updates u8g2->glyph_x_offset */
+  return u8g2->glyph_x_offset;
+}
+
+int8_t u8g2_GetXOffsetUTF8(u8g2_t *u8g2, const char *utf8)
+{
+  uint16_t e; 
+  u8x8_utf8_init(u8g2_GetU8x8(u8g2));
+  for(;;)  // extract encoding from UTF8 byte stream
+  {
+    e = u8x8_utf8_next(u8g2_GetU8x8(u8g2), (uint8_t)*utf8);
+    if ( e == 0x0ffff )
+      return 0;
+    if ( e < 0x0fffe )  // 0x0fffe means: just continue 
+      break;
+    utf8++;
+  }
+  return u8g2_GetXOffsetGlyph(u8g2, e);
 }
 
 static void u8g2_GetGlyphHorizontalProperties(u8g2_t *u8g2, uint16_t requested_encoding, uint8_t *w, int8_t *ox, int8_t *dx)
