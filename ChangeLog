@@ -330,6 +330,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7567 96x65 (issue 2332)
   * ST7539 192x64 (issues 2146 & 2081)
   * SSD1363 256x128 (issue 2490)
+  * SSD1322 ZJY 256x64 (issue 2386)
   * UC1604 JLX128x64 (issue 2497)
   * LS011B7DH03 160x68 (issue 2210)
   * U8x8 example for 90 degree string rotation (issue 2271)
