@@ -326,17 +326,18 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7586S JLX320160, MD240128 (no flipmode, no u8x8, issues 2186, 2363)
   * ST75161 JLX160160 (issue 2481)
   * GP1294AI 256X48 (issue 2213, PR 2222)
-  * Bugfix for drawUTF8X2 with negative x values (issue 2228)
   * UC1628 256x128 (tested), 256x32 (tested), 128x64 (not tested) (issue 2260):
-  * U8x8 example for 90 degree string rotation (issue 2271)
   * ST7567 96x65 (issue 2332)
   * ST7539 192x64 (issues 2146 & 2081)
   * SSD1363 256x128 (issue 2490)
   * UC1604 JLX128x64 (issue 2497)
   * LS011B7DH03 160x68 (issue 2210)
+  * U8x8 example for 90 degree string rotation (issue 2271)
+  * Bugfix for drawUTF8X2 with negative x values (issue 2228)
   * Examples for I2C adapter board for parallel gfx displays (issue 2191)
   * drawArc (issue 2243)
   * Added "-y" option to otf2bdf. "-y" can be used to fix issues with some fonts (issue 2406) 
   * Fixed a bug with '\n' in u8log (issue 2319) 
+  * getXOffset for font glyphs (issue 2398)
   
   

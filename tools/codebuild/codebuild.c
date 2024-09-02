@@ -2182,6 +2182,7 @@ struct controller controller_list[] =
     "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
     {
       { "nhd_256x64" },
+      { "zjy_256x64" },
       { NULL }
     }
   },
