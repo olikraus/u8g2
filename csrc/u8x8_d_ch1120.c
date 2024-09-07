@@ -233,8 +233,8 @@ static const uint8_t u8x8_d_ch1120_128x160_noname_init_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
     
   U8X8_C(0x0ae),		                /* display off */
-  U8X8_CAA(0x21, 0x00, 0x1f),           /* Set Column Start/End Address of Display RAM, mono mode */
-  U8X8_CAA(0x22, 0x00, 0x4f),           /* Set Row Start/End Address of Display RAM, mono mode */
+  //U8X8_CAA(0x21, 0x00, 0x1f),           /* Set Column Start/End Address of Display RAM, mono mode */
+  //U8X8_CAA(0x22, 0x00, 0x4f),           /* Set Row Start/End Address of Display RAM, mono mode */
   U8X8_CA(0x0a2, 0x000),		/* display start */
   U8X8_CA(0x081, 0x08f), 		/* set contrast control */
   U8X8_CA(0x0ac, 0x001),		/* mono mode, or 0x003???*/
