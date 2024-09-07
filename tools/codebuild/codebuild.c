@@ -584,6 +584,7 @@ struct controller controller_list[] =
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "120x32" },
+      { "120x28" },
       { NULL }
     }
   },
