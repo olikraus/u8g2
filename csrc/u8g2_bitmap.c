@@ -116,7 +116,9 @@ void u8g2_DrawHXBM(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, 
   
   mask = 1;
   while(len > 0) {
-    if ( *b & mask ) {
+    uint8_t current_bit = (*b) & mask;
+#ifdef OLD
+    if ( current_bit ) {
       u8g2->draw_color = color;
       u8g2_DrawHVLine(u8g2, x, y, 1, 0);
     } else if ( u8g2->bitmap_transparency == 0 ) {
@@ -131,6 +133,32 @@ void u8g2_DrawHXBM(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, 
       b++;
     }
     len--;
+#else
+    u8g2_uint_t run_length = 0;
+    // Determine the run length of consecutive bits with the same color
+    while (len > 0 && (current_bit == 0 ? (((*b) & mask) == 0) : (((*b) & mask) != 0 )  ))
+    {
+        run_length++;
+        x++;
+        mask <<= 1;
+        if (mask == 0)
+        {
+            mask = 1;
+            b++;
+        }
+        len--;
+    }
+    if (current_bit)
+    {
+        u8g2->draw_color = color;
+        u8g2_DrawHVLine(u8g2, x - run_length, y, run_length, 0);
+    }
+    else if (u8g2->bitmap_transparency == 0)
+    {
+        u8g2->draw_color = ncolor;
+        u8g2_DrawHVLine(u8g2, x - run_length, y, run_length, 0);
+    }
+#endif
   }
   u8g2->draw_color = color;
 }
@@ -174,7 +202,10 @@ void u8g2_DrawHXBMP(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len,
   mask = 1;
   while(len > 0)
   {
-    if( u8x8_pgm_read(b) & mask ) {
+    uint8_t current_bit = u8x8_pgm_read(b) & mask;
+//#define OLD
+#ifdef OLD
+    if ( current_bit ) {
       u8g2->draw_color = color;
       u8g2_DrawHVLine(u8g2, x, y, 1, 0);
     } else if( u8g2->bitmap_transparency == 0 ) {
@@ -190,6 +221,32 @@ void u8g2_DrawHXBMP(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len,
       b++;
     }
     len--;
+#else
+    u8g2_uint_t run_length = 0;
+    // Determine the run length of consecutive bits with the same color
+    while (len > 0 && (current_bit == 0 ? ((u8x8_pgm_read(b) & mask) == 0) : ((u8x8_pgm_read(b) & mask) != 0 )  ))
+    {
+        run_length++;
+        x++;
+        mask <<= 1;
+        if (mask == 0)
+        {
+            mask = 1;
+            b++;
+        }
+        len--;
+    }
+    if (current_bit)
+    {
+        u8g2->draw_color = color;
+        u8g2_DrawHVLine(u8g2, x - run_length, y, run_length, 0);
+    }
+    else if (u8g2->bitmap_transparency == 0)
+    {
+        u8g2->draw_color = ncolor;
+        u8g2_DrawHVLine(u8g2, x - run_length, y, run_length, 0);
+    }
+#endif
   }
   u8g2->draw_color = color;
 }
