@@ -336,9 +336,10 @@ https://github.com/olikraus/u8g2 ChangeLog
   * U8x8 example for 90 degree string rotation (issue 2271)
   * Bugfix for drawUTF8X2 with negative x values (issue 2228)
   * Examples for I2C adapter board for parallel gfx displays (issue 2191)
-  * drawArc (issue 2243)
+  * New function drawArc (issue 2243, see also https://motla.github.io/arc-algorithm/)
   * Added "-y" option to otf2bdf. "-y" can be used to fix issues with some fonts (issue 2406) 
   * Fixed a bug with '\n' in u8log (issue 2319) 
   * getXOffset for font glyphs (issue 2398)
+  * Improved performance for drawXBM/drawXBMP (issue 2477)
   
   
