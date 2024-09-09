@@ -341,5 +341,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Fixed a bug with '\n' in u8log (issue 2319) 
   * getXOffset for font glyphs (issue 2398)
   * Improved performance for drawXBM/drawXBMP (issue 2477)
+  * Unifont upgrade from 12.1.02 to 15.1.05
+  * Added unifont_jp
   
   
