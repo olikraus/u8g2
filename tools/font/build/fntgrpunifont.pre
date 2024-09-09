@@ -7,7 +7,9 @@ Name: **GNU Unifont**
 
 Unifont version updated to 12.1.02 in U8g2 version 2.26. 
 
-Download location: [ftp://ftp.gnu.org/gnu/unifont/unifont-12.1.02/](ftp://ftp.gnu.org/gnu/unifont/unifont-12.1.02/)
+Unifont_jp added and Unifont plane 0 updated to 15.1.05 in U8g2 version 2.35. 
+
+Download location: https://unifoundry.com/pub/unifont/unifont-15.1.05/
 
 The Unifont project page is here: https://savannah.gnu.org/projects/unifont.
 
@@ -17,7 +19,7 @@ ASCII range, starting with 0x20.
 # Copyright
 
 Font Copyright Statement:
-"Copyright (C) 2014 Roman Czyborra, Paul Hardy, Qianqian Fang, Andrew Miller, et al. Licensed under the GNU General Public License; either version 2, or (at your option) a later version, with the GNU Font Embedding Exception."
+"Copyright (C) 1998-2024 Roman Czyborra, Paul Hardy, Qianqian Fang, Andrew Miller, Johnnie Weaver, David Corbett, Nils Moskopp, Rebecca Bettencourt, Ho-Seok Ee, et al. License: SIL Open Font License version 1.1 and GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html> with the GNU Font Embedding Exception."
 
 License: http://unifoundry.com/LICENSE.txt
 
