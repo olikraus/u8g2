@@ -1004,7 +1004,7 @@ Greek Extended	1F00–1FFF
   { 0,  0, "wenquanyi_12pt.bdf", 	"wqy16", 		21, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
   { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 		        "boutique_bitmap_7x7", 		44, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 		        "boutique_bitmap_7x7", 		44, 0, BM_T|BM_8, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 		        "boutique_bitmap_7x7", 		44, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 		        "boutique_bitmap_7x7", 		44, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
   { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 		        "boutique_bitmap_7x7", 		44, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
   { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 		        "boutique_bitmap_7x7", 		44, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
@@ -1013,7 +1013,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 8", "BoutiqueBitmap7x7.ttf", 	                "boutique_bitmap_7x7", 		44, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 		        "boutique_bitmap_9x9", 		44, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 		        "boutique_bitmap_9x9", 		44, 0, BM_T|BM_8, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 		        "boutique_bitmap_9x9", 		44, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 		        "boutique_bitmap_9x9", 		44, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 		        "boutique_bitmap_9x9", 		44, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 		        "boutique_bitmap_9x9", 		44, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },
@@ -1022,7 +1022,7 @@ Greek Extended	1F00–1FFF
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9.ttf", 	                "boutique_bitmap_9x9", 		44, 0, BM_T, FM_C, MM_M, "gb2312b.map", "_gb2312b" },
 
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9_Bold.ttf", 		"boutique_bitmap_9x9_bold", 		44, 0, BM_T, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
-  { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9_Bold.ttf", 		"boutique_bitmap_9x9_bold", 		44, 0, BM_T|BM_8, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9_Bold.ttf", 		"boutique_bitmap_9x9_bold", 		44, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9_Bold.ttf", 		"boutique_bitmap_9x9_bold", 		44, 0, BM_T, FM_C, MM_M, "chinese1.map", "_chinese1" },
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9_Bold.ttf", 		"boutique_bitmap_9x9_bold", 		44, 0, BM_T, FM_C, MM_M, "chinese2.map", "_chinese2" },
   { 0,  "-r 72 -p 10", "BoutiqueBitmap9x9_Bold.ttf", 		"boutique_bitmap_9x9_bold", 		44, 0, BM_T, FM_C, MM_M, "chinese3.map", "_chinese3" },

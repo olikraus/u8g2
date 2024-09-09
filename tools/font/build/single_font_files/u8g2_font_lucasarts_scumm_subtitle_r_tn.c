@@ -1,8 +1,15 @@
 /*
-  Fontname: (null)
-  Copyright: (null)
-  Glyphs: 0/0
+  Fontname: -FreeType-LucasArts SCUMM   Subtitle   Roman-Medium-R-Normal--16-160-72-72-P-88-ISO10646-1
+  Copyright: Copyright Goatmeal 2013
+  Glyphs: 16/95
   BBX Build Mode: 0
 */
-const uint8_t u8g2_font_lucasarts_scumm_subtitle_r_tr[31] U8G2_FONT_SECTION("u8g2_font_lucasarts_scumm_subtitle_r_tr") = 
-  "\0\0\2\2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\2\0\0\0\4\377\377\0";
+const uint8_t u8g2_font_lucasarts_scumm_subtitle_r_tn[237] U8G2_FONT_SECTION("u8g2_font_lucasarts_scumm_subtitle_r_tn") = 
+  "\20\0\3\3\4\4\2\4\5\14\16\0\375\13\375\13\375\0\0\0\0\0\320 \5\0b\5,\11T\227"
+  "\315\222D\11\0-\6\27s\306\1.\6\42#\5\1/\15\271\343>$.\236\356\263<\16\1\60\23"
+  "\273c_U\246*\222J\344\354\22\251H*S\255\1\61\12\266#\226lD\324O\6\62\15\271\343V"
+  "ME*\27\353\363A\0\63\23\271\343VME*\27\13\351\20\71\204*\221\311J\0\64\22\271\343\266"
+  "xJ\224\310Dj\22\241\344 \226\253\0\65\21\271\343\306\201\256~\207\310!r\252D&+\1\66\21"
+  "\271\343VMEJ\77\315$RV\211LV\2\67\13\271\343\306A.\326]\217\0\70\23\271\343VM"
+  "EJ\225\310d\65\25)U\42\223\225\0\71\21\271\343VME\312*\221\215\356T\211LV\2:\7"
+  "r'\5\231\0\0\0\0\4\377\377\0";

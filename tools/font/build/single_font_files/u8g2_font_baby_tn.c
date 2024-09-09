@@ -1,7 +1,7 @@
 /*
   Fontname: -FreeType-Baby-Medium-R-Normal--8-80-72-72-P-42-ISO10646-1
   Copyright: Copyright mrsbarrett 2008
-  Glyphs: 18/166
+  Glyphs: 18/207
   BBX Build Mode: 0
 */
 const uint8_t u8g2_font_baby_tn[160] U8G2_FONT_SECTION("u8g2_font_baby_tn") = 

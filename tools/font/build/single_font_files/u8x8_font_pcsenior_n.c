@@ -1,8 +1,14 @@
 /*
-  Fontname: (null)
-  Copyright: (null)
-  Glyphs: 0/0
+  Fontname: -FreeType-PC Senior-Medium-R-Normal--8-80-72-72-P-48-ISO10646-1
+  Copyright: TrueType conversion © 2001 codeman38.
+  Glyphs: 18/260
   BBX Build Mode: 3
 */
-const uint8_t u8x8_font_pcsenior_n[12] U8X8_FONT_SECTION("u8x8_font_pcsenior_n") = 
-  "\377\377\1\1\0\0\0\0\0\0\0";
+const uint8_t u8x8_font_pcsenior_n[220] U8X8_FONT_SECTION("u8x8_font_pcsenior_n") = 
+  " :\1\1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+  "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+  "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\10*>\34\34>*\10\10\10>>"
+  "\10\10\0\0\0\200\340`\0\0\0\0\10\10\10\10\10\10\0\0\0\0``\0\0\0\0`\60\30\14"
+  "\6\3\1\0>\177qYM\177>\0@B\177\177@@\0\0bsYIof\0\0\42cII"
+  "\177\66\0\0\30\34\26S\177\177P\0'gEE}\71\0\0<~KIy\60\0\0\3\3qy"
+  "\17\7\0\0\66\177II\177\66\0\0\6OIi\77\36\0\0\0\0ff\0\0\0";
