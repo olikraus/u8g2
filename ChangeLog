@@ -343,5 +343,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Improved performance for drawXBM/drawXBMP (issue 2477)
   * Unifont upgrade from 12.1.02 to 15.1.05
   * Added unifont_jp
+  * Added BoutiqueBitmap fonts (issue 2265)
   
   

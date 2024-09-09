@@ -8,6 +8,7 @@ Name: **GNU Unifont**
 Unifont version updated to 12.1.02 in U8g2 version 2.26. 
 
 Unifont_jp added and Unifont plane 0 updated to 15.1.05 in U8g2 version 2.35. 
+Unifont_jp will be used for the japanese versions.
 
 Download location: https://unifoundry.com/pub/unifont/unifont-15.1.05/
 

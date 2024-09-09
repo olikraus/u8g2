@@ -1,7 +1,7 @@
 /*
   Fontname: -gnu-Unifont-Medium-R-Normal-Sans-16-160-75-75-c-80-iso10646-1
-  Copyright: Copyright (C) 1998-2019 Roman Czyborra, Paul Hardy,  Qianqian Fang, Andrew Miller, Johnnie Weaver, David Corbett, et al.  License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>  with the GNU Font Embedding Exception.
-  Glyphs: 224/57086
+  Copyright: Copyright (C) 1998-2024 Roman Czyborra, Paul Hardy, Qianqian Fang, Andrew Miller, Johnnie Weaver, David Corbett, Nils Moskopp, Rebecca Bettencourt, Ho-Seok Ee, et al. License: SIL Open Font License version 1.1 and GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html> with the GNU Font Embedding Exception.
+  Glyphs: 224/57084
   BBX Build Mode: 0
 */
 const uint8_t u8g2_font_unifont_t_latin[3768] U8G2_FONT_SECTION("u8g2_font_unifont_t_latin") = 
