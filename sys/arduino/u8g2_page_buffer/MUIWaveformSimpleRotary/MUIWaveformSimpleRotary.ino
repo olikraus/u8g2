@@ -82,7 +82,7 @@ SimpleRotary rotary(2,3,4);
 //U8G2_SSD1312_120X28_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ 8);
 //U8G2_SSD1312_120X28_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ 8);
 //U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-//U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1106_128X64_VCOMH0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8G2_SH1106_128X64_WINSTAR_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but uses updated SH1106 init sequence
 //U8G2_SH1106_128X32_VISIONOX_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); 
@@ -561,7 +561,7 @@ uint8_t muif_array_edit_pos(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_FORM_END:
       return_value = mui_u8g2_u8_min_max_wm_mud_pi(ui, msg);                    // finalise the form
-      array_edit_element = waveform_array[array_edit_pos] ;                                         // store the current elements in the array before leaving the form
+      waveform_array[array_edit_pos] = array_edit_element;                                         // store the current elements in the array before leaving the form
       break;
     case MUIF_MSG_CURSOR_SELECT:                      // for mse mode
     case MUIF_MSG_EVENT_NEXT:                           // for mud mode

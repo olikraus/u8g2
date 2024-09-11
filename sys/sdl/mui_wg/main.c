@@ -180,7 +180,7 @@ uint8_t muif_array_edit_pos(mui_t *ui, uint8_t msg)
       break;
     case MUIF_MSG_FORM_END:
       return_value = mui_u8g2_u8_min_max_wm_mse_pi(ui, msg);                    // finalise the form
-      array_edit_element = waveform_array[array_edit_pos] ;                                         // store the current elements in the array before leaving the form
+      waveform_array[array_edit_pos] = array_edit_element ;                                         // store the current elements in the array before leaving the form
       break;
     case MUIF_MSG_CURSOR_SELECT:
     case MUIF_MSG_EVENT_NEXT:
@@ -349,14 +349,17 @@ int main(void)
 
     if ( k == 'n' ) 
     {
+      do_screenshot();
       mui_NextField(&ui);
     }
     if ( k == 'p' ) 
     {
+      do_screenshot();
       mui_PrevField(&ui);
     }
     if ( k == 's' )
     {
+      do_screenshot();
       mui_SendSelect(&ui);
     }
 
