@@ -646,6 +646,7 @@ void u8x8_SendF(u8x8_t * u8x8, const char *fmt, ...);
 #define U8X8_D1(d0)			(U8X8_MSG_CAD_SEND_DATA), (d0)
 
 #define U8X8_A4(a0,a1,a2,a3)		U8X8_A(a0), U8X8_A(a1), U8X8_A(a2), U8X8_A(a3)
+#define U8X8_A6(a0,a1,a2,a3,a4,a5)		U8X8_A(a0), U8X8_A(a1), U8X8_A(a2), U8X8_A(a3), U8X8_A(a4), U8X8_A(a5)
 #define U8X8_A8(a0,a1,a2,a3,a4,a5,a6,a7)	U8X8_A4((a0), (a1), (a2), (a3)), U8X8_A4((a4), (a5), (a6), (a7))
 
 
