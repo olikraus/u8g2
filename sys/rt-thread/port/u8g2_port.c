@@ -10,12 +10,38 @@ static struct rt_i2c_bus_device *i2c_bus = RT_NULL;
 #if defined U8G2_USE_HW_SPI
 static struct rt_spi_device u8g2_spi_dev;
 
+static inline void u8g2_port_pin_mode(uint8_t pin, rt_uint8_t mode)
+{
+    if(pin != U8X8_PIN_NONE)
+    {
+        rt_pin_mode(pin, mode);
+    }
+}
+
+static inline void u8g2_port_pin_write(uint8_t pin, uint8_t value)
+{
+    if(pin != U8X8_PIN_NONE)
+    {
+        rt_pin_write(pin, value);
+    }
+}
+
+static inline int u8g2_port_pin_read(uint8_t pin)
+{
+    if(pin != U8X8_PIN_NONE)
+    {
+        return rt_pin_read(pin);
+    }
+
+    return 0;
+}
+
 int rt_hw_spi_config(uint8_t spi_mode, uint32_t max_hz, uint8_t cs_pin )
 {
     rt_err_t res;
 
     // Attach Device
-    rt_pin_mode(cs_pin, PIN_MODE_OUTPUT);
+    u8g2_port_pin_mode(cs_pin, PIN_MODE_OUTPUT);
     // spi cs signal will be controlled directly using gpio
     if(u8g2_spi_dev.bus == RT_NULL)
     {
@@ -80,43 +106,43 @@ uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
             // Function which implements a delay, arg_int contains the amount of ms  
 
             // set spi pin mode 
-            rt_pin_mode(u8x8->pins[U8X8_PIN_SPI_CLOCK],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_SPI_DATA],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_RESET],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_DC],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_CS],PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_SPI_CLOCK], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_SPI_DATA], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_RESET], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_DC], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_CS], PIN_MODE_OUTPUT);
 
             // set i2c pin mode
-            rt_pin_mode(u8x8->pins[U8X8_PIN_I2C_DATA],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_I2C_CLOCK],PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_I2C_DATA], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_I2C_CLOCK], PIN_MODE_OUTPUT);
 
             // set 8080 pin mode
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D0],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D1],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D2],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D3],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D4],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D5],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D6],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_D7],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_E],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_DC],PIN_MODE_OUTPUT);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_RESET],PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D0], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D1], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D2], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D3], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D4], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D5], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D6], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_D7], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_E], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_DC], PIN_MODE_OUTPUT);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_RESET], PIN_MODE_OUTPUT);
 
             // set menu pin mode
-            rt_pin_mode(u8x8->pins[U8X8_PIN_MENU_HOME],PIN_MODE_INPUT_PULLUP);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_MENU_SELECT],PIN_MODE_INPUT_PULLUP);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_MENU_PREV],PIN_MODE_INPUT_PULLUP);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_MENU_NEXT],PIN_MODE_INPUT_PULLUP);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_MENU_UP],PIN_MODE_INPUT_PULLUP);
-            rt_pin_mode(u8x8->pins[U8X8_PIN_MENU_DOWN],PIN_MODE_INPUT_PULLUP);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_MENU_HOME], PIN_MODE_INPUT_PULLUP);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_MENU_SELECT], PIN_MODE_INPUT_PULLUP);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_MENU_PREV], PIN_MODE_INPUT_PULLUP);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_MENU_NEXT], PIN_MODE_INPUT_PULLUP);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_MENU_UP], PIN_MODE_INPUT_PULLUP);
+            u8g2_port_pin_mode(u8x8->pins[U8X8_PIN_MENU_DOWN], PIN_MODE_INPUT_PULLUP);
 
             // set value
-            rt_pin_write(u8x8->pins[U8X8_PIN_SPI_CLOCK],1);
-            rt_pin_write(u8x8->pins[U8X8_PIN_SPI_DATA],1);
-            rt_pin_write(u8x8->pins[U8X8_PIN_RESET],1);
-            rt_pin_write(u8x8->pins[U8X8_PIN_DC],1);
-            rt_pin_write(u8x8->pins[U8X8_PIN_CS],1);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_SPI_CLOCK], 1);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_SPI_DATA], 1);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_RESET], 1);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_DC], 1);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_CS], 1);
             break;
 
         case U8X8_MSG_DELAY_I2C:
@@ -135,68 +161,68 @@ uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
         //case U8X8_MSG_GPIO_SPI_DATA:
 
         case U8X8_MSG_GPIO_D2:                  // D2 pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_D2],arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_D2], arg_int);
             break;
 
         case U8X8_MSG_GPIO_D3:                  // D3 pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_D3], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_D3], arg_int);
             break;
 
         case U8X8_MSG_GPIO_D4:                  // D4 pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_D4], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_D4], arg_int);
             break;
 
         case U8X8_MSG_GPIO_D5:                  // D5 pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_D5], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_D5], arg_int);
             break;
 
         case U8X8_MSG_GPIO_D6:                  // D6 pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_D6], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_D6], arg_int);
             break;
 
         case U8X8_MSG_GPIO_D7:                  // D7 pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_D7], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_D7], arg_int);
             break;
 
         case U8X8_MSG_GPIO_E:                   // E/WR pin: Output level in arg_int
-            rt_pin_write(u8x8->pins[U8X8_PIN_E], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_E], arg_int);
             break;
 
         case U8X8_MSG_GPIO_I2C_CLOCK:
             // arg_int=0: Output low at I2C clock pin
             // arg_int=1: Input dir with pullup high for I2C clock pin
-            rt_pin_write(u8x8->pins[U8X8_PIN_I2C_CLOCK], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_I2C_CLOCK], arg_int);
             break;
 
         case U8X8_MSG_GPIO_I2C_DATA:
             // arg_int=0: Output low at I2C data pin
             // arg_int=1: Input dir with pullup high for I2C data pin
-            rt_pin_write(u8x8->pins[U8X8_PIN_I2C_DATA], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_I2C_DATA], arg_int);
             break;
 
         case U8X8_MSG_GPIO_SPI_CLOCK:  
             // Function to define the logic level of the clockline  
-            rt_pin_write(u8x8->pins[U8X8_PIN_SPI_CLOCK], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_SPI_CLOCK], arg_int);
             break;
 
         case U8X8_MSG_GPIO_SPI_DATA:
             // Function to define the logic level of the data line to the display  
-            rt_pin_write(u8x8->pins[U8X8_PIN_SPI_DATA], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_SPI_DATA], arg_int);
             break;
 
         case U8X8_MSG_GPIO_CS:
             // Function to define the logic level of the CS line  
-            rt_pin_write(u8x8->pins[U8X8_PIN_CS], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_CS], arg_int);
             break;
 
         case U8X8_MSG_GPIO_DC:
             // Function to define the logic level of the Data/ Command line  
-            rt_pin_write(u8x8->pins[U8X8_PIN_DC], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_DC], arg_int);
             break;
 
         case U8X8_MSG_GPIO_RESET:
             // Function to define the logic level of the RESET line
-            rt_pin_write(u8x8->pins[U8X8_PIN_RESET], arg_int);
+            u8g2_port_pin_write(u8x8->pins[U8X8_PIN_RESET], arg_int);
             break;
 
         default:
@@ -207,7 +233,7 @@ uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
                 {
                     if ( u8x8_GetPinIndex(u8x8, msg) < U8X8_PIN_OUTPUT_CNT )
                     {
-                        rt_pin_write(i, arg_int);
+                        u8g2_port_pin_write(i, arg_int);
                     }
                     else
                     {
@@ -216,7 +242,7 @@ uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
                             // call yield() for the first pin only, u8x8 will always request all the pins, so this should be ok
                             // yield();
                         }
-                        u8x8_SetGPIOResult(u8x8, rt_pin_read(i) == 0 ? 0 : 1);
+                        u8x8_SetGPIOResult(u8x8, u8g2_port_pin_read(i) == 0 ? 0 : 1);
                     }
                 }
                 break;
