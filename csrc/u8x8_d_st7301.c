@@ -45,22 +45,22 @@
 
 static const uint8_t u8x8_d_st7301_250x122_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0af),		                /* display on */
+  U8X8_C(0x29), 				// display on
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_st7301_250x122_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0ae),		                /* display off */
+  U8X8_C(0x028),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
 static const uint8_t u8x8_d_st7301_250x122_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_CA(0xC4, 0x02), 			/* COM Output Status, Bits 0 & 1 */
-  U8X8_C(0xA1), 				/* Column Address Direction: Bit 0 */
+  //U8X8_CA(0xC4, 0x02), 			/* COM Output Status, Bits 0 & 1 */
+  //U8X8_C(0xA1), 				/* Column Address Direction: Bit 0 */
   //U8X8_C(0x0a1),				/* segment remap a0/a1*/
   //U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -71,8 +71,8 @@ static const uint8_t u8x8_d_st7301_250x122_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   //U8X8_C(0x0a0),				/* segment remap a0/a1*/
   //U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
-  U8X8_CA(0xC4, 0x03), 			/* COM Output Status, Bits 0 & 1 */
-  U8X8_C(0xA0), 				/* Column Address Direction: Bit 0 */
+  //U8X8_CA(0xC4, 0x03), 			/* COM Output Status, Bits 0 & 1 */
+  //U8X8_C(0xA0), 				/* Column Address Direction: Bit 0 */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -81,8 +81,9 @@ static const uint8_t u8x8_d_st7301_250x122_flip1_seq[] = {
 
 
 /*===================================================*/
+/* see also: http://www.technoblogy.com/show?3YB0 */
 
-static uint8_t u8x8_d_st75320_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+static uint8_t u8x8_d_st7301_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint16_t x;
   uint8_t c;
@@ -312,18 +313,18 @@ static const u8x8_display_info_t u8x8_st7301_250x122_display_info =
   /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
   /* data_setup_time_ns = */ 15,
   /* write_pulse_width_ns = */ 70,	
-  /* tile_width = */ 32,
-  /* tile_height = */ 16,
+  /* tile_width = */ 16,
+  /* tile_height = */ 32,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 250,
-  /* pixel_height = */ 122
+  /* pixel_width = */ 122,
+  /* pixel_height = */ 250
 };
 
 uint8_t u8x8_d_st7301_250x122(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
-  if ( u8x8_d_st75320_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+  if ( u8x8_d_st7301_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
     return 1;
   
   switch(msg)
