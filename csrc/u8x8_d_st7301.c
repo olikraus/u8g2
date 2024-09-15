@@ -43,21 +43,21 @@
 
 #include "u8x8.h"
 
-static const uint8_t u8x8_d_st7301_250x122_powersave0_seq[] = {
+static const uint8_t u8x8_d_st7301_122x250_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x29), 				// display on
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7301_250x122_powersave1_seq[] = {
+static const uint8_t u8x8_d_st7301_122x250_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x028),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7301_250x122_flip0_seq[] = {
+static const uint8_t u8x8_d_st7301_122x250_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   //U8X8_CA(0xC4, 0x02), 			/* COM Output Status, Bits 0 & 1 */
   //U8X8_C(0xA1), 				/* Column Address Direction: Bit 0 */
@@ -67,7 +67,7 @@ static const uint8_t u8x8_d_st7301_250x122_flip0_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7301_250x122_flip1_seq[] = {
+static const uint8_t u8x8_d_st7301_122x250_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   //U8X8_C(0x0a0),				/* segment remap a0/a1*/
   //U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
@@ -92,30 +92,30 @@ static uint8_t u8x8_d_st7301_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   {
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7301_250x122_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7301_122x250_display_info);
       break;
     */
     /* handled by the calling function
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_250x122_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_init_seq);    
       break;
     */
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_250x122_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_250x122_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_powersave1_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_250x122_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_250x122_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
@@ -254,7 +254,7 @@ static uint8_t u8x8_d_st7301_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   delay(100);
 
 */
-static const uint8_t u8x8_d_st7301_250x122_init_seq[] = {
+static const uint8_t u8x8_d_st7301_122x250_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -297,7 +297,7 @@ static const uint8_t u8x8_d_st7301_250x122_init_seq[] = {
 
 
 
-static const u8x8_display_info_t u8x8_st7301_250x122_display_info =
+static const u8x8_display_info_t u8x8_st7301_122x250_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -321,7 +321,7 @@ static const u8x8_display_info_t u8x8_st7301_250x122_display_info =
   /* pixel_height = */ 250
 };
 
-uint8_t u8x8_d_st7301_250x122(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_st7301_122x250(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
   if ( u8x8_d_st7301_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
@@ -331,10 +331,10 @@ uint8_t u8x8_d_st7301_250x122(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   {
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_250x122_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7301_250x122_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7301_122x250_display_info);
       break;
     default:
       return 0;
