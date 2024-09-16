@@ -83,10 +83,138 @@ static const uint8_t u8x8_d_st7301_122x250_flip1_seq[] = {
 /*===================================================*/
 /* see also: http://www.technoblogy.com/show?3YB0 */
 
+static uint8_t *u8x8_st7301_convert(u8x8_t *u8x8, uint8_t *p)
+{
+  static uint8_t buf[6];
+  uint8_t bytes_per_row = u8x8->display_info->tile_width;
+  
+  memset(buf, 0, 6);
+  
+  // first row, left 12 pixel
+  
+  if ( p[0] & 0x80 )
+    buf[2] |= 0x02;
+  if ( p[0] & 0x40 )
+    buf[2] |= 0x08;
+  if ( p[0] & 0x20 )
+    buf[2] |= 0x20;
+  if ( p[0] & 0x10 )
+    buf[2] |= 0x80;
+
+  if ( p[0] & 0x08 )
+    buf[1] |= 0x02;
+  if ( p[0] & 0x04 )
+    buf[1] |= 0x08;
+  if ( p[0] & 0x02 )
+    buf[1] |= 0x20;
+  if ( p[0] & 0x01 )
+    buf[1] |= 0x80;
+
+  if ( p[1] & 0x80 )
+    buf[0] |= 0x02;
+  if ( p[1] & 0x40 )
+    buf[0] |= 0x08;
+  if ( p[1] & 0x20 )
+    buf[0] |= 0x20;
+  if ( p[1] & 0x10 )
+    buf[0] |= 0x80;
+
+ // first row, right 12 pixel
+   
+  if ( p[1] & 0x08 )
+    buf[5] |= 0x02;
+  if ( p[1] & 0x04 )
+    buf[5] |= 0x08;
+  if ( p[1] & 0x02 )
+    buf[5] |= 0x20;
+  if ( p[1] & 0x01 )
+    buf[5] |= 0x80;
+
+  if ( p[2] & 0x80 )
+    buf[4] |= 0x02;
+  if ( p[2] & 0x40 )
+    buf[4] |= 0x08;
+  if ( p[2] & 0x20 )
+    buf[4] |= 0x20;
+  if ( p[2] & 0x10 )
+    buf[4] |= 0x80;
+  
+  if ( p[2] & 0x08 )
+    buf[3] |= 0x02;
+  if ( p[2] & 0x04 )
+    buf[3] |= 0x08;
+  if ( p[2] & 0x02 )
+    buf[3] |= 0x20;
+  if ( p[2] & 0x01 )
+    buf[3] |= 0x80;
+  
+  p += u8x8->display_info->tile_width;
+
+  // second row, left 12 pixel
+  
+  if ( p[0] & 0x80 )
+    buf[2] |= 0x01;
+  if ( p[0] & 0x40 )
+    buf[2] |= 0x04;
+  if ( p[0] & 0x20 )
+    buf[2] |= 0x10;
+  if ( p[0] & 0x10 )
+    buf[2] |= 0x40;
+
+  if ( p[0] & 0x08 )
+    buf[1] |= 0x01;
+  if ( p[0] & 0x04 )
+    buf[1] |= 0x04;
+  if ( p[0] & 0x02 )
+    buf[1] |= 0x10;
+  if ( p[0] & 0x01 )
+    buf[1] |= 0x40;
+
+  if ( p[1] & 0x80 )
+    buf[0] |= 0x01;
+  if ( p[1] & 0x40 )
+    buf[0] |= 0x04;
+  if ( p[1] & 0x20 )
+    buf[0] |= 0x10;
+  if ( p[1] & 0x10 )
+    buf[0] |= 0x40;
+
+ // second row, right 12 pixel
+   
+  if ( p[1] & 0x08 )
+    buf[5] |= 0x01;
+  if ( p[1] & 0x04 )
+    buf[5] |= 0x04;
+  if ( p[1] & 0x02 )
+    buf[5] |= 0x10;
+  if ( p[1] & 0x01 )
+    buf[5] |= 0x40;
+
+  if ( p[2] & 0x80 )
+    buf[4] |= 0x01;
+  if ( p[2] & 0x40 )
+    buf[4] |= 0x04;
+  if ( p[2] & 0x20 )
+    buf[4] |= 0x10;
+  if ( p[2] & 0x10 )
+    buf[4] |= 0x40;
+  
+  if ( p[2] & 0x08 )
+    buf[3] |= 0x01;
+  if ( p[2] & 0x04 )
+    buf[3] |= 0x04;
+  if ( p[2] & 0x02 )
+    buf[3] |= 0x10;
+  if ( p[2] & 0x01 )
+    buf[3] |= 0x40;
+  
+  return buf;
+}
+
 static uint8_t u8x8_d_st7301_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint16_t x;
-  uint8_t c;
+  uint8_t c, i, y;
   uint8_t *ptr;
   switch(msg)
   {
@@ -132,35 +260,37 @@ static uint8_t u8x8_d_st7301_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
       x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
       x *= 8;
       x += u8x8->x_offset;
+      y= (((u8x8_tile_t *)arg_ptr)->y_pos);
+      y*=4;
 
       u8x8_cad_StartTransfer(u8x8);
-    
-      u8x8_cad_SendCmd(u8x8, 0x013);
-      u8x8_cad_SendArg(u8x8, (x>>8) );
-      u8x8_cad_SendArg(u8x8, (x&255) );
-      u8x8_cad_SendCmd(u8x8, 0x0b1 ); 
-      u8x8_cad_SendArg(u8x8, (((u8x8_tile_t *)arg_ptr)->y_pos)); 
 
-
-      u8x8_cad_SendCmd(u8x8, 0x01d );		// write data 
-    
-      do
+      for( i = 0; i < 4; i++ )
       {
+        u8x8_cad_SendCmd(u8x8, 0x2a);
+        u8x8_cad_SendArg(u8x8, 0x19);
+        u8x8_cad_SendArg(u8x8, 0x3a );
+      
+        u8x8_cad_SendCmd(u8x8, 0x2b ); 
+        u8x8_cad_SendArg(u8x8, y+i); 
+        u8x8_cad_SendArg(u8x8, y+i); 
+        u8x8_cad_SendCmd(u8x8, 0x02c );		// write data 
+      
         c = ((u8x8_tile_t *)arg_ptr)->cnt;
         ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
-        /* SendData can not handle more than 255 bytes */
-        if ( c > 31 )
-        {
-          u8x8_cad_SendData(u8x8, 248, ptr); 	/* 31*8=248 */
-          ptr+=248;
-          c -= 31;
-        }
         
-        u8x8_cad_SendData(u8x8, c*8, ptr); 	
-        arg_int--;
-      } while( arg_int > 0 );
-
-      
+        ptr += u8x8->display_info->tile_width*i*2;
+        
+        c = (c+2)/3;          // calculate the number of 24 bit blocks to send
+        
+        
+        while( c > 0 )
+        {
+          u8x8_cad_SendData(u8x8, 6, u8x8_st7301_convert(u8x8, ptr)); 	
+          ptr+=3;
+          --c;
+        }
+      }
       u8x8_cad_EndTransfer(u8x8);
       break;
     default:
@@ -258,9 +388,16 @@ static const uint8_t u8x8_d_st7301_122x250_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
+  U8X8_C(0x01),                                 // software reset
+  U8X8_DLY(100),
   U8X8_C(0x28), 				// display off
+  U8X8_CAA(0xC7, 0x26, 0xE9), 			// disable OSC
+  U8X8_CA(0xD1, 0x00), 			// Booster disable
+  U8X8_DLY(20),
   U8X8_C(0x10),                                 // sleep in: enter sleep mode
-  U8X8_DLY(5),
+  U8X8_DLY(20),
+  U8X8_C(0x01),                                 // software reset
+  U8X8_DLY(20),                                 // wait
   U8X8_C(0x38), 				// High Power Mode
   U8X8_CA(0xEB, 0x02), 			// Disable NVM Load
   U8X8_CA(0xD7, 0x68), 			// NVM Load Control: Enable ID1 ID2 ID3 Load
@@ -277,7 +414,8 @@ static const uint8_t u8x8_d_st7301_122x250_init_seq[] = {
   U8X8_C(0x11),                                 // sleep out: furn off sleep mode
   U8X8_DLY(120),
   U8X8_CAA(0xC7, 0xA6, 0xE9), 			// Enable OSC
-  U8X8_CA(0x36, 0x20), 			// Memory Control 
+  U8X8_CA(0x36, 0x60), 			// Memory Control 
+  
   U8X8_CA(0x3A, 0x11), 			// Data Format 
   U8X8_CA(0xB9, 0x23), 			// Source Setting: Clear RAM off 
   U8X8_CA(0xB8, 0x09), 			// Panel Setting / Panel Layout 
@@ -290,6 +428,131 @@ static const uint8_t u8x8_d_st7301_122x250_init_seq[] = {
   U8X8_C(0x39), 				// enable Low Power Mode...: 8Hz, see above
   U8X8_DLY(100),
     
+  U8X8_CAA(0x2A, 0x19, 0x3a), 			// col addr  0x14 < col < 0x3b
+  U8X8_CAA(0x2B, 0x00, 0x00), 			// row addr (0..250, y in u8g2), 0 is top row in u8g2
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0x01), 			// pixel data
+  
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xf3), 			// pixel data
+
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0x3f), 			// pixel data
+  
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xf3), 			// pixel data
+
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  
+  //U8X8_CAA(0x2A, 0x20, 0x30), 			// col addr
+  //U8X8_CAA(0x2B, 0x20, 0x30), 			// row addr
+  
+  U8X8_CAA(0x2A, 0x20, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x30, 0x31), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x20, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x40, 0x41), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x20, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x50, 0x51), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x20, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x60, 0x61), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+
+
+  U8X8_CAA(0x2A, 0x19, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x30, 0x31), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x19, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x40, 0x41), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x19, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x50, 0x51), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x19, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x60, 0x61), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  
+  
+  
+  /*
+  U8X8_CAA(0x2A, 0x22, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x30, 0x31), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x24, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x40, 0x41), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x26, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x50, 0x51), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+
+  U8X8_CAA(0x2A, 0x28, 0x30), 			// col addr
+  U8X8_CAA(0x2B, 0x60, 0x61), 			// row addr
+  U8X8_C(0x2C), 			// write start
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+  U8X8_D1(0xff), 			// pixel data
+*/
+
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()           			/* end of sequence */
 };
