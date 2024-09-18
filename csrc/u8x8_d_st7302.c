@@ -1,6 +1,6 @@
 /*
 
-  u8x8_d_st7301.c
+  u8x8_d_st7302.c
 
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 
@@ -32,7 +32,7 @@
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 
-  ST7301: 
+  st7302: 
     Ultra-Low Power Active Matrix 240 x 320
     Mono TFT Display Driver with Controller
   
@@ -47,28 +47,28 @@
 #include "u8x8.h"
 #include <string.h>
 
-static const uint8_t u8x8_d_st7301_122x250_powersave0_seq[] = {
+static const uint8_t u8x8_d_st7302_122x250_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x29), 				// display on
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7301_122x250_powersave1_seq[] = {
+static const uint8_t u8x8_d_st7302_122x250_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x028),		                /* display off */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7301_122x250_flip0_seq[] = {
+static const uint8_t u8x8_d_st7302_122x250_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   //U8X8_CA(0x36, 0x60), 			// Memory Control 
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
 
-static const uint8_t u8x8_d_st7301_122x250_flip1_seq[] = {
+static const uint8_t u8x8_d_st7302_122x250_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   //U8X8_CA(0x36, 0xa0), 			// Memory Control 
   U8X8_END_TRANSFER(),             	/* disable chip */
@@ -83,7 +83,7 @@ static const uint8_t u8x8_d_st7301_122x250_flip1_seq[] = {
 
 
 #ifdef NOT_USED
-static uint8_t *u8x8_st7301_convert_60(u8x8_t *u8x8, uint8_t *p)   
+static uint8_t *u8x8_st7302_convert_60(u8x8_t *u8x8, uint8_t *p)   
 {
   static uint8_t buf[6];
   uint8_t bytes_per_row = u8x8->display_info->tile_width;
@@ -216,7 +216,7 @@ static uint8_t *u8x8_st7301_convert_60(u8x8_t *u8x8, uint8_t *p)
 }
 #endif
 
-static uint8_t *u8x8_st7301_convert_a0(u8x8_t *u8x8, uint8_t *p)   
+static uint8_t *u8x8_st7302_convert_a0(u8x8_t *u8x8, uint8_t *p)   
 {
   static uint8_t buf[6];
   static uint8_t map1[16] = {
@@ -298,7 +298,7 @@ static uint8_t *u8x8_st7301_convert_a0(u8x8_t *u8x8, uint8_t *p)
   see also:
   https://github.com/zhcong/ST7302-for-arduino/blob/c9390fabcacefe7c36a113cd3e62959418c13b97/libraries/ST7302SPI/ST7302SPI.cpp#L21
 */
-static const uint8_t u8x8_d_st7301_122x250_init_seq[] = {
+static const uint8_t u8x8_d_st7302_122x250_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
@@ -389,7 +389,7 @@ static const uint8_t u8x8_d_st7301_122x250_init_seq[] = {
 
 
 
-static const u8x8_display_info_t u8x8_st7301_122x250_display_info =
+static const u8x8_display_info_t u8x8_st7302_122x250_display_info =
 {
   /* chip_enable_level = */ 0,
   /* chip_disable_level = */ 1,
@@ -413,7 +413,7 @@ static const u8x8_display_info_t u8x8_st7301_122x250_display_info =
   /* pixel_height = */ 250
 };
 
-uint8_t u8x8_d_st7301_122x250(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_st7302_122x250(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   uint16_t x;
   uint8_t c, i, y;
@@ -422,26 +422,26 @@ uint8_t u8x8_d_st7301_122x250(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   {
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
-      u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_init_seq);    
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7302_122x250_init_seq);    
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
-      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7301_122x250_display_info);
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7302_122x250_display_info);
       break;
     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
       if ( arg_int == 0 )
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_powersave0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7302_122x250_powersave0_seq);
       else
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_powersave1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7302_122x250_powersave1_seq);
       break;
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7302_122x250_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_st7301_122x250_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7302_122x250_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
@@ -487,7 +487,7 @@ uint8_t u8x8_d_st7301_122x250(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
         
         while( c > 0 )
         {
-          u8x8_cad_SendData(u8x8, 6, u8x8_st7301_convert_a0(u8x8, ptr)); 	
+          u8x8_cad_SendData(u8x8, 6, u8x8_st7302_convert_a0(u8x8, ptr)); 	
           ptr+=3;
           --c;
         }
