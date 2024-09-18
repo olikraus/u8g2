@@ -346,5 +346,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added unifont_jp (issue 2502)
   * Added BoutiqueBitmap fonts (issue 2265)
   * MUI: More features and examples
+2024-xx-xx      v2.36.xx        olikraus@gmail.com
   
   
