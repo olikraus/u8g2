@@ -333,6 +333,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * SSD1322 ZJY 256x64 (issue 2386)
   * UC1604 JLX128x64 (issue 2497)
   * LS011B7DH03 160x68 (issue 2210)
+  * ST7302 122x250 (no flipmode, no u8x8, issue 2436)
   * U8x8 example for 90 degree string rotation (issue 2271)
   * Bugfix for drawUTF8X2 with negative x values (issue 2228)
   * Examples for I2C adapter board for parallel gfx displays (issue 2191)
@@ -344,5 +345,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Unifont upgrade from 12.1.02 to 15.1.05 (issue 2502)
   * Added unifont_jp (issue 2502)
   * Added BoutiqueBitmap fonts (issue 2265)
+  * MUI: More features and examples
   
   
