@@ -210,6 +210,23 @@ uint8_t muif_array_pos_selection(mui_t *ui, uint8_t msg)
   return return_value;
 }
 
+/* https://github.com/olikraus/u8g2/discussions/2516 */
+uint8_t mui_goto_or_back_form_w1_pi(mui_t *ui, uint8_t msg)
+{
+  if ( msg == MUIF_MSG_CURSOR_SELECT )
+  {
+    if ( mui_GetSelectableFieldTextOption(ui, ui->last_form_fds, ui->arg + ui->form_scroll_top) )
+    {
+      
+      if ( (uint8_t)ui->text[0] == 254 ) // use MUI_254 for the return
+      {
+         mui_RestoreForm(ui);
+         return 0;
+      }
+    }
+  }
+  return mui_u8g2_goto_form_w1_pi(ui,  msg);  // call the original MUIF
+}
 
 /*=================================================*/
 /* list functions (get cnt/get element pairs) */
@@ -285,7 +302,8 @@ muif_t muif_list[] MUI_PROGMEM = {
   MUIF_LABEL(mui_u8g2_draw_text),
 
   MUIF_RO("GP",mui_u8g2_goto_data),
-  MUIF_BUTTON("GC", mui_u8g2_goto_form_w1_pi),
+  MUIF_BUTTON("GC", mui_goto_or_back_form_w1_pi),  /* mui_u8g2_goto_form_w1_pi replaced by mui_goto_or_back_form_w1_pi */
+  
 
   MUIF_BUTTON("BK", mui_u8g2_btn_back_wm_fi),
 
@@ -373,7 +391,8 @@ MUI_DATA("GP",
   MUI_11 "btn_goto_wm_fi|" 
   MUI_12 "btn_goto_w1_pi|" 
   MUI_13 "btn_goto_w2_fi|"
-  MUI_1 "Back to Main Menu" )
+  MUI_1 "Back to Main Menu" 
+  )
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
 MUI_XYA("GC", 5, 49, 2) 
@@ -428,6 +447,7 @@ MUI_DATA("GP",
   MUI_22 "u8_min_max_wm_mud_pi|" 
   MUI_23 "u8_min_max_wm_mse_pf|" 
   MUI_24 "u8_min_max_wm_mud_pf|" 
+  MUI_254 "2nd Back to Main Menu|"
   MUI_1 "Back to Main Menu" )
 MUI_XYA("GC", 5, 25, 0) 
 MUI_XYA("GC", 5, 37, 1) 
