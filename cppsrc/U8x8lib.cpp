@@ -173,7 +173,14 @@ extern "C" uint8_t u8x8_gpio_and_delay_arduino(u8x8_t *u8x8, uint8_t msg, uint8_
 	      // call yield() for the first pin only, u8x8 will always request all the pins, so this should be ok
 	      yield();
 	    }
-	    u8x8_SetGPIOResult(u8x8, digitalRead(i) == 0 ? 0 : 1);
+        if (u8x8->is_logic_inverted)
+        {
+            u8x8_SetGPIOResult(u8x8, digitalRead(i) == 0 ? 1 : 0);
+        }
+        else
+        {
+            u8x8_SetGPIOResult(u8x8, digitalRead(i) == 0 ? 0 : 1);
+        }
 	  }
 	}
 	break;
