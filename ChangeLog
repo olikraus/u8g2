@@ -347,5 +347,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added BoutiqueBitmap fonts (issue 2265)
   * MUI: More features and examples
 2024-xx-xx      v2.36.xx        olikraus@gmail.com
+  * SED1330 240x64 (issue 2518)
   
   
