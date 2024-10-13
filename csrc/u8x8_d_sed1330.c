@@ -340,6 +340,7 @@ uint8_t u8x8_d_sed1330_240x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_sed1330_240x64_init_seq);
+      u8x8_SendF(u8x8, "caaaaaaaa", 0x40, 0x30, 0x87, 0x07, 0x1d, 0x50, 0x3f, 0x1e, 0x00);  /* send init again, issue 2518 https://github.com/olikraus/u8g2/issues/2518 */
       break;
     default:
       return u8x8_d_sed1330_common(u8x8, msg, arg_int, arg_ptr);
