@@ -505,7 +505,7 @@ uint8_t u8x8_cad_ssd13xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       /* Unfortunately, this can not be handled in the byte level drivers, */
       /* so this is done here. Even further, only 24 bytes will be sent, */
       /* because there will be another byte (DC) required during the transfer */
-      p = arg_ptr;
+      p = (uint8_t *)arg_ptr;
        while( arg_int > 24 )
       {
 	u8x8_i2c_data_transfer(u8x8, 24, p);
@@ -575,7 +575,7 @@ uint8_t u8x8_cad_ssd13xx_fast_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       /* Unfortunately, this can not be handled in the byte level drivers, */
       /* so this is done here. Even further, only 24 bytes will be sent, */
       /* because there will be another byte (DC) required during the transfer */
-      p = arg_ptr;
+      p = (uint8_t *)arg_ptr;
        while( arg_int > 24 )
       {
 	u8x8_i2c_data_transfer(u8x8, 24, p);
@@ -627,7 +627,7 @@ uint8_t u8x8_cad_st75256_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
       break;
     case U8X8_MSG_CAD_SEND_DATA:
       /* see ssd13xx driver */
-      p = arg_ptr;
+      p = (uint8_t *)arg_ptr;
        while( arg_int > 24 )
       {
 	u8x8_i2c_data_transfer(u8x8, 24, p);
@@ -680,7 +680,7 @@ uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       /* Unfortunately, this can not be handled in the byte level drivers, */
       /* so this is done here. Even further, only 24 bytes will be sent, */
       /* because there will be another byte (DC) required during the transfer */
-      p = arg_ptr;
+      p = (uint8_t *)arg_ptr;
        while( arg_int > 24 )
       {
 	u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, 24, p);
@@ -764,7 +764,7 @@ uint8_t u8x8_cad_uc16xx_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       in_transfer = 1;
       // is_data = 1;  // 20 Jun 2021: I assume that this is missing here
       
-      p = arg_ptr;
+      p = (uint8_t *)arg_ptr;
       while( arg_int > 24 )
       {
 	u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, 24, p);
@@ -871,7 +871,7 @@ uint8_t u8x8_cad_uc1638_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
       in_transfer = 1;
       is_data = 1;
       
-      p = arg_ptr;
+      p = (uint8_t *)arg_ptr;
       while( arg_int > 24 )
       {
 	u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, 24, p);
