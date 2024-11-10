@@ -277,6 +277,11 @@ unzip -o u8g2_arduino_${ver}.zip
 
 popd
 
+echo doing local tag and commit with ${ver}
+git tag ${ver}
+git commit -a -m "${ver}"
+echo doing Arduino Repo tag and commit with ${ver}
+cd ~/git/U8g2_Arduino
 git tag ${ver}
 git commit -a -m "${ver}"
 echo now create a release in gitub for U8glib_Arduino, tag/name = ${ver}
