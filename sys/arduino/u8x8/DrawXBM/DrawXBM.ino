@@ -70,7 +70,7 @@
 //U8X8_SSD1312_120X28_SW_I2C u8x8(/* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ 8);
 //U8X8_SSD1312_120X28_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
 //U8X8_SH1106_128X64_NONAME_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
-U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
+//U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
 //U8X8_SH1106_128X64_VCOMH0_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
 //U8X8_SH1106_128X64_WINSTAR_4W_HW_SPI u8x8(/* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but uses updated SH1106 init sequence
 //U8X8_SH1106_128X32_VISIONOX_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE); 
@@ -328,6 +328,9 @@ U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
   Notes:
     * Width and height of the XBM Image must be a multiple of 8
     * XBM image must be placed in PROGMAM (add const and U8X8_PROGMEM)
+    * XBM image can be exported from any other image with "GIMP" (https://www.gimp.org/) tool
+    * XBM format is plain C code, just copy&past code into the .ino file
+    * It might be required to add "const" and "U8X8_PROGMEM" to the XBM data array
 
 */
 const static unsigned char startup_xbm[] U8X8_PROGMEM = {

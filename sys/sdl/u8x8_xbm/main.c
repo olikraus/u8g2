@@ -1,7 +1,6 @@
 #include "u8x8.h"
 
 /*
-
 https://www.streamlinehq.com/icons/pixel?search=&icon=ico_94BhV342TAIclS4E
 Business_Product_Startup_1__Streamline_Pixel
 Made by Streamline
