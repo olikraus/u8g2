@@ -33,43 +33,39 @@
   
 */
 
-
 #include "u8x8.h"
-
-
-
 
 static const uint8_t u8x8_d_ssd1309_powersave0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0af),		                /* display on */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
+  U8X8_C(0x0af),		                  /* display on */
+  U8X8_END_TRANSFER(),             	  /* disable chip */
+  U8X8_END()             			        /* end of sequence */
 };
 
 static const uint8_t u8x8_d_ssd1309_powersave1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0ae),		                /* display off */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
+  U8X8_C(0x0ae),		                  /* display off */
+  U8X8_END_TRANSFER(),             	  /* disable chip */
+  U8X8_END()             			        /* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1309_128x64_flip0_seq[] = {
+/* ==> CSC rename u8x8_d_ssd1309_128x64_flip0_seq => u8x8_d_ssd1309_flip0_seq <== */
+static const uint8_t u8x8_d_ssd1309_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a1),				/* segment remap a0/a1*/
-  U8X8_C(0x0c8),				/* c0: scan dir normal, c8: reverse */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
+  U8X8_C(0x0a1),				              /* segment remap a0/a1*/
+  U8X8_C(0x0c8),				              /* c0: scan dir normal, c8: reverse */
+  U8X8_END_TRANSFER(),             	  /* disable chip */
+  U8X8_END()             			        /* end of sequence */
 };
 
-static const uint8_t u8x8_d_ssd1309_128x64_flip1_seq[] = {
+/* ==> CSC rename u8x8_d_ssd1309_128x64_flip1_seq => u8x8_d_ssd1309_flip1_seq <== */
+static const uint8_t u8x8_d_ssd1309_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  U8X8_C(0x0a0),				/* segment remap a0/a1*/
-  U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
-  U8X8_END_TRANSFER(),             	/* disable chip */
-  U8X8_END()             			/* end of sequence */
+  U8X8_C(0x0a0),				              /* segment remap a0/a1*/
+  U8X8_C(0x0c0),				              /* c0: scan dir normal, c8: reverse */
+  U8X8_END_TRANSFER(),             	  /* disable chip */
+  U8X8_END()             			        /* end of sequence */
 };
-
-
 
 static uint8_t u8x8_d_ssd1309_generic(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -160,7 +156,6 @@ static const uint8_t u8x8_d_ssd1309_128x64_noname_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  
   U8X8_C(0x0ae),		                /* display off */
   U8X8_CA(0x0d5, 0x0a0),		/* clock divide ratio (0x00=1) and oscillator frequency (0x8) */
   //U8X8_CA(0x0a8, 0x03f),		/* multiplex ratio */
@@ -191,6 +186,41 @@ static const uint8_t u8x8_d_ssd1309_128x64_noname_init_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+/* CSC ==> */
+static const uint8_t u8x8_d_ssd1309_128x128_noname_init_seq[] = {
+
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  U8X8_C(0x0ae),		                  /* display off */
+  U8X8_CA(0x0d5, 0x0a0),		          /* clock divide ratio (0x00=1) and oscillator frequency (0x8) */
+  U8X8_CA(0x0a8, 0x07f),              /* multiplex ratio */ /* 128 Zeilen  0x07f, 64 Zeilen 0x03f */
+  U8X8_C(0x040),            	        /* set display start line to 0 */
+  U8X8_CA(0x020, 0x002),		          /* horizontal addressing mode */
+
+  U8X8_C(0x0a1),				              /* segment remap a0/a1*/
+  U8X8_C(0x0c8),				              /* c0: scan dir normal, c8: reverse */
+  // Flipmode
+  // U8X8_C(0x0a0),				            /* segment remap a0/a1*/
+  // U8X8_C(0x0c0),				            /* c0: scan dir normal, c8: reverse */
+
+  U8X8_CA(0x0da, 0x012),		          /* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
+
+  U8X8_CA(0x081, 0x06f), 		          /* [2] set contrast control */
+  U8X8_CA(0x0d9, 0x0d3), 		          /* [2] pre-charge period 0x022/f1*/
+  U8X8_CA(0x0db, 0x020), 		          /* vcomh deselect level */
+  // if vcomh is 0, then this will give the biggest range for contrast control issue #98
+  // restored the old values for the noname constructor, because vcomh=0 will not work for all OLEDs, #116
+
+  U8X8_C(0x02e),				              /* Deactivate scroll */
+  U8X8_C(0x0a4),				              /* output ram to display */
+  U8X8_C(0x0a6),				              /* none inverted normal display mode */
+
+  //U8X8_C(0x0af),		                /* display on */
+
+  U8X8_END_TRANSFER(),             	  /* disable chip */
+  U8X8_END()             			        /* end of sequence */
+};
+/* <== CSC */
 
 uint8_t u8x8_d_ssd1309_128x64_noname2(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -203,12 +233,12 @@ uint8_t u8x8_d_ssd1309_128x64_noname2(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x64_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x64_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
@@ -254,6 +284,32 @@ static const u8x8_display_info_t u8x8_ssd1309_128x64_noname0_display_info =
   /* pixel_height = */ 64
 };
 
+/* CSC ==> */
+static const u8x8_display_info_t u8x8_ssd1309_128x128_noname0_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* SSD1306: 3 us */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 50,		/* SSD1306: 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* SSD1306: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 40,
+  /* write_pulse_width_ns = */ 150,	/* SSD1306: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 16,
+  /* tile_height = */ 16,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 128
+};
+/* <== CSC */
+
 uint8_t u8x8_d_ssd1309_128x64_noname0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     
@@ -265,12 +321,12 @@ uint8_t u8x8_d_ssd1309_128x64_noname0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x64_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x64_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
@@ -287,6 +343,40 @@ uint8_t u8x8_d_ssd1309_128x64_noname0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int
   return 1;
 }
 
+/* CSC ==> */
+uint8_t u8x8_d_ssd1309_128x128_noname0(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+
+  if ( u8x8_d_ssd1309_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	    u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip0_seq);
+	    u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	    u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip1_seq);
+	    u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x128_noname_init_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_ssd1309_128x128_noname0_display_info);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+/* <== CSC */
 
 /*=================================================*/
 /*
@@ -352,12 +442,12 @@ uint8_t u8x8_d_ssd1306_102x64_ea_oleds102(u8x8_t *u8x8, uint8_t msg, uint8_t arg
     case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
       if ( arg_int == 0 )
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x64_flip0_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip0_seq);
 	u8x8->x_offset = u8x8->display_info->default_x_offset;
       }
       else
       {
-	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_128x64_flip1_seq);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1309_flip1_seq);
 	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
       }
       break;
