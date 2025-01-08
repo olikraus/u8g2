@@ -9,7 +9,6 @@
 #include "stm32l031xx.h"
 #include "delay.h"
 #include "u8x8.h"
-#include <string.h> /* memcpy */
 
 /*
   I2C:
@@ -251,7 +250,7 @@ uint8_t u8x8_byte_stm32l0_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       data = (uint8_t *)arg_ptr;
       while( arg_int > 0 ) 
      {
-       while( ( SPI1->SR & SPI_SR_TXE ) == 0 )
+        while ( (SPI1->SR & SPI_SR_BSY) || (DMA1_Channel3->CNDTR != 0) )           // wait for transfer completion
           ;
         *(uint8_t *)&(SPI1->DR) = *data;
         data++;
@@ -322,11 +321,12 @@ uint8_t dma_buffer[256]; // required for DMA transfer
 
 uint8_t u8x8_byte_stm32l0_dma_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) 
 {
-  //uint8_t *data;
+  uint16_t i;
   switch(msg) {
     case U8X8_MSG_BYTE_SEND:
-      /* data in arg_ptr will be overwritten, once we leave this function, so create a copy of it */
-      memcpy(dma_buffer, arg_ptr, arg_int);
+      /* data in arg_ptr will be overwritten, once we leave this function, so create a copy of it (note: memcpy seems to be slower) */
+      for( i = 0; i < arg_int; i++ )
+        dma_buffer[i] = ((uint8_t *)arg_ptr)[i];
     
       /* wait for completion of any previous transfer */
       while ( (SPI1->SR & SPI_SR_BSY) || (DMA1_Channel3->CNDTR != 0) )           // wait for transfer completion
@@ -335,29 +335,14 @@ uint8_t u8x8_byte_stm32l0_dma_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       /* setup and start DMA SPI transfer */
       DMA1_Channel3->CCR = 0;           // disable + reset channel 3
       /* defaults: 
-	  - 8 Bit access	--> ok
-	  - read from peripheral	--> changed
-	  - none-circular mode  --> ok
-	  - no increment mode   --> will be changed below
+          - 8 Bit access	--> ok
+          - read from peripheral	--> changed
+          - none-circular mode  --> ok
+          - no increment mode   --> will be changed below
       */
       DMA1_Channel3->CNDTR = arg_int;                                        /* buffer size */
-      DMA1_Channel3->CMAR = (uint32_t)dma_buffer;
-      DMA1_Channel3->CPAR = (uint32_t)&(SPI1->DR);
+      DMA1_Channel3->CCR |= DMA_CCR_MINC | DMA_CCR_DIR | DMA_CCR_EN;		/* increment memory, copy from M to P, enable DMA */
 
-      DMA1_Channel3->CCR |= DMA_CCR_MINC | DMA_CCR_DIR;		/* increment memory, copy from M to P */
-      DMA1_Channel3->CCR |= DMA_CCR_EN;                /* enable */
-
-      /*
-      data = (uint8_t *)arg_ptr;
-      while( arg_int > 0 ) 
-     {
-       while( ( SPI1->SR & SPI_SR_TXE ) == 0 )
-          ;
-        *(uint8_t *)&(SPI1->DR) = *data;
-        data++;
-        arg_int--;
-      } 
-      */
       break;
     case U8X8_MSG_BYTE_INIT:
       /* enable clock for SPI and DMA*/
@@ -384,6 +369,9 @@ uint8_t u8x8_byte_stm32l0_dma_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
       DMA1_CSELR->CSELR |= 1 << DMA_CSELR_C3S_Pos;      /* aktivate SPI_TX on Channel 3 */
       DMA1_Channel3->CCR = 0;           // disable + reset channel 3
       DMA1_Channel3->CNDTR = 0;                                        /* clear buffer size */
+      DMA1_Channel3->CMAR = (uint32_t)dma_buffer;
+      DMA1_Channel3->CPAR = (uint32_t)&(SPI1->DR);
+      
 
       /* setup and enable SPI subsystem */
       /* Note: We assume SPI mode 0 for the displays (true for the most modern displays), so CPHA and CPOL are forced to 0 here. SPI mode is here: u8x8->display_info->spi_mode */

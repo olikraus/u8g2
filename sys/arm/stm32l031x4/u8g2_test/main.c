@@ -103,7 +103,7 @@ void startUp(void)
   RCC->APB1ENR |= RCC_APB1ENR_PWREN;	/* enable power interface (PWR) */
   PWR->CR |= PWR_CR_DBP;				/* activate write access to RCC->CSR and RTC */  
 
-  SysTick->LOAD = (SystemCoreClock/1000)*50 - 1;   /* 50ms task */
+  SysTick->LOAD = (SystemCoreClock/1000)*10 - 1;   /* 10ms task */
   SysTick->VAL = 0;
   SysTick->CTRL = 7;   /* enable, generate interrupt (SysTick_Handler), do not divide by 2 */      
 }
@@ -111,28 +111,29 @@ void startUp(void)
 /*=======================================================================*/
 /* u8x8 display procedures */
 
+/*
+    uc1609_slg19264_f   SW SPI          0.3 FPS         BSS 1692
+    uc1609_slg19264_f   HW SPI          4.7 FPS         BSS 1692
+    uc1609_slg19264_f   DMA SPI          5.0 FPS        BSS 1948
+    uc1609_slg19264_1   SW SPI          0.3 FPS         BSS 348
+    uc1609_slg19264_1   HW SPI          2.6 FPS         BSS 348
+    uc1609_slg19264_1   DMA SPI          2.6 FPS        BSS 604
+*/
+
 void initDisplay(void)
 {
-  
   /* setup display */
   //u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R2, u8x8_byte_sw_i2c, u8x8_gpio_and_delay_stm32l0_sw_i2c);
 
   //u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_stm32l0_spi);
   
-  // u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_hw_spi, u8x8_gpio_and_delay_stm32l0_spi);
+  //u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_hw_spi, u8x8_gpio_and_delay_stm32l0_spi);
 
   u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_dma_spi, u8x8_gpio_and_delay_stm32l0_spi);
   
   
   u8g2_InitDisplay(&u8g2);
   u8g2_SetPowerSave(&u8g2, 0);
-  u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
-  u8g2_ClearBuffer(&u8g2);
-  u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
-  u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
-  u8g2_DrawStr(&u8g2, 20,24, "MHz");
-  u8g2_SendBuffer(&u8g2);
-  
 }
 
 void outChar(uint8_t c)
@@ -184,6 +185,8 @@ void setRow(uint8_t r)
 int main()
 {
   uint8_t v = 0;
+  uint32_t frame_cnt = 0;
+  uint32_t start, diff, fps, fps_frac;
   //setHSIClock();        /* enable 32 MHz Clock */
   SystemCoreClockUpdate();
   startUp();               /* enable systick irq and several power regions  */
@@ -198,24 +201,46 @@ int main()
   GPIOA->BSRR = GPIO_BSRR_BR_9;		/* atomic clear */
   
   
+  frame_cnt = 0;
+  fps = 0;
+  fps_frac = 0;
+  start = SysTickCount;
   for(;;)
   {
+    diff = SysTickCount - start;
+    if ( diff > 0 )
+    {
+      fps = frame_cnt*1000 / diff;              // diff are 10ms ticks
+      fps_frac = fps % 10;
+      fps /= 10;
+    }
     GPIOA->BSRR = GPIO_BSRR_BR_9;		/* atomic clear */
     
-    u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
     //u8g2_SetContrast(&u8g2, v);
-    u8g2_ClearBuffer(&u8g2);
-    u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
-    u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
-    u8g2_DrawStr(&u8g2, 20,24, "MHz");
     
-    u8g2_SetFont(&u8g2, u8g2_font_9x15B_tf);
-    u8g2_DrawStr(&u8g2, 0,50, u8x8_u8toa(v, 3));
+    //u8g2_ClearBuffer(&u8g2);
+    u8g2_FirstPage(&u8g2);
+    do
+    {
+      u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
+      u8g2_DrawStr(&u8g2, 0,12, "STM32L031");
+      u8g2_DrawStr(&u8g2, 0,24, u8x8_u8toa(SystemCoreClock/1000000, 2));
+      u8g2_DrawStr(&u8g2, 20,24, "MHz");
+      
+      u8g2_SetFont(&u8g2, u8g2_font_9x15B_tf);
+      u8g2_DrawStr(&u8g2, 0,40, u8x8_u8toa(v, 3));
+
+      u8g2_DrawStr(&u8g2, 0,60, "FPS:");
+      u8g2_DrawStr(&u8g2, 35,60, u8x8_u8toa( fps, 3));
+      u8g2_DrawStr(&u8g2, 35+3*8,60, ".");
+      u8g2_DrawStr(&u8g2, 35+3*8+6,60, u8x8_u8toa( fps_frac, 1));
+    } while( u8g2_NextPage(&u8g2));
     
     GPIOA->BSRR = GPIO_BSRR_BS_9;		/* atomic clear */
     
-    u8g2_SendBuffer(&u8g2);
+    //u8g2_SendBuffer(&u8g2);
     v++;
+    frame_cnt++;
   }
   return 0;
 }
