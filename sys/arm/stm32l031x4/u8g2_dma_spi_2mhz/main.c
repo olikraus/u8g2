@@ -122,7 +122,7 @@ void startUp(void)
 
     SPI clock ~6MHz ?
     uc1609_slg19264_f   32Mhz  SW SPI          6.0 FPS         BSS 1692
-    uc1609_slg19264_f   32Mhz  HW SPI          73,8 FPS         BSS 1692
+    uc1609_slg19264_f   32Mhz  HW SPI          73.8 FPS         BSS 1692
     uc1609_slg19264_f   32Mhz  DMA SPI         76.7 FPS        BSS 1948   .
     uc1609_slg19264_1  32Mhz   SW SPI          5.6 FPS         BSS 348
     uc1609_slg19264_1  32Mhz   HW SPI          39.6 FPS         BSS 348
@@ -136,9 +136,9 @@ void initDisplay(void)
 
   //u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_stm32l0_spi);
   
-  //u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_hw_spi, u8x8_gpio_and_delay_stm32l0_spi);
+  u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_hw_spi, u8x8_gpio_and_delay_stm32l0_spi);
 
-  u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_dma_spi, u8x8_gpio_and_delay_stm32l0_spi);
+  //u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_dma_spi, u8x8_gpio_and_delay_stm32l0_spi);
   
   
   u8g2_InitDisplay(&u8g2);
