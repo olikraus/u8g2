@@ -9,6 +9,7 @@
 #include "stm32l031xx.h"
 #include "delay.h"
 #include "u8x8.h"
+#include <string.h> /* memcpy */
 
 /*
   I2C:
@@ -279,6 +280,7 @@ uint8_t u8x8_byte_stm32l0_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       /* setup and enable SPI subsystem */
       /* Note: We assume SPI mode 0 for the displays (true for the most modern displays), so CPHA and CPOL are forced to 0 here. SPI mode is here: u8x8->display_info->spi_mode */
         
+      /* Note: The below assignment will setup also the clock speed, which in turn depends on the uC master clock */
       SPI1->CR1 = SPI_CR1_MSTR                                                    // master
               //| SPI_CR1_BIDIMODE
               //| SPI_CR1_BIDIOE
@@ -291,8 +293,7 @@ uint8_t u8x8_byte_stm32l0_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
               //| SPI_CR1_CPOL
               ;
       SPI1->CR2 = 0;                                                            // SPI_CR2_TXDMAEN = transmit DMA enable
-      SPI1->CR1 |= SPI_CR1_SPE;                                           // SPI enable
-              
+      SPI1->CR1 |= SPI_CR1_SPE;                                           // SPI enable              
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
       break;
     case U8X8_MSG_BYTE_SET_DC:
@@ -306,6 +307,114 @@ uint8_t u8x8_byte_stm32l0_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, voi
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:      
       while ( SPI1->SR & SPI_SR_BSY )           // wait for transfer completion
+          ;
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+      break;
+    default:
+      return 0;
+  }  
+  return 1;
+}
+
+
+uint8_t dma_buffer[256]; // required for DMA transfer
+
+uint8_t u8x8_byte_stm32l0_dma_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) 
+{
+  //uint8_t *data;
+  switch(msg) {
+    case U8X8_MSG_BYTE_SEND:
+      /* data in arg_ptr will be overwritten, once we leave this function, so create a copy of it */
+      memcpy(dma_buffer, arg_ptr, arg_int);
+    
+      /* wait for completion of any previous transfer */
+      while ( (SPI1->SR & SPI_SR_BSY) || (DMA1_Channel3->CNDTR != 0) )           // wait for transfer completion
+          ;
+
+      /* setup and start DMA SPI transfer */
+      DMA1_Channel3->CCR = 0;           // disable + reset channel 3
+      /* defaults: 
+	  - 8 Bit access	--> ok
+	  - read from peripheral	--> changed
+	  - none-circular mode  --> ok
+	  - no increment mode   --> will be changed below
+      */
+      DMA1_Channel3->CNDTR = arg_int;                                        /* buffer size */
+      DMA1_Channel3->CMAR = (uint32_t)dma_buffer;
+      DMA1_Channel3->CPAR = (uint32_t)&(SPI1->DR);
+
+      DMA1_Channel3->CCR |= DMA_CCR_MINC | DMA_CCR_DIR;		/* increment memory, copy from M to P */
+      DMA1_Channel3->CCR |= DMA_CCR_EN;                /* enable */
+
+      /*
+      data = (uint8_t *)arg_ptr;
+      while( arg_int > 0 ) 
+     {
+       while( ( SPI1->SR & SPI_SR_TXE ) == 0 )
+          ;
+        *(uint8_t *)&(SPI1->DR) = *data;
+        data++;
+        arg_int--;
+      } 
+      */
+      break;
+    case U8X8_MSG_BYTE_INIT:
+      /* enable clock for SPI and DMA*/
+      RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;       /* enable SPI1 */
+      RCC->AHBENR |= RCC_AHBENR_DMA1EN;
+      /* set a predivision if the system clock is too high, not required for 2MHz */
+      RCC->CFGR &= ~RCC_CFGR_PPRE2_Msk;
+      //RCC->CFGR |= RCC_CFGR_PPRE2_DIV4;
+    
+      /* output setup is already done, just enable the alternate mode here */
+
+      GPIOA->MODER &= ~GPIO_MODER_MODE7;	/* clear mode */
+      GPIOA->MODER |= GPIO_MODER_MODE7_1;	/* Alternate function mode */
+      GPIOA->AFR[0] &= ~GPIO_AFRL_AFRL7_Msk;     /* clear af mode */
+      GPIOA->AFR[0] |= 0 << GPIO_AFRL_AFRL7_Pos;  /* assign af mode (which is 0 for SPI) */
+    
+      GPIOA->MODER &= ~GPIO_MODER_MODE5;	/* clear mode */
+      GPIOA->MODER |= GPIO_MODER_MODE5_1;	/* Alternate function mode */
+      GPIOA->AFR[0] &= ~GPIO_AFRL_AFRL5_Msk;     /* clear af mode */
+      GPIOA->AFR[0] |= 0 << GPIO_AFRL_AFRL5_Pos;  /* assign af mode (which is 0 for SPI) */
+
+    
+      DMA1_CSELR->CSELR &= ~DMA_CSELR_C3S_Msk;          /* clear selection on Channel 3 */
+      DMA1_CSELR->CSELR |= 1 << DMA_CSELR_C3S_Pos;      /* aktivate SPI_TX on Channel 3 */
+      DMA1_Channel3->CCR = 0;           // disable + reset channel 3
+      DMA1_Channel3->CNDTR = 0;                                        /* clear buffer size */
+
+      /* setup and enable SPI subsystem */
+      /* Note: We assume SPI mode 0 for the displays (true for the most modern displays), so CPHA and CPOL are forced to 0 here. SPI mode is here: u8x8->display_info->spi_mode */
+        
+      /* Note: The below assignment will setup also the clock speed, which in turn depends on the uC master clock */
+      SPI1->CR1 = SPI_CR1_MSTR                                                    // master
+              //| SPI_CR1_BIDIMODE
+              //| SPI_CR1_BIDIOE
+              | SPI_CR1_SSM 
+              | SPI_CR1_SSI
+              //| SPI_CR1_BR_0
+              //| SPI_CR1_BR_1
+              //| SPI_CR1_BR_2          // speed
+              //| SPI_CR1_CPHA
+              //| SPI_CR1_CPOL
+              ;
+      SPI1->CR2 = SPI_CR2_TXDMAEN;                                                            // SPI_CR2_TXDMAEN = transmit DMA enable
+      SPI1->CR1 |= SPI_CR1_SPE;                                           // SPI enable              
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+      break;
+    case U8X8_MSG_BYTE_SET_DC:
+      while ( (SPI1->SR & SPI_SR_BSY) || (DMA1_Channel3->CNDTR != 0) )           // wait for transfer completion
+          ;
+      u8x8_gpio_SetDC(u8x8, arg_int);
+      break;
+    case U8X8_MSG_BYTE_START_TRANSFER:
+      u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+      u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
+      break;
+    case U8X8_MSG_BYTE_END_TRANSFER:      
+      while ( (SPI1->SR & SPI_SR_BSY) || (DMA1_Channel3->CNDTR != 0) )           // wait for transfer completion
           ;
       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_ns, NULL);
       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);

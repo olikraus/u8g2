@@ -15,6 +15,7 @@ uint8_t u8x8_gpio_and_delay_stm32l0_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t ar
 uint8_t u8x8_gpio_and_delay_stm32l0_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 uint8_t u8x8_byte_stm32l0_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
+uint8_t u8x8_byte_stm32l0_dma_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);
 
 
 /*=======================================================================*/
@@ -118,7 +119,9 @@ void initDisplay(void)
 
   //u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_4wire_sw_spi, u8x8_gpio_and_delay_stm32l0_spi);
   
-  u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_hw_spi, u8x8_gpio_and_delay_stm32l0_spi);
+  // u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_hw_spi, u8x8_gpio_and_delay_stm32l0_spi);
+
+  u8g2_Setup_uc1609_slg19264_f(&u8g2, U8G2_R2, u8x8_byte_stm32l0_dma_spi, u8x8_gpio_and_delay_stm32l0_spi);
   
   
   u8g2_InitDisplay(&u8g2);
@@ -176,48 +179,7 @@ void setRow(uint8_t r)
   u8g2_y = r;
 }
 
-void notused(void *ptr, uint16_t cnt)
-{
-      /* disable and reset to defaults */
-      DMA1_Channel1->CCR = 0;
-      
-      /* defaults: 
-	  - 8 Bit access	--> will be changed below
-	  - read from peripheral	--> ok
-	  - none-circular mode  --> ok
-	  - no increment mode   --> will be changed below
-      */
-      
-      
-      DMA1_Channel1->CNDTR = cnt;                                        /* buffer size */
-      DMA1_Channel1->CPAR = (uint32_t)&(ADC1->DR);                     /* source value */
-      //  DMA1_Channel1->CPAR = (uint32_t)&(GPIOA->ODR);                    /* source value */
-      DMA1_Channel1->CMAR = (uint32_t)ptr;                   /* destination memory */
-
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;         /* 0000: select ADC for DMA CH 1 (this is reset default) */
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;         /* 0000: select ADC for DMA CH 2 (this is reset default) */
-      
-      DMA1_Channel1->CCR |= DMA_CCR_MINC;		/* increment memory */   
-      DMA1_Channel1->CCR |= DMA_CCR_MSIZE_0;		/* 01: 16 Bit access */   
-      DMA1_Channel1->CCR |= DMA_CCR_PSIZE_0;		/* 01: 16 Bit access */   
-      
-      DMA1_Channel1->CCR |= DMA_CCR_EN;                /* enable */
-
-      
-      /* 
-	detect rising edge on external trigger (ADC_CFGR1_EXTEN_0)
-	recive trigger from TIM2 (ADC_CFGR1_EXTSEL_1)  
-	8 Bit resolution (ADC_CFGR1_RES_1)
-      
-	Use DMA one shot mode and enable DMA (ADC_CFGR1_DMAEN)
-	Once DMA is finished, it will disable continues mode (ADC_CFGR1_CONT)
-      */
-      
-      
-}
-
 /*=======================================================================*/
-
 
 int main()
 {
@@ -234,7 +196,6 @@ int main()
   GPIOA->OSPEEDR |= GPIO_OSPEEDER_OSPEED9_1;	/* 10 MHz */
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD9;	/* no pullup/pulldown */
   GPIOA->BSRR = GPIO_BSRR_BR_9;		/* atomic clear */
-  
   
   
   for(;;)
