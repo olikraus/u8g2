@@ -64,7 +64,7 @@ void u8x8_d_helper_display_setup_memory(u8x8_t *u8x8, const u8x8_display_info_t 
 void u8x8_d_helper_display_init(u8x8_t *u8x8)
 {
       /* 2) apply port directions to the GPIO lines and apply default values for the IO lines*/
-      u8x8_gpio_Init(u8x8);
+      u8x8_gpio_Init(u8x8);             /* macro, which calls gpio_and_delay_cb with U8X8_MSG_GPIO_AND_DELAY_INIT */
       u8x8_cad_Init(u8x8);              /* this will also call U8X8_MSG_BYTE_INIT, byte init will NOT call GPIO_INIT */
 
       /* 3) do reset */
@@ -108,8 +108,8 @@ void u8x8_SetupMemory(u8x8_t *u8x8)
 */
 void u8x8_InitInterface(u8x8_t *u8x8)
 {
-  u8x8_gpio_Init(u8x8);
-  u8x8_cad_Init(u8x8);              /* this will also call U8X8_MSG_BYTE_INIT, byte init will NOT call GPIO_INIT */
+  u8x8_gpio_Init(u8x8);          /* macro, which calls gpio_and_delay_cb with U8X8_MSG_GPIO_AND_DELAY_INIT */
+  u8x8_cad_Init(u8x8);              /* this will also call U8X8_MSG_BYTE_INIT, byte init will NOT call GPIO_INIT, which alread is called in the prev step */
 }
 
 /*
