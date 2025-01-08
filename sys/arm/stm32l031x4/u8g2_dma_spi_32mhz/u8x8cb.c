@@ -333,14 +333,14 @@ uint8_t u8x8_byte_stm32l0_dma_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
   uint16_t i;
   switch(msg) {
     case U8X8_MSG_BYTE_SEND:
-      /* data in arg_ptr will be overwritten, once we leave this function, so create a copy of it (note: memcpy seems to be slower) */
-      for( i = 0; i < arg_int; i++ )
-        dma_buffer[i] = ((uint8_t *)arg_ptr)[i];
-    
       /* wait for completion of any previous transfer */
       while ( (SPI1->SR & SPI_SR_BSY) || (DMA1_Channel3->CNDTR != 0) )           // wait for transfer completion
           ;
 
+      /* data in arg_ptr will be overwritten, once we leave this function, so create a copy of it (note: memcpy seems to be slower) */
+      for( i = 0; i < arg_int; i++ )
+        dma_buffer[i] = ((uint8_t *)arg_ptr)[i];
+    
       /* setup and start DMA SPI transfer */
       DMA1_Channel3->CCR = 0;           // disable + reset channel 3
       /* defaults: 
