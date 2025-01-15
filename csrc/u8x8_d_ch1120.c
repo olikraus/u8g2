@@ -39,6 +39,7 @@
 /* 
   code copyied from sh1107
   ch1120: 160x160 controller from Sino Wealth
+  https://github.com/olikraus/u8g2/issues/2496
 */
 
 
