@@ -36,6 +36,7 @@
   
   https://github.com/olikraus/u8g2/issues/921
   https://github.com/olikraus/u8g2/issues/1575          128x96
+  https://github.com/olikraus/u8g2/issues/2575          another 128x96 display
 
 */
 
@@ -352,6 +353,81 @@ uint8_t u8x8_d_st7571_128x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *a
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_st7571_128x96_init_seq); 
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7571_128x96_display_info);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+/*===================================================*/
+/*
+  ccsb4736w g12896 display
+
+  https://github.com/olikraus/u8g2/issues/2575
+
+  reusing u8x8_st7571_128x96_display_info
+
+*/
+static const uint8_t u8x8_d_st7571_g12896_init_seq[] = {
+    
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+
+  
+  U8X8_C(0xAE), 				// Display OFF
+  U8X8_C(0x38), 				// Mode Set  
+  //U8X8_C(0xB8), 				// FR=1011 (85Hz), BE[1:0]=10, level 3 booster
+  U8X8_C(0x94),                                 // 128x96: 75 Hz 
+  
+  U8X8_C(0xA0), 				// ADC select
+  U8X8_C(0xC8), 				// SHL select
+  U8X8_CA(0x44, 0x00), 		// 128x96: COM0 register  https://github.com/olikraus/u8g2/issues/2575
+  U8X8_CA(0x40, 0x00), 		// 128x96 datasheet
+  
+  U8X8_C(0xAB), 				// OSC ON  
+  U8X8_C(0x27), 				// 128x96: Voltage regulator
+  U8X8_CA(0x81, 0x28), 		// 128x96: Volume
+  U8X8_C(0x57), 				// 128x96: LCD Bias: 1/12 
+  U8X8_CA(0x48, 0x61), 		// 128x96: Duty 1/96
+  
+  U8X8_C(0x2C), 				// Power Control, VC: ON, VR: OFF, VF: OFF
+  U8X8_DLY(200),
+  U8X8_C(0x2E), 				// Power Control, VC: ON, VR: ON, VF: OFF
+  U8X8_DLY(200),
+  U8X8_C(0x2F), 				// Power Control, VC: ON, VR: ON, VF: ON
+  U8X8_DLY(10),
+
+  U8X8_C(0x7B), 				// command set 3
+  U8X8_C(0x11), 				// black white mode
+  U8X8_C(0x00), 				// exit command set 3
+
+
+  U8X8_C(0xA6), 				// Display Inverse OFF
+  U8X8_C(0xA4), 				// Disable Display All Pixel ON
+
+  //U8X8_C(0xAF), 				// Display on
+
+
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()           			/* end of sequence */
+};
+
+
+uint8_t u8x8_d_st7571_g12896(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    
+  if ( u8x8_d_st7571_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7571_g12896_init_seq); 
       break;
     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7571_128x96_display_info);
