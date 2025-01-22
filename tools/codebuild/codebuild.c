@@ -2286,7 +2286,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ssd1363", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,                 // not tested
+    "ssd1363", 	32, 	16, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011_ssd13xx_i2c", "i2c", COM_I2C,                 // not tested
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "256x128" },
