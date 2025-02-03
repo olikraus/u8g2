@@ -28,5 +28,14 @@ The Arduino library U8g2 can be installed from the library manager of the Arduin
 
 
 [Setup Guide and Reference Manual](https://github.com/olikraus/u8g2/wiki)
+## AI-generated ProductMaps
 
 
+
+| Github file | ProductMap |
+|-------------|------------|
+| [u8g2.h](https://github.com/olikraus/u8g2/blob/master/csrc/u8g2.h) | [Link to Map](https://product-map.ai/app/public?url=https://github.com/olikraus/u8g2/blob/master/csrc/u8g2.h) |
+
+Contact ProductMap if you have any questions at [juan@product-map.ai](juan@product-map.ai).
+
+Last updated on Mon Feb 03 22:57:53 UTC 2025.
