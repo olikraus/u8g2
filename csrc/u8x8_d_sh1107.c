@@ -465,6 +465,14 @@ uint8_t u8x8_d_sh1107_hjr_oel1m0201_96x96(u8x8_t *u8x8, uint8_t msg, uint8_t arg
 /*==================================================*/
 /* 128x128 OLED: this display has a very strange x offset */
 
+/* 
+6 Feb 2025: 
+There is an issue 
+https://github.com/olikraus/u8g2/issues/2581#issuecomment-2628394758 
+Looks like there are displays where the x offset must be 0
+*/
+
+
 /* sequence taken over from 64x128 sequence, because it seems to work mostly */
 static const uint8_t u8x8_d_sh1107_128x128_init_seq[] = {
     
