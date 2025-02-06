@@ -50,7 +50,7 @@ int main(void)
 #define MinXT 80
 #define MinXO 110
 
-#define HourXT 15  
+#define HourXT 13
 #define HourXO 45  
   
 #define clockMinT "0"
@@ -60,6 +60,7 @@ int main(void)
       
       u8g2_SetFont(&u8g2, u8g2_font_fur42_tr);
       u8g2_SetFontDirection(&u8g2, 0);
+      u8g2_DrawPixel(&u8g2, 0, 0);
       tw = (int)u8g2_GetUTF8Width(&u8g2, clockMinT);
       u8g2_DrawStr(&u8g2, MinXT-tw/2, Row1Y, clockMinT);
       tw = (int)u8g2_GetUTF8Width(&u8g2, clockMinO);
