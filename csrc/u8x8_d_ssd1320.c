@@ -730,7 +730,7 @@ static const uint8_t u8x8_d_ssd1320_128x72_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),		/* remap */
   U8X8_C(0xc8),	             /* Set COM Output Scan Direction: normal mode CS1 */
-  U8X8_CA(0xd3, 39),        /* display offset */
+  U8X8_CA(0xd3, 0x2c),        /* display offset WARNING: ALSO ASSIGN THIS IN THE INIT SEQ */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -739,7 +739,7 @@ static const uint8_t u8x8_d_ssd1320_128x72_flip1_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a1),		/* remap */
   U8X8_C(0xc0),	             /* Set COM Output Scan Direction: normal mode CS1 */
-  U8X8_CA(0xd3, 120),        /* display offset */
+  U8X8_CA(0xd3, 0x74),        /* display offset */
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()             			/* end of sequence */
 };
@@ -762,7 +762,7 @@ static const u8x8_display_info_t u8x8_d_ssd1320_128x72_display_info =
   /* write_pulse_width_ns = */ 150,	/* ssd1320: cycle time is 300ns, so use 300/2 = 150 */
   /* tile_width = */ 16,		/* 128 */
   /* tile_height = */ 9,                /* 72 */
-  /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* default_x_offset = */ 16,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
   /* flipmode_x_offset = */ 0,
   /* pixel_width = */ 128,
   /* pixel_height = */ 72
@@ -829,16 +829,19 @@ static const uint8_t u8x8_d_ssd1320_128x72_init_seq[] = {
     U8X8_C(0xa0),	                /* Set Segment Re-Map */
     U8X8_C(0xc8),	             	/* Set COM Output Scan Direction: normal mode */
 
-    U8X8_CA(0xad, 0x10), 		/* select Iref: 0x00 external (reset default), 0x10 internal */
+    U8X8_CA(0xad, 0x10), 		/* select Iref: 0x00 external (reset default), 0x10 internal (datasheet: 0x00, but no difference with 0x10) */
     U8X8_CA(0xbc, 0x1e), 		/* pre-charge voltage level 0x00..0x1f, reset default: 0x1e (128x72 init code)*/
     U8X8_C(0xbf),		        	/* select linear LUT */  
-    U8X8_CA(0xd5, 0xc2), 		/* Bit 0..3: clock ratio 1, 2, 4, 8, ...256, reset=0x1, Bit 4..7: F_osc 0..15 */
-    U8X8_CA(0xd9, 0x72),		/* Set Phase 1&2 Length, Bit 0..3: Phase 1, Bit 4..7: Phase 2, reset default 0x72 */  
+    //U8X8_DLY(1),
+  
+    U8X8_CA(0xd5, 0x11 ), 		/* Bit 0..3: clock ratio 1, 2, 4, 8, ...256, reset=0x1, Bit 4..7: F_osc 0..15 (128x72 init code)*/
 
-    U8X8_CA(0xd3, 39),        /* display offset */
+    U8X8_CA(0xd3, 0x2c),        /* display offset */
     
-    U8X8_CA(0xda, 0x12),	/* Set SEG Pins Hardware Configuration:  */  
-    U8X8_CA(0x81, 0x70),			/* contrast */  
+    U8X8_CA(0xda, 0x12),	/* Set SEG Pins Hardware Configuration:  (128x72 init code: 0x32, but 0x12 req here) */  
+    U8X8_CA(0x81, 0xDF),			/* contrast (128x72 init code)  */  
+    U8X8_CA(0xd9, 0x72),		/* Set Phase 1&2 Length, Bit 0..3: Phase 1, Bit 4..7: Phase 2, reset default 0x72 */  
+    U8X8_CA(0xdb, 0x20),		/* VCOMH Deselect Level  (128x72 init code 0x20) */  
     U8X8_CA(0x20, 0x00),	    /* Memory Addressing Mode: Horizontal */  
     
     U8X8_C(0xa4),		        	/* display RAM on */  
