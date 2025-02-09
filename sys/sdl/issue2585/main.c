@@ -61,6 +61,10 @@ int main(void)
       u8g2_SetFont(&u8g2, u8g2_font_fur42_tr);
       u8g2_SetFontDirection(&u8g2, 0);
       u8g2_DrawPixel(&u8g2, 0, 0);
+      u8g2_DrawStr(&u8g2, -4, 45, "00");
+      u8g2_DrawLine(&u8g2, 0,22,127,22);
+
+      /*
       tw = (int)u8g2_GetUTF8Width(&u8g2, clockMinT);
       u8g2_DrawStr(&u8g2, MinXT-tw/2, Row1Y, clockMinT);
       tw = (int)u8g2_GetUTF8Width(&u8g2, clockMinO);
@@ -70,7 +74,7 @@ int main(void)
       u8g2_DrawStr(&u8g2, HourXT-tw/2, Row1Y, clockHourT);
       tw = (int)u8g2_GetUTF8Width(&u8g2, clockHourO);
       u8g2_DrawStr(&u8g2, HourXO-tw/2, Row1Y, clockHourO);      
-      
+      */        
       
       //u8g2_SetDrawColor(&u8g2, 1);
       

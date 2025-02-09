@@ -720,3 +720,166 @@ uint8_t u8x8_d_ssd1320_160x80(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   }
   return 1;
 }
+
+
+/*=========================================================*/
+/* https://github.com/olikraus/u8g2/issues/2565 */
+/* 128x72, https://www.buydisplay.com/128x72-grayscale-oled-spi-white-0-72-inch-arduino-raspberry-pi */
+
+static const uint8_t u8x8_d_ssd1320_128x72_flip0_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a0),		/* remap */
+  U8X8_C(0xc8),	             /* Set COM Output Scan Direction: normal mode CS1 */
+  U8X8_CA(0xd3, 39),        /* display offset */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const uint8_t u8x8_d_ssd1320_128x72_flip1_seq[] = {
+  U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  U8X8_C(0x0a1),		/* remap */
+  U8X8_C(0xc0),	             /* Set COM Output Scan Direction: normal mode CS1 */
+  U8X8_CA(0xd3, 120),        /* display offset */
+  U8X8_END_TRANSFER(),             	/* disable chip */
+  U8X8_END()             			/* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_d_ssd1320_128x72_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 10,
+  /* reset_pulse_width_ms = */ 100, 	/* ssd1320: 2 us */
+  /* post_reset_wait_ms = */ 100, /* far east OLEDs need much longer setup time */
+  /* sda_setup_time_ns = */ 50,		/* ssd1320: 15ns, but cycle time is 100ns, so use 100/2 */
+  /* sck_pulse_width_ns = */ 50,	/* ssd1320: 20ns, but cycle time is 100ns, so use 100/2, AVR: below 70: 8 MHz, >= 70 --> 4MHz clock */
+  /* sck_clock_hz = */ 10000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns, increased to 8MHz (issue 215), 10 MHz (issue 301) */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,
+  /* data_setup_time_ns = */ 10,
+  /* write_pulse_width_ns = */ 150,	/* ssd1320: cycle time is 300ns, so use 300/2 = 150 */
+  /* tile_width = */ 16,		/* 128 */
+  /* tile_height = */ 9,                /* 72 */
+  /* default_x_offset = */ 0,	/* this is the byte offset (there are two pixel per byte with 4 bit per pixel) */
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 72
+};
+
+/*      from the buydisplay.com example code for the 8051:
+        Contrast_level=0xDF
+
+	OLED_WR_Byte(0xae,OLED_CMD);//Set y Off
+	OLED_WR_Byte(0xD5,OLED_CMD);//Set Display Clock Divide Ratio/Oscillator Frequency
+	OLED_WR_Byte(0x11,OLED_CMD); 
+	OLED_WR_Byte(0xA8,OLED_CMD);//Set Multiplex Ratio 
+	OLED_WR_Byte(0x47,OLED_CMD); 
+	OLED_WR_Byte(0xA2,OLED_CMD);//Set Display Start Line
+	OLED_WR_Byte(0x00,OLED_CMD); 
+
+  if(USE_HORIZONTAL==0)
+	{
+	 x_offset=0x10;
+	 OLED_WR_Byte(0xD3,OLED_CMD);//Set Display Offset
+	 OLED_WR_Byte(0x2C,OLED_CMD);
+	 OLED_WR_Byte(0xa0,OLED_CMD);//Set COM Output Scan Direction
+	 OLED_WR_Byte(0xC8,OLED_CMD); 
+	}
+	else
+	{
+	 x_offset=0;
+	 OLED_WR_Byte(0xD3,OLED_CMD);//Set Display Offset
+	 OLED_WR_Byte(0x74,OLED_CMD);
+	 OLED_WR_Byte(0xa1,OLED_CMD);//Set COM Output Scan Direction
+	 OLED_WR_Byte(0xC0,OLED_CMD); 
+	}
+	
+	
+	OLED_WR_Byte(0xDA,OLED_CMD);//SetSEGPinsHardwareConfiguration
+	OLED_WR_Byte(0x32,OLED_CMD);
+	
+
+	OLED_WR_Byte(0x81,OLED_CMD);//Set Contrast Control
+	OLED_WR_Byte(Contrast_level,OLED_CMD);
+
+	OLED_WR_Byte(0xD9,OLED_CMD);//SSet Pre-Charge Priod
+	OLED_WR_Byte(0x72,OLED_CMD);
+	OLED_WR_Byte(0xDB,OLED_CMD);//Set VCOMH Deselect Level 
+	OLED_WR_Byte(0x20,OLED_CMD);
+	
+	
+	OLED_WR_Byte(0xAD,OLED_CMD);//Set Internal IREF Enable
+	OLED_WR_Byte(0x00,OLED_CMD);
+	OLED_WR_Byte(0xBC,OLED_CMD);
+	OLED_WR_Byte(0x1E,OLED_CMD); 
+*/
+
+
+static const uint8_t u8x8_d_ssd1320_128x72_init_seq[] = {
+    U8X8_DLY(1),
+    U8X8_START_TRANSFER(),    /* enable chip, delay is part of the transfer start */
+    U8X8_DLY(1),
+    
+    U8X8_C(0xae),		          /* display off */
+    U8X8_CA(0xa8, 0x47),	/* multiplex ratio 1/72 Duty  (128x72 init code) */  
+    U8X8_CA(0xa2, 0),	/* display start line (128x72 init code) */  
+
+    U8X8_C(0xa0),	                /* Set Segment Re-Map */
+    U8X8_C(0xc8),	             	/* Set COM Output Scan Direction: normal mode */
+
+    U8X8_CA(0xad, 0x10), 		/* select Iref: 0x00 external (reset default), 0x10 internal */
+    U8X8_CA(0xbc, 0x1e), 		/* pre-charge voltage level 0x00..0x1f, reset default: 0x1e (128x72 init code)*/
+    U8X8_C(0xbf),		        	/* select linear LUT */  
+    U8X8_CA(0xd5, 0xc2), 		/* Bit 0..3: clock ratio 1, 2, 4, 8, ...256, reset=0x1, Bit 4..7: F_osc 0..15 */
+    U8X8_CA(0xd9, 0x72),		/* Set Phase 1&2 Length, Bit 0..3: Phase 1, Bit 4..7: Phase 2, reset default 0x72 */  
+
+    U8X8_CA(0xd3, 39),        /* display offset */
+    
+    U8X8_CA(0xda, 0x12),	/* Set SEG Pins Hardware Configuration:  */  
+    U8X8_CA(0x81, 0x70),			/* contrast */  
+    U8X8_CA(0x20, 0x00),	    /* Memory Addressing Mode: Horizontal */  
+    
+    U8X8_C(0xa4),		        	/* display RAM on */  
+    U8X8_C(0xa6),		          /* normal display */
+
+    U8X8_DLY(1),					/* delay 2ms */
+
+    U8X8_END_TRANSFER(),             	/* disable chip */
+    U8X8_END()             			/* end of sequence */
+};
+
+uint8_t u8x8_d_ssd1320_128x72(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  
+  if ( u8x8_d_ssd1320_common_2(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+        u8x8_d_helper_display_setup_memory(u8x8, &u8x8_d_ssd1320_128x72_display_info);
+      break;
+
+    case U8X8_MSG_DISPLAY_INIT:
+        u8x8_d_helper_display_init(u8x8);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_128x72_init_seq);
+      break;
+
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 ){
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_128x72_flip0_seq);
+        u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else{
+        u8x8_cad_SendSequence(u8x8, u8x8_d_ssd1320_128x72_flip1_seq);
+        u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+    
+    default:
+      break;
+  }
+  return 1;
+}
