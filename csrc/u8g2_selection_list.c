@@ -63,6 +63,11 @@ void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w
   /* calculate the width of the string in pixel */
   str_width = u8g2_GetUTF8Width(u8g2, s);
 
+#ifdef U8G2_BALANCED_STR_WIDTH_CALCULATION
+  /* subtract the first character offset added by the width calculation */
+  str_width -= u8g2_GetXOffsetUTF8(u8g2, s);
+#endif
+
   /* calculate delta d within the box */
   d = 0;
   if ( str_width < w )
