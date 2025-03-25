@@ -148,7 +148,6 @@ int main(void)
       if ( k == 's' ) /* goto password form */
       {
         mui_GotoForm(&ui, 1, 0);
-        mui_SendSelect(&ui);
       }
     }
     else  /* password input, do the normal event handling */
