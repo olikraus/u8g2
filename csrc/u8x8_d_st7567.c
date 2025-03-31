@@ -73,6 +73,11 @@ static const uint8_t u8x8_d_st7567_132x64_flip1_seq[] = {
   U8X8_END()             			/* end of sequence */
 };
 
+#define u8x8_d_st7567_128x64_powersave0_seq u8x8_d_st7567_132x64_powersave0_seq
+#define u8x8_d_st7567_128x64_powersave1_seq u8x8_d_st7567_132x64_powersave1_seq
+#define u8x8_d_st7567_128x64_flip0_seq u8x8_d_st7567_132x64_flip0_seq
+#define u8x8_d_st7567_128x64_flip1_seq u8x8_d_st7567_132x64_flip1_seq
+
 static const uint8_t u8x8_d_st7567_n_flip0_seq[] = {
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   U8X8_C(0x0a0),				/* segment remap a0/a1*/
@@ -1309,6 +1314,149 @@ uint8_t u8x8_d_st7567_erc13232(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 
 
 /*=====================================================*/
+/*
+
+  https://www.buydisplay.com/2-inch-low-cost-white-128x64-graphic-cog-lcd-display-st7567-spi
+
+  ERC12864FSF-20
+
+  copied from u8x8_st7567_132x32
+*/
+
+static const u8x8_display_info_t u8x8_st7567_128x64_display_info =
+{
+	/* chip_enable_level =         */ 0,
+	/* chip_disable_level =        */ 1,
+
+	/* post_chip_enable_wait_ns =  */ 150,
+	/* pre_chip_disable_wait_ns =  */ 50,
+	/* reset_pulse_width_ms =      */ 1,
+	/* post_reset_wait_ms =        */ 1,
+	/* sda_setup_time_ns =         */ 50,
+	/* sck_pulse_width_ns =        */ 120,
+	/* sck_clock_hz =              */ 4000000UL,
+	/* spi_mode =                  */ 0,       /* active high, rising edge */
+	/* i2c_bus_clock_100kHz =      */ 4,
+	/* data_setup_time_ns =        */ 40,
+	/* write_pulse_width_ns =      */ 80,
+	/* tile_width =                */ 16,      /* width  of 16*8=128 pixels */
+	/* tile_height =               */ 8,       /* height of  8*8= 64 pixels */
+	/* default_x_offset =          */ 4,
+	/* flipmode_x_offset =         */ 0,
+	/* pixel_width =               */ 128,
+	/* pixel_height =              */ 64
+};
+
+static const uint8_t u8x8_d_st7567_erc12864_init_seq[] = {
+
+	U8X8_START_TRANSFER(),                /* enable chip, delay is part of the transfer start */
+
+	U8X8_C(0x0e2),                        /* soft reset */
+	U8X8_C(0x0ae),                        /* display off */
+	U8X8_C(0x040),                        /* set display start line to 0 */
+
+	U8X8_C(0x0a1),                        /* ADC set to reverse */
+	U8X8_C(0x0c0),                        /* common output mode */
+
+	U8X8_C(0x0a6),                        /* display normal, bit val 0: LCD pixel off. */
+	U8X8_C(0x0a3),                        /* LCD bias 1/7 */
+	/* power on sequence from paxinstruments */
+	U8X8_C(0x028|4),                      /* all power  control circuits on */
+	U8X8_DLY(50),
+	U8X8_C(0x028|6),                      /* all power  control circuits on */
+	U8X8_DLY(50),
+	U8X8_C(0x028|7),                      /* all power  control circuits on */
+	U8X8_DLY(50),
+
+	U8X8_C(0x026),                        /* v0 voltage resistor ratio */
+	U8X8_CA(0x081, 0x027),                /* set contrast, contrast value*/
+
+	U8X8_C(0x0ae),                        /* display off */
+	U8X8_C(0x0a5),                        /* enter powersafe: all pixel on, issue 142 */
+
+	U8X8_END_TRANSFER(),                  /* disable chip */
+	U8X8_END()                            /* end of sequence */
+};
+
+/* ERC12864 */
+uint8_t u8x8_d_st7567_erc12864(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    uint8_t x, c;
+    uint8_t *ptr;
+    switch(msg)
+    {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+        u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7567_128x64_display_info);
+        break;
+    case U8X8_MSG_DISPLAY_INIT:
+        u8x8_d_helper_display_init(u8x8);
+        u8x8_cad_SendSequence(u8x8, u8x8_d_st7567_erc12864_init_seq);
+        break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+        if ( arg_int == 0 )
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7567_128x64_powersave0_seq);
+        else
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7567_128x64_powersave1_seq);
+        break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+        if ( arg_int == 0 )
+        {
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7567_128x64_flip0_seq);
+            u8x8->x_offset = u8x8->display_info->default_x_offset;
+        }
+        else
+        {
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7567_128x64_flip1_seq);
+            u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+        }
+        break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+        u8x8_cad_StartTransfer(u8x8);
+        u8x8_cad_SendCmd(u8x8, 0x081 );
+        u8x8_cad_SendArg(u8x8, arg_int >> 2 );    /* st7567 has range from 0 to 63 */
+        u8x8_cad_EndTransfer(u8x8);
+        break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+        u8x8_cad_StartTransfer(u8x8);
+
+        x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+        x *= 8;
+        x += u8x8->x_offset;
+        u8x8_cad_SendCmd(u8x8, 0x010 | (x>>4) );
+        u8x8_cad_SendCmd(u8x8, 0x000 | ((x&15)));
+        u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        c *= 8;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+        /*
+           The following if condition checks the hardware limits of the st7567
+           controller: It is not allowed to write beyond the display limits.
+           This is in fact an issue within flip mode.
+        */
+        if ( c + x > 132u )
+        {
+            c = 132u;
+            c -= x;
+        }
+        do
+        {
+            u8x8_cad_SendData(u8x8, c, ptr);    /* note: SendData can not handle more than 255 bytes */
+            arg_int--;
+        } while( arg_int > 0 );
+
+        u8x8_cad_EndTransfer(u8x8);
+        break;
+    default:
+        return 0;
+    }
+    return 1;
+}
+
+
+/*=====================================================*/
 
 /* LW12864 display, 128x32 (actually 142x36, but with border of weird behavior) */
 /* copied from jlx12864 */
@@ -1340,7 +1488,7 @@ static const u8x8_display_info_t u8x8_st7567_lw12832_display_info =
 static const uint8_t u8x8_st7567_lw12832_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
-  
+
   U8X8_C(0x0e2),            			/* soft reset */
   U8X8_C(0x0ae),		                /* display off */
   U8X8_C(0x040),		                /* set display start line to 0 */
@@ -1380,7 +1528,7 @@ static void st7567_lw12832_clear_ddram(u8x8_t *u8x8)
 
   uint8_t buf[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   uint8_t h = u8x8->display_info->tile_height;
-
+  
   u8x8_tile_t tile;
   tile.x_pos = 0;
   tile.y_pos = 0;
