@@ -707,7 +707,7 @@ int bf_WriteU8G2CByFilename(bf_t *bf, const char *filename, const char *fontname
   xo, yo: offset for 8x8 fonts (font_format==2)
   called from main()
 */
-bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, int font_format, int xo, int yo, int th, int tv)
+bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, const char *map_str, const char *map_file_name, const char *utf8_file_name, int font_format, int xo, int yo, int th, int tv)
 {
   bf_t *bf;
 
@@ -726,6 +726,10 @@ bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, co
       else
       {
 	bf_Map(bf, map_str);
+      }
+      if ( utf8_file_name[0] != '\0' )
+      {
+	bf_Utf8File(bf, utf8_file_name);
       }
       bf_CalculateSelectedNumberOfGlyphs(bf);
       
