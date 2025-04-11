@@ -321,3 +321,85 @@ int bf_MapFile(bf_t *bf, const char *map_file_name)
   return 1;
 }
 
+/* add all characters in utf8 text file to font */
+
+int bf_Utf8File(bf_t *bf, const char *utf8_file_name) {
+  static const int utf8_verbose = 0;
+  struct stat buf;
+  FILE *fp;
+  int byte = 0;
+  uint32_t code = 0;
+  int more_bytes = 0;
+  int utf8_errs = 0;
+  int i;
+  bg_t *bg;
+
+  if (utf8_file_name == NULL)
+    return 1;
+  if (utf8_file_name[0] == '\0')
+    return 1;
+  if (stat(utf8_file_name, &buf) != 0)
+    return 0;
+  fp = fopen(utf8_file_name, "r");
+  if (fp == NULL)
+    return 0;
+
+  while ((byte = getc(fp)) != EOF) {
+    code = 0;
+    more_bytes = 0;
+    if (byte <= 0x7F) {
+      code = byte;
+      more_bytes = 0;
+    } else if ((byte & 0xE0) == 0xC0) {
+      code = byte & 0x1F;
+      more_bytes = 1;
+    } else if ((byte & 0xF0) == 0xE0) {
+      code = byte & 0x0F;
+      more_bytes = 2;
+    } else if ((byte & 0xF8) == 0xF0) {
+      code = byte & 0x07;
+      more_bytes = 3;
+    } else if ((byte & 0xFC) == 0xF8) {
+      code = byte & 0x03;
+      more_bytes = 4;
+    } else if ((byte & 0xFE) == 0xFC) {
+      code = byte & 0x01;
+      more_bytes = 5;
+    } else {
+      if (utf8_verbose)
+        printf("? 0x%X\r\n", byte);
+      utf8_errs++;
+      continue;
+    }
+    while (more_bytes > 0) {
+      byte = getc(fp);
+      if (byte == EOF)
+        break;
+      if ((byte & 0xC0) != 0x80) {
+        utf8_errs++;
+        break;
+      }
+      code = (code << 6) | (byte & 0x3F);
+      --more_bytes;
+    }
+    if (more_bytes == 0) {
+      /* find glyph in font */
+      for (i = 0; i < bf->glyph_cnt; i++) {
+        bg = bf->glyph_list[i];
+        if (bg->encoding == code) {
+          if (utf8_verbose)
+            printf("glyph found: 0x%X\r\n", code);
+          bg->map_to = bg->encoding;
+          break;
+        }
+      }
+      if (utf8_verbose && (i == bf->glyph_cnt))
+        printf("glyph not found: 0x%X\r\n", code);
+    }
+  }
+  if (utf8_errs != 0)
+    printf("%u utf8 errors\r\n", utf8_errs);
+
+  fclose(fp);
+  return 1;
+}

@@ -134,6 +134,7 @@ void help(void)
   printf("-f <n>      Font format, 0: ucglib font, 1: u8g2 font, 2: u8g2 uncompressed 8x8 font (enforces -b 3)\n");
   printf("-m 'map'    Unicode ASCII mapping\n");
   printf("-M 'mapfile'    Read Unicode ASCII mapping from file 'mapname'\n");
+  printf("-u 'utf8file'    Include all characters from utf8 text file\n");
   printf("-o <file>   C output font file\n");
   printf("-k <file>   C output file with kerning information\n");	
   printf("-p <%%>      Minimum distance for kerning in percent of the global char width (lower values: Smaller gaps, more data)\n");	
@@ -343,6 +344,7 @@ int main(int argc, char **argv)
   int is_verbose = 0;
   char *map_str ="*";
   char *map_filename ="";
+  char *utf8_filename = "";
   char *desc_font_str = "";
   unsigned y;
   
@@ -419,10 +421,13 @@ int main(int argc, char **argv)
     {      
     }
     else if ( get_str_arg(&argv, 'k', &k_filename) != 0 )
-    {      
+    {
     }
     else if ( get_str_arg(&argv, 'M', &map_filename) != 0 )
     {      
+    }
+    else if ( get_str_arg(&argv, 'u', &utf8_filename) != 0 )
+    {
     }
     else
     {
@@ -440,7 +445,7 @@ int main(int argc, char **argv)
   bf_desc_font = NULL;
   if ( desc_font_str[0] != '\0' )
   {
-    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", 0, 0, 0, 1, 1);	/* assume format 0 for description */
+    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", "", 0, 0, 0, 1, 1);	/* assume format 0 for description */
     if ( bf_desc_font == NULL )
     {
       exit(1);
@@ -455,7 +460,7 @@ int main(int argc, char **argv)
   }
   
   /* render the complete font */
-  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, font_format, xoffset, yoffset, tile_h_size, tile_v_size);
+  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, utf8_filename, font_format, xoffset, yoffset, tile_h_size, tile_v_size);
   
   if ( bf == NULL )
   {
