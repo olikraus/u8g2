@@ -3134,7 +3134,7 @@ void do_md_display(int controller_idx, int display_idx)
 #else
     fprintf(fp, "Controller \"%s\", ", controller_list[controller_idx].name);
     fprintf(fp, "Display \"%s\"  ", controller_list[controller_idx].display_list[display_idx].name);
-    fprintf(fp, "[Description]\n");
+    fprintf(fp, "\n");
 #endif
   }
   else
