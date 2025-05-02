@@ -2528,8 +2528,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_4wire_sw_spi",	/* improved version over u8x8_byte_4wire_sw_spi */
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "clk, data, cs, dc, rst",
-    "clk, data, cs, dc [, rst]",
+    "clock, data, cs, dc, reset",
+    "clk, data, cs, dc [, reset]",
     "u8x8_byte_4wire_sw_spi"
   },
   /* 1 */
@@ -2539,8 +2539,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "cs, dc, rst",
-    "cs, dc [, rst]",
+    "cs, dc, reset",
+    "cs, dc [, reset]",
     "uC specific"
   },  
   /* 2 */
@@ -2550,8 +2550,8 @@ struct interface interface_list[] =
     "u8x8_byte_8bit_6800mode",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, rst",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc [, rst]",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc [, reset]",
     "u8x8_byte_8bit_6800mode"
   },
   /* 3 */
@@ -2561,8 +2561,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_8bit_8080mode",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, rst",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc [, rst]",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc [, reset]",
     "u8x8_byte_8bit_8080mode"
   },
   /* 4 */
@@ -2571,9 +2571,9 @@ struct interface interface_list[] =
     "u8x8_SetPin_3Wire_SW_SPI",
     "u8x8_byte_arduino_3wire_sw_spi",
     "u8x8_gpio_and_delay_arduino",
-    "uint8_t clk, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "clock, data, cs, rst",
-    "clock, data, cs [, rst]",
+    "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
+    "clock, data, cs, reset",
+    "clk, data, cs [, reset]",
     "u8x8_byte_3wire_sw_spi"
   },
   /* 5 */
@@ -2583,8 +2583,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_3wire_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "cs, rst",
-    "cs [, rst]",
+    "cs, reset",
+    "cs [, reset]",
     "uC specific"
   },  
   /* 6 */
@@ -2594,8 +2594,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_sw_i2c" /* u8x8_byte_sw_i2c */,
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t reset = U8X8_PIN_NONE",
-    "clk,  data,  rst",
-    "clk,  data [,  rst]",
+    "clock,  data,  reset",
+    "clk,  data [,  reset]",
     "u8x8_byte_sw_i2c" /* u8x8_byte_sw_i2c */
   },
   /* 7 */
@@ -2605,8 +2605,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_hw_i2c",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t reset = U8X8_PIN_NONE, uint8_t clock = U8X8_PIN_NONE, uint8_t data = U8X8_PIN_NONE",
-    "rst, clk, data",
-    "[rst [, clk, data]]",
+    "reset, clock, data",
+    "[reset [, clk, data]]",
     "uC specific"
   },  
   /* 8 */
@@ -2616,8 +2616,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_4wire_sw_spi",	/* improved version over u8x8_byte_4wire_sw_spi */
     "u8x8_gpio_and_delay_arduino",
     "uint8_t clock, uint8_t data, uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "clk, data, cs, rst",
-    "clk, data, cs [, rst]",
+    "clock, data, cs, reset",
+    "clk, data, cs [, reset]",
     "u8x8_byte_4wire_sw_spi", /* "u8x8_byte_st7920_sw_spi" */
   },
   /* 9 */
@@ -2627,8 +2627,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "cs, rst",
-    "cs [, rst]",
+    "cs, reset",
+    "cs [, reset]",
     "uC specific"
   },  
   /* 10 */
@@ -2638,8 +2638,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_2nd_hw_i2c",
     "u8x8_gpio_and_delay_arduino",
     "uint8_t reset = U8X8_PIN_NONE",
-    "rst",
-    "[rst]",
+    "reset",
+    "[reset]",
     "uC specific"
   },  
   /* 11 */
@@ -2649,8 +2649,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_ks0108",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t enable, uint8_t dc, uint8_t cs0, uint8_t cs1, uint8_t cs2, uint8_t reset = U8X8_PIN_NONE",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2, rst",
-    "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2 [, rst]",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, enable, dc, cs0, cs1, cs2 [, reset]",
     "u8x8_byte_ks0108"
   },
   /* 12 */
@@ -2660,8 +2660,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_2nd_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t dc, uint8_t reset = U8X8_PIN_NONE",
-    "cs, dc, rst",
-    "cs, dc [, rst]",
+    "cs, dc, reset",
+    "cs, dc [, reset]",
     "uC specific"
   },  
   /* 13 */
@@ -2671,8 +2671,8 @@ struct interface interface_list[] =
     "u8x8_byte_sed1520",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7, uint8_t dc, uint8_t e1, uint8_t e2, uint8_t reset",
-    "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, rst",
-    "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, rst",
+    "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, reset",
+    "d0, d1, d2, d3, d4, d5, d6, d7, dc, e1, e2, reset",
     "u8x8_byte_sed1520"
   },  
   /* 14 */
@@ -2682,8 +2682,8 @@ struct interface interface_list[] =
     "u8x8_byte_arduino_2nd_hw_spi",
     "u8x8_gpio_and_delay_arduino",   
     "uint8_t cs, uint8_t reset = U8X8_PIN_NONE",
-    "cs, rst",
-    "cs [, rst]",
+    "cs, reset",
+    "cs [, reset]",
     "uC specific"
   },  
   
@@ -2696,7 +2696,7 @@ struct interface interface_list[] =
 
 #define STR_MAX 1024
 char *str_list[STR_MAX];
-int str_cnt = 0;
+int str_cnt = 0 ;
 
 int str_exists(const char *s)
 {
