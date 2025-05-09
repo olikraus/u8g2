@@ -10,6 +10,33 @@ static struct rt_i2c_bus_device *i2c_bus = RT_NULL;
 #if defined U8G2_USE_HW_SPI
 static struct rt_spi_device u8g2_spi_dev;
 
+
+static inline void u8g2_port_pin_mode(uint8_t pin, rt_uint8_t mode)
+{
+    if(pin != U8X8_PIN_NONE)
+    {
+        rt_pin_mode(pin, mode);
+    }
+}
+
+static inline void u8g2_port_pin_write(uint8_t pin, uint8_t value)
+{
+    if(pin != U8X8_PIN_NONE)
+    {
+        rt_pin_write(pin, value);
+    }
+}
+
+static inline int u8g2_port_pin_read(uint8_t pin)
+{
+    if(pin != U8X8_PIN_NONE)
+    {
+        return rt_pin_read(pin);
+    }
+
+    return 0;
+}
+
 int rt_hw_spi_config(uint8_t spi_mode, uint32_t max_hz, uint8_t cs_pin )
 {
     rt_err_t res;
@@ -51,33 +78,6 @@ int rt_hw_spi_config(uint8_t spi_mode, uint32_t max_hz, uint8_t cs_pin )
     return RT_EOK;
 }
 #endif /* U8G2_USE_HW_SPI */
-
-
-static inline void u8g2_port_pin_mode(uint8_t pin, rt_uint8_t mode)
-{
-    if(pin != U8X8_PIN_NONE)
-    {
-        rt_pin_mode(pin, mode);
-    }
-}
-
-static inline void u8g2_port_pin_write(uint8_t pin, uint8_t value)
-{
-    if(pin != U8X8_PIN_NONE)
-    {
-        rt_pin_write(pin, value);
-    }
-}
-
-static inline int u8g2_port_pin_read(uint8_t pin)
-{
-    if(pin != U8X8_PIN_NONE)
-    {
-        return rt_pin_read(pin);
-    }
-
-    return 0;
-}
 
 uint8_t u8x8_gpio_and_delay_rtthread(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
