@@ -47,13 +47,13 @@ static const uint8_t u8x8_d_ssd1315_128x64_noname_init_seq[] = {
   U8X8_C(0x0a1),          /* segment remap a0/a1*/
   U8X8_C(0x0c8),          /* c0: scan dir normal, c8: reverse */
   U8X8_CA(0x0da, 0x012),  /* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
-  U8X8_CA(0x081, 0x07f),  /* [2] set contrast control */
-  U8X8_CA(0x0d9, 0x022),  /* [2] pre-charge period 0x022/f1*/
+  U8X8_CA(0x081, 0x07f),  /* set contrast control */
+  U8X8_CA(0x0d9, 0x022),  /* pre-charge period 0x022/f1*/
   U8X8_CA(0x0db, 0x030),  /* vcomh deselect level */  
   U8X8_C(0x0a4),          /* output ram to display */
   U8X8_C(0x0a6),          /* none inverted normal display mode */
-  U8X8_CA(0x0ad, 0x010),  /* Select External or Internal Iref: 0x00 External Iref = 150kΩ = (7.5 - 3) / 30uA, 0x10 Internal Iref */
-  U8X8_CA(0x08d, 0x014),  /* [2] charge pump setting (p62): 0x14 enable, VCC=7.5V, 0x00 disable, SSD1315 only */
+  U8X8_CA(0x0ad, 0x010),  /* Select External or Internal Iref: 0x20 External Iref = 200kΩ = (9 - 3) / 30uA, 0x10 or 0x30 Internal Iref */
+  U8X8_CA(0x08d, 0x014),  /* charge pump setting: 0x14 enable, VCC=7.5V, 0x00 disable */
 
   U8X8_END_TRANSFER(),    /* disable chip */
   U8X8_END()              /* end of sequence */
