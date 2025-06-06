@@ -1094,6 +1094,7 @@ uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s);
 /* itoa procedures */
 const char *u8x8_u8toa(uint8_t v, uint8_t d);
 const char *u8x8_s8toa(int8_t v, uint8_t d);
+const char *u8x8_u8tox(uint8_t v, uint8_t d);
 const char *u8x8_u16toa(uint16_t v, uint8_t d);
 const char *u8x8_utoa(uint16_t v);
 

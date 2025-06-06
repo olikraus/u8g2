@@ -283,6 +283,12 @@ uint8_t mui_u8g2_u8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G
 uint8_t mui_u8g2_u8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 uint8_t mui_u8g2_u8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);  /* GIF, MUIF_U8G2_U8_MIN_MAX, MUI_XY */
 
+/* hex format */
+uint8_t mui_u8g2_x8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_x8_min_max_wm_mud_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_x8_min_max_wm_mse_pf(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_x8_min_max_wm_mud_pf(mui_t *ui, uint8_t msg);
+
 #define MUIF_U8G2_S8_MIN_MAX(id, valptr, min, max, muif) \
   MUIF(id, MUIF_CFLAG_IS_CURSOR_SELECTABLE,  \
   (void *)((mui_u8g2_s8_min_max_t [] ) {{ (valptr) MUI_U8G2_COMMA (min) MUI_U8G2_COMMA (max)}}), \

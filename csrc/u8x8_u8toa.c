@@ -90,4 +90,19 @@ const char *u8x8_s8toa(int8_t v, uint8_t d)
   return buf;
 }
  
- 
+const char *u8x8_u8tox(uint8_t v, uint8_t d)
+{
+  const char hexdigit[]="0123456789ABCDEF";
+  static char buf[3];
+  if ( d == 1 )
+  {
+    buf[0] = hexdigit[v & 0xF];
+    buf[1] = '\0';
+  }
+  else if ( d == 2 )
+  {
+    buf[0] = hexdigit[v >> 4 & 0xF];
+    buf[1] = hexdigit[v & 0xF];
+    buf[2] = '\0';
+  }
+}
