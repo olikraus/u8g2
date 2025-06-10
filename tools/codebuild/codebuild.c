@@ -2513,6 +2513,23 @@ struct controller controller_list[] =
       { "384x240" },
       { NULL }
     }
+  },
+
+  {
+    "ssd1315", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64_noname" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1315", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64_noname" },
+      { NULL }
+    }
   }
 };
 
