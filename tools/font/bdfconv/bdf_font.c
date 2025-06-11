@@ -721,11 +721,11 @@ bf_t *bf_OpenFromFile(const char *bdf_filename, int is_verbose, int bbx_mode, co
     {
       if ( map_file_name[0] != '\0' ) 
       {
-	bf_MapFile(bf, map_file_name);
+	bf_MapFile(bf, map_file_name);  // bdf_map.c
       }
       else
       {
-	bf_Map(bf, map_str);
+	bf_Map(bf, map_str);     // bdf_map.c
       }
       if ( utf8_file_name[0] != '\0' )
       {

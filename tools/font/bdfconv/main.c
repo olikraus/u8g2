@@ -445,7 +445,7 @@ int main(int argc, char **argv)
   bf_desc_font = NULL;
   if ( desc_font_str[0] != '\0' )
   {
-    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", "", 0, 0, 0, 1, 1);	/* assume format 0 for description */
+    bf_desc_font = bf_OpenFromFile(desc_font_str, 0, BDF_BBX_MODE_MINIMAL, "*", "", "", 0, 0, 0, 1, 1);	/* assume format 0 for description, bdf_font.c */
     if ( bf_desc_font == NULL )
     {
       exit(1);
@@ -460,7 +460,7 @@ int main(int argc, char **argv)
   }
   
   /* render the complete font */
-  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, utf8_filename, font_format, xoffset, yoffset, tile_h_size, tile_v_size);
+  bf = bf_OpenFromFile(bdf_filename, is_verbose, build_bbx_mode, map_str, map_filename, utf8_filename, font_format, xoffset, yoffset, tile_h_size, tile_v_size); // bdf_font.c
   
   if ( bf == NULL )
   {
