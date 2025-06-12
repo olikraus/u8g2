@@ -1,0 +1,23 @@
+
+https://github.com/harfbuzz/harfbuzz/tree/11.2.1
+
+User Manual
+https://harfbuzz.github.io/
+
+hb-shape  unifont-16.0.04.otf "नमस्ते"
+hb-shape  unifont-16.0.04.otf "नमस्ते"  --no-glyph-names --show-extents  --output-format=json 
+
+
+[
+{"g":2345,"cl":0,"dx":0,"dy":0,"ax":64,"ay":0,"xb":0,"yb":44,"w":64,"h":-40},
+{"g":2351,"cl":1,"dx":0,"dy":0,"ax":64,"ay":0,"xb":0,"yb":44,"w":64,"h":-40},
+{"g":2361,"cl":2,"dx":0,"dy":0,"ax":64,"ay":0,"xb":0,"yb":44,"w":64,"h":-40},
+{"g":2382,"cl":2,"dx":0,"dy":0,"ax":0,"ay":0,"xb":-28,"yb":4,"w":16,"h":-12},
+{"g":2341,"cl":4,"dx":0,"dy":0,"ax":64,"ay":0,"xb":0,"yb":44,"w":64,"h":-40},
+{"g":2376,"cl":4,"dx":0,"dy":0,"ax":0,"ay":0,"xb":-52,"yb":56,"w":24,"h":-12}
+]
+
+
+hb-view  unifont-16.0.04.otf "नमस्ते"
+
+~/git/bdf2ttf/bdf2ttf -v unifont.ttf ~/git/bdf2ttf/sample.ini ../bdf/unifont.bdf
