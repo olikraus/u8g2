@@ -78,8 +78,8 @@ int main(int argc, char **argv)
                 xb = cpMapGetIntVal(element, "xb");
                 yb = cpMapGetIntVal(element, "yb");
                 printf("u8g2_DrawGlyph(&u8g2, %d, %d, %u); // ax=%d ay=%d dx=%d dy=%d xb=%d yb=%d\n", x, y, encoding, ax, ay, dx, dy, xb, yb);
-                x += ax/6;
-                y += ay/6;
+                x += ax/4;
+                y += ay/4;
               }
             }
 	}
