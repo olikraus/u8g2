@@ -50,23 +50,23 @@ int main(void)
       u8g2_SetFont(&u8g2, u8g2_font_unifont_t_devanagari);
       u8g2_SetFontDirection(&u8g2, 0);
       u8g2_SetFontMode(&u8g2, 1);
-u8g2_DrawGlyph(&u8g2, 0, 20, 2345); // ax=64 ay=0 dx=0 dy=0 xb=0 yb=44
-u8g2_DrawGlyph(&u8g2, 0, 50, 2345); // reference 
+u8g2_DrawGlyph(&u8g2, 0, 20, 2344); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
+u8g2_DrawGlyph(&u8g2, 0, 50, 2344); // reference 
 u8g2_DrawPixel(&u8g2, 0, 50);
-u8g2_DrawGlyph(&u8g2, 16, 20, 2351); // ax=64 ay=0 dx=0 dy=0 xb=0 yb=44
-u8g2_DrawGlyph(&u8g2, 20, 50, 2351); // reference 
+u8g2_DrawGlyph(&u8g2, 16, 20, 2350); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
+u8g2_DrawGlyph(&u8g2, 20, 50, 2350); // reference 
 u8g2_DrawPixel(&u8g2, 20, 50);
-u8g2_DrawGlyph(&u8g2, 32, 20, 2361); // ax=64 ay=0 dx=0 dy=0 xb=0 yb=44
-u8g2_DrawGlyph(&u8g2, 40, 50, 2361); // reference 
+u8g2_DrawGlyph(&u8g2, 32, 20, 2360); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
+u8g2_DrawGlyph(&u8g2, 40, 50, 2360); // reference 
 u8g2_DrawPixel(&u8g2, 40, 50);
-u8g2_DrawGlyph(&u8g2, 48, 20, 2382); // ax=0 ay=0 dx=0 dy=0 xb=-28 yb=4
-u8g2_DrawGlyph(&u8g2, 60, 50, 2382); // reference 
+u8g2_DrawGlyph(&u8g2, 48, 20, 2381); // ax=0 ay=0 dx=0 dy=0 xb=-7 yb=1
+u8g2_DrawGlyph(&u8g2, 60, 50, 2381); // reference 
 u8g2_DrawPixel(&u8g2, 60, 50);
-u8g2_DrawGlyph(&u8g2, 48, 20, 2341); // ax=64 ay=0 dx=0 dy=0 xb=0 yb=44
-u8g2_DrawGlyph(&u8g2, 80, 50, 2341); // reference 
+u8g2_DrawGlyph(&u8g2, 48, 20, 2340); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
+u8g2_DrawGlyph(&u8g2, 80, 50, 2340); // reference 
 u8g2_DrawPixel(&u8g2, 80, 50);
-u8g2_DrawGlyph(&u8g2, 64, 20, 2376); // ax=0 ay=0 dx=0 dy=0 xb=-52 yb=56
-u8g2_DrawGlyph(&u8g2, 100, 50, 2376); // reference 
+u8g2_DrawGlyph(&u8g2, 64, 20, 2375); // ax=0 ay=0 dx=0 dy=0 xb=-13 yb=14
+u8g2_DrawGlyph(&u8g2, 100, 50, 2375); // reference 
 u8g2_DrawPixel(&u8g2, 100, 50);
 
     } while( u8g2_NextPage(&u8g2) );
