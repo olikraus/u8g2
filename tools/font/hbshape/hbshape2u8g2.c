@@ -57,7 +57,7 @@ int main(int argc, char **argv)
             long i;
             cco element;
             int x = 0;
-            int y = 32;
+            int y = 20;
             int ax;
             int ay;
             int dx;
@@ -77,7 +77,12 @@ int main(int argc, char **argv)
                 dy = cpMapGetIntVal(element, "dy");
                 xb = cpMapGetIntVal(element, "xb");
                 yb = cpMapGetIntVal(element, "yb");
-                printf("u8g2_DrawGlyph(&u8g2, %d, %d, %u); // ax=%d ay=%d dx=%d dy=%d xb=%d yb=%d\n", x, y, encoding, ax, ay, dx, dy, xb, yb);
+                printf("u8g2_DrawGlyph(&u8g2, %d, %d, %u); // ax=%d ay=%d dx=%d dy=%d xb=%d yb=%d\n", x+dx/4, y+dy/4, encoding, ax, ay, dx, dy, xb, yb);
+                printf("u8g2_DrawGlyph(&u8g2, %ld, %d, %u); // reference \n", i*20, y+30, encoding);
+                printf("u8g2_DrawPixel(&u8g2, %ld, %d);\n",  i*20, y+30);
+                //printf("printf(\"%ld %u dx=%%d\\n\", u8g2_GetXOffsetGlyph(&u8g2, %u));\n", i, encoding, encoding);
+
+                
                 x += ax/4;
                 y += ay/4;
               }

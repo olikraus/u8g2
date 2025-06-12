@@ -105,4 +105,5 @@ const char *u8x8_u8tox(uint8_t v, uint8_t d)
     buf[1] = hexdigit[v & 0xF];
     buf[2] = '\0';
   }
+  return buf;
 }

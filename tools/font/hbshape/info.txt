@@ -21,3 +21,4 @@ hb-shape  unifont-16.0.04.otf "नमस्ते"  --no-glyph-names --show-exte
 hb-view  unifont-16.0.04.otf "नमस्ते"
 
 ~/git/bdf2ttf/bdf2ttf -v unifont.ttf ~/git/bdf2ttf/sample.ini ../bdf/unifont.bdf
+hb-shape  unifont.ttf "नमस्ते"  --no-glyph-names --show-extents  --output-format=json 
