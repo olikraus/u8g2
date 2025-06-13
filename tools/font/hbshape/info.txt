@@ -17,6 +17,7 @@ hb-shape  unifont-16.0.04.otf "नमस्ते"  --no-glyph-names --show-exte
 ]
 
 
+
 hb-view  unifont-16.0.04.otf "नमस्ते"
 
 ~/git/bdf2ttf/bdf2ttf -v unifont.ttf ~/git/bdf2ttf/sample.ini ../bdf/unifont.bdf
@@ -32,6 +33,15 @@ hb-shape  unifont-15.1.05.otf "नमस्ते"  --font-size=16 --output-form
 {"g":"gid2341","cl":4,"dx":0,"dy":0,"ax":16,"ay":0},
 {"g":"gid2376","cl":4,"dx":0,"dy":0,"ax":0,"ay":0}
 ]
+static const unsigned char teststr[] U8X8_PROGMEM = {
+  0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);
+  0x09, 0x2e, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 2350);
+  0x09, 0x38, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2360);
+  0x09, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2381);
+  0x09, 0x24, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2340);
+  0x09, 0x47, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2375);
+  0x00, 0x00  // end of binary
+};
 
 
 Further tests:

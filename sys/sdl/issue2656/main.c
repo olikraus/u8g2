@@ -42,9 +42,9 @@ void u8g2_DrawHB(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const unsigned char
     data++;
     if ( encoding == 0 )
       break;
-    x += u8x8_pgm_read(data);
+    x += (int8_t)u8x8_pgm_read(data);
     data++;
-    y += u8x8_pgm_read(data);
+    y += (int8_t)u8x8_pgm_read(data);
     data++;
     u8g2_DrawGlyph(u8g2, x, y, encoding);
   }
