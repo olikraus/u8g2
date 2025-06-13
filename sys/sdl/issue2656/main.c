@@ -25,12 +25,58 @@ void do_screenshot(void)
   */
 }
 
+/*
+  Draw a string, which is produced by hbshape2u8g2 (libharfbuzz toolchain)
+  A call to this function will require transparent mode:
+    u8g2_SetFontMode(&u8g2, 1);
+*/
+void u8g2_DrawHB(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const unsigned char *data)
+{
+  uint16_t encoding = 0;
+  for(;;)
+  {
+    encoding = u8x8_pgm_read(data);
+    data++;
+    encoding <<= 8;
+    encoding |= u8x8_pgm_read(data);
+    data++;
+    if ( encoding == 0 )
+      break;
+    x += u8x8_pgm_read(data);
+    data++;
+    y += u8x8_pgm_read(data);
+    data++;
+    u8g2_DrawGlyph(u8g2, x, y, encoding);
+  }
+}
+
+static const unsigned char teststr[] U8X8_PROGMEM = {
+  0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);
+  0x09, 0x2e, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 2350);
+  0x09, 0x38, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2360);
+  0x09, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2381);
+  0x09, 0x24, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2340);
+  0x09, 0x47, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2375);
+  0x00, 0x00  // end of binary
+};
+
+static const unsigned char testarabic[] U8X8_PROGMEM = {
+  0x06, 0x27, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 1575);
+  0x06, 0x28, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 8, 0, 1576);
+  0x06, 0x4b, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 8, 0, 1611);
+  0x06, 0x2d, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 1581);
+  0x06, 0x31, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 24, 0, 1585);
+  0x06, 0x45, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 1605);
+  0x00, 0x00  // end of binary
+};
+
+
+
 int main(void)
 {
   int x, y;
   int k;
   int offset = 100;
-  int tw;
   
   u8g2_SetupBuffer_SDL_128x64_4(&u8g2, &u8g2_cb_r0);
   u8x8_InitDisplay(u8g2_GetU8x8(&u8g2));
@@ -38,7 +84,7 @@ int main(void)
   u8x8_ConnectBitmapToU8x8(u8g2_GetU8x8(&u8g2));		/* connect to bitmap */
   
   x = 4;  // use as height for the box
-  y = 0;
+  y = 20;
 
   for(;;)
   {
@@ -50,25 +96,9 @@ int main(void)
       u8g2_SetFont(&u8g2, u8g2_font_unifont_t_devanagari);
       u8g2_SetFontDirection(&u8g2, 0);
       u8g2_SetFontMode(&u8g2, 1);
-u8g2_DrawGlyph(&u8g2, 0, 20, 2344); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
-u8g2_DrawGlyph(&u8g2, 0, 50, 2344); // reference 
-u8g2_DrawPixel(&u8g2, 0, 50);
-u8g2_DrawGlyph(&u8g2, 16, 20, 2350); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
-u8g2_DrawGlyph(&u8g2, 20, 50, 2350); // reference 
-u8g2_DrawPixel(&u8g2, 20, 50);
-u8g2_DrawGlyph(&u8g2, 32, 20, 2360); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
-u8g2_DrawGlyph(&u8g2, 40, 50, 2360); // reference 
-u8g2_DrawPixel(&u8g2, 40, 50);
-u8g2_DrawGlyph(&u8g2, 48, 20, 2381); // ax=0 ay=0 dx=0 dy=0 xb=-7 yb=1
-u8g2_DrawGlyph(&u8g2, 60, 50, 2381); // reference 
-u8g2_DrawPixel(&u8g2, 60, 50);
-u8g2_DrawGlyph(&u8g2, 48, 20, 2340); // ax=16 ay=0 dx=0 dy=0 xb=0 yb=11
-u8g2_DrawGlyph(&u8g2, 80, 50, 2340); // reference 
-u8g2_DrawPixel(&u8g2, 80, 50);
-u8g2_DrawGlyph(&u8g2, 64, 20, 2375); // ax=0 ay=0 dx=0 dy=0 xb=-13 yb=14
-u8g2_DrawGlyph(&u8g2, 100, 50, 2375); // reference 
-u8g2_DrawPixel(&u8g2, 100, 50);
-
+      u8g2_DrawHB(&u8g2, x, y, teststr);
+      u8g2_SetFont(&u8g2, u8g2_font_unifont_t_arabic);
+      u8g2_DrawHB(&u8g2, x, y+16, testarabic);
     } while( u8g2_NextPage(&u8g2) );
     
     do

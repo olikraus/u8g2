@@ -1,5 +1,7 @@
 /*
 
+  WARNING: THIS FILE IS MODIFIED FOR U8G2 (BOM DETECTION REMOVED)
+
   co.c
 
   C Object Library
@@ -1390,8 +1392,10 @@ int coReaderInitByFP(coReader reader, FILE *fp) {
   reader->next_cb = coReaderFileNext; // assign some default
   reader->reader_string = NULL;
   reader->fp = fp;
+  reader->bom = BOM_UTF8;
+  
+  /*
   reader->bom = bom_read_and_skip(fp);
-
   if (reader->bom == BOM_NONE)
     reader->next_cb = coReaderFileNext; // all good, contine with GZ test
   else if (reader->bom == BOM_UTF8)
@@ -1402,6 +1406,7 @@ int coReaderInitByFP(coReader reader, FILE *fp) {
     reader->next_cb = coReaderFileNext16BE;
   else
     return 0; // unsupported BOM (like BOM_UTF32BE for example)
+  */
 
 #ifdef CO_USE_ZLIB
   if (reader->bom == BOM_NONE) // check for GZIP

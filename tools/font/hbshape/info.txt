@@ -7,7 +7,6 @@ https://harfbuzz.github.io/
 hb-shape  unifont-16.0.04.otf "नमस्ते"
 hb-shape  unifont-16.0.04.otf "नमस्ते"  --no-glyph-names --show-extents  --output-format=json 
 
-
 [
 {"g":2345,"cl":0,"dx":0,"dy":0,"ax":64,"ay":0,"xb":0,"yb":44,"w":64,"h":-40},
 {"g":2351,"cl":1,"dx":0,"dy":0,"ax":64,"ay":0,"xb":0,"yb":44,"w":64,"h":-40},
@@ -22,3 +21,48 @@ hb-view  unifont-16.0.04.otf "नमस्ते"
 
 ~/git/bdf2ttf/bdf2ttf -v unifont.ttf ~/git/bdf2ttf/sample.ini ../bdf/unifont.bdf
 hb-shape  unifont.ttf "नमस्ते"  --no-glyph-names --show-extents  --output-format=json 
+
+
+hb-shape  unifont-15.1.05.otf "नमस्ते"  --font-size=16 --output-format=json > test.json
+[
+{"g":"gid2345","cl":0,"dx":0,"dy":0,"ax":16,"ay":0},
+{"g":"gid2351","cl":1,"dx":0,"dy":0,"ax":16,"ay":0},
+{"g":"gid2361","cl":2,"dx":0,"dy":0,"ax":16,"ay":0},
+{"g":"gid2382","cl":2,"dx":0,"dy":0,"ax":0,"ay":0},
+{"g":"gid2341","cl":4,"dx":0,"dy":0,"ax":16,"ay":0},
+{"g":"gid2376","cl":4,"dx":0,"dy":0,"ax":0,"ay":0}
+]
+
+
+Further tests:
+https://github.com/olikraus/u8g2/issues/1015
+അഷ്ഹദ്
+static const unsigned char testarabic[] U8X8_PROGMEM = {
+  0x0d, 0x05, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 3333);
+  0x0d, 0x37, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 3383);
+  0x0d, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 3405);
+  0x0d, 0x39, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 3385);
+  0x0d, 0x26, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 3366);
+  0x0d, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 3405);
+  0x00, 0x00  // end of binary
+};
+
+
+https://github.com/olikraus/u8g2/issues/640
+String msg = "ﺍﻟﺸُﻮﻛُﻮﻻَﺗَﺔ أﻭ ﺍﻟﺸُﻜُﻮﻻَﺗَﺔ أﻭ ﺍﻟﺸِﻴﻜُﻮﻻَﺗَﺔ أﻭ ﺍﻟﺸﻮﻛﻮﻻ أﻭ ﺍﻟﺸﻜﻼﻁ"; 
+//String msg = "Hello world! This is a test string.";
+
+
+arabic "Hello World", u8g2_font_unifont_t_arabic
+
+مرحبًا
+static const unsigned char testarabic[] U8X8_PROGMEM = {
+  0x06, 0x27, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 1575);
+  0x06, 0x28, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 8, 0, 1576);
+  0x06, 0x4b, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 8, 0, 1611);
+  0x06, 0x2d, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 1581);
+  0x06, 0x31, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 24, 0, 1585);
+  0x06, 0x45, 0x08, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 1605);
+  0x00, 0x00  // end of binary
+};
+

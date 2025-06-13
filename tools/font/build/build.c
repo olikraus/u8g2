@@ -912,6 +912,7 @@ Greek Extended	1F00–1FFF
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$750-$77f,$fb50-$fdff,$fe70-$feff", "_urdu" },
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-127,$104-$107,$118-$119,$141-$144,$15a-$15b,$179-$17c,$d3,$f3", "_polish" },
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$900-$97f,$1cd0-$1cff,$a8e0-$a8ff", "_devanagari" },   /* Hindi, issue 584 */
+  { 0,  0, "unifont.bdf", 		"unifont", 		6, 0, BM_T, FM_C, MM_C, "32-128,$d00-$d7f", "_malayalam" },   /* Malayalam, issue 584 */
   
   
   { 0,  0, "unifont.bdf", 		"unifont", 		6, 35, BM_T, FM_C, MM_C, "32-128,$600-$6ff,$FB50-$FBB1,$FE70-$FEFF,x32-64,x91-96,x123-191,x247,x697-879,x32-$5ff", "_arabic" },
