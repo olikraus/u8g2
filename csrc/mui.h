@@ -261,7 +261,7 @@ struct mui_struct
   uint8_t x;               // position of the field
   uint8_t y;
   uint8_t dflags;
-  uint8_t arg;          // extra argument of the field. For example the G: form is put here
+  uint8_t arg;          // extra argument of the field. For example the G: form is put here, assigned by MUI_XYA or MUI_XYAT 
   int len;          // length of the current command
   fds_t *fds;             // current position, *fds = cmd
   muif_t *uif;                   // user interface field or style for the given id0 / id1, assigned by mui_prepare_current_field()

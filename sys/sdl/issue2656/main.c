@@ -25,30 +25,6 @@ void do_screenshot(void)
   */
 }
 
-/*
-  Draw a string, which is produced by hbshape2u8g2 (libharfbuzz toolchain)
-  A call to this function will require transparent mode:
-    u8g2_SetFontMode(&u8g2, 1);
-*/
-void u8g2_DrawHB(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const unsigned char *data)
-{
-  uint16_t encoding = 0;
-  for(;;)
-  {
-    encoding = u8x8_pgm_read(data);
-    data++;
-    encoding <<= 8;
-    encoding |= u8x8_pgm_read(data);
-    data++;
-    if ( encoding == 0 )
-      break;
-    x += (int8_t)u8x8_pgm_read(data);
-    data++;
-    y += (int8_t)u8x8_pgm_read(data);
-    data++;
-    u8g2_DrawGlyph(u8g2, x, y, encoding);
-  }
-}
 
 static const unsigned char teststr[] U8X8_PROGMEM = {
   0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);

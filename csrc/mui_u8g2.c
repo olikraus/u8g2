@@ -221,6 +221,11 @@ u8g2_uint_t mui_get_y(mui_t *ui)
   return ui->y;
 }
 
+u8g2_uint_t mui_get_arg(mui_t *ui)
+{
+  return ui->arg;
+}
+
 u8g2_t *mui_get_U8g2(mui_t *ui)
 {
   return (u8g2_t *)(ui->graphics_data);

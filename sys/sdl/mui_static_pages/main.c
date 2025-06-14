@@ -18,6 +18,47 @@ uint8_t var2 = '0';
 uint8_t var3 = '0';
 uint8_t var4 = '0';
 
+
+static const unsigned char hb_null[] U8X8_PROGMEM = {
+  0x00, 0x00  // end of binary
+};
+
+static const unsigned char hb_abc[] U8X8_PROGMEM = {
+  0x00, 'a', 0x00, 0x00, 
+  0x00, 'b', 0x08, 0x00, 
+  0x00, 'c', 0x08, 0x00, 
+  0x00, 0x00  // end of binary
+};
+
+static const unsigned char teststring[] U8X8_PROGMEM = {
+  0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);
+  0x09, 0x2e, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 2350);
+  0x09, 0x38, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2360);
+  0x09, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2381);
+  0x09, 0x24, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2340);
+  0x09, 0x47, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2375);
+  0x00, 0x00  // end of binary
+};
+
+uint8_t mui_u8g2_draw_hb(mui_t *ui, uint8_t msg)
+{
+  if ( msg == MUIF_MSG_DRAW )
+  {
+    const unsigned char *data = hb_null;
+    const uint8_t  *old_font = mui_get_U8g2(ui)->font;  // backup the current font
+    u8g2_SetFont(mui_get_U8g2(ui), u8g2_font_unifont_t_devanagari); // assign the font,which is used for the hb data
+    switch(mui_get_arg(ui))
+    {
+      case 123: data = hb_abc; break; // MUI_XYA(x, y, 123)
+      case 235: data = teststring; break; // MUI_XYA(x, y, 235)
+    }
+    u8g2_DrawHB(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), data);  // draw the HB data
+    u8g2_SetFont(mui_get_U8g2(ui), old_font);  // restore the previous font
+  }
+  return 0;
+}
+
+
 muif_t muif_list[]  MUI_PROGMEM = {  
   MUIF_U8G2_LABEL(),
   MUIF_U8G2_FONT_STYLE(0, u8g2_font_5x8_tr),
@@ -27,7 +68,10 @@ muif_t muif_list[]  MUI_PROGMEM = {
   MUIF_VARIABLE("B3",&var3,mui_u8g2_u8_char_wm_mud_pi), 
   MUIF_VARIABLE("B4",&var4,mui_u8g2_u8_char_wm_mud_pi), 
 
-  MUIF_BUTTON("G0", mui_u8g2_btn_goto_wm_fi)
+  MUIF_BUTTON("G0", mui_u8g2_btn_goto_wm_fi),
+  
+  MUIF_RO("HB",mui_u8g2_draw_hb) // Use MUI_XYA for this
+
   
 };
 
@@ -45,7 +89,8 @@ MUI_XYAT("G0", 64, 40, 10, "Goto Static Pages")
 MUI_FORM(10)
 MUI_STYLE(0)
 MUI_LABEL(5,10, "Page 1")
-
+MUI_XYA("HB", 5, 30, 123)
+MUI_XYA("HB", 5, 50, 235)
 MUI_FORM(11)
 MUI_STYLE(0)
 MUI_LABEL(5,10, "Page 2")
