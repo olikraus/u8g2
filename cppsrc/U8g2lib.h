@@ -306,7 +306,7 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
     int8_t getXOffsetGlyph(uint16_t encoding) { return u8g2_GetXOffsetGlyph(&u8g2, encoding); }
     int8_t getXOffsetUTF8(const char *utf8) { return u8g2_GetXOffsetUTF8(&u8g2, utf8); }
 
-    
+    void drawHB(u8g2_uint_t x, u8g2_uint_t y, const unsigned char *data) { return u8g2_DrawHB(&u8g2, x, y, data); }
     
     // not required any more, enable UTF8 for print 
     //void printUTF8(const char *s) { tx += u8g2_DrawUTF8(&u8g2, tx, ty, s); }

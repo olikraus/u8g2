@@ -1593,6 +1593,9 @@ void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
   Limitation:
     Glyph delta must be lower than 128, this bascially means, that the glyph size is limited to
     hight/width of 128 pixel
+    
+  Further details: 
+    https://github.com/olikraus/u8g2/issues/2656
 
 */
 void u8g2_DrawHB(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const unsigned char *data)
