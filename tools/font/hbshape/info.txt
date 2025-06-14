@@ -76,3 +76,15 @@ static const unsigned char testarabic[] U8X8_PROGMEM = {
   0x00, 0x00  // end of binary
 };
 
+
+hb-shape  unifont-15.1.05.otf "नमस्ते"  --font-size=16 --output-format=json | ./hbshape2u8g2 "नमस्ते" teststr 
+static const unsigned char teststr[] U8X8_PROGMEM = {  // "नमस्ते"
+  0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);
+  0x09, 0x2e, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 2350);
+  0x09, 0x38, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2360);
+  0x09, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2381);
+  0x09, 0x24, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2340);
+  0x09, 0x47, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2375);
+  0x00, 0x00  // end of binary
+};
+

@@ -3127,6 +3127,7 @@ extern const uint8_t u8g2_font_unifont_t_tibetan[] U8G2_FONT_SECTION("u8g2_font_
 extern const uint8_t u8g2_font_unifont_t_urdu[] U8G2_FONT_SECTION("u8g2_font_unifont_t_urdu");
 extern const uint8_t u8g2_font_unifont_t_polish[] U8G2_FONT_SECTION("u8g2_font_unifont_t_polish");
 extern const uint8_t u8g2_font_unifont_t_devanagari[] U8G2_FONT_SECTION("u8g2_font_unifont_t_devanagari");
+extern const uint8_t u8g2_font_unifont_t_malayalam[] U8G2_FONT_SECTION("u8g2_font_unifont_t_malayalam");
 extern const uint8_t u8g2_font_unifont_t_arabic[] U8G2_FONT_SECTION("u8g2_font_unifont_t_arabic");
 extern const uint8_t u8g2_font_unifont_t_symbols[] U8G2_FONT_SECTION("u8g2_font_unifont_t_symbols");
 extern const uint8_t u8g2_font_unifont_h_symbols[] U8G2_FONT_SECTION("u8g2_font_unifont_h_symbols");
@@ -3950,6 +3951,14 @@ extern const uint8_t u8g2_font_logisoso58_tn[] U8G2_FONT_SECTION("u8g2_font_logi
 extern const uint8_t u8g2_font_logisoso62_tn[] U8G2_FONT_SECTION("u8g2_font_logisoso62_tn");
 extern const uint8_t u8g2_font_logisoso78_tn[] U8G2_FONT_SECTION("u8g2_font_logisoso78_tn");
 extern const uint8_t u8g2_font_logisoso92_tn[] U8G2_FONT_SECTION("u8g2_font_logisoso92_tn");
+extern const uint8_t u8g2_font_gulim11_t_korean1[] U8G2_FONT_SECTION("u8g2_font_gulim11_t_korean1");
+extern const uint8_t u8g2_font_gulim11_t_korean2[] U8G2_FONT_SECTION("u8g2_font_gulim11_t_korean2");
+extern const uint8_t u8g2_font_gulim12_t_korean1[] U8G2_FONT_SECTION("u8g2_font_gulim12_t_korean1");
+extern const uint8_t u8g2_font_gulim12_t_korean2[] U8G2_FONT_SECTION("u8g2_font_gulim12_t_korean2");
+extern const uint8_t u8g2_font_gulim14_t_korean1[] U8G2_FONT_SECTION("u8g2_font_gulim14_t_korean1");
+extern const uint8_t u8g2_font_gulim14_t_korean2[] U8G2_FONT_SECTION("u8g2_font_gulim14_t_korean2");
+extern const uint8_t u8g2_font_gulim16_t_korean1[] U8G2_FONT_SECTION("u8g2_font_gulim16_t_korean1");
+extern const uint8_t u8g2_font_gulim16_t_korean2[] U8G2_FONT_SECTION("u8g2_font_gulim16_t_korean2");
 extern const uint8_t u8g2_font_pressstart2p_8f[] U8G2_FONT_SECTION("u8g2_font_pressstart2p_8f");
 extern const uint8_t u8g2_font_pressstart2p_8r[] U8G2_FONT_SECTION("u8g2_font_pressstart2p_8r");
 extern const uint8_t u8g2_font_pressstart2p_8n[] U8G2_FONT_SECTION("u8g2_font_pressstart2p_8n");

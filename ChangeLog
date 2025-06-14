@@ -351,5 +351,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * SSD1309 128x128 (issue 2546)
   * ST7571 128x96 (issue 2575)
   * SSD1320 128x72 (issue 2565)
+  * Gulim Korean Font (issue 2653)
+  * drawHB function (issue 2656)
   
   

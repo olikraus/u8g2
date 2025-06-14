@@ -1270,6 +1270,7 @@ u8g2_font_unifont_t_tibetan	LITERAL1
 u8g2_font_unifont_t_urdu	LITERAL1
 u8g2_font_unifont_t_polish	LITERAL1
 u8g2_font_unifont_t_devanagari	LITERAL1
+u8g2_font_unifont_t_malayalam	LITERAL1
 u8g2_font_unifont_t_arabic	LITERAL1
 u8g2_font_unifont_t_symbols	LITERAL1
 u8g2_font_unifont_h_symbols	LITERAL1
@@ -2149,6 +2150,14 @@ u8g2_font_logisoso58_tn	LITERAL1
 u8g2_font_logisoso62_tn	LITERAL1
 u8g2_font_logisoso78_tn	LITERAL1
 u8g2_font_logisoso92_tn	LITERAL1
+u8g2_font_gulim11_t_korean1	LITERAL1
+u8g2_font_gulim11_t_korean2	LITERAL1
+u8g2_font_gulim12_t_korean1	LITERAL1
+u8g2_font_gulim12_t_korean2	LITERAL1
+u8g2_font_gulim14_t_korean1	LITERAL1
+u8g2_font_gulim14_t_korean2	LITERAL1
+u8g2_font_gulim16_t_korean1	LITERAL1
+u8g2_font_gulim16_t_korean2	LITERAL1
 u8g2_font_pressstart2p_8f	LITERAL1
 u8g2_font_pressstart2p_8r	LITERAL1
 u8g2_font_pressstart2p_8n	LITERAL1

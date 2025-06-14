@@ -203,7 +203,9 @@ struct groupinfo gi[] = {
   { "Integrated Mapping Ltd", "fntgrpim", "../../../../u8g2.wiki/fntgrpim.md", 		"fntgrpim.pre" }, 		/* 42 */ 
   { "Spleen", "fntgrpspleen", "../../../../u8g2.wiki/fntgrpspleen.md", 		"fntgrpspleen.pre" }, 		/* 43 */ 
   { "BoutiqueBitmap", "fntgrpbb", "../../../../u8g2.wiki/fntgrpbb.md", 		"fntgrpbb.pre" }, 		/* 44 */ 
+  { "Gulim", "fntgrpgulim", "../../../../u8g2.wiki/fntgrpgulim.md", 		"fntgrpgulim.pre" }, 		/* 45 */ 
 
+  
 };
 
 #define BM_T	1	/* Transparent = build mode 0 proportional */
@@ -1473,6 +1475,16 @@ inconsolata
   { 0,  "-a -r 72 -p 89", "Logisoso.ttf",	"logisoso62",			10, 0, BM_T, FM_C, MM_N, "", "" },
   { 0,  "-a -r 72 -p 110", "Logisoso.ttf",	"logisoso78",			10, 0, BM_T, FM_C, MM_N, "", "" },
   { 0,  "-a -r 72 -p 131", "Logisoso.ttf",	"logisoso92",			10, 0, BM_T, FM_C, MM_N, "", "" },
+  
+  { 0,  "-a -r 72 -p 11", "Gulim.ttf", 		"gulim11", 		        45, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
+  { 0,  "-a -r 72 -p 11", "Gulim.ttf", 		"gulim11", 		        45, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
+  { 0,  "-a -r 72 -p 12", "Gulim.ttf", 		"gulim12", 		        45, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
+  { 0,  "-a -r 72 -p 12", "Gulim.ttf", 		"gulim12", 		        45, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
+  { 0,  "-a -r 72 -p 14", "Gulim.ttf", 		"gulim14", 		        45, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
+  { 0,  "-a -r 72 -p 14", "Gulim.ttf", 		"gulim14", 		        45, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
+  { 0,  "-a -r 72 -p 16", "Gulim.ttf", 		"gulim16", 		        45, 0, BM_T, FM_C, MM_M, "korean1.map", "_korean1" },
+  { 0,  "-a -r 72 -p 16", "Gulim.ttf", 		"gulim16", 		        45, 0, BM_T, FM_C, MM_M, "korean2.map", "_korean2" },
+  
 
   { 0,  "-r 72 -p 8", "PressStart2P.ttf",	"pressstart2p",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
   { 0,  "-r 72 -p 8", "pcsenior.ttf",		"pcsenior",			12, 0, BM_8, FM_C|FM_8, MM_F|MM_R|MM_U|MM_N, "" , ""},
