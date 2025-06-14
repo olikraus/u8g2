@@ -177,7 +177,7 @@ int main(int argc, char **argv)
             int pen_y = 0;
             uint16_t encoding;
           
-            printf("static const unsigned char %s[] U8X8_PROGMEM = {\n", argv[2]);
+            printf("static const unsigned char %s[] U8X8_PROGMEM = {  // \"%s\"\n", argv[2], argv[1]);
             for(i = 0; i < coVectorSize(jsonco); i++ )
             {
               element = coVectorGet(jsonco, i);
