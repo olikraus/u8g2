@@ -19,17 +19,14 @@ uint8_t var3 = '0';
 uint8_t var4 = '0';
 
 
-static const unsigned char hb_null[] U8X8_PROGMEM = {
-  0x00, 0x00  // end of binary
-};
-
+/* hb test: github.com/olikraus/u8g2/issues/2656 */
+static const unsigned char hb_null[] U8X8_PROGMEM = { 0x00, 0x00 };
 static const unsigned char hb_abc[] U8X8_PROGMEM = {
   0x00, 'a', 0x00, 0x00, 
   0x00, 'b', 0x08, 0x00, 
   0x00, 'c', 0x08, 0x00, 
   0x00, 0x00  // end of binary
 };
-
 static const unsigned char teststring[] U8X8_PROGMEM = {
   0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);
   0x09, 0x2e, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 2350);
@@ -46,11 +43,16 @@ uint8_t mui_u8g2_draw_hb(mui_t *ui, uint8_t msg)
   {
     const unsigned char *data = hb_null;
     const uint8_t  *old_font = mui_get_U8g2(ui)->font;  // backup the current font
-    u8g2_SetFont(mui_get_U8g2(ui), u8g2_font_unifont_t_devanagari); // assign the font,which is used for the hb data
     switch(mui_get_arg(ui))
     {
-      case 123: data = hb_abc; break; // MUI_XYA(x, y, 123)
-      case 235: data = teststring; break; // MUI_XYA(x, y, 235)
+      case 123: 
+          u8g2_SetFont(mui_get_U8g2(ui), u8g2_font_unifont_tr); // assign the font,which is used for the hb data
+          data = hb_abc; 
+          break; // MUI_XYA(x, y, 123)
+      case 235: 
+          u8g2_SetFont(mui_get_U8g2(ui), u8g2_font_unifont_t_devanagari); // assign the font,which is used for the hb data
+          data = teststring; 
+          break; // MUI_XYA(x, y, 235)
     }
     u8g2_DrawHB(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), data);  // draw the HB data
     u8g2_SetFont(mui_get_U8g2(ui), old_font);  // restore the previous font
@@ -71,8 +73,6 @@ muif_t muif_list[]  MUI_PROGMEM = {
   MUIF_BUTTON("G0", mui_u8g2_btn_goto_wm_fi),
   
   MUIF_RO("HB",mui_u8g2_draw_hb) // Use MUI_XYA for this
-
-  
 };
 
 
@@ -98,7 +98,6 @@ MUI_LABEL(5,10, "Page 2")
 MUI_FORM(12)
 MUI_STYLE(0)
 MUI_LABEL(5,10, "Page 3")
-
 ;
 
 
