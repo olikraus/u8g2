@@ -1560,4 +1560,58 @@ void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
 #endif
 }
 
+/*=======================================*/
+/*
+/*
+  Draw a string, which is produced by hbshape2u8g2 (libharfbuzz toolchain)
+
+  The data argument should look like this:
+    static const unsigned char teststring[] U8X8_PROGMEM = {
+      0x09, 0x28, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 0, 0, 2344);
+      0x09, 0x2e, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 16, 0, 2350);
+      0x09, 0x38, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2360);
+      0x09, 0x4d, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 32, 0, 2381);
+      0x09, 0x24, 0x10, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2340);
+      0x09, 0x47, 0x00, 0x00, // u8g2_DrawGlyph(&u8g2, 48, 0, 2375);
+      0x00, 0x00  // end of binary
+    };
+
+  The data row contains four bytes, which are:
+    <encoding high byte> <encoding low byte> <delta-x> <delta-y>
+  The last row is marked with encoding=0
+
+  The algorithm is
+    Input: x,y
+    with all rows (until encoding is 0)      
+      x += <delta-x>
+      y += <delta-y>
+      draw glyph with <encoding> at x, y
+
+  A call to this function will require transparent mode:
+    u8g2_SetFontMode(&u8g2, 1);
+    
+  Limitation:
+    Glyph delta must be lower than 128, this bascially means, that the glyph size is limited to
+    hight/width of 128 pixel
+
+*/
+void u8g2_DrawHB(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const unsigned char *data)
+{
+    uint16_t encoding = 0;
+    for (;;)
+    {
+        encoding = u8x8_pgm_read(data);
+        data++;
+        encoding <<= 8;
+        encoding  |= u8x8_pgm_read(data);
+        data++;
+        if (encoding == 0)
+            break;
+        x += (int8_t)u8x8_pgm_read(data);
+        data++;
+        y += (int8_t)u8x8_pgm_read(data);
+        data++;
+        u8g2_DrawGlyph(u8g2, x, y, encoding);
+    }
+}
 
