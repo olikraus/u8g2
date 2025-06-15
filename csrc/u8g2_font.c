@@ -1562,7 +1562,6 @@ void u8g2_SetFontDirection(u8g2_t *u8g2, uint8_t dir)
 
 /*=======================================*/
 /*
-/*
   Draw a string, which is produced by hbshape2u8g2 (libharfbuzz toolchain)
 
   The data argument should look like this:
