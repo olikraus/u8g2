@@ -1,2 +1,2 @@
 # without 'v' prefix
-echo -n "2.36.7"
+echo -n "2.36.8"
