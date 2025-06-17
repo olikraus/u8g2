@@ -29,7 +29,7 @@ struct user_data_struct {
 	// Index into buffer
 	uint8_t index;
 	// Callback buffer, I2C should send 32 bytes max and SPI 128 bytes max
-	uint8_t buffer[128];
+	uint8_t buffer[256];  // issue 2666
 	// Nanosecond delay for U8X8_MSG_DELAY_I2C
 	unsigned long delay;
 	// SPI mode
