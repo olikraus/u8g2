@@ -33,7 +33,7 @@
 
 
   st7305: 240 x 320             122x250
-  st7305: 264 x 320             168x384
+  st7305: 264 x 320             168x384, 200x200
     Mono TFT Display Driver with Controller
     
   st7305 seems to be almost compatible to the st7303, however they have a different memory architecture
@@ -346,6 +346,122 @@ uint8_t u8x8_d_st7305_122x250(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
         
         u8x8_cad_SendCmd(u8x8, 0x2a);
         u8x8_cad_SendArg(u8x8, 0x19);   // specific for the 122x250 LCD
+        u8x8_cad_SendArg(u8x8, 0x3a );
+      
+        u8x8_cad_SendCmd(u8x8, 0x2b ); 
+        u8x8_cad_SendArg(u8x8, y+i); 
+        u8x8_cad_SendArg(u8x8, y+i); 
+        u8x8_cad_SendCmd(u8x8, 0x02c );		// write data 
+      
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+        
+        ptr += u8x8->display_info->tile_width*i*2;
+        
+        c = (c+2)/3;          // calculate the number of 24 bit blocks to send
+        
+        
+        while( c > 0 )
+        {
+          u8x8_cad_SendData(u8x8, 6, u8x8_st7305_convert_a0(u8x8, ptr)); 	
+          ptr+=3;
+          --c;
+        }
+      }
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
+/*=====================================================================*/
+/* 200x200, https://admin.osptek.com/uploads/YDP_154_H008_V3_c24b455ff9.pdf */
+
+
+static const u8x8_display_info_t u8x8_st7305_200x200_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 3, 	
+  /* post_reset_wait_ms = */ 3, 		/**/
+  /* sda_setup_time_ns = */ 10,		/* */
+  /* sck_pulse_width_ns = */ 30,	/*  */
+  /* sck_clock_hz = */ 2000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
+  /* data_setup_time_ns = */ 15,
+  /* write_pulse_width_ns = */ 70,	
+  /* tile_width = */ 25,
+  /* tile_height = */ 25,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 200,
+  /* pixel_height = */ 200
+};
+
+uint8_t u8x8_d_st7305_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint16_t x;
+  uint8_t c, i, y;
+  uint8_t *ptr;
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_init_seq);    
+      break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7305_200x200_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      if ( arg_int == 0 )
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_powersave0_seq);
+      else
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_powersave1_seq);
+      break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+      if ( arg_int == 0 )
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_flip0_seq);
+	u8x8->x_offset = u8x8->display_info->default_x_offset;
+      }
+      else
+      {
+	u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_flip1_seq);
+	u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+      }
+      break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      u8x8_cad_StartTransfer(u8x8);
+      u8x8_cad_SendCmd(u8x8, 0x081 );
+      u8x8_cad_SendArg(u8x8, arg_int<<2 );	
+      u8x8_cad_SendArg(u8x8, arg_int>>6 );	
+      u8x8_cad_EndTransfer(u8x8);
+      break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+      x = ((u8x8_tile_t *)arg_ptr)->x_pos;    
+      x *= 8;
+      x += u8x8->x_offset;
+      y= (((u8x8_tile_t *)arg_ptr)->y_pos);
+      y*=4;
+    
+      y+=115;           // specific for the 122x250 LCD --> probably change needed for the 200x200 display
+
+      u8x8_cad_StartTransfer(u8x8);
+
+      for( i = 0; i < 4; i++ )
+      {
+        
+        u8x8_cad_SendCmd(u8x8, 0x2a);   // column address set
+        u8x8_cad_SendArg(u8x8, 0x19);   // specific for the 122x250 LCD --> probably needs to be changed for the 200x200
         u8x8_cad_SendArg(u8x8, 0x3a );
       
         u8x8_cad_SendCmd(u8x8, 0x2b ); 

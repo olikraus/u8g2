@@ -1760,7 +1760,26 @@ struct controller controller_list[] =
       { NULL }
     },
   },
-  
+
+  {
+    "st7305", 		25, 	25, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "200X200" },
+      { NULL }
+    },
+  },
+
+#ifdef NOTYETIMPLEMENTED  
+  {
+    "st7305", 		24, 	48, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "186X384" },
+      { NULL }
+    },
+  },
+#endif
   
   {
     "st7586s", 		48, 	17, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI,
