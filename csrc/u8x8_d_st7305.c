@@ -36,7 +36,7 @@
   st7305: 264 x 320             168x384
     Mono TFT Display Driver with Controller
     
-  st7305 seems to be almost compatible to the st7305, however they have a different memory architecture
+  st7305 seems to be almost compatible to the st7303, however they have a different memory architecture
   
   https://github.com/olikraus/u8g2/issues/2436
   
@@ -84,185 +84,11 @@ static const uint8_t u8x8_d_st7305_122x250_flip1_seq[] = {
 /* see also: http://www.technoblogy.com/show?3YB0 */
 
 
-#ifdef NOT_USED
-static uint8_t *u8x8_st7305_convert_60(u8x8_t *u8x8, uint8_t *p)   
-{
-  static uint8_t buf[6];
-  uint8_t bytes_per_row = u8x8->display_info->tile_width;
-  
-  
-  memset(buf, 0, 6);
-  
-  //   U8X8_CA(0x36, 0x60), 			// Memory Control 
-
-
-  // first row, left 12 pixel
-  
-  if ( p[0] & 0x80 )
-    buf[2] |= 0x02;
-  if ( p[0] & 0x40 )
-    buf[2] |= 0x08;
-  if ( p[0] & 0x20 )
-    buf[2] |= 0x20;
-  if ( p[0] & 0x10 )
-    buf[2] |= 0x80;
-
-  if ( p[0] & 0x08 )
-    buf[1] |= 0x02;
-  if ( p[0] & 0x04 )
-    buf[1] |= 0x08;
-  if ( p[0] & 0x02 )
-    buf[1] |= 0x20;
-  if ( p[0] & 0x01 )
-    buf[1] |= 0x80;
-
-  if ( p[1] & 0x80 )
-    buf[0] |= 0x02;
-  if ( p[1] & 0x40 )
-    buf[0] |= 0x08;
-  if ( p[1] & 0x20 )
-    buf[0] |= 0x20;
-  if ( p[1] & 0x10 )
-    buf[0] |= 0x80;
-
- // first row, right 12 pixel
-   
-  if ( p[1] & 0x08 )
-    buf[5] |= 0x02;
-  if ( p[1] & 0x04 )
-    buf[5] |= 0x08;
-  if ( p[1] & 0x02 )
-    buf[5] |= 0x20;
-  if ( p[1] & 0x01 )
-    buf[5] |= 0x80;
-
-  if ( p[2] & 0x80 )
-    buf[4] |= 0x02;
-  if ( p[2] & 0x40 )
-    buf[4] |= 0x08;
-  if ( p[2] & 0x20 )
-    buf[4] |= 0x20;
-  if ( p[2] & 0x10 )
-    buf[4] |= 0x80;
-  
-  if ( p[2] & 0x08 )
-    buf[3] |= 0x02;
-  if ( p[2] & 0x04 )
-    buf[3] |= 0x08;
-  if ( p[2] & 0x02 )
-    buf[3] |= 0x20;
-  if ( p[2] & 0x01 )
-    buf[3] |= 0x80;
-  
-  p += u8x8->display_info->tile_width;
-
-  // second row, left 12 pixel
-  
-  if ( p[0] & 0x80 )
-    buf[2] |= 0x01;
-  if ( p[0] & 0x40 )
-    buf[2] |= 0x04;
-  if ( p[0] & 0x20 )
-    buf[2] |= 0x10;
-  if ( p[0] & 0x10 )
-    buf[2] |= 0x40;
-
-  if ( p[0] & 0x08 )
-    buf[1] |= 0x01;
-  if ( p[0] & 0x04 )
-    buf[1] |= 0x04;
-  if ( p[0] & 0x02 )
-    buf[1] |= 0x10;
-  if ( p[0] & 0x01 )
-    buf[1] |= 0x40;
-
-  if ( p[1] & 0x80 )
-    buf[0] |= 0x01;
-  if ( p[1] & 0x40 )
-    buf[0] |= 0x04;
-  if ( p[1] & 0x20 )
-    buf[0] |= 0x10;
-  if ( p[1] & 0x10 )
-    buf[0] |= 0x40;
-
- // second row, right 12 pixel
-   
-  if ( p[1] & 0x08 )
-    buf[5] |= 0x01;
-  if ( p[1] & 0x04 )
-    buf[5] |= 0x04;
-  if ( p[1] & 0x02 )
-    buf[5] |= 0x10;
-  if ( p[1] & 0x01 )
-    buf[5] |= 0x40;
-
-  if ( p[2] & 0x80 )
-    buf[4] |= 0x01;
-  if ( p[2] & 0x40 )
-    buf[4] |= 0x04;
-  if ( p[2] & 0x20 )
-    buf[4] |= 0x10;
-  if ( p[2] & 0x10 )
-    buf[4] |= 0x40;
-  
-  if ( p[2] & 0x08 )
-    buf[3] |= 0x01;
-  if ( p[2] & 0x04 )
-    buf[3] |= 0x04;
-  if ( p[2] & 0x02 )
-    buf[3] |= 0x10;
-  if ( p[2] & 0x01 )
-    buf[3] |= 0x40;
-  
-  return buf;
-}
-#endif
-
 static uint8_t *u8x8_st7305_convert_a0(u8x8_t *u8x8, uint8_t *p)   
 {
   static uint8_t buf[6];
   
-#ifdef OLD
-  /* u8g2 first row */
-  static uint8_t map1[16] = {
-      /* 0x00 0000 */ 0,
-      /* 0x01 0001 */0x01,
-      /* 0x02 0010 */0x04,
-      /* 0x03 0011 */0x04+0x01,
-      /* 0x04 0100 */0x10,
-      /* 0x05 0101 */0x10+0x01,
-      /* 0x06 0110 */0x10+0x04,
-      /* 0x07 0111 */0x10+0x04+0x01,
-      /* 0x08 1000 */ 0x40,
-      /* 0x09 1001 */ 0x40+0x01,
-      /* 0x0a 1010 */ 0x40+0x04,
-      /* 0x0b 1011 */ 0x40+0x04+0x01,
-      /* 0x0c 1100 */ 0x40+0x10,
-      /* 0x0d 1101 */ 0x40+0x10+0x01,
-      /* 0x0e 1110 */ 0x40+0x10+0x04,
-      /* 0x0f 1111 */  0x40+0x10+0x04+0x01
-  };
-  /* u8g2 second row */
-  static uint8_t map2[16] = {
-      /* 0x00 0000 */ 0,
-      /* 0x01 0001 */0x02,
-      /* 0x02 0010 */0x08,
-      /* 0x03 0011 */0x08+0x02,
-      /* 0x04 0100 */0x20,
-      /* 0x05 0101 */0x20+0x02,
-      /* 0x06 0110 */0x20+0x08,
-      /* 0x07 0111 */0x20+0x08+0x02,
-      /* 0x08 1000 */ 0x80,
-      /* 0x09 1001 */ 0x80+0x02,
-      /* 0x0a 1010 */ 0x80+0x08,
-      /* 0x0b 1011 */ 0x80+0x08+0x02,
-      /* 0x0c 1100 */ 0x80+0x20,
-      /* 0x0d 1101 */ 0x80+0x20+0x02,
-      /* 0x0e 1110 */ 0x80+0x20+0x08,
-      /* 0x0f 1111 */  0x80+0x20+0x08+0x02
-  };
-#endif  
-
+#ifdef NOT_WORKING
   /* u8g2 first row */
   static uint8_t map1[16] = {
       /* 0x00 0000 */ 0,
@@ -301,6 +127,13 @@ static uint8_t *u8x8_st7305_convert_a0(u8x8_t *u8x8, uint8_t *p)
       /* 0x0e 1110 */ 0x80+0x20+0x02,
       /* 0x0f 1111 */  0x80+0x20+0x08+0x02
   };
+  #endif
+
+ /* contributed by https://github.com/ischenz */
+ /* u8g2 first row */ 
+  static uint8_t map1[16] = { 0x00, 0x02, 0x08, 0x0A, 0x20, 0x22, 0x28, 0x2A, 0x80, 0x82, 0x88, 0x8A, 0xA0, 0xA2, 0xA8, 0xAA }; 
+ /* u8g2 second row */ 
+  static uint8_t map2[16] = { 0x00, 0x01, 0x04, 0x05, 0x10, 0x11, 0x14, 0x15, 0x40, 0x41, 0x44, 0x45, 0x50, 0x51, 0x54, 0x55 };  
   
   memset(buf, 0, 6);
   
