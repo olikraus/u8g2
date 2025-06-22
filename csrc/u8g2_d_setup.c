@@ -6734,7 +6734,7 @@ void u8g2_Setup_st7305_200x200_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_m
   uint8_t tile_buf_height;
   uint8_t *buf;
   u8g2_SetupDisplay(u8g2, u8x8_d_st7305_200x200, u8x8_cad_011, byte_cb, gpio_and_delay_cb);
-  buf = u8g2_m_25_25_1(&tile_buf_height);
+  buf = u8g2_m_26_25_1(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_horizontal_right_lsb, rotation);
 }
 /* st7305 2 */
@@ -6743,7 +6743,7 @@ void u8g2_Setup_st7305_200x200_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_m
   uint8_t tile_buf_height;
   uint8_t *buf;
   u8g2_SetupDisplay(u8g2, u8x8_d_st7305_200x200, u8x8_cad_011, byte_cb, gpio_and_delay_cb);
-  buf = u8g2_m_25_25_2(&tile_buf_height);
+  buf = u8g2_m_26_25_2(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_horizontal_right_lsb, rotation);
 }
 /* st7305 f */
@@ -6752,7 +6752,7 @@ void u8g2_Setup_st7305_200x200_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_m
   uint8_t tile_buf_height;
   uint8_t *buf;
   u8g2_SetupDisplay(u8g2, u8x8_d_st7305_200x200, u8x8_cad_011, byte_cb, gpio_and_delay_cb);
-  buf = u8g2_m_25_25_f(&tile_buf_height);
+  buf = u8g2_m_26_25_f(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_horizontal_right_lsb, rotation);
 }
 /* st7586s */
