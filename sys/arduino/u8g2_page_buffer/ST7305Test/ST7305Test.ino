@@ -432,6 +432,7 @@ void setup(void) {
 void loop(void) {
   u8g2.firstPage();
   do {
+    u8g2.drawFrame(0,0, 200,200);    
     u8g2.drawLine(0,0,23,23);
     u8g2.drawLine(0+24,0,23+24,47);    
     u8g2.setFont(u8g2_font_ncenB10_tr);
