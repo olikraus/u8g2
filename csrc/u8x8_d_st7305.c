@@ -462,7 +462,7 @@ uint8_t u8x8_d_st7305_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
         
         u8x8_cad_SendCmd(u8x8, 0x2a);   // column address set
         u8x8_cad_SendArg(u8x8, 0x16);   // 0x019 for the 122x250 LCD --> 0x016 for the 200x200 display
-        u8x8_cad_SendArg(u8x8, 0x3a );
+        u8x8_cad_SendArg(u8x8, 0x26 );  // 204 pixel for the 200x200 display
       
         u8x8_cad_SendCmd(u8x8, 0x2b ); 
         u8x8_cad_SendArg(u8x8, y+i); 

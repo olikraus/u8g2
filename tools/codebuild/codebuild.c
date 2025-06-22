@@ -1762,7 +1762,8 @@ struct controller controller_list[] =
   },
 
   {
-    "st7305", 		25, 	25, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    /* the st7305 requires 12pixel blocks --> 204x200, but u8x8 requires tiles, so we have 208x200 (26x25) */ 
+    "st7305", 26, 25, "u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "200X200" },
