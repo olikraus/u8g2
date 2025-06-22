@@ -200,11 +200,11 @@ static const uint8_t u8x8_d_st7305_122x250_init_seq[] = {
   U8X8_CA(0xCB, 0x14), 			// VCOMH: 0x14 = 4V (0x28 = 5V)
   U8X8_CAA(0xB4, 0xE5, 0x77), 			// Update Period Gate EQ Control, why 0x77??? it should be 0x66 according to the datasheet
   U8X8_A8(0xF1, 0xFF, 0xFF, 0x4F, 0xF1, 0xFF, 0xFF, 0X4F),
-  U8X8_CA(0xB0, 0x64), 			// Duty Cycle... this must be before sleep out
+  U8X8_CA(0xB0, 0x32), 			// Duty Cycle... this must be before sleep out, 200x200 display: 0x64 --> 0x32
   U8X8_C(0x11),                                 // sleep out: furn off sleep mode
   U8X8_DLY(120),
   U8X8_CAA(0xC7, 0xA6, 0xE9), 			// Enable OSC
-  U8X8_CA(0x36, 0xa0), 			// Memory Control 
+  U8X8_CA(0x36, 0xa4), 			// Memory Control, 0xa4 for the 200x200 display
   
   U8X8_CA(0x3A, 0x11), 			// Data Format 
   U8X8_CA(0xB9, 0x23), 			// Source Setting: Clear RAM off 
@@ -461,7 +461,7 @@ uint8_t u8x8_d_st7305_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       {
         
         u8x8_cad_SendCmd(u8x8, 0x2a);   // column address set
-        u8x8_cad_SendArg(u8x8, 0x19);   // specific for the 122x250 LCD --> probably needs to be changed for the 200x200
+        u8x8_cad_SendArg(u8x8, 0x16);   // 0x019 for the 122x250 LCD --> 0x016 for the 200x200 display
         u8x8_cad_SendArg(u8x8, 0x3a );
       
         u8x8_cad_SendCmd(u8x8, 0x2b ); 
