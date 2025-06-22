@@ -397,11 +397,11 @@ static const u8x8_display_info_t u8x8_st7305_200x200_display_info =
   /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
   /* data_setup_time_ns = */ 15,
   /* write_pulse_width_ns = */ 70,	
-  /* tile_width = */ 25,
+  /* tile_width = */ 26,   /* tile width is 26*8=208, because this display requires 12 bit blocks, which would be 204 pixel, so next tile is at 208 */
   /* tile_height = */ 25,
   /* default_x_offset = */ 0,
   /* flipmode_x_offset = */ 0,
-  /* pixel_width = */ 200,
+  /* pixel_width = */ 200,              /* not 100% sure, whether this works with the tile_width of 26... */
   /* pixel_height = */ 200
 };
 
