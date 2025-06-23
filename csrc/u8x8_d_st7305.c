@@ -215,7 +215,7 @@ static const uint8_t u8x8_d_st7305_122x250_init_seq[] = {
   U8X8_CA(0x36, 0xa4), 			// Memory Control, 0xa4 for the 200x200 display
   
   U8X8_CA(0x3A, 0x11), 			// Data Format 
-  U8X8_CA(0xB9, 0x23), 			// Source Setting: Clear RAM off 
+  U8X8_CA(0xB9, 0x20), 			// This command activates monochrome mode. Arg differs from ST7302 */
   U8X8_CA(0xB8, 0x09), 			// Panel Setting / Panel Layout 
   U8X8_CAA(0x2A, 0x05, 0x36), 			// col addr
   U8X8_CAA(0x2B, 0x00, 0xC7), 			// row addr
