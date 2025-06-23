@@ -461,7 +461,7 @@ uint8_t u8x8_d_st7305_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
       y= (((u8x8_tile_t *)arg_ptr)->y_pos);
       y*=4;
     
-      y+=120;           // 200x200 display
+      y+=0;           // 200x200 display
 
       u8x8_cad_StartTransfer(u8x8);
 
