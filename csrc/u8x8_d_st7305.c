@@ -223,7 +223,7 @@ static const uint8_t u8x8_d_st7305_122x250_init_seq[] = {
   U8X8_C(0x29), 				// display on
   U8X8_CA(0x72, 0x00), 			// Not in datasheet
   U8X8_CAA(0xB2,1, 5),                  // Frame Rate for High and Low Power Mode (hier: 32Hz and 8Hz) 
-  U8X8_C(0x39), 				// enable Low Power Mode...: 8Hz, see above
+  U8X8_C(0x38), 				// 0x038 normal mode, 0x039 Low Power Mode (8Hz)
   U8X8_DLY(100),
 
   /*
