@@ -186,7 +186,7 @@ static const uint8_t u8x8_d_st7305_122x250_init_seq[] = {
     
   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
   
-  U8X8_C(0x01),                                 // software reset
+  U8X8_C(0x01),                                 // software resets
   U8X8_DLY(100),
   U8X8_C(0x28), 				// display off
   U8X8_CAA(0xC7, 0x26, 0xE9), 			// disable OSC
@@ -196,80 +196,57 @@ static const uint8_t u8x8_d_st7305_122x250_init_seq[] = {
   U8X8_DLY(20),
   U8X8_C(0x01),                                 // software reset
   U8X8_DLY(20),                                 // wait
-  U8X8_C(0x38), 				// High Power Mode
-  U8X8_CA(0xEB, 0x02), 			// Disable NVM Load
-  U8X8_CA(0xD7, 0x68), 			// NVM Load Control: Enable ID1 ID2 ID3 Load
-  U8X8_CA(0xD1, 0x01), 			// Booster Enable
-  U8X8_CA(0xC0, 0x80), 			// Gate Voltage Setting VGH=12V (upper 4 bit, 8V-15V); VGL=-5V (lower 4 bit, -5V .. -10V)
+  //U8X8_C(0x38), 				// High Power Mode
+  //U8X8_CA(0xEB, 0x02), 			// Disable NVM Load
+  //U8X8_CA(0xD7, 0x68), 			// NVM Load Control: Enable ID1 ID2 ID3 Load
+  //U8X8_CA(0xD1, 0x01), 			// Booster Enable
+  //U8X8_CA(0xC0, 0x80), 			// Gate Voltage Setting VGH=12V (upper 4 bit, 8V-15V); VGL=-5V (lower 4 bit, -5V .. -10V)
+  U8X8_CAA(0xD6, 0x17, 0x02),
+  U8X8_CA(0xD1, 0x01), 
+  U8X8_CAA(0xC0, 0x12, 0x0a),//chen.x
   U8X8_C(0x0C1),                                // Source Voltage Control 1
-  U8X8_A6(0x28,0x28,0x28,0x28,0x14,0x00),       // Source high voltage in reflective and transmissive mode, gamma voltage 1&2 
+  U8X8_A4(115,0x3E,0x3C,0x3C), 
   U8X8_C(0x0C2),                                // Source Voltage Control 1
-  U8X8_A4(0x00,0x00,0x00,0x00),       // Source low voltage in reflective and transmissive mode 
-  U8X8_CA(0xCB, 0x14), 			// VCOMH: 0x14 = 4V (0x28 = 5V)
-  U8X8_CAA(0xB4, 0xE5, 0x77), 			// Update Period Gate EQ Control, why 0x77??? it should be 0x66 according to the datasheet
-  U8X8_A8(0xF1, 0xFF, 0xFF, 0x4F, 0xF1, 0xFF, 0xFF, 0X4F),
+  U8X8_A4(0,0x21,0x23,0x23),       // Source low voltage in reflective and transmissive mode 
+  U8X8_C(0x0C4),    //ischen.x
+  U8X8_A4(50,0x5C,0x5A,0x5A), 
+  U8X8_C(0x0C5),    //ischen.x
+  U8X8_A4(50,0x35,0x37,0x37),
+  U8X8_CAA(0xD8, 0x80, 0xE9),
+  
+  //U8X8_CA(0xCB, 0x14), 			// VCOMH: 0x14 = 4V (0x28 = 5V)
+  U8X8_CA(0xB2, 0x12),
+  U8X8_CAA(0xB3, 0xE5, 0xF6), 			// Update Period Gate EQ Control, why 0x77??? it should be 0x66 according to the datasheet
+  U8X8_A8(0x17, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x71),
+  U8X8_CAA(0xB4, 0x05, 0x46), 			// Update Period Gate EQ Control, why 0x77??? it should be 0x66 according to the datasheet
+  U8X8_A6(0x77, 0x77, 0x77, 0x77, 0x76, 0x45),
+  U8X8_CAAA(0x62, 0x32, 0x03, 0x1f),                                
+  U8X8_CA(0xB7, 0x13),
   U8X8_CA(0xB0, 0x32), 			// Duty Cycle... this must be before sleep out, 200x200 display: 0x64 --> 0x32
+  
   U8X8_C(0x11),                                 // sleep out: furn off sleep mode
   U8X8_DLY(120),
-  U8X8_CAA(0xC7, 0xA6, 0xE9), 			// Enable OSC
+  U8X8_CA(0xC9, 0x00),
   U8X8_CA(0x36, 0xa4), 			// Memory Control, 0xa4 for the 200x200 display
   
   U8X8_CA(0x3A, 0x11), 			// Data Format 
-  U8X8_CA(0xB9, 0x20), 			// This command activates monochrome mode. Arg differs from ST7302 */
-  U8X8_CA(0xB8, 0x09), 			// Panel Setting / Panel Layout 
-  U8X8_CAA(0x2A, 0x05, 0x36), 			// col addr
-  U8X8_CAA(0x2B, 0x00, 0xC7), 			// row addr
-  U8X8_CA(0xD0, 0x1F), 			// Not in datasheet
+  U8X8_CA(0xB9, 0x20), 			// Source Setting: Clear RAM off *******<-----
+  U8X8_CA(0xB8, 0x29), 			// Panel Setting / Panel Layout 
+  U8X8_CAA(0x2A, 0x16, 0x27), 			// col addr
+  U8X8_CAA(0x2B, 0x00, 0x63), 			// row addr
+  U8X8_CA(0x35, 0x00),
+  U8X8_CA(0xD0, 0xFF), 			// Not in datasheet
+  //U8X8_CA(0x72, 0x00), 			// Not in datasheet
+  //U8X8_CAA(0xB2,1, 5),                  // Frame Rate for High and Low Power Mode (hier: 32Hz and 8Hz) 
+  U8X8_C(0x38), 				// enable Low Power Mode...: 8Hz, see above
   U8X8_C(0x29), 				// display on
-  U8X8_CA(0x72, 0x00), 			// Not in datasheet
-  U8X8_CA(0xB2, 0x15),                  // Frame Rate for High and Low Power Mode (hier: 32Hz and 8Hz) 
-  U8X8_C(0x38), 				// 0x038 normal mode, 0x039 Low Power Mode (8Hz)
+  U8X8_C(0x20),
+  U8X8_CA(0xBB, 0x4F),
   U8X8_DLY(100),
-
-  /*
-  U8X8_CAA(0x2A, 0x19, 0x3a), 			// col addr  0x14 < col < 0x3b
-  U8X8_CAA(0x2B, 115, 115), 			// row addr (0..250, y in u8g2), 0 is top row in u8g2
-  U8X8_C(0x2C), 			// write start
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-  
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-  
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-  U8X8_D1(0xff), 			// pixel data
-
-  U8X8_CAA(0x2A, 0x19, 0x3a), 			// col addr  0x14 < col < 0x3b
-  U8X8_CAA(0x2B, 116, 116), 			// row addr (0..250, y in u8g2), 0 is top row in u8g2
-  U8X8_C(0x2C), 			// write start
-  U8X8_D1(0x80), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  U8X8_D1(0x00), 			// pixel data
-  */
-
+ 
   U8X8_END_TRANSFER(),             	/* disable chip */
   U8X8_END()           			/* end of sequence */
 };
-
 
 
 
