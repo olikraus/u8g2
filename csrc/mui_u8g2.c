@@ -1258,7 +1258,7 @@ static void mui_u8g2_s8_vmm_draw_wm_pf(mui_t *ui)
   u8g2_t *u8g2 = mui_get_U8g2(ui);
   mui_u8g2_s8_min_max_t *vmm= (mui_u8g2_s8_min_max_t *)muif_get_data(ui->uif);
   char buf[4] = "999";
-  char *s = buf;
+  // char *s = buf;
   int8_t *value = mui_u8g2_s8mm_get_valptr(vmm);
   int8_t min = mui_u8g2_s8mm_get_min(vmm);
   int8_t max = mui_u8g2_s8mm_get_max(vmm);

@@ -588,6 +588,7 @@ static uint8_t mui_task_get_current_cursor_focus_position(mui_t *ui)
   return 0;     /* continue with the loop */
 }
 
+#ifdef OBSOLETE
 static uint8_t mui_task_read_nth_selectable_field(mui_t *ui)
 {
   //if ( muif_get_cflags(ui->uif) & MUIF_CFLAG_IS_CURSOR_SELECTABLE )
@@ -599,6 +600,7 @@ static uint8_t mui_task_read_nth_selectable_field(mui_t *ui)
   }
   return 0;     /* continue with the loop */
 }
+#endif
 
 static uint8_t mui_task_find_execute_on_select_field(mui_t *ui)
 {
