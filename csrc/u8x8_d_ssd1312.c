@@ -156,6 +156,8 @@ static const uint8_t u8x8_d_ssd1312_128x32_init_seq[] = {
   U8X8_C(0x0a1),				/* segment remap a0/a1*/
   U8X8_C(0x0c0),				/* c0: scan dir normal, c8: reverse */
   
+  /* 11 Aug 2025: The value below doesn't mach the bits 4 and 5, actually 0x12 would enable the alternate odd/even remapping */
+  /* probably the correct configuration value should be 0x00, see https://github.com/olikraus/u8g2/issues/2690 ??? */
   U8X8_CA(0x0da, 0x012),		/* com pin HW config, sequential com pin config (bit 4), disable left/right remap (bit 5) */
 
   U8X8_CA(0x0d3, 0x030),		/* line shift by 3*16 = 48 */
