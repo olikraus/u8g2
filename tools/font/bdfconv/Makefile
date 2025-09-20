@@ -526,3 +526,39 @@ mystery_quest: bdfconv
 	./bdfconv -v -f 1 -m '32-127' mystery-quest.regular.bdf -o u8g2_font_mystery_quest_42_t.c  -n u8g2_font_mystery_quest_42_t -d ../bdf/helvB18.bdf 
 	convert bdf.tga u8g2_font_mystery_quest_42_t.png
 
+t0: bdfconv
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../bdf/t0-12-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_12_v1.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../tmp/uw-ttyp0-2.1/genbdf/t0-12-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_12_v2.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../bdf/t0-14-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_14_v1.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../tmp/uw-ttyp0-2.1/genbdf/t0-14-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_14_v2.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../bdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_v1.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../tmp/uw-ttyp0-2.1/genbdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_v2.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../tmp/uw-ttyp0-2.1/genbdf/t0-30-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_30_v2.png
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../tmp/uw-ttyp0-2.1/genbdf/t0-40-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_40_v2.png
+
+	./bdfconv -v -g 16 -f 1 -m '254-257' ../tmp/uw-ttyp0-2.1/genbdf/t0-40-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_40_bug_v2.png
+
+	./bdfconv -v -g 32 -f 1 -m '32-701,7838,8364' ../tmp/uw-ttyp0-2.1/genbdf/t0-60-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_60_v2.png
+        
+        
+	./bdfconv -v -g 32 -f 1 -m '32-65535' ../bdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_all_v1.png
+	./bdfconv -v -g 32 -f 1 -m '32-65535' ../tmp/uw-ttyp0-2.1/genbdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_all_v2.png
+        
+        
+	./bdfconv -v -g 32 -f 1 -m '32-159,8224-10239,10496-11359' ../bdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_sym_v1.png
+	./bdfconv -v -g 32 -f 1 -m '32-159,8224-10239,10496-11359' ../tmp/uw-ttyp0-2.1/genbdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_sym_v2.png
+

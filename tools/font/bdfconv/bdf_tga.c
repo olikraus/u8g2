@@ -496,7 +496,7 @@ unsigned tga_draw_glyph(unsigned x, unsigned y, uint16_t encoding, int is_hints)
   uint8_t *glyph_data = tga_get_glyph_data(encoding);	/* better skip the first 2 or 3 bytes */
   if ( glyph_data != NULL )
   {
-    dx = tga_fd_decode(&f, glyph_data, encoding >= 255 ? 1 : 0);
+    dx = tga_fd_decode(&f, glyph_data, encoding > 255 ? 1 : 0);   /* 20 Sep 2025: >= changed to > */
     if ( is_hints )
     {
       tga_set_pixel(x+dx, y, 28,133,240);	/* orange: reference point */
