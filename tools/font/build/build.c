@@ -220,7 +220,7 @@ struct groupinfo gi[] = {
 #define MM_N	8	/* numbers */
 #define MM_C	16	/* custom */
 #define MM_M	32	/* map file */
-#define MM_E	64	/* extended 32-701,7838,8364 fb00..fb07	 */ /* added euro sign */
+#define MM_E	64	/* extended 32-701,7838,8364 fb00..fb07	 */ /* added euro sign */ /* 21 Sep 2025: Celsius and Fahrenheit 8451/$2103, 8457$2109 */
 
 
 /*
@@ -371,6 +371,11 @@ Greek Extended	1F00–1FFF
   { 0,  0, "t0-18b-uni.bdf", 		"t0_18b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0,  0, "t0-22-uni.bdf", 		"t0_22", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
   { 0,  0, "t0-22b-uni.bdf", 		"t0_22b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  /* new fonts */
+  { 0,  0, "t0-30-uni.bdf", 		"t0_30", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-30b-uni.bdf", 		"t0_30b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-40-uni.bdf", 		"t0_40", 			19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
+  { 0,  0, "t0-40b-uni.bdf", 		"t0_40b", 		19, 0, BM_T|BM_M, FM_C, MM_E|MM_F|MM_R|MM_N, "", "" },
 
   
   { 0,  0, "open_iconic_all_1x.bdf", "open_iconic_all_1x",  22, 0, BM_T, FM_C, MM_C, "32-400", "" },
@@ -2670,7 +2675,7 @@ void bdfconv(int i, int fm, char *fms, int bm, char *bms, int mm, char *mms)
   if ( mm == MM_R ) strcat(bdf_cmd, " -m '32-127>32'");
   if ( mm == MM_N ) strcat(bdf_cmd, " -m '32,42-58>42'");
   if ( mm == MM_U ) strcat(bdf_cmd, " -m '32-95>32'");
-  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,8320-8329,8364,64256-64263'");  /* added subscript 0-9 8320-8329 */
+  if ( mm == MM_E ) strcat(bdf_cmd, " -m '32-701>32,7838,8320-8329,8364,8451,8457,64256-64263'");  /* 8364 euro sign, added subscript 0-9 8320-8329 */ /* 21 Sep 2025: Celsius and Fahrenheit 8451/$2103, 8457$2109 */
   if ( mm == MM_C ) 
   {
     strcat(bdf_cmd, " -m '");

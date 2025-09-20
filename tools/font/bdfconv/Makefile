@@ -562,3 +562,10 @@ t0: bdfconv
 	./bdfconv -v -g 32 -f 1 -m '32-159,8224-10239,10496-11359' ../tmp/uw-ttyp0-2.1/genbdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
 	convert bdf.tga t0_18_sym_v2.png
 
+	./bdfconv -v -g 32 -f 1 -m '32-159,$$2103,$$2109,$$2126,$$2190-$$21ff,$$23e9-$$23fa,$$2580-$$27bf,$$2b00-$$2bff' ../bdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_sym2_v1.png
+	./bdfconv -v -g 32 -f 1 -m '32-159,$$2103,$$2109,$$2126,$$2190-$$21ff,$$23e9-$$23fa,$$2580-$$27bf,$$2b00-$$2bff' ../tmp/uw-ttyp0-2.1/genbdf/t0-18-uni.bdf -o tmp.c  -n u8g2_font_helvB18_tn -d ../bdf/helvB18.bdf 
+	convert bdf.tga t0_18_sym2_v2.png
+
+        
+
