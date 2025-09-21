@@ -1,7 +1,7 @@
 /*
   Fontname: -UW-Ttyp0-Bold-R-Normal--15-140-75-75-C-80-ISO10646-1
-  Copyright: Copyright (C) 2012-2015 Uwe Waldmann
-  Glyphs: 191/3075
+  Copyright: Copyright (C) 2012-2025 Uwe Waldmann
+  Glyphs: 191/3770
   BBX Build Mode: 2
 */
 const uint8_t u8g2_font_t0_15b_mf[3387] U8G2_FONT_SECTION("u8g2_font_t0_15b_mf") = 
