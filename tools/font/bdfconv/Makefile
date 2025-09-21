@@ -193,6 +193,8 @@ falconded9: bdfconv
 	convert bdf.tga -trim u8g2_font_falconded_mr.png
 	./bdfconv -v -f 1 -b 1 -a -m '32-99' falconded.bdf -o u8g2_font_falconded_hr.c  -n u8g2_font_falconded_hr -d ../bdf/helvR12.bdf 
 	convert bdf.tga -trim u8g2_font_falconded_hr.png
+	./bdfconv -v -f 1 -b 2 -a -m '32-65535' falconded.bdf -o u8g2_font_falconded_all.c  -n u8g2_font_falconded_all -d ../bdf/helvR12.bdf 
+	convert bdf.tga -trim u8g2_font_falconded_all.png
 
 
 analecta: bdfconv
