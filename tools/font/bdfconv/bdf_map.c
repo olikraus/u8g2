@@ -313,7 +313,10 @@ int bf_MapFile(bf_t *bf, const char *map_file_name)
   s = malloc(buf.st_size+1);
   if ( s == NULL )
     return 0;
-  fread(s, buf.st_size, 1, fp);
+  if ( fread(s, buf.st_size, 1, fp) != 1 ) {
+    free(s);
+    return 0;
+  }
   s[buf.st_size] = '\0';
   fclose(fp);
   bf_Map(bf, s);
