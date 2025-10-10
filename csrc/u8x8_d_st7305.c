@@ -482,6 +482,7 @@ uint8_t u8x8_d_st7305_200x200(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 /* 168x384, https://github.com/olikraus/u8g2/issues/2661 */
 
 
+#ifdef NOT_USED
 static const uint8_t u8x8_d_st7305_168x384_powersave0_seq[] = {
     U8X8_START_TRANSFER(), /* enable chip, delay is part of the transfer start */
     U8X8_C(0x29),          // display on
@@ -504,6 +505,7 @@ static const uint8_t u8x8_d_st7305_168x384_flip0_seq[] = {
     U8X8_END_TRANSFER(), /* disable chip */
     U8X8_END()           /* end of sequence */
 };
+#endif
 
 
 static const uint8_t u8x8_d_st7305_168x384_init_seq[] = {
