@@ -1987,3 +1987,117 @@ uint8_t u8x8_d_st75256_jlx16080(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void
   return 0;
 }
 
+/*=============================================*/
+/* 128x128  issue https://github.com/olikraus/u8g2/issues/2702*/
+
+static const u8x8_display_info_t u8x8_st75256_128x128_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 5, 	
+  /* post_reset_wait_ms = */ 5, 		/**/
+  /* sda_setup_time_ns = */ 20,		/* */
+  /* sck_pulse_width_ns = */ 40,	/*  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
+  /* data_setup_time_ns = */ 15,
+  /* write_pulse_width_ns = */ 70,	
+  /* tile_width = */ 16,
+  /* tile_height = */ 16,
+  /* default_x_offset = */ 0,	/* must be 0, because this is checked also for normal mode */
+  /* flipmode_x_offset = */ 0,		/* used as y offset */
+  /* pixel_width = */ 128,
+  /* pixel_height = */ 128
+};
+
+
+static const uint8_t u8x8_d_st75256_128x128_init_seq[] = {
+    U8X8_START_TRANSFER(),
+    U8X8_DLY(10),               // 10ms delay
+
+    U8X8_C(0x30),               // Extension command 1
+    U8X8_C(0x6E),               // Enable Master
+
+    U8X8_C(0x31),               // Extension command 2
+    U8X8_C(0xD7), U8X8_A(0x9F), // Disable Auto Read
+    U8X8_C(0xE0), U8X8_A(0x00), // Enable OTP Read
+    U8X8_DLY(10),
+    U8X8_C(0xE3),               // OTP Up-Load
+    U8X8_DLY(20),               // 20ms delay
+    U8X8_C(0xE1),               // OTP Control End
+
+    U8X8_C(0x30),               // Extension command 1
+    U8X8_C(0x94),               // Sleep Out
+    U8X8_C(0xAE),               // Display Off
+    U8X8_DLY(50),               // 50ms delay
+
+    U8X8_C(0x20),               // Power Control  
+    U8X8_A(0x0B),               // VB, VR, VF All on
+    U8X8_C(0x81), U8X8_A(0x1D), U8X8_A(0x04), // Set Vop (15.0V)
+
+    U8X8_C(0x31),               // Extension command 2
+    U8X8_C(0x32), U8X8_A(0x00), // Analog Set
+    U8X8_A(0x01),               // Booster efficiency level 1
+    U8X8_A(0x02),               // Bias 1/12
+    U8X8_C(0x51), U8X8_A(0xFA), // Booster Level x 8
+
+    U8X8_C(0x30),               // Extension command 1
+    U8X8_C(0xF0), U8X8_A(0x10), // Display Mode = Monochrome
+    U8X8_C(0xCA),               // Display Control
+    U8X8_A(0x00),               // CL Dividing Ratio = Not divided
+    U8X8_A(0x7F),               // Duty Set = 128
+    U8X8_A(0x3F),               
+    U8X8_C(0xBC), U8X8_A(0x00), // Data Scan Direction
+    U8X8_C(0xA6),               // Normal Display
+    U8X8_C(0x0C),               // Data Format = LSB on Top
+    U8X8_CAA(0x75, 0x00, 0x7F), // row range for 128 rows
+    U8X8_CAA(0x15, 0x00, 0x7F), // col range for 128 cols
+
+    U8X8_C(0x31),               // Extension command 2
+    U8X8_C(0x40),               // Internal Power Supply
+
+    U8X8_C(0x30),               // Extension command 1
+    U8X8_C(0xaf),               // Display On
+    U8X8_END_TRANSFER(),
+    U8X8_END()
+};
+
+
+uint8_t u8x8_d_st75256_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  if ( u8x8_d_st75256_256x128_generic(u8x8, msg, arg_int, arg_ptr) != 0 )
+    return 1;
+  if ( msg == U8X8_MSG_DISPLAY_SETUP_MEMORY )
+  {
+    //u8x8_SetI2CAddress(u8x8, 0x078);		/* lowest I2C adr of the ST75256 */
+    u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st75256_128x128_display_info);
+    return 1;
+  }
+  else if ( msg == U8X8_MSG_DISPLAY_INIT )
+  {
+    u8x8_d_helper_display_init(u8x8);
+    u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_128x128_init_seq);    
+    return 1;
+  }
+  else if  ( msg == U8X8_MSG_DISPLAY_SET_FLIP_MODE )
+  {
+    if ( arg_int == 0 )
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx256128_flip0_seq);
+      u8x8->x_offset = u8x8->display_info->default_x_offset;
+    }
+    else
+    {
+      u8x8_cad_SendSequence(u8x8, u8x8_d_st75256_jlx256128_flip1_seq);
+      u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+    }
+    return 1;
+  }
+  return 0;
+}
+
+
