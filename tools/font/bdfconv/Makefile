@@ -1,9 +1,17 @@
 # works within ubuntu and min-gw (win7) environment
 # win7 exe uploaded on google drive
 
+# requires gcc, eg. on Ubuntu "sudo apt install build-essential"
 CC = gcc
-CFLAGS = -g -Wall
-#CFLAGS = -O4 -Wall
+CFLAGS = -O4 -Wall -Werror
+
+# for debugging ("make clean" after switching)
+#CFLAGS = -g -Wall -Werror
+
+# more portable statically linked linux binary ("make clean" after switching)
+# requires musl-gcc, eg. on Ubuntu "sudo apt install musl-dev"
+#CC = x86_64-linux-musl-gcc
+#LDFLAGS = -static
 
 SRC = main.c bdf_font.c bdf_glyph.c bdf_parser.c bdf_map.c bdf_rle.c bdf_tga.c fd.c bdf_8x8.c bdf_kern.c
 
@@ -13,11 +21,13 @@ ASM = $(SRC:.c=.s)
 .c.s:
 	$(CC) $(CFLAGS) -S -o $@ $<
 
-bdfconv: $(OBJ) $(ASM)
+bdfconv: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o bdfconv
 
+asm: $(ASM)
+
 clean:	
-	-rm $(OBJ) $(ASM) bdfconv
+	$(RM) *.o *.s bdfconv
 
 test:	bdfconv
 	./bdfconv 
