@@ -692,3 +692,432 @@ uint8_t u8x8_d_st7305_168x384(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   }
   return 1;
 }
+
+/*
+    作者：ling
+    email:lanjingsheng1120@qq.com
+*/
+
+const uint8_t conTable[4] = {0x00, 0x02, 0x01, 0x03};
+// const uint8_t conTable[4] = {0x03, 0x01, 0x02, 0x00};
+
+static const uint8_t st7305_yuying_200x200_init_seq[] = {
+
+    U8X8_START_TRANSFER(), /* enable chip, delay is part of the transfer start */
+
+    // NVM Load Control
+    U8X8_CAA(0xD6, 0x17, 0x02),
+
+    // Booster Enable
+    U8X8_CA(0xD1, 0x01),
+
+    // Gate Voltage Setting
+    U8X8_CAA(0xC0, 0x12, 0x0A),
+
+    // VSHP Setting (6V)
+    U8X8_C(0xC1), // Source Voltage Control 1
+    U8X8_A4(0x73, 0x73, 0x73, 0x73),
+
+    // VSLP Setting (0.98V)
+    U8X8_C(0xC2), // Source Voltage Control 2
+    U8X8_A4(0x00, 0x00, 0x00, 0x00),
+
+    // VSHN Setting (-3.6V)
+    U8X8_C(0xC4), // Source Voltage Control 4
+    U8X8_A4(0x32, 0x32, 0x32, 0x32),
+
+    // VSLN Setting (0.22V)
+    U8X8_C(0xC5), // Source Voltage Control 5
+    U8X8_A4(0x32, 0x32, 0x32, 0x32),
+
+    // HPM=32Hz
+    U8X8_CAA(0xD8, 0x80, 0xE9),
+
+    /*-- HPM=32hz ; LPM=> 0x15=8Hz 0x14=4Hz 0x13=2Hz 0x12=1Hz 0x11=0.5Hz 0x10=0.25Hz---*/
+    // Frame Rate Control
+    U8X8_CA(0xB2, 0x12),
+
+    // Update Period Gate EQ Control in HPM
+    U8X8_CAA(0xB3, 0xE5, 0xF6),
+    U8X8_A8(0x17, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x71),
+
+    // Update Period Gate EQ Control in LPM
+    U8X8_CAA(0xB4, 0x05, 0x46),
+    U8X8_A8(0x77, 0x77, 0x77, 0x77, 0x76, 0x45, 0x00, 0x00), // 补足10个参数
+
+    // Gate Timing Control
+    U8X8_CAAA(0x62, 0x32, 0x03, 0x1F),
+
+    // Source EQ Enable
+    U8X8_CA(0xB7, 0x13),
+
+    // Gate Line Setting
+    U8X8_CA(0xB0, 0x32),
+
+    // Sleep out
+    U8X8_C(0x11),
+    U8X8_DLY(255),
+
+    // Source Voltage Select
+    U8X8_CA(0xC9, 0x00),
+
+    // Memory Data Access Control (调整刷新方向)
+    U8X8_CA(0x36, 0x48),
+
+    // Data Format Select
+    U8X8_CA(0x3A, 0x11),
+
+    // Gamma Mode Setting
+    U8X8_CA(0xB9, 0x20),
+
+    // Panel Setting
+    U8X8_CA(0xB8, 0x29),
+
+    // WRITE RAM 200*200
+    // Column Address Setting
+    U8X8_CAA(0x2A, 0x16, 0x26),
+
+    // Row Address Setting
+    U8X8_CAA(0x2B, 0x00, 0x63),
+
+    // TE
+    U8X8_CA(0x35, 0x00),
+
+    // Auto power down
+    U8X8_CA(0xD0, 0xFF),
+
+    // HPM
+    U8X8_C(0x38),
+
+    // DISPLAY ON
+    U8X8_C(0x29),
+
+    U8X8_C(0x20),
+
+    U8X8_CA(0xBB, 0x4F),
+
+    U8X8_END_TRANSFER(), /* disable chip */
+    U8X8_END()           /* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_st7305_200x200_yuying_display_info =
+    {
+        /* chip_enable_level = */ 0,
+        /* chip_disable_level = */ 1,
+
+        /* post_chip_enable_wait_ns = */ 20,
+        /* pre_chip_disable_wait_ns = */ 20,
+        /* reset_pulse_width_ms = */ 3,
+        /* post_reset_wait_ms = */ 3,    /**/
+        /* sda_setup_time_ns = */ 10,    /* */
+        /* sck_pulse_width_ns = */ 30,   /*  */
+        /* sck_clock_hz = */ 2000000UL,  /* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+        /* spi_mode = */ 3,              /* active high, rising edge */
+        /* i2c_bus_clock_100kHz = */ 80, /* 400KHz */
+        /* data_setup_time_ns = */ 15,
+        /* write_pulse_width_ns = */ 70,
+        /* tile_width = */ 25, /* tile width is 26*8=208, because this display requires 12 bit blocks, which would be 204 pixel, so next tile is at 208 */
+        /* tile_height = */ 25,
+        /* default_x_offset = */ 0,
+        /* flipmode_x_offset = */ 0,
+        /* pixel_width = */ 200, /* not 100% sure, whether this works with the tile_width of 26... */
+        /* pixel_height = */ 200};
+
+uint8_t u8x8_d_st7305_200x200_yuying(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    uint16_t x;
+    uint8_t y, c;
+    uint8_t *ptr;
+    static uint8_t date_temp[204];
+    switch (msg)
+    {
+    case U8X8_MSG_DISPLAY_INIT:
+        u8x8_d_helper_display_init(u8x8);
+        u8x8_cad_SendSequence(u8x8, st7305_yuying_200x200_init_seq);
+        break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+        u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7305_200x200_yuying_display_info);
+        break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+        if (arg_int == 0)
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_powersave0_seq);
+        else
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_powersave1_seq);
+        break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+        if (arg_int == 0)
+        {
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_flip0_seq);
+            u8x8->x_offset = u8x8->display_info->default_x_offset;
+        }
+        else
+        {
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_flip1_seq);
+            u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+        }
+        break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+        // u8x8_cad_StartTransfer(u8x8);
+        // u8x8_cad_SendCmd(u8x8, 0x081 );
+        // u8x8_cad_SendArg(u8x8, arg_int<<2 );
+        // u8x8_cad_SendArg(u8x8, arg_int>>6 );
+        // u8x8_cad_EndTransfer(u8x8);
+        break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+        x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+        x /= 4;
+        x += u8x8->x_offset;
+        y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+        y *= 4;
+
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+
+        memset(date_temp, 0x00, sizeof(date_temp));
+
+        u8x8_cad_StartTransfer(u8x8);
+
+        u8x8_cad_SendCmd(u8x8, 0x2a); // column address set
+        u8x8_cad_SendArg(u8x8, 0x16); // 0x019 for the 122x250 LCD --> 0x016 for the 200x200 display
+        u8x8_cad_SendArg(u8x8, 0x26); // 204 pixel for the 200x200 display
+
+        u8x8_cad_SendCmd(u8x8, 0x2b);
+        u8x8_cad_SendArg(u8x8, y);
+        u8x8_cad_SendArg(u8x8, 0x63);
+        u8x8_cad_SendCmd(u8x8, 0x02c); // write data
+
+
+
+        for (uint8_t i = 0; i < c*8; i++)
+        {
+            date_temp[1+i/4] <<= 2;
+            date_temp[52+i/4] <<= 2;
+            date_temp[103+i/4] <<= 2;
+            date_temp[154+i/4] <<= 2;
+            date_temp[1+i/4] |= conTable[ptr[i]&0x03];
+            date_temp[52+i/4] |= conTable[(ptr[i]>>2)&0x03];
+            date_temp[103+i/4] |= conTable[(ptr[i]>>4)&0x03];
+            date_temp[154+i/4] |= conTable[(ptr[i]>>6)&0x03];
+            // date_temp[i] = ptr[i];
+        }
+        u8x8_cad_SendData(u8x8, 204, date_temp);
+        u8x8_cad_EndTransfer(u8x8);
+        break;
+    default:
+        return 0;
+    }
+    return 1;
+}
+
+/*yuying_168*384*/
+
+static const uint8_t st7305_yuying_168x384_init_seq[] = {
+
+    U8X8_START_TRANSFER(), /* enable chip, delay is part of the transfer start */
+
+    // NVM Load Control
+    U8X8_CAA(0xD6, 0x13, 0x02),
+
+    // Booster Enable
+    U8X8_CA(0xD1, 0x01),
+
+    // Gate Voltage Setting
+    U8X8_CAA(0xC0, 0x12, 0x0A),
+
+    // VSHP Setting (6V)
+    U8X8_C(0xC1), // Source Voltage Control 1
+    U8X8_A4(0x73, 0x3E, 0x3C, 0x3C),
+
+    // VSLP Setting (0.98V)
+    U8X8_C(0xC2), // Source Voltage Control 2
+    U8X8_A4(0x00, 0x21, 0x23, 0x23),
+
+    // VSHN Setting (-3.6V)
+    U8X8_C(0xC4), // Source Voltage Control 4
+    U8X8_A4(0x32, 0x5C, 0x5A, 0x5A),
+
+    // VSLN Setting (0.22V)
+    U8X8_C(0xC5), // Source Voltage Control 5
+    U8X8_A4(0x32, 0x35, 0x37, 0x37),
+
+    // HPM=32Hz
+    U8X8_CAA(0xD8, 0x80, 0xE9),
+
+    /*-- HPM=32hz ; LPM=> 0x15=8Hz 0x14=4Hz 0x13=2Hz 0x12=1Hz 0x11=0.5Hz 0x10=0.25Hz---*/
+    // Frame Rate Control
+    U8X8_CA(0xB2, 0x12),
+
+    // Update Period Gate EQ Control in HPM
+    U8X8_CAA(0xB3, 0xE5, 0xF6),
+    U8X8_A8(0x17, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x71),
+
+    // Update Period Gate EQ Control in LPM
+    U8X8_CAA(0xB4, 0x05, 0x46),
+    U8X8_A6(0x77, 0x77, 0x77, 0x77, 0x76, 0x45), // 补足10个参数
+
+    // Gate Timing Control
+    U8X8_CAAA(0x62, 0x32, 0x03, 0x1F),
+
+    // Source EQ Enable
+    U8X8_CA(0xB7, 0x13),
+
+    // Gate Line Setting
+    U8X8_CA(0xB0, 0x60),
+
+    // Sleep out
+    U8X8_C(0x11),
+    U8X8_DLY(255),
+
+    // Source Voltage Select
+    U8X8_CA(0xC9, 0x00),
+
+    // Memory Data Access Control (调整刷新方向)
+    U8X8_CA(0x36, 0x48),
+
+    // Data Format Select
+    U8X8_CA(0x3A, 0x11),
+
+    // Gamma Mode Setting
+    U8X8_CA(0xB9, 0x20),
+
+    // Panel Setting
+    U8X8_CA(0xB8, 0x29),
+
+    // WRITE RAM 200*200
+    // Column Address Setting
+    U8X8_CAA(0x2A, 0x17, 0x24),
+
+    // Row Address Setting
+    U8X8_CAA(0x2B, 0x00, 0xBF),
+
+    // TE
+    U8X8_CA(0x35, 0x00),
+
+    // Auto power down
+    U8X8_CA(0xD0, 0xFF),
+
+    // HPM
+    U8X8_C(0x38),
+
+    // DISPLAY ON
+    U8X8_C(0x29),
+
+    U8X8_C(0x20),
+
+    U8X8_CA(0xBB, 0x4F),
+
+    U8X8_END_TRANSFER(), /* disable chip */
+    U8X8_END()           /* end of sequence */
+};
+
+static const u8x8_display_info_t u8x8_st7305_168x384_yuying_display_info = {
+        /* chip_enable_level = */ 0,
+        /* chip_disable_level = */ 1,
+
+        /* post_chip_enable_wait_ns = */ 20,
+        /* pre_chip_disable_wait_ns = */ 20,
+        /* reset_pulse_width_ms = */ 3,
+        /* post_reset_wait_ms = */ 3,    /**/
+        /* sda_setup_time_ns = */ 10,    /* */
+        /* sck_pulse_width_ns = */ 30,   /*  */
+        /* sck_clock_hz = */ 2000000UL,  /* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+        /* spi_mode = */ 3,              /* active high, rising edge */
+        /* i2c_bus_clock_100kHz = */ 80, /* 400KHz */
+        /* data_setup_time_ns = */ 15,
+        /* write_pulse_width_ns = */ 70,
+        /* tile_width = */ 21, /* tile width is 26*8=208, because this display requires 12 bit blocks, which would be 204 pixel, so next tile is at 208 */
+        /* tile_height = */ 48,
+        /* default_x_offset = */ 0,
+        /* flipmode_x_offset = */ 0,
+        /* pixel_width = */ 168, /* not 100% sure, whether this works with the tile_width of 26... */
+        /* pixel_height = */ 384
+    };
+
+uint8_t u8x8_d_st7305_168x384_yuying(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    uint16_t x, y;
+    uint8_t c;
+    uint8_t *ptr;
+    static uint8_t date_temp[168];
+    switch (msg)
+    {
+    case U8X8_MSG_DISPLAY_INIT:
+        u8x8_d_helper_display_init(u8x8);
+        u8x8_cad_SendSequence(u8x8, st7305_yuying_168x384_init_seq);
+        break;
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+        u8x8_d_helper_display_setup_memory(u8x8, &u8x8_st7305_168x384_yuying_display_info);
+        break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+        if (arg_int == 0)
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_powersave0_seq);
+        else
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_powersave1_seq);
+        break;
+    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+        if (arg_int == 0)
+        {
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_flip0_seq);
+            u8x8->x_offset = u8x8->display_info->default_x_offset;
+        }
+        else
+        {
+            u8x8_cad_SendSequence(u8x8, u8x8_d_st7305_122x250_flip1_seq);
+            u8x8->x_offset = u8x8->display_info->flipmode_x_offset;
+        }
+        break;
+#ifdef U8X8_WITH_SET_CONTRAST
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+        // u8x8_cad_StartTransfer(u8x8);
+        // u8x8_cad_SendCmd(u8x8, 0x081 );
+        // u8x8_cad_SendArg(u8x8, arg_int<<2 );
+        // u8x8_cad_SendArg(u8x8, arg_int>>6 );
+        // u8x8_cad_EndTransfer(u8x8);
+        break;
+#endif
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+        x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+        x /= 4;
+        x += u8x8->x_offset;
+        y = (((u8x8_tile_t *)arg_ptr)->y_pos);
+        y *= 4;
+
+        c = ((u8x8_tile_t *)arg_ptr)->cnt;
+        ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+
+        memset(date_temp, 0x00, sizeof(date_temp));
+
+        u8x8_cad_StartTransfer(u8x8);
+
+        u8x8_cad_SendCmd(u8x8, 0x2A);
+        u8x8_cad_SendArg(u8x8, 0x17);
+        u8x8_cad_SendArg(u8x8, 0x24);
+
+        u8x8_cad_SendCmd(u8x8, 0x2b);
+        u8x8_cad_SendArg(u8x8, y);
+        u8x8_cad_SendArg(u8x8, 0xBF);
+        u8x8_cad_SendCmd(u8x8, 0x2C);
+
+
+
+        for (uint8_t i = 0; i < c*8; i++)
+        {
+            date_temp[i/4] <<= 2;
+            date_temp[42+i/4] <<= 2;
+            date_temp[84+i/4] <<= 2;
+            date_temp[126+i/4] <<= 2;
+            date_temp[i/4] |= conTable[ptr[i]&0x03];
+            date_temp[42+i/4] |= conTable[(ptr[i]>>2)&0x03];
+            date_temp[84+i/4] |= conTable[(ptr[i]>>4)&0x03];
+            date_temp[126+i/4] |= conTable[(ptr[i]>>6)&0x03];
+        }
+        u8x8_cad_SendData(u8x8, 168, date_temp);
+        u8x8_cad_EndTransfer(u8x8);
+        break;
+    default:
+        return 0;
+    }
+    return 1;
+}
