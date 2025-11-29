@@ -408,6 +408,7 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
   uint8_t i, b;
   uint8_t *data;
   uint8_t takeover_edge = u8x8_GetSPIClockPhase(u8x8);
+  uint8_t clock_polarity = u8x8_GetSPIClockPolarity(u8x8);
   //uint8_t not_takeover_edge = 1 - takeover_edge;
 
   /* the following static vars are recalculated in U8X8_MSG_BYTE_START_TRANSFER */
@@ -447,6 +448,9 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	      *arduino_clock_port |= arduino_clock_mask;	    
 	      *arduino_clock_port &= arduino_clock_n_mask;
 	    }
+	    if (clock_polarity == 1) {
+	      *arduino_clock_port |= arduino_clock_mask;
+	    }
 	  }
 	  else
 #endif
@@ -461,6 +465,9 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	      *arduino_clock_port |= arduino_clock_mask;	    
 	      b <<= 1;
 	      *arduino_clock_port &= arduino_clock_n_mask;
+	    }
+	    if (clock_polarity == 1) {
+	      *arduino_clock_port |= arduino_clock_mask;
 	    }
 	  }
 	  SREG = SREG_backup;
@@ -484,6 +491,9 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	      *arduino_clock_port &= arduino_clock_n_mask;
 	      *arduino_clock_port |= arduino_clock_mask;	    
 	    }
+	    if (clock_polarity == 1) {
+	      *arduino_clock_port |= arduino_clock_mask;
+	    }
 	  }
 	  else
 #endif
@@ -498,6 +508,9 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
 	      *arduino_clock_port &= arduino_clock_n_mask;
 	      b <<= 1;
 	      *arduino_clock_port |= arduino_clock_mask;	    
+	    }
+	    if (clock_polarity == 1) {
+	      *arduino_clock_port |= arduino_clock_mask;
 	    }
 	  }
 	  SREG = SREG_backup;
@@ -533,6 +546,10 @@ extern "C" uint8_t u8x8_byte_arduino_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uin
       arduino_data_port = portOutputRegister(digitalPinToPort(u8x8->pins[U8X8_PIN_SPI_DATA]));
       arduino_data_mask = digitalPinToBitMask(u8x8->pins[U8X8_PIN_SPI_DATA]);
       arduino_data_n_mask = ~arduino_data_mask;
+
+      if (clock_polarity == 1) {
+        *arduino_clock_port |= arduino_clock_mask;
+      }
       
       break;
     case U8X8_MSG_BYTE_END_TRANSFER:
