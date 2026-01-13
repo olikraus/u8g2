@@ -356,4 +356,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7305 200x200 and 168x384 (issue 2661)
   * Added Celsius and Fahrenheit 8451/$2103, 8457$2109 to "e" fonts (issue 2701)
   * Update t0 font, added symbols and font size 30/40 (issue 2447)
+  * ST7511 640x320 (issue 2737)
   
