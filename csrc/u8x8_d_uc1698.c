@@ -191,7 +191,7 @@ uint8_t u8x8_d_uc1698u_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
 }
 
 /*================================================*/
-/* EA DOGM240 */
+/* https://github.com/olikraus/u8g2/issues/2164 */
 
 
 static const u8x8_display_info_t u8x8_uc1698u_cg160160_display_info =
