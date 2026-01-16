@@ -317,7 +317,7 @@ static const uint8_t u8x8_d_uc1698u_cg160160_init_seq[] = {
 };
 
 /* cg160160 display */
-uint8_t u8x8_d_uc1698u_cg160160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+uint8_t u8x8_d_uc1698_160x160(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   /* call common procedure first and handle messages there */
   if ( u8x8_d_uc1698u_common(u8x8, msg, arg_int, arg_ptr) == 0 )
