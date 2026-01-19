@@ -60,6 +60,10 @@ size_t U8X8::write(uint8_t v)
     ty+=dy;
     tx=0;
   }
+  else if ( v == '\r' )
+  {
+    tx=0;
+  }
   else
   {
     uint8_t dx = u8x8_pgm_read(u8x8.font+2);		/* new 2019 format */
