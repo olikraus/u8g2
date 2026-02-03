@@ -26,15 +26,15 @@
 /* ll_hvline */
 #define U8X8_HVLINE "u8g2_ll_hvline_vertical_top_lsb"
 
-#define COM_4WSPI		0x0001
-#define COM_3WSPI		0x0002
-#define COM_6800		0x0004
-#define COM_8080		0x0008
-#define COM_I2C		0x0010
+#define COM_4WSPI     0x0001
+#define COM_3WSPI		  0x0002
+#define COM_6800		  0x0004
+#define COM_8080		  0x0008
+#define COM_I2C       0x0010
 #define COM_ST7920SPI	0x0020			/* mostly identical to COM_4WSPI, but does not use DC */
-#define COM_UART		0x0040
-#define COM_KS0108	0x0080			/* mostly identical to 6800 mode, but has more chip select lines */
-#define COM_SED1520	0x0100			
+#define COM_UART		  0x0040
+#define COM_KS0108	  0x0080			/* mostly identical to 6800 mode, but has more chip select lines */
+#define COM_SED1520	  0x0100			
 
 struct interface
 {
@@ -2326,7 +2326,24 @@ struct controller controller_list[] =
       { NULL }
     }
   },
-  
+
+  {
+    "ssd1362z", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI,
+    "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x64_OEL1M0033WE" },
+      { NULL }
+    }
+  },
+  {
+    "ssd1362z", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_fast_i2c", "i2c", COM_I2C,                // not tested
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "256x64_OEL1M0033WE" },
+      { NULL }
+    }
+  },
+
   {
     "ssd1362", 	32, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "Requires U8G2_16BIT (see u8g2.h)", /* is_generate_u8g2_class= */ 1,
