@@ -75,7 +75,7 @@ static void u8g2_draw_arc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uin
       d = d - 2 * x - 1;
       x = x + 1;
     }
-    else if (d < 2 * (rad - y))
+    else if (d < 2 * ((u8g2_int_t)rad - y))
     {
       d = d + 2 * y - 1;
       y = y - 1;
