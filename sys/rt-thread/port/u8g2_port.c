@@ -9,7 +9,7 @@ static struct rt_i2c_bus_device *i2c_bus = RT_NULL;
 
 #if defined U8G2_USE_HW_SPI
 static struct rt_spi_device u8g2_spi_dev;
-
+#endif
 
 static inline void u8g2_port_pin_mode(uint8_t pin, rt_uint8_t mode)
 {
@@ -37,6 +37,7 @@ static inline int u8g2_port_pin_read(uint8_t pin)
     return 0;
 }
 
+#if defined U8G2_USE_HW_SPI
 int rt_hw_spi_config(uint8_t spi_mode, uint32_t max_hz, uint8_t cs_pin )
 {
     rt_err_t res;
