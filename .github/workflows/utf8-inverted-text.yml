@@ -1,0 +1,35 @@
+name: Test `utf8-inverted-text`
+
+on:
+  push:
+    paths:
+      - "sys/utf8/inverted_text_picture_loop/**"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "sys/utf8/inverted_text_picture_loop/**"
+      - ".github/workflows/**"
+  workflow_dispatch: # Enables manual workflow triggering
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Build Essentials
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Compile Makefile
+        working-directory: sys/utf8/inverted_text_picture_loop
+        run: make
+
+      - name: Run Executable and Capture Output
+        working-directory: sys/utf8/inverted_text_picture_loop
+        run: ./u8g2_utf8 > actual_output.txt
+
+      - name: Compare Output with Expected Result
+        working-directory: sys/utf8/inverted_text_picture_loop
+        run: diff -q actual_output.txt expected_result.txt
