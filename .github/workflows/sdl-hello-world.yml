@@ -1,0 +1,52 @@
+name: SDL Hello World Build
+
+on:
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - 'sys/sdl/hello_world_8x8/**'
+      - 'sys/sdl/common/**'
+      - 'csrc/**'
+      - '.github/workflows/sdl-hello-world.yml'
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - 'sys/sdl/hello_world_8x8/**'
+      - 'sys/sdl/common/**'
+      - 'csrc/**'
+      - '.github/workflows/sdl-hello-world.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install SDL2 dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsdl2-dev build-essential
+
+    - name: Build SDL Hello World
+      working-directory: sys/sdl/hello_world_8x8
+      run: make clean && make helloworld
+
+    - name: Verify executable was created
+      run: |
+        if [ -f "sys/sdl/hello_world_8x8/u8g2_sdl" ]; then
+          echo "✓ Executable u8g2_sdl created successfully"
+          file sys/sdl/hello_world_8x8/u8g2_sdl
+        else
+          echo "✗ Executable u8g2_sdl was not created"
+          exit 1
+        fi
+
+    - name: Check executable is executable
+      run: |
+        if [ -x "sys/sdl/hello_world_8x8/u8g2_sdl" ]; then
+          echo "✓ u8g2_sdl is executable"
+        else
+          echo "✗ u8g2_sdl is not executable"
+          exit 1
+        fi

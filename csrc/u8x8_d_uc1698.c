@@ -157,7 +157,8 @@ uint8_t u8x8_d_uc1698u_common(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
           
           if ((i - 19) % 20 == 0) 
           {
-            u8x8_cad_SendData(u8x8, 1, NULL);
+            arr_4k[0] = 0;
+            u8x8_cad_SendData(u8x8, 1, arr_4k);         // replaced NUL
           }
           ptr++;
         }        
