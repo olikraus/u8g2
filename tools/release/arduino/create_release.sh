@@ -280,12 +280,12 @@ popd
 echo doing LOCAL tag and COMMIT with ${ver}
 git tag ${ver}
 git commit -a -m "${ver}"
-git push
+git push --tags
 echo doing ARDUINO Repo tag and COMMIT with ${ver}
 cd ~/git/U8g2_Arduino
 git tag ${ver}
 git commit -a -m "${ver}"
-git push
+git push --tags
 echo now create a release in gitub for U8glib_Arduino, tag/name = ${ver}
 echo no prefix required, release name can be empty
 # Relases in github:
