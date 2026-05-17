@@ -346,10 +346,11 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added unifont_jp (issue 2502)
   * Added BoutiqueBitmap fonts (issue 2265)
   * MUI: More features and examples
-2026-xx-xx      v2.36.xx        olikraus@gmail.com
+2026-05-17      v2.36.19        olikraus@gmail.com
   * Arduino SW I2C: Changed logical 0 output sequence (issue 2744)
   * SED1330 240x64 (issue 2518)
   * SSD1309 128x128 (issue 2546)
+  * SSD1362 256x64 (PR 2749, issue2757)
   * SSD1363 I2C support (issue 2298)
   * ST7571 128x96 (issue 2575)
   * SSD1320 128x72 (issue 2565)
@@ -362,4 +363,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * ST7511 640x320 (issue 2737)
   * UC1698 160x160 (issue 2164)
   * New U8x8 example: Draw XBM image with u8x8 API (issue 2531)
+  * Tiny5 font: Updated and added Tiny5Duo (issue 2720)
   

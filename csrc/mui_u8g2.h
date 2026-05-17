@@ -221,10 +221,12 @@ uint8_t mui_u8g2_btn_back_w2_if(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_btn_back_w1_pi(mui_t *ui, uint8_t msg);
 uint8_t mui_u8g2_btn_back_w1_fi(mui_t *ui, uint8_t msg);
 
-
-
-
 uint8_t mui_u8g2_btn_exit_wm_fi(mui_t *ui, uint8_t msg);        /* similar to 'mui_u8g2_btn_goto_wm_fi' but will exit the menu system */
+uint8_t mui_u8g2_btn_exit_wm_if(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_exit_w2_fi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_exit_w2_if(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_exit_w1_pi(mui_t *ui, uint8_t msg);
+uint8_t mui_u8g2_btn_exit_w1_fi(mui_t *ui, uint8_t msg);
 
 uint8_t mui_u8g2_u8_chkbox_wm_pi(mui_t *ui, uint8_t msg);       /* GIF, MUIF_VARIABLE, MUI_XY */
 uint8_t mui_u8g2_u8_radio_wm_pi(mui_t *ui, uint8_t msg);        /* GIF, MUIF_VARIABLE,MUI_XYAT */
