@@ -346,7 +346,7 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Added unifont_jp (issue 2502)
   * Added BoutiqueBitmap fonts (issue 2265)
   * MUI: More features and examples
-2025-xx-xx      v2.36.xx        olikraus@gmail.com
+2026-xx-xx      v2.36.xx        olikraus@gmail.com
   * Arduino SW I2C: Changed logical 0 output sequence (issue 2744)
   * SED1330 240x64 (issue 2518)
   * SSD1309 128x128 (issue 2546)

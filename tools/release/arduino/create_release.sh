@@ -229,6 +229,9 @@ cp ../../../sys/arduino/u8x8/ArduboyTest/*.ino ../../../../U8g2_Arduino/examples
 mkdir ../../../../U8g2_Arduino/examples/u8x8/Rotate90
 cp ../../../sys/arduino/u8x8/Rotate90/*.ino ../../../../U8g2_Arduino/examples/u8x8/Rotate90/.
 
+mkdir ../../../../U8g2_Arduino/examples/u8x8/DrawXBM
+cp ../../../sys/arduino/u8x8/DrawXBM/*.ino ../../../../U8g2_Arduino/examples/u8x8/DrawXBM/.
+
 
 # copy other files
 cp ../../../ChangeLog ./../../../../U8g2_Arduino/extras/.
