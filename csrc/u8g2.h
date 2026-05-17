@@ -2097,6 +2097,10 @@ extern const uint8_t u8g2_font_tiny5_tf[] U8G2_FONT_SECTION("u8g2_font_tiny5_tf"
 extern const uint8_t u8g2_font_tiny5_tr[] U8G2_FONT_SECTION("u8g2_font_tiny5_tr");
 extern const uint8_t u8g2_font_tiny5_te[] U8G2_FONT_SECTION("u8g2_font_tiny5_te");
 extern const uint8_t u8g2_font_tiny5_t_all[] U8G2_FONT_SECTION("u8g2_font_tiny5_t_all");
+extern const uint8_t u8g2_font_tiny5duo_tf[] U8G2_FONT_SECTION("u8g2_font_tiny5duo_tf");
+extern const uint8_t u8g2_font_tiny5duo_tr[] U8G2_FONT_SECTION("u8g2_font_tiny5duo_tr");
+extern const uint8_t u8g2_font_tiny5duo_te[] U8G2_FONT_SECTION("u8g2_font_tiny5duo_te");
+extern const uint8_t u8g2_font_tiny5duo_t_all[] U8G2_FONT_SECTION("u8g2_font_tiny5duo_t_all");
 extern const uint8_t u8g2_font_04b_03b_tr[] U8G2_FONT_SECTION("u8g2_font_04b_03b_tr");
 extern const uint8_t u8g2_font_04b_03_tr[] U8G2_FONT_SECTION("u8g2_font_04b_03_tr");
 extern const uint8_t u8g2_font_amstrad_cpc_extended_8f[] U8G2_FONT_SECTION("u8g2_font_amstrad_cpc_extended_8f");

@@ -261,8 +261,11 @@ struct fontinfo fi[] ={
   { 0,  0, "7_Seg_33x19.bdf",  "7_Seg_33x19", 	0, 0, BM_M, FM_C, MM_N, "", ""},
   { 0,  0, "7_Seg_41x21.bdf",  "7_Seg_41x21", 	0, 0, BM_M, FM_C, MM_N, "", ""},
 
-  { 0,  0, "tiny5-Regular.bdf", 		"tiny5", 		0, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", ""},
-  { 0,  0, "tiny5-Regular.bdf", 		"tiny5", 		0, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  /* change filename from tiny5-Regular.bdf to Tiny5.bdf */
+  { 0,  0, "Tiny5.bdf", 		"tiny5", 		0, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", ""},
+  { 0,  0, "Tiny5.bdf", 		"tiny5", 		0, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
+  { 0,  0, "Tiny5Duo.bdf", 	"tiny5duo", 		0, 0, BM_T, FM_C, MM_R|MM_F|MM_E, "", ""},
+  { 0,  0, "Tiny5Duo.bdf", 	"tiny5duo", 		0, 0, BM_T, FM_C, MM_C, "32-$ffff", "_all" },
   
   { 0,  "-r 72 -p 8", "04B_03B_.TTF",	"04b_03b", 0, 0, BM_T, FM_C, MM_R, "", "" },
   { 0,  "-r 72 -p 8", "04B_03__.TTF",	"04b_03", 0, 0, BM_T, FM_C, MM_R, "", "" },

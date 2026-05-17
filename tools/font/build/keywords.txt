@@ -137,6 +137,10 @@ u8g2_font_tiny5_tf	LITERAL1
 u8g2_font_tiny5_tr	LITERAL1
 u8g2_font_tiny5_te	LITERAL1
 u8g2_font_tiny5_t_all	LITERAL1
+u8g2_font_tiny5duo_tf	LITERAL1
+u8g2_font_tiny5duo_tr	LITERAL1
+u8g2_font_tiny5duo_te	LITERAL1
+u8g2_font_tiny5duo_t_all	LITERAL1
 u8g2_font_04b_03b_tr	LITERAL1
 u8g2_font_04b_03_tr	LITERAL1
 u8g2_font_amstrad_cpc_extended_8f	LITERAL1
