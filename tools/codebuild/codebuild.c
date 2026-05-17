@@ -2492,6 +2492,22 @@ struct controller controller_list[] =
     }
   },
   {
+    "ra8835", 	40, 	20, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800|COM_8080,
+    "not tested", /* is_generate_u8g2_class= */ 1,
+    {
+      { "320x160" },
+      { NULL }
+    }
+  },
+  {
+    "sed1330", 	40, 	20, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_100", "", COM_6800|COM_8080,
+    "Not tested, might work for RA8835 and SED1335 also", /* is_generate_u8g2_class= */ 1,
+    {
+      { "320x160" },
+      { NULL }
+    }
+  },
+  {
     "max7219", 	8, 	1, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_empty", "", COM_4WSPI,
     "", /* is_generate_u8g2_class= */ 1,
     {
