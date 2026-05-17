@@ -1835,6 +1835,15 @@ struct controller controller_list[] =
   },
 
   {
+    "st7586s", 		30, 	8, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "pe24064" },
+      { NULL }
+    },
+  },
+
+  {
     /* tile width is little bit larger, 42*8=336 so that it can be devided by 3 and 8 */
     "st7586s", 		42, 	20, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
