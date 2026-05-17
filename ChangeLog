@@ -359,5 +359,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Update t0 font, added symbols and font size 30/40 (issue 2447)
   * ST7511 640x320 (issue 2737)
   * UC1698 160x160 (issue 2164)
-  
+  * New U8x8 example: Draw XBM image with u8x8 API (issue 2531)
   
