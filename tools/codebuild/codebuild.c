@@ -2139,6 +2139,14 @@ struct controller controller_list[] =
       { NULL }
     },
   },
+  {
+    "sbn1661", 		80, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_6800,  /* note: this will use the standard 6800 contsructor instead of the above 122x32 LCD */
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "80x32" },
+      { NULL }
+    },
+  },
   
   {
     "ks0108", 		16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
