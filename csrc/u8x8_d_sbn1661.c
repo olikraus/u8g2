@@ -33,6 +33,9 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+
+  SBN1661 is a 32-row x 80-column controller
+
   
 */
 #include "u8x8.h"
@@ -210,8 +213,96 @@ uint8_t u8x8_d_sbn1661_122x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
   return 1;
 }
 
+
 uint8_t u8x8_d_sed1520_122x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   return u8x8_d_sbn1661_122x32(u8x8, msg, arg_int, arg_ptr);
 
 }
+
+/*===========================================================*/
+/* issue 2776, 160x32 LCD, which is a doubled 80x32 LCD 
+  This display has two CS lines, but only one common RD (E) line, so it differs a lot from those 122x32 displays 
+  Another problem is the reset: The mode (8080 vs 6800) is selected by the reset polarity
+
+  Idea is to use two 6800 (which means low active reset) u8g2 objects, so the constructor is called 80x32
+*/
+
+
+static const u8x8_display_info_t u8x8_sbn1661_80x32_display_info =
+{
+  /* chip_enable_level = */ 0,		/*  */
+  /* chip_disable_level = */ 1,		/* */
+  
+  /* post_chip_enable_wait_ns = */ 100,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 1, 
+  /* post_reset_wait_ms = */ 6, 		/*  */
+  /* sda_setup_time_ns = */ 12,		
+  /* sck_pulse_width_ns = */ 75,	/* sbn1661: Not used */
+  /* sck_clock_hz = */ 4000000UL,	/* sbn1661: Not used */
+  /* spi_mode = */ 0,				/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* sbn1661: Not used */
+  /* data_setup_time_ns = */ 200,
+  /* write_pulse_width_ns = */ 200,	/*  */
+  /* tile_width = */ 10,		/* width of 10*8=80 pixel */
+  /* tile_height = */ 4,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 0,
+  /* pixel_width = */ 80,
+  /* pixel_height = */ 32
+};
+
+uint8_t u8x8_d_sbn1661_80x32(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  uint8_t *ptr;
+  //uint8_t x;
+  //uint8_t c;
+  
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sbn1661_80x32_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+    
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 0, NULL);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_sbn1661_init_seq);
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
+      break;
+    case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+      
+      if ( arg_int == 0 )
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 0, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_sbn1661_powersave0_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
+      }
+      else
+      {
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 0, NULL);
+	u8x8_cad_SendSequence(u8x8, u8x8_d_sbn1661_powersave1_seq);
+	u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);
+      }
+      break;
+    case U8X8_MSG_DISPLAY_DRAW_TILE:
+
+      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+      // x and c are ignored (u8g2 only)
+      //x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+      //c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_START_TRANSFER, 0, NULL);
+      u8x8_cad_SendCmd(u8x8, 0x000 | 0);		// column 0
+      u8x8_cad_SendCmd(u8x8, 0x0b8 | (((u8x8_tile_t *)arg_ptr)->y_pos));
+      u8x8_cad_SendData(u8x8, 80, ptr);	/* note: SendData can not handle more than 255 bytes */    
+      u8x8->cad_cb(u8x8, U8X8_MSG_CAD_END_TRANSFER, 0, NULL);    
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+
