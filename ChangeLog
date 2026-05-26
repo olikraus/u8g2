@@ -364,4 +364,6 @@ https://github.com/olikraus/u8g2 ChangeLog
   * UC1698 160x160 (issue 2164)
   * New U8x8 example: Draw XBM image with u8x8 API (issue 2531)
   * Tiny5 font: Updated and added Tiny5Duo (issue 2720)
-  
+2026-xx-xx      v2.37.xx        olikraus@gmail.com
+  * SBN1661 80x32 (issue 2776)
+  * UC1698 240x64 (issue 2777)
