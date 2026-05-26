@@ -50,11 +50,89 @@ void setup(void) {
   lcd2.begin();  
 }
 
+//#define MINI_LOGO
+
+void drawLogo(U8G2 &u8g2, u8g2_uint_t offset)
+{
+  uint8_t mdy = 0;
+  if ( u8g2.getDisplayHeight() < 59 )
+    mdy = 5;
+  
+
+    u8g2.setFontMode(1);	// Transparent
+    u8g2.setDrawColor(1);
+#ifdef MINI_LOGO
+
+    u8g2.setFontDirection(0);
+    u8g2.setFont(u8g2_font_inb16_mf);
+    u8g2.drawStr(0-offset, 22, "U");
+    
+    u8g2.setFontDirection(1);
+    u8g2.setFont(u8g2_font_inb19_mn);
+    u8g2.drawStr(14-offset,8,"8");
+    
+    u8g2.setFontDirection(0);
+    u8g2.setFont(u8g2_font_inb16_mf);
+    u8g2.drawStr(36-offset,22,"g");
+    u8g2.drawStr(48-offset,22,"\xb2");
+    
+    u8g2.drawHLine(2-offset, 25, 34);
+    u8g2.drawHLine(3-offset, 26, 34);
+    u8g2.drawVLine(32-offset, 22, 12);
+    u8g2.drawVLine(33-offset, 23, 12);
+#else
+
+    u8g2.setFontDirection(0);
+    u8g2.setFont(u8g2_font_inb24_mf);
+    u8g2.drawStr(0-offset, 30-mdy, "U");
+    
+    u8g2.setFontDirection(1);
+    u8g2.setFont(u8g2_font_inb30_mn);
+    u8g2.drawStr(21-offset,8-mdy,"8");
+        
+    u8g2.setFontDirection(0);
+    u8g2.setFont(u8g2_font_inb24_mf);
+    u8g2.drawStr(51-offset,30-mdy,"g");
+    u8g2.drawStr(67-offset,30-mdy,"\xb2");
+    
+    u8g2.drawHLine(2-offset, 35-mdy, 47);
+    u8g2.drawHLine(3-offset, 36-mdy, 47);
+    u8g2.drawVLine(45-offset, 32-mdy, 12);
+    u8g2.drawVLine(46-offset, 33-mdy, 12);
+
+    
+    //u8g2.setFont(u8g2_font_logisoso58_tr);
+    //u8g2.setFontDirection(0);
+    //u8g2.drawStr(20,250,"300x400");
+
+#endif
+
+}
+
+void drawURL(U8G2 &u8g2, u8g2_uint_t offset)
+{
+#ifndef MINI_LOGO
+  u8g2.setFont(u8g2_font_4x6_tr);
+  if ( u8g2.getDisplayHeight() < 59 )
+  {
+    u8g2.drawStr(89-offset,20-5,"github.com");
+    u8g2.drawStr(73-offset,29-5,"/olikraus/u8g2");
+  }
+  else
+  {
+    u8g2.drawStr(1-offset,54,"github.com/olikraus/u8g2");
+  }
+#endif
+}
+
+
 void draw(U8G2 &u8g2, u8g2_uint_t offset) {
   u8g2.firstPage();
   do {
-    u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.drawStr(20-offset, 24,"Hello World!");         // depending on the offset, draw the left or right picture
+    //u8g2.setFont(u8g2_font_ncenB14_tr);
+    //u8g2.drawStr(20-offset, 24,"Hello World!");         // depending on the offset, draw the left or right picture
+    drawLogo(u8g2, offset);
+    drawURL(u8g2, offset);
   } while ( u8g2.nextPage() );
 }
 
