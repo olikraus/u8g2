@@ -757,6 +757,45 @@ uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
   return 1;
 }
 
+// support ELW0901AA
+uint8_t u8x8_cad_ld7032_elw0901aa_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+    static uint8_t in_transfer = 0;
+    uint8_t *p;
+    switch(msg)
+    {
+        case U8X8_MSG_CAD_SEND_CMD:
+            if ( in_transfer != 0 )
+            {
+                u8x8_byte_EndTransfer(u8x8);
+            }
+            u8x8_byte_StartTransfer(u8x8);
+            u8x8_byte_SendByte(u8x8, arg_int);
+            in_transfer = 1;
+            break;
+        case U8X8_MSG_CAD_SEND_ARG:
+            u8x8_byte_SendByte(u8x8, arg_int);
+            break;
+        case U8X8_MSG_CAD_SEND_DATA:
+            u8x8->byte_cb(u8x8, U8X8_MSG_CAD_SEND_DATA, arg_int, arg_ptr);
+            break;
+        case U8X8_MSG_CAD_INIT:
+            if ( u8x8->i2c_address == 255 )
+                u8x8->i2c_address = 0x06E;
+            return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+        case U8X8_MSG_CAD_START_TRANSFER:
+            in_transfer = 0;
+            break;
+        case U8X8_MSG_CAD_END_TRANSFER:
+            if ( in_transfer != 0 )
+                u8x8_byte_EndTransfer(u8x8); 
+            break;
+        default:
+            return 0;
+    }
+    return 1;
+}
+
 /* cad procedure for the UC16xx family in I2C mode */
 /* u8x8_byte_SetDC is not used */
 /* DC bit is encoded into the adr byte, structure is CAD001 */

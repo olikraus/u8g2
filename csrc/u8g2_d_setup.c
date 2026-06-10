@@ -3329,7 +3329,7 @@ void u8g2_Setup_ld7032_i2c_128x36_1(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x
 {
   uint8_t tile_buf_height;
   uint8_t *buf;
-  u8g2_SetupDisplay(u8g2, u8x8_d_ld7032_128x36, u8x8_cad_ld7032_i2c, byte_cb, gpio_and_delay_cb);
+  u8g2_SetupDisplay(u8g2, u8x8_d_ld7032_128x36, u8x8_cad_ld7032_elw0901aa_i2c, byte_cb, gpio_and_delay_cb);
   buf = u8g2_m_16_5_1(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_horizontal_right_lsb, rotation);
 }
@@ -3338,7 +3338,7 @@ void u8g2_Setup_ld7032_i2c_128x36_2(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x
 {
   uint8_t tile_buf_height;
   uint8_t *buf;
-  u8g2_SetupDisplay(u8g2, u8x8_d_ld7032_128x36, u8x8_cad_ld7032_i2c, byte_cb, gpio_and_delay_cb);
+  u8g2_SetupDisplay(u8g2, u8x8_d_ld7032_128x36, u8x8_cad_ld7032_elw0901aa_i2c, byte_cb, gpio_and_delay_cb);
   buf = u8g2_m_16_5_2(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_horizontal_right_lsb, rotation);
 }
@@ -3347,7 +3347,7 @@ void u8g2_Setup_ld7032_i2c_128x36_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x
 {
   uint8_t tile_buf_height;
   uint8_t *buf;
-  u8g2_SetupDisplay(u8g2, u8x8_d_ld7032_128x36, u8x8_cad_ld7032_i2c, byte_cb, gpio_and_delay_cb);
+  u8g2_SetupDisplay(u8g2, u8x8_d_ld7032_128x36, u8x8_cad_ld7032_elw0901aa_i2c, byte_cb, gpio_and_delay_cb);
   buf = u8g2_m_16_5_f(&tile_buf_height);
   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_horizontal_right_lsb, rotation);
 }

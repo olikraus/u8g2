@@ -865,7 +865,7 @@ struct controller controller_list[] =
     }
   },
   {
-    "ld7032", 	16, 	5, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_ld7032_i2c", "i2c", COM_I2C,
+    "ld7032", 	16, 	5, 	"u8g2_ll_hvline_horizontal_right_lsb", "u8x8_cad_ld7032_elw0901aa_i2c", "i2c", COM_I2C,
     "", /* is_generate_u8g2_class= */ 1,
     {
       { "128x36" },
