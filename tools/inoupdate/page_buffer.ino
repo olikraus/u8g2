@@ -23,6 +23,12 @@
 //U8G2_SSD1312_120X28_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1312_120X28_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ 8);
 //U8G2_SSD1312_120X28_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ 8);
+//U8G2_SSD1315_128X64_NONAME_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ SCLK_PIN, /* data=*/ MOSI_PIN, /* cs=*/ CS_PIN, /* dc=*/ DC_PIN, /* reset=*/ RES_PIN);
+//U8G2_SSD1315_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ CS_PIN, /* dc=*/ DC_PIN, /* reset=*/ RES_PIN);
+//U8G2_SSD1315_128X64_NONAME_1_3W_SW_SPI u8g2(U8G2_R0, /* clock=*/ SCLK_PIN, /* data=*/ MOSI_PIN, /* cs=*/ CS_PIN, /* reset=*/ RES_PIN);
+//U8G2_SSD1315_128X64_NONAME_1_3W_HW_SPI u8g2(U8G2_R0, /* cs=*/ CS_PIN, /* reset=*/ RES_PIN);
+//U8G2_SSD1315_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+//U8G2_SSD1315_128X64_NONAME_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL_PIN, /* data=*/ SDA_PIN, /* reset=*/ RES_PIN);
 //U8G2_SH1106_128X64_NONAME_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1106_128X64_VCOMH0_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);		// same as the NONAME variant, but maximizes setContrast() range
@@ -69,6 +75,10 @@
 //U8G2_SSD1362_256X64_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Enable U8G2_16BIT in u8g2.h
 //U8G2_SSD1362_206X36_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_SSD1362_206X36_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
+//U8G2_SSD1362Z_256X64_OEL1M0033WE_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ CS_PIN, /* dc=*/ DC_PIN, /* reset=*/ RES_PIN);
+//U8G2_SSD1362Z_256X64_OEL1M0033WE_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ SCLK_PIN, /* data=*/ MOSI_PIN, /* cs=*/ CS_PIN, /* dc=*/ DC_PIN, /* reset=*/ RES_PIN);
+//U8G2_SSD1362Z_256X64_OEL1M0033WE_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+//U8G2_SSD1362Z_256X64_OEL1M0033WE_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL_PIN, /* data=*/ SDA_PIN, /* reset=*/ RES_PIN);
 //U8G2_SSD1363_256X128_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Enable U8G2_16BIT in u8g2.h
 //U8G2_SSD1363_256X128_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Enable U8G2_16BIT in u8g2.h
 //U8G2_SSD1322_NHD_128X64_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
@@ -131,8 +141,10 @@
 //U8G2_LD7032_60X32_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
 //U8G2_LD7032_60X32_ALT_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 9, /* dc=*/ 10, /* reset=*/ 8);	// SW SPI Nano Board
 //U8G2_LD7032_60X32_ALT_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
-//U8G2_LD7032_128X36_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* cs=*/ 9, /* dc=*/ 10, /* reset=*/ 8);	// SW SPI Nano Board
-//U8G2_LD7032_128X36_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ 11, /* data=*/ 12, /* reset=*/ U8X8_PIN_NONE);	// NOT TESTED!
+//U8G2_LD7032_128X36_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ CS_PIN, /* dc=*/ DC_PIN, /* reset=*/ RES_PIN);
+//U8G2_LD7032_128X36_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ SCLK_PIN, /* data=*/ MOSI_PIN, /* cs=*/ CS_PIN, /* dc=*/ DC_PIN, /* reset=*/ RES_PIN);
+//U8G2_LD7032_128X36_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // I2C buffer size needs to be increased: Wire.setBufferSize(600);
+//U8G2_LD7032_128X36_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL_PIN, /* data=*/ SDA_PIN, /* reset=*/ RES_PIN);
 //U8G2_UC1701_EA_DOGS102_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_UC1701_EA_DOGS102_1_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);
 //U8G2_PCD8544_84X48_1_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 13, /* data=*/ 11, /* cs=*/ 10, /* dc=*/ 9, /* reset=*/ 8);	// Nokia 5110 Display
