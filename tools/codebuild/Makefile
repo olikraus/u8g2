@@ -12,9 +12,11 @@ OBJ = $(SRC:.c=.o)
 codebuild: $(SRC)
 	$(CC) -Wall -g $(LDFLAGS) $(SRC) -o codebuild
 
-clean:	
+clean:
 	-rm ./codebuild
+	-rm ./*.md
+	-rm ./*.h
+	-rm ./u8g2*
 
 build: codebuild
 	./codebuild
-	
