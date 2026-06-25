@@ -761,7 +761,6 @@ uint8_t u8x8_cad_ld7032_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
 uint8_t u8x8_cad_ld7032_elw0901aa_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     static uint8_t in_transfer = 0;
-    uint8_t *p;
     switch(msg)
     {
         case U8X8_MSG_CAD_SEND_CMD:
