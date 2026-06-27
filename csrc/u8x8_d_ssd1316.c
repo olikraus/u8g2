@@ -31,10 +31,13 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
+SSD1316: 128x39
 
-  SSD1316: 128x39 OLED
-  
-  https://github.com/olikraus/u8g2/issues/919
+  SSD1316: 128x32 OLED          https://github.com/olikraus/u8g2/issues/919
+  SSD1316: 96x32 OLED          https://github.com/olikraus/u8g2/issues/1938
+  SSD1307 128x32 OLED           https://github.com/olikraus/u8g2/issues/2783
+
+
 
 */
 
