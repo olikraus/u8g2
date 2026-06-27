@@ -367,3 +367,5 @@ https://github.com/olikraus/u8g2 ChangeLog
 2026-xx-xx      v2.37.xx        olikraus@gmail.com
   * SBN1661 80x32 (issue 2776)
   * UC1698 240x64 (issue 2777)
+  * Bugfix: Error with MUI include (C++ and missing U8g2 include) (issue 2730)  
+  

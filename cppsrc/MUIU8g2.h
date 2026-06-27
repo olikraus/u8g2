@@ -40,6 +40,7 @@
 #ifndef MUIU8G2_HH
 #define MUIU8G2_HH
 
+#include <U8g2lib.h>  // Issue 2730
 #include "mui.h"
 #include "mui_u8g2.h"
 
