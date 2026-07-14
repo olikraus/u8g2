@@ -1115,7 +1115,7 @@ generate_font(FILE *out, char *iname, char *oname)
      */
     eof = fprintf(out, "ENDFONT\n");
 
-    return eof;
+    return eof == EOF ? -1 : 0;
 }
 
 static int
