@@ -804,7 +804,7 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
   1 May 2018: Unicode lookup table 
   */
   bf_Log(bf, "RLE Compress: ASCII gylphs=%d, Unicode glyphs=%d", ascii_glyphs, bf->selected_glyphs-ascii_glyphs);
-  unicode_lookup_table_len = (bf->selected_glyphs-ascii_glyphs) / UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY;
+  unicode_lookup_table_len = (bf->selected_glyphs-ascii_glyphs) / UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY + 1;
   //if ( unicode_lookup_table_len > 1 )		
   //  unicode_lookup_table_len--;			
   bf_Log(bf, "RLE Compress: Glyphs per unicode lookup table entry=%d", UNICODE_GLYPHS_PER_LOOKUP_TABLE_ENTRY);
@@ -883,13 +883,14 @@ void bf_RLECompressAllGlyphs(bf_t *bf)
     }
   }
 
-  /* write pending block to the unicode lookup table, ensure, that there is a table entry available */
-  if ( unicode_lookup_table_pos < unicode_lookup_table_len )
+  /* write pending block to the unicode lookup table, ensure, that there is a table entry available.
+     fill EVERY remaining entry with the 0xffff sentinel so large fonts (full CJK) validate too */
+  while ( unicode_lookup_table_pos < unicode_lookup_table_len )
   {
     bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+0] = unicode_last_delta>>8;
     bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+1] = unicode_last_delta&255;
-    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+2] = 0xff;	
-    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+3] = 0xff;	
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+2] = 0xff;
+    bf->target_data[unicode_lookup_table_start+unicode_lookup_table_pos*4+3] = 0xff;
     unicode_lookup_table_pos++;
   }
   
