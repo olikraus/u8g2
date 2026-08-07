@@ -102,22 +102,28 @@ static void u8x8_mt12864k_select(u8x8_t *u8x8, uint8_t adr)
   u8x8->i2c_address = adr;
 }
 
+/* write a single byte to the INF8574A control register (0x3B, 8-bit 0x076).
+   The register is an 8 bit latch: every write sets all bits, so the value
+   must always contain the state of all other control bits (^RST, backlight,
+   P_ON) as well. */
+static void u8x8_mt12864k_write_register(u8x8_t *u8x8, uint8_t value)
+{
+  u8x8_mt12864k_select(u8x8, U8X8_MT12864K_REG_ADR);
+  u8x8_byte_StartTransfer(u8x8);
+  u8x8_byte_SendByte(u8x8, value);
+  u8x8_byte_EndTransfer(u8x8);
+}
+
 /* reset both LCD controllers through the INF8574A control register */
 static void u8x8_mt12864k_reset(u8x8_t *u8x8)
 {
-  u8x8_mt12864k_select(u8x8, U8X8_MT12864K_REG_ADR);
-
   /* assert ^RST (bit 0 = 0), keep the other bits at their default value */
-  u8x8_byte_StartTransfer(u8x8);
-  u8x8_byte_SendByte(u8x8, U8X8_MT12864K_REG_RESET);
-  u8x8_byte_EndTransfer(u8x8);
+  u8x8_mt12864k_write_register(u8x8, U8X8_MT12864K_REG_RESET);
 
   u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 1);
 
   /* release ^RST (bit 0 = 1) */
-  u8x8_byte_StartTransfer(u8x8);
-  u8x8_byte_SendByte(u8x8, U8X8_MT12864K_REG_DEFAULT);
-  u8x8_byte_EndTransfer(u8x8);
+  u8x8_mt12864k_write_register(u8x8, U8X8_MT12864K_REG_DEFAULT);
 
   /* datasheet: 10 ms delay after ^RST goes inactive */
   u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_MILLI, 10);
@@ -231,9 +237,25 @@ uint8_t u8x8_d_mt12864k_128x64(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 /* The MT-12864K controllers can not mirror the cols and rows, use U8g2 for rotation */
 //    case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
 //      break;
-/* The MT-12864K has no internal contrast command, contrast is controlled by the INF8574A register */
-//    case U8X8_MSG_DISPLAY_SET_CONTRAST:
-//      break;
+/* The MT-12864K has no internal contrast command. Contrast is controlled by
+   the INF8574A register bits 4-6. The datasheet (table 4) defines only four
+   discrete levels, the CT_* bits are mutually exclusive: when one of them is
+   "0" the other two must be "1". Bits 0-3 (^RST, backlight, P_ON) and bit 7
+   stay at their default value "1". */
+    case U8X8_MSG_DISPLAY_SET_CONTRAST:
+      {
+	uint8_t ct;
+	if ( arg_int < 64 )
+	  ct = 0x060;		/* CT_LOW: contrast reduced */
+	else if ( arg_int < 128 )
+	  ct = 0x070;		/* normal contrast */
+	else if ( arg_int < 192 )
+	  ct = 0x050;		/* CT_HIGH1: contrast slightly increased */
+	else
+	  ct = 0x030;		/* CT_HIGH2: contrast strongly increased */
+	u8x8_mt12864k_write_register(u8x8, 0x08f | ct);
+      }
+      break;
     case U8X8_MSG_DISPLAY_DRAW_TILE:
 
       v.ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;

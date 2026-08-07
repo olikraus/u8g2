@@ -186,7 +186,26 @@ int main(void)
   if ( !check_transfer(10, 0x078, d2, 2) ) ok = 0;
   if ( !check_transfer(11, 0x07a, d2, 2) ) ok = 0;
 
-  /* 4. full buffer: left half 0x55, right half 0xaa, then send */
+  /* 4. contrast: single byte writes to the control register (0x076).
+        Only four discrete levels are available (datasheet table 4):
+        value 0..63   -> CT_LOW    (reduced)      register 0x0ef
+        value 64..127 -> normal                   register 0x0ff
+        value 128..191 -> CT_HIGH1 (slight incr.) register 0x0df
+        value 192..255 -> CT_HIGH2 (strong incr.) register 0x0bf
+        All boundary values are checked. */
+  {
+    const uint8_t contrast_values[] = { 0, 63, 64, 127, 128, 191, 192, 255 };
+    const uint8_t contrast_reg[]     = { 0x0ef, 0x0ef, 0x0ff, 0x0ff,
+                                         0x0df, 0x0df, 0x0bf, 0x0bf };
+    int i;
+    for( i = 0; i < 8; i++ )
+    {
+      u8x8_SetContrast(u8g2_GetU8x8(&u8g2), contrast_values[i]);
+      if ( !check_transfer(12 + i, 0x076, &contrast_reg[i], 1) ) ok = 0;
+    }
+  }
+
+  /* 5. full buffer: left half 0x55, right half 0xaa, then send */
   buf = u8g2_GetBufferPtr(&u8g2);
   for( page = 0; page < 8; page++ )
   {
@@ -210,7 +229,7 @@ int main(void)
   cnt_data_r = 0;
   data_bytes_l = 0;
   data_bytes_r = 0;
-  t = 12;	/* transfers 0..11 were init + power on */
+  t = 20;	/* transfers 0..19 were init, power on and contrast */
   for( page = 0; page < 8; page++ )
   {
     int chip;
