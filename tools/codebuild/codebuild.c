@@ -2175,6 +2175,15 @@ struct controller controller_list[] =
   },
 
   {
+    "mt12864k", 	16, 	8, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_ssd13xx_i2c", "i2c", COM_I2C,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "128x64" },
+      { NULL }
+    },
+  },
+
+  {
     "t7932", 		19, 	4, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_001", "", COM_KS0108,
     "", /* is_generate_u8g2_class= */ 1,
     {
