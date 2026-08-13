@@ -88,8 +88,10 @@ void u8g2_DrawFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u
 void u8g2_DrawRBox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, u8g2_uint_t r)
 {
 
-  if ( r > (w/2) || r > (h/2) )
-    return;
+  if ( r > w / 2 )
+    r = w / 2;
+  if ( r > h / 2)
+    r = h / 2;
 
   u8g2_uint_t xl, yu;
   u8g2_uint_t yl, xr;
@@ -150,8 +152,10 @@ void u8g2_DrawRBox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8
 
 void u8g2_DrawRFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, u8g2_uint_t r)
 {
-  if ( r > (w/2) || r > (h/2) )
-    return;
+  if ( r > w / 2 )
+    r = w / 2;
+  if ( r > h / 2)
+    r = h / 2;
   
   u8g2_uint_t xl, yu;
 
