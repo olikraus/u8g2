@@ -370,3 +370,5 @@ https://github.com/olikraus/u8g2 ChangeLog
   * Bugfix: Error with MUI include (C++ and missing U8g2 include) (issue 2730)  
   * Fix flipmode for SSD1362z 256x64 (PR 2786)
   * Added isGlyph() to the C++ API (issue 2797)
+  * CH1115 88x48  (PR 2803)
+  
