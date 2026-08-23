@@ -171,13 +171,14 @@ static void get_range(const char **s)
 
 static void map_cmd(const char **s)
 {
+  is_exclude = 0;
+  is_kern_exclude = 0;
+
   if ( **s == '*' )
   {
     range_from = 32;
     range_to = 255;
     map_to = 32;
-    is_exclude = 0;
-    is_kern_exclude = 0;
     
     (*s)++;
     skip_space(s);
@@ -203,7 +204,6 @@ static void map_cmd(const char **s)
   }
   else 
   {
-    is_exclude = 0;
     get_range(s);
     map_to = range_from;
     if ( **s == '>')
