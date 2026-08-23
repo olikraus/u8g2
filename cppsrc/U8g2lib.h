@@ -284,10 +284,10 @@ class U8G2
     
 
 /*
-uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);
-int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);
-u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s);
-u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
+uint8_t u8g2_IsGlyph(u8g2_t *u8g2, uint16_t requested_encoding);  --> Added
+int8_t u8g2_GetGlyphWidth(u8g2_t *u8g2, uint16_t requested_encoding);  --> Added
+u8g2_uint_t u8g2_GetStrWidth(u8g2_t *u8g2, const char *s); --> Already added
+u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str); --> Already added
 */
     
     u8g2_uint_t drawGlyph(u8g2_uint_t x, u8g2_uint_t y, uint16_t encoding) { return u8g2_DrawGlyph(&u8g2, x, y, encoding); }    
@@ -302,6 +302,10 @@ u8g2_uint_t u8g2_GetUTF8Width(u8g2_t *u8g2, const char *str);
       
     u8g2_uint_t getStrWidth(const char *s) { return u8g2_GetStrWidth(&u8g2, s); }
     u8g2_uint_t getUTF8Width(const char *s) { return u8g2_GetUTF8Width(&u8g2, s); }
+    
+    uint8_t isGlyph(uint16_t encoding) { return u8g2_IsGlyph(&u8g2, encoding); }
+    int8_t getGlyphWidth(uint16_t encoding) { return u8g2_GetGlyphWidth(&u8g2, encoding); }    
+    
     
     int8_t getXOffsetGlyph(uint16_t encoding) { return u8g2_GetXOffsetGlyph(&u8g2, encoding); }
     int8_t getXOffsetUTF8(const char *utf8) { return u8g2_GetXOffsetUTF8(&u8g2, utf8); }
