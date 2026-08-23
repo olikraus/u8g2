@@ -163,6 +163,24 @@ int pbm_ReadFP(pbm_t *pbm)
       }
     }
   }
+  else
+  {
+    uint16_t x, y;
+    int c = 0;
+    for( y = 0; y < pbm->h; y++ )
+    {
+      for( x = 0; x < pbm->w; x++ )
+      {
+        if ( (x & 7) == 0 )
+        {
+          c = fgetc(pbm->fp);
+          if ( c == EOF )
+            return 0;
+        }
+        pbm_SetPixel(pbm, x, y, (c & (0x80 >> (x & 7))) != 0);
+      }
+    }
+  }
   return 1;
 }
 
@@ -271,15 +289,22 @@ void pbm_Show(pbm_t *pbm)
 
 int pbm_ReadFilename(pbm_t *pbm, const char *name)
 {
-  pbm->fp = fopen(name, "r");
+  int result;
+  pbm->bitmap = NULL;
+  pbm->fp = fopen(name, "rb");
   pbm->is_ascii = 0;
   if ( pbm->fp == NULL )
     return 0;
   
-  pbm_ReadFP(pbm);
+  result = pbm_ReadFP(pbm);
   fclose(pbm->fp);
+  if ( result == 0 )
+  {
+    free(pbm->bitmap);
+    pbm->bitmap = NULL;
+  }
   
-  return 1;
+  return result;
 }
 
 
@@ -357,7 +382,11 @@ int main(int argc, char **argv)
   }
   else
   {
-    pbm_ReadFilename(&pbm, argv[1]);
+    if ( pbm_ReadFilename(&pbm, argv[1]) == 0 )
+    {
+      fprintf(stderr, "Failed to read %s\n", argv[1]);
+      return 1;
+    }
     out(&pbm, stdout, argv[1]);
     //printf("Size: %d x %d\n", pbm.w, pbm.h);
     //pbm_Show(&pbm);
