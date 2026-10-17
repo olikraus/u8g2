@@ -68,6 +68,12 @@
 #include "u8g2.h"
 #include "mui.h"
 
+/*
+  Uncomment to multiply the 8 bit x and y position of MUI fields by 1, 2, 4 or 8,
+  so that displays wider or higher than 255 pixel can be filled. Requires U8G2_16BIT.
+*/
+//#define MUI_U8G2_HIRES
+
 /*==========================================*/
 /* C++ compatible */
 

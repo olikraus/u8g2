@@ -211,14 +211,33 @@ static void u8g2_DrawValueMark(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
 u8g2_uint_t mui_get_x(mui_t *ui) MUI_NOINLINE;
 u8g2_uint_t mui_get_x(mui_t *ui)
 {
+#ifdef MUI_U8G2_HIRES
+  u8g2_uint_t w = u8g2_GetDisplayWidth(mui_get_U8g2(ui));
+  /* smallest scale that reaches the last column */
+  if ( w < 255 )  return ui->x;
+  if ( w < 511 )  return ui->x << 1;
+  if ( w < 1021 ) return ui->x << 2;
+  return ui->x << 3;
+#else
   if ( u8g2_GetDisplayWidth(mui_get_U8g2(ui)) >= 255 )
-      return ui->x * 2;
+    return ui->x * 2;
   return ui->x;
+#endif
 }
 
+u8g2_uint_t mui_get_y(mui_t *ui) MUI_NOINLINE;
 u8g2_uint_t mui_get_y(mui_t *ui)
 {
+#ifdef MUI_U8G2_HIRES
+  u8g2_uint_t h = u8g2_GetDisplayHeight(mui_get_U8g2(ui));
+  /* smallest scale that reaches the last row */
+  if ( h < 255 )  return ui->y;
+  if ( h < 511 )  return ui->y << 1;
+  if ( h < 1021 ) return ui->y << 2;
+  return ui->y << 3;
+#else
   return ui->y;
+#endif
 }
 
 u8g2_uint_t mui_get_arg(mui_t *ui)
