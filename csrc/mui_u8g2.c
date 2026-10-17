@@ -211,14 +211,27 @@ static void u8g2_DrawValueMark(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_
 u8g2_uint_t mui_get_x(mui_t *ui) MUI_NOINLINE;
 u8g2_uint_t mui_get_x(mui_t *ui)
 {
-  if ( u8g2_GetDisplayWidth(mui_get_U8g2(ui)) >= 255 )
-      return ui->x * 2;
+#ifdef U8G2_16BIT
+  u8g2_uint_t w = u8g2_GetDisplayWidth(mui_get_U8g2(ui));
+  if ( w <= 256 )  return ui->x;
+  if ( w <= 512 )  return ui->x << 1;
+  return ui->x << 2;
+#else
   return ui->x;
+#endif
 }
 
+u8g2_uint_t mui_get_y(mui_t *ui) MUI_NOINLINE;
 u8g2_uint_t mui_get_y(mui_t *ui)
 {
+#ifdef U8G2_16BIT
+  u8g2_uint_t h = u8g2_GetDisplayHeight(mui_get_U8g2(ui));
+  if ( h <= 256 )  return ui->y;
+  if ( h <= 512 )  return ui->y << 1;
+  return ui->y << 2;
+#else
   return ui->y;
+#endif
 }
 
 u8g2_uint_t mui_get_arg(mui_t *ui)
