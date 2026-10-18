@@ -727,8 +727,9 @@ int8_t u8g2_font_2x_decode_glyph(u8g2_t *u8g2, const uint8_t *glyph_data)
   
   if ( decode->glyph_width > 0 )
   {
-    decode->target_x += x;
-    decode->target_y -= 2*h+y;
+    /* Scale the glyph offsets together with the bitmap. */
+    decode->target_x += 2*x;
+    decode->target_y -= 2*(h+y);
 
 #ifdef U8G2_WITH_INTERSECTION
     {
