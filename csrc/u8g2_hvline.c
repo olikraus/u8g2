@@ -109,6 +109,9 @@ static uint8_t u8g2_clip_intersection2(u8g2_uint_t *ap, u8g2_uint_t *len, u8g2_u
   if ( b > d )
     b = d;
   
+  if ( b == 0 )         // issue https://github.com/olikraus/u8g2/issues/2809
+    return 0;
+  
   *ap = a;
   b -= a;
   *len = b;
