@@ -1577,7 +1577,7 @@ static void mui_u8g2_x8_vmm_draw_wm_pi(mui_t *ui)
 }
 
 
-uint8_t mui_x8g2_x8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg)
+uint8_t mui_u8g2_x8_min_max_wm_mse_pi(mui_t *ui, uint8_t msg)
 {
   mui_u8g2_u8_min_max_t *vmm= (mui_u8g2_u8_min_max_t *)muif_get_data(ui->uif);
   uint8_t *value = mui_u8g2_u8mm_get_valptr(vmm);
