@@ -30,7 +30,7 @@ corresponding pins with your display.
 All U8g2 software emulated SPI constructors look like this:
 U8G2_..._4W_SW_SPI u8g2(U8G2_R0, clock, data, cs, dc, reset);
 All U8g2 hardware SPI constructors look like this:
-U8G2_..._4W_SW_SPI u8g2(U8G2_R0, cs, dc, reset);
+U8G2_..._4W_HW_SPI u8g2(U8G2_R0, cs, dc, reset);
 
 Q: How to use HSPI for HW SPI on ESP32?
 A: Assign  "SPI = SPIClass(HSPI);" before calling u8g2.begin() (see issue #1061)
