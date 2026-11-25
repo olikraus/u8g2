@@ -1360,7 +1360,19 @@ extern "C" uint8_t u8x8_byte_arduino_2nd_hw_i2c(U8X8_UNUSED u8x8_t *u8x8, U8X8_U
     case U8X8_MSG_BYTE_INIT:
       if ( u8x8->bus_clock == 0 ) 	/* issue 769 */
 	u8x8->bus_clock = u8x8->display_info->i2c_bus_clock_100kHz * 100000UL;
+#if defined(ESP8266) || defined(ARDUINO_ARCH_ESP8266) || defined(ESP_PLATFORM) || defined(ARDUINO_ARCH_ESP32)
+      /* for ESP8266/ESP32, Wire1.begin has two more arguments: clock and data */
+      if ( u8x8->pins[U8X8_PIN_I2C_CLOCK] != U8X8_PIN_NONE && u8x8->pins[U8X8_PIN_I2C_DATA] != U8X8_PIN_NONE )
+      {
+	Wire1.begin((int)u8x8->pins[U8X8_PIN_I2C_DATA] , u8x8->pins[U8X8_PIN_I2C_CLOCK]);
+      }
+      else
+      {
+	Wire1.begin();
+      }
+#else
       Wire1.begin();
+#endif
       break;
     case U8X8_MSG_BYTE_SET_DC:
       break;
