@@ -414,7 +414,44 @@ static const uint8_t u8x8_d_sed1330_320x240_init_seq[] = {
   U8X8_DLY(100),
 };
 
+static const uint8_t u8x8_d_rh8835_nhd_320x240_init_seq[] = {
+  U8X8_DLY(100),
+  U8X8_START_TRANSFER(),             /* enable chip, delay is part of the transfer start */
+  U8X8_DLY(100),
 
+  /* SYSTEM SET (0x40) */
+  U8X8_CA(0x040, 0x020),             /* P1: 0x20 sets Single-Panel Drive (fixes snow and restores contrast) */
+  U8X8_A(0x087),                     /* P2: WF=1, FX=8 */
+  U8X8_A(0x007),                     /* P3: FY=8 */
+  U8X8_A(0x027),                     /* P4: C/R: 40 bytes (320px width) */
+  U8X8_A(0x042),                     /* P5: TC/R: 66 (Provides a safe blanking window for MPU writes) */
+  U8X8_A(0x0EF),                     /* P6: L/F: 240 lines */
+  U8X8_A(0x028),                     /* P7: APL (Virtual screen size LSB = 40 bytes) */
+  U8X8_A(0x000),                     /* P8: APH (Virtual screen size MSB = 0) */
+
+  /* SCROLL (0x44) */
+  U8X8_C(0x044),
+  U8X8_A(0x000),                     /* SAD1L (Layer 1 Start LSB) */
+  U8X8_A(0x000),                     /* SAD1H (Layer 1 Start MSB) */
+  U8X8_A(0x0EF),                     /* SL1 (Layer 1 Screen Height = 240 lines) */
+  U8X8_A(0x080),                     /* SAD2L (Layer 2 Start LSB) */
+  U8X8_A(0x025),                     /* SAD2H (Layer 2 Start MSB) */
+  U8X8_A(0x0EF),                     /* SL2 (Layer 2 Screen Height = 240 lines) */
+  U8X8_A(0x000),
+  U8X8_A(0x000),
+  U8X8_A(0x000),
+  U8X8_A(0x000),
+
+  /* HDOT SCR (0x5A) */
+  U8X8_CA(0x05A, 0x000),             /* Horizontal dotwise scroll set to 0 */
+
+  /* OVLAY (0x5B) */
+  U8X8_CA(0x05B, 0x00C),             /* 2-layer, all graphics, OR between layer 1 and 2 */
+
+  U8X8_DLY(100),
+  U8X8_END_TRANSFER(),               /* disable chip */
+  U8X8_DLY(100),
+};
 
 uint8_t u8x8_d_ra8835_320x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
@@ -426,6 +463,23 @@ uint8_t u8x8_d_ra8835_320x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
     case U8X8_MSG_DISPLAY_INIT:
       u8x8_d_helper_display_init(u8x8);
       u8x8_cad_SendSequence(u8x8, u8x8_d_sed1330_320x240_init_seq);
+      break;
+    default:
+      return u8x8_d_sed1330_common(u8x8, msg, arg_int, arg_ptr);
+  }
+  return 1;
+}
+
+uint8_t u8x8_d_ra8835_nhd_320x240(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+{
+  switch(msg)
+  {
+    case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+      u8x8_d_helper_display_setup_memory(u8x8, &u8x8_sed1330_320x240_display_info);
+      break;
+    case U8X8_MSG_DISPLAY_INIT:
+      u8x8_d_helper_display_init(u8x8);
+      u8x8_cad_SendSequence(u8x8, u8x8_d_rh8835_nhd_320x240_init_seq);
       break;
     default:
       return u8x8_d_sed1330_common(u8x8, msg, arg_int, arg_ptr);
