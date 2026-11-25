@@ -75,7 +75,9 @@ void u8g2_DrawFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u
       u8g2_DrawHVLine(u8g2, x, y, h, 1);
       x+=w;
       x--;
-      u8g2_DrawHVLine(u8g2, x, y, h, 1);
+      /* 2026-10-04：宽度为一时两侧重合，避免 XOR 再次翻转同一条边。 */
+      if ( w > 1 )
+        u8g2_DrawHVLine(u8g2, x, y, h, 1);
       y+=h;
     }
     u8g2_DrawHVLine(u8g2, xtmp, y, w, 0);
