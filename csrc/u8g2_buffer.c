@@ -104,6 +104,34 @@ void u8g2_SetBufferCurrTileRow(u8g2_t *u8g2, uint8_t row)
   u8g2->cb->update_page_win(u8g2);
 }
 
+/* Calculates the first row of the specified page - does not detect overflows
+ * or pages out of scope for the current display. */
+uint8_t u8g2_PageFirstRow(u8g2_t const * const u8g2, uint8_t const page)
+{
+  return u8g2->tile_buf_height * page;
+}
+
+/* Sets the current buffer to the page specified.
+ * Returns 0 in case the page is invalid - otherwise 1. */
+uint8_t u8g2_CustomPage(u8g2_t * const u8g2, uint8_t const page)
+{
+  uint8_t const row = u8g2_PageFirstRow(u8g2, page);
+  if ( row > ( u8g2_GetU8x8(u8g2)->display_info->tile_height - u8g2->tile_buf_height ) )
+  {
+    return 0;
+  }
+  else
+  {
+    if ( u8g2->is_auto_page_clear )
+    {
+      u8g2_ClearBuffer(u8g2);
+    }
+    u8g2_SetBufferCurrTileRow(u8g2, row);
+    return 1;
+  }
+}
+
+/* Specialization [faster!] for setting the current buffer to the first page. */
 void u8g2_FirstPage(u8g2_t *u8g2)
 {
   if ( u8g2->is_auto_page_clear )
@@ -113,6 +141,8 @@ void u8g2_FirstPage(u8g2_t *u8g2)
   u8g2_SetBufferCurrTileRow(u8g2, 0);
 }
 
+/* Sends the current buffer to the display and attempts to set the buffer to the next page.
+ * Returns 0 in case the next page is invalid - otherwise 1 */
 uint8_t u8g2_NextPage(u8g2_t *u8g2)
 {
   uint8_t row;
